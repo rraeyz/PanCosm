@@ -70,3 +70,14 @@ def test_the_dialog_previews_and_writes_copies(tmp_path, qapp):
     h = fits.getheader(out[0])
     assert h["OBJECT"] == "NY Vir" and h["RA"] == pytest.approx(204.70042, abs=1e-4) and "BJD_TDB" in h
     assert d.write(in_place=True, confirmed=True) and fits.getheader(paths[0])["OBJECT"] == "NY Vir"
+
+
+def test_the_choose_button_does_not_pass_its_checked_flag_as_paths(qapp, monkeypatch):
+    from PySide6.QtWidgets import QFileDialog
+
+    from astrowb.ui.headers_dialog import HeadersDialog
+
+    monkeypatch.setattr(QFileDialog, "getOpenFileNames", staticmethod(lambda *a, **k: ([], "")))
+    d = HeadersDialog()
+    next(b for b in d.findChildren(type(d.copies_button)) if b.text().startswith("Choose")).click()
+    assert d.paths == []

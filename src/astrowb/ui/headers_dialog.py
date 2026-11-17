@@ -24,7 +24,7 @@ class HeadersDialog(Dialog):
         super().__init__(self.tr("Edit the headers of many files"), parent, settings, "headers")
         self.paths = []
         pick = QPushButton(self.tr("Choose the files…"), self)
-        pick.clicked.connect(self.choose)
+        pick.clicked.connect(lambda: self.choose())
         self.count = QLabel(self.tr("No file chosen"), self)
         row = QHBoxLayout()
         row.addWidget(pick)

@@ -573,6 +573,8 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     assert page.multi_series.findItems("rel_flux_T4", Qt.MatchExactly)[0].data(DETREND) == ["airmass"]
     rows = page.leave_each_comparison_out()
     assert {r[0] for r in rows} == {None, 0, 1} and "without C1" in page.result.text()
+    page.comps = []  # the star list emptied after the measurement: names still come out, no KeyError
+    assert {r[0] for r in page.leave_each_comparison_out()} == {None, 0, 1}
     bad = tmp_path / "bad.json"
     bad.write_text("{}")
     assert page.open_plot_template(bad) is None and page.result.text().startswith("not a multi-plot")
@@ -1053,3 +1055,16 @@ def test_delete_key_over_the_photometry_plot_leaves_out_the_point_under_the_curs
     assert len(page.light_curve["time"]) == 39
     page.undo_stack.undo()
     assert len(page.light_curve["time"]) == 40
+
+
+def test_export_without_a_light_curve_does_nothing(qtbot, tmp_path, monkeypatch):
+    from PySide6.QtWidgets import QFileDialog
+
+    from astrowb.ui.photometry_page import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    out = tmp_path / "x.csv"
+    monkeypatch.setattr(QFileDialog, "getSaveFileName", staticmethod(lambda *a, **k: (str(out), "")))
+    page._export()
+    assert page._to_models(out) is None and not out.exists()

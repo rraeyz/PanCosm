@@ -43,6 +43,7 @@ from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_banner import neighbour_banner
+from .photometry_export import export_csv  # noqa: F401 (the tests import it from here)
 from .photometry_method import add_method_boxes, method_params
 from .photometry_shape import add_shape_controls, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
@@ -2698,6 +2699,7 @@ class PhotometryPage(Undoable, QWidget):
         full = dict(rows)[None]
         used = [k for k in range(len(self.comps)) if k not in self.comp_off] or list(range(len(self.comps)))
         names = {i: f"C{k + 1}" for i, k in enumerate(used)}  # the star table's names
+        names |= {k: f"C{k + 1}" for k, _v in rows if k is not None and k not in names}  # the list may have changed
         parts = [
             (self.tr("all") if k is None else self.tr("without {star}").format(star=names[k])) + f": {v:.2f} mmag"
             for k, v in rows
@@ -3052,7 +3054,7 @@ class PhotometryPage(Undoable, QWidget):
     def _export(self):
         self.guide.set_state(5, "done")
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Export light curve"), "lightcurve.csv", "CSV (*.csv)")
-        if path:
+        if path and self.light_curve is not None:
             export_csv(self.light_curve, path)
 
     def _to_models(self, path=None):
@@ -3061,7 +3063,7 @@ class PhotometryPage(Undoable, QWidget):
         default = str(Path(self.images[0]).with_name("lightcurve.csv")) if self.images else "lightcurve.csv"
         path = path or QFileDialog.getSaveFileName(self, self.tr("Save the light curve for the model"), default,
                                                    "CSV (*.csv)")[0]  # fmt: skip
-        if path:
+        if path and self.light_curve is not None:
             export_csv(self.light_curve, path)
             self.next_requested.emit("orbits", str(path))
 
@@ -3098,37 +3100,3 @@ class _NumberItem(QTableWidgetItem):
         if isinstance(other, _NumberItem):
             return self.value < other.value or (np.isnan(other.value) and not np.isnan(self.value))
         return super().__lt__(other)
-
-
-def export_csv(lc, path):
-    """Light curve table as CSV (time, relative flux, error, raw fluxes)."""
-    from astropy.table import Table
-
-    t = Table(
-        {
-            lc["time_scale"]: lc["time"],
-            "rel_flux": lc["rel_flux"],
-            "rel_flux_err": lc["rel_flux_err"],
-            "target_flux": lc["target_flux"],
-            "file": lc["file"],
-        }
-    )
-    for i, col in enumerate(np.asarray(lc["comp_flux"]).T):
-        t[f"comp{i + 1}_flux"] = col
-    if lc.get("hjd_utc") is not None and lc["time_scale"] != "HJD_UTC":
-        t["HJD_UTC"] = lc["hjd_utc"]  # for O−C tables in HJD (item 14)
-    if "airmass" in lc:
-        t["airmass"] = lc["airmass"]
-    from ..photometry.differential import delta_mag
-
-    t["delta_mag"], t["delta_mag_err"] = delta_mag(lc["rel_flux"], lc["rel_flux_err"])
-    if "mag" in lc:  # magnitudes from known (typed-in or catalogue) comparison magnitudes
-        t[f"{lc['mag_band']}_mag"], t[f"{lc['mag_band']}_mag_err"] = lc["mag"], lc["mag_err"]
-    for x in lc.get("extra") or []:  # check stars and further targets against the same ensemble
-        t[f"{x['name']}_rel_flux"], t[f"{x['name']}_rel_flux_err"] = x["rel_flux"], x["rel_flux_err"]
-        if "mag" in x:
-            t[f"{x['name']}_mag"], t[f"{x['name']}_mag_err"] = x["mag"], x["mag_err"]
-    if lc.get("fwhm"):
-        t["fwhm"] = lc["fwhm"]
-    t.write(path, format="csv", overwrite=True)
-    return path
