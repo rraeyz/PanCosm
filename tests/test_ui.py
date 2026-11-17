@@ -3138,3 +3138,19 @@ def test_the_calibration_preview_and_blink(window, tmp_path):
     page.warnings.setPlainText("x")
     assert page.problems_view.toPlainText() == "x"
     win.close()
+
+
+def test_follow_enabled_survives_its_action_being_deleted(qtbot):
+    from PySide6.QtGui import QAction
+    from PySide6.QtWidgets import QPushButton, QWidget
+
+    from astrowb.ui.area_menus import _follow_enabled
+
+    parent = QWidget()
+    qtbot.addWidget(parent)
+    button, action = QPushButton(parent), QAction(parent)
+    _follow_enabled(button, action)
+    action.deleteLater()
+    qtbot.wait(50)
+    button.setEnabled(False)  # the watcher fires on a deleted action: no exception
+    button.setEnabled(True)

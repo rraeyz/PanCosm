@@ -1,9 +1,10 @@
 """Each area window's own menus and toolbar, built from the page's controls (interface I6c), moved out of
 main_window.py (plans/architecture.md ARC-4.4). Texts keep the main window's translation context ("MainWindow")."""
 
-from PySide6.QtCore import QCoreApplication, QObject
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QAction, QUndoGroup
 
+from .action_follow import follow_enabled as _follow_enabled
 from .image_stages import image  # noqa: F401  (the Images window builder, UI-16.10)
 
 
@@ -29,27 +30,6 @@ def _mirror(widget, parent=None, short=None):
         act.triggered.connect(lambda _=False, b=widget: b.click())
     _follow_enabled(widget, act)
     return act
-
-
-def _follow_enabled(button, action):
-    """A toolbar or menu action that is enabled exactly when the page's button is, and not while the page has hidden
-    the button (Posterior… before an MCMC run); the button stays the one place where the page decides. A button in
-    a tab that is not shown is not hidden: its action stays usable."""
-    from PySide6.QtCore import QEvent
-
-    def follow():
-        action.setEnabled(button.isEnabled() and not button.isHidden())
-
-    class _Watch(QObject):
-        def eventFilter(self, obj, event):
-            if event.type() in (QEvent.EnabledChange, QEvent.ShowToParent, QEvent.HideToParent):
-                follow()
-            return False
-
-    watch = _Watch(button)
-    button.installEventFilter(watch)
-    follow()
-    action._watch = watch
 
 
 def _camera_action(main, win):
