@@ -135,7 +135,10 @@ class SettingsActions:
             self.updateChecked.connect(self._show_update)
             self._updates_connected = True
         args = {"fetch": fetch} if fetch else {}
-        threading.Thread(target=lambda: self.updateChecked.emit(*updates.check(**args)), daemon=True).start()
+        from .kit.handoff import to_main
+
+        deliver = to_main(self, self.updateChecked.emit)
+        threading.Thread(target=lambda: deliver(*updates.check(**args)), daemon=True).start()
 
     def _show_update(self, release, error):
         if error:

@@ -755,3 +755,26 @@ def test_help_panel_searches_the_guide_and_lists_related_topics(qtbot):
     panel.search.setText("aperture")
     panel.links.itemClicked.emit(panel.links.item(0))
     assert panel.anchor == panel.links.item(0).data(256)
+
+
+def test_handoff_runs_the_slot_in_the_window_thread_only_while_its_widget_lives(qtbot):
+    import threading
+
+    from PySide6.QtWidgets import QLabel
+
+    from astrowb.ui.kit.handoff import to_main
+
+    got = []
+    alive, gone = QLabel(), QLabel()
+    send_alive = to_main(alive, lambda v: got.append((v, threading.current_thread() is threading.main_thread())))
+    send_gone = to_main(gone, lambda v: got.append(("gone", v)))
+    gone.deleteLater()
+    QApplication.processEvents()
+    QApplication.sendPostedEvents(None, 52)  # QEvent.DeferredDelete
+    for send, v in ((send_alive, 1), (send_gone, 2)):
+        t = threading.Thread(target=send, args=(v,))
+        t.start()
+        t.join()
+    qtbot.waitUntil(lambda: bool(got))
+    QApplication.processEvents()
+    assert got == [(1, True)]

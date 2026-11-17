@@ -192,7 +192,10 @@ class ObservatoryDialog(QDialog):
     def find(self, discover=setup.discover):
         self.find_button.setEnabled(False)
         self.status.setText(self.tr("Searching the network…"))
-        threading.Thread(target=lambda: self.found.emit(self._safe(discover)), daemon=True).start()
+        from .kit.handoff import to_main
+
+        deliver, safe = to_main(self, self.found.emit), self._safe
+        threading.Thread(target=lambda: deliver(safe(discover)), daemon=True).start()
 
     @staticmethod
     def _safe(discover):

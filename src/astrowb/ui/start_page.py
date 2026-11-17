@@ -257,16 +257,13 @@ class StartPage(QWidget):
         site = profiles.section(settings, "site")
         import threading
 
-        def work():
-            text = self._tonight_text(site)
-            try:
-                self.tonight_ready.emit(text)
-            except RuntimeError:  # the window was closed meanwhile
-                pass
+        from .kit.handoff import to_main
 
-        threading.Thread(target=work, daemon=True).start()
+        deliver, text = to_main(self, self.tonight_ready.emit), self._tonight_text
+        threading.Thread(target=lambda: deliver(text(site)), daemon=True).start()
 
-    def _tonight_text(self, site):
+    @staticmethod
+    def _tonight_text(site):  # runs in a thread: touches no widget (self.tr included)
         from ..planning.visibility import Site, tonight
 
         try:
@@ -277,8 +274,9 @@ class StartPage(QWidget):
         def clock(t):
             return t.to_datetime(UTC).astimezone().strftime("%H:%M") if t is not None else "—"
 
-        return self.tr("Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %").format(
-            site=site["name"] or self.tr("your site"), dusk=clock(night["dusk"]), dawn=clock(night["dawn"]),
+        tr = QCoreApplication.translate
+        return tr("StartPage", "Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %").format(
+            site=site["name"] or tr("StartPage", "your site"), dusk=clock(night["dusk"]), dawn=clock(night["dawn"]),
             moon=round(100 * night["moon"]))  # fmt: skip
 
     def set_recent(self, recent):

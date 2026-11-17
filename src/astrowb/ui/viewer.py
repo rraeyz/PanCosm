@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene, QGraphicsView
 
 from ..display import display_limits, render
 from .kit import tokens
+from .kit.handoff import to_main
 
 RETICLE = 9  # screen pixels: arm of the fixed-size cross on a marked star on a zoomed-out frame
 PREVIEW_ABOVE = 8_000_000  # pixels: larger frames show a preview first and render in the background
@@ -194,15 +195,8 @@ class ImageViewer(QGraphicsView):
         rows = (h - 1) // step + 1
         # preview pixel centres on the centres of the data pixels they were taken from (rows flipped: FITS y up)
         self._show(render(data[::step, ::step], *args), step, 0.5 - step / 2, h - 0.5 - (rows - 1) * step - step / 2)
-        generation = self._generation
-
-        def full():
-            try:
-                self._rendered.emit(generation, render(data, *args))
-            except RuntimeError:  # the viewer was closed or the program is closing: nothing to show it in
-                pass
-
-        threading.Thread(target=full, daemon=True).start()
+        generation, deliver = self._generation, to_main(self, self._rendered.emit)
+        threading.Thread(target=lambda: deliver(generation, render(data, *args)), daemon=True).start()
 
     def _full_rendered(self, generation, pic):
         if generation == self._generation:  # not superseded by a newer image or new levels

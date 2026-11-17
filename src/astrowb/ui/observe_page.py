@@ -33,6 +33,7 @@ from PySide6.QtWidgets import (
 
 from ..devices.client import Client
 from .kit.focus import read_in_order
+from .kit.handoff import to_main
 from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
@@ -490,14 +491,16 @@ class ObservePage(Undoable, QWidget):
         local, client = self.download_dir(folder), self.client
         self.job.setText(self.tr("Copying {n} frames to {f}…").format(n=len(paths), f=local))
 
+        failed, copied = to_main(self, self.copy_failed.emit), to_main(self, self.frames_copied.emit)
+
         def work():
             try:
                 for p in paths:
                     client.download(p, local)
             except Exception as e:  # network down: the frames stay on the observatory computer
-                self.copy_failed.emit(str(e))
+                failed(str(e))
                 return
-            self.frames_copied.emit(str(local), done)
+            copied(str(local), done)
 
         threading.Thread(target=work, daemon=True).start()
 
@@ -540,15 +543,14 @@ class ObservePage(Undoable, QWidget):
         if self.client is None:
             return
 
+        arrived = to_main(self, self.status_arrived.emit)
+
         def work(client=self.client):
             try:
                 st = client.status()
             except Exception as e:  # network or server down
                 st = {"error": str(e)}
-            try:
-                self.status_arrived.emit(st)
-            except RuntimeError:  # the page was closed while the request was running
-                pass
+            arrived(st)
 
         threading.Thread(target=work, daemon=True).start()
 

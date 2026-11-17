@@ -1087,14 +1087,16 @@ class PhotometryPage(Undoable, QWidget):
             return
         self._live_busy = True
 
+        from .kit.handoff import to_main
+
+        updated, seen = to_main(self, self.live_updated.emit), self.live_seen
+
         def work(session=self.live):
             try:
                 for p in new:
-                    self.live_seen.add(p)
+                    seen.add(p)
                     session.add(p)
-                    self.live_updated.emit()  # every frame; the page refreshes at most twice a second
-            except RuntimeError:  # page closed meanwhile
-                pass
+                    updated()  # every frame; the page refreshes at most twice a second
             finally:
                 self._live_busy = False
 
