@@ -301,7 +301,9 @@ class PlotView(QWidget):
                 xs += [e["x"][e["ok"]], s.y[e["ok"]] - off]
                 continue
             xs.append(e["x"][e["ok"]])
-            if s.y is not None and s.kind != "vline":
+            if s.kind == "histogram":  # n + 1 edges against n counts: the edges' mask does not fit the counts
+                ys += [s.y[np.isfinite(s.y)], np.zeros(1)]
+            elif s.y is not None and s.kind != "vline":
                 y, err = s.y[e["ok"]], (s.yerr[e["ok"]] if s.yerr is not None else 0)
                 ys += [y - err, y + err]
         span = [np.nanmin(np.concatenate(v)) if v else 0.0 for v in (xs, ys)]

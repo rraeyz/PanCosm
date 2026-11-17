@@ -43,6 +43,7 @@ from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_method import add_method_boxes, method_params
+from .photometry_shape import add_shape_controls, shape_params, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
@@ -348,6 +349,7 @@ class PhotometryPage(Undoable, QWidget):
         rings_note = help_line(self.tr("Radii in pixels; ring 1 the star, 2–3 the sky. Shift + wheel on the image "
                                        "resizes them."), "photometry-apertures", self)  # fmt: skip
         self.sections[2].body.addWidget(rings_note)
+        add_shape_controls(self, self.sections[2].body)
         self.apertures_button = QPushButton(self.tr("Choose the radii from the star profiles"), self)
         self.apertures_button.setToolTip(
             self.tr(
@@ -550,11 +552,12 @@ class PhotometryPage(Undoable, QWidget):
         sl = QVBoxLayout(stars_tab)
         stars = DataTable(self)
         stars.prepare(
-            [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude"), self.tr("Scatter (mmag)")]
-        )
+            [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude"), self.tr("Scatter (mmag)"),
+             self.tr("Aperture")]
+        )  # fmt: skip
         self.star_table = stars.table
         self.star_table.horizontalHeader().setStretchLastSection(True)
-        for col in (0, 1, 2, 3, 4, 5):  # every header readable; the table scrolls sideways if narrow
+        for col in (0, 1, 2, 3, 4, 5, 6):  # every header readable; the table scrolls sideways if narrow
             self.star_table.horizontalHeader().setSectionResizeMode(col, QHeaderView.ResizeToContents)
         self.star_table.verticalHeader().hide()
         self.star_table.setToolTip(
@@ -1501,6 +1504,7 @@ class PhotometryPage(Undoable, QWidget):
                 f"{y + 1:.1f}",
                 known.get(name, ""),
                 "" if sc is None else f"{sc:.1f}",
+                shape_text(self),
             )
             for col, text in enumerate(cells):
                 item = QTableWidgetItem(text)
@@ -1862,6 +1866,7 @@ class PhotometryPage(Undoable, QWidget):
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
         params |= method_params(self)
+        params["aperture_shape"] = shape_params(self)
         if self.more_apertures.isChecked():
             params["apertures"] = [round(self.r_ap.value() * k, 2) for k in (0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
         if self.target_follows.isChecked():

@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QListWidget,
     QListWidgetItem,
+    QSlider,
     QUndoView,
     QVBoxLayout,
     QWidget,
@@ -23,7 +24,26 @@ class LayersList(QListWidget):
     def __init__(self, viewer, parent=None):
         super().__init__(parent)
         self.viewer = viewer
+        self.opacity = QSlider(Qt.Horizontal)  # the chosen layer's opacity, 0-100 %
+        self.opacity.setRange(0, 100)
+        self.opacity.setValue(100)
+        self.opacity.setEnabled(False)
+        self.opacity.setToolTip(translate("ImageWindow", "How strongly the chosen layer is drawn over the image"))
+        self.opacity.valueChanged.connect(self._opacity)
+        self.currentItemChanged.connect(self._chosen)
         self.itemChanged.connect(lambda i: viewer.set_layer(i.text(), visible=i.checkState() == Qt.Checked))
+
+    def _chosen(self, item):
+        name = item.text() if item is not None and item.flags() & Qt.ItemIsUserCheckable else None
+        self.opacity.setEnabled(name is not None)
+        self.opacity.blockSignals(True)
+        self.opacity.setValue(round(100 * self.viewer.layer_opacity(name)) if name else 100)
+        self.opacity.blockSignals(False)
+
+    def _opacity(self, value):
+        item = self.currentItem()
+        if item is not None and item.flags() & Qt.ItemIsUserCheckable:
+            self.viewer.set_layer(item.text(), opacity=value / 100)
 
     def refresh(self):
         self.blockSignals(True)
@@ -36,6 +56,17 @@ class LayersList(QListWidget):
             self.addItem(translate("ImageWindow", "No overlays on this image"))
             self.item(0).setFlags(Qt.NoItemFlags)
         self.blockSignals(False)
+        self.opacity.setEnabled(False)
+
+
+def layers_tab(viewer, parent):
+    """The layer list with the opacity slider of the chosen layer under it."""
+    box = QWidget(parent)
+    lay = QVBoxLayout(box)
+    box.list = LayersList(viewer, box)
+    lay.addWidget(box.list, 1)
+    lay.addWidget(box.list.opacity)
+    return box
 
 
 def add_inspector_tabs(page):
@@ -44,7 +75,7 @@ def add_inspector_tabs(page):
 
     levels = LevelsDialog(page.viewer, page)
     levels.setWindowFlags(Qt.Widget)  # a dialog class used as a panel
-    layers = LayersList(page.viewer, page)
+    layers = layers_tab(page.viewer, page)
     history = QUndoView(page.undo_stack, page)
     page.levels_panel, page.layers_panel, page.history_panel = levels, layers, history
     page.tabs.addTab(levels, translate("ImageWindow", "Levels"))
@@ -57,7 +88,7 @@ def add_inspector_tabs(page):
             levels.invert.setChecked(page.viewer.invert)
             levels.refresh()
         elif page.tabs.currentWidget() is layers:
-            layers.refresh()
+            layers.list.refresh()
 
     page.tabs.currentChanged.connect(refresh)
     page.refresh_inspector = refresh

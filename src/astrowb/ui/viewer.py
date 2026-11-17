@@ -419,6 +419,10 @@ class ImageViewer(QGraphicsView):
             if opacity is not None:
                 item.setOpacity(opacity)
 
+    def layer_opacity(self, name):
+        items = self._overlays.get(name, [])
+        return items[0].opacity() if items else 1.0
+
     def layer_visible(self, name):
         items = self._overlays.get(name, [])
         return bool(items) and items[0].isVisible()

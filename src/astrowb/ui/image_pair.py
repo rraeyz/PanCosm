@@ -7,16 +7,27 @@ from PySide6.QtCore import QCoreApplication
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Ctx", "…") calls
 
 
-def pair_rows(data, x0, y0, x1, y1, wcs=None):
-    """Rows for the Line tool's table, or [] when either end is not on a star (centroid within 3 px, S/N ≥ 5)."""
+def pair_of(data, x0, y0, x1, y1, wcs=None):
+    """The pair measured, or None when either end is not on a star (centroid within 3 px, S/N ≥ 5)."""
     from ..io.inspect import pair_measure
 
     try:
         p = pair_measure(data, (x0, y0), (x1, y1), wcs=wcs.celestial if wcs is not None else None)
     except Exception:  # noqa: BLE001 - an end off the frame or on blank sky: no pair, the line alone
-        return []
+        return None
     on_stars = np.hypot(p["x1"] - x0, p["y1"] - y0) <= 3 and np.hypot(p["x2"] - x1, p["y2"] - y1) <= 3
     if not on_stars or not (p["ratio"] > 0 and p["ratio_err"] < p["ratio"] / 5):
+        return None
+    return p
+
+
+def pair_rows(data, x0, y0, x1, y1, wcs=None):
+    """Rows for the Line tool's table, or [] when the ends are not both on stars."""
+    return pair_rows_of(pair_of(data, x0, y0, x1, y1, wcs))
+
+
+def pair_rows_of(p):
+    if p is None:
         return []
     rows = [
         (translate("ImagePage", "Pair: separation (px)"), f"{p['separation_px']:.3f}"),

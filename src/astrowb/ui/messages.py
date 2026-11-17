@@ -210,6 +210,7 @@ TEMPLATES = (
     # engine
     QT_TRANSLATE_NOOP("Messages", "{step}: missing input(s): {names}"),
     QT_TRANSLATE_NOOP("Messages", "the automation has no steps"),
+    QT_TRANSLATE_NOOP("Messages", "a template named {name} exists"),
     QT_TRANSLATE_NOOP("Messages", "unknown step {step} (a plugin that is not installed?)"),
     QT_TRANSLATE_NOOP("Messages", "no plate solver installed: install ASTAP (with a star database) or astrometry.net"),
     # io/fits.py
@@ -431,6 +432,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "a log-uniform prior needs a positive lower limit"),
     QT_TRANSLATE_NOOP("Messages", "the width of a Gaussian prior must be positive"),
     QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
+    # models/fit.py (UI-16.6)
+    QT_TRANSLATE_NOOP("Messages", "{name} = {value} is outside its limits {lower} to {upper}"),
     # models/fitting.py (MOD-12)
     QT_TRANSLATE_NOOP("Messages", "differential evolution needs finite limits on every free parameter"),
     QT_TRANSLATE_NOOP("Messages", "unknown optimiser: {optimiser}"),

@@ -662,9 +662,9 @@ class ImagePage(Undoable, QWidget):
             (self.tr("Minimum, maximum along the line"), f"{vals.min():.3f}, {vals.max():.3f}"),
             (self.tr("Mean along the line"), f"{vals.mean():.3f}"),
         ]
-        from .image_pair import pair_rows
+        from .image_pair_table import show_pair
 
-        rows += pair_rows(data, x0, y0, x1, y1, self.wcs)  # both ends on stars: the pair measured (PHO-24)
+        rows += show_pair(self, data, x0, y0, x1, y1)  # both ends on stars: the pair measured (PHO-24)
         self._show_rows(rows)
         labels = (self.tr("Distance along the line (px)"), self.tr("Counts"))
         self._canvas().set_figure(image_figures.profile_figure(p["distance"], vals, labels))

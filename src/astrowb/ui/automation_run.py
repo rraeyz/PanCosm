@@ -3,6 +3,7 @@
 from PySide6.QtCore import QCoreApplication, QObject, Signal
 
 from ..engine import automation, steps
+from .automation_template import add_template_button
 
 translate = QCoreApplication.translate
 
@@ -10,6 +11,17 @@ translate = QCoreApplication.translate
 def connect_chain(page):
     page.steps.currentRowChanged.connect(page._show_step)
     page.steps.runFromHere.connect(page._run)
+    page.steps.stepDropped.connect(lambda sid, at: page.add_step(sid, at))
+    page.steps.cardMoved.connect(page._reorder)
+    from .step_library import StepLibrary
+
+    add_template_button(page)
+    left = page.list.parentWidget().layout()  # the step library, to drag from, goes under the automations
+    library = StepLibrary(page)
+    left.insertWidget(left.indexOf(page.list) + 1, library, 1)
+    after = page.list.nextInFocusChain()  # Tab reads the library right after the automations list, as on screen
+    page.list.setTabOrder(page.list, library)
+    page.list.setTabOrder(library, after)
 
 
 def missing_by_step(auto, provided):

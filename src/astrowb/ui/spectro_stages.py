@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QScrollArea, QVB
 
 from .kit.fields import Segmented
 from .kit.focus import read_in_order
+from .spectro_split import split_job
 from .stage_boxes import _index, boxes_from_column, stages_from_boxes
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("SpectroscopyWindow", "…") calls
@@ -100,6 +101,61 @@ def job_switch(win, page):
     win.toolbar.setVisible(True)
 
 
+def profile_switch(win, page):
+    """The toolbar's instrument profile combo: the page's own list (same model), kept in step with it both ways."""
+    from PySide6.QtWidgets import QComboBox
+
+    combo = QComboBox()
+    combo.setModel(page.profile.model())
+    combo.setCurrentIndex(page.profile.currentIndex())
+    combo.setToolTip(page.profile.toolTip())
+    combo.setAccessibleName(translate("SpectroscopyWindow", "Instrument profile"))
+
+    def mirror(src, dst):
+        dst.blockSignals(True)
+        dst.setCurrentIndex(src.currentIndex())
+        dst.blockSignals(False)
+
+    page.profile.currentIndexChanged.connect(lambda _: mirror(page.profile, combo))
+    page.profile.model().modelReset.connect(lambda: mirror(page.profile, combo))
+
+    def chosen(_):
+        mirror(combo, page.profile)
+        page.apply_profile(combo.currentText())
+
+    combo.activated.connect(chosen)
+    win.profile_combo = combo
+    win.toolbar.insertWidget(win._end, combo)
+
+
+def _split_jobs(page):
+    """Telluric, Velocities and Spectrum tools, each column as several stages: {key: (title, box)} each."""
+    telluric = split_job(
+        _whole(page.job_panels[TELLURIC]),
+        [
+            (0, "files", translate("SpectroscopyWindow", "Spectra")),
+            (3, "correct", translate("SpectroscopyWindow", "Correct")),
+        ],
+    )
+    velocity = split_job(
+        _whole(page.job_panels[VELOCITY]),
+        [
+            (0, "method", translate("SpectroscopyWindow", "Method")),
+            (7, "measure", translate("SpectroscopyWindow", "Measure")),
+            (9, "table", translate("SpectroscopyWindow", "Table")),
+        ],
+    )
+    tools = split_job(
+        _whole(page.job_panels[TOOLS]),
+        [
+            (0, "line", translate("SpectroscopyWindow", "Measure a line")),
+            (6, "change", translate("SpectroscopyWindow", "Change the spectrum")),
+            (7, "stellar", translate("SpectroscopyWindow", "Stellar parameters")),
+        ],
+    )
+    return telluric, velocity, tools
+
+
 def spectroscopy_stages(win, page):
     from .spectro_inspector import line_inspector
 
@@ -112,6 +168,7 @@ def spectroscopy_stages(win, page):
     orders = _wavelength_boxes(ech, ech.extracted, ech.extract_button)
     frames, extract = translate("SpectroscopyWindow", "Frames"), translate("SpectroscopyWindow", "Extract")
     lines = translate("SpectroscopyWindow", "Wavelengths")
+    telluric, velocity, tools = _split_jobs(page)
     rows = [  # key, title, job (None: every job), the widget, the guide's anchor
         ("overview", translate("SpectroscopyWindow", "Overview"), None, _overview(page),
          "spectroscopy-instrument-profiles"),
@@ -119,14 +176,13 @@ def spectroscopy_stages(win, page):
           for k, title in zip(slit, (frames, extract, lines), strict=True)),
         *((f"echelle_{k}", title, ECHELLE, orders[k], "spectroscopy-echelle")
           for k, title in zip(orders, (frames, extract, lines), strict=True)),
-        ("telluric", translate("SpectroscopyWindow", "Telluric"), TELLURIC, _whole(page.job_panels[TELLURIC]),
-         "spectroscopy-telluric-correction"),
-        ("velocity", translate("SpectroscopyWindow", "Velocities"), VELOCITY, _whole(page.job_panels[VELOCITY]),
-         "spectroscopy-radial-velocity-orbit"),
+        *((f"telluric_{k}", title, TELLURIC, box, "spectroscopy-telluric-correction")
+          for k, (title, box) in telluric.items()),
+        *((f"velocity_{k}", title, VELOCITY, box, "spectroscopy-radial-velocity-orbit")
+          for k, (title, box) in velocity.items()),
         ("cube", translate("SpectroscopyWindow", "IFU cube"), CUBE, _whole(page.job_panels[CUBE]),
          "spectroscopy-ifu-data-cubes"),
-        ("tools", translate("SpectroscopyWindow", "Spectrum tools"), TOOLS, _whole(page.job_panels[TOOLS]),
-         "spectroscopy-spectrum-tools"),
+        *((f"tools_{k}", title, TOOLS, box, "spectroscopy-spectrum-tools") for k, (title, box) in tools.items()),
     ]  # fmt: skip
     page.left = page  # stages_from_boxes wants the column the controls came from; the page has none to hide
     page.stage_boxes = {key: widget for key, _, _, widget, _ in rows}

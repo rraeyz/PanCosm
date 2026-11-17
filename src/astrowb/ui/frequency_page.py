@@ -22,7 +22,7 @@ from .kit.table import TableView
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
 
-FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr")
+FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr", "fap")
 
 
 class FrequencyPage(QWidget):
@@ -127,6 +127,7 @@ class FrequencyPage(QWidget):
             self.tr("Phase"),
             self.tr("σ phase"),
             self.tr("S/N"),
+            self.tr("FAP"),
         )
         self.table = TableView(self)
         self._set_frequencies([])
@@ -152,7 +153,10 @@ class FrequencyPage(QWidget):
         table = Table(list(np.asarray(rows, float).reshape(-1, len(FREQ_COLUMNS)).T), names=self.names)
         for col in table.columns.values():
             col.format = ".6g"
-        self.table.set_table(table)
+        weak = tokens.role("saturated")
+        reason = self.tr("S/N below 4: not significant (Breger et al. 1993)")
+        marks = {(i, self.names[7]): (weak, reason) for i, v in enumerate(table[self.names[7]]) if v < 4}
+        self.table.set_table(table, marks=marks)
 
     def _set_maxima(self, maxima):
         table = Table(list(np.asarray(maxima, float).reshape(-1, 2).T), names=(self.tr("Time"), self.tr("σ (d)")))
@@ -180,7 +184,12 @@ class FrequencyPage(QWidget):
         for i in (0, 1):
             self.guide.set_state(i, "done")
         rows = out["frequencies"]
-        self._set_frequencies([[dict(row, period=1 / row["freq"])[key] for key in FREQ_COLUMNS] for row in rows])
+        self._set_frequencies(
+            [
+                [dict(row, period=1 / row["freq"], fap=row.get("fap", np.nan))[key] for key in FREQ_COLUMNS]
+                for row in rows
+            ]
+        )
         self._set_maxima(out["maxima"])
         self.to_oc.setEnabled(bool(out["maxima"]))
         if rows:

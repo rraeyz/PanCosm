@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 )
 
 from . import photometry_transit as transit
+from .exoplanets_density import density_line
 from .kit.table_view import DataTable
 from .messages import translate as message
 from .plot.toolbar import plot_box
@@ -130,6 +131,13 @@ class ExoplanetsPage(QWidget):
         self.etd_button = QPushButton(translate("ExoplanetsPage", "ETD file…"), self)
         self.exoclock_button.setToolTip(translate("ExoplanetsPage", "Time, normalised flux, error in BJD_TDB"))
         self.etd_button.setToolTip(translate("ExoplanetsPage", "Julian date, magnitude, error, for the ETD"))
+        self.expected_rho = self._add(
+            "results",
+            translate("ExoplanetsPage", "Expected ρ★ (from the star)"),
+            self._spin(0, 0, 100, 3, True),
+            translate("ExoplanetsPage", "g/cm³; if set, the stellar-density line says how many σ apart"),
+        )
+        self.expected_rho.valueChanged.connect(self._density)
         for b in (self.exoclock_button, self.etd_button):
             self.stage_boxes["results"].layout().addWidget(b)
         self.exoclock_button.clicked.connect(lambda: self.export("exoclock"))
@@ -230,8 +238,17 @@ class ExoplanetsPage(QWidget):
         ]
         self.values.set_data(header, transit.parameter_rows(out))
         self.result.setText(transit.result_text(out))
+        self._density()
         for key in ("fit", "results"):
             self.stage_done.emit(key)
+
+    def _density(self):
+        out = self.fits.get(self.current)
+        if out is None or out.get("eclipse"):
+            return
+        self.result.setText(
+            transit.result_text(out) + "\n" + density_line(out, self.period.value(), self.expected_rho.value())
+        )
 
     def export(self, kind, path=None):
         """The ExoClock or ETD upload file of the chosen light curve."""

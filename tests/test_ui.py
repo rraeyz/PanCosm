@@ -1107,6 +1107,8 @@ def test_settings_naming_old_side_panels_still_open(window, qtbot):
         "panel_result_problems",
         "panel_result_report",
         "panel_result_log",
+        "panel_result_history",
+        "panel_result_graphs",
     )
     old = [n for n in docks if n.startswith("panel_") and n not in anatomy]
     assert not hasattr(again, "dock_page") and not old
@@ -3035,7 +3037,7 @@ def test_the_spectroscopy_window_has_stages_per_job(window):
     )
     assert panels["echelle_extract"].isAncestorOf(page.echelle_tab.find_button)
     assert panels["overview"].isAncestorOf(page.profile)
-    assert panels["velocity"].isAncestorOf(page.velocity_tab.rv_button)
+    assert panels["velocity_measure"].isAncestorOf(page.velocity_tab.rv_button)
     win.show_stage("echelle_lines")
     assert page.tabs.currentWidget() is page.echelle_tab and win.current_stage() == "echelle_lines"
     assert shown() == ["overview", "echelle_frames", "echelle_extract", "echelle_lines"]

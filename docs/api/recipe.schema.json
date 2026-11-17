@@ -509,6 +509,9 @@
           "free": {
            "description": "Free parameters: The model's parameters that are fitted; empty: the usual set"
           },
+          "bounds": {
+           "description": "Limits: Lower and upper limit per parameter; empty: the engine's own limits"
+          },
           "ld1": {
            "description": "Limb darkening, star 1: Quadratic coefficients u1, u2"
           },

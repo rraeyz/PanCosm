@@ -82,6 +82,14 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "The model's parameters that are fitted; empty: the usual set"),
     ),
     P(
+        "bounds",
+        "object",
+        None,
+        label=QT_TRANSLATE_NOOP("Steps", "Limits"),
+        advanced=True,
+        help=QT_TRANSLATE_NOOP("Steps", "Lower and upper limit per parameter; empty: the engine's own limits"),
+    ),
+    P(
         "ld1",
         "table",
         (0.0, 0.0),

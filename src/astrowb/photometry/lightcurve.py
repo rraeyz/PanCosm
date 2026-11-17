@@ -258,7 +258,7 @@ def light_curve(
         out["apertures"] = chosen
     if (by := _by_aperture(opts, [r[9] if len(r) > 9 else None for r in rows], scint)) is not None:
         out["by_aperture"] = by  # item 10: choose the radius later, no measuring
-    out |= _shape_series(fwhms, peaks)
+    out |= _shape_series(fwhms, peaks) | {"shape": shape}  # None: circles (PHO-22)
     if len(extra_xy):
         out["extra_flux"] = flux[:, 1 + n_comp :].tolist()
         out["extra_flux_err"] = err[:, 1 + n_comp :].tolist()

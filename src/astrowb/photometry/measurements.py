@@ -101,7 +101,18 @@ def measurements(lc):
     for i, x in enumerate(lc.get("extra") or []):  # further targets / check stars against the same ensemble
         name = names[1 + n_comp + i]
         cols[f"rel_flux_{name}"], cols[f"rel_flux_err_{name}"] = list(x["rel_flux"]), list(x["rel_flux_err"])
-    return cols, flags
+    return _shape_columns(cols, lc.get("shape"), radii[:, 0]), flags  # after AstroImageJ's columns
+
+
+def _shape_columns(cols, shape, r_ap):
+    """PHO-22: Ap_shape, semi-axes Ap_a >= Ap_b (px), Ap_angle (from +x): per frame, the same for every star."""
+    shape = shape or {"kind": "circle"}
+    ratio = shape.get("ratio", 1.0) if shape["kind"] == "ellipse" else 1.0
+    cols["Ap_shape"] = [shape["kind"]] * len(r_ap)
+    cols["Ap_a"] = (r_ap + (shape["length"] / 2 if shape["kind"] == "racetrack" else 0.0)).tolist()
+    cols["Ap_b"] = (r_ap * ratio).tolist() if shape["kind"] == "ellipse" else r_ap.tolist()
+    cols["Ap_angle"] = [float(shape.get("angle", 0.0))] * len(r_ap)
+    return cols
 
 
 def _spoiled(cols, marks, flags, names):

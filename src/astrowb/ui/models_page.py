@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..models.fit import DEFAULT_FREE, NAMES
+from . import models_bounds
 from .kit import tokens
 from .kit.help import help_line
 from .kit.table_view import DataTable
@@ -103,7 +104,9 @@ class ModelsPage(Undoable, QWidget):
             "l3": self.tr("Third light"),
         }
         frame = DataTable(self)
-        frame.prepare([self.tr("Parameter"), self.tr("Start / result"), self.tr("Fit")], len(NAMES))
+        frame.prepare(
+            [self.tr("Parameter"), self.tr("Start / result"), self.tr("Fit"), *models_bounds.header()], len(NAMES)
+        )
         self.table = frame.table
         self.checks = {}
         for r, name in enumerate(NAMES):
@@ -116,6 +119,7 @@ class ModelsPage(Undoable, QWidget):
             box.setToolTip(self.tr("Ticked: fitted; empty: kept at the value in the table"))
             self.table.setCellWidget(r, 2, box)
             self.checks[name] = box
+            models_bounds.add_items(self.table, r)
         lay.addWidget(frame, 1)
         grid = QGridLayout()
         self.ld = []
@@ -306,6 +310,12 @@ class ModelsPage(Undoable, QWidget):
             self.status.setText(self.tr("Give the period and the time of primary minimum (O-C tab)."))
             return
         start = self._estimated(start)
+        try:
+            bounds = models_bounds.read(self.table, NAMES)
+            models_bounds.check(self.table, NAMES, start, bounds)
+        except ValueError as e:
+            self.status.setText(translate(e))
+            return
         inputs = {"light_curve": self.file.text(), "start": start}
         if self.use_orbit.isChecked() and self.orbit:
             inputs["orbit"] = self.orbit
@@ -318,6 +328,7 @@ class ModelsPage(Undoable, QWidget):
             "mcmc_steps": self.mcmc_steps.value() if self.use_mcmc.isChecked() else 0,
             "export_format": getattr(self, "export_format", "phoebe"),
             "exposure": self.exposure.value(),
+            "bounds": bounds,
         }
         self.status.setText(self.tr("Fitting…"))
         self.fit_requested.emit(inputs, params)
@@ -359,15 +370,16 @@ class ModelsPage(Undoable, QWidget):
     def undo_state(self):
         values = tuple(self.table.item(r, 1).text() for r in range(len(NAMES)))
         free = tuple(self.checks[n].isChecked() for n in NAMES)
-        return values, free, tuple(s.value() for pair in self.ld for s in pair)
+        return values, free, tuple(s.value() for pair in self.ld for s in pair), models_bounds.texts(self.table, NAMES)
 
     def set_undo_state(self, state):
-        values, free, ld = state
+        values, free, ld, limits = state
         widgets = [*self.checks.values(), *(s for pair in self.ld for s in pair)]
         for w in (self.table, *widgets):
             w.blockSignals(True)
         for r, text in enumerate(values):
             self.table.item(r, 1).setText(text)
+        models_bounds.set_texts(self.table, limits)
         for n, on in zip(NAMES, free, strict=True):
             self.checks[n].setChecked(on)
         for s, v in zip((s for pair in self.ld for s in pair), ld, strict=True):

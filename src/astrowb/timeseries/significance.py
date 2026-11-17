@@ -64,6 +64,17 @@ def fap_baluev(t, y, err, power, f_min, f_max):
     return float(ls.false_alarm_probability(power, method="baluev", minimum_frequency=f_min, maximum_frequency=f_max))
 
 
+def frequency_faps(t, y, freqs, f_max):
+    """FAP of each frequency's Lomb–Scargle peak in the data as they are (Baluev 2008, MNRAS 385, 1279; the standard
+    normalisation both use), searched over 1 / span … f_max. For a frequency found after others were prewhitened
+    this is the FAP of its peak before they were removed (the other terms add to the noise)."""
+    from astropy.timeseries import LombScargle
+
+    t, y = np.asarray(t, float), np.asarray(y, float)
+    power = LombScargle(t, y).power(np.asarray(freqs, float))
+    return [fap_baluev(t, y, None, float(p), 1 / np.ptp(t), f_max) for p in np.atleast_1d(power)]
+
+
 def fap_shuffled(t, y, search, best_power, n=100, seed=0):
     """The share of n light curves with their values shuffled among the times (the sampling kept, any period
     destroyed) whose highest power reaches best_power; search(t, y) → (periods, power, best). The smallest

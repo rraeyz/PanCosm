@@ -219,8 +219,8 @@ class RemoteSensingPage(QWidget):
         )
         self._show(r.names[0])
 
-    def _current(self):
-        name = self.show_combo.currentText()
+    def _current(self, name=None):
+        name = name or self.show_combo.currentText()
         if name in self.products:
             from ..remotesensing import raster
 

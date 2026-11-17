@@ -33,6 +33,23 @@ BOUNDS = {
 DEFAULT_FREE = {"t0", "r_sum", "k", "incl", "j"}
 
 
+def limits(bounds):
+    """BOUNDS with the user's {name: (lower, upper)} laid over them; None for a side keeps the default."""
+    out = dict(BOUNDS)
+    for n, (lo, hi) in (bounds or {}).items():
+        out[n] = (BOUNDS[n][0] if lo is None else lo, BOUNDS[n][1] if hi is None else hi)
+    return out
+
+
+def check_start(start, bounds):
+    """The limits in force; ValueError for a start the user's own limits exclude (it would be clipped silently)."""
+    B = limits(bounds)
+    for n in bounds or ():
+        if n in start and not B[n][0] <= start[n] <= B[n][1]:
+            raise ValueError(f"{n} = {start[n]:g} is outside its limits {B[n][0]:g} to {B[n][1]:g}")
+    return B
+
+
 def _orbit(ecosw, esinw):
     e = float(np.hypot(ecosw, esinw))
     return e, float(np.degrees(np.arctan2(esinw, ecosw))) if e > 0 else 90.0
@@ -59,7 +76,7 @@ def model(t, p, ld1=(0.0, 0.0), ld2=(0.0, 0.0)):
     return integrate_exposure(flux, t, exposure / 86400.0, n=n)
 
 
-def fit_light_curve(t, flux, err=None, start=None, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0)):
+def fit_light_curve(t, flux, err=None, start=None, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), bounds=None):
     """Least-squares fit. start: dict of initial values (period and t0 required); free: names to fit.
     Returns dict(params, errors, derived, chi2r, rms, scale, n)."""
     t, flux = np.asarray(t, float), np.asarray(flux, float)
@@ -71,14 +88,15 @@ def fit_light_curve(t, flux, err=None, start=None, free=None, ld1=(0.0, 0.0), ld
     if "period" not in p or "t0" not in p:
         raise ValueError("give the period and the time of primary minimum")
     free = [n for n in NAMES if n in (DEFAULT_FREE if free is None else set(free))]
+    B = check_start(p, bounds)
     tref = float(np.round(np.median(t), 1))  # small numbers for the numerical derivatives
     p["t0"] -= tref
     for n in free:
-        lo, hi = BOUNDS[n]
+        lo, hi = B[n]
         p[n] = float(np.clip(p[n], lo + 1e-9 if np.isfinite(lo) else lo, hi - 1e-9 if np.isfinite(hi) else hi))
     x0 = [p[n] for n in free] + [float(np.median(flux[flux >= np.percentile(flux, 50)]))]
-    lo = [BOUNDS[n][0] for n in free] + [0.0]
-    hi = [BOUNDS[n][1] for n in free] + [np.inf]
+    lo = [B[n][0] for n in free] + [0.0]
+    hi = [B[n][1] for n in free] + [np.inf]
 
     def unpack(x):
         q = dict(p)
@@ -192,7 +210,7 @@ def roche_check(r1, r2, q=None):
     return {"level": level, "fill": float(fill), "lobe1": float(lobe1), "lobe2": float(lobe2), "q": float(q)}
 
 
-def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=2000, ctx=None, seed=1):
+def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=2000, ctx=None, seed=1, bounds=None):
     """Posterior of the free parameters around a least-squares result (the shared inference engine:
     differential-evolution chains that stop when converged, at most `steps` generations). Flat priors inside
     BOUNDS. Without errors the noise is taken from the fit's rms. Returns {name: (median, minus, plus)} (16th /
@@ -208,8 +226,9 @@ def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=
     tref = float(np.round(np.median(t), 1))
     x0 = np.array([base[n] - (tref if n == "t0" else 0.0) for n in free] + [result["scale"]])
     scale0 = np.array([max(result["errors"].get(n, 0.0), 1e-6) for n in free] + [1e-4 * result["scale"]])
-    lo = np.array([BOUNDS[n][0] for n in free] + [0.0])
-    hi = np.array([BOUNDS[n][1] for n in free] + [np.inf])
+    B = limits(bounds)
+    lo = np.array([B[n][0] for n in free] + [0.0])
+    hi = np.array([B[n][1] for n in free] + [np.inf])
 
     def log_prob(x):
         q = base | dict(zip(free, x[:-1], strict=True))

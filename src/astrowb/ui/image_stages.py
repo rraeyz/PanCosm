@@ -6,6 +6,7 @@ from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QScrollArea, QSplitter
 
 from .image_inspector import add_inspector_tabs, empty_state, file_strip
+from .image_selection import add_selection_menu
 from .kit.focus import read_in_order
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("ImageWindow", "…") calls
@@ -24,6 +25,7 @@ def image_anatomy(main, win, page):
     win.set_inspector(tabs)
     dock = win._dock("files", translate("ImageWindow", "Open images"), file_strip(page), Qt.LeftDockWidgetArea)
     dock.hide()
+    add_selection_menu(page, main)
     empty = empty_state(main)
 
     def follow(_=None):  # one image needs no strip, as before; no image shows what to do

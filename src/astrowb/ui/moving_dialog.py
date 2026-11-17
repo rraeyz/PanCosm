@@ -5,6 +5,7 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
+    QComboBox,
     QDialog,
     QFileDialog,
     QFormLayout,
@@ -137,6 +138,13 @@ class MovingObjectPage(QWidget):
         form.addRow(self.tr("Observatory code"), self.code)
         form.addRow(self.tr("Observers"), self.observers)
         form.addRow(self.tr("Catalogue"), self.catalog)
+        self.format = QComboBox(self)
+        self.format.addItem(self.tr("ADES PSV"), "ades")
+        self.format.addItem(self.tr("MPC 80-column"), "mpc80")
+        self.format.setToolTip(
+            self.tr("File format of the report; the 80-column format is the older one for other tools")
+        )
+        form.addRow(self.tr("Format"), self.format)
         lay.addWidget(box)
         self.export_button = QPushButton(self.tr("Write MPC report (ADES)…"), self)
         self.export_button.setEnabled(False)
@@ -243,17 +251,23 @@ class MovingObjectPage(QWidget):
 
     def export(self, path=None):
         from ..photometry.moving import ades_psv
+        from ..photometry.mpc80 import mpc80_text
         from .messages import translate
+
+        old = self.format.currentData() == "mpc80"
 
         observers = [n.strip() for n in self.observers.text().split(",") if n.strip()]
         try:
-            text = ades_psv(
-                self.positions,
-                self.designation.text().strip(),
-                self.code.text().strip().upper(),
-                observers,
-                ast_cat=self.catalog.text().strip() or "Gaia3",
-            )
+            if old:
+                text = mpc80_text(self.positions, self.designation.text().strip(), self.code.text())
+            else:
+                text = ades_psv(
+                    self.positions,
+                    self.designation.text().strip(),
+                    self.code.text().strip().upper(),
+                    observers,
+                    ast_cat=self.catalog.text().strip() or "Gaia3",
+                )
         except ValueError as e:
             self.hint.setText(translate(str(e)))
             return None
@@ -265,7 +279,9 @@ class MovingObjectPage(QWidget):
             catalog=self.catalog.text().strip(),
         )
         if path is None:
-            path, _ = QFileDialog.getSaveFileName(self, self.tr("MPC report"), "ades.psv", "ADES PSV (*.psv *.txt)")
+            path, _ = QFileDialog.getSaveFileName(
+                self, self.tr("MPC report"), "obs80.txt" if old else "ades.psv", "MPC report (*.psv *.txt)"
+            )
         if path:
             Path(path).write_text(text, encoding="utf-8")
             self.hint.setText(

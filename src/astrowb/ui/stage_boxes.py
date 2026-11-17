@@ -191,6 +191,9 @@ def calibration_stages(win, page):
     win.add_result_tab("plan", translate("CalibrationWindow", "Plan"), page.plan_table)
     win.add_result_tab("report", translate("CalibrationWindow", "Report"), page.report_view)
     win.add_result_tab("log", translate("CalibrationWindow", "Log"), page.log_view)
+    from . import calibration_history
+
+    calibration_history.make(win, page)
     refresh_frames(page)  # fill the new stages from what is already scanned
 
 
@@ -250,6 +253,12 @@ def rs_stages(win, page):
     from .rs_views import add_views
 
     add_views(win, page)
+    from .rs_layers import install
+
+    install(page)
+    from .rs_inspector import pixel_inspector
+
+    pixel_inspector(win, page)
 
 
 def observing_stages(win, page):
@@ -269,6 +278,9 @@ def observing_stages(win, page):
     from .observe_chips import ObserveChips
 
     win.observe_chips = ObserveChips(win, page)  # the device chips and the inspector
+    from .observe_results import ObserveResults
+
+    win.observe_results = ObserveResults(win, page)  # the Log and Graphs tabs of the results dock
 
 
 def astrometry_stages(win, page):
@@ -278,3 +290,6 @@ def astrometry_stages(win, page):
               "report": translate("AstrometryWindow", "Report")}  # fmt: skip
     anchors = {key: f"astrometry-{key}" for key in ("images", "solve", "find", "measure", "report")}
     stages_from_boxes(win, page, titles, anchors, {})
+    from .astrometry_inspector import position_inspector
+
+    position_inspector(win, page)
