@@ -42,7 +42,7 @@ def graphs_figure(samples):
 class ObserveResults:
     def __init__(self, win, page):
         self.win, self.page, self.lines, self.t0 = win, page, [], None
-        self.samples = {title: [] for _, _, title in series()}
+        self.samples = {key: [] for key, _, _ in series()}  # by status key: the titles follow the language
         box = QWidget(win)
         lay = QVBoxLayout(box)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -71,15 +71,15 @@ class ObserveResults:
         self.lines = list(st.get("log", []))
         self._show_log()
         now = time.monotonic()
-        for key, field, title in series():
+        for key, field, _ in series():
             value = st.get(key, {}).get(field)
             if isinstance(value, int | float):
                 self.t0 = now if self.t0 is None else self.t0
-                points = self.samples[title]
+                points = self.samples[key]
                 points.append((now - self.t0, float(value)))
                 del points[:-MAX_SAMPLES]
         if any(self.samples.values()):
-            self.plot.set_figure(graphs_figure(self.samples))
+            self.plot.set_figure(graphs_figure({title: self.samples[key] for key, _, title in series()}))
             self._reveal(self.docks[1])
 
     def _show_log(self):

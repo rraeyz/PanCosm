@@ -41,3 +41,13 @@ def test_dock_starts_hidden_then_shows_log_and_graphs(setup):
     assert [len(p) for p in res.samples.values()] == [2, 2]
     assert len(graphs_figure(res.samples).panels) == 2
     assert len(graphs_figure({"x": []}).panels) == 0
+
+
+def test_samples_survive_a_title_change(setup, monkeypatch):
+    from astrowb.ui import observe_results
+
+    win, _ = setup
+    res = win.observe_results
+    monkeypatch.setattr(observe_results, "translate", lambda ctx, text: f"[{text}]")  # another language
+    res.update(status(-10.0, 12000, []))
+    assert [len(p) for p in res.samples.values()] == [1, 1]
