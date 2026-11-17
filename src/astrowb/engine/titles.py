@@ -57,6 +57,7 @@ TITLES = {
     "timeseries.minimum": QT_TRANSLATE_NOOP("Steps", "Time of minimum"),
     "timeseries.mission_lc": QT_TRANSLATE_NOOP("Steps", "Download a mission light curve"),
     "timeseries.oc_fit": QT_TRANSLATE_NOOP("Steps", "Fit the O−C diagram"),
+    "timeseries.occultation": QT_TRANSLATE_NOOP("Steps", "Occultation timing"),
     "timeseries.period": QT_TRANSLATE_NOOP("Steps", "Period search"),
     "timeseries.survey_lc": QT_TRANSLATE_NOOP("Steps", "Download a survey light curve"),
 }

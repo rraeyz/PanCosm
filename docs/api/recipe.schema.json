@@ -2538,6 +2538,34 @@
       "if": {
        "properties": {
         "step": {
+         "const": "timeseries.occultation"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "nboot": {
+           "description": "Bootstrap draws: Draws for the errors of the disappearance and reappearance times",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 0,
+           "maximum": 10000
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "timeseries.period"
         }
        }
@@ -2673,6 +2701,7 @@
        "timeseries.minimum",
        "timeseries.mission_lc",
        "timeseries.oc_fit",
+       "timeseries.occultation",
        "timeseries.period",
        "timeseries.survey_lc"
       ]

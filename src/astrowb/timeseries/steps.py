@@ -211,3 +211,28 @@ def oc_fit_step(inputs, params, ctx):
     fit = {"ltte": fit_ltte, "apsidal": fit_apsidal}[params["model"]]
     ctx.progress(0.02, "fit")
     return {"fit": fit(minima, params["t0"], params["period"], mcmc_steps=params["mcmc_steps"], ctx=ctx)}
+
+
+@step(
+    "timeseries.occultation",
+    inputs=("time", "flux"),
+    outputs=("occultation",),
+    params=(
+        P(
+            "nboot",
+            "int",
+            100,
+            min=0,
+            max=10_000,
+            label=QT_TRANSLATE_NOOP("Steps", "Bootstrap draws"),
+            help=QT_TRANSLATE_NOOP("Steps", "Draws for the errors of the disappearance and reappearance times"),
+            advanced=True,
+        ),
+    ),
+)
+def occultation_step(inputs, params, ctx):
+    """Square-well fit of an occultation light curve (PHO-38): D, R, duration and drop, in the unit of the times."""
+    from ..photometry.occultation import fit_occultation
+
+    ctx.progress(0.05, "fit")
+    return {"occultation": fit_occultation(inputs["time"], inputs["flux"], nboot=params["nboot"], rng=0)}

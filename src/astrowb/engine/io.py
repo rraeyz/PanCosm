@@ -120,6 +120,7 @@ OUTPUTS = {
     "model": IO("object", QT_TRANSLATE_NOOP("Steps", "Model fit")),
     "night": IO("object", QT_TRANSLATE_NOOP("Steps", "The night's plan")),
     "objects": IO("object", QT_TRANSLATE_NOOP("Steps", "Minor planets in the field")),
+    "occultation": IO("object", QT_TRANSLATE_NOOP("Steps", "Occultation fit")),
     "orders": IO("object", QT_TRANSLATE_NOOP("Steps", "Échelle orders")),
     "ok": IO("object", QT_TRANSLATE_NOOP("Steps", "Passed")),
     "path": IO("object", QT_TRANSLATE_NOOP("Steps", "Path")),

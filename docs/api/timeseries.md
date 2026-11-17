@@ -87,6 +87,22 @@ parameters (default):
   mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none
 ```
 
+## timeseries.occultation
+
+```text
+timeseries.occultation  (Occultation timing)
+
+Square-well fit of an occultation light curve (PHO-38): D, R, duration and drop, in the unit of the times.
+
+inputs:      time, flux
+outputs:     occultation
+  time  (object)  Times
+  flux  (object)  Flux
+  occultation  (object)  Occultation fit
+parameters (default):
+  nboot = 100  (int, >= 0, <= 10000)  Bootstrap draws: Draws for the errors of the disappearance and reappearance times
+```
+
 ## timeseries.period
 
 ```text

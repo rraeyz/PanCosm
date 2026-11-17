@@ -31,3 +31,22 @@ def test_read_cube(tmp_path):
     assert start.startswith("2026-01-02T03:04:05")
     with pytest.raises(ValueError):
         read_cube(p, 0)
+
+
+def test_occultation_step_through_the_engine():
+    import json
+
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    dt, d0, r0 = 0.04, 1.5, 3.9
+    t = np.arange(150) * dt
+    f = np.clip(np.minimum(r0, t + dt / 2) - np.maximum(d0, t - dt / 2), 0, None) / dt
+    y = 1 - 0.9 * f + np.random.default_rng(2).normal(0, 0.05, len(t))
+    out = execute("timeseries.occultation", {"time": t.tolist(), "flux": y.tolist()}, {"nboot": 5}, Ctx())
+    fit = out["occultation"]
+    assert abs(fit["D"] - d0) < 0.02 and abs(fit["R"] - r0) < 0.02
+    json.dumps(out)  # the project log stores step outputs as JSON
