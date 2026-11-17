@@ -43,7 +43,7 @@ from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_method import add_method_boxes, method_params
-from .photometry_shape import add_shape_controls, shape_params, shape_text
+from .photometry_shape import add_shape_controls, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
@@ -1056,7 +1056,10 @@ class PhotometryPage(Undoable, QWidget):
             **{k: v for k, v in method_params(self).items() if k != "combine"},
         )
         self.live_folder, self.live_seen = folder, set()
-        self.live_updated.connect(self._live_show)
+        from .photometry_live import Throttled
+
+        self._live_throttle = Throttled(self, self._live_show)  # a fast folder must not freeze the views
+        self.live_updated.connect(self._live_throttle.request)
         self._live_timer = QTimer(self)
         self._live_timer.timeout.connect(self.poll_live)
         self._live_timer.start(3000)
@@ -1069,7 +1072,7 @@ class PhotometryPage(Undoable, QWidget):
             self._live_timer.stop()
             self._live_timer = None
             try:
-                self.live_updated.disconnect(self._live_show)
+                self.live_updated.disconnect(self._live_throttle.request)
             except RuntimeError:
                 pass
 
@@ -1091,18 +1094,20 @@ class PhotometryPage(Undoable, QWidget):
                 for p in new:
                     self.live_seen.add(p)
                     session.add(p)
+                    self.live_updated.emit()  # every frame; the page refreshes at most twice a second
+            except RuntimeError:  # page closed meanwhile
+                pass
             finally:
                 self._live_busy = False
-                try:
-                    self.live_updated.emit()
-                except RuntimeError:  # page closed meanwhile
-                    pass
 
         threading.Thread(target=work, daemon=True).start()
 
     def _live_show(self):
         if self.live and self.live.points:
-            self.show_light_curve(self.live.light_curve())
+            self.images = [p for p in self.live.order if Path(p).exists()]  # the Frames list follows the live frames
+            self._frame_jd = {p: self.live.jd[Path(p).name] for p in self.images if Path(p).name in self.live.jd}
+            self.shown = len(self.images) - 1
+            self.show_light_curve(self.live.light_curve(), keep=True)
             if self.live.failed:
                 self.result.setText(
                     self.result.text() + " " + self.tr("{n} frames skipped.").format(n=len(self.live.failed))
@@ -1866,7 +1871,6 @@ class PhotometryPage(Undoable, QWidget):
         if self.telescope_d.value() > 0:
             params["aperture_m"] = self.telescope_d.value()
         params |= method_params(self)
-        params["aperture_shape"] = shape_params(self)
         if self.more_apertures.isChecked():
             params["apertures"] = [round(self.r_ap.value() * k, 2) for k in (0.6, 0.8, 1.0, 1.25, 1.5, 2.0)]
         if self.target_follows.isChecked():
@@ -2022,15 +2026,19 @@ class PhotometryPage(Undoable, QWidget):
                 self.show_what.setCurrentIndex(self.show_what.findData("mag"))
         self.result.setText("\n".join(lines))
 
-    def show_light_curve(self, lc):
+    def show_light_curve(self, lc, keep=False):
         """A new measurement: kept as measured; weights, detrending and magnitudes are applied on top of it."""
         self.guide.set_state(4, "done")
         self._lc_measured, self._aperture_i = lc, None
         self.colour = None  # a new measurement: its colour, if any, comes with show_colour
         self._fill_aperture_choice(lc)
-        self.lc_raw, self.detrend_cfg, self.excluded, self.comp_off = lc, None, set(), set()
+        self.lc_raw = lc
+        if not keep:  # a live refresh keeps the user's choices
+            self.detrend_cfg, self.excluded, self.comp_off = None, set(), set()
         self._step_titles()
         self._fill_frames()  # frames left out by the measurement in red, with why
+        if getattr(self, "psf_tab", None):  # the window's PSF tab (PHO-18)
+            self.psf_tab.show_psf(lc)
         self._show_lower(True)
         self.next_box.setVisible(True)
         self.minimum_button.setEnabled(True)
@@ -2273,6 +2281,8 @@ class PhotometryPage(Undoable, QWidget):
 
     def _lost_text(self, why):
         """Why the measurement left a frame out (lightcurve._measure_frame), in the interface language."""
+        if why[0] not in ("target", "comparison", "aligned"):  # an exception of the frame: its own text
+            return " ".join(why)
         if why[0] == "target":
             return self.tr("the target was not found there (clouds, or off the frame?)")
         if why[0] == "comparison":

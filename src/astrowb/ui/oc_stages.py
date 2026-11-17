@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QLineEdit
 
 from . import oc_minima
 from .kit.table_view import DataTable
+from .oc_correlations import show_correlations
 from .stage_boxes import stages_from_boxes
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("OcWindow", "…") calls
@@ -33,8 +34,9 @@ def oc_stages(win, page):
     win.add_result_tab("parameters", translate("OcWindow", "Parameters"), values)
 
     def mark(stale):
-        for k in ("minima", "parameters"):
-            win.set_result_stale(k, stale)
+        for k in ("minima", "parameters", "correlations"):
+            if f"result_{k}" in win.docks:  # the last is added at the first fit
+                win.set_result_stale(k, stale)
 
     for signal in (page.text.textChanged, page.minima_input.itemChanged, page.t0.textChanged,
                    page.period.textChanged, page.use_mcmc.toggled,
@@ -49,6 +51,9 @@ def oc_stages(win, page):
         values.set_data([translate("OcWindow", "Parameter"), translate("OcWindow", "Value"),
                          translate("OcWindow", "Error"), translate("OcWindow", "Unit")],
                         [[n, v, "" if e is None else e, u] for n, v, e, u in rows])  # fmt: skip
+        show_correlations(
+            win, page, getattr(f, "correlation", None) or (getattr(f, "mcmc", None) or {}).get("correlation")
+        )
         mark(False)
         return out
 

@@ -93,6 +93,7 @@ class Fit:
     residuals: np.ndarray  # observed minus the fitted model (days)
     ref_t0: float
     ref_period: float
+    correlation: dict | None = None  # {"names", "matrix"} of T0, P (, Q) from the covariance
 
     def model_o_minus_c(self, e):
         """The fitted ephemeris drawn in the O-C diagram of the reference ephemeris."""
@@ -131,7 +132,11 @@ def fit(minima, t0_ref, period_ref, order=1, default_error=None) -> Fit:
     # back to the caller's numbering: T(E) = T0 + P E + Q E^2 with E = E' + mid
     m = np.array([[1, -mid, mid**2], [0, 1, -2 * mid], [0, 0, 1]])[: order + 1, : order + 1]
     c = m @ coef
-    sd = np.sqrt(np.diag(m @ cov @ m.T))
+    cov = m @ cov @ m.T
+    sd = np.sqrt(np.diag(cov))
+    from .oc_uncertainty import correlation_dict
+
+    corr = correlation_dict(["T0", "P", "Q"][: order + 1], cov=cov)
     return Fit(
         order=order,
         t0=float(mid_time + c[0]),
@@ -146,4 +151,5 @@ def fit(minima, t0_ref, period_ref, order=1, default_error=None) -> Fit:
         residuals=resid,
         ref_t0=t0_ref,
         ref_period=period_ref,
+        correlation=corr,
     )

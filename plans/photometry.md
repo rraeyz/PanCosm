@@ -237,8 +237,13 @@ star is that star's own residual), on every frame fitted with a Gaussian of the 
 positions (a centroid is pulled by the neighbour: 1.4 px on the test) and subtracted, the stars re-centred on the
 cleaned frame; the Measure options hold it as a check box that excludes "PSF photometry", mirrored in the menu.
 Test: a variable neighbour 1.5 FWHM away (1 : 6 brightness change) moves plain apertures by > 20 %, the cleaned
-curve stays within 1.5 %. Left: the ePSF per frame in that path, the live path, catalogue neighbours, the
-measurements-table columns, the banner, the PSF tab, the eclipse-of-the-fainter-star test, error codes.
+curve stays within 1.5 %. Done (2026-11-21): the measurements-table columns `PSF_chi2_<star>` and `PSF_flag_<star>` (the fit's reduced
+χ² and photutils' flags, `fieldstars.psf_measure(diagnostics=)`, `light_curve` keys "psf_chi2" / "psf_flag", written by
+`measurements.measurements` after a PSF run only), and the PSF results tab (`ui/photometry_psf.PsfTab`: the ePSF picture
+and the stars count; `psf.epsf_summary` builds it on the reference frame from its isolated unsaturated stars and the PSF
+run returns it as "psf" — the fits themselves still use the Gaussian). Tests: `tests/ui/test_psf_tab.py`.
+Left: the ePSF per frame in that path, the live path, catalogue neighbours, the banner (its wording is not written
+down), the PSF tab's star list, quality number and residual image, the eclipse-of-the-fainter-star test, error codes.
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
@@ -300,7 +305,11 @@ the reason, as in the night run. Measuring against the comparisons a frame has (
 some comparison stars is kept, measured with differential.ensemble as the night run does (its "partial" list the
 same; test: equal to the night run to 1e-6). Star lists: check stars and further targets
 measured live as the night run's extra stars (equal to 1e-9). The camera noise model and the header-time
-rule reach it through `method_params` (errors and times equal to the night run's). Left: the shared result table.
+rule reach it through `method_params` (errors and times equal to the night run's). The shared result table (2026-11-21): the live state feeds the page's own `show_light_curve`
+(plot, Measurements, Checks, Frames) after every frame, throttled to one refresh per 0.5 s
+(`ui/photometry_live.Throttled`); `LiveLightCurve.light_curve()` carries `lost` (file → reason), the Frames list follows
+`LiveLightCurve.order`. Test: `tests/ui/test_live_shared_table.py`. Left: Build items 3-5 (follow-a-folder
+stability check, from Observing, stall banner).
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the
@@ -395,8 +404,11 @@ errors and below the circles' scatter. (2026-11-21: the UI: `ui/photometry_shape
 choice Circle / Ellipse with axis ratio and angle fields and "Read from the star" (`moments_shape` on the selected star
 or the target, first frame), passed as `aperture_shape`; the star list's "Aperture" column; the measurements table's
 `Ap_shape`, `Ap_a`, `Ap_b`, `Ap_angle` (`measurements._shape_columns`; the light curve carries `shape`). Tests:
-tests/ui/test_aperture_shape.py.) Left: racetrack and painted-pixel controls, the lightkurve cross-check of a painted
-mask.
+tests/ui/test_aperture_shape.py.) Done (2026-11-21): the live light curve takes the shape (`method_params` carries
+`aperture_shape`; `LiveLightCurve` passes it to the frame measurement; test_live.py
+`test_live_uses_the_aperture_shape_as_the_night_run`, 1e-9), and the Shape choice has "Racetrack" with trail length
+and angle typed (no "Read from the star" for it: shapes.py has no racetrack fit; test_racetrack_choice_and_trailed_star).
+Left: painted-pixel controls, the lightkurve cross-check of a painted mask.
 - **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
   `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
 - **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the
@@ -430,8 +442,8 @@ boundary lines, drawn with `neb.required_depth_ppt` from the target depth the ro
 the field plot's label turns red when the nearest neighbour is within 3 aperture radii, the star plots' subtitle names the
 10″ neighbours; `neb.run_apertures` runs several (r_ap, r_in, r_out) and keeps each star's best disposition (`neb.best`)
 with an "apertures" list. Tests: `test_neighbours_of_a_star`, `test_run_rows_carry_neighbours_and_crowded_label_is_red`,
-`test_best_aperture_wins`.) (2026-11-20: several apertures through the step and the window: step param `apertures` ([r_ap, r_in, r_out] triples; empty = `neb.run` as before, given = `neb.run_apertures`), the window passes the radii of a light curve measured with several apertures (`photometry_neb._apertures`) and its table gets an "Aperture (px)" column; NEB_check.csv has `r_ap`, the star plots' title names it. Tests: `test_step_apertures_param`, `test_nearby_eclipsing_binary_check_in_the_window`.) Left: ExoFOP / Exoplanet Archive fetch of the TESS depth and ephemeris (no such service in
-`services/` yet), the step/UI taking several apertures (only `run_apertures` takes them), the public TFOP night (no
+`test_best_aperture_wins`.) (2026-11-20: several apertures through the step and the window: step param `apertures` ([r_ap, r_in, r_out] triples; empty = `neb.run` as before, given = `neb.run_apertures`), the window passes the radii of a light curve measured with several apertures (`photometry_neb._apertures`) and its table gets an "Aperture (px)" column; NEB_check.csv has `r_ap`, the star plots' title names it. Tests: `test_step_apertures_param`, `test_nearby_eclipsing_binary_check_in_the_window`.) (2026-11-21: re-checked, the step/UI several-aperture item was already done by the 2026-11-20 entry above; nothing left there.) Left: ExoFOP / Exoplanet Archive fetch of the TESS depth and ephemeris (no such service in
+`services/` yet), the public TFOP night (no
 stored reference table).
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.

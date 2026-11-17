@@ -125,3 +125,17 @@ def test_live_uses_the_camera_noise_model_and_the_time_rule(tmp_path):
     assert np.allclose(lc["jd_utc"], batch["jd_utc"], rtol=0, atol=1e-9)
     plain = light_curve(paths, target, comps, 4, 10, 16)
     assert not np.allclose(lc["rel_flux_err"], plain["rel_flux_err"], rtol=1e-6)  # the camera made a difference
+
+
+def test_live_uses_the_aperture_shape_as_the_night_run(tmp_path):
+    """PHO-22: an ellipse given to the live session measures a frame as the night run does."""
+    paths = write_frames(tmp_path, 4)
+    target, comps = STARS[0][:2], [s[:2] for s in STARS[1:]]
+    shape = {"kind": "ellipse", "ratio": 0.6, "angle": 30.0}
+    session = live.LiveLightCurve(target, comps, 4, 10, 16, aperture_shape=shape)
+    for p in paths:
+        assert session.add(p) is not None
+    lc = session.light_curve()
+    batch = light_curve(paths, target, comps, 4, 10, 16, shape=shape)
+    assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=0, atol=1e-9)
+    assert np.allclose(lc["rel_flux_err"], batch["rel_flux_err"], rtol=0, atol=1e-9)

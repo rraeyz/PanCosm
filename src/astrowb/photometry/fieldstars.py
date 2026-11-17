@@ -20,8 +20,9 @@ from .aperture import choose_apertures, despike, measure, recenter, seeing_fwhm
 
 
 @cites("stetson1987")
-def psf_measure(data, xy, fwhm, r_in, r_out, gain=1.0):
-    """Like aperture.measure: (flux, error, sky per pixel) for each (x, y), from PSF fits."""
+def psf_measure(data, xy, fwhm, r_in, r_out, gain=1.0, diagnostics=None):
+    """Like aperture.measure: (flux, error, sky per pixel) for each (x, y), from PSF fits. diagnostics: a dict that
+    gets "chi2" (reduced χ² of each fit) and "flag" (photutils' fit flags, 0 = good) per star."""
     from astropy.table import QTable
     from photutils.background import LocalBackground
     from photutils.psf import CircularGaussianPRF, PSFPhotometry, SourceGrouper
@@ -41,6 +42,8 @@ def psf_measure(data, xy, fwhm, r_in, r_out, gain=1.0):
     t = phot(data, error=error, init_params=QTable({"x_0": xy[:, 0], "y_0": xy[:, 1]}))
     flux = np.asarray(t["flux_fit"], float)
     err = np.asarray(t["flux_err"], float)
+    if diagnostics is not None:
+        diagnostics |= {"chi2": np.asarray(t["reduced_chi2"], float), "flag": np.asarray(t["flags"], float)}
     return flux, err, np.asarray(t["local_bkg"], float)
 
 

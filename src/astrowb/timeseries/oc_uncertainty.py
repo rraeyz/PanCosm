@@ -63,3 +63,18 @@ def correlation(cov, names):
     tied = [(names[i], names[j], float(rho[i, j])) for i in range(len(names)) for j in range(i + 1, len(names))
             if abs(rho[i, j]) > 0.9]  # fmt: skip
     return rho, tied
+
+
+def correlation_dict(names, cov=None, samples=None, keep=2000, seed=1):
+    """{"names", "matrix"} (nested lists, JSON-safe) of the parameters' correlation: from a covariance, or from
+    posterior samples (columns = names, thinned to `keep` draws). Samples of a parameter that does not vary or is
+    not finite are left out."""
+    if samples is not None:
+        cols = np.column_stack([np.asarray(samples[n], float) for n in names])
+        if len(cols) > keep:
+            cols = cols[np.random.default_rng(seed).choice(len(cols), keep, replace=False)]
+        ok = [i for i in range(len(names)) if np.isfinite(cols[:, i]).all() and np.std(cols[:, i]) > 0]
+        names, rho = [names[i] for i in ok], np.corrcoef(cols[:, ok], rowvar=False)
+    else:
+        rho = correlation(cov, names)[0]
+    return {"names": list(names), "matrix": np.atleast_2d(rho).tolist()}

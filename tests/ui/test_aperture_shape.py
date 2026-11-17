@@ -54,3 +54,19 @@ def test_ellipse_measurement_and_columns(qtbot):
     lc.pop("shape")
     cols, _ = measurements(lc)
     assert cols["Ap_shape"] == ["circle"] and cols["Ap_b"] == [9.0]
+
+
+def test_racetrack_choice_and_trailed_star(qtbot, monkeypatch):
+    from astrowb.ui.photometry_shape import shape_params, shape_text
+
+    page = _page(qtbot, monkeypatch)
+    page.shape_kind.setCurrentIndex(2)
+    page.shape_length.setValue(12.0)
+    page.shape_trail_angle.setValue(20.0)
+    assert shape_params(page) == {"kind": "racetrack", "length": 12.0, "angle": 20.0}
+    assert shape_text(page).startswith("racetrack")
+    yy, xx = np.mgrid[:61, :61]
+    data = 100.0 + sum(300 * np.exp(-((xx - 30 - t) ** 2 + (yy - 30) ** 2) / (2 * 2.0**2)) for t in range(-6, 7))
+    shape = {"kind": "racetrack", "length": 12.0, "angle": 0.0}
+    flux = aperture.measure(data, [(30, 30)], 7.0, 14.0, 20.0, shape=shape)[0]
+    assert np.isfinite(flux).all() and flux[0] > 0

@@ -58,13 +58,36 @@ def line_inspector(win, page):
     dock = win.set_inspector(panel)
     dock.hide()
     tabs = (page.reduce_tab, page.echelle_tab)
+    tools = page.tools_tab
+    panel.owner = None  # the tab whose row the panel shows
 
     def show(tab, row):
         if row >= 0:
+            panel.set_title(translate("SpectroscopyWindow", "Arc line"))
             panel.set_rows(line_rows(tab, row))
+            if getattr(panel, "tool_plot_box", None) is not None:
+                panel.tool_plot_box.hide()
+            panel.owner = tab
+            dock.show()
+
+    def show_measure(row):
+        if 0 <= row < len(tools.measures):
+            from .spectro_tools_inspector import tool_plot, tool_rows
+
+            m, data = tools.measures[row]
+            panel.set_title(translate("SpectroscopyWindow", "Measured line"))
+            panel.set_rows(tool_rows(tools.lines[row][0], m))
+            tool_plot(panel, m, data)
+            panel.owner = tools
             dock.show()
 
     for tab in tabs:
         tab.guesses.currentCellChanged.connect(lambda row, _c, _r, _p, t=tab: show(t, row))
-    page.tabs.currentChanged.connect(lambda i: dock.setVisible(dock.isVisible() and page.tabs.widget(i) in tabs))
+    tools.table.row_chosen.connect(show_measure)
+
+    def follow(i):
+        tab = page.tabs.widget(i)
+        dock.setVisible(dock.isVisible() and (tab is tools) == (panel.owner is tools) and (tab in tabs or tab is tools))
+
+    page.tabs.currentChanged.connect(follow)
     win.line_inspector = panel
