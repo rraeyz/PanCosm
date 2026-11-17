@@ -14,6 +14,15 @@ def surface_brightness(intensity, zero_point, pixel_scale_arcsec):
         return np.where(i > 0, zero_point - 2.5 * np.log10(i / pixel_scale_arcsec**2), np.nan)
 
 
+def sky_brightness(data, zero_point, pixel_scale_arcsec):
+    """The frame's sky in mag arcsec^-2: the sigma-clipped median of the pixels (stars and objects clipped) through
+    surface_brightness. The data must be in counts with no sky subtracted (a raw or calibrated light frame)."""
+    from astropy.stats import sigma_clipped_stats
+
+    _, median, _ = sigma_clipped_stats(np.asarray(data, float))
+    return float(surface_brightness(median, zero_point, pixel_scale_arcsec))
+
+
 @cites("jedrzejewski1987")
 def fit_isophotes(data, x0, y0, sma0=10.0, eps=0.2, pa_deg=0.0, **kwargs):
     """Fit ellipses round (x0, y0) (0-based). pa_deg: starting position angle from +x, counter-clockwise (the

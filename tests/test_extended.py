@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from astropy.modeling import fitting, models
 
-from astrowb.compute.isophote import fit_isophotes, surface_brightness
+from astrowb.compute.isophote import fit_isophotes, sky_brightness, surface_brightness
 from astrowb.photometry.comet import afrho, afrho_mag, aperture_px, comet_flux
 
 SCALE, DELTA, RH = 0.2, 1.0, 1.5  # arcsec / px, au, au
@@ -100,3 +100,11 @@ def test_afrho_step_through_the_engine(tmp_path):
     json.dumps(one)
     with pytest.raises(ValueError, match="m_sun"):
         execute("photometry.afrho", {"image": str(path), "target_xy": [200, 200]}, {**p, "m_sun": None}, Ctx())
+
+
+def test_sky_brightness_of_a_frame_with_stars():
+    rng = np.random.default_rng(3)
+    img = rng.normal(400.0, 5.0, (200, 200))
+    img[50:53, 60:63] += 5e4  # a star is clipped, not counted as sky
+    # 400 ADU per 0.5" pixel = 1600 ADU arcsec^-2 -> 22 - 2.5 log10(1600)
+    assert sky_brightness(img, 22.0, 0.5) == pytest.approx(22.0 - 2.5 * np.log10(1600.0), abs=0.01)
