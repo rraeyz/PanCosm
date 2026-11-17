@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QListWidget,
+    QMessageBox,
     QPushButton,
     QScrollArea,
     QStackedWidget,
@@ -318,7 +319,13 @@ class SettingsWindow(Dialog):
                 return 0
         from astropy.io import fits
 
-        found = profiles.from_header(fits.getheader(path))
+        try:
+            found = profiles.from_header(fits.getheader(path))
+        except (OSError, ValueError) as e:  # not a FITS file, or gone
+            from .messages import translate as message
+
+            QMessageBox.warning(self, self.tr("Settings"), message(e))
+            return 0
         for part, values in found.items():
             profiles.update(self.settings, part, **values)
             for field, value in values.items():

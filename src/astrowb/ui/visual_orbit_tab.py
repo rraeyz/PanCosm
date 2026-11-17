@@ -1,5 +1,7 @@
 """Visual binary orbit: position angles and separations in, Campbell elements, plot and ephemeris out."""
 
+from pathlib import Path
+
 import numpy as np
 from astropy.table import Table
 from PySide6.QtCore import Signal
@@ -97,8 +99,13 @@ class VisualOrbitTab(QWidget):
     def _load(self):
         path, _ = QFileDialog.getOpenFileName(self, self.tr("Load measures"), "", "Text (*.txt *.dat *.csv);;All (*)")
         if path:
-            with open(path, encoding="utf-8", errors="replace") as f:
-                self.measures.setPlainText(f.read())
+            try:
+                with open(path, encoding="utf-8", errors="replace") as f:
+                    self.measures.setPlainText(f.read())
+            except OSError as e:  # a file that is gone or cannot be read
+                self.status.setText(
+                    self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=e.strerror or e)
+                )
 
     def params(self):
         out = {}

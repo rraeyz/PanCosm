@@ -472,7 +472,7 @@ class PeriodPage(Undoable, QWidget):
             )
             err = data[:, 2] if data.ndim == 2 and data.shape[1] >= 3 else None  # a third column: the errors
             self.set_light_curve(data[:, 0], data[:, 1], Path(path).name, err=err)
-        except (ValueError, IndexError) as e:
+        except (OSError, ValueError, IndexError) as e:
             self.source.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
 
     def save_csv(self, path):

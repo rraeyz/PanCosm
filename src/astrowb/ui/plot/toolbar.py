@@ -74,7 +74,7 @@ class PlotToolbar(QWidget):
         return self._write(publish.publish, path)
 
     def _write(self, writer, path):
-        if not path or self.view.figure is None:  # cancelled, or nothing plotted yet
+        if not path or self.view.figure is None or not self.view.figure.panels:  # cancelled, or nothing plotted yet
             return None
         try:
             return str(writer(self.view.figure, path))

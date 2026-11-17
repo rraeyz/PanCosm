@@ -278,7 +278,10 @@ class ObservatoryDialog(QDialog):
     def _open_dialog(self):
         path, _ = QFileDialog.getOpenFileName(self, self.tr("Observatory configuration"), "", "JSON (*.json)")
         if path:
-            self.load(path)
+            try:
+                self.load(path)
+            except (OSError, ValueError) as e:  # gone, or not JSON
+                self.status.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=e))
 
     def save(self, path, start=False):
         """Write the file; problems are shown but do not block (the owner decides). Returns the path."""

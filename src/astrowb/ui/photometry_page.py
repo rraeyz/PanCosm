@@ -1129,6 +1129,14 @@ class PhotometryPage(Undoable, QWidget):
         if paths:
             self.set_images(paths)
 
+    def _unreadable(self, keep=False):
+        """What the user chose could not be read as images (keep: what was open stays)."""
+        if not keep:
+            self.images = []
+            self.quality_button.setEnabled(False)
+        self.guide.set_state(0, None)
+        self.images_label.setText(self.tr("None of the chosen files could be read as images."))
+
     def set_images(self, paths):
         self.guide.set_state(0, "done" if paths else None)
         self.all_filter_images = None  # every filter of a mixed night (item 11): set by the caller after this
@@ -1137,12 +1145,17 @@ class PhotometryPage(Undoable, QWidget):
         from ..io.fits import read_image
 
         paths = fits_paths(paths)  # camera raw files and pictures get a FITS copy every tool can read
+        if not paths:  # every chosen file was unreadable: keep what was open
+            return self._unreadable(keep=True)
 
         self.quality_button.setEnabled(True)
         self._frame_jd = {}  # mid-exposure UTC of every frame, read once here for the frame list
         self.images = timing.chronological(paths, self._frame_jd)
         self.ref, self.shown, self.skipped = None, 0, set()
-        data, header, _ = read_image(self.images[0])
+        try:
+            data, header, _ = read_image(self.images[0])
+        except (OSError, ValueError):  # named like a FITS file, is not one
+            return self._unreadable()
         from ..hdr import get as header_value
 
         camera = profiles.section(Settings(), "camera")  # the profile's numbers, then the header's (ARC-16)

@@ -193,7 +193,12 @@ class OCPage(QWidget):
                 self, self.tr("Load minimum times"), "", self.tr("Text (*.txt *.csv *.dat);;All (*)")
             )
         if path:
-            self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
+            try:
+                self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))
+            except OSError as e:  # a file that is gone or cannot be read
+                error = e.strerror or str(e)
+                self.result.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=error))
+                return
             self._say_hjd_scale(self.text.toPlainText())
 
     def _say_hjd_scale(self, text):
