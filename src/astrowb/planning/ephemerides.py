@@ -160,14 +160,23 @@ def transiting_planets(fetch=None):
              "where tran_flag=1 and pl_orbper is not null and pl_tranmid is not null")  # fmt: skip
     url = EXO_URL + "?" + urllib.parse.urlencode({"query": query, "format": "csv"})
 
+    def table(text):
+        reader = csv.DictReader(io.StringIO(text))
+        if "pl_name" not in (reader.fieldnames or []):  # an HTML page or nothing, not a table with no rows
+            raise ValueError("the service sent an answer in an unexpected form")
+        return list(reader)
+
     def now():
         if fetch:
-            return fetch(url)
-        from ..services import http
+            text = fetch(url)
+        else:
+            from ..services import http
 
-        return http.get(url, timeout=60).decode("utf-8")
+            text = http.get(url, timeout=60).decode("utf-8")
+        table(text)  # a page of the wrong form raises here, so it is never kept in the cache
+        return text
 
-    rows = list(csv.DictReader(io.StringIO(cached("ephemerides", url, now))))
+    rows = table(cached("ephemerides", url, now))
 
     def col(key, scale=1.0):
         return np.array([float(r[key]) * scale if r.get(key) not in (None, "") else np.nan for r in rows])

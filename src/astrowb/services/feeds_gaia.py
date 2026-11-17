@@ -22,7 +22,10 @@ def parse(text):
     if lines and lines[0].startswith("#"):
         lines[0] = lines[0][1:]
     out = []
-    for r in csv.DictReader(io.StringIO("\n".join(lines)), skipinitialspace=True):
+    reader = csv.DictReader(io.StringIO("\n".join(lines)), skipinitialspace=True)
+    if "Name" not in (reader.fieldnames or []):  # an HTML page or nothing, not a list with no rows
+        raise ValueError("the service sent an answer in an unexpected form")
+    for r in reader:
         try:
             ra, dec = float(r["RaDeg"]), float(r["DecDeg"])
         except (KeyError, TypeError, ValueError):
@@ -38,9 +41,12 @@ def alerts(fetch=None):
 
     def now():
         if fetch:
-            return fetch(URL)
-        with urllib.request.urlopen(URL, timeout=30) as r:  # noqa: S310 (a fixed https service)
-            return r.read().decode("utf-8", "replace")
+            text = fetch(URL)
+        else:
+            with urllib.request.urlopen(URL, timeout=30) as r:  # noqa: S310 (a fixed https service)
+                text = r.read().decode("utf-8", "replace")
+        parse(text)  # a page of the wrong form raises here, so it is never kept in the cache
+        return text
 
     return parse(cached("alerts", URL, now))
 
