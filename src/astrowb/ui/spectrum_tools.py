@@ -28,7 +28,7 @@ from PySide6.QtWidgets import (
 
 from . import spectro_figures, spectrum_keys
 from .kit.table import TableView
-from .messages import translate
+from .messages import guarded, translate
 from .plot.toolbar import plot_box
 from .undo import Undoable
 
@@ -691,7 +691,13 @@ class SpectrumToolsTab(Undoable, QWidget):
             return None
         path = path or QFileDialog.getSaveFileName(self, self.tr("Save spectrum"), "spectrum.fits", "FITS (*.fits)")[0]
         if path:
-            spectrum_io.write(path, self.wave, self.flux, np.full(self.flux.size, np.nan), self.header)
+            if (
+                guarded(
+                    self, spectrum_io.write, path, self.wave, self.flux, np.full(self.flux.size, np.nan), self.header
+                )
+                is None
+            ):
+                return None
             self.guide.set_state(3, "done")
             self.status.setText(self.tr("Saved: {path}").format(path=path))
         return path
@@ -708,7 +714,8 @@ class SpectrumToolsTab(Undoable, QWidget):
             meta = d.values()
         path = path or QFileDialog.getSaveFileName(self, self.tr("BeSS file"), "bess.fits", "FITS (*.fits)")[0]
         if path:
-            write_bess(path, self.wave, self.flux, meta)
+            if guarded(self, write_bess, path, self.wave, self.flux, meta) is None:
+                return None
             self.guide.set_state(3, "done")
             self.status.setText(self.tr("Saved: {path}").format(path=path))
         return path

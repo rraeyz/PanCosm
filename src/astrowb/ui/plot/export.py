@@ -149,7 +149,9 @@ def results_button(parent, rows_and_caption):
             parent, QCoreApplication.translate("Export", "Export results"), "results.tex", "LaTeX (*.tex);;CSV (*.csv)"
         )
         if path:
-            save_results(path, *got)
+            from ..messages import guarded
+
+            guarded(button, save_results, path, *got)
 
     button.clicked.connect(save)
     return button

@@ -31,7 +31,7 @@ from .kit.focus import read_in_order
 from .kit.help import help_line
 from .kit.table import TableView
 from .kit.table_view import DataTable
-from .messages import translate
+from .messages import guarded, translate
 from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
 
@@ -2063,7 +2063,7 @@ class CubeTab(QWidget):
     def _save(self):
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Save spectrum"), "", "FITS (*.fits)")
         if path:
-            self.save_spectrum(path)
+            guarded(self, self.save_spectrum, path)
 
     def save_spectrum(self, path):
         from ..spectroscopy import spectrum_io

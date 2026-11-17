@@ -432,10 +432,15 @@ class PlotCanvas(QWidget):
             path, _ = QFileDialog.getSaveFileName(self, self.tr("Export data"), "plot.csv", "CSV (*.csv)")
             if not path:
                 return None
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            w.writerow(["axis", "series", "x", "y"])
-            w.writerows(self.data_rows())
+        try:
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                w = csv.writer(f)
+                w.writerow(["axis", "series", "x", "y"])
+                w.writerows(self.data_rows())
+        except OSError as e:
+            from ..messages import save_failed
+
+            return save_failed(self, e)
         return path
 
     def export_publication(self, path=None):
@@ -449,4 +454,6 @@ class PlotCanvas(QWidget):
                 "figure.pdf",
                 "PDF (*.pdf);;PNG, 300 dpi (*.png);;SVG (*.svg);;EPS (*.eps)",
             )
-        return save_publication(self.figure, path) if path else None
+        from ..messages import guarded
+
+        return guarded(self, save_publication, self.figure, path) if path else None

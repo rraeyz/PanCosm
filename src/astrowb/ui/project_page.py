@@ -156,7 +156,9 @@ class ProjectPage(QWidget):
             path, _ = QFileDialog.getSaveFileName(self, self.tr("Save as recipe"), suggestion, "JSON (*.json)")
             if not path:
                 return None
-        return automation.save(recipe, path)
+        from .messages import guarded
+
+        return guarded(self, automation.save, recipe, path)
 
     def copy_python(self):
         from PySide6.QtWidgets import QApplication

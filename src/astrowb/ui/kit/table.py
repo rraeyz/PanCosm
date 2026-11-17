@@ -335,4 +335,6 @@ class TableView(QWidget):
         kinds = self.tr("CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)")
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Export table"), "", kinds)
         if path:
-            self.export(path)
+            from ..messages import guarded
+
+            guarded(self, self.export, path)

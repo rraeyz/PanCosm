@@ -268,7 +268,7 @@ class ExoplanetsPage(QWidget):
                 exoclock.write(lc, path, self.fits.get(self.current))
             else:
                 Path(path).write_text(etd.etd_text(lc)[0], encoding="utf-8")
-        except ValueError as e:
+        except (ValueError, OSError) as e:
             self.result.setText(message(e))
             return None
         self.result.setText(translate("ExoplanetsPage", "Saved {name}").format(name=path))

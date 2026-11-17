@@ -126,7 +126,13 @@ def report_dialog(parent, settings, engine=None, path=None, session=None):
         if not path:
             return None
     project = getattr(engine, "project", None)
-    make_report(settings, path, project.runs(full=False) if project is not None else [], session)
+    from .messages import guarded
+
+    if (
+        guarded(parent, make_report, settings, path, project.runs(full=False) if project is not None else [], session)
+        is None
+    ):
+        return None
     QMessageBox.information(
         parent,
         QCoreApplication.translate("AreaWindow", "Report a problem"),

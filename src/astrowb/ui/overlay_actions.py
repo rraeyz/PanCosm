@@ -304,5 +304,7 @@ def save_regions(win, path=None):
     if not path:
         return None
     regs = [{"shape": "circle", "x": m[0], "y": m[1], "r": m[2], "text": m[4]} for m in markers]
-    Path(path).write_text(overlays.write_regions(regs, win.wcs), encoding="utf-8")
-    return path
+    from .messages import guarded
+
+    text = overlays.write_regions(regs, win.wcs)
+    return path if guarded(win, Path(path).write_text, text, encoding="utf-8") is not None else None

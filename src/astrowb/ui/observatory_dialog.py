@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (
 
 from ..core import profiles
 from ..devices import setup
-from .messages import translate
+from .messages import save_failed, translate
 
 
 def _spin(value, lo, hi, suffix="", decimals=1):
@@ -291,7 +291,10 @@ class ObservatoryDialog(QDialog):
             self.status.setText(translate(str(e)))
             return None
         issues = setup.problems(cfg)
-        self.path = str(setup.save(cfg, path))
+        try:
+            self.path = str(setup.save(cfg, path))
+        except OSError as e:
+            return save_failed(self, e)
         self.settings.set("observatory.config", self.path)
         self.start_now = start
         text = self.tr("Saved: {p}").format(p=self.path)

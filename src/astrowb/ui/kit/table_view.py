@@ -134,6 +134,7 @@ class DataTable(QWidget):
         return menu
 
     def _menu(self, pos):
+        from ..messages import guarded
         from ..plot.export import export_table, selected_text, table_rows
 
         menu = QMenu(self)
@@ -154,7 +155,7 @@ class DataTable(QWidget):
                 self, self.tr("Export table"), "table.csv", "CSV (*.csv);;LaTeX (*.tex)"
             )
             if path:
-                export_table(self.table, path)
+                guarded(self, export_table, self.table, path)
 
         export.triggered.connect(export_to)
         menu.popup(self.table.viewport().mapToGlobal(pos))

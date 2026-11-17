@@ -336,8 +336,10 @@ class ImageActions:
             )
         if not path:
             return None
+        from .messages import guarded
+
         v = self.viewer
-        return save_picture(path, v.data, v.interval, v.stretch, v.limits, v.cmap, v.invert)
+        return guarded(self, save_picture, path, v.data, v.interval, v.stretch, v.limits, v.cmap, v.invert)
 
     def convert_dialog(self, paths=None, folder=None, fmt=None):
         """Batch conversion: FITS files to pictures with the current display interval and stretch."""

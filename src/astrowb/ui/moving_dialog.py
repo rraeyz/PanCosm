@@ -287,7 +287,10 @@ class MovingObjectPage(QWidget):
                 self, self.tr("MPC report"), "obs80.txt" if old else "ades.psv", "MPC report (*.psv *.txt)"
             )
         if path:
-            Path(path).write_text(text, encoding="utf-8")
+            from .messages import guarded
+
+            if guarded(self, Path(path).write_text, text, encoding="utf-8") is None:
+                return None
             self.hint.setText(
                 self.tr("Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).").format(
                     p=path

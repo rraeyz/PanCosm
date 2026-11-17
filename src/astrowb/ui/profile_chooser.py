@@ -91,7 +91,12 @@ class ProfileChooser(QWidget):
                                                    f"{profiles.active(self.settings)}.profile.json",
                                                    "Profile (*.profile.json)")[0]  # fmt: skip
         if path:
-            profiles.export_profile(self.settings, path)
+            try:
+                profiles.export_profile(self.settings, path)
+            except OSError as e:
+                from .messages import save_failed
+
+                return save_failed(self, e)
         return path
 
     def import_file(self, path=None):

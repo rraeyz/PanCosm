@@ -404,7 +404,9 @@ class AreaWindow(Anatomy, QMainWindow):
             self, self.tr("Save session"), f"{self.key}.session.json", self.tr("Session (*.session.json)")
         )
         if path:
-            self.save_session(path)
+            from ..messages import guarded
+
+            guarded(self, self.save_session, path)
 
     def open_session_dialog(self):
         path, _ = QFileDialog.getOpenFileName(self, self.tr("Open session"), "", self.tr("Session (*.session.json)"))

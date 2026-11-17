@@ -40,7 +40,7 @@ from .kit import tokens
 from .kit.help import help_line
 from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
-from .messages import translate
+from .messages import guarded, save_failed, translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
 from .photometry_banner import neighbour_banner
 from .photometry_export import export_csv  # noqa: F401 (the tests import it from here)
@@ -1315,7 +1315,9 @@ class PhotometryPage(Undoable, QWidget):
             return None
         wcs = self._field_wcs() if self.ref in (None, 0) else None  # the solution belongs to the first frame
         radii = (self.r_ap.value(), self.r_in.value(), self.r_out.value())
-        save_star_list(path, self.target, self.comps, self.extras, radii, wcs, self.coord.text().strip())
+        args = (path, self.target, self.comps, self.extras, radii, wcs, self.coord.text().strip())
+        if guarded(self, save_star_list, *args) is None:
+            return None
         if wcs is not None:
             text = self.tr("Star list saved in RA / Dec: {path}")
         else:
@@ -2079,7 +2081,8 @@ class PhotometryPage(Undoable, QWidget):
         except ValueError as e:  # the file failed its own validator (PHO-27): said, nothing written
             QMessageBox.warning(self, self.tr("Export for ETD / VarAstro"), translate(e))
             return None
-        Path(path).write_text(text, encoding="utf-8")
+        if guarded(self, Path(path).write_text, text, encoding="utf-8") is None:
+            return None
         text = self.tr("Saved {path}. In the upload form choose the time standard {scale} and the unit {unit}.")
         self.result.setText(text.format(path=path, scale=scale, unit=unit))
         return path
@@ -2432,11 +2435,14 @@ class PhotometryPage(Undoable, QWidget):
         if not path:
             return None
         cols, rows, shown = self._meas_cols, self._meas_rows, self._meas_shown
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            w.writerow(shown)
-            for r in rows:
-                w.writerow([cols[c][r] for c in shown])
+        try:
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                w = csv.writer(f)
+                w.writerow(shown)
+                for r in rows:
+                    w.writerow([cols[c][r] for c in shown])
+        except OSError as e:
+            return save_failed(self, e)
         return path
 
     def _summarise(self):
@@ -2739,9 +2745,9 @@ class PhotometryPage(Undoable, QWidget):
             t0 = float(np.nanmin(lc["time"]))
             r = self._norm_range()
             norm = None if r is None else ((r[0] - t0) * 24, (r[1] - t0) * 24)
-        save_template(
-            path, self._multi_rows(), self.bin_n.value(), self.bin_minutes.value(), norm, self.spacing.value()
-        )
+        args = (path, self._multi_rows(), self.bin_n.value(), self.bin_minutes.value(), norm, self.spacing.value())
+        if guarded(self, save_template, *args) is None:
+            return None
         self.result.setText(self.tr("Plot set-up saved: {path}").format(path=path))
         return path
 
@@ -3062,13 +3068,13 @@ class PhotometryPage(Undoable, QWidget):
             return
         path, _ = QFileDialog.getSaveFileName(self, self.tr("AAVSO report"), "aavso.txt", "Text (*.txt)")
         if path:
-            Path(path).write_text(text, encoding="utf-8")
+            guarded(self, Path(path).write_text, text, encoding="utf-8")
 
     def _export(self):
         self.guide.set_state(5, "done")
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Export light curve"), "lightcurve.csv", "CSV (*.csv)")
         if path and self.light_curve is not None:
-            export_csv(self.light_curve, path)
+            guarded(self, export_csv, self.light_curve, path)
 
     def _to_models(self, path=None):
         """The light curve as a CSV file (the user chooses where; next to the frames by default), opened on the
@@ -3077,7 +3083,10 @@ class PhotometryPage(Undoable, QWidget):
         path = path or QFileDialog.getSaveFileName(self, self.tr("Save the light curve for the model"), default,
                                                    "CSV (*.csv)")[0]  # fmt: skip
         if path and self.light_curve is not None:
-            export_csv(self.light_curve, path)
+            try:
+                export_csv(self.light_curve, path)
+            except OSError as e:
+                return save_failed(self, e)
             self.next_requested.emit("orbits", str(path))
 
 

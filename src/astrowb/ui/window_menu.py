@@ -37,6 +37,7 @@ class WindowMenu:
     def _table_menu(self, table, pos):
         from PySide6.QtWidgets import QApplication, QMenu
 
+        from .messages import guarded
         from .plot.export import export_table, selected_text, table_rows
 
         menu = QMenu(table)
@@ -52,7 +53,7 @@ class WindowMenu:
                 self, translate("MainWindow", "Export table"), "table.csv", "CSV (*.csv);;LaTeX (*.tex)"
             )
             if path:
-                export_table(table, path)
+                guarded(self, export_table, table, path)
         elif chosen is copy:
             header, rows = table_rows(table)
             QApplication.clipboard().setText("\n".join("\t".join(r) for r in [header, *rows]))

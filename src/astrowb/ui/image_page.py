@@ -32,7 +32,7 @@ from . import image_figures
 from .image_header_table import header_frame
 from .image_measure_table import area_values, line_values, record, star_values
 from .kit.table import TableView
-from .messages import translate
+from .messages import save_failed, translate
 from .undo import Undoable
 from .viewer import ImageViewer
 
@@ -686,8 +686,11 @@ class ImagePage(Undoable, QWidget):
         import csv
 
         labels, *cols = self._graph_data  # a surface has three columns: x, y, counts
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            w.writerow(labels)
-            w.writerows(zip(*(np.ravel(c).tolist() for c in cols), strict=True))
+        try:
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                w = csv.writer(f)
+                w.writerow(labels)
+                w.writerows(zip(*(np.ravel(c).tolist() for c in cols), strict=True))
+        except OSError as e:
+            return save_failed(self, e)
         return path

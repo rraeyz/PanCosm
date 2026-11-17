@@ -626,3 +626,19 @@ def error_line(traceback_text: str) -> str:
 def task_error(traceback_text: str) -> str:
     """error_line(), translated."""
     return translate(error_line(traceback_text))
+
+
+def save_failed(parent, error):
+    """A file that could not be written (the folder is missing, read-only or full): said in a box, never raised.
+    Returns None, so an action can `return save_failed(self, e)`."""
+    from PySide6.QtWidgets import QMessageBox
+
+    QMessageBox.warning(parent, QCoreApplication.translate("Messages", "Cannot save"), translate(error))
+
+
+def guarded(parent, action, *args, **kwargs):
+    """action(*args, **kwargs) with an OSError from its file writing shown by save_failed; its result, else None."""
+    try:
+        return action(*args, **kwargs)
+    except OSError as e:
+        return save_failed(parent, e)

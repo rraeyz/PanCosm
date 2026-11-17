@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 
 from .kit import tokens
 from .kit.widgets import StepGuide
-from .messages import translate
+from .messages import save_failed, translate
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .undo import Undoable
 
@@ -492,7 +492,10 @@ class PeriodPage(Undoable, QWidget):
         name = "".join(c if c.isalnum() or c in "-_" else "_" for c in self.label.split(" (")[0])[:60]
         path, _ = QFileDialog.getSaveFileName(self, self.tr("Save light curve"), f"{name}.csv", "CSV (*.csv)")
         if path:
-            self.save_csv(path)
+            try:
+                self.save_csv(path)
+            except OSError as e:
+                return save_failed(self, e)
             self.source.setText(self.tr("Saved {n} points to {file}").format(n=len(self.time), file=Path(path).name))
 
     def _search(self):

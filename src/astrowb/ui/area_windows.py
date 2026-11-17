@@ -10,6 +10,7 @@ from . import area_menus
 from .area_menus import _mirror, _undo_source
 from .files import images_filter
 from .image_sources import find_action
+from .messages import guarded
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
 
@@ -18,8 +19,6 @@ def photometry_window(main, page):
     """Photometry in its full window (plans/interface.md I5): the image in the middle, the numbered steps in a
     panel on the left, the results (light curve, stars, detrending, minimum, export) in a panel below; a
     toolbar for the frequent actions; every panel can be pulled out and is remembered."""
-    from PySide6.QtGui import QAction
-
     from .kit.window import AreaWindow
     from .start_page import areas
 
@@ -101,9 +100,10 @@ def _exports_menu(win, page, actions):
     win.file_menu.insertMenu(win.file_menu.actions()[-1], exports)
     exports.addActions(actions)
     exports.addAction(translate("MainWindow", "Light-curve file, nothing left out (.lc.ecsv)…"),
-                      lambda: _save_lc_file(win, page))  # fmt: skip
-    exports.addAction(translate("MainWindow", "Save all into a folder…"), lambda: _save_all(win, page))
-    exports.addAction(translate("MainWindow", "Recipe for the command line (.json)…"), lambda: _save_recipe(win, page))
+                      lambda: guarded(win, _save_lc_file, win, page))  # fmt: skip
+    exports.addAction(translate("MainWindow", "Save all into a folder…"), lambda: guarded(win, _save_all, win, page))
+    exports.addAction(translate("MainWindow", "Recipe for the command line (.json)…"),
+                      lambda: guarded(win, _save_recipe, win, page))  # fmt: skip
     page.measure_requested.connect(lambda *run: setattr(page, "last_measure", run))  # the run a recipe repeats
     from PySide6.QtWidgets import QPushButton
 
@@ -116,7 +116,7 @@ def _exports_menu(win, page, actions):
             "references, and the ExoClock files when the times are BJD_TDB",
         )  # fmt: skip
     )
-    page.save_all_button.clicked.connect(lambda: _save_all(win, page))
+    page.save_all_button.clicked.connect(lambda: guarded(win, _save_all, win, page))
     box.insertWidget(box.indexOf(page.export_button), page.save_all_button)
 
 
