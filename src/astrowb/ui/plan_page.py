@@ -272,6 +272,7 @@ class PlanPage(Undoable, QWidget):
         right.setSizes([700, 120, 100])
         right.setStretchFactor(0, 1)  # the chart takes what the window gives; the tables keep their share
         self.blocks = []
+        self._asked = self._planned = []
         split.addWidget(right)
         split.setSizes([430, 800])
         QVBoxLayout(self).addWidget(split)
@@ -381,7 +382,7 @@ class PlanPage(Undoable, QWidget):
         profiles.update(self.settings, "site", **self.site())
         self.settings.set("plan.utc_offset", self.utc_offset.value())
         self.status.setText(self.tr("Computing…"))
-        self._planned = targets
+        self._asked = targets  # becomes _planned when its night is shown: a schedule needs the result's targets
         site = self.site() | ({"horizon": self.horizon} if self.horizon else {})  # PLN-1: trees and roofs
         self.plan_requested.emit(
             site, self.date.date().toString("yyyy-MM-dd"), targets, {"min_alt": self.min_alt.value()}
@@ -623,6 +624,7 @@ class PlanPage(Undoable, QWidget):
         from astropy.time import Time
 
         self.result = n
+        self._planned, self._asked = self._asked or self._planned, []  # used once: a later failed plan keeps this night
         self.schedule_button.setEnabled(True)
         self.more_button.setEnabled(True)
         self.guide.set_state(2, "done")

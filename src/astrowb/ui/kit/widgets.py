@@ -185,6 +185,10 @@ def _canvas_class():
 class PlotCanvas(QWidget):
     """A matplotlib figure in the window (the same library makes the publication-quality exports)."""
 
+    def _edit_axes(self, toolbar):
+        if not any(ax.name == "polar" for ax in self.figure.axes):
+            toolbar.edit_parameters()
+
     def __init__(self, parent=None, figure=None):
         super().__init__(parent)
         from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
@@ -210,6 +214,10 @@ class PlotCanvas(QWidget):
             if name in own:
                 act.setText(own[name][0])
                 act.setToolTip(own[name][1])
+        edit = getattr(toolbar, "_actions", {}).get("edit_parameters")
+        if edit is not None:  # matplotlib's own dialog raises on a polar plot (the sky chart) when it applies a scale
+            edit.triggered.disconnect()
+            edit.triggered.connect(lambda: self._edit_axes(toolbar))
         publication = toolbar.addAction(self.tr("Publication figure…"), self.export_publication)
         data = toolbar.addAction(self.tr("Export data (CSV)…"), self.export_data)
         data.setToolTip(self.tr("The numbers of every plotted series (axis, series, x, y) in a CSV file"))

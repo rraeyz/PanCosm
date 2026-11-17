@@ -518,6 +518,10 @@ def test_plan_page_resolve_and_plan(window, qtbot):
     page.table.item(0, 4).setText("x")
     page._plan()
     assert page.status.text().startswith("Row 1")
+    page.table.item(0, 4).setText("2.1500082")
+    page.table.item(0, 0).setText("Other")
+    page._plan()  # asked again, the new night not back yet: the schedule is of the night shown, with its own targets
+    page.make_schedule()
 
 
 def test_echelle_tab_identifies_lines_with_order_numbers(window):

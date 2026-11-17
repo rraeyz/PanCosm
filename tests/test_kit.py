@@ -778,3 +778,21 @@ def test_handoff_runs_the_slot_in_the_window_thread_only_while_its_widget_lives(
     qtbot.waitUntil(lambda: bool(got))
     QApplication.processEvents()
     assert got == [(1, True)]
+
+
+def test_axes_button_of_a_polar_plot_does_nothing(qtbot, monkeypatch):
+    """matplotlib's axes dialog raised on OK for a polar plot (the Plan window's sky chart): it is not opened there."""
+    from matplotlib.backends.qt_editor import figureoptions
+
+    from astrowb.ui.kit.widgets import PlotCanvas
+
+    def opened(*a, **k):
+        raise AssertionError("the axes dialog was opened")
+
+    monkeypatch.setattr(figureoptions, "figure_edit", opened)
+    plot = PlotCanvas()
+    qtbot.addWidget(plot)
+    plot.figure.add_subplot(projection="polar")
+    toolbar = plot.findChild(type(plot.canvas.toolbar)) if plot.canvas.toolbar else None
+    toolbar = toolbar or next(w for w in plot.children() if hasattr(w, "_actions"))
+    toolbar._actions["edit_parameters"].trigger()

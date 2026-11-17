@@ -206,6 +206,8 @@ def start_area(win):
                                   "and Ctrl+/ lists every key.")),
     ]  # fmt: skip
     steps = [(lambda w=w: rect_of(w, win), text) for w, text in parts if w is not None and w.isVisible()]
+    if not steps:  # a window not on screen has nothing to point at
+        return None
     win.tour = TourOverlay(win, steps)
     win.tour.start()
     return win.tour

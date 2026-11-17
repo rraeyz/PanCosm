@@ -81,3 +81,12 @@ def test_every_guided_step_is_followed_by_show_me(harness, lang):
             target = bar.target()[0]
             assert bar.mark.geometry().contains(bar.widget().mapTo(target, bar.widget().rect().center())), i
             bar.next()
+
+
+def test_area_tour_of_a_window_not_on_screen_does_nothing(harness):
+    """Menu Window → another area's window and its Tour, before it was ever shown: no stop to point at, no error."""
+    from astrowb.ui import tour as tours
+
+    win = harness("en").main.open_area("plan")
+    win.hide()
+    assert tours.start_area(win) is None
