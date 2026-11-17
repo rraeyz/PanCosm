@@ -174,6 +174,9 @@ def make_models_page(main):
 
 def make_photometry_page(main):
     page = PhotometryPage(main)
+    page.field_source = lambda: (  # PHO-31: the whole-field search result, when there is one
+        vf.result if (vf := getattr(main.__dict__.get("lightcurve_page"), "varfind_page", None)) else None
+    )
     page.measure_requested.connect(main.measure_light_curve)
     page.catalog_requested.connect(
         lambda inputs, params: main.run_step(

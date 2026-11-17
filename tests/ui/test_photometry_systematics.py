@@ -24,8 +24,8 @@ def _lc(n_stars, n=200, seed=3):
     }, trend, sine  # fmt: skip
 
 
-def _page(qtbot, n_stars):
-    lc, trend, sine = _lc(n_stars)
+def _page(qtbot, n_stars, n=200):
+    lc, trend, sine = _lc(n_stars, n)
     page = PhotometryPage()
     qtbot.addWidget(page)
     page.target, page.comps = (10.0, 10.0), [(20.0 + i, 20.0) for i in range(n_stars)]
@@ -61,3 +61,43 @@ def test_fewer_than_thirty_stars_no_control(qtbot):
     page, _, _ = _page(qtbot, 20)
     assert not page.field_box.isEnabled()
     assert "30" in page.field_note.text()
+
+
+def _whole(page, n_stars, seed=5):
+    """A whole-field result (PHO-30) of n_stars stars that share the trend of _lc, on the light curve's frames."""
+    _, trend, _ = _lc(2)
+    rng = np.random.default_rng(seed)
+    t = np.asarray(page.lc_raw["time"])
+    mag = rng.uniform(0.2, 1.8, n_stars)[None, :] * trend[:, None] + rng.normal(0, 0.001, (len(t), n_stars))
+    xy = np.column_stack([np.linspace(100, 900, n_stars), np.full(n_stars, 50.0)])
+    xy[0] = page.target  # the target itself is in the field: it must be left out
+    return {
+        "field": {"time": t.tolist(), "xy": xy.tolist(), "mag": mag.tolist()},
+        "variability": {"candidate": [False] * n_stars},
+    }
+
+
+def test_whole_field_is_the_field_when_it_exists(qtbot):
+    page, _, sine = _page(qtbot, 5)  # too few comparison stars alone
+    assert not page.field_box.isEnabled()
+    page.field_source = lambda: _whole(page, 50)
+    page._recompute()
+    assert page.field_box.isEnabled()
+    page.field_box.setChecked(True)
+    assert page.light_curve["field_trends"]["stars"] == 49  # the target is out
+    assert "whole-field" in page.field_note.text() and "49" in page.field_note.text()
+    page.field_source = lambda: None  # no whole-field result: back to the comparison stars
+    page._recompute()
+    assert not page.field_box.isEnabled()
+
+
+def test_tfa_keeps_the_sinusoid(qtbot):
+    page, _, sine = _page(qtbot, 40, 1000)  # TFA's fit of 40 templates takes ~k/n of a signal's power: n large
+    before = _rel(page)
+    page.field_method.setCurrentIndex(2)
+    page.field_box.setChecked(True)
+    assert page.field_cfg[0] == "tfa"
+    after = _rel(page)
+    d = sine - sine.mean()
+    amp = np.dot(after - after.mean(), d) / np.dot(d, d)
+    assert abs(amp - 1) < 0.1 and np.std(after - after.mean() - d) < 0.5 * np.std(before - before.mean() - d)
