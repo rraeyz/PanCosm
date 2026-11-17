@@ -263,10 +263,13 @@ def minimum_step(inputs, params, ctx):
     return {"minimum": out}
 
 
+PEAK_ROWS = 10  # the peak table of the Period search tab (ui/lightcurve_fold.py)
+
+
 @step(
     "timeseries.period",
     inputs=("time", "flux"),
-    outputs=("periods", "power", "best", "warnings", "peaks", "fap"),
+    outputs=("periods", "power", "best", "warnings", "peaks", "fap", "peak_faps"),
     optional=("err",),
     method="lomb-scargle",
     p_min=0.05,
@@ -299,12 +302,14 @@ def period_step(inputs, params, ctx):
     from ..timeseries import significance
 
     peaks = significance.peak_table(periods, power, t)  # PER-4: the aliases and harmonics of each peak
-    fap = None
+    fap, peak_faps = None, None
     if params["method"] in ("lomb-scargle", "gls") and len(power):  # Baluev's analytic bound for LS-type power
         fap = significance.fap_baluev(t, y, e, float(np.max(power)), 1 / p_max, 1 / params["p_min"])
+        # UI-16.4: unweighted standard-normalisation LS power of the listed peaks, like the Frequencies table
+        peak_faps = significance.peak_faps(t, y, periods, power, 1 / params["p_min"], PEAK_ROWS)
     return {"periods": np.asarray(periods).tolist(), "power": np.asarray(power).tolist(), "best": best,
             "warnings": period_warnings(np.ptp(t), params["p_min"], p_max, best, power), "peaks": peaks,
-            "fap": fap}  # fmt: skip
+            "fap": fap, "peak_faps": peak_faps}  # fmt: skip
 
 
 def period_warnings(span, p_min, p_max, best, power=()):

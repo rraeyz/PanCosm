@@ -42,6 +42,7 @@ from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
+from .photometry_banner import neighbour_banner
 from .photometry_method import add_method_boxes, method_params
 from .photometry_shape import add_shape_controls, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
@@ -2048,6 +2049,7 @@ class PhotometryPage(Undoable, QWidget):
         self.etd_button.setEnabled(True)
         self._fill_show_choices()
         self._recompute()
+        neighbour_banner(self)  # PHO-18
 
     def export_etd(self, path=None):
         """The light curve as the ETD / VarAstro upload reads it (photometry.reports.etd.etd_text)."""

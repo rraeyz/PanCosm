@@ -30,6 +30,7 @@ from PySide6.QtWidgets import (
 
 from . import image_figures
 from .image_header_table import header_frame
+from .image_measure_table import area_values, line_values, record, star_values
 from .kit.table import TableView
 from .messages import translate
 from .undo import Undoable
@@ -549,6 +550,7 @@ class ImagePage(Undoable, QWidget):
             (self.tr("Pixels in the aperture"), str(s["pixels"])),
         ]
         self._show_rows(rows)
+        record(self, "Star", star_values(s, self.wcs))
         prof = s["profile"]
         centres, binned = prof["bins"]
         labels = (self.tr("Radius (px)"), self.tr("Counts above background"))
@@ -584,6 +586,7 @@ class ImagePage(Undoable, QWidget):
             (self.tr("Maximum (at x, y)"), f"{a['max']:.3f} ({a['max_xy'][0] + 1}, {a['max_xy'][1] + 1})"),
         ]
         self._show_rows(rows)
+        record(self, "Area", area_values(a))
         self._area, self._area_box = (x0, y0, x1, y1), a
         self._redraw_area()
         return a
@@ -666,6 +669,7 @@ class ImagePage(Undoable, QWidget):
 
         rows += show_pair(self, data, x0, y0, x1, y1)  # both ends on stars: the pair measured (PHO-24)
         self._show_rows(rows)
+        record(self, "Line", line_values(p, x0, y0, x1, y1))
         labels = (self.tr("Distance along the line (px)"), self.tr("Counts"))
         self._canvas().set_figure(image_figures.profile_figure(p["distance"], vals, labels))
         self._graph_data = (labels, p["distance"], vals)

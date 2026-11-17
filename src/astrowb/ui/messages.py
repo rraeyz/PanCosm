@@ -434,6 +434,7 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the start is outside the prior or the model fails there"),
     # models/fit.py (UI-16.6)
     QT_TRANSLATE_NOOP("Messages", "{name} = {value} is outside its limits {lower} to {upper}"),
+    QT_TRANSLATE_NOOP("Messages", "{name} needs finite limits above zero for a log-uniform prior"),
     # models/fitting.py (MOD-12)
     QT_TRANSLATE_NOOP("Messages", "differential evolution needs finite limits on every free parameter"),
     QT_TRANSLATE_NOOP("Messages", "unknown optimiser: {optimiser}"),

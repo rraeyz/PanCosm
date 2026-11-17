@@ -27,7 +27,7 @@ def _result():
 
 def test_peak_table_lists_local_maxima_highest_first():
     table = peak_table(_result())
-    assert table.colnames == ["period", "power"]  # no FAP or S/N in the search result
+    assert table.colnames == ["period", "power", "fap"]  # FAP is "—" without the step peak_faps
     assert abs(table["period"][0] - 0.7) < 0.03 and abs(table["period"][1] - 1.4) < 0.06
     assert table["power"][0] >= table["power"][1]
     assert len(peak_table({"periods": [], "power": []})) == 0

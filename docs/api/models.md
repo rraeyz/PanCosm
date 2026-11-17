@@ -26,6 +26,7 @@ parameters (default):
   export_format = "phoebe"  (choice, one of phoebe, wd, transit)  Export for: PHOEBE, Wilson–Devinney or a transit-fitting program
   exposure = 0.0  (float, s, >= 0.0, <= 7200.0)  Exposure time: The model is averaged over each exposure; 0: short exposures
   bounds = null  (object)  Limits: Lower and upper limit per parameter; empty: the engine's own limits
+  priors = null  (object)  Priors: Prior per parameter for the MCMC: uniform or log-uniform; empty: uniform
 ```
 
 ## models.visual_orbit

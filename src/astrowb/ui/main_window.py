@@ -523,6 +523,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.run_requested.connect(self.calibrate)
         page.stack_requested.connect(self.stack_images)
         page.photometry_requested.connect(self.send_to_photometry)
+        page.images_requested.connect(self.send_to_images)
         return page
 
     def show_workspace(self, key):

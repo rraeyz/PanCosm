@@ -512,6 +512,9 @@
           "bounds": {
            "description": "Limits: Lower and upper limit per parameter; empty: the engine's own limits"
           },
+          "priors": {
+           "description": "Priors: Prior per parameter for the MCMC: uniform or log-uniform; empty: uniform"
+          },
           "ld1": {
            "description": "Limb darkening, star 1: Quadratic coefficients u1, u2"
           },

@@ -75,6 +75,22 @@ def frequency_faps(t, y, freqs, f_max):
     return [fap_baluev(t, y, None, float(p), 1 / np.ptp(t), f_max) for p in np.atleast_1d(power)]
 
 
+def period_maxima(periods, power, n):
+    """(periods, power) of the n highest local maxima of a periodogram, highest first."""
+    p, power = np.asarray(periods, float), np.asarray(power, float)
+    order = np.argsort(p)
+    p, power = p[order], power[order]
+    k = np.flatnonzero((power[1:-1] > power[:-2]) & (power[1:-1] >= power[2:])) + 1
+    k = k[np.argsort(power[k])[::-1][:n]]
+    return p[k], power[k]
+
+
+def peak_faps(t, y, periods, power, f_max, n):
+    """FAP of each of the n highest local maxima (the order of `period_maxima`), as floats; Lomb–Scargle only."""
+    peak_periods, _ = period_maxima(periods, power, n)
+    return frequency_faps(t, y, (1 / peak_periods).tolist(), f_max) if len(peak_periods) else []
+
+
 def fap_shuffled(t, y, search, best_power, n=100, seed=0):
     """The share of n light curves with their values shuffled among the times (the sampling kept, any period
     destroyed) whose highest power reaches best_power; search(t, y) → (periods, power, best). The smallest

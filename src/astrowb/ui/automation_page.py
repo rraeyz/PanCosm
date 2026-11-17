@@ -29,6 +29,7 @@ from PySide6.QtWidgets import (
 
 from ..engine import automation, steps
 from .automation_error import show_on_error
+from .automation_plan import confirm_plan
 from .automation_run import connect_chain, run_state, show_badges
 from .kit.focus import read_in_order
 from .kit.table_view import DataTable
@@ -213,6 +214,7 @@ class AutomationPage(QWidget):
         self.set_automation(auto)
         if "folder" in self.edits:
             self.edits["folder"].setText(folder)
+        self.unattended = True  # nobody is there to answer the run plan
         self._run()
 
     def _save_dialog(self):
@@ -406,6 +408,8 @@ class AutomationPage(QWidget):
             automation.check(auto, inputs)
         except (ValueError, steps.MissingInput) as e:
             self.status.setText(self.tr("Cannot run: {e}").format(e=translate(e)))
+            return
+        if not confirm_plan(self, auto, inputs):
             return
         self.result.clear()
         state.begin()

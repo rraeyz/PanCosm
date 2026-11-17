@@ -125,6 +125,7 @@ OUTPUTS = {
     "path": IO("object", QT_TRANSLATE_NOOP("Steps", "Path")),
     "peaks": IO("object", QT_TRANSLATE_NOOP("Steps", "Highest peaks and their aliases")),
     "fap": IO("number", QT_TRANSLATE_NOOP("Steps", "False-alarm probability")),
+    "peak_faps": IO("object", QT_TRANSLATE_NOOP("Steps", "False-alarm probability of each listed peak")),
     "periods": IO("object", QT_TRANSLATE_NOOP("Steps", "Periods")),
     "polarimetry": IO("object", QT_TRANSLATE_NOOP("Steps", "Polarisation")),
     "positions": IO("object", QT_TRANSLATE_NOOP("Steps", "Positions")),

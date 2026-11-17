@@ -689,6 +689,7 @@ def test_image_process_menu(window, qtbot, fits_file):
 
 
 def test_automation_page_template_sequence_build_save_run(window, qtbot, fits_file, tmp_path):
+    window.settings.set("dialog.automation_run_plan_skip", True)  # no modal plan in the test
     page = window.automation_page
     names = [page.list.item(i).text() for i in range(page.list.count())]
     page.list.setCurrentRow(next(i for i, n in enumerate(names) if n.startswith("Eclipsing binary night")))

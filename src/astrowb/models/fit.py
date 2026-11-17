@@ -50,6 +50,20 @@ def check_start(start, bounds):
     return B
 
 
+def log_uniform_names(priors, bounds):
+    """The parameters with a log-uniform prior ({name: "uniform" | "log-uniform"}); ValueError unless both of
+    their limits are finite and above zero (a log-uniform prior is proper only there)."""
+    B, out = limits(bounds), []
+    for n, kind in (priors or {}).items():
+        if kind == "log-uniform":
+            if not 0 < B[n][0] < B[n][1] < np.inf:
+                raise ValueError(f"{n} needs finite limits above zero for a log-uniform prior")
+            out.append(n)
+        elif kind != "uniform":
+            raise ValueError(f"unknown prior of {n}: {kind}")
+    return out
+
+
 def _orbit(ecosw, esinw):
     e = float(np.hypot(ecosw, esinw))
     return e, float(np.degrees(np.arctan2(esinw, ecosw))) if e > 0 else 90.0
@@ -210,10 +224,24 @@ def roche_check(r1, r2, q=None):
     return {"level": level, "fill": float(fill), "lobe1": float(lobe1), "lobe2": float(lobe2), "q": float(q)}
 
 
-def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=2000, ctx=None, seed=1, bounds=None):
+def mcmc(
+    t,
+    flux,
+    err,
+    result,
+    free=None,
+    ld1=(0.0, 0.0),
+    ld2=(0.0, 0.0),
+    steps=2000,
+    ctx=None,
+    seed=1,
+    bounds=None,
+    priors=None,
+):
     """Posterior of the free parameters around a least-squares result (the shared inference engine:
     differential-evolution chains that stop when converged, at most `steps` generations). Flat priors inside
-    BOUNDS. Without errors the noise is taken from the fit's rms. Returns {name: (median, minus, plus)} (16th /
+    BOUNDS, log-uniform for the names in priors. Without errors the noise is taken from the fit's rms. Returns
+    {name: (median, minus, plus)} (16th /
     84th percentiles), the samples (thinned), the acceptance fraction and whether the chains converged."""
     from ..core.inference import mcmc as engine
 
@@ -227,6 +255,7 @@ def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=
     x0 = np.array([base[n] - (tref if n == "t0" else 0.0) for n in free] + [result["scale"]])
     scale0 = np.array([max(result["errors"].get(n, 0.0), 1e-6) for n in free] + [1e-4 * result["scale"]])
     B = limits(bounds)
+    logu = log_uniform_names(priors, bounds)
     lo = np.array([B[n][0] for n in free] + [0.0])
     hi = np.array([B[n][1] for n in free] + [np.inf])
 
@@ -235,7 +264,7 @@ def mcmc(t, flux, err, result, free=None, ld1=(0.0, 0.0), ld2=(0.0, 0.0), steps=
         r = (x[-1] * model(t - tref, q, ld1, ld2) - flux) / sigma
         return -0.5 * float(r @ r)
 
-    post = engine.around(log_prob, x0, scale0, [*free, "scale"], lo, hi, steps, seed, ctx, (0.2, 1.0))
+    post = engine.around(log_prob, x0, scale0, [*free, "scale"], lo, hi, steps, seed, ctx, (0.2, 1.0), logu)
     chain = post.samples.copy()
     chain[:, [i for i, n in enumerate(free) if n == "t0"]] += tref
     rng = np.random.default_rng(seed)

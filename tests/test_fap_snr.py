@@ -44,7 +44,7 @@ def test_table_has_fap_and_marks_a_low_snr(qtbot):
            "window": [1, 0]}  # fmt: skip
     page.show_result(out)
     model = page.table.model
-    assert model.table.colnames[-1] == "FAP" and model.table["FAP"][1] == 0.4
+    assert model.table.colnames[-2] == "FAP" and model.table["FAP"][1] == 0.4
     snr = model.table.colnames.index("S/N")
     assert model.data(model.index(0, snr), Qt.BackgroundRole) is None
     assert "Breger" in model.data(model.index(1, snr), Qt.ToolTipRole)

@@ -19,12 +19,13 @@ import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QPointF, Qt
+from PySide6.QtCore import QPoint, QPointF, Qt, QTimer
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import (
     QAbstractButton,
     QApplication,
     QCheckBox,
+    QDialogButtonBox,
     QFileDialog,
     QLabel,
     QLineEdit,
@@ -164,6 +165,17 @@ class Harness:
         # a check box or radio button takes the click on its box and text, not in the empty width beyond them
         pos = QPoint(8, w.height() // 2) if isinstance(w, QCheckBox | QRadioButton) else QPoint()
         self._act(f"click {name}", lambda: QTest.mouseClick(w, Qt.LeftButton, pos=pos), budget)
+
+    def ok_next_dialog(self):
+        """Press OK on the next modal dialog, as the user would (it blocks the click that opens it)."""
+
+        def press():
+            box = (w := QApplication.activeModalWidget()) and w.findChild(QDialogButtonBox)
+            if box is None:
+                return QTimer.singleShot(50, press)
+            box.button(QDialogButtonBox.Ok).click()
+
+        QTimer.singleShot(50, press)
 
     def type(self, name, text, budget=BUDGET_S):
         """Type text, or a number written as the field's language writes it (4,6 in Turkish), and press Enter."""

@@ -103,15 +103,17 @@ def draw(page):
 
 def install(page):
     """Put the Layers list in the page's column under the stages and keep it in step with the Show box."""
+    from . import rs_map_layers as map_layers
     from .stage_boxes import _index
 
     lay = page.readout.parentWidget().layout()
     page.layers = LayersList(page)
     lay.insertWidget(_index(lay, page.readout), page.layers)
-    shown = page._show
+    shown, maps = page._show, map_layers.install(page, page.layers)
 
     def show(name):
         shown(name)
+        maps.refresh()
         page.layers.sync([page.show_combo.itemText(i) for i in range(page.show_combo.count())])
         page.layers.set_only(name)
 
