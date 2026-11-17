@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QGridLayout, QLayout, QVBoxLayout, QWidget
 
 from ..models.fit import NAMES
 from .kit.table_view import DataTable
+from .models_history import add_history_tabs
 from .stage_boxes import _current_tab_only, _index, one_per_row, stages_from_boxes
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("ModelsWindow", "…") calls
@@ -82,3 +83,4 @@ def models_stages(win, page):
                         parameter_rows(page, rows))  # fmt: skip
 
     page.show_fit = show_fit
+    add_history_tabs(win, page)
