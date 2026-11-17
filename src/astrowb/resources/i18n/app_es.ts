@@ -20175,37 +20175,37 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="115"/>
+        <location filename="../../engine/io.py" line="116"/>
         <source>Labelled objects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="116"/>
+        <location filename="../../engine/io.py" line="117"/>
         <source>Master frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="117"/>
+        <location filename="../../engine/io.py" line="118"/>
         <source>Times of maximum</source>
         <translation>Tiempos de máximo</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="119"/>
+        <location filename="../../engine/io.py" line="120"/>
         <source>Missing calibration frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="120"/>
+        <location filename="../../engine/io.py" line="121"/>
         <source>Model fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="121"/>
+        <location filename="../../engine/io.py" line="122"/>
         <source>The night&apos;s plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="122"/>
+        <location filename="../../engine/io.py" line="123"/>
         <location filename="../../engine/titles.py" line="19"/>
         <source>Minor planets in the field</source>
         <translation>Planetas menores en el campo</translation>
@@ -20257,168 +20257,173 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/titles.py" line="29"/>
+        <source>Isophotes (surface brightness profile)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/titles.py" line="30"/>
         <source>Polarimetry</source>
         <translation>Polarimetría</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="30"/>
+        <location filename="../../engine/titles.py" line="31"/>
         <source>Find the bad frames</source>
         <translation>Encontrar las tomas malas</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="31"/>
+        <location filename="../../engine/titles.py" line="32"/>
         <source>Suggest comparison stars</source>
         <translation>Sugerir estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="151"/>
-        <location filename="../../engine/titles.py" line="35"/>
+        <location filename="../../engine/io.py" line="152"/>
+        <location filename="../../engine/titles.py" line="36"/>
         <source>Transformation coefficients</source>
         <translation>Coeficientes de transformación</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="33"/>
+        <location filename="../../engine/titles.py" line="34"/>
         <source>Save the light-curve file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="34"/>
+        <location filename="../../engine/titles.py" line="35"/>
         <source>Fit the transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="36"/>
+        <location filename="../../engine/titles.py" line="37"/>
         <source>Search for variable stars</source>
         <translation>Buscar estrellas variables</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="37"/>
+        <location filename="../../engine/titles.py" line="38"/>
         <source>Look up the ephemeris</source>
         <translation>Buscar las efemérides</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="38"/>
+        <location filename="../../engine/titles.py" line="39"/>
         <source>Plan the night</source>
         <translation>Planificar la noche</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="39"/>
+        <location filename="../../engine/titles.py" line="40"/>
         <source>Find the target</source>
         <translation>Encontrar el objeto</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="40"/>
+        <location filename="../../engine/titles.py" line="41"/>
         <source>Classify (k-means)</source>
         <translation>Clasificar (k-medias)</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="41"/>
+        <location filename="../../engine/titles.py" line="42"/>
         <source>Compute a band formula</source>
         <translation>Calcular una fórmula de bandas</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="42"/>
+        <location filename="../../engine/titles.py" line="43"/>
         <source>Principal components</source>
         <translation>Componentes principales</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="43"/>
+        <location filename="../../engine/titles.py" line="44"/>
         <source>Make practice data</source>
         <translation>Crear datos de práctica</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="44"/>
+        <location filename="../../engine/titles.py" line="45"/>
         <source>Stellar parameters (Teff, log g, [Fe/H])</source>
         <translation>Parámetros estelares (Teff, log g, [Fe/H])</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="45"/>
+        <location filename="../../engine/titles.py" line="46"/>
         <source>Combine the exposures</source>
         <translation>Combinar las exposiciones</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="46"/>
+        <location filename="../../engine/titles.py" line="47"/>
         <source>Spectral type</source>
         <translation>Tipo espectral</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="47"/>
+        <location filename="../../engine/titles.py" line="48"/>
         <source>Disentangle the spectra</source>
         <translation>Separar los espectros</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="48"/>
+        <location filename="../../engine/titles.py" line="49"/>
         <source>Reduce the echelle spectrum</source>
         <translation>Reducir el espectro echelle</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="49"/>
+        <location filename="../../engine/titles.py" line="50"/>
         <source>Fit the spectroscopic orbit</source>
         <translation>Ajustar la órbita espectroscópica</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="50"/>
+        <location filename="../../engine/titles.py" line="51"/>
         <source>Find the echelle orders</source>
         <translation>Encontrar los órdenes echelle</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="51"/>
+        <location filename="../../engine/titles.py" line="52"/>
         <source>Reduce the long-slit spectrum</source>
         <translation>Reducir el espectro de rendija larga</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="52"/>
+        <location filename="../../engine/titles.py" line="53"/>
         <source>Measure radial velocities</source>
         <translation>Medir velocidades radiales</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="53"/>
+        <location filename="../../engine/titles.py" line="54"/>
         <source>Telluric correction</source>
         <translation>Corrección telúrica</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="54"/>
+        <location filename="../../engine/titles.py" line="55"/>
         <source>Drizzle the frames</source>
         <translation>Combinar las tomas con drizzle</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="55"/>
+        <location filename="../../engine/titles.py" line="56"/>
         <source>Stack the frames</source>
         <translation>Apilar las tomas</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="56"/>
+        <location filename="../../engine/titles.py" line="57"/>
         <source>Frequency analysis</source>
         <translation>Análisis de frecuencias</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="118"/>
-        <location filename="../../engine/titles.py" line="57"/>
+        <location filename="../../engine/io.py" line="119"/>
+        <location filename="../../engine/titles.py" line="58"/>
         <source>Time of minimum</source>
         <translation>Instante del mínimo</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="58"/>
+        <location filename="../../engine/titles.py" line="59"/>
         <source>Download a mission light curve</source>
         <translation>Descargar una curva de luz de una misión</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="59"/>
+        <location filename="../../engine/titles.py" line="60"/>
         <source>Fit the O−C diagram</source>
         <translation>Ajustar el diagrama O−C</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="60"/>
+        <location filename="../../engine/titles.py" line="61"/>
         <source>Occultation timing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="61"/>
+        <location filename="../../engine/titles.py" line="62"/>
         <source>Period search</source>
         <translation>Búsqueda de períodos</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="62"/>
+        <location filename="../../engine/titles.py" line="63"/>
         <source>Download a survey light curve</source>
         <translation>Descargar una curva de luz de un sondeo</translation>
     </message>
@@ -21137,7 +21142,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/io.py" line="69"/>
-        <location filename="../../engine/io.py" line="142"/>
+        <location filename="../../engine/io.py" line="143"/>
         <source>Radial velocities</source>
         <translation type="unfinished">Velocidades radiales</translation>
     </message>
@@ -21253,7 +21258,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/io.py" line="98"/>
-        <location filename="../../engine/titles.py" line="32"/>
+        <location filename="../../engine/titles.py" line="33"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21273,167 +21278,173 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Estrellas de catálogo</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="123"/>
-        <source>Occultation fit</source>
+        <location filename="../../engine/io.py" line="115"/>
+        <source>Isophote profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="124"/>
-        <source>Échelle orders</source>
+        <source>Occultation fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="125"/>
-        <source>Passed</source>
+        <source>Échelle orders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="126"/>
-        <source>Path</source>
+        <source>Passed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="127"/>
-        <source>Highest peaks and their aliases</source>
+        <source>Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="128"/>
-        <source>False-alarm probability</source>
+        <source>Highest peaks and their aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="129"/>
-        <source>False-alarm probability of each listed peak</source>
+        <source>False-alarm probability</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="130"/>
-        <source>Periods</source>
+        <source>False-alarm probability of each listed peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="131"/>
-        <source>Polarisation</source>
+        <source>Periods</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="132"/>
-        <source>Positions</source>
+        <source>Polarisation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="133"/>
-        <source>Periodogram</source>
+        <source>Positions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="134"/>
-        <source>Problems found</source>
+        <source>Periodogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="135"/>
-        <source>Product image</source>
+        <source>Problems found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="136"/>
-        <source>Frame quality</source>
+        <source>Product image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="137"/>
-        <source>Camera raw files converted to FITS</source>
+        <source>Frame quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="138"/>
-        <source>Report</source>
+        <source>Camera raw files converted to FITS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="139"/>
-        <source>Residual frequency spectrum</source>
+        <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="140"/>
+        <source>Residual frequency spectrum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/io.py" line="141"/>
         <source>Colour image</source>
         <translation>Imagen en color</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="141"/>
+        <location filename="../../engine/io.py" line="142"/>
         <source>Scatter of the residuals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="143"/>
+        <location filename="../../engine/io.py" line="144"/>
         <source>Spectra left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="144"/>
+        <location filename="../../engine/io.py" line="145"/>
         <source>Plate-solved image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="145"/>
+        <location filename="../../engine/io.py" line="146"/>
         <source>Stacked image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="146"/>
+        <location filename="../../engine/io.py" line="147"/>
         <source>Light-curve file (.lc.ecsv)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="148"/>
+        <location filename="../../engine/io.py" line="149"/>
         <source>Status</source>
         <translation>Estado</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="149"/>
+        <location filename="../../engine/io.py" line="150"/>
         <source>Reference time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="150"/>
+        <location filename="../../engine/io.py" line="151"/>
         <source>Telluric-corrected spectrum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="152"/>
+        <location filename="../../engine/io.py" line="153"/>
         <source>True values of the practice data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="153"/>
+        <location filename="../../engine/io.py" line="154"/>
         <source>Frames without a solution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="154"/>
+        <location filename="../../engine/io.py" line="155"/>
         <source>Variability of the stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="155"/>
+        <location filename="../../engine/io.py" line="156"/>
         <source>Warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="156"/>
+        <location filename="../../engine/io.py" line="157"/>
         <source>Spectral window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="157"/>
+        <location filename="../../engine/io.py" line="158"/>
         <source>Files written</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="158"/>
+        <location filename="../../engine/io.py" line="159"/>
+        <location filename="../../photometry/isophote_step.py" line="44"/>
         <source>Zero point</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22381,7 +22392,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="147"/>
+        <location filename="../../engine/io.py" line="148"/>
         <location filename="../../spectroscopy/step_params.py" line="161"/>
         <source>Stars</source>
         <translation>Estrellas</translation>
@@ -22644,6 +22655,51 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../spectroscopy/step_params.py" line="419"/>
         <source>Orders extracted elsewhere, for the wavelengths only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="19"/>
+        <source>First semi-major axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="20"/>
+        <source>The ellipse the fit starts from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="28"/>
+        <source>First ellipticity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="29"/>
+        <source>1 − b/a of the first ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="36"/>
+        <source>First position angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="37"/>
+        <source>From the +x axis, counter-clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="45"/>
+        <source>With the pixel scale: the surface brightness in mag/arcsec²</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="53"/>
+        <source>Pixel scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/isophote_step.py" line="54"/>
+        <source>With the zero point: the surface brightness in mag/arcsec²</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

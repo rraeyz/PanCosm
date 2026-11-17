@@ -689,6 +689,64 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.isophotes"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "sma0": {
+           "description": "First semi-major axis (px): The ellipse the fit starts from",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 1.0
+          },
+          "eps": {
+           "description": "First ellipticity: 1 − b/a of the first ellipse",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 0.95
+          },
+          "pa_deg": {
+           "description": "First position angle (°): From the +x axis, counter-clockwise",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "zero_point": {
+           "description": "Zero point (mag): With the pixel scale: the surface brightness in mag/arcsec²",
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "pixel_scale": {
+           "description": "Pixel scale (″/px): With the zero point: the surface brightness in mag/arcsec²",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.light_curve"
         }
        }
@@ -2668,6 +2726,7 @@
        "photometry.apertures",
        "photometry.catalog",
        "photometry.identify_field",
+       "photometry.isophotes",
        "photometry.light_curve",
        "photometry.multifilter",
        "photometry.neb_check",

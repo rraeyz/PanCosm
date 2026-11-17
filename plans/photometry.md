@@ -966,7 +966,7 @@ dict in the unit of the times; bootstrap draws as a setting, seed 0 so a rerun g
 - **Files:** `io/video.py`, `photometry/occultation.py`, `photometry/reports/iota.py`, `tests/test_occultation.py`
 
 ### PHO-39. Extended objects: comets and surface photometry  (P3)
-**partial** (2026-11-21: engine only. `photometry/comet.py` `afrho`, `afrho_mag`, `aperture_px`, `comet_flux`; `compute/isophote.py` `fit_isophotes`, `surface_brightness` (no `images/` package exists, so it lives in `compute/`); test `tests/test_extended.py`. Left: the Images → Analyse UI tool, comet mode in moving-object photometry, engine steps/registry, sky brightness of a frame in the UI.)
+**partial** (2026-11-21: engine only. `photometry/comet.py` `afrho`, `afrho_mag`, `aperture_px`, `comet_flux`; `compute/isophote.py` `fit_isophotes`, `surface_brightness` (no `images/` package exists, so it lives in `compute/`); test `tests/test_extended.py`. (2026-11-22) The step `photometry.isophotes` (image, target_xy → the profile lists, plus surface brightness with a zero point and a pixel scale; `photometry/isophote_step.py`; `test_isophotes_step_through_the_engine`). Left: the Images → Analyse UI tool, comet mode in moving-object photometry, an Afρ step, sky brightness of a frame in the UI.)
 - **Reference:** A'Hearn et al. 1984 (Afρ); photutils `isophote` (ellipse fitting after Jedrzejewski 1987; IRAF
   `stsdas.ellipse`); surface brightness in mag arcsec⁻².
 - **Build:** comet mode in moving-object photometry: apertures of fixed physical radius (km at the comet, from Δ),

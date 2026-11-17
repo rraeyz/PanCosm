@@ -47,3 +47,29 @@ def test_sersic_profile_recovered():
     assert np.abs(resid[ring] / img[ring]).max() < 0.05
     assert isinstance(profile["sma"][0], float)
     assert surface_brightness(100.0, 25.0, 0.5) == pytest.approx(25.0 - 2.5 * np.log10(400.0))
+
+
+def test_isophotes_step_through_the_engine(tmp_path):
+    import json
+
+    from astropy.io import fits
+
+    from astrowb.engine.steps import execute
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    n = 151
+    yy, xx = np.mgrid[:n, :n]
+    img = models.Sersic2D(1000.0, 12.0, 2.0, 75, 75, 0.3, np.radians(20.0))(xx, yy)
+    path = tmp_path / "galaxy.fits"
+    fits.writeto(path, img.astype("float32"))
+    params = {"sma0": 10.0, "eps": 0.2, "pa_deg": 10.0, "zero_point": 25.0, "pixel_scale": 0.5}
+    out = execute("photometry.isophotes", {"image": str(path), "target_xy": [75, 75]}, params, Ctx())
+    prof = out["isophotes"]
+    sel = (np.array(prof["sma"]) > 8) & (np.array(prof["sma"]) < 35)
+    assert np.median(np.array(prof["ellipticity"])[sel]) == pytest.approx(0.3, rel=0.05)
+    i, sb = prof["intensity"][5], prof["surface_brightness"][5]
+    assert sb == pytest.approx(25.0 - 2.5 * np.log10(i / 0.25))
+    json.dumps(out)  # the project log stores step outputs as JSON

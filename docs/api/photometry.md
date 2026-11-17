@@ -56,6 +56,27 @@ parameters (default):
   fresh = false  (bool)  Ask the catalogues again: Not the answers saved from an earlier look-up
 ```
 
+## photometry.isophotes
+
+```text
+photometry.isophotes  (Isophotes (surface brightness profile))
+
+Ellipses fitted round the object (photutils isophote): semi-major axis, intensity and its error, ellipticity,
+position angle; with a zero point and a pixel scale (arcsec) also the surface brightness in mag arcsec⁻².
+
+inputs:      image, target_xy
+outputs:     isophotes
+  image  (file)  Image
+  target_xy  (xy)  Target position in the first frame (x y)
+  isophotes  (object)  Isophote profile
+parameters (default):
+  sma0 = 10.0  (float, px, >= 1.0)  First semi-major axis: The ellipse the fit starts from
+  eps = 0.2  (float, >= 0.0, <= 0.95)  First ellipticity: 1 − b/a of the first ellipse
+  pa_deg = 0.0  (float, °)  First position angle: From the +x axis, counter-clockwise
+  zero_point = null  (float, mag)  Zero point: With the pixel scale: the surface brightness in mag/arcsec²
+  pixel_scale = null  (float, ″/px, >= 0.0)  Pixel scale: With the zero point: the surface brightness in mag/arcsec²
+```
+
 ## photometry.light_curve
 
 ```text
