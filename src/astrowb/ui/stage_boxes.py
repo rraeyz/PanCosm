@@ -186,6 +186,8 @@ def calibration_stages(win, page):
     stages_from_boxes(win, page, titles, anchors, {0: "frames", 1: "check", 2: "calibrate", 3: "continue"})
     win.add_result_tab("problems", translate("CalibrationWindow", "Problems"), page.problems_view)
     win.add_result_tab("plan", translate("CalibrationWindow", "Plan"), page.plan_table)
+    win.add_result_tab("report", translate("CalibrationWindow", "Report"), page.report_view)
+    win.add_result_tab("log", translate("CalibrationWindow", "Log"), page.log_view)
     refresh_frames(page)  # fill the new stages from what is already scanned
 
 

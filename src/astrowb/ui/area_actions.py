@@ -226,9 +226,22 @@ class AreaActions:
                 groups = by_filter(out["calibrated"])  # one filter only; a colour camera's green (TG) first
                 self.photometry_page.set_images(groups.get("TG") or max(groups.values(), key=len))
 
-        return self.run_step(
+        from . import calibration_report
+
+        task = self.run_step(
             "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
         )
+        page = self.calibrate_page
+        calibration_report.start_log(page, task)
+
+        def logged(t):  # on the GUI thread, like every taskUpdated
+            if t is task:
+                calibration_report.log_update(page, t)
+                if t.finished:
+                    self.taskUpdated.disconnect(logged)
+
+        self.taskUpdated.connect(logged)
+        return task
 
     def run_automation(self, auto, inputs):
         """Run an automation task by task: each step starts when the previous one has finished."""

@@ -94,6 +94,8 @@ def make(page):
     page.left_out_text = _label()
     boxes["review"] = _box(page.review_status, page.review_table, page.before_after, page.left_out_text)
     page.plan_table = DataTable()
+    for w in (page.plan_table.filter, page.plan_table.table):  # behind the front result tab too
+        w.setFocusPolicy(Qt.NoFocus)
     page.problems_view = QPlainTextEdit()  # the Problems tab: the frames list's note box, mirrored
     page.problems_view.setReadOnly(True)
     # a tab behind the Plan has a stale geometry the Tab-order check reads as "goes back up"; the same text is in the
@@ -101,6 +103,9 @@ def make(page):
     page.problems_view.setFocusPolicy(Qt.NoFocus)
     page.warnings.textChanged.connect(lambda: page.problems_view.setPlainText(page.warnings.toPlainText()))
     page.problems_view.setPlainText(page.warnings.toPlainText())
+    from . import calibration_report
+
+    calibration_report.make(page)
     page.changed.connect(lambda: refresh_frames(page))
     page.result_shown.connect(lambda out: refresh_review(page, out))
     return boxes
