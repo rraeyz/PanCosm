@@ -534,7 +534,8 @@ TEMPLATES = (
         "no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window's Header tab",
     ),
     QT_TRANSLATE_NOOP("Messages", "not an angle: {value}"),
-    # updates.py
+    # updates.py, services/aavso_vsp.py, services/forecast.py
+    QT_TRANSLATE_NOOP("Messages", "the service sent an answer in an unexpected form"),
     QT_TRANSLATE_NOOP("Messages", "no GitHub repository configured for update checks"),
     # progress shown in the task list (ctx.progress in the steps)
     QT_TRANSLATE_NOOP("Messages", "solving"),

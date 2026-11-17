@@ -24,6 +24,8 @@ def _sexagesimal(text, hours):
 
 def parse(answer):
     """VSP's JSON (dict) -> {"chart", "stars": [{"auid", "label", "ra", "dec", "bands": {band: (mag, err)}}]}."""
+    if not isinstance(answer, dict):
+        raise ValueError("the service sent an answer in an unexpected form")
     stars = []
     for p in answer.get("photometry") or []:
         bands = {b["band"]: (float(b["mag"]), float(b["error"] or 0.0)) for b in p.get("bands") or [] if b.get("mag")}

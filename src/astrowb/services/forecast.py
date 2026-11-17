@@ -26,6 +26,8 @@ def parse(answer):
     """Open-Meteo's JSON (dict, UTC times) -> plain lists, times as JD UTC."""
     from astropy.time import Time
 
+    if not isinstance(answer, dict):
+        raise ValueError("the service sent an answer in an unexpected form")
     hourly = answer.get("hourly") or {}
     times = hourly.get("time") or []
     if not times:

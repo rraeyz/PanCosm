@@ -27,7 +27,9 @@ def latest_release(timeout=10):
     )
     with urllib.request.urlopen(req, timeout=timeout) as r:
         data = json.loads(r.read())
-    return {"version": data["tag_name"].lstrip("v"), "url": data["html_url"], "notes": data.get("body") or ""}
+    if not isinstance(data, dict):
+        raise ValueError("the service sent an answer in an unexpected form")
+    return {"version": str(data["tag_name"]).lstrip("v"), "url": data["html_url"], "notes": data.get("body") or ""}
 
 
 def check(fetch=latest_release, current=__version__):
