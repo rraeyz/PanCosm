@@ -4984,53 +4984,74 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="34"/>
+        <location filename="../../ui/image_inspector.py" line="36"/>
         <source>No overlays on this image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="48"/>
+        <location filename="../../ui/image_inspector.py" line="50"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="49"/>
+        <location filename="../../ui/image_inspector.py" line="51"/>
         <source>Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="50"/>
+        <location filename="../../ui/image_inspector.py" line="52"/>
         <source>History</source>
         <translation type="unfinished">Historial</translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="72"/>
+        <location filename="../../ui/image_inspector.py" line="74"/>
         <source>Filter by name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="73"/>
+        <location filename="../../ui/image_inspector.py" line="75"/>
         <source>Shows only the open images whose name contains this text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="93"/>
+        <location filename="../../ui/image_inspector.py" line="96"/>
         <source>No images yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="94"/>
+        <location filename="../../ui/image_inspector.py" line="97"/>
         <source>Open FITS files to look at them, measure stars and read their headers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="95"/>
+        <location filename="../../ui/image_inspector.py" line="98"/>
         <source>Open images…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_inspector.py" line="96"/>
+        <location filename="../../ui/image_inspector.py" line="99"/>
         <source>Open the practice night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_follow.py" line="67"/>
+        <source>Thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_follow.py" line="69"/>
+        <source>Show the open images as thumbnails or as a list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_follow.py" line="71"/>
+        <location filename="../../ui/image_follow.py" line="79"/>
+        <source>Follow a folder…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_follow.py" line="73"/>
+        <source>New FITS files that appear in a folder are added to the open images</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5315,13 +5336,13 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar &amp;imagen (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="576"/>
+        <location filename="../../ui/area_windows.py" line="577"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Convertir muchas imágenes (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="572"/>
+        <location filename="../../ui/area_windows.py" line="573"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>&amp;Cerrar imagen</translation>
@@ -5552,7 +5573,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="574"/>
+        <location filename="../../ui/area_windows.py" line="575"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>Cerrar &amp;todas las imágenes</translation>
@@ -5741,7 +5762,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="665"/>
+        <location filename="../../ui/area_windows.py" line="666"/>
         <source>&amp;Measure</source>
         <translation>&amp;Medir</translation>
     </message>
@@ -5762,69 +5783,69 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="112"/>
-        <location filename="../../ui/area_windows.py" line="637"/>
+        <location filename="../../ui/area_windows.py" line="638"/>
         <source>F&amp;rames</source>
         <translation>T&amp;omas</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="651"/>
+        <location filename="../../ui/area_windows.py" line="652"/>
         <source>&amp;Stars</source>
         <translation>E&amp;strellas</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="455"/>
-        <location filename="../../ui/area_windows.py" line="546"/>
-        <location filename="../../ui/area_windows.py" line="678"/>
+        <location filename="../../ui/area_windows.py" line="547"/>
+        <location filename="../../ui/area_windows.py" line="679"/>
         <source>&amp;Analyse</source>
         <translation>A&amp;nalizar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="524"/>
+        <location filename="../../ui/area_windows.py" line="525"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>Separar en canales de color (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="526"/>
+        <location filename="../../ui/area_windows.py" line="527"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>La imagen en bruto de una cámara de color como tres imágenes de la mitad de tamaño, una por color (sin interpolación)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="532"/>
+        <location filename="../../ui/area_windows.py" line="533"/>
         <source>Stack the open images…</source>
         <translation>Apilar las imágenes abiertas…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="534"/>
+        <location filename="../../ui/area_windows.py" line="535"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Las imágenes abiertas alineadas en sus estrellas y promediadas rechazando los valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="537"/>
+        <location filename="../../ui/area_windows.py" line="538"/>
         <source>Drizzle the open images…</source>
         <translation>Combinar las imágenes abiertas con drizzle…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="539"/>
+        <location filename="../../ui/area_windows.py" line="540"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Imágenes desplazadas sobre una rejilla el doble de fina (más nítida para estrellas submuestreadas)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="550"/>
+        <location filename="../../ui/area_windows.py" line="551"/>
         <source>A&amp;strometry</source>
         <translation>Astro&amp;metría</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="551"/>
+        <location filename="../../ui/area_windows.py" line="552"/>
         <source>&amp;Colour</source>
         <translation>&amp;Color</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="552"/>
+        <location filename="../../ui/area_windows.py" line="553"/>
         <source>S&amp;tack</source>
         <translation>A&amp;pilar</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="562"/>
+        <location filename="../../ui/area_windows.py" line="563"/>
         <source>Copy the header</source>
         <translation>Copiar la cabecera</translation>
     </message>
@@ -6258,7 +6279,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Guardar el espectro como…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="485"/>
+        <location filename="../../ui/area_windows.py" line="486"/>
         <source>&amp;Job</source>
         <translation>Tra&amp;bajo</translation>
     </message>
@@ -10587,37 +10608,37 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="88"/>
+        <location filename="../../ui/observe_chips.py" line="89"/>
         <source>Last answer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="97"/>
+        <location filename="../../ui/observe_chips.py" line="99"/>
         <source>Kind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="98"/>
+        <location filename="../../ui/observe_chips.py" line="100"/>
         <source>Filter</source>
         <translation type="unfinished">Filtro</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="99"/>
+        <location filename="../../ui/observe_chips.py" line="101"/>
         <source>Exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="100"/>
+        <location filename="../../ui/observe_chips.py" line="102"/>
         <source>Count</source>
         <translation type="unfinished">Número</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="101"/>
+        <location filename="../../ui/observe_chips.py" line="103"/>
         <source>Binning</source>
         <translation type="unfinished">Agrupamiento</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_chips.py" line="102"/>
+        <location filename="../../ui/observe_chips.py" line="104"/>
         <source>Exposure row {n}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17735,44 +17756,104 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>SpectroscopyWindow</name>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="95"/>
+        <location filename="../../ui/spectro_stages.py" line="113"/>
         <source>Frames</source>
         <translation type="unfinished">Cuadros</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="95"/>
+        <location filename="../../ui/spectro_stages.py" line="113"/>
         <source>Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="96"/>
+        <location filename="../../ui/spectro_stages.py" line="114"/>
         <source>Wavelengths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="98"/>
+        <location filename="../../ui/spectro_stages.py" line="116"/>
         <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="104"/>
+        <location filename="../../ui/spectro_stages.py" line="122"/>
         <source>Telluric</source>
         <translation type="unfinished">Telúrica</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="106"/>
+        <location filename="../../ui/spectro_stages.py" line="124"/>
         <source>Velocities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="108"/>
+        <location filename="../../ui/spectro_stages.py" line="126"/>
         <source>IFU cube</source>
         <translation type="unfinished">Cubo IFU</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_stages.py" line="110"/>
+        <location filename="../../ui/spectro_stages.py" line="128"/>
         <source>Spectrum tools</source>
         <translation type="unfinished">Herramientas de espectro</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="25"/>
+        <source>Order</source>
+        <translation type="unfinished">Orden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="27"/>
+        <source>Pixel</source>
+        <translation type="unfinished">Píxel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="28"/>
+        <source>Wavelength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="29"/>
+        <source>Arc line list</source>
+        <translation type="unfinished">Lista de líneas del arco</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="35"/>
+        <source>Residual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="38"/>
+        <source>Left out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="39"/>
+        <source>yes</source>
+        <translation type="unfinished">sí</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="41"/>
+        <source>no</source>
+        <translation type="unfinished">no</translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="48"/>
+        <source>Lines in the fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="49"/>
+        <source>Degree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="50"/>
+        <source>rms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/spectro_inspector.py" line="57"/>
+        <source>Arc line</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -21350,63 +21431,63 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="234"/>
-        <location filename="../../ui/kit/table.py" line="266"/>
+        <location filename="../../ui/kit/table.py" line="235"/>
+        <location filename="../../ui/kit/table.py" line="267"/>
         <source>{n} of {total} rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="263"/>
+        <location filename="../../ui/kit/table.py" line="264"/>
         <source>No rows yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="263"/>
+        <location filename="../../ui/kit/table.py" line="264"/>
         <source>No row matches the filter ({n} rows in all)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="266"/>
+        <location filename="../../ui/kit/table.py" line="267"/>
         <source>{n} rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="268"/>
+        <location filename="../../ui/kit/table.py" line="269"/>
         <source> · {n} selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="286"/>
+        <location filename="../../ui/kit/table.py" line="287"/>
         <source>Sort ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="287"/>
+        <location filename="../../ui/kit/table.py" line="288"/>
         <source>Sort descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="288"/>
+        <location filename="../../ui/kit/table.py" line="289"/>
         <source>Fit the width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="329"/>
+        <location filename="../../ui/kit/table.py" line="330"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="330"/>
+        <location filename="../../ui/kit/table.py" line="331"/>
         <source>Export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="334"/>
+        <location filename="../../ui/kit/table.py" line="335"/>
         <source>CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table.py" line="335"/>
+        <location filename="../../ui/kit/table.py" line="336"/>
         <source>Export table</source>
         <translation>Exportar tabla</translation>
     </message>
