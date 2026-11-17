@@ -9,6 +9,8 @@ per pixel). nkeep: at least that many frames stay in every pixel (the extreme on
 import numpy as np
 from scipy import stats
 
+from ..core.errors import AppError
+
 
 def _finish(stack, keep, nkeep, centre="mean"):
     """Combine the kept values; where fewer than nkeep stayed, the nkeep closest to the median are used."""
@@ -146,6 +148,6 @@ def combine(stack, method="none", nkeep=1, centre="mean", **params):
     """(image, frames kept per pixel) of the stack with the method's rejection."""
     stack = np.asarray(stack, float)
     if method not in METHODS:
-        raise ValueError(f"unknown rejection {method}")
+        raise AppError("unknown rejection {method}", method=method)
     keep = METHODS[method](stack, **params)
     return _finish(stack, keep, nkeep, centre)

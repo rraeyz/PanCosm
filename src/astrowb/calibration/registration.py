@@ -11,6 +11,8 @@ reference grid with the flux kept.
 import numpy as np
 from scipy import ndimage
 
+from ..core.errors import AppError
+
 KINDS = ("shift", "similarity", "affine", "homography", "poly2", "poly3")
 
 
@@ -85,7 +87,7 @@ def fit(ref_xy, frame_xy, kind="auto"):
         m.rms = float(np.sqrt(np.mean(np.sum((m(ref) - frm) ** 2, axis=1))))
         models.append(m)
     if not models:
-        raise ValueError("too few matched stars for the transform")
+        raise AppError("too few matched stars for the transform")
     best = min(m.rms for m in models)
     return next(m for m in models if m.rms <= max(1.1 * best, 0.02))
 

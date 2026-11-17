@@ -1,0 +1,1 @@
+The amplitude spectrum was computed up to {f_max:g} c/d and the frequencies were prewhitened one by one, at most {n_max}, until the signal-to-noise ratio of the next peak, measured against the residual spectrum, fell below {snr_min:g} (Breger et al. 1993); the false-alarm probability of each peak was computed after Baluev (2008){clean_clause} ({software} version {version}).

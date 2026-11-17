@@ -9,6 +9,8 @@ and adjacent fields joined into one picture.
 
 import numpy as np
 
+from ..core.errors import AppError
+
 
 def select(stats, best=1.0, max_fwhm=None, max_background=None, min_stars=None):
     """bool per frame. stats: [{"fwhm", "background", "stars", "roundness"?}]; best: the share kept, ranked by FWHM
@@ -40,7 +42,7 @@ def weights(stats, by="noise"):
     elif by == "stars":
         w = np.asarray([s["stars"] for s in stats], float)
     else:
-        raise ValueError(f"unknown weighting {by}")
+        raise AppError("unknown weighting {by}", by=by)
     return w / np.mean(w)
 
 

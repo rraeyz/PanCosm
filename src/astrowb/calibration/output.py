@@ -8,6 +8,8 @@ check_space(folder, need)         ValueError naming both numbers when the disk c
 import shutil
 from pathlib import Path
 
+from ..core.errors import AppError
+
 BLOCK = 2880  # FITS writes in blocks of this many bytes
 HEADER = 2 * BLOCK  # a calibrated frame's header with its history and provenance (measured)
 
@@ -41,5 +43,9 @@ def check_space(folder, need, spare=0.1):
         probe = probe.parent
     free = shutil.disk_usage(probe).free
     if free < need * (1 + spare):
-        raise ValueError(f"the calibrated frames need {need / 1e9:.1f} GB and the disk has {free / 1e9:.1f} GB free")
+        raise AppError(
+            "the calibrated frames need {a} GB and the disk has {b} GB free",
+            a=f"{need / 1e9:.1f}",
+            b=f"{free / 1e9:.1f}",
+        )
     return free

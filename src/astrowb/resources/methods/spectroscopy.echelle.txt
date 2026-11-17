@@ -1,0 +1,1 @@
+The echelle orders were traced and extracted by {extraction}; where an arc was given, a two-dimensional wavelength solution of degree {deg_x} along the orders and {deg_m} across them was fitted to {line_list} lines ({software} version {version}).

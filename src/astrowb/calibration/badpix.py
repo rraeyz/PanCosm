@@ -12,6 +12,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ..core.errors import AppError
 from . import masters
 
 
@@ -49,7 +50,13 @@ def read(path, shape):
 
         data = fits.getdata(path)
         if data.shape != tuple(shape):
-            raise ValueError(f"the mask is {data.shape[1]} × {data.shape[0]} px, the frames {shape[1]} × {shape[0]}")
+            raise AppError(
+                "the mask is {a} × {b} px, the frames {c} × {d}",
+                a=data.shape[1],
+                b=data.shape[0],
+                c=shape[1],
+                d=shape[0],
+            )
         return np.asarray(data) != 0
     mask = np.zeros(shape, bool)
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -105,4 +112,4 @@ def repair(data, mask, mode="neighbours"):
             if good.sum() >= 2:
                 out[y, ~good] = np.interp(x[~good], x[good], out[y, good])
         return out
-    raise ValueError(f"unknown repair: {mode}")
+    raise AppError("unknown repair: {mode}", mode=mode)

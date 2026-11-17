@@ -1,0 +1,1 @@
+The eclipsing-binary light curve was fitted by least squares with a detached-binary model, the free parameters being {free_list}; the errors come from the covariance matrix{exposure_clause}{mcmc_clause} ({software} version {version}).

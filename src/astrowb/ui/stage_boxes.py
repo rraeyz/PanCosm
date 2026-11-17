@@ -91,6 +91,9 @@ def exoplanets_stages(win, page):
     from .exoplanets_docks import exoplanets_docks
 
     exoplanets_docks(win, page)
+    from .exoplanets_midtimes import midtimes_dock
+
+    midtimes_dock(win, page)
 
 
 def _index(layout, widget):

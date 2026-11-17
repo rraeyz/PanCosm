@@ -3,6 +3,7 @@
 from PySide6.QtCore import QCoreApplication, QObject, Signal
 
 from ..engine import automation, steps
+from .automation_schedule import add_schedule_button
 from .automation_template import add_template_button
 
 translate = QCoreApplication.translate
@@ -16,6 +17,7 @@ def connect_chain(page):
     from .step_library import StepLibrary
 
     add_template_button(page)
+    add_schedule_button(page)
     left = page.list.parentWidget().layout()  # the step library, to drag from, goes under the automations
     library = StepLibrary(page)
     left.insertWidget(left.indexOf(page.list) + 1, library, 1)

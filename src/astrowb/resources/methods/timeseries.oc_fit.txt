@@ -1,0 +1,1 @@
+The O-C diagram of the times of minimum, counted from T0 = {t0:.6f} with a period of {period:.8g} d, was fitted with {model_clause}{mcmc_clause} ({software} version {version}).

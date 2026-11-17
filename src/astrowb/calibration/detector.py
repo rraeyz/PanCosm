@@ -14,6 +14,8 @@ shutter_offset(exptimes, means)               the effective exposure is t + δ: 
 
 import numpy as np
 
+from ..core.errors import AppError
+
 
 def _boxes(shape, size):
     ny, nx = shape
@@ -44,7 +46,7 @@ def gain_read_noise(flat1, flat2, bias1, bias2, box=100):
         noises.append(g * np.sqrt(var_b) / np.sqrt(2))
     gains, noises = np.array(gains), np.array(noises)
     if not len(gains):
-        raise ValueError("the flats are no brighter than the biases: the gain cannot be measured")
+        raise AppError("the flats are no brighter than the biases: the gain cannot be measured")
 
     def spread(v):
         return float(1.4826 * np.median(np.abs(v - np.median(v))) / np.sqrt(len(v)))
