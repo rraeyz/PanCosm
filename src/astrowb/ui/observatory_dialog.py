@@ -37,6 +37,11 @@ def _spin(value, lo, hi, suffix="", decimals=1):
     return s
 
 
+def _min_alt(site):
+    """The profile site's horizon when given (None or 0 = not given), else the rule default."""
+    return site.get("horizon") or setup.RULE_DEFAULTS["min_alt"]
+
+
 class ObservatoryDialog(QDialog):
     found = Signal(object)  # discovery results, from a thread
 
@@ -90,7 +95,7 @@ class ObservatoryDialog(QDialog):
         lay.addWidget(self.status)
 
         form = QFormLayout()
-        self.min_alt = _spin(setup.RULE_DEFAULTS["min_alt"], 0, 60, " °")
+        self.min_alt = _spin(_min_alt(site), 0, 60, " °")
         self.sun_max_alt = _spin(setup.RULE_DEFAULTS["sun_max_alt"], -18, 0, " °")
         self.max_humidity = _spin(setup.RULE_DEFAULTS["max_humidity"], 10, 100, " %")
         self.max_wind = _spin(setup.RULE_DEFAULTS["max_wind"], 1, 50, " m/s")
