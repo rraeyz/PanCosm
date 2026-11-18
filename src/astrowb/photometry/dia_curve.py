@@ -16,7 +16,7 @@ def reference(paths, n_best):
     fwhm = [(quality.measure(p)["fwhm"], str(p)) for p in paths]
     fwhm = sorted((f, p) for f, p in fwhm if f is not None)  # a frame with no measurable star cannot be the sharpest
     if not 1 <= n_best <= len(fwhm):
-        raise AppError(f"n_best must be 1 to {len(fwhm)} (the frames with a measurable FWHM)")
+        raise AppError("n_best must be 1 to {n} (the frames with a measurable FWHM)", n=len(fwhm))
     best = [p for _, p in fwhm[:n_best]]
     image, _, header = stack(best, align="translation", rejection="sigma" if n_best >= 8 else "none")
     return np.asarray(image, float), header

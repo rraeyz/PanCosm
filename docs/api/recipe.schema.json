@@ -744,6 +744,41 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.dia_curve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "n_best": {
+           "description": "Frames in the reference: The frames of smallest FWHM that are combined into the reference",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1
+          },
+          "fwhm": {
+           "description": "FWHM (px): Of the reference frame's stars; the PSF the flux changes are fitted with",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.5
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.identify_field"
         }
        }
@@ -2839,6 +2874,7 @@
        "photometry.afrho",
        "photometry.apertures",
        "photometry.catalog",
+       "photometry.dia_curve",
        "photometry.identify_field",
        "photometry.isophotes",
        "photometry.light_curve",

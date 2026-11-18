@@ -13,6 +13,9 @@ def attach(win, page):
     from .photometry_catalog_choice import attach as catalogue_choice
 
     catalogue_choice(win, win.parent(), page)  # PHO-25 item 3: the magnitude source and its stars
+    from .photometry_dia import attach as difference_imaging
+
+    difference_imaging(win, page)  # PHO-29: the crowded-field action, its result tab
     labels = {}
 
     def note(stage, text):

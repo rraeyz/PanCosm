@@ -8212,7 +8212,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>tayf izlenemedi: sönük bir tayf için iz biçimini almak üzere daha parlak bir tayfın satırını verin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="534"/>
+        <location filename="../../ui/messages.py" line="536"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>minimum bulunamadı: pencere, iki yanında da nokta olan tam bir minimum içermeli</translation>
     </message>
@@ -9478,371 +9478,376 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/messages.py" line="491"/>
+        <source>n_best must be 1 to {n} (the frames with a measurable FWHM)</source>
+        <translation>n_best 1 ile {n} arasında olmalı (FWHM'i ölçülebilen kareler)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="493"/>
         <source>unknown detrending series: {name}</source>
         <translation>bilinmeyen eğilim serisi: {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="493"/>
+        <location filename="../../ui/messages.py" line="495"/>
         <source>no comparison star passed the rules; most were removed by: {reasons}</source>
         <translation>hiçbir karşılaştırma yıldızı kuralları geçmedi; çoğunu eleyen kurallar: {reasons}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="495"/>
+        <location filename="../../ui/messages.py" line="497"/>
         <source>unknown detrending method: {method}</source>
         <translation>bilinmeyen eğilim giderme yöntemi: {method}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="497"/>
+        <location filename="../../ui/messages.py" line="499"/>
         <source>unknown table style: {style}</source>
         <translation>bilinmeyen tablo biçimi: {style}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="499"/>
+        <location filename="../../ui/messages.py" line="501"/>
         <source>conservative transfer between equal masses changes no period</source>
         <translation>eşit kütleler arasında korunumlu aktarım periyodu değiştirmez</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="501"/>
+        <location filename="../../ui/messages.py" line="503"/>
         <source>{child} is related to {parent}, which is itself related</source>
         <translation>{child}, {parent} frekansına bağlı; ama {parent} de başka bir frekansa bağlı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="502"/>
+        <location filename="../../ui/messages.py" line="504"/>
         <source>unknown frequency unit: {freq_unit}</source>
         <translation>bilinmeyen frekans birimi: {freq_unit}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="504"/>
+        <location filename="../../ui/messages.py" line="506"/>
         <source>at most {MAX_SPOTS} spots per star</source>
         <translation>yıldız başına en çok {MAX_SPOTS} leke</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="505"/>
+        <location filename="../../ui/messages.py" line="507"/>
         <source>unknown spot overlap rule: {rule}</source>
         <translation>bilinmeyen leke örtüşme kuralı: {rule}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="507"/>
+        <location filename="../../ui/messages.py" line="509"/>
         <source>the {law} law takes {need} coefficients</source>
         <translation>{law} yasası {need} katsayı alır</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="508"/>
+        <location filename="../../ui/messages.py" line="510"/>
         <source>the limb-darkening coefficients make the intensity negative near the limb</source>
         <translation>kenar kararması katsayıları kenara yakın yeğinliği negatif yapıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="509"/>
+        <location filename="../../ui/messages.py" line="511"/>
         <source>the limb-darkening coefficients make the limb brighter than the centre</source>
         <translation>kenar kararması katsayıları kenarı merkezden parlak yapıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="511"/>
+        <location filename="../../ui/messages.py" line="513"/>
         <source>{name}: there is no {path}</source>
         <translation>{name}: {path} yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="513"/>
+        <location filename="../../ui/messages.py" line="515"/>
         <source>{name} must be a number, not {value}</source>
         <translation>{name} bir sayı olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="514"/>
+        <location filename="../../ui/messages.py" line="516"/>
         <source>{name} must be a whole number, not {value}</source>
         <translation>{name} bir tam sayı olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="515"/>
+        <location filename="../../ui/messages.py" line="517"/>
         <source>{name} = {value} is below the smallest allowed value {low}</source>
         <translation>{name} = {value}, izin verilen en küçük değerin ({low}) altında</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="516"/>
+        <location filename="../../ui/messages.py" line="518"/>
         <source>{name} = {value} is above the largest allowed value {high}</source>
         <translation>{name} = {value}, izin verilen en büyük değerin ({high}) üstünde</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="517"/>
+        <location filename="../../ui/messages.py" line="519"/>
         <source>{name} must be true or false, not {value}</source>
         <translation>{name} doğru ya da yanlış olmalı, {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="518"/>
+        <location filename="../../ui/messages.py" line="520"/>
         <source>{name} must be one of {known}, not {value}</source>
         <translation>{name} şunlardan biri olmalı: {known}; {value} değil</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="519"/>
+        <location filename="../../ui/messages.py" line="521"/>
         <source>unknown parameter kind {kind}</source>
         <translation>bilinmeyen parametre türü {kind}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="520"/>
+        <location filename="../../ui/messages.py" line="522"/>
         <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation>{step_id}: {name} açıklaması adımın varsayılanıyla uyuşmuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="521"/>
+        <location filename="../../ui/messages.py" line="523"/>
         <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
         <translation>bir hız tablosunda bir zaman sütunu ve bir hız sütunu olmalı (ör. time, rv1, rv2)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="522"/>
+        <location filename="../../ui/messages.py" line="524"/>
         <source>the light curves have times in different standards ({scales}): convert them to one first</source>
         <translation>ışık eğrilerinin zamanları farklı standartlarda ({scales}): önce hepsini tek standarda çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="525"/>
+        <location filename="../../ui/messages.py" line="527"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>geceler farklı sayıda karşılaştırma yıldızıyla ölçülmüş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="526"/>
+        <location filename="../../ui/messages.py" line="528"/>
         <source>no night has a frame with every comparison star</source>
         <translation>hiçbir gecede bütün karşılaştırma yıldızlarının bulunduğu bir kare yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="527"/>
+        <location filename="../../ui/messages.py" line="529"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>Fotometri penceresinden dışa aktarılmış bir ışık eğrisi değil (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="528"/>
+        <location filename="../../ui/messages.py" line="530"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>iki filtrenin renk oluşturacak kadar zamanca yakın iki görüntüsü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="530"/>
+        <location filename="../../ui/messages.py" line="532"/>
         <source>filter not understood: {part}</source>
         <translation>süzgeç anlaşılamadı: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="531"/>
+        <location filename="../../ui/messages.py" line="533"/>
         <source>no column {name} in the measurements table</source>
         <translation>ölçüm tablosunda {name} sütunu yok</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="533"/>
+        <location filename="../../ui/messages.py" line="535"/>
         <source>the minimum must have data on both sides</source>
         <translation>minimumun iki yanında da veri olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="539"/>
+        <location filename="../../ui/messages.py" line="541"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>başlıkta gözlem zamanı yok (DATE-OBS, UT-OBS, JD, MJD-OBS): Görüntüler penceresinin Başlık sekmesinde DATE-OBS ekleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="543"/>
+        <location filename="../../ui/messages.py" line="545"/>
         <source>not an angle: {value}</source>
         <translation>bir açı değil: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="545"/>
+        <location filename="../../ui/messages.py" line="547"/>
         <source>the service sent an answer in an unexpected form</source>
         <translation>servis beklenmeyen biçimde bir yanıt gönderdi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="546"/>
+        <location filename="../../ui/messages.py" line="548"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>güncelleme denetimi için GitHub deposu ayarlanmamış</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="548"/>
+        <location filename="../../ui/messages.py" line="550"/>
         <source>solving</source>
         <translation>çözülüyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="549"/>
+        <location filename="../../ui/messages.py" line="551"/>
         <source>catalogues</source>
         <translation>kataloglar</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="550"/>
+        <location filename="../../ui/messages.py" line="552"/>
         <source>reading headers</source>
         <translation>başlıklar okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="551"/>
+        <location filename="../../ui/messages.py" line="553"/>
         <source>master bias</source>
         <translation>master bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="552"/>
+        <location filename="../../ui/messages.py" line="554"/>
         <source>master dark</source>
         <translation>master dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="553"/>
+        <location filename="../../ui/messages.py" line="555"/>
         <source>master flat</source>
         <translation>master flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="554"/>
+        <location filename="../../ui/messages.py" line="556"/>
         <source>calibrating</source>
         <translation>kalibre ediliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="555"/>
+        <location filename="../../ui/messages.py" line="557"/>
         <source>combining</source>
         <translation>birleştiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="556"/>
+        <location filename="../../ui/messages.py" line="558"/>
         <source>aligning</source>
         <translation>hizalanıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="557"/>
+        <location filename="../../ui/messages.py" line="559"/>
         <source>stacking</source>
         <translation>yığılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="558"/>
+        <location filename="../../ui/messages.py" line="560"/>
         <source>drizzle</source>
         <translation>drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="559"/>
+        <location filename="../../ui/messages.py" line="561"/>
         <source>reading</source>
         <translation>okunuyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="560"/>
+        <location filename="../../ui/messages.py" line="562"/>
         <source>writing</source>
         <translation>yazılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="561"/>
+        <location filename="../../ui/messages.py" line="563"/>
         <source>plate solving</source>
         <translation>plaka çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="562"/>
+        <location filename="../../ui/messages.py" line="564"/>
         <source>checking</source>
         <translation>denetleniyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="563"/>
+        <location filename="../../ui/messages.py" line="565"/>
         <source>downloading</source>
         <translation>indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="564"/>
+        <location filename="../../ui/messages.py" line="566"/>
         <source>simulating</source>
         <translation>benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="565"/>
+        <location filename="../../ui/messages.py" line="567"/>
         <source>simulating a transit night</source>
         <translation>bir geçiş gecesi benzetiliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="566"/>
+        <location filename="../../ui/messages.py" line="568"/>
         <source>photometry</source>
         <translation>fotometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="567"/>
+        <location filename="../../ui/messages.py" line="569"/>
         <source>quality</source>
         <translation>kalite</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="568"/>
+        <location filename="../../ui/messages.py" line="570"/>
         <source>catalogue</source>
         <translation>katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="569"/>
+        <location filename="../../ui/messages.py" line="571"/>
         <source>astrometry</source>
         <translation>astrometri</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="570"/>
+        <location filename="../../ui/messages.py" line="572"/>
         <source>fit</source>
         <translation>uydurma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="571"/>
+        <location filename="../../ui/messages.py" line="573"/>
         <source>trace</source>
         <translation>iz</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="572"/>
+        <location filename="../../ui/messages.py" line="574"/>
         <source>trace orders</source>
         <translation>sıraların izi</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="573"/>
+        <location filename="../../ui/messages.py" line="575"/>
         <source>extraction</source>
         <translation>çıkarma</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="574"/>
+        <location filename="../../ui/messages.py" line="576"/>
         <source>arc</source>
         <translation>ark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="575"/>
+        <location filename="../../ui/messages.py" line="577"/>
         <source>wavelength solution</source>
         <translation>dalga boyu çözümü</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="576"/>
+        <location filename="../../ui/messages.py" line="578"/>
         <source>downloading the template library</source>
         <translation>şablon kütüphanesi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="577"/>
+        <location filename="../../ui/messages.py" line="579"/>
         <source>comparing</source>
         <translation>karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="578"/>
+        <location filename="../../ui/messages.py" line="580"/>
         <source>comparing with the MK standards</source>
         <translation>MK standartlarıyla karşılaştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="579"/>
+        <location filename="../../ui/messages.py" line="581"/>
         <source>disentangling</source>
         <translation>ayrıştırılıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="580"/>
+        <location filename="../../ui/messages.py" line="582"/>
         <source>band math</source>
         <translation>bant hesabı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="581"/>
+        <location filename="../../ui/messages.py" line="583"/>
         <source>folder not found: {path}</source>
         <translation>klasör bulunamadı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="582"/>
+        <location filename="../../ui/messages.py" line="584"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} yalnızca tarih içeriyor, saat yok; saati veren bir başlık da bulunamadı</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="583"/>
+        <location filename="../../ui/messages.py" line="585"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>hedefin adını ya da koordinatlarını girin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="584"/>
+        <location filename="../../ui/messages.py" line="586"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>spektrografın ayırma gücünü girin: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="585"/>
+        <location filename="../../ui/messages.py" line="587"/>
         <source>the Sun</source>
         <translation>Güneş</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="586"/>
+        <location filename="../../ui/messages.py" line="588"/>
         <source>first estimate</source>
         <translation>ilk tahmin</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="643"/>
+        <location filename="../../ui/messages.py" line="645"/>
         <source>Cannot save</source>
         <translation>Kaydedilemedi</translation>
     </message>
@@ -13692,14 +13697,92 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PhotometryChoices</name>
     <message>
-        <location filename="../../ui/photometry_choices.py" line="26"/>
+        <location filename="../../ui/photometry_choices.py" line="29"/>
         <source>Chosen automatically</source>
         <translation>Kendiliğinden seçilenler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_choices.py" line="33"/>
+        <location filename="../../ui/photometry_choices.py" line="36"/>
         <source>Target: {name}, the star the files&apos; OBJECT names; its catalogue position gives the barycentric times.</source>
         <translation>Hedef: {name}, dosyalardaki OBJECT&apos;in adını verdiği yıldız; katalog konumu barisentrik zamanları verir.</translation>
+    </message>
+</context>
+<context>
+    <name>PhotometryDia</name>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="23"/>
+        <source>Difference imaging (crowded field)…</source>
+        <translation>Fark görüntüleme (kalabalık alan)…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="25"/>
+        <source>For fields too crowded for apertures and PSF fitting: the target&apos;s flux change on every frame against a reference made of the sharpest frames (needs the radii chosen first, for the FWHM)</source>
+        <translation>Açıklık ve PSF uydurmanın yetmediği kalabalık alanlar için: hedefin akı değişimi, en keskin karelerden yapılan bir referansa göre her karede (önce yarıçaplar seçilmeli, FWHM için)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="34"/>
+        <source>How many of the sharpest frames make the reference</source>
+        <translation>Referansı kaç tane en keskin kare oluşturur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="38"/>
+        <source>Frames in the reference</source>
+        <translation>Referanstaki kareler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="56"/>
+        <source>Choose the images and mark the target first.</source>
+        <translation>Önce görüntüleri seçin ve hedefi işaretleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="58"/>
+        <source>Difference imaging needs at least two frames.</source>
+        <translation>Fark görüntüleme en az iki kare gerektirir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="61"/>
+        <source>Choose the radii from the star profiles first: they give the FWHM.</source>
+        <translation>Önce yıldız profillerinden yarıçapları seçin: FWHM'i onlar verir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="64"/>
+        <source>Making the reference and measuring {n} frames…</source>
+        <translation>Referans yapılıyor ve {n} kare ölçülüyor…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="76"/>
+        <source>Time since the first frame</source>
+        <translation>İlk kareden beri geçen süre</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="77"/>
+        <source>Flux change</source>
+        <translation>Akı değişimi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="77"/>
+        <source>reference units</source>
+        <translation>referans birimi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="78"/>
+        <source>target</source>
+        <translation>hedef</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="83"/>
+        <source>The values are flux changes relative to the reference (reference units), not total fluxes.</source>
+        <translation>Değerler referansa göre akı değişimleridir (referans birimi), toplam akı değildir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="91"/>
+        <source>Difference imaging</source>
+        <translation>Fark görüntüleme</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_dia.py" line="94"/>
+        <source>Done: {n} frames.</source>
+        <translation>Bitti: {n} kare.</translation>
     </message>
 </context>
 <context>
@@ -20620,103 +20703,103 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüleri dönüştür</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="102"/>
+        <location filename="../../engine/io.py" line="103"/>
         <location filename="../../engine/titles.py" line="18"/>
         <source>Finder chart</source>
         <translation>Bulucu harita</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="103"/>
+        <location filename="../../engine/io.py" line="104"/>
         <source>Spectral classes</source>
         <translation>Tayf sınıfları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="104"/>
+        <location filename="../../engine/io.py" line="105"/>
         <source>Cleaned frequency spectrum</source>
         <translation>Temizlenmiş frekans tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="105"/>
+        <location filename="../../engine/io.py" line="106"/>
         <source>Colour curve</source>
         <translation>Renk eğrisi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="106"/>
+        <location filename="../../engine/io.py" line="107"/>
         <source>Combined spectrum</source>
         <translation>Birleştirilmiş tayf</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="107"/>
+        <location filename="../../engine/io.py" line="108"/>
         <source>Spectra of the components</source>
         <translation>Bileşenlerin tayfları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="108"/>
+        <location filename="../../engine/io.py" line="109"/>
         <source>Light curves</source>
         <translation>Işık eğrileri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="109"/>
+        <location filename="../../engine/io.py" line="110"/>
         <source>Dark scale factors</source>
         <translation>Dark ölçek çarpanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="110"/>
+        <location filename="../../engine/io.py" line="111"/>
         <source>Merged échelle spectrum</source>
         <translation>Birleştirilmiş eşel tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="111"/>
+        <location filename="../../engine/io.py" line="112"/>
         <source>Masters that could not be made</source>
         <translation>Yapılamayan master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="112"/>
+        <location filename="../../engine/io.py" line="113"/>
         <source>O−C fit</source>
         <translation>O−C uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="113"/>
+        <location filename="../../engine/io.py" line="114"/>
         <source>Frequencies</source>
         <translation>Frekanslar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="114"/>
+        <location filename="../../engine/io.py" line="115"/>
         <source>Good frames</source>
         <translation>İyi kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="117"/>
+        <location filename="../../engine/io.py" line="118"/>
         <source>Labelled objects</source>
         <translation>Etiketlenmiş cisimler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="118"/>
+        <location filename="../../engine/io.py" line="119"/>
         <source>Master frames</source>
         <translation>Master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="119"/>
+        <location filename="../../engine/io.py" line="120"/>
         <source>Times of maximum</source>
         <translation>Maksimum zamanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="121"/>
+        <location filename="../../engine/io.py" line="122"/>
         <source>Missing calibration frames</source>
         <translation>Eksik kalibrasyon kareleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="122"/>
+        <location filename="../../engine/io.py" line="123"/>
         <source>Model fit</source>
         <translation>Model uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="123"/>
+        <location filename="../../engine/io.py" line="124"/>
         <source>The night&apos;s plan</source>
         <translation>Gecenin planı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="124"/>
+        <location filename="../../engine/io.py" line="125"/>
         <location filename="../../engine/titles.py" line="19"/>
         <source>Minor planets in the field</source>
         <translation>Alandaki küçük gezegenler</translation>
@@ -20792,154 +20875,159 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Karşılaştırma yıldızı öner</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="153"/>
-        <location filename="../../engine/titles.py" line="37"/>
+        <location filename="../../engine/io.py" line="154"/>
+        <location filename="../../engine/titles.py" line="38"/>
         <source>Transformation coefficients</source>
         <translation>Dönüşüm katsayıları</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="35"/>
+        <location filename="../../engine/titles.py" line="34"/>
+        <source>Difference-imaging light curve</source>
+        <translation>Fark görüntüleme ışık eğrisi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/titles.py" line="36"/>
         <source>Save the light-curve file</source>
         <translation>Işık eğrisi dosyasını kaydet</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="36"/>
+        <location filename="../../engine/titles.py" line="37"/>
         <source>Fit the transit</source>
         <translation>Geçişi uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="38"/>
+        <location filename="../../engine/titles.py" line="39"/>
         <source>Search for variable stars</source>
         <translation>Değişen yıldız ara</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="39"/>
+        <location filename="../../engine/titles.py" line="40"/>
         <source>Look up the ephemeris</source>
         <translation>Efemerisi bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="40"/>
+        <location filename="../../engine/titles.py" line="41"/>
         <source>Plan the night</source>
         <translation>Geceyi planla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="41"/>
+        <location filename="../../engine/titles.py" line="42"/>
         <source>Find the target</source>
         <translation>Hedefi bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="42"/>
+        <location filename="../../engine/titles.py" line="43"/>
         <source>Classify (k-means)</source>
         <translation>Sınıflandır (k-ortalamalar)</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="43"/>
+        <location filename="../../engine/titles.py" line="44"/>
         <source>Compute a band formula</source>
         <translation>Bant formülü hesapla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="44"/>
+        <location filename="../../engine/titles.py" line="45"/>
         <source>Principal components</source>
         <translation>Temel bileşenler</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="45"/>
+        <location filename="../../engine/titles.py" line="46"/>
         <source>Make practice data</source>
         <translation>Alıştırma verisi hazırla</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="46"/>
+        <location filename="../../engine/titles.py" line="47"/>
         <source>Stellar parameters (Teff, log g, [Fe/H])</source>
         <translation>Yıldız parametreleri (Teff, log g, [Fe/H])</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="47"/>
+        <location filename="../../engine/titles.py" line="48"/>
         <source>Combine the exposures</source>
         <translation>Pozları birleştir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="48"/>
+        <location filename="../../engine/titles.py" line="49"/>
         <source>Spectral type</source>
         <translation>Tayf türü</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="49"/>
+        <location filename="../../engine/titles.py" line="50"/>
         <source>Disentangle the spectra</source>
         <translation>Tayfları ayrıştır</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="50"/>
+        <location filename="../../engine/titles.py" line="51"/>
         <source>Reduce the echelle spectrum</source>
         <translation>Eşel tayfını indirge</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="51"/>
+        <location filename="../../engine/titles.py" line="52"/>
         <source>Fit the spectroscopic orbit</source>
         <translation>Tayfsal yörüngeyi uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="52"/>
+        <location filename="../../engine/titles.py" line="53"/>
         <source>Find the echelle orders</source>
         <translation>Eşel mertebelerini bul</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="53"/>
+        <location filename="../../engine/titles.py" line="54"/>
         <source>Reduce the long-slit spectrum</source>
         <translation>Uzun yarık tayfını indirge</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="54"/>
+        <location filename="../../engine/titles.py" line="55"/>
         <source>Measure radial velocities</source>
         <translation>Dikine hızları ölç</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="55"/>
+        <location filename="../../engine/titles.py" line="56"/>
         <source>Telluric correction</source>
         <translation>Tellürik düzeltme</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="56"/>
+        <location filename="../../engine/titles.py" line="57"/>
         <source>Drizzle the frames</source>
         <translation>Kareleri drizzle ile birleştir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="57"/>
+        <location filename="../../engine/titles.py" line="58"/>
         <source>Stack the frames</source>
         <translation>Kareleri üst üste ekle</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="58"/>
+        <location filename="../../engine/titles.py" line="59"/>
         <source>Frequency analysis</source>
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="120"/>
-        <location filename="../../engine/titles.py" line="59"/>
+        <location filename="../../engine/io.py" line="121"/>
+        <location filename="../../engine/titles.py" line="60"/>
         <source>Time of minimum</source>
         <translation>Minimum zamanı</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="60"/>
+        <location filename="../../engine/titles.py" line="61"/>
         <source>Download a mission light curve</source>
         <translation>Uzay görevi ışık eğrisi indir</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="61"/>
+        <location filename="../../engine/titles.py" line="62"/>
         <source>Fit the O−C diagram</source>
         <translation>O−C diyagramını uydur</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="62"/>
+        <location filename="../../engine/titles.py" line="63"/>
         <source>Occultation timing</source>
         <translation>Örtülme zamanlaması</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="63"/>
+        <location filename="../../engine/titles.py" line="64"/>
         <source>Period search</source>
         <translation>Periyot arama</translation>
     </message>
     <message>
-        <location filename="../../engine/titles.py" line="64"/>
+        <location filename="../../engine/titles.py" line="65"/>
         <source>Download a survey light curve</source>
         <translation>Tarama ışık eğrisi indir</translation>
     </message>
@@ -21658,7 +21746,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="69"/>
-        <location filename="../../engine/io.py" line="144"/>
+        <location filename="../../engine/io.py" line="145"/>
         <source>Radial velocities</source>
         <translation>Dikine hızlar</translation>
     </message>
@@ -21774,202 +21862,207 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="98"/>
-        <location filename="../../engine/titles.py" line="34"/>
+        <source>Difference-imaging flux changes</source>
+        <translation>Fark görüntüleme akı değişimleri</translation>
+    </message>
+    <message>
+        <location filename="../../engine/io.py" line="99"/>
+        <location filename="../../engine/titles.py" line="35"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation>Yakın örten çift denetimi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="99"/>
+        <location filename="../../engine/io.py" line="100"/>
         <source>Transit fit</source>
         <translation>Geçiş uydurması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="100"/>
+        <location filename="../../engine/io.py" line="101"/>
         <source>Catalogue magnitudes</source>
         <translation>Katalog kadirleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="101"/>
+        <location filename="../../engine/io.py" line="102"/>
         <source>Catalogue stars</source>
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="115"/>
+        <location filename="../../engine/io.py" line="116"/>
         <source>Afρ of the comet</source>
         <translation>Kuyruklu yıldızın Afρ değeri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="116"/>
+        <location filename="../../engine/io.py" line="117"/>
         <source>Isophote profile</source>
         <translation>İzofot profili</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="125"/>
+        <location filename="../../engine/io.py" line="126"/>
         <source>Occultation fit</source>
         <translation>Örtülme uydurması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="126"/>
+        <location filename="../../engine/io.py" line="127"/>
         <source>Échelle orders</source>
         <translation>Eşel düzenleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="127"/>
+        <location filename="../../engine/io.py" line="128"/>
         <source>Passed</source>
         <translation>Geçti</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="128"/>
+        <location filename="../../engine/io.py" line="129"/>
         <source>Path</source>
         <translation>Yol</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="129"/>
+        <location filename="../../engine/io.py" line="130"/>
         <source>Highest peaks and their aliases</source>
         <translation>En yüksek tepeler ve örtüşmeleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="130"/>
+        <location filename="../../engine/io.py" line="131"/>
         <source>False-alarm probability</source>
         <translation>Yanlış alarm olasılığı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="131"/>
+        <location filename="../../engine/io.py" line="132"/>
         <source>False-alarm probability of each listed peak</source>
         <translation>Listelenen her tepenin yanlış alarm olasılığı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="132"/>
+        <location filename="../../engine/io.py" line="133"/>
         <source>Periods</source>
         <translation>Periyotlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="133"/>
+        <location filename="../../engine/io.py" line="134"/>
         <source>Polarisation</source>
         <translation>Kutuplanma</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="134"/>
+        <location filename="../../engine/io.py" line="135"/>
         <source>Positions</source>
         <translation>Konumlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="135"/>
+        <location filename="../../engine/io.py" line="136"/>
         <source>Periodogram</source>
         <translation>Periyodogram</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="136"/>
+        <location filename="../../engine/io.py" line="137"/>
         <source>Problems found</source>
         <translation>Bulunan sorunlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="137"/>
+        <location filename="../../engine/io.py" line="138"/>
         <source>Product image</source>
         <translation>Ürün görüntüsü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="138"/>
+        <location filename="../../engine/io.py" line="139"/>
         <source>Frame quality</source>
         <translation>Kare kalitesi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="139"/>
+        <location filename="../../engine/io.py" line="140"/>
         <source>Camera raw files converted to FITS</source>
         <translation>FITS&apos;e çevrilen kamera ham dosyaları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="140"/>
+        <location filename="../../engine/io.py" line="141"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="141"/>
+        <location filename="../../engine/io.py" line="142"/>
         <source>Residual frequency spectrum</source>
         <translation>Artık frekans tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="142"/>
+        <location filename="../../engine/io.py" line="143"/>
         <source>Colour image</source>
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="143"/>
+        <location filename="../../engine/io.py" line="144"/>
         <source>Scatter of the residuals</source>
         <translation>Artıkların saçılması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="145"/>
+        <location filename="../../engine/io.py" line="146"/>
         <source>Spectra left out</source>
         <translation>Dışarıda bırakılan tayflar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="146"/>
+        <location filename="../../engine/io.py" line="147"/>
         <source>Plate-solved image</source>
         <translation>Plaka çözümü yapılmış görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="147"/>
+        <location filename="../../engine/io.py" line="148"/>
         <source>Stacked image</source>
         <translation>Yığılmış görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="148"/>
+        <location filename="../../engine/io.py" line="149"/>
         <source>Light-curve file (.lc.ecsv)</source>
         <translation>Işık eğrisi dosyası (.lc.ecsv)</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="150"/>
+        <location filename="../../engine/io.py" line="151"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="151"/>
+        <location filename="../../engine/io.py" line="152"/>
         <source>Reference time</source>
         <translation>Referans zamanı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="152"/>
+        <location filename="../../engine/io.py" line="153"/>
         <source>Telluric-corrected spectrum</source>
         <translation>Tellürik düzeltmesi yapılmış tayf</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="154"/>
+        <location filename="../../engine/io.py" line="155"/>
         <source>True values of the practice data</source>
         <translation>Alıştırma verisinin gerçek değerleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="155"/>
+        <location filename="../../engine/io.py" line="156"/>
         <source>Frames without a solution</source>
         <translation>Çözümü olmayan kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="156"/>
+        <location filename="../../engine/io.py" line="157"/>
         <source>Variability of the stars</source>
         <translation>Yıldızların değişkenliği</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="157"/>
+        <location filename="../../engine/io.py" line="158"/>
         <source>Quick period of each candidate</source>
         <translation>Her adayın hızlı periyodu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="158"/>
+        <location filename="../../engine/io.py" line="159"/>
         <source>Warnings</source>
         <translation>Uyarılar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="159"/>
+        <location filename="../../engine/io.py" line="160"/>
         <source>Spectral window</source>
         <translation>Tayfsal pencere</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="160"/>
+        <location filename="../../engine/io.py" line="161"/>
         <source>Files written</source>
         <translation>Yazılan dosyalar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="161"/>
+        <location filename="../../engine/io.py" line="162"/>
         <location filename="../../photometry/comet_step.py" line="72"/>
         <location filename="../../photometry/isophote_step.py" line="44"/>
         <source>Zero point</source>
@@ -22939,7 +23032,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Çapraz ilişki (ikinci şablonla TODCOR) ya da genişleme fonksiyonu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="149"/>
+        <location filename="../../engine/io.py" line="150"/>
         <location filename="../../spectroscopy/step_params.py" line="161"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>
@@ -23319,6 +23412,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../photometry/isophote_step.py" line="54"/>
         <source>With the zero point: the surface brightness in mag/arcsec²</source>
         <translation>Sıfır noktasıyla birlikte: mag/yay saniyesi² cinsinden yüzey parlaklığı</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/dia_step.py" line="14"/>
+        <source>Frames in the reference</source>
+        <translation>Referanstaki kareler</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/dia_step.py" line="15"/>
+        <source>The frames of smallest FWHM that are combined into the reference</source>
+        <translation>Referansta birleştirilen en küçük FWHM'li kareler</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/dia_step.py" line="16"/>
+        <source>FWHM</source>
+        <translation>FWHM</translation>
+    </message>
+    <message>
+        <location filename="../../photometry/dia_step.py" line="17"/>
+        <source>Of the reference frame&apos;s stars; the PSF the flux changes are fitted with</source>
+        <translation>Referans karenin yıldızlarından; akı değişimlerinin uydurulduğu PSF</translation>
     </message>
 </context>
 <context>

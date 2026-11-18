@@ -740,9 +740,14 @@ of smallest FWHM by `quality.measure`, combined by `calibration.stacking.stack`,
 `register` (phase-correlation shift of `aperture.frame_shift`, spline), `light_curve` (registers each frame, solves
 the kernel, returns δF, errors and kernel sums); test: tests/test_dia_curve.py (shifted frames of 1.1–2.1 px seeing,
 crowded field, variable star within its errors). Left: a spatially varying kernel for wide
-fields, the GPU convolution, the reference PSF from its stars, the Measure-stage method and the result tab (no
+fields, the GPU convolution, the reference PSF from its stars, the Measure-stage method (no
 measure-method choice exists yet to hook onto; `photometry_method.py` has only the PSF / neighbour boxes), the
-real crowded set and the speed target.
+real crowded set and the speed target. (2026-11-27) The Measure-stage action and the result tab: the step
+`photometry.dia_curve` (`photometry/dia_step.py`: `reference` then `light_curve` for the target, JD from the headers),
+`ui/photometry_dia.py` (`attach`, `run`, `show`: button "Difference imaging (crowded field)…" beside the measure
+method, frames-in-reference spin box default min(5, frames), FWHM from the Apertures stage, a "Difference imaging"
+result tab of flux change against time, said to be relative to the reference); test: tests/ui/test_photometry_dia.py.
+Not a measure-method choice: a separate action.
 - **Why:** very crowded fields (Galactic plane, clusters, novae, microlensing) where even PSF fitting fails.
 - **Reference:** Alard & Lupton 1998 (ApJ 503, 325) and Alard 2000 (kernel as Gaussians × polynomials, spatially
   varying); Bramich 2008 (MNRAS 386, L77: discrete pixel kernel, "delta basis"), Bramich et al. 2013 (extended);

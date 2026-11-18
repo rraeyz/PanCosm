@@ -64,6 +64,24 @@ parameters (default):
   source = "auto"  (choice, one of auto, apass, aavso)  Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field's AAVSO sequence
 ```
 
+## photometry.dia_curve
+
+```text
+photometry.dia_curve  (Difference-imaging light curve)
+
+Flux change of the target on every frame relative to a reference of the sharpest frames (photometry.dia_curve),
+in reference counts, with its error, the frame's scale and its mid-exposure JD (UTC).
+
+inputs:      images, target_xy
+outputs:     dia
+  images  (files)  Images
+  target_xy  (xy)  Target position in the first frame (x y)
+  dia  (object)  Difference-imaging flux changes
+parameters (default):
+  n_best = 5  (int, >= 1)  Frames in the reference: The frames of smallest FWHM that are combined into the reference
+  fwhm = 3.0  (float, px, >= 0.5)  FWHM: Of the reference frame's stars; the PSF the flux changes are fitted with
+```
+
 ## photometry.identify_field
 
 ```text

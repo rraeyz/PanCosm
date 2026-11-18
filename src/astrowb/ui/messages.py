@@ -487,6 +487,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "fewer than 3 comparison stars lie on a frame: the frames do not overlap enough"),
     # calibration/stacking.py (stars picked to align on)
     QT_TRANSLATE_NOOP("Messages", "pick at least one star on the first frame to align on"),
+    # photometry/dia_curve.py (PHO-29)
+    QT_TRANSLATE_NOOP("Messages", "n_best must be 1 to {n} (the frames with a measurable FWHM)"),
     # photometry/fit_steps.py (PHO-26)
     QT_TRANSLATE_NOOP("Messages", "unknown detrending series: {name}"),
     # photometry/steps.py (PHO-17)
