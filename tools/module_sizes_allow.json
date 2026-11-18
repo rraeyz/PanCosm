@@ -1,6 +1,5 @@
 {
  "files": {
-  "ui/observe_page.py": 862,
   "ui/photometry_page.py": 3136,
   "ui/spectro_page.py": 2423,
   "ui/spectrum_tools.py": 811
@@ -25,7 +24,6 @@
   "ui/models_page.py:ModelsPage.__init__": 179,
   "ui/observatory_dialog.py:ObservatoryDialog.__init__": 116,
   "ui/observe_page.py:ObservePage.__init__": 274,
-  "ui/observe_page.py:ObservePage._device_controls": 95,
   "ui/oc_page.py:OCPage.__init__": 159,
   "ui/period_page.py:PeriodPage.__init__": 200,
   "ui/photometry_page.py:PhotometryPage.__init__": 939,

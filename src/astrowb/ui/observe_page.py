@@ -38,16 +38,11 @@ from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
 from .observe_buttons import quick_buttons
+from .observe_devices import DeviceControls, _wrapped
+from .observe_sequence import SequenceActions
 from .undo import Undoable, track_typing
 
 KINDS = ("light", "dark", "bias", "flat")
-
-
-def _wrapped(text, parent):
-    """A form label that wraps instead of widening the page (long in some languages)."""
-    label = QLabel(text, parent)
-    label.setWordWrap(True)
-    return label
 
 
 def launch_observatory(config_path: Path):
@@ -75,7 +70,7 @@ def launch_observatory(config_path: Path):
     return scheme + cfg.get("listen", "127.0.0.1:11112").replace("0.0.0.0", "127.0.0.1"), cfg["token"], proc
 
 
-class ObservePage(Undoable, QWidget):
+class ObservePage(DeviceControls, SequenceActions, Undoable, QWidget):
     _shown_preview = None  # the preview frame last opened
     status_arrived = Signal(object)  # from the polling thread
     preview_ready = Signal(str)  # a preview frame that this computer can open (local observatory)
@@ -341,139 +336,6 @@ class ObservePage(Undoable, QWidget):
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._poll)
         self._timer.start(2000)
-
-    def _device_controls(self):
-        """Single commands in three grids: cooler (and devices line), preview, focuser and filter."""
-        self.preview_exp = QDoubleSpinBox(self)
-        self.preview_exp.setRange(0.001, 3600)
-        self.preview_exp.setDecimals(3)
-        self.preview_exp.setValue(2)
-        self.preview_exp.setSuffix(" s")
-        self.preview_exp.setToolTip(self.tr("Exposure time of a single test frame (not saved with the sequence)"))
-        self.cooler_temp = QDoubleSpinBox(self)
-        self.cooler_temp.setRange(-60, 30)
-        self.cooler_temp.setValue(-10)
-        self.cooler_temp.setSuffix(" °C")
-        self.cooler_temp.setToolTip(
-            self.tr(
-                "Target temperature of the camera sensor; darks must be taken at the same temperature as the lights"
-            )
-        )
-        self.focus_pos = QSpinBox(self)
-        self.focus_pos.setRange(0, 1_000_000)
-        self.focus_pos.setToolTip(self.tr("Focuser position in steps"))
-        self.filter_name = QComboBox(self)
-        self.filter_name.setEditable(True)
-        self.filter_name.setToolTip(self.tr("Filter of the filter wheel by its name"))
-
-        def button(text, slot, tip, key):
-            b = self.buttons[key] = QPushButton(text, self)
-            b.setToolTip(tip)
-            b.clicked.connect(slot)
-            return b
-
-        rows = (
-            (
-                self.tr("Preview"),
-                self.preview_exp,
-                button(
-                    self.tr("Take preview"),
-                    self.take_preview,
-                    self.tr("One frame with this exposure, shown in the Images window (to check pointing and focus)"),
-                    "preview",
-                ),
-                None,
-            ),
-            (
-                self.tr("Cooler"),
-                self.cooler_temp,
-                button(
-                    self.tr("Cool to"), self._cool, self.tr("Switches the cooler on and sets this temperature"), "cool"
-                ),
-                button(
-                    self.tr("Off"),
-                    lambda: self._post("/cooler", {"on": False}),
-                    self.tr("Switches the cooler off (do it slowly at the end of the night)"),
-                    "cooler_off",
-                ),
-            ),
-            (
-                self.tr("Focuser"),
-                self.focus_pos,
-                button(
-                    self.tr("Move"),
-                    lambda: self._post("/focuser", {"position": self.focus_pos.value()}),
-                    self.tr("Moves the focuser to this position"),
-                    "focuser",
-                ),
-                None,
-            ),
-            (
-                self.tr("Filter"),
-                self.filter_name,
-                button(
-                    self.tr("Change"),
-                    lambda: self._post("/filter", {"name": self.filter_name.currentText()}),
-                    self.tr("Turns the filter wheel to this filter"),
-                    "filter",
-                ),
-                None,
-            ),
-        )
-        grids = cooler, preview, focus = QGridLayout(), QGridLayout(), QGridLayout()  # one per stage
-        for (label, field, first, second), grid in zip(rows, (preview, cooler, focus, focus), strict=True):
-            r = grid.rowCount() if grid.count() else 0  # an empty grid reports one row
-            grid.addWidget(_wrapped(label, self), r, 0)
-            grid.addWidget(field, r, 1)
-            if second:  # both buttons in one cell: no fourth column to widen the page
-                pair = QHBoxLayout()
-                pair.setContentsMargins(0, 0, 0, 0)
-                pair.addWidget(first)
-                pair.addWidget(second)
-                grid.addLayout(pair, r, 2)
-            else:
-                grid.addWidget(first, r, 2)
-        self.devices = QLabel(self)
-        self.devices.setProperty("muted", True)
-        cooler.addWidget(self.devices, 1, 0, 1, 3)
-        return grids
-
-    def _cool(self):
-        return self._post("/cooler", {"temperature": self.cooler_temp.value(), "on": True})
-
-    def take_preview(self):
-        spec = {"exptime": self.preview_exp.value(), "out_dir": self.out_dir.text().strip()}
-        if self.filter_name.currentText().strip():
-            spec["filter"] = self.filter_name.currentText().strip()
-        return self._post("/preview", spec)
-
-    def _show_devices(self, st):
-        parts = []
-        cam, foc, fw = st.get("camera", {}), st.get("focuser", {}), st.get("filterwheel", {})
-        if "CCDTemperature" in cam:
-            on = self.tr("on") if cam.get("CoolerOn") else self.tr("off")
-            parts.append(self.tr("Camera {t:.1f} °C, cooler {on}").format(t=cam["CCDTemperature"], on=on))
-        if "Position" in foc:
-            parts.append(self.tr("focuser at {p}").format(p=foc["Position"]))
-        names = fw.get("Names") or []
-        if names and [self.filter_name.itemText(i) for i in range(self.filter_name.count())] != names:
-            self.filter_name.clear()
-            self.filter_name.addItems(names)
-        if names and 0 <= fw.get("Position", -1) < len(names):
-            parts.append(self.tr("filter {f}").format(f=names[fw["Position"]]))
-        self.devices.setText(", ".join(parts))
-        job = st["job"]
-        if job["name"] == "sequence" and getattr(self, "_sequence_dir", None) and not job["running"]:
-            if job["written"]:  # also after a weather stop: the frames taken so far are worth processing
-                self._fetch(job["written"], self._sequence_dir, self.sequence_finished.emit)
-            self._sequence_dir = None
-        if job["name"] == "preview" and not job["running"] and job["written"]:
-            path = job["written"][0]
-            if path != self._shown_preview:
-                self._shown_preview = path
-                name = re.split(r"[\\/]", path)[-1]  # the observatory may run on Windows
-                folder = path[: -len(name)].rstrip("\\/")
-                self._fetch([path], folder, lambda local: self.preview_ready.emit(str(Path(local) / name)))
 
     def download_dir(self, remote_folder):
         """Where frames of a remote observatory are copied: <download folder>/<last part of its folder>."""
@@ -768,83 +630,3 @@ class ObservePage(Undoable, QWidget):
             common = {"exposures": exposures, "dither_every": self.dither.value()}
             return {"out_dir": self.out_dir.text().strip(), "targets": [t | common for t in self.plan]}
         return {"out_dir": self.out_dir.text().strip(), "targets": [target]}
-
-    def load_schedule(self, blocks):
-        """A night plan: one sequence target per block, observed between its start and end."""
-        from astropy.time import Time
-
-        self.plan = [
-            {
-                "name": b["name"],
-                "ra": b["ra"],
-                "dec": b["dec"],
-                "start": Time(b["start"], format="jd").isot[:19],
-                "end": Time(b["end"], format="jd").isot[:19],
-            }
-            for b in blocks
-        ]
-        self.plan_list.clear()
-        self.plan_list.addItems(f"{t['start'][11:16]}–{t['end'][11:16]} UTC  {t['name']}" for t in self.plan)
-        self.plan_box.setVisible(bool(self.plan))
-
-    def load_sequence(self, target):
-        """Fill the sequence form from a target spec (as sequence_spec writes it, e.g. from an automation)."""
-        from astropy.coordinates import SkyCoord
-
-        self.seq_name.setText(target.get("name", ""))
-        coord = ""
-        if "ra" in target:
-            coord = SkyCoord(target["ra"], target["dec"], unit="deg").to_string("hmsdms", sep=":", precision=1)
-        self.seq_coord.setText(coord)
-        self.dither.setValue(int(target.get("dither_every", 0)))
-        self.seq_start.setText(target.get("start") or "")
-        self.seq_end.setText(target.get("end") or "")
-        self.edit(self.tr("load a sequence"), self._load_rows, target.get("exposures", []))
-        self.rotation.setText("" if target.get("rotation") is None else str(target["rotation"]))
-
-    def _load_rows(self, exposures):
-        self.exposures.setRowCount(0)
-        for e in exposures:
-            self.add_exposure_row()
-            r = self.exposures.rowCount() - 1
-            self.exposures.cellWidget(r, 0).setCurrentText(e.get("kind", "light"))
-            self.exposures.item(r, 1).setText(e.get("filter") or "")
-            self.exposures.cellWidget(r, 2).setValue(float(e.get("exptime", 60)))
-            self.exposures.cellWidget(r, 3).setValue(int(e.get("count", 1)))
-            self.exposures.cellWidget(r, 4).setValue(int(e.get("binning", 1)))
-            for c, key in ((5, "gain"), (6, "offset"), (7, "readout")):
-                self.exposures.item(r, c).setText("" if e.get(key) is None else str(e[key]))
-            self.exposures.item(r, 8).setText(", ".join(str(v) for v in e.get("roi") or []))
-
-    def _start_sequence(self):
-        try:
-            spec = self.sequence_spec()
-        except ValueError as e:
-            self.job.setText(translate(e))
-            return
-        if self._post("/sequence", spec):
-            self._sequence_dir = spec["out_dir"]
-
-    def panel_flats(self):
-        r = max(self.exposures.currentRow(), 0)
-        item = self.exposures.item(r, 1)
-        return self._post(
-            "/panelflats",
-            {
-                "filter": (item.text().strip() if item else "") or None,
-                "count": self.exposures.cellWidget(r, 3).value(),
-                "out_dir": self.out_dir.text().strip(),
-            },
-        )
-
-    def _sky_flats(self):
-        r = max(self.exposures.currentRow(), 0)
-        item = self.exposures.item(r, 1)
-        self._post(
-            "/skyflats",
-            {
-                "filter": (item.text().strip() if item else "") or None,
-                "count": self.exposures.cellWidget(r, 3).value(),
-                "out_dir": self.out_dir.text().strip(),
-            },
-        )
