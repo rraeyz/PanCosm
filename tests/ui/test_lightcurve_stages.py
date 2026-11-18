@@ -53,3 +53,28 @@ def test_fold_and_report_stages_and_the_peak_table(window):
     win.show_stage("report")
     assert window.lightcurve_page.currentIndex() == 0
     win.close()
+
+
+def test_points_left_out_are_gone_from_every_plot_and_the_periodogram_is_marked_stale(qtbot):
+    """UI-16.4: one list of points in use feeds the time and the folded plot; the periodogram is marked until a new
+    search; Undo edits restores the points."""
+    from astrowb.ui.period_page import PeriodPage
+
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    t = np.linspace(0, 10, 60)
+    page.set_light_curve(t, 1 + 0.01 * np.sin(t), "test")
+    page.delete_points([1, 2])  # in the time plot
+    assert len(page.time) == 58 and t[1] not in page.time
+    periods = np.linspace(1, 5, 20)
+    out = {"best": 2.0, "periods": periods, "power": np.ones(20)}
+    page.show_result(out)
+    assert page._period_label() == "Period (d)"
+    page.delete_points([0])  # in the folded plot (same path)
+    assert len(page.time) == 57 and t[0] not in page.time
+    assert "out of date" in page._period_label()
+    page.show_result(out)  # a new search uses only the rest
+    assert "out of date" not in page._period_label()
+    page.delete_points([5])
+    page.undo_button.click()
+    assert len(page.time) == 60

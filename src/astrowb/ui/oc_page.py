@@ -26,6 +26,7 @@ from .kit.widgets import StepGuide, _title
 from .oc_lcfile import load_lcfile
 from .oc_minima import add_result_buttons
 from .oc_minima_table import add_minima_table, as_text, minima_for_fit
+from .oc_years import year_axis
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 
@@ -406,6 +407,7 @@ class OCPage(QWidget):
             SeriesSpec("0", [0.0], kind="hline", colour=tokens.role("saturated")),
         ]
         top = PanelSpec(AxisSpec(""), AxisSpec(self.tr("O−C (min)")), series, height_ratio=3)
+        top.top = year_axis(f.ref_t0, f.ref_period, f.epochs, self.tr("Year"))
         self.plot.set_figure(
             FigureSpec([top, PanelSpec(AxisSpec(self.tr("Epoch")), AxisSpec(self.tr("Residual (min)")), res)])
         )

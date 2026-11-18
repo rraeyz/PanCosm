@@ -507,6 +507,7 @@ class PeriodPage(Undoable, QWidget):
 
     def show_result(self, out):
         self.best, self.periodogram = out["best"], out
+        self._searched_n = len(self.time)  # the points this periodogram was computed from
         if self.guide.states[1] is None:
             self.guide.set_state(1, "skipped")
         self.guide.set_state(2, "done")
@@ -529,6 +530,13 @@ class PeriodPage(Undoable, QWidget):
         self.result.setText(text)
         self._plot_phase()
 
+    def _period_label(self):
+        """The periodogram is not recomputed when points are left out: say so on its axis."""
+        label = self.tr("Period (d)")
+        if len(self.time) != getattr(self, "_searched_n", len(self.time)):
+            label += " " + self.tr("(out of date: points were left out)")
+        return label
+
     def _plot_phase(self):
         out = self.periodogram
         t, f = np.asarray(self.time), np.asarray(self.flux)
@@ -550,7 +558,7 @@ class PeriodPage(Undoable, QWidget):
             )
         self._draw(
             [
-                (AxisSpec(self.tr("Period (d)"), scale="log"), curve, AxisSpec(power)),
+                (AxisSpec(self._period_label(), scale="log"), curve, AxisSpec(power)),
                 (AxisSpec(self.tr("Phase")), folded, None),
             ]
         )
