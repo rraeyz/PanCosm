@@ -481,6 +481,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP(
         "Messages", "no object found near x={x0} y={y0} on {name}: mark it on the first and the last frame"
     ),
+    # ui/moving_lightcurve.py
+    QT_TRANSLATE_NOOP("Messages", "no object positions: mark the object on the first and the last frame"),
+    QT_TRANSLATE_NOOP("Messages", "no comparison stars found on the first frame"),
+    QT_TRANSLATE_NOOP("Messages", "fewer than 3 comparison stars lie on a frame: the frames do not overlap enough"),
     # calibration/stacking.py (stars picked to align on)
     QT_TRANSLATE_NOOP("Messages", "pick at least one star on the first frame to align on"),
     # photometry/fit_steps.py (PHO-26)

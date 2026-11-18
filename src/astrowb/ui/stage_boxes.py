@@ -293,8 +293,9 @@ def astrometry_stages(win, page):
     """The Astrometry window (UI-16.11): Images, Solve, Find, Measure, Report beside the frame and the positions."""
     titles = {"images": translate("AstrometryWindow", "Images"), "solve": translate("AstrometryWindow", "Solve"),
               "find": translate("AstrometryWindow", "Find"), "measure": translate("AstrometryWindow", "Measure"),
+              "lightcurve": translate("AstrometryWindow", "Light curve"),
               "report": translate("AstrometryWindow", "Report")}  # fmt: skip
-    anchors = {key: f"astrometry-{key}" for key in ("images", "solve", "find", "measure", "report")}
+    anchors = {key: f"astrometry-{key}" for key in ("images", "solve", "find", "measure", "lightcurve", "report")}
     stages_from_boxes(win, page, titles, anchors, {})
     from .astrometry_inspector import position_inspector
 

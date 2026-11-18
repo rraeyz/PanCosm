@@ -365,7 +365,7 @@ zero point comes out flat within 1.2 × its predicted error, at its true magnitu
 where it passes a bright star are flagged. (2026-11-27: the ALCDEF 2.3.0 export, `photometry/reports/alcdef.py`: `write(path, session)` and `profile_fields(profile)`,
 written against the standard's text (required keywords, DATA lines, the DIFFERMAGS/STANDARD, LTC and REDUCEDMAGS
 cross-checks; a required keyword without a value raises `ValueError` naming it; comparison-star keywords not written);
-tests/test_alcdef.py; no export place in the UI yet.) Left: the ephemeris (JPL Horizons) positions and geometry, the
+tests/test_alcdef.py.) The window (2026-11-27): the Astrometry window's "Light curve" stage after Measure (`ui/moving_lightcurve.py`: `compute` takes the Measure stage's positions, else `linear_track` of the two marks; comparison stars = `detect_stars` on the first frame followed through each frame's plate solution, magnitudes instrumental on the first frame so the curve is on an internal system, not a catalogue; radii fields default to the Photometry window's 4 / 10 / 16 px; worker thread through `kit/handoff.to_main`; the curve in `plot_box`, the frames in a `DataTable`, blended frames listed and left out; "Save as ALCDEF…" form prefilled by `profile_fields`, `alcdef.write` guarded, a `ValueError` shown translated); tests/ui/test_moving_lightcurve.py (a constant moving star is flat within its errors; the file holds the DATA lines; failures are said, not raised). Left: the ephemeris (JPL Horizons) positions and geometry, the
 Stars stage's "Moving object" mode, the real
 asteroid night.
 - **Reference:** MPO Canopus (comparison-star selector with catalogue magnitudes, sessions joined across nights,

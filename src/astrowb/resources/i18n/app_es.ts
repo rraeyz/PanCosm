@@ -1097,6 +1097,11 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/stage_boxes.py" line="296"/>
+        <source>Light curve</source>
+        <translation type="unfinished">Curva de luz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="297"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8200,7 +8205,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>no se pudo seguir el espectro: para uno débil, indique la fila de un espectro más brillante para la forma de su traza</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="530"/>
+        <location filename="../../ui/messages.py" line="534"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>no se encontró ningún mínimo: la ventana debe contener un mínimo completo con puntos a ambos lados</translation>
     </message>
@@ -9446,376 +9451,391 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/messages.py" line="485"/>
-        <source>pick at least one star on the first frame to align on</source>
+        <source>no object positions: mark the object on the first and the last frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="486"/>
+        <source>no comparison stars found on the first frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="487"/>
-        <source>unknown detrending series: {name}</source>
+        <source>fewer than 3 comparison stars lie on a frame: the frames do not overlap enough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="489"/>
-        <source>no comparison star passed the rules; most were removed by: {reasons}</source>
+        <source>pick at least one star on the first frame to align on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="491"/>
-        <source>unknown detrending method: {method}</source>
+        <source>unknown detrending series: {name}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="493"/>
-        <source>unknown table style: {style}</source>
+        <source>no comparison star passed the rules; most were removed by: {reasons}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="495"/>
-        <source>conservative transfer between equal masses changes no period</source>
+        <source>unknown detrending method: {method}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="497"/>
-        <source>{child} is related to {parent}, which is itself related</source>
+        <source>unknown table style: {style}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="498"/>
-        <source>unknown frequency unit: {freq_unit}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/messages.py" line="500"/>
-        <source>at most {MAX_SPOTS} spots per star</source>
+        <location filename="../../ui/messages.py" line="499"/>
+        <source>conservative transfer between equal masses changes no period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="501"/>
-        <source>unknown spot overlap rule: {rule}</source>
+        <source>{child} is related to {parent}, which is itself related</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="503"/>
-        <source>the {law} law takes {need} coefficients</source>
+        <location filename="../../ui/messages.py" line="502"/>
+        <source>unknown frequency unit: {freq_unit}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="504"/>
-        <source>the limb-darkening coefficients make the intensity negative near the limb</source>
+        <source>at most {MAX_SPOTS} spots per star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="505"/>
-        <source>the limb-darkening coefficients make the limb brighter than the centre</source>
+        <source>unknown spot overlap rule: {rule}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="507"/>
-        <source>{name}: there is no {path}</source>
+        <source>the {law} law takes {need} coefficients</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="508"/>
+        <source>the limb-darkening coefficients make the intensity negative near the limb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="509"/>
-        <source>{name} must be a number, not {value}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/messages.py" line="510"/>
-        <source>{name} must be a whole number, not {value}</source>
+        <source>the limb-darkening coefficients make the limb brighter than the centre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="511"/>
-        <source>{name} = {value} is below the smallest allowed value {low}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/messages.py" line="512"/>
-        <source>{name} = {value} is above the largest allowed value {high}</source>
+        <source>{name}: there is no {path}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="513"/>
-        <source>{name} must be true or false, not {value}</source>
+        <source>{name} must be a number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="514"/>
-        <source>{name} must be one of {known}, not {value}</source>
+        <source>{name} must be a whole number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="515"/>
-        <source>unknown parameter kind {kind}</source>
+        <source>{name} = {value} is below the smallest allowed value {low}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="516"/>
-        <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
+        <source>{name} = {value} is above the largest allowed value {high}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="517"/>
-        <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
+        <source>{name} must be true or false, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="518"/>
-        <source>the light curves have times in different standards ({scales}): convert them to one first</source>
+        <source>{name} must be one of {known}, not {value}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="519"/>
+        <source>unknown parameter kind {kind}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="520"/>
+        <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="521"/>
+        <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="522"/>
+        <source>the light curves have times in different standards ({scales}): convert them to one first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="525"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>las noches se midieron con distinto número de estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="522"/>
+        <location filename="../../ui/messages.py" line="526"/>
         <source>no night has a frame with every comparison star</source>
         <translation>ninguna noche tiene una toma con todas las estrellas de comparación</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="523"/>
+        <location filename="../../ui/messages.py" line="527"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>no es una curva de luz exportada desde la ventana de Fotometría (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="524"/>
+        <location filename="../../ui/messages.py" line="528"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>no hay dos imágenes de los dos filtros lo bastante cercanas en el tiempo para formar un color</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="526"/>
+        <location filename="../../ui/messages.py" line="530"/>
         <source>filter not understood: {part}</source>
         <translation>filtro no entendido: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="527"/>
+        <location filename="../../ui/messages.py" line="531"/>
         <source>no column {name} in the measurements table</source>
         <translation>no hay ninguna columna {name} en la tabla de medidas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="529"/>
+        <location filename="../../ui/messages.py" line="533"/>
         <source>the minimum must have data on both sides</source>
         <translation>el mínimo debe tener datos a ambos lados</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="535"/>
+        <location filename="../../ui/messages.py" line="539"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>no hay hora de observación en la cabecera (DATE-OBS, UT-OBS, JD, MJD-OBS): añada DATE-OBS en la pestaña Cabecera de la ventana Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="539"/>
+        <location filename="../../ui/messages.py" line="543"/>
         <source>not an angle: {value}</source>
         <translation>no es un ángulo: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="541"/>
+        <location filename="../../ui/messages.py" line="545"/>
         <source>the service sent an answer in an unexpected form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="542"/>
+        <location filename="../../ui/messages.py" line="546"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>no hay repositorio de GitHub configurado para buscar actualizaciones</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="544"/>
+        <location filename="../../ui/messages.py" line="548"/>
         <source>solving</source>
         <translation>resolviendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="545"/>
+        <location filename="../../ui/messages.py" line="549"/>
         <source>catalogues</source>
         <translation>catálogos</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="546"/>
+        <location filename="../../ui/messages.py" line="550"/>
         <source>reading headers</source>
         <translation>leyendo cabeceras</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="547"/>
+        <location filename="../../ui/messages.py" line="551"/>
         <source>master bias</source>
         <translation>bias maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="548"/>
+        <location filename="../../ui/messages.py" line="552"/>
         <source>master dark</source>
         <translation>dark maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="549"/>
+        <location filename="../../ui/messages.py" line="553"/>
         <source>master flat</source>
         <translation>flat maestro</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="550"/>
+        <location filename="../../ui/messages.py" line="554"/>
         <source>calibrating</source>
         <translation>calibrando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="551"/>
+        <location filename="../../ui/messages.py" line="555"/>
         <source>combining</source>
         <translation>combinando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="552"/>
+        <location filename="../../ui/messages.py" line="556"/>
         <source>aligning</source>
         <translation>alineando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="553"/>
+        <location filename="../../ui/messages.py" line="557"/>
         <source>stacking</source>
         <translation>apilando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="554"/>
+        <location filename="../../ui/messages.py" line="558"/>
         <source>drizzle</source>
         <translation>drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="555"/>
+        <location filename="../../ui/messages.py" line="559"/>
         <source>reading</source>
         <translation>leyendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="556"/>
+        <location filename="../../ui/messages.py" line="560"/>
         <source>writing</source>
         <translation>escribiendo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="557"/>
+        <location filename="../../ui/messages.py" line="561"/>
         <source>plate solving</source>
         <translation>reducción astrométrica</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="558"/>
+        <location filename="../../ui/messages.py" line="562"/>
         <source>checking</source>
         <translation>comprobando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="559"/>
+        <location filename="../../ui/messages.py" line="563"/>
         <source>downloading</source>
         <translation>descargando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="560"/>
+        <location filename="../../ui/messages.py" line="564"/>
         <source>simulating</source>
         <translation>simulando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="561"/>
+        <location filename="../../ui/messages.py" line="565"/>
         <source>simulating a transit night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="562"/>
+        <location filename="../../ui/messages.py" line="566"/>
         <source>photometry</source>
         <translation>fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="563"/>
+        <location filename="../../ui/messages.py" line="567"/>
         <source>quality</source>
         <translation>calidad</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="564"/>
+        <location filename="../../ui/messages.py" line="568"/>
         <source>catalogue</source>
         <translation>catálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="565"/>
+        <location filename="../../ui/messages.py" line="569"/>
         <source>astrometry</source>
         <translation>astrometría</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="566"/>
+        <location filename="../../ui/messages.py" line="570"/>
         <source>fit</source>
         <translation>ajuste</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="567"/>
+        <location filename="../../ui/messages.py" line="571"/>
         <source>trace</source>
         <translation>traza</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="568"/>
+        <location filename="../../ui/messages.py" line="572"/>
         <source>trace orders</source>
         <translation>trazar órdenes</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="569"/>
+        <location filename="../../ui/messages.py" line="573"/>
         <source>extraction</source>
         <translation>extracción</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="570"/>
+        <location filename="../../ui/messages.py" line="574"/>
         <source>arc</source>
         <translation>arco</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="571"/>
+        <location filename="../../ui/messages.py" line="575"/>
         <source>wavelength solution</source>
         <translation>solución de longitud de onda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="572"/>
+        <location filename="../../ui/messages.py" line="576"/>
         <source>downloading the template library</source>
         <translation>descargando la biblioteca de plantillas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="573"/>
+        <location filename="../../ui/messages.py" line="577"/>
         <source>comparing</source>
         <translation>comparando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="574"/>
+        <location filename="../../ui/messages.py" line="578"/>
         <source>comparing with the MK standards</source>
         <translation>comparando con los estándares MK</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="575"/>
+        <location filename="../../ui/messages.py" line="579"/>
         <source>disentangling</source>
         <translation>separando</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="576"/>
+        <location filename="../../ui/messages.py" line="580"/>
         <source>band math</source>
         <translation>álgebra de bandas</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="577"/>
+        <location filename="../../ui/messages.py" line="581"/>
         <source>folder not found: {path}</source>
         <translation>carpeta no encontrada: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="578"/>
+        <location filename="../../ui/messages.py" line="582"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} contiene una fecha pero no la hora, y no se encontró ninguna palabra clave de hora</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="579"/>
+        <location filename="../../ui/messages.py" line="583"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>indique el nombre o las coordenadas del objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="580"/>
+        <location filename="../../ui/messages.py" line="584"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>indique la resolución del espectrógrafo: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="581"/>
+        <location filename="../../ui/messages.py" line="585"/>
         <source>the Sun</source>
         <translation>el Sol</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="582"/>
+        <location filename="../../ui/messages.py" line="586"/>
         <source>first estimate</source>
         <translation>primera estimación</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="639"/>
+        <location filename="../../ui/messages.py" line="643"/>
         <source>Cannot save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10511,9 +10531,173 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>MovingLC</name>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="104"/>
+        <source>Days since JD {t0:.5f}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="109"/>
+        <location filename="../../ui/moving_lightcurve.py" line="215"/>
+        <source>Magnitude</source>
+        <translation type="unfinished">Magnitud</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="112"/>
+        <source>object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="132"/>
+        <source>Aperture (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="133"/>
+        <source>Sky ring inner (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="134"/>
+        <source>Sky ring outer (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="146"/>
+        <source>Measure brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="148"/>
+        <source>Measures the object on every frame against the stars of the field (magnitudes on an internal system, not a catalogue) and draws the light curve; frames where it passes a bright star are listed but left out of the curve and the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="156"/>
+        <source>Save as ALCDEF…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="159"/>
+        <source>Writes the curve as an ALCDEF file (standard 2.3.0) for the asteroid light-curve database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="189"/>
+        <source>Choose the frames first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="214"/>
+        <source>UTC time (JD)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="216"/>
+        <source>Error</source>
+        <translation type="unfinished">Error</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="217"/>
+        <source>Stars</source>
+        <translation type="unfinished">Estrellas</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="218"/>
+        <source>Blended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="228"/>
+        <source>yes</source>
+        <translation type="unfinished">sí</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="237"/>
+        <source>{n} frames measured, {k} blended with a star and left out of the curve.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="250"/>
+        <source>ALCDEF session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="254"/>
+        <source>The minor planet&apos;s number; 0 when it has none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="262"/>
+        <source>an e-mail address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="263"/>
+        <source>The band the magnitudes are on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="265"/>
+        <source>Object number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="266"/>
+        <source>Object name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="267"/>
+        <source>Filter</source>
+        <translation type="unfinished">Filtro</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="268"/>
+        <source>Magnitude band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="269"/>
+        <source>Contact name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="270"/>
+        <source>Contact info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="271"/>
+        <source>Observers</source>
+        <translation type="unfinished">Observadores</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="294"/>
+        <source>Magnitudes are instrumental magnitudes of the field stars on the first frame, not a catalogue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="318"/>
+        <source>Measure the brightness first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="327"/>
+        <source>ALCDEF file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_lightcurve.py" line="337"/>
+        <source>ALCDEF file written: {p}</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MovingObjectDialog</name>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="307"/>
+        <location filename="../../ui/moving_dialog.py" line="315"/>
         <source>Asteroid and comet astrometry</source>
         <translation>Astrometría de asteroides y cometas</translation>
     </message>
@@ -10536,182 +10720,182 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished">Residuo (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="68"/>
+        <location filename="../../ui/moving_dialog.py" line="72"/>
         <source>Choose plate-solved frames…</source>
         <translation type="unfinished">Elegir imágenes con reducción astrométrica…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="72"/>
+        <location filename="../../ui/moving_dialog.py" line="76"/>
         <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
         <translation type="unfinished">Fotogramas calibrados con solución astrométrica (WCS) en la cabecera, tomados durante una hora o más para que el objeto se mueva</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="77"/>
+        <location filename="../../ui/moving_dialog.py" line="81"/>
         <source>Frames without a plate solution are solved first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="78"/>
+        <location filename="../../ui/moving_dialog.py" line="82"/>
         <source>Solve the frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="82"/>
+        <location filename="../../ui/moving_dialog.py" line="86"/>
         <source>Plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="85"/>
+        <location filename="../../ui/moving_dialog.py" line="89"/>
         <source>Click the object on the first frame, then on the last frame; they are marked in the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="90"/>
+        <location filename="../../ui/moving_dialog.py" line="94"/>
         <source>Measure positions</source>
         <translation type="unfinished">Medir posiciones</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="97"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
         <translation type="unfinished">Tras pulsar el objeto en el primer y en el último fotograma: se mide su posición en cada fotograma y se ajusta un movimiento uniforme; los residuos muestran los puntos malos</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="114"/>
+        <location filename="../../ui/moving_dialog.py" line="122"/>
         <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
         <translation type="unfinished">p. ej. 2026 VA12, 433 o su propio nombre para un objeto nuevo</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="117"/>
+        <location filename="../../ui/moving_dialog.py" line="125"/>
         <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
         <translation type="unfinished">La designación del objeto en el Minor Planet Center, o un nombre provisional propio para un objeto nuevo</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="122"/>
+        <location filename="../../ui/moving_dialog.py" line="130"/>
         <source>MPC observatory code, e.g. A84</source>
         <translation type="unfinished">Código de observatorio del MPC, p. ej. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="125"/>
+        <location filename="../../ui/moving_dialog.py" line="133"/>
         <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
         <translation type="unfinished">El código de tres caracteres de su observatorio del Minor Planet Center (solicítelo antes del primer informe)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="130"/>
+        <location filename="../../ui/moving_dialog.py" line="138"/>
         <source>names, separated by commas</source>
         <translation type="unfinished">nombres, separados por comas</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="131"/>
+        <location filename="../../ui/moving_dialog.py" line="139"/>
         <source>Names of the observers, written into the report</source>
         <translation type="unfinished">Nombres de los observadores, se escriben en el informe</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="135"/>
+        <location filename="../../ui/moving_dialog.py" line="143"/>
         <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
         <translation type="unfinished">Catálogo estelar en que se basan las soluciones astrométricas (ADES astCat). Se toma de las imágenes cuando el resolvedor lo registró: los índices 4100 de astrometry.net son Tycho-2 (Tyc2), los 4200 son 2MASS y los 5200 son Gaia DR2 (Gaia2); las bases de estrellas de ASTAP proceden de Gaia (compruebe qué versión es la suya)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="140"/>
+        <location filename="../../ui/moving_dialog.py" line="148"/>
         <source>Object</source>
         <translation type="unfinished">Objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="141"/>
+        <location filename="../../ui/moving_dialog.py" line="149"/>
         <source>Observatory code</source>
         <translation type="unfinished">Código de observatorio</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="142"/>
+        <location filename="../../ui/moving_dialog.py" line="150"/>
         <source>Observers</source>
         <translation type="unfinished">Observadores</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="143"/>
+        <location filename="../../ui/moving_dialog.py" line="151"/>
         <source>Catalogue</source>
         <translation>Catálogo</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="145"/>
+        <location filename="../../ui/moving_dialog.py" line="153"/>
         <source>ADES PSV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="146"/>
+        <location filename="../../ui/moving_dialog.py" line="154"/>
         <source>MPC 80-column</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="148"/>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>File format of the report; the 80-column format is the older one for other tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="150"/>
+        <location filename="../../ui/moving_dialog.py" line="158"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="152"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>Write MPC report (ADES)…</source>
         <translation type="unfinished">Escribir informe MPC (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="156"/>
+        <location filename="../../ui/moving_dialog.py" line="164"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation type="unfinished">Escribe las posiciones en el formato ADES del MPC, listas para enviar al Minor Planet Center</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="185"/>
+        <location filename="../../ui/moving_dialog.py" line="193"/>
         <source>{n} frames, {k} without a plate solution.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="200"/>
+        <location filename="../../ui/moving_dialog.py" line="208"/>
         <source>Click the object on the first frame.</source>
         <translation type="unfinished">Pulse el objeto en la primera imagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="206"/>
+        <location filename="../../ui/moving_dialog.py" line="214"/>
         <source>Choose frames</source>
         <translation type="unfinished">Elegir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="219"/>
+        <location filename="../../ui/moving_dialog.py" line="227"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation type="unfinished">Ahora pulse el objeto en la última imagen (la primera posición está marcada).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="223"/>
+        <location filename="../../ui/moving_dialog.py" line="231"/>
         <source>Press Measure positions.</source>
         <translation type="unfinished">Pulse Medir posiciones.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="232"/>
+        <location filename="../../ui/moving_dialog.py" line="240"/>
         <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
         <translation type="unfinished">Catálogo fijado en {c}: las soluciones astrométricas de las imágenes se basan en él.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="234"/>
+        <location filename="../../ui/moving_dialog.py" line="242"/>
         <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
         <translation type="unfinished">Las imágenes se resolvieron con catálogos distintos ({c}): resuélvalas de la misma manera.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="244"/>
+        <location filename="../../ui/moving_dialog.py" line="252"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation type="unfinished">{n} posiciones. Mayor residuo {w:.2f}″ (más de ~1″: revise esa imagen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="248"/>
+        <location filename="../../ui/moving_dialog.py" line="256"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation type="unfinished">{k} tomas no se pudieron resolver astrométricamente y se dejaron fuera.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="287"/>
+        <location filename="../../ui/moving_dialog.py" line="295"/>
         <source>MPC report</source>
         <translation type="unfinished">Informe MPC</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="295"/>
+        <location filename="../../ui/moving_dialog.py" line="303"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation type="unfinished">Informe escrito: {p}. Envíelo al MPC (obs@minorplanetcenter.net o el formulario web).</translation>
     </message>

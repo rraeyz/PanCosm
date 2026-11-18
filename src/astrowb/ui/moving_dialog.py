@@ -57,11 +57,15 @@ class MovingObjectPage(QWidget):
         self.table = frame.table
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         main.addWidget(frame, 1)
+        from . import moving_lightcurve
+
+        for w, share in zip(moving_lightcurve.show_widgets(self), (2, 1), strict=True):
+            main.addWidget(w, share)  # the curve and its list, shown once measured
         split.setStretchFactor(1, 1)
         from .stage_boxes import boxes_from_column
 
         starts = [("images", self.choose_button), ("solve", self.solve_info), ("find", self.find_info),
-                  ("measure", self.measure_button), ("report", self.form_box)]  # fmt: skip
+                  ("measure", self.measure_button), ("lightcurve", self.lc_box), ("report", self.form_box)]  # fmt: skip
         self.stage_boxes = boxes_from_column(left, starts)
 
     def _controls(self, lay):
@@ -103,6 +107,10 @@ class MovingObjectPage(QWidget):
         for w in (self.choose_button, self.frames_info, self.solve_info, self.solve_button, self.find_info,
                   self.blink_button, self.measure_button):  # fmt: skip
             lay.addWidget(w)
+        from . import moving_lightcurve
+
+        self.lc_box = moving_lightcurve.stage_box(self)
+        lay.addWidget(self.lc_box)
         self.form_box = self._report_form(lay)
 
     def _report_form(self, lay):
