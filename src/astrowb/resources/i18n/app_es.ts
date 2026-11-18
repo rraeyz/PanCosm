@@ -17858,123 +17858,133 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>ProjectPage</name>
     <message>
-        <location filename="../../ui/project_page.py" line="32"/>
+        <location filename="../../ui/project_page.py" line="33"/>
         <source>Methods text…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="38"/>
+        <location filename="../../ui/project_page.py" line="39"/>
         <source>Files</source>
         <translation>Archivos</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="41"/>
+        <location filename="../../ui/project_page.py" line="42"/>
         <source>History</source>
         <translation>Historial</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="47"/>
         <source>Tasks</source>
         <translation type="unfinished">Tareas</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="49"/>
+        <location filename="../../ui/project_page.py" line="50"/>
         <source>Step</source>
         <translation>Paso</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="49"/>
+        <location filename="../../ui/project_page.py" line="50"/>
         <source>Status</source>
         <translation>Estado</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="49"/>
+        <location filename="../../ui/project_page.py" line="50"/>
         <source>Started</source>
         <translation>Iniciado</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="49"/>
-        <location filename="../../ui/project_page.py" line="135"/>
+        <location filename="../../ui/project_page.py" line="50"/>
+        <location filename="../../ui/project_page.py" line="148"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="59"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Ejecutar de nuevo con las mismas entradas y ajustes</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="61"/>
+        <location filename="../../ui/project_page.py" line="62"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Vuelve a ejecutar el paso seleccionado exactamente como antes, p. ej. después de cambiar los archivos de entrada</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="65"/>
-        <source>Copy as Python</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/project_page.py" line="67"/>
-        <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
+        <location filename="../../ui/project_page.py" line="66"/>
+        <source>Reproduce…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="70"/>
-        <source>Save as recipe…</source>
+        <source>Runs the step again with the same inputs and settings, keeps a copy of the old products and compares them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="73"/>
-        <source>The selected step with its settings as an automation: Automation runs it on other files</source>
+        <location filename="../../ui/project_page.py" line="76"/>
+        <source>Copy as Python</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="78"/>
+        <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="81"/>
-        <source>Select a run to see its inputs, settings, results and versions.</source>
-        <translation>Elija una ejecución para ver sus entradas, ajustes, resultados y versiones.</translation>
+        <source>Save as recipe…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="90"/>
-        <source>Run steps and the methods paragraph appears here.</source>
+        <location filename="../../ui/project_page.py" line="84"/>
+        <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/project_page.py" line="92"/>
+        <source>Select a run to see its inputs, settings, results and versions.</source>
+        <translation>Elija una ejecución para ver sus entradas, ajustes, resultados y versiones.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="101"/>
+        <source>Run steps and the methods paragraph appears here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="103"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="93"/>
+        <location filename="../../ui/project_page.py" line="104"/>
         <source>Copies the methods text to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="97"/>
+        <location filename="../../ui/project_page.py" line="108"/>
         <source>Methods text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="134"/>
+        <location filename="../../ui/project_page.py" line="147"/>
         <source>Inputs</source>
         <translation>Entradas</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="136"/>
+        <location filename="../../ui/project_page.py" line="149"/>
         <source>Results</source>
         <translation>Resultados</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="137"/>
+        <location filename="../../ui/project_page.py" line="150"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="138"/>
+        <location filename="../../ui/project_page.py" line="151"/>
         <source>Versions</source>
         <translation>Versiones</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="156"/>
+        <location filename="../../ui/project_page.py" line="169"/>
         <source>Save as recipe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18766,6 +18776,19 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/rs_map_layers.py" line="118"/>
         <location filename="../../ui/rs_map_layers.py" line="135"/>
         <source>Show this on the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reproduce</name>
+    <message>
+        <location filename="../../ui/project_reproduce.py" line="36"/>
+        <source>No products to compare.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_reproduce.py" line="43"/>
+        <source>Copies of the old products and the report: {folder}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

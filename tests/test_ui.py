@@ -854,10 +854,12 @@ def test_project_history_details_and_run_again(window, qtbot, fits_file, tmp_pat
         lambda: page.runs_table.model.rowCount() == 1 and page.runs_table.model.index(0, 1).data() == "done",
         timeout=60000,
     )
+    assert not page.reproduce_button.isEnabled()
     page.runs_table.view.selectRow(0)
     text = page.details.toPlainText()
     assert "fits.save_as — done" in text and "copy.fits" in text and "astropy" in text  # inputs, outputs, versions
     (tmp_path / "copy.fits").unlink()
+    assert page.reproduce_button.isEnabled() and page.reproduce_button.toolTip()
     page.rerun_button.click()
     qtbot.waitUntil(
         lambda: page.runs_table.model.rowCount() == 2 and page.runs_table.model.index(1, 1).data() == "done",
@@ -866,6 +868,22 @@ def test_project_history_details_and_run_again(window, qtbot, fits_file, tmp_pat
     assert (tmp_path / "copy.fits").exists() and window.engine.project.runs(full=False)[1]["params"] == {
         "overwrite": True
     }
+
+
+def test_project_reproduce(window, qtbot, fits_file, tmp_path):
+    window.open_project(tmp_path / "p.astroproj")
+    window.run_step(
+        "fits.save_as", {"source": str(fits_file), "destination": str(tmp_path / "copy.fits")}, {"overwrite": True}
+    )
+    page = window.project_page
+    qtbot.waitUntil(
+        lambda: page.runs_table.model.rowCount() == 1 and page.runs_table.model.index(0, 1).data() == "done"
+    )
+    page.runs_table.view.selectRow(0)
+    page.reproduce_button.click()
+    qtbot.waitUntil(lambda: "Copies of the old products" in page.details.toPlainText(), timeout=60000)
+    (report,) = (tmp_path / "reproduce").glob("run-1-*/report.txt")
+    assert "identical" in report.read_text() and (report.parent / "original" / "copy.fits").exists()
 
 
 def test_plan_page_target_with_ephemeris(window):

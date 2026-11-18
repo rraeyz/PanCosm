@@ -23,6 +23,7 @@ class ProjectPage(QWidget):
 
     run_selected = Signal(int)  # run id
     rerun_requested = Signal(int)  # run id
+    reproduce_requested = Signal(int)  # run id
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -62,6 +63,16 @@ class ProjectPage(QWidget):
         )
         self.rerun_button.clicked.connect(lambda: self.rerun_requested.emit(self.selected_run()))
         row.addWidget(self.rerun_button)
+        self.reproduce_button = QPushButton(self.tr("Reproduce…"), self)
+        self.reproduce_button.setEnabled(False)
+        self.reproduce_button.setToolTip(
+            self.tr(
+                "Runs the step again with the same inputs and settings, keeps a copy of the old products "
+                "and compares them"
+            )
+        )
+        self.reproduce_button.clicked.connect(lambda: self.reproduce_requested.emit(self.selected_run()))
+        row.addWidget(self.reproduce_button)
         self.python_button = QPushButton(self.tr("Copy as Python"), self)
         self.python_button.setEnabled(False)
         self.python_button.setToolTip(self.tr("The selected step as a line of a Python script (astrowb.api), to copy"))
@@ -113,6 +124,7 @@ class ProjectPage(QWidget):
         import json
 
         self.run_ids, self._run_id = [r["id"] for r in runs], None
+        self.reproduce_button.setEnabled(False)
         self.rerun_button.setEnabled(False)  # the selection is gone with the old rows
         rows = [(r["step"], r["status"], r["started"], json.dumps(r["params"])) for r in runs]
         self.runs_table.set_table(Table(rows=rows, names=self.run_names, dtype=(str,) * 4))
@@ -120,6 +132,7 @@ class ProjectPage(QWidget):
     def _selected(self, row):
         self._run_id = run_id = self.run_ids[row]
         self.rerun_button.setEnabled(True)
+        self.reproduce_button.setEnabled(True)
         self.run_selected.emit(run_id)
 
     def show_run(self, run):

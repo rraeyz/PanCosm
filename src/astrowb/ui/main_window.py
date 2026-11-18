@@ -1,6 +1,5 @@
 """Main window: workspace sidebar, the pages behind it, and running tasks."""
 
-import json
 from pathlib import Path
 
 from PySide6.QtCore import QEvent, QObject, QSize, Qt, Signal
@@ -30,6 +29,7 @@ from .kit.widgets import PlotCanvas
 from .kit.window import _raise as _raise_window
 from .main_settings import SettingsActions
 from .project_page import ProjectPage
+from .project_reproduce import reproduce_run, rerun_run
 from .start_page import StartPage
 from .task_actions import TaskActions
 from .window_menu import WindowMenu
@@ -411,20 +411,14 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page = ProjectPage(self)
         page.run_selected.connect(lambda run_id: page.show_run(self.engine.project.run(run_id)))
         page.rerun_requested.connect(self.rerun)
+        page.reproduce_requested.connect(lambda run_id: reproduce_run(self, run_id))
         from ..core.methods import methods
 
         page.methods_provider = lambda: methods(self.engine.project.runs()) if self.engine.project else ""
         return page
 
     def rerun(self, run_id):
-        """The same step with the recorded inputs and settings, recorded as a new run."""
-        run = self.engine.project.run(run_id)
-        return self.run_step(
-            run["step"],
-            run["inputs"],
-            run["params"],
-            on_done=lambda out: self.project_page.details.setPlainText(json.dumps(out, indent=1, default=str)[:20000]),
-        )
+        return rerun_run(self, run_id)
 
     def _make_guide_page(self):
         from .guide_page import GuidePage
