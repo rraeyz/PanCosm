@@ -36,15 +36,21 @@ class FolderFollower:
         self.timer.setInterval(400)
         self.timer.timeout.connect(self.scan)
         self.watcher.directoryChanged.connect(lambda _: self.timer.start())
+        # network folders and exhausted watch limits send no change signal: a slow scan covers them
+        self.poll = QTimer(page)
+        self.poll.setInterval(2000)
+        self.poll.timeout.connect(self.scan)
 
     def start(self, folder):
         self.stop()
         self.folder, self.seen = str(folder), set(fits_in(folder))
         self.watcher.addPath(self.folder)
+        self.poll.start()
 
     def stop(self):
         if self.folder:
             self.watcher.removePath(self.folder)
+        self.poll.stop()
         self.folder = None
 
     def scan(self):

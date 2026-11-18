@@ -41,3 +41,16 @@ def test_followed_folder_adds_new_files(qtbot, tmp_path, monkeypatch):
     assert old not in page.open_paths()
     page.follower.stop()
     win.engine.shutdown()
+
+
+def test_followed_folder_is_scanned_without_change_signals(qtbot, tmp_path):
+    win, page = _page(qtbot, tmp_path)
+    watched = tmp_path / "net"
+    watched.mkdir()
+    page.follower.start(watched)
+    page.follower.watcher.blockSignals(True)  # a network folder sends none
+    new = _fits(watched / "new.fits")
+    qtbot.waitUntil(lambda: new in page.open_paths(), timeout=5000)
+    page.follower.stop()
+    assert not page.follower.poll.isActive()
+    win.engine.shutdown()
