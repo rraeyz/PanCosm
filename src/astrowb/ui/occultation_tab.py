@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QPushButton, QVB
 from .kit.table import TableView
 from .messages import translate
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
-from .plot.view import PlotView
+from .plot.toolbar import plot_box
 
 LOAD_ERRORS = (OSError, ValueError, KeyError, IndexError, TypeError)
 
@@ -42,9 +42,9 @@ class OccultationTab(QWidget):
         self.status = QLabel(self.tr("No light curve yet: load a file."), self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        self.plot = PlotView(FigureSpec([]), parent=self)
+        box, self.plot = plot_box(self)
         self.table = TableView(self)
-        lay.addWidget(self.plot, 3)
+        lay.addWidget(box, 3)
         lay.addWidget(self.table, 1)
 
     def _load(self, path=None):
