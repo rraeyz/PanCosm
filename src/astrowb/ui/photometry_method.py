@@ -45,6 +45,7 @@ def add_method_boxes(page, body):
     )
     row.addWidget(page.centring, 1)
     body.addLayout(row)
+    _add_centring_limits(page, body)
     track = QHBoxLayout()  # the owner: the frames placed on stars the user picks, when the automatic way cannot
     track.addWidget(QLabel(translate("PhotometryPage", "Place the frames on"), page))
     page.track_stars = QLineEdit(page)
@@ -62,6 +63,24 @@ def add_method_boxes(page, body):
     track.addWidget(pick)
     body.addLayout(track)
     _add_combine(page, body)
+
+
+def _add_centring_limits(page, body):
+    """PHO-44: recenter's box and max_move (its defaults), in pixels."""
+    from .kit.fields import NumberField
+
+    row = QHBoxLayout()
+    row.addWidget(QLabel(translate("PhotometryPage", "Centring box"), page))
+    page.centring_box = NumberField(11, 3, 301, 2, 0, "px", parent=page)
+    page.centring_box.setToolTip(translate("PhotometryPage", "Width of the box each star is centred in."))
+    row.addWidget(page.centring_box)
+    row.addWidget(QLabel(translate("PhotometryPage", "Largest move"), page))
+    page.centring_max_move = NumberField(2.5, 0, 50, 0.5, 1, "px", parent=page)
+    page.centring_max_move.setToolTip(
+        translate("PhotometryPage", "A centroid farther than this from the predicted place is not used.")
+    )
+    row.addWidget(page.centring_max_move)
+    body.addLayout(row)
 
 
 def _add_combine(page, body):
@@ -107,6 +126,8 @@ def method_params(page):
         "remove_neighbours": page.remove_neighbours.isChecked(),
         "sky_method": page.sky_method.currentData(),
         "centring": page.centring.currentData(),
+        "box": int(page.centring_box.value()),
+        "max_move": page.centring_max_move.value(),
         "track_stars": _track(page),
         "combine": page.combine.value(),
         "aperture_shape": shape_params(page),
@@ -116,6 +137,16 @@ def method_params(page):
         "camera": {"read_noise": page.read_noise.value(), "dark": page.dark_current.value()}
         if page.camera_noise.isChecked()
         else None,
+    }
+
+
+def provenance_settings(target, comps, coord, params):
+    """The settings of a measurement's provenance record: the step's params, the stars, and the centring method used."""
+    return dict(params) | {
+        "target_xy": list(target),
+        "comps_xy": [list(c) for c in comps],
+        "coord": coord,
+        "Centring_Method": params.get("centring", "auto"),  # PHO-44
     }
 
 

@@ -71,6 +71,7 @@ def light_curve(
     apertures=(),
     remove_neighbours=False,
     centring="auto",
+    max_move=2.5,
     track_stars=(),
     shape=None,
     trails=False,
@@ -113,7 +114,7 @@ def light_curve(
     fixed = [k for k in fixed if 0 <= k < len(stars0)]
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
-            "centring": centring, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in),
+            "centring": centring, "max_move": max_move, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in),
             "shape": shape, "trails": trails}  # fmt: skip
     sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
@@ -148,8 +149,7 @@ def light_curve(
             radii.append(rad)
             if fwhm0:
                 fwhms.append(f)
-    reader = ThreadPoolExecutor(1)  # the next frame is read (and decompressed) while this one is measured
-    serial = src is None and not parallel
+    reader, serial = ThreadPoolExecutor(1), src is None and not parallel  # reader: the next frame, read meanwhile
     upcoming = reader.submit(load, paths[1]) if len(paths) > 1 and serial else None
     for i, p in enumerate(paths if serial else []):
         if ctx:
@@ -413,7 +413,15 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
     opts = opts or {}
     camera, sky_method = opts.get("camera"), opts.get("sky_method", "median")
     r_ap, r_in, r_out = radii0
-    xy, found = recenter(data, pred, box, found=True, method=opts.get("centring", "auto"), in_place=True)
+    xy, found = recenter(
+        data,
+        pred,
+        box,
+        found=True,
+        method=opts.get("centring", "auto"),
+        in_place=True,
+        max_move=opts.get("max_move", 2.5),
+    )
     xy, found = _off_the_field(xy, pred, found)
     fixed = [k for k in opts.get("fixed", ()) if k < len(xy)]
     if fixed:  # these follow the field: the prediction moved by the median shift of the centred stars

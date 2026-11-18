@@ -912,6 +912,22 @@
             null
            ]
           },
+          "box": {
+           "description": "Centring box (px): Width of the box a star is centred in",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 3
+          },
+          "max_move": {
+           "description": "Largest centring move (px): A centroid farther than this from the predicted place is not used",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
           "aperture_shape": {
            "description": "Aperture shape: Empty: circles; {\"kind\": \"ellipse\", \"ratio\", \"angle\"} or {\"kind\": \"racetrack\", \"length\", \"angle\"} for stretched or trailed stars"
           },
@@ -1067,6 +1083,22 @@
             "none",
             null
            ]
+          },
+          "box": {
+           "description": "Centring box (px): Width of the box a star is centred in",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 3
+          },
+          "max_move": {
+           "description": "Largest centring move (px): A centroid farther than this from the predicted place is not used",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
           },
           "aperture_shape": {
            "description": "Aperture shape: Empty: circles; {\"kind\": \"ellipse\", \"ratio\", \"angle\"} or {\"kind\": \"racetrack\", \"length\", \"angle\"} for stretched or trailed stars"

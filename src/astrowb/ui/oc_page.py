@@ -20,8 +20,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..photometry import lcfile
 from .kit import tokens
 from .kit.widgets import StepGuide, _title
+from .oc_lcfile import load_lcfile
 from .oc_minima import add_result_buttons
 from .oc_minima_table import add_minima_table, as_text, minima_for_fit
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
@@ -190,8 +192,14 @@ class OCPage(QWidget):
         """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
         if not isinstance(path, str):
             path, _ = QFileDialog.getOpenFileName(
-                self, self.tr("Load minimum times"), "", self.tr("Text (*.txt *.csv *.dat);;All (*)")
+                self,
+                self.tr("Load minimum times"),
+                "",
+                self.tr("Text (*.txt *.csv *.dat);;Light-curve file (*.lc.ecsv *.ecsv);;All (*)"),
             )
+        if path and lcfile.is_lcfile(path):
+            load_lcfile(self, path)
+            return
         if path:
             try:
                 self.text.setPlainText(Path(path).read_text(encoding="utf-8", errors="replace"))

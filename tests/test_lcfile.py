@@ -133,3 +133,33 @@ def test_tfop_notes_say_the_night():
     assert "Aperture radius 4.0 px (2.3″)" in text and "Pixel scale 0.570″/px" in text
     assert "Detrending: airmass" in text and "Depth 21.90 ppt" in text and "T14 1.64 h" in text
     assert "+2.0 ± 0.4 min (on time)" in text and "1 of 2 neighbours" in text
+
+
+def test_oc_page_times_the_minima_of_a_light_curve_file(qtbot, tmp_path):
+    import numpy as np
+
+    from astrowb.photometry import lcfile
+    from astrowb.ui.oc_page import OCPage
+
+    t0, period = 2460000.0, 0.8
+    t = np.arange(t0 - 0.2, t0 + 1.0, 0.002)
+    shift = 0.0004  # the true minima are a little late: O-C > 0
+    flux = np.ones_like(t)
+    for c in (t0, t0 + period):
+        flux -= 0.3 * np.exp(-0.5 * ((t - c - shift) / 0.04) ** 2)
+    flux += np.random.default_rng(3).normal(0, 0.001, len(t))
+    path = str(tmp_path / "night.lc.ecsv")
+    lcfile.write({"time": t.tolist(), "rel_flux": flux.tolist(), "rel_flux_err": [0.001] * len(t)}, path)
+    page = OCPage()
+    qtbot.addWidget(page)
+    page._load(path)
+    assert "reference T0" in page.result.text() and page.text.toPlainText() == ""
+    page.t0.setText(str(t0))
+    page.period.setText(str(period))
+    page._load(path)
+    from astrowb.timeseries.ephemeris import parse_minima
+
+    found = parse_minima(page.text.toPlainText())
+    assert len(found) == 2 and all(m.source == "night.lc.ecsv" for m in found)
+    for m, c in zip(found, (t0, t0 + period), strict=True):
+        assert abs(m.time - c - shift) < 3 * m.error

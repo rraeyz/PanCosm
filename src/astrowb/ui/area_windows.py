@@ -6,10 +6,10 @@ from pathlib import Path
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QAction, QActionGroup
 
-from . import area_menus
+from . import area_menus, photometry_method
 from .area_menus import _mirror, _undo_source
 from .files import images_filter
-from .image_sources import find_action
+from .image_isophotes import analyse_actions
 from .messages import guarded
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
@@ -254,7 +254,7 @@ def _provenance(page):
     if run is None:
         return None
     images, target, comps, coord, params = run
-    settings = dict(params) | {"target_xy": list(target), "comps_xy": [list(c) for c in comps], "coord": coord}
+    settings = photometry_method.provenance_settings(target, comps, coord, params)
     return provenance.record("photometry.light_curve", settings, {"images": list(images)})
 
 
@@ -548,7 +548,7 @@ def fill_image_menus(main, win):
             (main.process_menu.title(), []),
             (
                 translate("MainWindow", "&Analyse"),
-                [*tools, None, _mirror(page.whole_button, win), find_action(win, page), main.coefficients_action],
+                [*tools, None, _mirror(page.whole_button, win), *analyse_actions(win, page), main.coefficients_action],
             ),
             (main.overlay_menu.title(), []),
             (translate("MainWindow", "A&strometry"), [main.solve_action, main.moving_action]),

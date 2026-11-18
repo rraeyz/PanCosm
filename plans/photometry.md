@@ -966,7 +966,7 @@ dict in the unit of the times; bootstrap draws as a setting, seed 0 so a rerun g
 - **Files:** `io/video.py`, `photometry/occultation.py`, `photometry/reports/iota.py`, `tests/test_occultation.py`
 
 ### PHO-39. Extended objects: comets and surface photometry  (P3)
-**partial** (2026-11-21: engine only. `photometry/comet.py` `afrho`, `afrho_mag`, `aperture_px`, `comet_flux`; `compute/isophote.py` `fit_isophotes`, `surface_brightness` (no `images/` package exists, so it lives in `compute/`); test `tests/test_extended.py`. (2026-11-22) The step `photometry.isophotes` (image, target_xy → the profile lists, plus surface brightness with a zero point and a pixel scale; `photometry/isophote_step.py`; `test_isophotes_step_through_the_engine`). (2026-11-22) The step `photometry.afrho` (image, target_xy → Afρ in cm with its error from the flux error, the flux, the magnitude and the aperture in px; ρ and the sky ring in km at the comet; Δ, r, pixel scale, the image's zero point and the Sun's magnitude in the band are the user's, none bundled; `photometry/comet_step.py`; `test_afrho_step_through_the_engine`). (2026-11-22) A frame's sky in mag arcsec⁻²: `compute/isophote.sky_brightness` (sigma-clipped median of the pixels through `surface_brightness`; `test_sky_brightness_of_a_frame_with_stars`). Left: the Images → Analyse UI tool, comet mode in moving-object photometry, the sky brightness shown in the UI.)
+**partial** (2026-11-21: engine only. `photometry/comet.py` `afrho`, `afrho_mag`, `aperture_px`, `comet_flux`; `compute/isophote.py` `fit_isophotes`, `surface_brightness` (no `images/` package exists, so it lives in `compute/`); test `tests/test_extended.py`. (2026-11-22) The step `photometry.isophotes` (image, target_xy → the profile lists, plus surface brightness with a zero point and a pixel scale; `photometry/isophote_step.py`; `test_isophotes_step_through_the_engine`). (2026-11-22) The step `photometry.afrho` (image, target_xy → Afρ in cm with its error from the flux error, the flux, the magnitude and the aperture in px; ρ and the sky ring in km at the comet; Δ, r, pixel scale, the image's zero point and the Sun's magnitude in the band are the user's, none bundled; `photometry/comet_step.py`; `test_afrho_step_through_the_engine`). (2026-11-22) A frame's sky in mag arcsec⁻²: `compute/isophote.sky_brightness` (sigma-clipped median of the pixels through `surface_brightness`; `test_sky_brightness_of_a_frame_with_stars`). (2026-11-27) Images → Analyse: "Isophotes and surface brightness…" (target from the last click or the centre; zero point from MAGZP and pixel scale from the WCS when the image has them, else typed; the profile in the Isophotes tab) and "Sky brightness…" (a missing zero point or scale is named, never guessed); `ui/image_isophotes.py` `run_isophotes`, `sky_text`; tests `tests/ui/test_image_isophotes.py`. Left: comet mode in moving-object photometry.)
 - **Reference:** A'Hearn et al. 1984 (Afρ); photutils `isophote` (ellipse fitting after Jedrzejewski 1987; IRAF
   `stsdas.ellipse`); surface brightness in mag arcsec⁻².
 - **Build:** comet mode in moving-object photometry: apertures of fixed physical radius (km at the comet, from Δ),
@@ -1054,8 +1054,10 @@ iterated auto the default is for the owner to decide. Real nights (2026-11-13, t
 differ by 0.25 px median. Qatar-1 (LCO 0.4 m, 265 frames): RMS 5.12 / 5.13 / 5.14 ppt, Tc within 2 s (±0.7 min),
 positions 0.04 px apart: on a well-sampled night with good shifts the three agree; on undersampled stars gauss and
 moments scatter about 3 % less. Gauss takes 13.5 s against 11 s for the Qatar-1 night (warm cache). The owner
-decided (2026-11-13): the default stays; the window says gauss is the most precise and slower. Left: `Centring_Method` in the provenance, box and max_move
-in the window.
+decided (2026-11-13): the default stays; the window says gauss is the most precise and slower. **done** (2026-11-27): `Centring_Method` in the
+provenance record (`area_windows._provenance`), "Centring box" and "Largest move" (px, recenter's 11 and 2.5) under the
+Centring choice (`photometry_method._add_centring_limits`), passed as the step's `box`, `max_move` and the live
+light curve's; `tests/ui/test_centring_controls.py`.
 - **Reference:** IRAF `centerpars.calgorithm` = centroid | gauss | ofilter | none with `cbox`, `cthreshold`,
   `minsnratio`, `cmaxiter`, `maxshift`; AstroImageJ Howell centroid.
 - **Build:** `recenter(method = auto (today's) | moments | gauss | none)` exposed under More options with `box` and
@@ -1104,7 +1106,11 @@ flux / flux_err aliases; `read` gives back the same dict — every key compared 
 nights (every star's own errors: the join from files equals the in-memory join exactly), Light curves (Load) and
 Models (`data.read_light_curve`); tests in test_lcfile. The provenance record (ARC-11: step, settings, the frames
 with sizes and checksums, versions) is filled from the window's last measurement in File → Export and Save all
-(checked in the HAT-P-32 walk). Left: O−C and recipes reading it.
+(checked in the HAT-P-32 walk). (2026-11-27) O−C: its Load opens a `.lc.ecsv` and times its minima at the window's
+reference T0 and period (`ui/oc_lcfile.load_lcfile`: `minima.each_minimum` with the Photometry step's default
+Kwee-van Woerden timer; each added with its error, I / II and the file name; empty T0 / period or no whole minimum
+is said in the window and nothing is loaded); test `test_oc_page_times_the_minima_of_a_light_curve_file`. Left:
+recipes reading it (no recipe step takes a photometry CSV or light-curve input yet: recipes start from images).
 - **Ours now:** the CSV export of the Photometry page and `photometry/nights.read_export` (reads it back, relative errors only).
 - **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
   comparison stars (item 12); other windows and other programs need the full table with units and provenance.

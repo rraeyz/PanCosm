@@ -72,6 +72,7 @@ class LiveLightCurve:
             "sky_method": method.get("sky_method", "median"),
             "fixed": (),
             "centring": method.get("centring", "auto"),
+            "max_move": method.get("max_move", 2.5),
             "shape": method.get("aperture_shape"),  # ellipse / racetrack, as the night run (PHO-22)
             "camera": method.get("camera"),  # read noise and dark current, as the night run (PHO-19)
         }

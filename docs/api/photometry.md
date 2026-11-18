@@ -137,6 +137,8 @@ parameters (default):
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
+  box = 11  (int, px, >= 3)  Centring box: Width of the box a star is centred in
+  max_move = 2.5  (float, px, >= 0.0)  Largest centring move: A centroid farther than this from the predicted place is not used
   track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
   aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
@@ -179,6 +181,8 @@ parameters (default):
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
+  box = 11  (int, px, >= 3)  Centring box: Width of the box a star is centred in
+  max_move = 2.5  (float, px, >= 0.0)  Largest centring move: A centroid farther than this from the predicted place is not used
   track_stars = []  (positions)  Stars that place the frames: Picked on the first frame; empty: the frames are placed automatically
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
   aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
