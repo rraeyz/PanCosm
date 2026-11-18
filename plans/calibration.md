@@ -435,7 +435,7 @@ weights and VARCORR in the header, DQ of every contributing pixel, NODATA at the
 FITS reads without planes)). Tests (tests/test_planes.py): over 30 repeated lights the scatter equals the frames'
 own variance plane within 3 % on the sky (10 % over 49 star pixels); a saturated core, a hot pixel and a cosmic ray
 stay flagged through calibration and a 0.4 px shift; the file round trip. Left: the calibration run and the stacks
-writing these planes, inverse-variance weights, overscan errors, the check tool, Photometry using VAR and DQ.
+writing these planes, inverse-variance weights, overscan errors, the check tool. Photometry uses VAR and DQ (2026-11-27, PHO-36: `photometry/planes_use.py`, `aperture.measure(var=)`, test_photometry_planes).
 - **Why:** AD-8.
 - **Reference:** Astropy `CCDData` (data, `StdDevUncertainty` / `VarianceUncertainty`, mask, flags), ccdproc's
   propagation through `subtract_bias`, `subtract_dark`, `flat_correct`; ESO pipelines' ERR and DQ extensions; HST

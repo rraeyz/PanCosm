@@ -17,6 +17,7 @@ from ..calibration.masters import load
 from ..hdr import get, number
 from ..io import tpf
 from ..io.inspect import saturation_level
+from . import planes_use
 from .aperture import (
     choose_apertures,
     frame_shift,
@@ -163,6 +164,8 @@ def light_curve(
         # every frame is placed against the first, never against the previous one: a frame tracked wrongly (a cloud,
         # a jolt) took every later frame with it, and the apertures measured empty sky without a word (owner's
         # NY Vir night); the stars found are then checked, and a star pattern match tried when they are not there
+        pl = planes_use.read(p)  # a frame with our SCI / DQ / VAR extensions: its planes (else None)
+        opts["planes"] = pl
         shift = np.zeros(2) if i == 0 or placed else np.asarray(frame_shift(ref, data, binning))
         pred = placed[i] if placed else stars0 + shift
         xy, flux, err, skylev, r, f, multi, lost = _measure_frame(
@@ -171,14 +174,12 @@ def light_curve(
         if fwhm0:
             fwhms.append(f)
         radii.append(r)
-        peaks.append(_peaks(data, xy, r[0], trails))
-        try:
-            t, time_rules[p] = timing.mid_time_and_rule(h, *opts["time"])
-        except timing.TimeError:  # no time in the file (a screenshot, a converted picture): the frame order
-            t = None
+        peaks.append(_peaks(data, xy, r[0], trails, pl))
+        t = _mid_time(h, p, opts, time_rules)
         moved = np.hypot(*(xy - pred).T)  # how far centring moved each star from where the frame's placing put it
         rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi))
     reader.shutdown(wait=False)
+    opts.pop("planes", None)
 
     def comps_seen(r):  # which comparison stars the frame has (signal above SNR_FOUND)
         f, e = np.asarray(r[2][1 : 1 + n_comp], float), np.asarray(r[3][1 : 1 + n_comp], float)
@@ -282,7 +283,11 @@ def _frame(job):
     p, pred, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, opts = job
     asked = np.asarray(pred, float)  # where the frame's shift put the stars, before centring
     corner, partial = np.zeros(2), False
-    if psf or not np.isfinite(pred).all() or opts.get("trails"):  # a trail is looked for on the whole frame
+    pl = planes_use.read(p)
+    opts = opts | {"planes": pl}
+    if (
+        pl is not None or psf or not np.isfinite(pred).all() or opts.get("trails")
+    ):  # a trail is looked for on the whole frame
         data, h = load(p)
     else:  # only the part of the frame around the stars is read: half the time of a 2400 x 2400 fpack frame
         # margin: the widest centroid box (301 px), the sky ring with radii following the seeing (up to 5x)
@@ -303,7 +308,17 @@ def _frame(job):
         t = None
     moved = np.hypot(*(xy + corner - asked).T)
     row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi)
-    return row, _peaks(data, xy, radii[0], opts.get("trails")), radii, f
+    return row, _peaks(data, xy, radii[0], opts.get("trails"), pl), radii, f
+
+
+def _mid_time(h, p, opts, time_rules):
+    """The frame's mid-exposure time and (in time_rules) the rule that gave it; None when the file has no time (a
+    screenshot, a converted picture): the frame order."""
+    try:
+        t, time_rules[p] = timing.mid_time_and_rule(h, *opts["time"])
+    except timing.TimeError:
+        t = None
+    return t
 
 
 SNR_FOUND = 3.0  # a star whose flux is below 3 sigma of its noise is not there (empty sky, clouds)
@@ -441,6 +456,9 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g, diag)
     else:
         sky_mask = None
+        pl = opts.get("planes")  # (var, dq) of a frame with our planes (planes_use)
+        var = None if pl is None else pl[0]
+        dq_mask = None if pl is None else planes_use.sky_mask(pl[1])
         if opts.get("neighbours") is not None:
             from .psf import remove_neighbours
 
@@ -449,17 +467,19 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
                 data, pred, f_now, *opts["neighbours"]
             )  # a centroid is pulled by the neighbour
             xy[~np.isin(np.arange(len(xy)), fixed)] = recenter(data, pred, box)[~np.isin(np.arange(len(xy)), fixed)]
+        if dq_mask is not None:
+            sky_mask = dq_mask if sky_mask is None else sky_mask | dq_mask
         cam = None
         if camera:  # dark current over this frame's exposure
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
             cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
         flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
-                                    shape=opts.get("shape"))  # fmt: skip
+                                    shape=opts.get("shape"), var=var)  # fmt: skip
     multi = np.array([diag["chi2"], diag["flag"]]) if psf else None  # PSF fits: χ² and flag per star
     if opts.get("apertures") and not psf:  # item 10: every radius asked for, the same sky ring, kept to choose later
         rs = [r * k for r in opts["apertures"]]
         both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
-                        shape=opts.get("shape"))[:2] for r in rs]  # fmt: skip
+                        shape=opts.get("shape"), var=var)[:2] for r in rs]  # fmt: skip
         multi = np.array([[fl for fl, _ in both], [e for _, e in both]])  # (flux / error, radius, star)
     return xy, flux, err, skylev, radii, f, multi, found
 
@@ -485,7 +505,7 @@ def _shape_series(fwhms, peaks):
     return ({"fwhm": fwhms} if fwhms else {}) | ({"ellipticity": e} if any(v is not None for v in e) else {})
 
 
-def _peaks(data, xy, r_ap, trails=False):
+def _peaks(data, xy, r_ap, trails=False, planes=None):
     """(brightest pixel inside each aperture, for saturation warnings; the letters of what spoils it, flags.py; the
     median ellipticity of the stars)."""
     from photutils.aperture import ApertureStats, CircularAperture
@@ -496,6 +516,8 @@ def _peaks(data, xy, r_ap, trails=False):
     flags = aperture_flags(data, xy, r_ap)
     if trails:  # PHO-36: a satellite or aircraft trail across an aperture (the search costs 2-3 s per 2k frame)
         flags = [f + "T" * t for f, t in zip(flags, trail_flags(data, xy, r_ap), strict=True)]
+    if planes is not None and planes[1] is not None:  # CAL-13: the DQ bits inside each aperture
+        flags = planes_use.merge(flags, planes_use.letters(planes[1], xy, r_ap))
     return peak, flags, ellipticity(data, xy, r_ap)
 
 

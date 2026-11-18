@@ -127,7 +127,13 @@ def _psf_columns(cols, lc, names):
 
 def _spoiled(cols, marks, flags, names):
     """PHO-36: the Flags_<star> columns (C spike, T trail, E off the edge), each flagged cell explained."""
-    words = {"C": "cosmic ray or hot pixel", "T": "satellite or aircraft trail", "E": "off the edge"}
+    words = {
+        "B": "bad pixel or no data",
+        "S": "saturated pixel",
+        "C": "cosmic ray or hot pixel",
+        "T": "satellite or aircraft trail",
+        "E": "off the edge",
+    }
     for k, name in enumerate(names):
         if flags is None or not all(k < len(r) for r in flags):
             continue

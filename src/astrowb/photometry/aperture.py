@@ -498,18 +498,32 @@ def _stamps(data, xy, r_out, sky_mask):
 
 
 def measure(
-    data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median", sky_mask=None, shape=None
+    data,
+    xy,
+    r_ap,
+    r_in,
+    r_out,
+    gain=1.0,
+    pixel_noise=None,
+    camera=None,
+    sky_method="median",
+    sky_mask=None,
+    shape=None,
+    var=None,
 ):
     """Sky-subtracted flux, its error and sky level per pixel for each position (0-based x, y). pixel_noise: the
     sky noise per pixel when the file states it (TESS / Kepler pixel files); otherwise the scatter in the annulus.
     camera (read noise e-, dark e- per pixel over the exposure): the sky noise from the camera's numbers and each
     star's sky level instead (camera_pixel_noise), as AstroImageJ does (plans/photometry.md item 2).
     sky_mask: pixels (True) left out of every sky ring — other stars, whose faint wings clipping keeps (PHO-45).
-    shape: an ellipse, a racetrack for a trailed star, or painted pixels (photometry/shapes.py, PHO-22)."""
+    shape: an ellipse, a racetrack for a trailed star, or painted pixels (photometry/shapes.py, PHO-22).
+    var: the frame's variance plane (CAL-13): the error is then sum(w * var) over the aperture (w the pixel's overlap)
+    plus the sky estimate's own term n_ap^2 sigma^2 / n_sky; without it the CCD equation above."""
     if shape is not None and shape.get("kind", "circle") != "circle":
         from .shapes import measure_shaped
 
         return measure_shaped(data, xy, shape, r_ap, r_in, r_out, gain)
+    xy_frame = xy
     stamps = _stamps(data, xy, r_out, sky_mask)
     if stamps is not None:  # big frame: the stars' surroundings only, side by side (the whole-frame float64 copy
         data, xy, sky_mask = stamps  # took 28 ms of 4k x 4k); every aperture and ring lies inside its own tile
@@ -540,6 +554,11 @@ def measure(
         noise = camera_pixel_noise(median, gain, *camera)
     else:
         noise = std if pixel_noise is None else float(pixel_noise)
+    if var is not None:
+        in_ap = np.asarray(
+            aperture_photometry(np.asarray(var, float), CircularAperture(xy_frame, r=r_ap))["aperture_sum"]
+        )
+        return flux, np.sqrt(in_ap + n_ap**2 * noise**2 / n_sky), median
     var = np.clip(flux, 0, None) / gain + n_ap * (1 + n_ap / n_sky) * noise**2
     return flux, np.sqrt(var), median
 
