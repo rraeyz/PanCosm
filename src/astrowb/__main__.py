@@ -352,6 +352,11 @@ def _app(argv) -> int:
 
     migrate_previous()
     app = QApplication(sys.argv[:1])
+    from pyqtgraph.util.garbage_collector import GarbageCollector
+
+    # cycles are collected on a timer in the window's thread: collected in a worker thread, Qt objects in them were
+    # freed there and crashed the program (segmentation faults seen on Windows and macOS)
+    app.gc = GarbageCollector()
     app.setApplicationName(BRAND.display_name)
     app.setOrganizationName(BRAND.organization)
     app.setApplicationDisplayName(BRAND.display_name)

@@ -25,6 +25,22 @@ def pytest_sessionstart(session):
         subprocess.run([sys.executable, str(root / "tools" / "i18n.py")], check=True, capture_output=True)
 
 
+_collections = [0]
+
+
+@pytest.fixture(autouse=True)
+def collect_in_main_thread():
+    """Automatic collection is off; cycles are collected here, between tests, in the main thread: collected in some
+    test's worker thread, Qt objects in them crashed the run (macOS and Windows segmentation faults). The program
+    itself collects on a timer in the window's thread (__main__). A full pass only every 50 tests keeps it cheap."""
+    import gc
+
+    gc.disable()
+    _collections[0] += 1
+    gc.collect() if _collections[0] % 50 == 0 else gc.collect(1)
+    yield
+
+
 @pytest.fixture(autouse=True)
 def isolated_config(tmp_path, monkeypatch):
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path / "config"))
