@@ -3788,12 +3788,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>ExoplanetsMidtimes</name>
     <message>
-        <location filename="../../ui/exoplanets_midtimes.py" line="48"/>
+        <location filename="../../ui/exoplanets_midtimes.py" line="54"/>
         <source>Send to O−C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/exoplanets_midtimes.py" line="49"/>
+        <location filename="../../ui/exoplanets_midtimes.py" line="55"/>
         <source>The mid-times of the fitted files, as times of minimum in O−C</source>
         <translation type="unfinished"></translation>
     </message>

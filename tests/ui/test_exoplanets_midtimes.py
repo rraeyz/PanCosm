@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from PySide6.QtWidgets import QWidget
 
-from astrowb.ui.exoplanets_midtimes import ephemeris_fit, midtimes, midtimes_dock, oc_figure
+from astrowb.ui.exoplanets_midtimes import ephemeris_fit, midtimes, midtimes_dock, oc_figure, tc_header
 from astrowb.ui.exoplanets_page import ExoplanetsPage
 
 T0, P, SIGMA = 2459500.5, 1.4200242, 0.0003
@@ -61,3 +61,20 @@ def test_one_fit_gives_no_ephemeris(qtbot):
     assert f.period == pytest.approx(P, abs=1e-9)
     s = oc_figure(f).panels[0].series[0]
     assert len(s.x) == 2 and np.allclose(s.y, 0, atol=1e-6)
+
+
+def test_tc_header_names_the_scale_the_files_state(qtbot):
+    page = ExoplanetsPage()
+    qtbot.addWidget(page)
+    page.sets = [
+        ("a", {"time_scale": "BJD_TDB"}),
+        ("b", {"time_scale": "BJD_TDB"}),
+        ("c", {}),
+        ("d", {"time_scale": "JD_UTC"}),
+    ]
+    page.fits = {0: {}, 1: {}}
+    assert tc_header(page) == "Tc (BJD_TDB)"
+    page.fits = {0: {}, 3: {}}  # two scales
+    assert tc_header(page) == "Tc (BJD)"
+    page.fits = {0: {}, 2: {}}  # one file states none
+    assert tc_header(page) == "Tc (BJD)"

@@ -19,6 +19,12 @@ def midtimes(page):
     return [(page.sets[i][0], f["values"]["tc"], f["errors"].get("tc", 0.0)) for i, f in sorted(page.fits.items())]
 
 
+def tc_header(page):
+    """ "Tc (BJD_TDB)": the scale every fitted file states; "Tc (BJD)" when a file states none or the files differ."""
+    scales = {page.sets[i][1].get("time_scale") for i in page.fits}
+    return f"Tc ({scales.pop()})" if len(scales) == 1 and None not in scales and "" not in scales else "Tc (BJD)"
+
+
 def ephemeris_fit(rows, period):
     """The linear ephemeris of the mid-times, epochs counted from the first one; None until two epochs differ."""
     minima = [ephemeris.Minimum(t, e or None, source=n) for n, t, e in rows]
@@ -59,7 +65,7 @@ def midtimes_dock(win, page):
         show(out)
         rows = midtimes(page)
         ctx = "ExoplanetsMidtimes"
-        table.set_data([translate(ctx, "File"), translate(ctx, "Tc (BJD)"), translate(ctx, "σ (d)")], rows)
+        table.set_data([translate(ctx, "File"), tc_header(page), translate(ctx, "σ (d)")], rows)
         if not state["docked"]:
             win.add_result_tab("midtimes", translate(ctx, "Mid-times"), box)
             box.show()

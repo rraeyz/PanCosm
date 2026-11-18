@@ -3788,12 +3788,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>ExoplanetsMidtimes</name>
     <message>
-        <location filename="../../ui/exoplanets_midtimes.py" line="48"/>
+        <location filename="../../ui/exoplanets_midtimes.py" line="54"/>
         <source>Send to O−C</source>
         <translation>O−C&apos;ye gönder</translation>
     </message>
     <message>
-        <location filename="../../ui/exoplanets_midtimes.py" line="49"/>
+        <location filename="../../ui/exoplanets_midtimes.py" line="55"/>
         <source>The mid-times of the fitted files, as times of minimum in O−C</source>
         <translation>Uyumlanan dosyaların orta zamanları, O−C&apos;de minimum zamanı olarak</translation>
     </message>
