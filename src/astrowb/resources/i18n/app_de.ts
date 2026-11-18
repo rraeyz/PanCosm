@@ -5836,13 +5836,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Bild speichern (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="580"/>
+        <location filename="../../ui/area_windows.py" line="583"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Viele Bilder umwandeln (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="576"/>
+        <location filename="../../ui/area_windows.py" line="579"/>
         <location filename="../../ui/main_menus.py" line="34"/>
         <source>&amp;Close image</source>
         <translation>Bild &amp;schließen</translation>
@@ -5983,97 +5983,97 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="388"/>
+        <location filename="../../ui/area_windows.py" line="391"/>
         <source>target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="388"/>
+        <location filename="../../ui/area_windows.py" line="391"/>
         <source>comparison</source>
         <translation>Vergleich</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="392"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="391"/>
+        <location filename="../../ui/area_windows.py" line="394"/>
         <source>not marked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="395"/>
         <source>saturated</source>
         <translation>gesättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="394"/>
+        <location filename="../../ui/area_windows.py" line="397"/>
         <source>Role</source>
         <translation>Rolle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="395"/>
+        <location filename="../../ui/area_windows.py" line="398"/>
         <source>x, y (FITS pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="396"/>
+        <location filename="../../ui/area_windows.py" line="399"/>
         <source>Peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="397"/>
+        <location filename="../../ui/area_windows.py" line="400"/>
         <source>Sky per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="398"/>
+        <location filename="../../ui/area_windows.py" line="401"/>
         <source>Net counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="399"/>
+        <location filename="../../ui/area_windows.py" line="402"/>
         <source>Signal-to-noise</source>
         <translation>Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="431"/>
+        <location filename="../../ui/area_windows.py" line="434"/>
         <source>star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="431"/>
+        <location filename="../../ui/area_windows.py" line="434"/>
         <source>sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="432"/>
+        <location filename="../../ui/area_windows.py" line="435"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="432"/>
+        <location filename="../../ui/area_windows.py" line="435"/>
         <source>read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="438"/>
+        <location filename="../../ui/area_windows.py" line="441"/>
         <source>Noise from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="438"/>
+        <location filename="../../ui/area_windows.py" line="441"/>
         <source>Predicted error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="446"/>
+        <location filename="../../ui/area_windows.py" line="449"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="578"/>
+        <location filename="../../ui/area_windows.py" line="581"/>
         <location filename="../../ui/main_menus.py" line="35"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Alle Bilder schließen</translation>
@@ -6262,7 +6262,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="669"/>
+        <location filename="../../ui/area_windows.py" line="672"/>
         <source>&amp;Measure</source>
         <translation>&amp;Messen</translation>
     </message>
@@ -6283,69 +6283,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="92"/>
-        <location filename="../../ui/area_windows.py" line="641"/>
+        <location filename="../../ui/area_windows.py" line="644"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="655"/>
+        <location filename="../../ui/area_windows.py" line="658"/>
         <source>&amp;Stars</source>
         <translation>&amp;Sterne</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="435"/>
-        <location filename="../../ui/area_windows.py" line="550"/>
-        <location filename="../../ui/area_windows.py" line="682"/>
+        <location filename="../../ui/area_windows.py" line="553"/>
+        <location filename="../../ui/area_windows.py" line="685"/>
         <source>&amp;Analyse</source>
         <translation>Anal&amp;yse</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="528"/>
+        <location filename="../../ui/area_windows.py" line="531"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>In Farbkanäle zerlegen (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="530"/>
+        <location filename="../../ui/area_windows.py" line="533"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Das Rohbild einer Farbkamera als drei Bilder halber Größe, eines je Farbe (ohne Interpolation)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="536"/>
+        <location filename="../../ui/area_windows.py" line="539"/>
         <source>Stack the open images…</source>
         <translation>Geöffnete Bilder stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="538"/>
+        <location filename="../../ui/area_windows.py" line="541"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Die geöffneten Bilder an ihren Sternen ausgerichtet und unter Verwerfen von Ausreißern gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="541"/>
+        <location filename="../../ui/area_windows.py" line="544"/>
         <source>Drizzle the open images…</source>
         <translation>Geöffnete Bilder drizzeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="543"/>
+        <location filename="../../ui/area_windows.py" line="546"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Versetzt aufgenommene Bilder auf ein doppelt so feines Raster (schärfer bei unterabgetasteten Sternen)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="554"/>
+        <location filename="../../ui/area_windows.py" line="557"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="555"/>
+        <location filename="../../ui/area_windows.py" line="558"/>
         <source>&amp;Colour</source>
         <translation>Fa&amp;rbe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="556"/>
+        <location filename="../../ui/area_windows.py" line="559"/>
         <source>S&amp;tack</source>
         <translation>S&amp;tapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="566"/>
+        <location filename="../../ui/area_windows.py" line="569"/>
         <source>Copy the header</source>
         <translation>Header kopieren</translation>
     </message>
@@ -6779,7 +6779,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Das Spektrum speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="488"/>
+        <location filename="../../ui/area_windows.py" line="491"/>
         <source>&amp;Job</source>
         <translation>Auf&amp;gabe</translation>
     </message>
@@ -13156,6 +13156,69 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>PhotometryCatalogue</name>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="27"/>
+        <source>Gaia GSPC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="28"/>
+        <source>APASS DR9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="29"/>
+        <source>Pan-STARRS1 DR1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="30"/>
+        <source>SkyMapper DR2 (south)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="31"/>
+        <source>AAVSO sequence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="56"/>
+        <source>The catalogue the comparison magnitudes are taken from and drawn from; Pan-STARRS1 and SkyMapper are only drawn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="60"/>
+        <source>Show catalogue stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="61"/>
+        <source>Draws the chosen catalogue&apos;s stars on the first frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="92"/>
+        <source>Identify the field first: the stars are placed by its plate solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="102"/>
+        <source>Looking up {name}…</source>
+        <translation type="unfinished">Suche {name}…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="127"/>
+        <source>{name}: {n} star(s) on the frame, labelled with {band} magnitudes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_catalog_choice.py" line="130"/>
+        <source>{name} has no star on the frame.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotometryChecks</name>
     <message>
         <location filename="../../ui/photometry_checks.py" line="18"/>
@@ -16816,12 +16879,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Kein Ziel steht in den dunklen Stunden hoch genug.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="664"/>
+        <location filename="../../ui/plan_page.py" line="667"/>
         <source>Astronomical night: {dusk} – {dawn} UTC ({ldusk} – {ldawn} local, UTC{off}); {n} events.</source>
         <translation>Astronomische Nacht: {dusk} – {dawn} UTC ({ldusk} – {ldawn} Ortszeit, UTC{off}); {n} Ereignisse.</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="641"/>
+        <location filename="../../ui/plan_page.py" line="644"/>
         <source>minimum I / transit</source>
         <translation>Minimum I / Transit</translation>
     </message>
@@ -16841,22 +16904,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Der Zeitplan wird zum Nachtplan des Fensters Beobachten; Sie prüfen und starten ihn dort selbst</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="641"/>
+        <location filename="../../ui/plan_page.py" line="644"/>
         <source>minimum II</source>
         <translation>Minimum II</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="658"/>
+        <location filename="../../ui/plan_page.py" line="661"/>
         <source>yes</source>
         <translation>ja</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="658"/>
+        <location filename="../../ui/plan_page.py" line="661"/>
         <source>partly</source>
         <translation>teilweise</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_page.py" line="662"/>
+        <location filename="../../ui/plan_page.py" line="665"/>
         <source>no astronomical night</source>
         <translation>keine astronomische Nacht</translation>
     </message>

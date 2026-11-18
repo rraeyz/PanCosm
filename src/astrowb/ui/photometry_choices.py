@@ -10,6 +10,9 @@ translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Photo
 
 def attach(win, page):
     """Wrap the page's three automatic steps so that each leaves its choice and reason in its stage."""
+    from .photometry_catalog_choice import attach as catalogue_choice
+
+    catalogue_choice(win, win.parent(), page)  # PHO-25 item 3: the magnitude source and its stars
     labels = {}
 
     def note(stage, text):

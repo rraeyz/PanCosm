@@ -176,7 +176,7 @@ def _tr(text):
 INTERNAL = (
     "recent_projects", "recent.", "area.", "dialog.", "split.", "ui.tour_done", "ui.hints_seen",
     "ui.first_run_done", "site", "mpc", "observatory", "spectroscopy.profiles", "exposure_calculator",
-    "plan.utc_offset", "plan.horizon", "profiles",
+    "plan.utc_offset", "plan.horizon", "profiles", "photometry.catalogue_source",
 )  # fmt: skip
 SHOWN = (
     "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
