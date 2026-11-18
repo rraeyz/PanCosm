@@ -15,7 +15,7 @@ unchanged; the others wait under "profiles" by name until switch() brings one in
 
 DEFAULTS = {
     # east-positive longitude, metres; time_zone: IANA name, "" = not given; horizon: lowest altitude observed, °;
-    # seeing: typical value, ″ (both None until given; not used by planning yet)
+    # seeing: typical value, ″ (both None until given; Planning reads time_zone and horizon, not seeing)
     "site": {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0, "time_zone": "", "horizon": None, "seeing": None},
     # e-/ADU, e-, e-/s, ADU (where the response stops being linear), ADU
     # pixel_size: µm (binned, as XPIXSZ gives it)
@@ -149,6 +149,23 @@ def has(settings, part):
 def section(settings, part):
     """One section of the profile with every field (defaults filled in)."""
     return {**DEFAULTS[part], **_profile(settings).get(part, {})}
+
+
+def zone_offset(name, jd):
+    """Hours from UTC of the IANA zone `name` at Julian date `jd`; None when no zone is given or the name is unknown."""
+    from datetime import UTC, datetime
+    from zoneinfo import ZoneInfo
+
+    try:
+        when = datetime.fromtimestamp((jd - 2440587.5) * 86400, UTC).astimezone(ZoneInfo(name))
+    except (
+        ValueError,
+        OSError,
+        KeyError,
+        ImportError,
+    ):  # "" / bad name / missing tz data: ZoneInfoNotFoundError is a KeyError
+        return None
+    return when.utcoffset().total_seconds() / 3600
 
 
 def update(settings, part, /, **values):

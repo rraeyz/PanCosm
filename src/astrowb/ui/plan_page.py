@@ -122,7 +122,7 @@ class PlanPage(Undoable, QWidget):
         self.date.setDisplayFormat("yyyy-MM-dd")
         grid.addWidget(QLabel(self.tr("Night starting on"), self), 4, 0)
         grid.addWidget(self.date, 4, 1)
-        self.min_alt = self._spin(20.0, 0, 80, 0)
+        self.min_alt = self._spin(site.get("horizon") or 20.0, 0, 80, 0)  # the profile's horizon, when given
         grid.addWidget(QLabel(self.tr("Lowest altitude (°)"), self), 5, 0)
         self.min_alt.setToolTip(
             self.tr(
@@ -614,6 +614,9 @@ class PlanPage(Undoable, QWidget):
         """Hours from UTC to the local time: the typed offset, or this computer's on that date (Auto)."""
         if self.utc_offset.value() > AUTO:
             return self.utc_offset.value()
+        zone = profiles.zone_offset(profiles.section(self.settings, "site")["time_zone"], jd)
+        if zone is not None:
+            return zone
         when = datetime.fromtimestamp((jd - 2440587.5) * 86400, UTC).astimezone()
         own = when.utcoffset().total_seconds() / 3600
         # this computer's zone only when it fits the site (within ~2 h of its solar time); else the site's own
