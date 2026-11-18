@@ -118,15 +118,9 @@ def due(today: _dt.date | None = None) -> bool:
 
 
 def _fetch(url: str, timeout: float) -> bytes:
-    import ssl
-    import urllib.request
+    from ..services import iers
 
-    import certifi
-
-    ctx = ssl.create_default_context(cafile=certifi.where())
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:  # noqa: S310 (fixed https URLs)
-        return r.read()
+    return iers.fetch(url, timeout)
 
 
 def refresh(fetch=None, timeout: float = 20.0) -> dict:

@@ -84,7 +84,7 @@ def test_a_cone_cut_at_the_row_limit_keeps_the_brightest_stars(monkeypatch):
     plate solution failed. Both servers are asked for the brightest first."""
     import astroquery.vizier
 
-    from astrowb import mirrors
+    from astrowb.services import mirrors
 
     asked = {}
 

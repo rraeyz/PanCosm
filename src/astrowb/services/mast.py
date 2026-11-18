@@ -19,3 +19,10 @@ def download(table, folder, observations=None):
     from astroquery.mast import Observations
 
     return (observations or Observations).download_products(table, download_dir=str(folder), cache=True)
+
+
+def count(target, collection):
+    """How many time-series observations of target the archive lists for collection (the installation check)."""
+    from astroquery.mast import Observations
+
+    return len(Observations.query_criteria(objectname=target, obs_collection=collection, dataproduct_type="timeseries"))

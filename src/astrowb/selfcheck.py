@@ -70,10 +70,10 @@ LIBRARIES = (
 
 def _why(e):
     """A failure in words: a service that refused or is down says so (user-feedback UF-21), not only its code."""
-    import urllib.error
+    from .services.http import HTTPError
 
     code = getattr(e, "code", None)
-    if isinstance(e, urllib.error.HTTPError) and code is not None:
+    if isinstance(e, HTTPError) and code is not None:
         if code >= 500 or code == 404:
             return f"the service is down or moved now (HTTP {code}); try again later"
         if code in (401, 403, 429):
@@ -235,11 +235,9 @@ def _compiled():
 
 
 def _head(url):
-    import urllib.request
+    from .services import http
 
-    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "astronomy-workbench-selfcheck"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return f"HTTP {r.status}"
+    return f"HTTP {http.head_status(url, 30, 'astronomy-workbench-selfcheck')}"
 
 
 def online():
@@ -252,10 +250,9 @@ def online():
     vega = SkyCoord(279.2347 * u.deg, 38.7837 * u.deg)
 
     def mast():
-        from astroquery.mast import Observations
+        from .services import mast
 
-        rows = Observations.query_criteria(objectname="HAT-P-32", obs_collection="TESS", dataproduct_type="timeseries")
-        return f"{len(rows)} TESS observations"
+        return f"{mast.count('HAT-P-32', 'TESS')} TESS observations"
 
     def iers():
         from .core import earth_orientation

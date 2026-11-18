@@ -21,11 +21,11 @@ TELLURIC = ((6860, 6960), (7590, 7700), (8100, 8400), (8900, 9900))
 
 def download_pickles(folder, fetch=None):
     """The Pickles library into folder (skips files already there); returns the paths."""
-    import urllib.request
+    from ..services import http
 
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    fetch = fetch or (lambda url: urllib.request.urlopen(url, timeout=60).read())
+    fetch = fetch or (lambda url: http.get(url, timeout=60))
     paths = []
     for i in range(1, PICKLES_N + 1):
         p = folder / f"pickles_uk_{i}.fits"

@@ -3,12 +3,11 @@
 Only when the user asks (Help menu): the application never calls home on its own.
 """
 
-import json
 import re
-import urllib.request
 
 from . import __version__
 from .brand import BRAND
+from .services import github_releases
 
 
 def version_tuple(text):
@@ -21,12 +20,7 @@ def latest_release(timeout=10):
     match = re.match(r"https://github\.com/([^/]+)/([^/]+?)/?$", BRAND.homepage)
     if not match:
         raise ValueError("no GitHub repository configured for update checks")
-    req = urllib.request.Request(
-        f"https://api.github.com/repos/{match[1]}/{match[2]}/releases/latest",
-        headers={"Accept": "application/vnd.github+json", "User-Agent": "update-check"},
-    )
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        data = json.loads(r.read())
+    data = github_releases.latest(match[1], match[2], timeout)
     if not isinstance(data, dict):
         raise ValueError("the service sent an answer in an unexpected form")
     return {"version": str(data["tag_name"]).lstrip("v"), "url": data["html_url"], "notes": data.get("body") or ""}

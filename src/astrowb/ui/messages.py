@@ -231,7 +231,7 @@ TEMPLATES = (
     # astrometry.py
     QT_TRANSLATE_NOOP("Messages", "the solver's output has no celestial WCS"),
     QT_TRANSLATE_NOOP("Messages", "solver did not finish within {timeout} s"),
-    QT_TRANSLATE_NOOP("Messages", "{server} did not answer within {seconds} s"),  # mirrors.py
+    QT_TRANSLATE_NOOP("Messages", "{server} did not answer within {seconds} s"),  # services/mirrors.py
     # gaia.py
     QT_TRANSLATE_NOOP("Messages", "only {n} stars found in the image: too few to refine the plate solution"),
     QT_TRANSLATE_NOOP("Messages", "only {n} stars match Gaia DR3: too few to refine the plate solution"),

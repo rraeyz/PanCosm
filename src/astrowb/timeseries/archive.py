@@ -71,7 +71,7 @@ def download(target, mission, folder, author=None, observations=None, max_files=
     given = observations is not None
     products = lookup() if given else cached("lightcurves", ("mast", str(target).strip(), mission), lookup)
     # light curves: "LC" (TESS), "LLC" (Kepler / K2 long cadence); the product list names the pipeline in
-    # "project" (astroquery 0.4.11, 2026; "provenance_name" before)
+    # "project" (MAST client 0.4.11, 2026; "provenance_name" before)
     lcs = products[np.isin(np.asarray(products["productSubGroupDescription"], str), ["LC", "LLC"])]
     names = np.asarray(lcs["provenance_name" if "provenance_name" in lcs.colnames else "project"], str)
     # TESS: the 2-min SPOC light curves; the full-frame TESS-SPOC ones only when there are none (same sectors)

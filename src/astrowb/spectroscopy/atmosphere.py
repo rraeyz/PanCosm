@@ -74,11 +74,12 @@ def store_wave():
 def _fetch(url, tries=4):
     """The bytes at url; retried, the archives drop connections now and then."""
     import time
-    import urllib.request
+
+    from ..services import http
 
     for k in range(tries):
         try:
-            return urllib.request.urlopen(url, timeout=120).read()
+            return http.get(url, timeout=120)
         except OSError as e:
             if k == tries - 1 or getattr(e, "code", None) == 404:  # a file that is not there: no retry
                 raise

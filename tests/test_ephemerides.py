@@ -67,7 +67,7 @@ def test_vsx_falls_back_to_vizier_when_aavso_does_not_answer(monkeypatch):
 
 
 def test_cds_mirrors_are_tried_in_turn_and_remembered(tmp_path, monkeypatch):
-    from astrowb import mirrors
+    from astrowb.services import mirrors
 
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
     monkeypatch.setattr(mirrors, "_working", {})
@@ -94,7 +94,7 @@ def test_cds_mirrors_are_tried_in_turn_and_remembered(tmp_path, monkeypatch):
 def test_a_slow_cds_server_is_left_for_the_next(tmp_path, monkeypatch):
     import time
 
-    from astrowb import mirrors
+    from astrowb.services import mirrors
 
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
     monkeypatch.setattr(mirrors, "_working", {})
@@ -110,7 +110,7 @@ def test_a_slow_cds_server_is_left_for_the_next(tmp_path, monkeypatch):
 
 
 def test_a_vizier_mirror_with_no_rows_is_passed_over(tmp_path, monkeypatch):
-    from astrowb import mirrors
+    from astrowb.services import mirrors
 
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
     monkeypatch.setattr(mirrors, "_working", {"vizier": "vizier.cfa.harvard.edu"})  # remembered from a SIMBAD-era query

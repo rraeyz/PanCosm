@@ -69,12 +69,10 @@ def download(folder, fetch=None):
     folder = Path(folder)
     if any(folder.glob("t*l*p00.rbn")):
         return folder
-    import urllib.request
+    from ..services import http
 
     def fetch_url(url):  # the server refuses Python's default client name: the application says what it is
-        req = urllib.request.Request(url, headers={"User-Agent": "astronomy-workbench (MK standards download)"})
-        with urllib.request.urlopen(req, timeout=120) as r:  # noqa: S310 (a fixed https URL)
-            return r.read()
+        return http.get(url, timeout=120, agent="astronomy-workbench (MK standards download)")
 
     fetch = fetch or fetch_url
     data = fetch(MK_URL)

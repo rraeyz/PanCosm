@@ -9,7 +9,7 @@ translate = QCoreApplication.translate
 
 
 class Throttled(QObject):
-    """request() runs fn now, or, within ms of the last run, once when the interval ends (many requests, one run)."""
+    """request() runs fn now, or, within ms of the last run, once when the interval ends (many calls, one run)."""
 
     def __init__(self, parent, fn, ms=500):
         super().__init__(parent)

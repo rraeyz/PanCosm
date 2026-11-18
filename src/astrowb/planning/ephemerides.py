@@ -7,7 +7,6 @@ observing plan. The Exoplanet Archive gives the mid-transit time in BJD_TDB and 
 """
 
 import json
-import urllib.parse
 
 from .targets import TargetError
 
@@ -158,7 +157,9 @@ def transiting_planets(fetch=None):
 
     query = ("select pl_name,ra,dec,pl_orbper,pl_tranmid,pl_trandur,sy_vmag,pl_trandep from pscomppars "
              "where tran_flag=1 and pl_orbper is not null and pl_tranmid is not null")  # fmt: skip
-    url = EXO_URL + "?" + urllib.parse.urlencode({"query": query, "format": "csv"})
+    from ..services import http
+
+    url = http.url_of(EXO_URL, {"query": query, "format": "csv"})
 
     def table(text):
         reader = csv.DictReader(io.StringIO(text))
@@ -170,8 +171,6 @@ def transiting_planets(fetch=None):
         if fetch:
             text = fetch(url)
         else:
-            from ..services import http
-
             text = http.get(url, timeout=60).decode("utf-8")
         table(text)  # a page of the wrong form raises here, so it is never kept in the cache
         return text

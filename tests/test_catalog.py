@@ -143,8 +143,9 @@ def test_gaia_from_the_esa_archive_when_no_vizier_server_answers(monkeypatch):
     from astropy.coordinates import SkyCoord
     from astropy.table import Table
 
-    from astrowb import gaia, mirrors
+    from astrowb import gaia
     from astrowb.photometry import coefficients
+    from astrowb.services import mirrors
 
     def down(service, query, patience=15.0):
         raise ConnectionError("tunnel closed")
@@ -207,7 +208,8 @@ def test_apass_from_the_esa_archive_and_pan_starrs_for_the_sloan_bands(monkeypat
     from astropy.coordinates import SkyCoord
     from astropy.table import Table
 
-    from astrowb import gaia, mirrors
+    from astrowb import gaia
+    from astrowb.services import mirrors
 
     def down(service, query, patience=15.0):
         raise ConnectionError("tunnel closed")
@@ -243,7 +245,8 @@ def test_skymapper_for_the_southern_sky(monkeypatch):
     from astropy.coordinates import SkyCoord
     from astropy.table import Table
 
-    from astrowb import gaia, mirrors
+    from astrowb import gaia
+    from astrowb.services import mirrors
 
     monkeypatch.setattr(mirrors, "cds", lambda *a, **k: (_ for _ in ()).throw(ConnectionError("down")))
     monkeypatch.setattr(gaia, "photometry", lambda *a, **k: Table({"_RAJ2000": [], "_DEJ2000": []}))

@@ -1,4 +1,4 @@
-"""Targets: typed coordinates, a local cache, then SIMBAD (astroquery).
+"""Targets: typed coordinates, a local cache, then SIMBAD.
 
 Every name resolved online is cached (JSON in the user data folder), so a target looked up
 once at home is available at an offline observatory.

@@ -253,10 +253,11 @@ HIPS2FITS = "https://alasky.cds.unistra.fr/hips-image-services/hips2fits"
 def dss_image(ra, dec, fov_deg=0.3, size=800, fetch=None):
     """A north-up DSS2 red image around (ra, dec) from the CDS hips2fits service: (data, WCS)."""
     import io
-    import urllib.parse
 
     from astropy.io import fits
     from astropy.wcs import WCS
+
+    from .services.http import url_of
 
     params = {
         "hips": "CDS/P/DSS2/red",
@@ -277,7 +278,7 @@ def dss_image(ra, dec, fov_deg=0.3, size=800, fetch=None):
 
             return cached("hips2fits", url, lambda: http.get(url))
 
-    with fits.open(io.BytesIO(fetch(HIPS2FITS + "?" + urllib.parse.urlencode(params)))) as hdul:
+    with fits.open(io.BytesIO(fetch(url_of(HIPS2FITS, params)))) as hdul:
         return np.asarray(hdul[0].data, float), WCS(hdul[0].header).celestial
 
 
@@ -365,7 +366,7 @@ def parse_skybot(text):
 def minor_planets(ra, dec, radius_deg, jd, mag_limit=None, fetch=None):
     """Asteroids and comets in the field at the time `jd` (UTC), from the IMCCE SkyBoT service (geocentric
     positions: the parallax is a few arcseconds for main-belt objects, more for near-Earth ones)."""
-    import urllib.parse
+    from .services.http import url_of
 
     params = {
         "-ep": f"{jd:.6f}",
@@ -376,7 +377,7 @@ def minor_planets(ra, dec, radius_deg, jd, mag_limit=None, fetch=None):
         "-output": "object",
         "-loc": "500",
     }
-    url = SKYBOT + "?" + urllib.parse.urlencode(params)
+    url = url_of(SKYBOT, params)
     if fetch is None:
 
         def fetch(url):

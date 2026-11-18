@@ -78,7 +78,7 @@ def smoke_test(workdir: Path) -> None:
         "photometry.light_curve", {"images": out["calibrated"], "target_xy": [32, 30], "comps_xy": [[47, 30]]}, {}
     ).result(timeout=120)
     assert abs(lc["light_curve"]["rel_flux"][0] - 1) < 0.05
-    night = win.engine.run_step(  # planning: built-in ephemeris and astroquery are bundled; no network needed
+    night = win.engine.run_step(  # planning: built-in ephemeris and catalogue clients are bundled; no network needed
         "planning.night",
         {
             "site": {"name": "", "lat": 37.0, "lon": 30.0, "height": 0.0},

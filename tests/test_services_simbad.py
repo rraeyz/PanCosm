@@ -48,8 +48,7 @@ def test_http_get_encodes_params_and_sets_agent(monkeypatch):
 def test_vizier_region_first_table_or_empty(monkeypatch):
     import astroquery.vizier
 
-    from astrowb import mirrors
-    from astrowb.services import vizier
+    from astrowb.services import mirrors, vizier
 
     class Vizier:
         def __init__(self, columns, row_limit, vizier_server):

@@ -6,7 +6,7 @@ def region(centre, radius, catalog, columns, row_limit, column_filters=None, fir
     ([] when none), so that a server with no rows for the region counts as empty and the next one is asked."""
     from astroquery.vizier import Vizier
 
-    from ..mirrors import cds
+    from .mirrors import cds
 
     def ask(server):
         v = Vizier(columns=columns, row_limit=row_limit, vizier_server=server)
@@ -21,7 +21,7 @@ def region(centre, radius, catalog, columns, row_limit, column_filters=None, fir
 def constraints(catalog, columns, row_limit, **where):
     from astroquery.vizier import Vizier
 
-    from ..mirrors import cds
+    from .mirrors import cds
 
     return cds("vizier", lambda server: Vizier(columns=columns, row_limit=row_limit, vizier_server=server)
                .query_constraints(catalog=catalog, **where))  # fmt: skip

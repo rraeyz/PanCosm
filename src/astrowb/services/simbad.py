@@ -4,8 +4,8 @@
 def object_table(name, fetch=None):
     """SIMBAD's table for name (astropy Table with the V magnitude, or None when unknown). Offline: names looked up
     before still resolve. fetch(server) replaces the astroquery call (tests)."""
-    from ..mirrors import cds
     from .cache import cached
+    from .mirrors import cds
 
     def query(server):
         from astroquery.simbad import Simbad

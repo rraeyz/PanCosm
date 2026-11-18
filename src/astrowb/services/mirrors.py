@@ -19,7 +19,7 @@ _working = {}  # service -> the server that answered last
 
 
 def _file():
-    from .settings import config_dir
+    from ..settings import config_dir
 
     return config_dir() / "mirrors.json"
 
@@ -35,7 +35,7 @@ def _remember(service, server):
 
 
 def cds(service, query, patience=15.0):
-    """query(server) on the first server of service that answers within patience seconds (astroquery:
+    """query(server) on the first server of service that answers within patience seconds (the SIMBAD / VizieR client:
     Simbad().server = server, Vizier(vizier_server=server))."""
     if not _working:
         try:
