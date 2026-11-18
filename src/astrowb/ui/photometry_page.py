@@ -1457,12 +1457,12 @@ class PhotometryPage(Undoable, QWidget):
                 if why:
                     from PySide6.QtGui import QColor
 
-                    item.setForeground(QColor("#e5484d"))
+                    item.setForeground(QColor(tokens.role("saturated")))
                     item.setToolTip(", ".join(why))
                 elif Path(path).name in partial:  # kept, against the comparison stars it has (item 13)
                     from PySide6.QtGui import QColor
 
-                    item.setForeground(QColor("#f76b15"))
+                    item.setForeground(QColor(tokens.role("non_linear")))
                     item.setToolTip(self._partial_text(partial[Path(path).name]))
                 self.frame_table.setItem(i, col, item)
         self.frame_table.selectRow(self.shown)
@@ -1542,7 +1542,7 @@ class PhotometryPage(Undoable, QWidget):
                 if col == 5 and k is not None and k == worst:
                     from PySide6.QtGui import QColor
 
-                    item.setForeground(QColor("#e5484d"))
+                    item.setForeground(QColor(tokens.role("saturated")))
                 self.star_table.setItem(i, col, item)
         self.star_table.blockSignals(False)
 
@@ -1679,7 +1679,7 @@ class PhotometryPage(Undoable, QWidget):
         if self.target is not None and self.guide.states[1] is None:
             self.guide.set_state(1, "skipped")  # the bad-frame check is optional
         r, r_in, r_out = self.r_ap.value(), self.r_in.value(), self.r_out.value()
-        colours = {"target": "lime", "comparison": "red", "check": "#ffb224"}
+        colours = {"target": "lime", "comparison": "red", "check": tokens.role("non_linear")}
         stars = [(xy, colours[role], name) for name, role, xy in self._star_names()]
         self._show_lower(bool(stars) or self.lc_raw is not None)
         self._fill_star_table()

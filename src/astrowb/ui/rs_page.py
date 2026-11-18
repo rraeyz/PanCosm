@@ -23,6 +23,7 @@ from ..remotesensing import analysis
 from .kit.widgets import _title
 from .messages import translate
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .theme import mono_font
 from .viewer import ImageViewer
 
 ROLES = ("BLUE", "GREEN", "RED", "NIR", "SWIR")
@@ -149,6 +150,7 @@ class RemoteSensingPage(QWidget):
         row.addWidget(pca)
         lay.addLayout(row)
         self.readout = QLabel(self)
+        self.readout.setFont(mono_font())
         self.readout.setWordWrap(True)
         self.readout.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.readout)

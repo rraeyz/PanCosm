@@ -6,7 +6,6 @@ text, and Copy for the whole panel.
 """
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QApplication, QFormLayout, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 
@@ -44,9 +43,9 @@ class Inspector(QWidget):
             self.form.removeRow(0)
         self.rows = [(row[0], row[1], row[2] if len(row) > 2 else "") for row in rows]
         bars = {row[0]: row[3] for row in rows if len(row) > 3}
-        from ..theme import MONO
+        from ..theme import mono_font
 
-        mono = QFont(MONO, self.font().pointSize())
+        mono = mono_font(self.font().pointSize())
         for name, value, unit in self.rows:
             label = QLabel(f"{_text(value)} {unit}".strip(), self)
             label.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)

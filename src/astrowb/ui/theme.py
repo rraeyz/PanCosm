@@ -111,6 +111,21 @@ MONO = "JetBrains Mono"  # numbers in tables, read-outs, logs
 _families = []
 
 
+def mono_font(pt=None):
+    """The bundled mono font for numbers; the system fixed font when it is not installed. Never raises."""
+    try:
+        load_fonts()
+        if MONO in QFontDatabase.families():
+            f = QFont(MONO)
+        else:
+            f = QFontDatabase.systemFont(QFontDatabase.FixedFont)
+    except Exception:  # noqa: BLE001  # a missing font must not stop a table from showing
+        f = QFont("monospace")
+    if pt:
+        f.setPointSizeF(float(pt))
+    return f
+
+
 def load_fonts():
     """Register the bundled fonts once; returns the interface family ("" when they cannot be read)."""
     if not _families:

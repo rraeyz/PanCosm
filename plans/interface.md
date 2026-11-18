@@ -289,7 +289,7 @@ stage S4. UI steps depend on ARC-4.7 (kit location); UI-16.x depend on ARC-5, AR
 for the window concerned.
 
 ### UI-1. Tokens and theme  (P1)
-**open** — items 1, 2 (partly), 6 and the grep test done by agent3 (2026-11-11)
+**partial** — items 1, 2 (partly), 6 and the grep test done by agent3 (2026-11-11); mono font and ratchet lowered (2026-11-27)
 - **Progress (agent3):** `ui/kit/tokens.py`: DARK, LIGHT (the table above), NIGHT prepared (red on black, not
   offered), data ROLES, the SERIES palette, FILTERS with `filter_colour()` (Rc → R, SG → g′, CV → clear …),
   `contrast()`; `ui/theme.py` builds its palette, style sheet (hover, focus ring, primary hover, disabled faint,
@@ -300,8 +300,11 @@ for the window concerned.
   are rebuilt in UI-16, not edited twice. Item 3: Inter 4.1 (variable) and JetBrains Mono 2.304 bundled in
   `resources/fonts/` with their OFL texts, registered at start-up, tabular figures on (Qt 6.7+); the layout tests
   pass with them in every language. Item 4: `PlotView` takes its background and axis colours from the theme.
-  Pending: the full style sheet for every kit control (item 2), the mono font in tables and read-outs, live theme
-  change of icons (5).
+  2026-11-27: `theme.mono_font()` (bundled JetBrains Mono, system fixed font when missing, never raises) in the
+  `DataTable` numeric cells, the pixel read-outs (main window, Images window, Remote sensing) and the kit table,
+  status bar and inspector; colour literals in `photometry_page`, `spectro_page`, `overlay_actions`, `viewer`
+  mapped to `tokens.role()` (ratchet lowered); test `test_numeric_cells_use_the_mono_family_and_the_helper_falls_back`.
+  Pending: the full style sheet for every kit control (item 2), live theme change of icons (5).
 - **Ours now:** `ui/theme.py`: eight colours per theme in a tuple, one style sheet, Matplotlib rcParams.
 - **Build:**
   1. `ui/kit/tokens.py`: the tables above as data (`DARK`, `LIGHT`), with `role()` and `filter_colour()` helpers; a

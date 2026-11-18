@@ -7,6 +7,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QInputDialog
 
 from .. import overlays
+from .kit import tokens
 from .kit.tokens import DARK
 
 
@@ -130,7 +131,7 @@ def contours(win, n=None):
             return None
     levels = overlays.contour_levels(win.viewer.data, n)
     lines = [line for ls in overlays.contours(win.viewer.data, levels).values() for line in ls]
-    win.viewer.set_overlay("contours", "#7CFC00", lines=lines)
+    win.viewer.set_overlay("contours", tokens.role("target"), lines=lines)
     return len(lines)
 
 
@@ -147,7 +148,7 @@ def grid(win):
         return None
     g = overlays.wcs_grid(win.wcs, win.viewer.data.shape)
     texts = [(*line[len(line) // 2], label) for _, _, line, label in g]
-    win.viewer.set_overlay("grid", "#ffd60a", lines=[line for _, _, line, _ in g], texts=texts)
+    win.viewer.set_overlay("grid", tokens.role("non_linear"), lines=[line for _, _, line, _ in g], texts=texts)
     return len(g)
 
 
@@ -241,7 +242,7 @@ def minor_planets(win):
 
 def show_catalogue(win, which, stars):
     on_dark = {"vsx": "#ff4fd8", "minor": "#ffb000", "aavso": DARK["ok"]}  # the image is dark in either theme
-    colour = on_dark.get(which, "#4fc3ff")
+    colour = on_dark.get(which, tokens.role("check"))
     if which in ("vsx", "minor", "aavso"):
         label = lambda s: s["name"]  # noqa: E731
     else:
@@ -281,7 +282,7 @@ def load_regions(win, path=None):
             c, s = np.cos(a), np.sin(a)
             lines.append([(r["x"] + c * u - s * v, r["y"] + s * u + c * v) for u, v in corners])
     texts = [(r["x"], r["y"], r["text"] or "+") for r in regs if r["shape"] in ("point", "text")]
-    win.viewer.set_overlay("regions", "#00ff7f", lines=lines, circles=circles, texts=texts)
+    win.viewer.set_overlay("regions", tokens.role("target"), lines=lines, circles=circles, texts=texts)
     return regs
 
 

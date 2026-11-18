@@ -6,18 +6,17 @@ monospace font, the message in the middle, progress and Cancel at the right.
     bar.set_progress(62, cancel=task.cancel); bar.set_progress(None)      # None hides it
 """
 
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QLabel, QProgressBar, QStatusBar, QToolButton
 
 
 class StatusSegments(QStatusBar):
     def __init__(self, parent=None):
         super().__init__(parent)
-        from ..theme import MONO
+        from ..theme import mono_font
         from .icons import icon
 
         self.readout = QLabel(self)
-        self.readout.setFont(QFont(MONO, self.font().pointSize()))
+        self.readout.setFont(mono_font(self.font().pointSize()))
         self.addWidget(self.readout)  # left; showMessage writes over the middle
         self.progress = QProgressBar(self)
         self.progress.setMaximumWidth(140)

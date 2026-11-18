@@ -42,3 +42,17 @@ def test_plot_exports_its_numbers(qtbot, tmp_path):
     rows = list(csv.reader(open(p.export_data(tmp_path / "plot.csv"), encoding="utf-8")))
     assert rows[0] == ["axis", "series", "x", "y"]
     assert rows[1] == ["Relative flux", "target", "1.0", "4.0"] and rows[-1][1:] == ["series 2", "1.5", "7.0"]
+
+
+def test_numeric_cells_use_the_mono_family_and_the_helper_falls_back(qtbot, monkeypatch):
+    from PySide6.QtGui import QFontDatabase
+
+    from astrowb.ui import theme
+
+    t = DataTable()
+    qtbot.addWidget(t)
+    t.set_data(["Frame", "FWHM"], [["a.fits", 9.5]])
+    assert t.table.item(0, 1).font().family() == theme.mono_font().family()
+    assert t.table.item(0, 0).font().family() != theme.MONO or theme.MONO in QFontDatabase.families()
+    monkeypatch.setattr(QFontDatabase, "families", staticmethod(lambda *a: []))  # font missing
+    assert theme.mono_font(9).pointSizeF() == 9.0  # the system fixed font, no error

@@ -342,10 +342,11 @@ class ImageViewer(QGraphicsView):
 
     MAX_LABELS = 25
 
-    def set_overlay(self, name, colour="#00e5ff", lines=(), circles=(), texts=()):
+    def set_overlay(self, name, colour=None, lines=(), circles=(), texts=()):
         """Draw a named layer (replacing the old one): polylines [[(x, y), ...]], circles [(x, y, r, label)],
         texts [(x, y, text)], all in 0-based array coordinates. Empty lists remove the layer. Over MAX_LABELS
         circles, their labels show only when the mouse is on them."""
+        colour = colour or tokens.role("check")
         from PySide6.QtGui import QColor, QPainterPath, QPen
         from PySide6.QtWidgets import QGraphicsEllipseItem, QGraphicsPathItem, QGraphicsSimpleTextItem
 
@@ -498,7 +499,7 @@ class ImageViewer(QGraphicsView):
             item = QGraphicsRectItem(min(ax, bx) - 0.5, min(ay, by) - 0.5, abs(bx - ax) + 1, abs(by - ay) + 1)
         else:
             item = QGraphicsLineItem(ax, ay, bx, by)
-        pen = QPen(QColor("#ffd60a"))
+        pen = QPen(QColor(tokens.role("non_linear")))
         pen.setCosmetic(True)
         item.setPen(pen)
         self.scene().addItem(item)

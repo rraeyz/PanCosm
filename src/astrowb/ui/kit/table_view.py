@@ -18,6 +18,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..theme import mono_font
+
 
 class _Item(QTableWidgetItem):
     """Sorts numbers by value (10 after 9), text by text; empty cells last."""
@@ -79,6 +81,9 @@ class DataTable(QWidget):
             for c, value in enumerate(row):
                 item = _Item("" if value is None else str(value))
                 item.setData(Qt.UserRole + 1, value if isinstance(value, (int, float)) else _number(item.text()))
+                if item.data(Qt.UserRole + 1) is not None:
+                    item.setFont(mono_font())
+                    item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 if c == 0:
                     item.setData(Qt.UserRole, None if keys is None else keys[r])
                 t.setItem(r, c, item)

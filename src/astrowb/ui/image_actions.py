@@ -491,6 +491,9 @@ class ImageActions:
             from .image.readout import sky_text
 
             text += "  " + sky_text(self.wcs, x - 1, y - 1)
-        self.pixel_label.setText(text)
-        if getattr(self, "image_pixel_label", None) is not None:  # the cursor read-out of the Images window
-            self.image_pixel_label.setText(text)
+        from .theme import mono_font
+
+        labels = [self.pixel_label, getattr(self, "image_pixel_label", None)]  # the 2nd: the Images window's read-out
+        for label in filter(None, labels):
+            label.setFont(mono_font())
+            label.setText(text)

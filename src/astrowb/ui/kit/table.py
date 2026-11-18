@@ -11,7 +11,7 @@ A column whose meta has "time_standard" ("BJD_TDB", "UTC") shows it in its heade
 
 import numpy as np
 from PySide6.QtCore import QAbstractTableModel, QCoreApplication, QModelIndex, Qt, Signal
-from PySide6.QtGui import QColor, QFont
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
@@ -48,9 +48,9 @@ class _Model(QAbstractTableModel):
         self.editable = set()  # names of the columns a user may change
         self.numeric = set()  # names of the number columns: right-aligned, monospace
         self.errors = {}  # value column -> its error column: shown to the error's digits
-        from ..theme import MONO
+        from ..theme import mono_font
 
-        self.mono = QFont(MONO)
+        self.mono = mono_font()
 
     def flags(self, index):
         base = super().flags(index)

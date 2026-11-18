@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
 
 from ..spectroscopy.frame_state import calibrated, extracted
 from . import spectro_figures
+from .kit import tokens
 from .kit.focus import read_in_order
 from .kit.help import help_line
 from .kit.table import TableView
@@ -567,9 +568,9 @@ class ReduceTab(Undoable, QWidget):
         y = np.polyval(coef, x)
         half, off, width = self.width.value() / 2, self.sky_offset.value(), self.sky_width.value()
         line = lambda dy: list(zip(x, y + dy, strict=True))  # noqa: E731
-        self.frame_view.set_overlay("aperture", "#3fb950", lines=[line(0), line(-half), line(half)])
+        self.frame_view.set_overlay("aperture", tokens.role("target"), lines=[line(0), line(-half), line(half)])
         bands = [line(sign * d) for sign in (-1, 1) for d in (off, off + width)]
-        self.frame_view.set_overlay("sky", "#4fc3ff", lines=bands)
+        self.frame_view.set_overlay("sky", tokens.role("check"), lines=bands)
         self.frame_view.setToolTip(
             self.tr(
                 "Green: the trace and the aperture extracted; blue: the sky bands. Choose another row if this is "
@@ -1072,8 +1073,10 @@ class EchelleTab(Undoable, QWidget):
         self._frame_key = None  # the frame view now holds the flat, not the science frame
         x = np.linspace(0, d.shape[1] - 1, 200)
         traces = [list(zip(x, np.polyval(c, x), strict=True)) for c in self.order_traces]
-        self.frame_view.set_overlay("orders", "#3fb950", lines=traces)
-        self.frame_view.set_overlay("failed", "#e5484d", texts=[(self._order_nx / 2, r, "×") for r in failed])
+        self.frame_view.set_overlay("orders", tokens.role("target"), lines=traces)
+        self.frame_view.set_overlay(
+            "failed", tokens.role("saturated"), texts=[(self._order_nx / 2, r, "×") for r in failed]
+        )
         self.frame_view.setToolTip(
             self.tr("{n} orders. Click a trace to remove it; click on a missed order to add it.").format(
                 n=len(self.order_traces)
