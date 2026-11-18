@@ -10,10 +10,8 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDialog,
-    QDialogButtonBox,
     QDoubleSpinBox,
     QFileDialog,
-    QFormLayout,
     QGridLayout,
     QGroupBox,
     QLabel,
@@ -30,9 +28,10 @@ from . import spectro_figures, spectrum_keys
 from .kit.table import TableView
 from .messages import guarded, translate
 from .plot.toolbar import plot_box
+from .spectrum_tools_bess import BessDialog
+from .spectrum_tools_files import SPECTRA, SpectrumFiles
 from .undo import Undoable
 
-SPECTRA = "Spectra (*.fits *.fit *.fts *.txt *.dat *.csv *.asc)"
 LINE_COLUMNS = ("file", "centre", "fwhm", "ew", "ew_err", "ew_fit", "depth", "line_flux", "snr", "v_over_r")
 
 
@@ -44,7 +43,7 @@ def _spin(parent, value, lo, hi, decimals=2):
     return w
 
 
-class SpectrumToolsTab(Undoable, QWidget):
+class SpectrumToolsTab(SpectrumFiles, Undoable, QWidget):
     atmosphere_requested = Signal(dict, dict)  # inputs (spectrum, optional solar spectrum), params
     combine_requested = Signal(dict, dict)  # inputs (spectra, output), params
 
@@ -344,111 +343,6 @@ class SpectrumToolsTab(Undoable, QWidget):
         split.setSizes([430, 800])
         QVBoxLayout(self).addWidget(split)
 
-    # --- stellar parameters ----------------------------------------------------
-    def _atmosphere(self):
-        if self.wave is None:
-            self.status.setText(self.tr("Open a spectrum first."))
-            return
-        if not self.resolution.value():
-            self.status.setText(self.tr("Give the spectrograph's resolution R first."))
-            return
-        path = self.path
-        if self.history:  # changed here (cleaned, cut, ...): the fit uses what is shown
-            import tempfile
-
-            from ..spectroscopy import spectrum_io
-
-            path = str(Path(tempfile.mkdtemp()) / Path(self.path).name)
-            spectrum_io.write(path, self.wave, self.flux, np.full_like(self.flux, np.nan), self.header)
-        inputs = {"spectrum": path} | ({"sun": self.sun_file.text()} if self.sun_file.text().strip() else {})
-        self.status.setText(self.tr("Fitting stellar parameters (the first time, model spectra are downloaded)…"))
-        self.atmosphere_requested.emit(inputs, {"resolution": self.resolution.value()})
-
-    def show_atmosphere(self, o):
-        e = o["errors"]
-        text = self.tr(
-            "Teff = {t:.0f} ± {et:.0f} K, log g = {g:.2f} ± {eg:.2f}, [Fe/H] = {z:+.2f} ± {ez:.2f}, "
-            "v sin i = {v:.1f} ± {ev:.1f} km/s, RV = {rv:.2f} ± {erv:.2f} km/s. Relative to the Sun fitted the same "
-            "way; {pct:.0f} % of the pixels used (where the models reproduce the Sun); χ²ᵣ = {chi:.2f}."
-        ).format(
-            t=o["teff"], et=e["teff"], g=o["logg"], eg=e["logg"], z=o["feh"], ez=e["feh"], v=o["vsini"],
-            ev=e["vsini"], rv=o["rv"], erv=e["rv"], pct=100 * o["used_fraction"], chi=o["chi2_red"],
-        )  # fmt: skip
-        if o["far_from_sun"]:
-            text += " " + self.tr("This star is far from the Sun: the solar reference is less reliable here.")
-        if o["at_edge"]:
-            text += " " + self.tr("The fit stopped at the edge of the model grid.")
-        text += " " + self.tr("So far checked on the Sun only; see the guide before publishing.")
-        self.status.setText(text)
-        self.plot.set_figure(spectro_figures.atmosphere_figure(o["plot"]))
-
-    # --- data ----------------------------------------------------------------
-    def _read(self, path):
-        from ..spectroscopy import spectrum_io
-
-        try:
-            return spectrum_io.read(path)
-        except (OSError, ValueError, IndexError) as e:
-            self.status.setText(self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e)))
-            return None
-
-    def _open(self, path=None):
-        path = path or QFileDialog.getOpenFileName(self, self.tr("Open spectrum"), "", SPECTRA)[0]
-        if not path:
-            return False
-        got = self._read(path)
-        if got is None:
-            return False
-        self.wave, self.flux, _, self.header = got
-        self.wave, self.flux = np.asarray(self.wave, float), np.asarray(self.flux, float)
-        self.path, self.history, self.points, self.last = path, [], [], None
-        self.undo_stack.clear()  # another spectrum: earlier steps do not apply to it
-        text = self.tr("{file}: {n} points, {a:.1f}–{b:.1f} Å").format(
-            file=Path(path).name, n=self.wave.size, a=self.wave.min(), b=self.wave.max()
-        )
-        if "converted to air" in str(self.header.comments["VACUUM"] if "VACUUM" in self.header else ""):
-            text += " " + self.tr("(vacuum wavelengths in the file, converted to air)")
-        self.source.setText(text)
-        self._plot()
-        self.guide.reset()
-        self.guide.set_state(0, "done")
-        return True
-
-    def _combine(self, paths=None):
-        paths = paths or QFileDialog.getOpenFileNames(self, self.tr("Combine exposures"), "", SPECTRA)[0]
-        if len(paths) < 2:
-            if paths:
-                self.source.setText(self.tr("Choose at least two exposures to combine."))
-            return False
-        first = Path(paths[0])
-        output = first.with_name(f"{first.stem.removesuffix('.fits')}_combined{len(paths)}.fits")
-        self.source.setText(self.tr("Combining {n} exposures…").format(n=len(paths)))
-        self.combine_requested.emit({"spectra": [str(p) for p in paths], "output": str(output)}, {})
-        return True
-
-    def show_combined(self, out):
-        """The combined spectrum opened here, with what was done and any warning."""
-        from .messages import translate
-
-        if not self._open(out["path"]):
-            return
-        text = (
-            self.source.text()
-            + "\n"
-            + self.tr("{n} exposures combined, {r} pixels rejected.").format(n=out["count"], r=out["rejected"])
-        )
-        for warning in out.get("warnings") or []:
-            warning = translate(warning)
-            text += "\n⚠ " + warning[:1].upper() + warning[1:]
-        self.source.setText(text)
-
-    def _open_b(self, path=None):
-        path = path or QFileDialog.getOpenFileName(self, self.tr("Spectrum B"), "", SPECTRA)[0]
-        got = self._read(path) if path else None
-        if got:
-            self.b = (np.asarray(got[0], float), np.asarray(got[1], float))
-            self.status.setText(self.tr("Spectrum B: {file}").format(file=Path(path).name))
-
     # --- undo / redo (Edit menu, Ctrl+Z / Ctrl+Y) -----------------------------
     def undo_state(self):
         return {"wave": self.wave, "flux": self.flux, "points": tuple(self.points)}
@@ -719,65 +613,3 @@ class SpectrumToolsTab(Undoable, QWidget):
             self.guide.set_state(3, "done")
             self.status.setText(self.tr("Saved: {path}").format(path=path))
         return path
-
-
-class BessDialog(QDialog):
-    """The BeSS keywords the spectrum's header does not already give."""
-
-    FIELDS = ("object", "observer", "date_obs", "exptime", "instrument", "site", "latitude", "longitude", "elevation")
-    KEYS = ("OBJECT", "OBSERVER", "DATE-OBS", "EXPTIME", "INSTRUME", "SITENAME", "SITELAT", "SITELONG", "SITEELEV")
-
-    def __init__(self, header=None, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle(self.tr("Export for BeSS / ARAS"))
-        form = QFormLayout(self)
-        labels = (
-            self.tr("Object (Simbad name)"),
-            self.tr("Observer"),
-            self.tr("Start of exposure (UTC)"),
-            self.tr("Exposure (s)"),
-            self.tr("Telescope + spectrograph + camera"),
-            self.tr("Site"),
-            self.tr("Latitude (°)"),
-            self.tr("Longitude (°)"),
-            self.tr("Elevation (m)"),
-        )
-        self.edits = {}
-        for field, key, label in zip(self.FIELDS, self.KEYS, labels, strict=True):
-            e = QLineEdit(str((header or {}).get(key, "")), self)
-            self.edits[field] = e
-            e.setToolTip(self.tr("A keyword BeSS requires; filled from the spectrum's header when it has it"))
-            form.addRow(label, e)
-        self.telluric = QCheckBox(self.tr("Telluric lines removed"), self)
-        self.cosmic = QCheckBox(self.tr("Cosmic rays removed"), self)
-        self.cosmic.setToolTip(self.tr("Tick if cosmic-ray hits were removed; written into the header for BeSS"))
-        self.telluric.setToolTip(
-            self.tr("Tick if the telluric (atmospheric) lines were divided out; written into the header for BeSS")
-        )
-        self.vhel = QLineEdit("0", self)
-        self.vhel.setToolTip(
-            self.tr(
-                "The heliocentric velocity correction already applied to the wavelengths (0 if none); BeSS "
-                "needs it to compare spectra"
-            )
-        )
-        form.addRow(self.telluric)
-        form.addRow(self.cosmic)
-        form.addRow(self.tr("Heliocentric correction applied (km/s)"), self.vhel)
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
-        form.addRow(buttons)
-
-    def values(self):
-        out = {k: e.text().strip() for k, e in self.edits.items()}
-        for k in ("exptime", "latitude", "longitude", "elevation"):
-            try:
-                out[k] = float(out[k].replace(",", "."))
-            except ValueError:
-                out[k] = 0.0
-        try:
-            out["vhel"] = float(self.vhel.text().replace(",", "."))
-        except ValueError:
-            out["vhel"] = 0.0
-        return out | {"telluric": self.telluric.isChecked(), "cosmic": self.cosmic.isChecked()}

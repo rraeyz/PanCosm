@@ -1,8 +1,7 @@
 {
  "files": {
   "ui/photometry_page.py": 3136,
-  "ui/spectro_page.py": 2423,
-  "ui/spectrum_tools.py": 811
+  "ui/spectro_page.py": 2423
  },
  "functions": {
   "__main__.py:_app": 126,
