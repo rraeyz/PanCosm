@@ -76,6 +76,13 @@ Yapılanları "Bitti" altına taşıyacağım.
   kapatıp aç: aynı yerlerde açılıyor mu? Sonra ikinci ekranı çıkarıp aç: pencereler görünen ekrana geliyor mu?
 - **Neden:** Bu davranışı ekledim (UI-14), ama burada tek sanal ekran var; gerçek iki ekranla denenmedi.
 
+### 14. Windows'ta saat dilimi için `tzdata` paketi
+- **Ne:** Profile saat dilimi (ör. Europe/Istanbul) eklendi; Planlama yerel saatleri ona göre gösteriyor. Windows'ta
+  Python'un saat dilimi veritabanı yok, `tzdata` paketi gerekiyor. Bağımlılık eklemek senin onayını istiyor:
+  ekleyeyim mi?
+- **Neden:** Paket yokken Windows'ta saat dilimi yok sayılıyor (program çökmüyor, eski davranış: UTC farkı elle ya
+  da boylamdan). Linux ve macOS'ta sorun yok.
+
 ## Bitti
 
 (henüz yok)

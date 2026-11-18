@@ -6,9 +6,23 @@ from astrowb.core import profiles
 from astrowb.core.profiles import zone_offset
 from astrowb.ui.plan_page import PlanPage
 
+
+def _zones():
+    from zoneinfo import ZoneInfo
+
+    try:
+        ZoneInfo("Europe/Istanbul")
+    except Exception:  # Windows without the tzdata package has no zone database
+        return False
+    return True
+
+
+needs_zones = pytest.mark.skipif(not _zones(), reason="no IANA time zone database on this system")
+
 JD = 2461000.5  # northern winter
 
 
+@needs_zones
 def test_zone_offset_and_bad_names():
     assert zone_offset("Europe/Istanbul", JD) == 3.0
     assert zone_offset("America/New_York", JD) == -5.0
@@ -35,6 +49,7 @@ def test_horizon_sets_lowest_altitude(page_for):
     assert page_for(horizon=35.0).min_alt.value() == 35.0
 
 
+@needs_zones
 def test_time_zone_sets_local_offset(page_for):
     page = page_for(time_zone="America/New_York")
     assert page.local_offset(JD) == -5.0
