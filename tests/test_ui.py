@@ -3156,3 +3156,25 @@ def test_follow_enabled_survives_its_action_being_deleted(qtbot):
     qtbot.wait(50)
     button.setEnabled(False)  # the watcher fires on a deleted action: no exception
     button.setEnabled(True)
+
+
+def test_velocity_table_time_header_follows_the_files_scale(window, tmp_path):
+    """A JD, HJD or BJD file is labelled with its own scale; mixed scales show a note."""
+    from astrowb.ui import velocity_table
+
+    vel = window.spectro_page.velocity_tab
+
+    def load(name, col):
+        path = tmp_path / name
+        path.write_text(f"{col},rv\n" + "".join(f"{2450000 + i},{i}\n" for i in range(7)))
+        return velocity_table.open_dialog(vel, str(path))
+
+    for name, col, scale in (("a.csv", "jd", "JD"), ("b.csv", "HJD", "HJD"), ("c.csv", "bjd", "BJD_TDB")):
+        rows = load(name, col)
+        assert {r["time_scale"] for r in rows} == {scale}
+        assert vel.table.model.headerData(1, Qt.Horizontal) == scale and vel.time_note.isHidden()
+    assert {r["time_scale"] for r in load("d.csv", "time")} == {""}
+    assert vel.table.model.headerData(1, Qt.Horizontal) == "Time (as in the files)"
+    mixed = load("e.csv", "hjd") + load("f.csv", "bjd")
+    vel.show_rvs(mixed)
+    assert "BJD_TDB, HJD" in vel.time_note.text() and not vel.time_note.isHidden()

@@ -1551,9 +1551,13 @@ class VelocityTab(QWidget):
         )
         self.table.row_chosen.connect(self.show_profile)
         right.addWidget(self.table)
+        self.time_note = QLabel(self)
+        self.time_note.setWordWrap(True)
+        self.time_note.hide()
+        right.addWidget(self.time_note)
         box, self.plot = plot_box(self)
         right.addWidget(box)
-        right.setSizes([220, 500])
+        right.setSizes([220, 20, 500])
         split.addWidget(right)
         split.setSizes([400, 800])
         QVBoxLayout(self).addWidget(split)
@@ -1738,9 +1742,18 @@ class VelocityTab(QWidget):
             ).format(v=c["separable_kms"], a=c["separable_a"])
         self.status.setText(text)
 
-    def _rv_names(self):
-        return [self.tr("File"), "BJD_TDB", self.tr("RV (km/s)"), self.tr("Error"), self.tr("RV 2 (km/s)"),
-                self.tr("Error 2"), self.tr("Barycentric corr.")]  # fmt: skip
+    def _rv_names(self, rows=()):
+        from .velocity_table import time_header
+
+        return [self.tr("File"), time_header(rows) if rows else "BJD_TDB", self.tr("RV (km/s)"), self.tr("Error"),
+                self.tr("RV 2 (km/s)"), self.tr("Error 2"), self.tr("Barycentric corr.")]  # fmt: skip
+
+    def _show_table(self, cells, rows):
+        from .velocity_table import mixed_note
+
+        self.table.set_table(_rv_table(cells, self._rv_names(rows)))
+        self.time_note.setText(mixed_note(rows))
+        self.time_note.setVisible(bool(self.time_note.text()))
 
     def show_rvs(self, rows, skipped=None):
         self.rvs = rows
@@ -1759,7 +1772,7 @@ class VelocityTab(QWidget):
                 f"{row['v_corr']:.3f}" if row["v_corr"] is not None else self.tr("not applied"),
             )
             cells.append(values)
-        self.table.set_table(_rv_table(cells, self._rv_names()))
+        self._show_table(cells, rows)
         usable = [r for r in rows if r["bjd"]]
         self.orbit_button.setEnabled(len(usable) >= 6)
         self.separate_button.setEnabled(self._is_sb2() and len(rows) >= 4)
