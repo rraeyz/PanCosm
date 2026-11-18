@@ -372,7 +372,7 @@ def test_period_search_tab(window, qtbot):
     page.search_button.click()
     qtbot.waitUntil(lambda: page.best is not None, timeout=60000)
     assert abs(page.best - 0.731) < 0.002
-    assert window.lightcurve_page.count() == 3  # O−C has its own window (interface I6d (4))
+    assert window.lightcurve_page.count() == 4  # O−C has its own window (interface I6d (4))
     page.phase_bins.setValue(20)  # binned mean curve drawn over the folded points
     assert [x.name for x in window.period_page.plot.figure.panels[1].series][-1] == "binned mean"
 

@@ -979,7 +979,12 @@ Tests: `tests/test_occultation.py` (`test_square_well_25fps`, `test_read_cube`).
 written in the repo), the IOTA report `reports/iota.py` (layout not written in the repo), the UI, photometry on
 frame streams, AVI / ADV notice. (2026-11-22) The step `timeseries.occultation` (time, flux → occultation: the fit
 dict in the unit of the times; bootstrap draws as a setting, seed 0 so a rerun gives the same errors);
-`test_occultation_step_through_the_engine`.
+`test_occultation_step_through_the_engine`. (2026-11-27) The UI: Light curves → "Occultation" tab (load a CSV or
+`.lc.ecsv` with `data.read_light_curve`, "Fit the occultation" runs the step through `run_step`, the data and the
+model in a `PlotView`, D, R, duration, magnitude drop, levels with errors in a `TableView`; failures said through
+`messages.translate`); `ui/occultation_tab.py` `OccultationTab`; tests `tests/ui/test_occultation_tab.py`
+(`test_fit_recovers_the_times_within_their_errors`). Left now: SER reader, IOTA report, photometry on frame streams,
+AVI / ADV notice.
 - **Reference:** Tangra, PyOTE / PyMovie (IOTA), Limovie: SER / AVI / ADV / FITS-cube input, time stamps from GPS
   inserters, drop detection in a noisy light curve with a square-well model and confidence from Monte Carlo.
 - **Build:** readers for SER (documented header; UTC time stamps per frame) and FITS cubes with time keywords

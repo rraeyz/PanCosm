@@ -5673,19 +5673,24 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="23"/>
+        <location filename="../../ui/lightcurve_page.py" line="24"/>
         <source>Period search</source>
         <translation>Búsqueda de períodos</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="24"/>
+        <location filename="../../ui/lightcurve_page.py" line="25"/>
         <source>Frequency analysis</source>
         <translation>Análisis de frecuencias</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="25"/>
+        <location filename="../../ui/lightcurve_page.py" line="26"/>
         <source>Variable star search</source>
         <translation>Búsqueda de variables</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_page.py" line="28"/>
+        <source>Occultation</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12597,6 +12602,109 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/oc_stages.py" line="52"/>
         <source>Unit</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OccultationTab</name>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="29"/>
+        <source>Load light curve…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="31"/>
+        <source>A CSV file or a light-curve file (.lc.ecsv) with an evenly sampled series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="34"/>
+        <source>Fit the occultation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="36"/>
+        <source>Fits a square well (a drop with sharp edges) and gives the disappearance and reappearance times</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="42"/>
+        <source>No light curve yet: load a file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="54"/>
+        <source>Load light curve</source>
+        <translation type="unfinished">Cargar curva de luz</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="64"/>
+        <source>Cannot read {file}: {error}</source>
+        <translation type="unfinished">No se puede leer {file}: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="67"/>
+        <source>{file}: {n} points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="72"/>
+        <source>Load a light curve first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="81"/>
+        <source>Disappearance time D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="82"/>
+        <source>Reappearance time R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="83"/>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="84"/>
+        <source>Magnitude drop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="85"/>
+        <source>Flux outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="86"/>
+        <source>Flux inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="90"/>
+        <source>Fitted: the times are in the unit of the light curve&apos;s time column.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="95"/>
+        <source>light curve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="103"/>
+        <source>model</source>
+        <translation type="unfinished">modelo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="108"/>
+        <source>Time</source>
+        <translation type="unfinished">Tiempo</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="108"/>
+        <source>Relative flux</source>
+        <translation type="unfinished">Flujo relativo</translation>
     </message>
 </context>
 <context>

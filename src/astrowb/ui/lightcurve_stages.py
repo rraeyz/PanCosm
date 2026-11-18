@@ -50,7 +50,7 @@ def light_curve_stages(win, lc):
         show(key)
 
     def follow(i):
-        if tab_of.get(win.rail.current) != i:
+        if i in first and tab_of.get(win.rail.current) != i:  # the Occultation tab has no stage
             show(first[i])
 
     win.show_stage = show_stage

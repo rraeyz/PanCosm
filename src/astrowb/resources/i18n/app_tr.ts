@@ -5673,19 +5673,24 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="23"/>
+        <location filename="../../ui/lightcurve_page.py" line="24"/>
         <source>Period search</source>
         <translation>Periyot arama</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="24"/>
+        <location filename="../../ui/lightcurve_page.py" line="25"/>
         <source>Frequency analysis</source>
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="25"/>
+        <location filename="../../ui/lightcurve_page.py" line="26"/>
         <source>Variable star search</source>
         <translation>Değişen yıldız arama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_page.py" line="28"/>
+        <source>Occultation</source>
+        <translation>Örtülme</translation>
     </message>
 </context>
 <context>
@@ -9479,7 +9484,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="491"/>
         <source>n_best must be 1 to {n} (the frames with a measurable FWHM)</source>
-        <translation>n_best 1 ile {n} arasında olmalı (FWHM'i ölçülebilen kareler)</translation>
+        <translation>n_best 1 ile {n} arasında olmalı (FWHM&apos;i ölçülebilen kareler)</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="493"/>
@@ -12602,6 +12607,109 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>OccultationTab</name>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="29"/>
+        <source>Load light curve…</source>
+        <translation>Işık eğrisi yükle…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="31"/>
+        <source>A CSV file or a light-curve file (.lc.ecsv) with an evenly sampled series</source>
+        <translation>Eşit aralıklı örneklenmiş bir seri içeren CSV dosyası veya ışık eğrisi dosyası (.lc.ecsv)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="34"/>
+        <source>Fit the occultation</source>
+        <translation>Örtülmeyi uydur</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="36"/>
+        <source>Fits a square well (a drop with sharp edges) and gives the disappearance and reappearance times</source>
+        <translation>Kare kuyu (keskin kenarlı bir düşüş) uydurur ve kaybolma ile yeniden görünme zamanlarını verir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="42"/>
+        <source>No light curve yet: load a file.</source>
+        <translation>Henüz ışık eğrisi yok: bir dosya yükleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="54"/>
+        <source>Load light curve</source>
+        <translation>Işık eğrisi yükle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="64"/>
+        <source>Cannot read {file}: {error}</source>
+        <translation>{file} okunamıyor: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="67"/>
+        <source>{file}: {n} points</source>
+        <translation>{file}: {n} nokta</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="72"/>
+        <source>Load a light curve first.</source>
+        <translation>Önce bir ışık eğrisi yükleyin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="81"/>
+        <source>Disappearance time D</source>
+        <translation>Kaybolma zamanı D</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="82"/>
+        <source>Reappearance time R</source>
+        <translation>Yeniden görünme zamanı R</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="83"/>
+        <source>Duration</source>
+        <translation>Süre</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="84"/>
+        <source>Magnitude drop</source>
+        <translation>Kadir düşüşü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="85"/>
+        <source>Flux outside</source>
+        <translation>Dışarıdaki akı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="86"/>
+        <source>Flux inside</source>
+        <translation>İçerideki akı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="90"/>
+        <source>Fitted: the times are in the unit of the light curve&apos;s time column.</source>
+        <translation>Uydurma tamam: zamanlar ışık eğrisinin zaman sütununun biriminde.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="95"/>
+        <source>light curve</source>
+        <translation>ışık eğrisi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="103"/>
+        <source>model</source>
+        <translation>model</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="108"/>
+        <source>Time</source>
+        <translation>Zaman</translation>
+    </message>
+    <message>
+        <location filename="../../ui/occultation_tab.py" line="108"/>
+        <source>Relative flux</source>
+        <translation>Göreli akı</translation>
+    </message>
+</context>
+<context>
     <name>Overlays</name>
     <message>
         <location filename="../../ui/overlay_actions.py" line="15"/>
@@ -13742,7 +13850,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_dia.py" line="61"/>
         <source>Choose the radii from the star profiles first: they give the FWHM.</source>
-        <translation>Önce yıldız profillerinden yarıçapları seçin: FWHM'i onlar verir.</translation>
+        <translation>Önce yıldız profillerinden yarıçapları seçin: FWHM&apos;i onlar verir.</translation>
     </message>
     <message>
         <location filename="../../ui/photometry_dia.py" line="64"/>
@@ -23421,7 +23529,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../photometry/dia_step.py" line="15"/>
         <source>The frames of smallest FWHM that are combined into the reference</source>
-        <translation>Referansta birleştirilen en küçük FWHM'li kareler</translation>
+        <translation>Referansta birleştirilen en küçük FWHM&apos;li kareler</translation>
     </message>
     <message>
         <location filename="../../photometry/dia_step.py" line="16"/>

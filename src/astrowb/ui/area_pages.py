@@ -311,6 +311,17 @@ def make_lightcurve_page(main):
             page.setCurrentWidget(page.period_page),
         )
     )
+    oc = page.occultation_tab
+    oc.fit_requested.connect(
+        lambda t, y: main.run_step_for(
+            "timeseries",
+            "timeseries.occultation",
+            {"time": t, "flux": y},
+            None,
+            on_done=oc.show_result,
+            on_fail=oc.show_error,
+        )
+    )
     fp = page.frequency_page
     fp.analyse_requested.connect(
         lambda t, y, params: main.run_step_for(
