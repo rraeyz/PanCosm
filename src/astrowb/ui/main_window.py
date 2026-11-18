@@ -615,6 +615,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         self.engine.shutdown()
         if self.engine.project:
             self.engine.project.close()
+            self.engine.project = None  # a task result still queued must not read the closed file
         super().closeEvent(event)
 
 

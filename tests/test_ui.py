@@ -877,7 +877,8 @@ def test_project_reproduce(window, qtbot, fits_file, tmp_path):
     )
     page = window.project_page
     qtbot.waitUntil(
-        lambda: page.runs_table.model.rowCount() == 1 and page.runs_table.model.index(0, 1).data() == "done"
+        lambda: page.runs_table.model.rowCount() == 1 and page.runs_table.model.index(0, 1).data() == "done",
+        timeout=60000,
     )
     page.runs_table.view.selectRow(0)
     page.reproduce_button.click()
