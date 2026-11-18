@@ -25,14 +25,14 @@ FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 class CoefficientsDialog(QDialog):
     transform_requested = Signal(str, str, dict)  # image A, image B, params
 
-    def __init__(self, light_curve=None, parent=None):
+    def __init__(self, light_curve=None, parent=None, settings=None):
         from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
         from .plot.view import PlotView
 
         super().__init__(parent)
         self.setWindowTitle(self.tr("Photometric coefficients"))
         self.resize(820, 640)
-        self.lc, self.paths, self.result = light_curve, ["", ""], None
+        self.lc, self.paths, self.result, self.settings = light_curve, ["", ""], None, settings
         lay = QVBoxLayout(self)
         box = QGroupBox(self.tr("Extinction of the night"), self)
         bl = QVBoxLayout(box)
@@ -84,6 +84,13 @@ class CoefficientsDialog(QDialog):
         self.tr_result.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.tr_result.setWordWrap(True)
         g.addWidget(self.tr_result, 3, 0, 1, 4)
+        self.save_button = QPushButton(self.tr("Save to the profile"), self)
+        self.save_button.setToolTip(
+            self.tr("Keep these coefficients, dated, for this filter set in the equipment profile")
+        )
+        self.save_button.setEnabled(False)
+        self.save_button.clicked.connect(self.save_to_profile)
+        g.addWidget(self.save_button, 4, 0, 1, 4)
         lay.addWidget(box)
         self.plot = PlotView(parent=self)
         lay.addWidget(PlotToolbar(self.plot, self))
@@ -136,8 +143,21 @@ class CoefficientsDialog(QDialog):
         params = {"band_a": self.band[0].currentText(), "band_b": self.band[1].currentText()}
         self.transform_requested.emit(self.paths[0], self.paths[1], params)
 
+    def save_to_profile(self):
+        from ..core import profile_coefficients
+        from ..settings import Settings
+
+        profile_coefficients.save(
+            self.settings or Settings(),
+            self.band[0].currentText(),
+            self.band[1].currentText(),
+            self.result["transformation"],
+        )
+        self.save_button.setEnabled(False)
+
     def show_transformation(self, out):
         self.result = out
+        self.save_button.setEnabled(True)
         c = out["transformation"]
         a, b = self.band[0].currentText(), self.band[1].currentText()
         lines = [self.tr("{n} standard stars").format(n=c["n"])]

@@ -27,8 +27,9 @@ DEFAULTS = {
     },  # fmt: skip
     "optics": {"aperture": 0.0, "focal_length": 0.0},  # mm; with a reducer: the focal length with it
     # names: a header's filter name -> its AAVSO band, where the guess below is wrong; zero_points: the same name ->
-    # magnitude zero point; focus_offsets: the same name -> focuser steps from the reference filter
-    "filters": {"names": {}, "zero_points": {}, "focus_offsets": {}},
+    # magnitude zero point; focus_offsets: the same name -> focuser steps from the reference filter;
+    # transformations: filter set ("BV") -> dated coefficients, see profile_coefficients
+    "filters": {"names": {}, "zero_points": {}, "focus_offsets": {}, "transformations": {}},
     # kind: "long-slit", "echelle", ...; dispersion_axis: "x" or "y"; slit_width ″; grating lines/mm; lamps: text
     "spectrograph": {
         "kind": "",

@@ -79,8 +79,28 @@ class AavsoDialog(QDialog):
         self.comp_colours.setToolTip(self.tr("The comparison stars' colours (B−V) from the chart, in their order"))
         self.target_colour.setToolTip(self.tr("The variable's colour (B−V) on this night"))
         form.addRow(self.tr("Colour term (transformation)"), self.coefficient)
+        self.profile_button = QPushButton(self)
+        self.profile_button.clicked.connect(self._take_profile_coefficient)
+        form.addRow("", self.profile_button)
+        self.filter.currentTextChanged.connect(self._offer_profile_coefficient)
+        self._offer_profile_coefficient()
         form.addRow(self.tr("Colours of the comparison stars"), self.comp_colours)
         form.addRow(self.tr("Colour of the variable"), self.target_colour)
+
+    def _offer_profile_coefficient(self):
+        """The profile's newest colour term of this filter (dated), offered; no button when there is none."""
+        from ..core import profile_coefficients
+
+        self._offered = profile_coefficients.latest(self.settings, self.filter.currentText().lower())
+        self.profile_button.setVisible(bool(self._offered))
+        if self._offered:
+            key, e = self._offered
+            self.profile_button.setText(
+                self.tr("Take {v:.4f} from the profile ({key}, {date})").format(v=e["value"], key=key, date=e["date"])
+            )
+
+    def _take_profile_coefficient(self):
+        self.coefficient.setText(f"{self._offered[1]['value']:.4f}")
 
     def _transform(self, n_comps):
         text = self.coefficient.text().strip().replace(",", ".")

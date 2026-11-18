@@ -6,16 +6,19 @@ mid-time; the light curve is then measured on them as on any frames."""
 import numpy as np
 
 
-def running_stacks(paths, n, folder, ctx=None):
+def running_stacks(paths, n, folder, ctx=None, track=None):
     """The frames in time order, in groups of n (a last group shorter than n / 2 joins the one before); returns the
-    stacked files written into folder."""
+    stacked files written into folder. track = ((jd, x, y), (jd, x, y)): two clicks of a moving object's linear
+    track (moving_lc.linear_track): the frames are then shifted onto the object, which sits where the track is at
+    the stack's mean mid-time, the time its header carries (the stars trail: measure them on the single frames)."""
     from pathlib import Path
 
     from .. import timing
     from ..calibration.stacking import save_stack, stack
     from ..hdr import get
 
-    paths = timing.chronological([str(p) for p in paths])
+    jd = {}
+    paths = timing.chronological([str(p) for p in paths], jd)
     groups = [paths[i : i + n] for i in range(0, len(paths), n)]
     if len(groups) > 1 and len(groups[-1]) < n / 2:
         groups[-2] += groups.pop()
@@ -27,7 +30,15 @@ def running_stacks(paths, n, folder, ctx=None):
             ctx.check()
             ctx.progress(0.5 * k / len(groups), "stacking")
         # few frames give no σ to reject against (4 values: the clipping itself adds noise): a plain mean then
-        image, count, header = stack(group, align="translation", rejection="sigma" if len(group) >= 8 else "none")
+        shifts = {}
+        if track:
+            from .moving_lc import linear_track
+
+            at = linear_track([jd[p] for p in group], *track)
+            shifts = {"offsets": (at - at.mean(axis=0)).tolist()}  # linear: the mean is the track at the mean time
+        image, count, header = stack(
+            group, align="translation", rejection="sigma" if len(group) >= 8 else "none", **shifts
+        )
         exptime = get(header, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
         header["EXPTIME"] = (float(exptime) * len(group), "summed exposure of the combined frames")
         header["NCOMBINE"] = (len(group), "frames combined")

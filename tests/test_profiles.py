@@ -200,3 +200,24 @@ def test_the_chooser_exports_and_imports(qtbot, tmp_path):
     (tmp_path / "p.json").write_text((tmp_path / "p.json").read_text().replace('"Default"', '"Copy"'))
     assert chooser.import_file(str(tmp_path / "p.json")) == "Copy"
     assert profiles.names(host.settings) == ["Default", "Copy"]
+
+
+def test_coefficients_saved_dated_and_offered_in_the_aavso_dialog(qapp, tmp_path):
+    """PHO-35: coefficients saved dated per filter set; the AAVSO dialog offers the newest."""
+    from astrowb.core import profile_coefficients
+    from astrowb.ui.aavso_dialog import AavsoDialog
+
+    s = Settings(tmp_path)
+    one = lambda v: {"value": v, "error": 0.01}  # noqa: E731
+    assert profile_coefficients.latest(s, "V") is None
+    profile_coefficients.save(s, "B", "V", {"tbv": one(1.0), "tv": one(0.08), "tb": one(0.1)}, date="2026-10-01")
+    profile_coefficients.save(s, "B", "V", {"tbv": one(1.0), "tv": one(0.09), "tb": one(0.1)}, date="2026-11-27")
+    key, e = profile_coefficients.latest(s, "V")
+    assert key == "BV" and e["value"] == 0.09 and e["date"] == "2026-11-27"
+    d = AavsoDialog(2, settings=s)
+    d.filter.setCurrentText("V")
+    assert not d.profile_button.isHidden() and "2026-11-27" in d.profile_button.text()
+    d.profile_button.click()
+    assert d.coefficient.text() == "0.0900"
+    d.filter.setCurrentText("CV")
+    assert d.profile_button.isHidden()

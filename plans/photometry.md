@@ -900,8 +900,10 @@ each comparison star moved off its colour term plus the target's, the coefficien
 time and iterated); `export.aavso_extended(transform=…)` writes TRANS=YES and the coefficient in NOTES. Test
 (tests/test_transform.py): B / V night with colour terms 0.05 and 0.10 — within 0.005 mag of the truth on every
 frame, untransformed 0.06 / 0.03 off. The AAVSO report dialog takes the colour term and the colours (the report
-then says TRANS=YES; test_profiles). Left: the coefficients from the profile (dated, per filter set), the colours
-from the AAVSO sequence's B and V, the second-order extinction term.
+then says TRANS=YES; test_profiles). Done (2026-11-27): the coefficients in the profile, dated per filter set
+(`core/profile_coefficients.save / latest`, profile `filters["transformations"]`; the coefficients dialog's "Save to the profile"; the AAVSO dialog offers the
+newest colour term of its filter); the comparison colours from the sequence's B and V (`aavso_dialog.from_sequence`, test_aavso_vsp). Test
+`test_coefficients_saved_dated_and_offered_in_the_aavso_dialog`. Left: the second-order extinction term (`coefficients.extinction` fits k′ only).
 - **Ours now:** `photometry/coefficients.py` (`transformation`, `extinction`), `photometry/catalog.calibrate` (zero point + colour term per frame), `ui/coefficients_dialog.py`; `multifilter.colour_curve` (done item 11).
 - **Reference:** AAVSO Guide to CCD Photometry (transformation); AAVSO Extended format `TRANS=YES`; VPhot; our
   `coefficients.transformation`.
@@ -1009,7 +1011,12 @@ window's "Combine frames" (measure options; the live light curve measures frame 
 S/N ≈ 10 target in groups of 4: the scatter falls to 0.58 (√4: 0.5), the predicted errors to half, the first time is
 the group's mean mid-time. It found a faint target's centroid jumping 2.4 px onto noise in one stack: a star whose
 centring moves more than 1.5 px off the other stars' move now follows the field (`lightcurve._off_the_field`, for
-every measurement). Left: the moving-object variant.
+every measurement). Moving-object variant (2026-11-27): `running_stacks(..., track=(first, last))` shifts each
+frame by `moving_lc.linear_track` onto the object's position at the stack's mean mid-time (DATE-AVG, EXPTIME the sum as
+before); test `test_stacks_on_a_moving_track_gain_root_n_with_unbiased_times`: a target at S/N 3 per frame on a
+linear track, N = 4, S/N 3 √4 within 10 %, times unbiased. Left: wiring into the moving-object path (it has no
+step or window yet: `moving_lc.measure` takes arrays, and the zero point needs the untrailed stars of the single
+frames).
 - **Build:** "Combine frames before measuring": groups of N consecutive frames (or of T minutes) aligned on the
   stars and averaged with rejection (CAL stacking engine, in memory), measured as one frame with mid-time = the
   flux-weighted mean of the group's mid-times and exposure = the sum; moving-object variant aligned on the track.
