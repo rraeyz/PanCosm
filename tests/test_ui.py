@@ -1598,7 +1598,8 @@ def test_calibration_window_menus_and_toolbar(window):
     menus = {a.text(): a.menu() for a in win.menuBar().actions() if a.menu()}
     assert {"F&rames", "&Masters", "&Process", "Se&nd"} <= set(menus)
     masters = [a for a in menus["&Masters"].actions() if not a.isSeparator()]
-    assert all(a.isCheckable() for a in masters) and page.cosmics.text() in [a.text() for a in masters]
+    cosmics = page.cosmics.property("full_text") or page.cosmics.text()  # wrapped on narrow screens (kit/fit.py)
+    assert all(a.isCheckable() for a in masters) and cosmics in [a.text() for a in masters]
     tools = win.area_tools()
     assert len(tools) == 5 and all(not a.icon().isNull() and a.toolTip() for a in tools)
     seen = []

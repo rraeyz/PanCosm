@@ -11,6 +11,7 @@ makes a built panel narrow-friendly without touching how each page builds it:
 from PySide6.QtCore import QEvent, QObject, QPoint, QRect, QSize, Qt
 from PySide6.QtWidgets import (
     QBoxLayout,
+    QButtonGroup,
     QCheckBox,
     QComboBox,
     QHBoxLayout,
@@ -102,6 +103,13 @@ def _wrap_check(box):
     holder_lay = _layout_holding(lay, box) if lay is not None else None
     if holder_lay is None:
         return
+    if isinstance(box, QRadioButton) and box.group() is None and box.autoExclusive():
+        # radio buttons are exclusive among their parent's children: moved into the holder, this one would no longer
+        # turn its siblings off, so the parent's free radio buttons are put in one group first
+        group = QButtonGroup(parent)
+        for radio in parent.findChildren(QRadioButton, options=Qt.FindDirectChildrenOnly):
+            if radio.group() is None and radio.autoExclusive():
+                group.addButton(radio)
     holder = QWidget(parent)
     row = QHBoxLayout(holder)
     row.setContentsMargins(0, 0, 0, 0)
