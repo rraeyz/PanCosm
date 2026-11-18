@@ -349,10 +349,11 @@ photometry.varfind  (Search for variable stars)
 Every star of the field on every frame, and which of them vary (fieldstars.py).
 
 inputs:      images
-outputs:     field, variability
+outputs:     field, variability, candidate_periods
   images  (files)  Images
   field  (object)  Identified field
   variability  (object)  Variability of the stars
+  candidate_periods  (object)  Quick period of each candidate
 parameters (default):
   max_stars = 300  (int, >= 1)  Most stars: The brightest stars of the field that are measured
   method = "aperture"  (choice, one of aperture, psf)  Method: Aperture photometry, or PSF fitting for crowded fields

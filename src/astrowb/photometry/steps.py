@@ -137,7 +137,7 @@ def multifilter_step(inputs, params, ctx):
 @step(
     "photometry.varfind",
     inputs=("images",),
-    outputs=("field", "variability"),
+    outputs=("field", "variability", "candidate_periods"),
     max_stars=300,
     method="aperture",
     threshold=3.0,
@@ -145,9 +145,12 @@ def multifilter_step(inputs, params, ctx):
 def varfind_step(inputs, params, ctx):
     """Every star of the field on every frame, and which of them vary (fieldstars.py)."""
     from .fieldstars import field_photometry, variability
+    from .varperiod import periods
 
     field = field_photometry(inputs["images"], params["max_stars"], params["method"], ctx)
-    return {"field": field, "variability": variability(field["mag"], field["err"], params["threshold"])}
+    var = variability(field["mag"], field["err"], params["threshold"])
+    found = np.flatnonzero(var["candidate"])
+    return {"field": field, "variability": var, "candidate_periods": periods(field["time"], var["corrected"], found)}
 
 
 @step(

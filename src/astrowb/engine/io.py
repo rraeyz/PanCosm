@@ -154,6 +154,7 @@ OUTPUTS = {
     "truth": IO("object", QT_TRANSLATE_NOOP("Steps", "True values of the practice data")),
     "unsolved": IO("object", QT_TRANSLATE_NOOP("Steps", "Frames without a solution")),
     "variability": IO("object", QT_TRANSLATE_NOOP("Steps", "Variability of the stars")),
+    "candidate_periods": IO("object", QT_TRANSLATE_NOOP("Steps", "Quick period of each candidate")),
     "warnings": IO("object", QT_TRANSLATE_NOOP("Steps", "Warnings")),
     "window": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectral window")),
     "written": IO("files", QT_TRANSLATE_NOOP("Steps", "Files written")),

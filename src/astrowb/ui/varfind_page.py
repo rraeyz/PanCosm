@@ -131,8 +131,10 @@ class VarFindPage(QWidget):
             self.tr("rms (mag)"),
             self.tr("Index"),
             self.tr("Flags"),
+            self.tr("Period (d)"),
+            self.tr("Power"),
         )
-        table = Table(list(np.asarray(rows, float).reshape(-1, 6).T), names=names)
+        table = Table(list(np.asarray(rows, float).reshape(-1, 8).T), names=names)
         for col in table.columns.values():
             col.format = ".4g"
         table[names[5]].description = self.tr(
@@ -168,7 +170,15 @@ class VarFindPage(QWidget):
         flags = np.asarray(v.get("flags") or np.zeros(len(xy)))
         order = cand[np.lexsort((-np.asarray(v["index"])[cand], -flags[cand]))]  # most indices first
         self.stars = [int(j) for j in order]
-        self._set_stars([(xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j]) for j in order])
+        q = out.get("candidate_periods") or {"star": [], "period": [], "power": []}  # the quick GLS per candidate
+        at = {s: (p, w) for s, p, w in zip(q["star"], q["period"], q["power"], strict=True)}
+        nan = (np.nan, np.nan)
+        self._set_stars(
+            [
+                (xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j], *at.get(int(j), nan))
+                for j in order
+            ]
+        )
         self.status.setText(self.tr("{n} stars measured, {m} candidates.").format(n=len(xy), m=len(order)))
         self.show_star(int(order[0]) if len(order) else None)
 

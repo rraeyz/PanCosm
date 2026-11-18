@@ -362,8 +362,11 @@ guide's example.
 point's, zero point, stars used, blended), `reduced` (m − 5 log10 rΔ), `light_time`. Tests
 (tests/test_moving_lc.py): an object of constant brightness moving 300 px through a star field under a changing
 zero point comes out flat within 1.2 × its predicted error, at its true magnitude within 0.01, and the frames
-where it passes a bright star are flagged. Left: the ephemeris (JPL Horizons) positions and geometry, the ALCDEF
-2.3.0 export (written against the standard's keyword tables), the Stars stage's "Moving object" mode, the real
+where it passes a bright star are flagged. (2026-11-27: the ALCDEF 2.3.0 export, `photometry/reports/alcdef.py`: `write(path, session)` and `profile_fields(profile)`,
+written against the standard's text (required keywords, DATA lines, the DIFFERMAGS/STANDARD, LTC and REDUCEDMAGS
+cross-checks; a required keyword without a value raises `ValueError` naming it; comparison-star keywords not written);
+tests/test_alcdef.py; no export place in the UI yet.) Left: the ephemeris (JPL Horizons) positions and geometry, the
+Stars stage's "Moving object" mode, the real
 asteroid night.
 - **Reference:** MPO Canopus (comparison-star selector with catalogue magnitudes, sessions joined across nights,
   reduction to unit distances and a phase angle, export to ALCDEF); Tycho Tracker's light-curve module; MaxIm DL
@@ -760,9 +763,14 @@ star means with weights, variables left out of the zero points), `indices` (weig
 and K, χ²_ν), `candidates` (beyond 5 robust σ of the stars of the same brightness in at least two indices),
 `search`. Test (tests/test_varindex.py): 2000 stars × 300 frames with 10 variables of 2–5 × their noise — ≥ 9 found,
 ≤ 5 false, the frames' zero points to 1 mmag, in 0.6 s. The Variable search window adds the two-index candidates
-and a "Flags" column (how many indices set the star apart), most-flagged first. Left: catalogue stars measured
-(not only those detected), the quick period search per candidate, the VSX / GCVS / Gaia cross-match, the
-small-multiples page, the exports, and the real crowded-field check.
+and a "Flags" column (how many indices set the star apart), most-flagged first. (2026-11-27) The quick period search
+and the exports: `photometry/varperiod.py`: `periods` (the GLS of `timeseries.methods.gls` with its default grid, per
+candidate; NaN below 10 frames or a 0.1 d span), `write_candidates` (CSV: position, magnitude, indices, flags, period, power),
+`write_light_curves` (one ECSV per candidate); the step `photometry.varfind` outputs `candidate_periods` and the
+table shows Period and Power. Test: tests/test_varperiod.py (sinusoid recovered within 1 %, exports read back).
+Left: catalogue stars measured (not only those detected), the buttons that call the two export functions (the
+page's `__init__` is at its size limit), the VSX / GCVS / Gaia cross-match, the small-multiples page, and the real
+crowded-field check.
 - **Reference:** Muniwin "find variables" (magnitude–deviation diagram); Honeycutt 1992 full inhomogeneous ensemble
   solution; Welch & Stetson 1993 / Stetson 1996 indices J, K, L; von Neumann ratio; Sokolovsky et al. 2017 (MNRAS
   464, 274: comparison of 18 variability indices; best: IQR, 1/η, MAD, weighted σ); VaST software (description).

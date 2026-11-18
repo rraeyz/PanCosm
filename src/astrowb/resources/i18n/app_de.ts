@@ -3086,102 +3086,102 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CubeTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1965"/>
+        <location filename="../../ui/spectro_page.py" line="1968"/>
         <source>Data cube</source>
         <translation>Datenwürfel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1968"/>
+        <location filename="../../ui/spectro_page.py" line="1971"/>
         <source>Load cube</source>
         <translation>Würfel laden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1971"/>
+        <location filename="../../ui/spectro_page.py" line="1974"/>
         <source>Opens a 3-D cube (two sky axes and wavelength), e.g. from MUSE or another integral-field unit</source>
         <translation>Öffnet einen 3-D-Würfel (zwei Himmelsachsen und Wellenlänge), z. B. von MUSE oder einer anderen Integralfeldeinheit</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1979"/>
+        <location filename="../../ui/spectro_page.py" line="1982"/>
         <source>Mean over a wavelength window</source>
         <translation>Mittel über ein Wellenlängenfenster</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1979"/>
+        <location filename="../../ui/spectro_page.py" line="1982"/>
         <source>Line map (continuum subtracted)</source>
         <translation>Linienkarte (Kontinuum abgezogen)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1982"/>
+        <location filename="../../ui/spectro_page.py" line="1985"/>
         <source>Mean: the picture in a wavelength window; line map: the same with the continuum on both sides subtracted, to show where a line shines</source>
         <translation>Mittelwert: das Bild in einem Wellenlängenfenster; Linienkarte: dasselbe mit abgezogenem Kontinuum beiderseits, um zu zeigen, wo eine Linie leuchtet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1988"/>
+        <location filename="../../ui/spectro_page.py" line="1991"/>
         <source>A click sums the spectra of the spaxels within this radius</source>
         <translation>Ein Klick summiert die Spektren der Spaxel innerhalb dieses Radius</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1989"/>
+        <location filename="../../ui/spectro_page.py" line="1992"/>
         <source>Width of the wavelength window</source>
         <translation>Breite des Wellenlängenfensters</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1990"/>
+        <location filename="../../ui/spectro_page.py" line="1993"/>
         <source>Centre of the wavelength window, e.g. 6563 for Hα</source>
         <translation>Mitte des Wellenlängenfensters, z. B. 6563 für Hα</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1993"/>
+        <location filename="../../ui/spectro_page.py" line="1996"/>
         <source>Image</source>
         <translation>Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1994"/>
+        <location filename="../../ui/spectro_page.py" line="1997"/>
         <source>Centre (Å)</source>
         <translation>Mitte (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1995"/>
+        <location filename="../../ui/spectro_page.py" line="1998"/>
         <source>Width (Å)</source>
         <translation>Breite (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1996"/>
+        <location filename="../../ui/spectro_page.py" line="1999"/>
         <source>Spaxel aperture radius (px)</source>
         <translation>Spaxel-Blendenradius (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2002"/>
+        <location filename="../../ui/spectro_page.py" line="2005"/>
         <source>Show image</source>
         <translation>Bild zeigen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2004"/>
+        <location filename="../../ui/spectro_page.py" line="2007"/>
         <source>Draws the image of the chosen window; click on it to see a spectrum</source>
         <translation>Zeichnet das Bild des gewählten Fensters; klicken Sie darauf, um ein Spektrum zu sehen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2006"/>
+        <location filename="../../ui/spectro_page.py" line="2009"/>
         <source>Save spectrum…</source>
         <translation>Spektrum speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2009"/>
+        <location filename="../../ui/spectro_page.py" line="2012"/>
         <source>Saves the spectrum of the clicked spaxels as a 1-D FITS file</source>
         <translation>Speichert das Spektrum der angeklickten Spaxel als 1-D-FITS-Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2011"/>
+        <location filename="../../ui/spectro_page.py" line="2014"/>
         <source>Click a spaxel to see its spectrum.</source>
         <translation>Ein Spaxel anklicken, um sein Spektrum zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2028"/>
+        <location filename="../../ui/spectro_page.py" line="2031"/>
         <source>Cannot open: {e}</source>
         <translation>Kann nicht geöffnet werden: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2033"/>
+        <location filename="../../ui/spectro_page.py" line="2036"/>
         <source>{nx} × {ny} spaxels, {nw} wavelengths {lo:.1f}–{hi:.1f} Å</source>
         <translation>{nx} × {ny} Spaxel, {nw} Wellenlängen {lo:.1f}–{hi:.1f} Å</translation>
     </message>
@@ -3202,12 +3202,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Spaxel {x:.0f}, {y:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2064"/>
+        <location filename="../../ui/spectro_page.py" line="2067"/>
         <source>Save spectrum</source>
         <translation>Spektrum speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2077"/>
+        <location filename="../../ui/spectro_page.py" line="2080"/>
         <source>Saved: {p}</source>
         <translation>Gespeichert: {p}</translation>
     </message>
@@ -3278,42 +3278,42 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>DataTable</name>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="49"/>
+        <location filename="../../ui/kit/table_view.py" line="51"/>
         <source>Filter rows…</source>
         <translation>Zeilen filtern…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="50"/>
+        <location filename="../../ui/kit/table_view.py" line="52"/>
         <source>Only rows that hold every word typed here are shown</source>
         <translation>Nur Zeilen, die jedes hier getippte Wort enthalten, werden gezeigt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="59"/>
+        <location filename="../../ui/kit/table_view.py" line="61"/>
         <source>Click to sort; right-click to choose which columns are shown</source>
         <translation>Zum Sortieren klicken; Rechtsklick, um die gezeigten Spalten zu wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="99"/>
+        <location filename="../../ui/kit/table_view.py" line="104"/>
         <source>Right-click to choose which columns are shown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="141"/>
+        <location filename="../../ui/kit/table_view.py" line="146"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="144"/>
+        <location filename="../../ui/kit/table_view.py" line="149"/>
         <source>Copy table</source>
         <translation>Tabelle kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="151"/>
+        <location filename="../../ui/kit/table_view.py" line="156"/>
         <source>Export table (CSV or LaTeX)…</source>
         <translation>Tabelle exportieren (CSV oder LaTeX)…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/table_view.py" line="155"/>
+        <location filename="../../ui/kit/table_view.py" line="160"/>
         <source>Export table</source>
         <translation>Tabelle exportieren</translation>
     </message>
@@ -3329,427 +3329,427 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>EchelleTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="698"/>
+        <location filename="../../ui/spectro_page.py" line="699"/>
         <source>Calibrate the science frame, the flat and the ThAr in the Calibration window (bias, dark; the flat is not divided into echelle frames), then choose them below. Raw frames work too: then only the overscan is taken off, where the header gives it.</source>
         <translation>Kalibrieren Sie Wissenschaftsbild, Flat und ThAr im Fenster Kalibrierung (Bias, Dark; Echelle-Bilder werden nicht durch das Flat geteilt) und wählen Sie sie unten. Rohbilder gehen auch: dann wird nur der Overscan abgezogen, wo der Header ihn angibt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="745"/>
+        <location filename="../../ui/spectro_page.py" line="746"/>
         <source>Science frame</source>
         <translation>Wissenschaftsbild</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="746"/>
+        <location filename="../../ui/spectro_page.py" line="747"/>
         <source>Flat (orders and blaze)</source>
         <translation>Flat (Ordnungen und Blaze)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="747"/>
+        <location filename="../../ui/spectro_page.py" line="748"/>
         <source>Arc lamp (ThAr)</source>
         <translation>Bogenlampe (ThAr)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="753"/>
+        <location filename="../../ui/spectro_page.py" line="754"/>
         <source>Already extracted: one row per order (IRAF apall output, an e2ds)</source>
         <translation>Bereits extrahiert: eine Zeile pro Ordnung (IRAF-apall-Ausgabe, ein e2ds)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="756"/>
+        <location filename="../../ui/spectro_page.py" line="757"/>
         <source>The science file (and the arc and the flat) hold the extracted orders, one row each: only the wavelength calibration is done, as IRAF ecidentify. Ticked by itself when the header says so.</source>
         <translation>Die Wissenschaftsdatei (und Bogen und Flat) enthalten die extrahierten Ordnungen, je eine Zeile: nur die Wellenlängenkalibrierung wird gemacht, wie IRAF ecidentify. Wird von selbst angehakt, wenn der Header es sagt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="762"/>
+        <location filename="../../ui/spectro_page.py" line="763"/>
         <source>Fibre-fed: no sky between the orders</source>
         <translation>Fasergekoppelt: kein Himmel zwischen den Ordnungen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="765"/>
+        <location filename="../../ui/spectro_page.py" line="766"/>
         <source>Tick for a spectrograph fed by an optical fibre: there is no sky beside the orders, so none is subtracted</source>
         <translation>Für einen fasergekoppelten Spektrographen ankreuzen: neben den Ordnungen ist kein Himmel, also wird keiner abgezogen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="770"/>
+        <location filename="../../ui/spectro_page.py" line="771"/>
         <source>Subtract scattered light (fitted in the gaps between the orders)</source>
         <translation>Streulicht abziehen (in den Lücken zwischen den Ordnungen angepasst)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="771"/>
+        <location filename="../../ui/spectro_page.py" line="772"/>
         <source>As IRAF apscatter: for the science frame and the flat, before extraction</source>
         <translation>Wie IRAF apscatter: für Wissenschaftsbild und Flat, vor der Extraktion</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="776"/>
+        <location filename="../../ui/spectro_page.py" line="777"/>
         <source>unknown</source>
         <translation>unbekannt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="779"/>
+        <location filename="../../ui/spectro_page.py" line="780"/>
         <source>Absolute order number of the lowest order in the image (from the spectrograph manual). If unknown: m = λ2 / (λ2 − λ1) with λ1, λ2 the wavelengths at the same pixel in two neighbouring orders (λ2 the longer).</source>
         <translation>Absolute Ordnungsnummer der untersten Ordnung im Bild (aus dem Handbuch des Spektrografen). Falls unbekannt: m = λ2 / (λ2 − λ1) mit λ1, λ2 den Wellenlängen am selben Pixel in zwei benachbarten Ordnungen (λ2 die längere).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="785"/>
+        <location filename="../../ui/spectro_page.py" line="786"/>
         <source>increase upwards</source>
         <translation>nach oben zunehmend</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="785"/>
+        <location filename="../../ui/spectro_page.py" line="786"/>
         <source>decrease upwards</source>
         <translation>nach oben abnehmend</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="788"/>
+        <location filename="../../ui/spectro_page.py" line="789"/>
         <source>Whether the absolute order number grows towards the top of the image or towards the bottom (red orders have lower numbers)</source>
         <translation>Ob die absolute Ordnungsnummer zum oberen oder zum unteren Bildrand wächst (rote Ordnungen haben kleinere Nummern)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="797"/>
+        <location filename="../../ui/spectro_page.py" line="798"/>
         <source>The gas of the arc lamp (ThAr for most echelles): after your identified lines, further lines of this list are found in every order</source>
         <translation>Das Gas der Arc-Lampe (ThAr bei den meisten Echelles): nach Ihren identifizierten Linien werden weitere Linien dieser Liste in jeder Ordnung gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="801"/>
+        <location filename="../../ui/spectro_page.py" line="802"/>
         <source>Optimal extraction (Horne)</source>
         <translation>Optimale Extraktion (Horne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="805"/>
+        <location filename="../../ui/spectro_page.py" line="806"/>
         <source>Horne (1986): each pixel counts by the spectrum&apos;s profile and its noise; more signal-to-noise for faint spectra. Turn off for saturated or very bright spectra.</source>
         <translation>Horne (1986): jedes Pixel zählt nach dem Profil des Spektrums und seinem Rauschen; mehr Signal-Rausch bei schwachen Spektren. Bei gesättigten oder sehr hellen Spektren ausschalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="814"/>
+        <location filename="../../ui/spectro_page.py" line="815"/>
         <source>Which extracted order to show in the plots (counted from the first one found, not the absolute number)</source>
         <translation>Welche extrahierte Ordnung in den Grafiken gezeigt wird (von der ersten gefundenen an gezählt, nicht die absolute Nummer)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="819"/>
+        <location filename="../../ui/spectro_page.py" line="820"/>
         <source>Lowest order number</source>
         <translation>Niedrigste Ordnungsnummer</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="820"/>
+        <location filename="../../ui/spectro_page.py" line="821"/>
         <source>Order numbers</source>
         <translation>Ordnungsnummern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="821"/>
+        <location filename="../../ui/spectro_page.py" line="822"/>
         <source>Arc line list</source>
         <translation>Bogenlinienliste</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="822"/>
+        <location filename="../../ui/spectro_page.py" line="823"/>
         <source>Show order (index)</source>
         <translation>Ordnung zeigen (Index)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="832"/>
+        <location filename="../../ui/spectro_page.py" line="833"/>
         <source>The orders found automatically are drawn on the flat. Check them: click a wrong trace to remove it, click on an order that was missed to add it. Without this check the orders found automatically are extracted.</source>
         <translation>Die automatisch gefundenen Ordnungen werden auf dem Flat gezeichnet. Prüfen Sie sie: Klicken Sie auf eine falsche Spur, um sie zu entfernen, auf eine übersehene Ordnung, um sie hinzuzufügen. Ohne diese Prüfung werden die automatisch gefundenen Ordnungen extrahiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="843"/>
+        <location filename="../../ui/spectro_page.py" line="844"/>
         <source>Traces the orders on the flat, extracts science and arc along them and divides by the flat&apos;s blaze; then identify arc lines</source>
         <translation>Verfolgt die Ordnungen auf dem Flat, extrahiert Wissenschafts- und Arc-Spektrum entlang ihnen und teilt durch den Blaze des Flats; danach Arc-Linien identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="852"/>
+        <location filename="../../ui/spectro_page.py" line="853"/>
         <source>Order</source>
         <translation>Ordnung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="852"/>
+        <location filename="../../ui/spectro_page.py" line="853"/>
         <source>Pixel</source>
         <translation>Pixel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="852"/>
+        <location filename="../../ui/spectro_page.py" line="853"/>
         <source>Wavelength (Å)</source>
         <translation>Wellenlänge (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="854"/>
+        <location filename="../../ui/spectro_page.py" line="855"/>
         <source>type a wavelength</source>
         <translation>Wellenlänge eingeben</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="858"/>
+        <location filename="../../ui/spectro_page.py" line="859"/>
         <source>Lines from an IRAF ecidentify database…</source>
         <translation>Linien aus einer IRAF-ecidentify-Datenbank…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="861"/>
+        <location filename="../../ui/spectro_page.py" line="862"/>
         <source>Lines identified before on this spectrograph with IRAF ecidentify (database/ec…): placed on this arc&apos;s peaks after the common shift (as IRAF ecreidentify); they fill the table for you to check</source>
         <translation>Früher mit IRAF ecidentify auf diesem Spektrographen identifizierte Linien (database/ec…): nach der gemeinsamen Verschiebung auf die Gipfel dieses Arcs gesetzt (wie IRAF ecreidentify); sie füllen die Tabelle zur Prüfung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="868"/>
+        <location filename="../../ui/spectro_page.py" line="869"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="869"/>
+        <location filename="../../ui/spectro_page.py" line="870"/>
         <source>clear the lines</source>
         <translation>Linien leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="870"/>
+        <location filename="../../ui/spectro_page.py" line="871"/>
         <source>Removes every identified line (Ctrl+Z brings them back)</source>
         <translation>Entfernt alle identifizierten Linien (Strg+Z holt sie zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1187"/>
+        <location filename="../../ui/spectro_page.py" line="1190"/>
         <source>{m} of {n} lines found in this arc, shifted by {s:+.1f} px. Check them, delete wrong rows, then 6. Fit wavelengths, merge and save.</source>
         <translation>{m} von {n} Linien in diesem Bogen gefunden, verschoben um {s:+.1f} px. Prüfen Sie sie, löschen Sie falsche Zeilen, dann 6. Wellenlängen anpassen, zusammenfügen und speichern.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="696"/>
+        <location filename="../../ui/spectro_page.py" line="697"/>
         <source>Calibrate the science frame, the flat and the ThAr: bias and dark off (IRAF ccdproc)</source>
         <translation>Wissenschaftsbild, Flat und ThAr kalibrieren: Bias und Dark abziehen (IRAF ccdproc)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="704"/>
+        <location filename="../../ui/spectro_page.py" line="705"/>
         <source>Choose the science frame, the flat and the ThAr</source>
         <translation>Wissenschaftsbild, Flat und ThAr wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="705"/>
+        <location filename="../../ui/spectro_page.py" line="706"/>
         <source>Choose the three files below (Browse…) and how the orders run on the image.</source>
         <translation>Wählen Sie unten die drei Dateien (Durchsuchen…) und wie die Ordnungen auf dem Bild verlaufen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="708"/>
+        <location filename="../../ui/spectro_page.py" line="709"/>
         <source>Find the orders on the flat and check them by hand (apfind, aptrace)</source>
         <translation>Ordnungen auf dem Flat finden und von Hand prüfen (apfind, aptrace)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="710"/>
+        <location filename="../../ui/spectro_page.py" line="711"/>
         <source>Press 3. Find the orders on the flat: they are found automatically and drawn on the flat. Check every one: click a wrong trace to remove it, click a missed order to add it.</source>
         <translation>Drücken Sie 3. Ordnungen auf dem Flat finden: sie werden automatisch gefunden und auf das Flat gezeichnet. Prüfen Sie jede: eine falsche Spur anklicken, um sie zu entfernen, eine übersehene Ordnung anklicken, um sie hinzuzufügen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="715"/>
+        <location filename="../../ui/spectro_page.py" line="716"/>
         <source>Extract the orders of the science frame, the flat and the ThAr (apall)</source>
         <translation>Die Ordnungen von Wissenschaftsbild, Flat und ThAr extrahieren (apall)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="716"/>
+        <location filename="../../ui/spectro_page.py" line="717"/>
         <source>Press 4. Extract the orders.</source>
         <translation>Drücken Sie 4. Ordnungen extrahieren.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="719"/>
+        <location filename="../../ui/spectro_page.py" line="720"/>
         <source>Identify ThAr lines with the atlas: 3+ lines in 2+ orders (ecidentify)</source>
         <translation>ThAr-Linien mit dem Atlas bestimmen: 3+ Linien in 2+ Ordnungen (ecidentify)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="721"/>
+        <location filename="../../ui/spectro_page.py" line="722"/>
         <source>Give the lowest order number, then click a ThAr line in the arc plot (bottom) and type its wavelength from your spectrograph&apos;s ThAr atlas: 3 or more lines in 2 or more orders. After three lines in an order the line list&apos;s lines are labelled on the arc and a click fills in the wavelength, as IRAF identify does after a first fit: check it against the atlas.</source>
         <translation>Geben Sie die niedrigste Ordnungsnummer an, klicken Sie dann eine ThAr-Linie im Bogendiagramm (unten) an und tippen Sie ihre Wellenlänge aus dem ThAr-Atlas Ihres Spektrographen ein: 3 oder mehr Linien in 2 oder mehr Ordnungen. Nach drei Linien in einer Ordnung werden die Linien der Linienliste auf dem Bogen beschriftet, und ein Klick trägt die Wellenlänge ein, wie IRAF identify nach einer ersten Anpassung: mit dem Atlas vergleichen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="728"/>
+        <location filename="../../ui/spectro_page.py" line="729"/>
         <source>Fit the wavelengths, check the residuals, merge the orders (ecidentify, dispcor)</source>
         <translation>Wellenlängen anpassen, Residuen prüfen, Ordnungen zusammenfügen (ecidentify, dispcor)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="730"/>
+        <location filename="../../ui/spectro_page.py" line="731"/>
         <source>Press 6. Fit wavelengths, merge and save; in the residual plot click lines that lie far off to leave them out, then Refit.</source>
         <translation>Drücken Sie 6. Wellenlängen anpassen, zusammenfügen und speichern; im Residuendiagramm weit abliegende Linien anklicken, um sie auszulassen, dann neu anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="735"/>
+        <location filename="../../ui/spectro_page.py" line="736"/>
         <source>Measure the velocity (fxcor)</source>
         <translation>Die Geschwindigkeit messen (fxcor)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="737"/>
+        <location filename="../../ui/spectro_page.py" line="738"/>
         <source>The merged spectrum is saved: measure it on the Radial velocity tab (Telluric first, if the red part matters).</source>
         <translation>Das zusammengefügte Spektrum ist gespeichert: messen Sie es im Reiter Radialgeschwindigkeit (zuerst Tellurisch, wenn der rote Teil zählt).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="829"/>
+        <location filename="../../ui/spectro_page.py" line="830"/>
         <source>3. Find the orders on the flat (check, remove, add)</source>
         <translation>3. Ordnungen auf dem Flat finden (prüfen, entfernen, hinzufügen)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="839"/>
+        <location filename="../../ui/spectro_page.py" line="840"/>
         <source>4. Extract the orders</source>
         <translation>4. Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="849"/>
+        <location filename="../../ui/spectro_page.py" line="850"/>
         <source>5. Click arc lines (3+ per order, in 2+ orders) and type their wavelengths (Å):</source>
         <translation>5. Bogenlinien anklicken (3+ je Ordnung, in 2+ Ordnungen) und ihre Wellenlängen eintippen (Å):</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="871"/>
+        <location filename="../../ui/spectro_page.py" line="872"/>
         <source>6. Fit wavelengths, merge and save</source>
         <translation>6. Wellenlängen anpassen, zusammenfügen und speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="875"/>
+        <location filename="../../ui/spectro_page.py" line="876"/>
         <source>One wavelength solution for all orders together (λ·m as a polynomial in pixel and order), then the orders are merged into one spectrum and saved</source>
         <translation>Eine Wellenlängenlösung für alle Ordnungen zusammen (λ·m als Polynom in Pixel und Ordnung), danach werden die Ordnungen zu einem Spektrum vereint und gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="882"/>
+        <location filename="../../ui/spectro_page.py" line="883"/>
         <source>Refit without the left-out lines</source>
         <translation>Ohne die ausgelassenen Linien neu anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="884"/>
+        <location filename="../../ui/spectro_page.py" line="885"/>
         <source>Click points in the residual plot (bottom) to leave those arc lines out, then refit</source>
         <translation>Punkte im Residuendiagramm (unten) anklicken, um diese Linien auszulassen, dann neu anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="887"/>
+        <location filename="../../ui/spectro_page.py" line="888"/>
         <source>Use all lines again</source>
         <translation>Wieder alle Linien verwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="888"/>
+        <location filename="../../ui/spectro_page.py" line="889"/>
         <source>use all lines again</source>
         <translation>alle Linien wieder verwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="889"/>
+        <location filename="../../ui/spectro_page.py" line="890"/>
         <source>Takes back every line left out in the residual plot</source>
         <translation>Nimmt alle im Restgrafik weggelassenen Linien wieder auf</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="898"/>
+        <location filename="../../ui/spectro_page.py" line="899"/>
         <source>The flat appears here with its traced orders</source>
         <translation>Das Flat erscheint hier mit seinen verfolgten Ordnungen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="920"/>
+        <location filename="../../ui/spectro_page.py" line="921"/>
         <source>Choose a science frame.</source>
         <translation>Ein Wissenschaftsbild wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="945"/>
+        <location filename="../../ui/spectro_page.py" line="946"/>
         <source>An arc, the lowest order number and at least four lines in two orders are needed.</source>
         <translation>Ein Bogenspektrum, die unterste Ordnungsnummer und mindestens vier Linien in zwei Ordnungen sind nötig.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="949"/>
+        <location filename="../../ui/spectro_page.py" line="950"/>
         <source>Working…</source>
         <translation>Arbeite…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="968"/>
+        <location filename="../../ui/spectro_page.py" line="969"/>
         <source>Already extracted: only the wavelength calibration is done. Choose the arc extracted with the same apertures (and the flat, for the blaze) and press 4. Extract the orders to see them.</source>
         <translation>Bereits extrahiert: nur die Wellenlängenkalibrierung wird gemacht. Wählen Sie den mit denselben Aperturen extrahierten Bogen (und das Flat für den Blaze) und drücken Sie 4. Ordnungen extrahieren, um sie zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1047"/>
+        <location filename="../../ui/spectro_page.py" line="1048"/>
         <source>Choose a flat (or the science frame) first.</source>
         <translation>Zuerst ein Flat (oder die Wissenschaftsaufnahme) wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1050"/>
+        <location filename="../../ui/spectro_page.py" line="1051"/>
         <source>Tracing the orders…</source>
         <translation>Ordnungen werden verfolgt…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1078"/>
+        <location filename="../../ui/spectro_page.py" line="1081"/>
         <source>{n} orders. Click a trace to remove it; click on a missed order to add it.</source>
         <translation>{n} Ordnungen. Klick auf eine Spur entfernt sie; Klick auf eine übersehene Ordnung fügt sie hinzu.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1083"/>
+        <location filename="../../ui/spectro_page.py" line="1086"/>
         <source>{n} orders traced.</source>
         <translation>{n} Ordnungen verfolgt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1085"/>
+        <location filename="../../ui/spectro_page.py" line="1088"/>
         <source>{k} could not be traced (red crosses) and are left out.</source>
         <translation>{k} konnten nicht verfolgt werden (rote Kreuze) und bleiben weg.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1095"/>
+        <location filename="../../ui/spectro_page.py" line="1098"/>
         <source>remove an order</source>
         <translation>Ordnung entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1130"/>
+        <location filename="../../ui/spectro_page.py" line="1133"/>
         <source>Zero point corrected by {s:+.2f} Å from the night-sky lines ({lines}).</source>
         <translation>Nullpunkt um {s:+.2f} Å aus den Nachthimmelslinien korrigiert ({lines}).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1135"/>
+        <location filename="../../ui/spectro_page.py" line="1138"/>
         <source>No night-sky line strong enough for the zero point: the arc&apos;s zero point is kept.</source>
         <translation>Keine Nachthimmelslinie stark genug für den Nullpunkt: der Nullpunkt des Bogens bleibt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1138"/>
+        <location filename="../../ui/spectro_page.py" line="1141"/>
         <source>{k} orders merged; wavelength solution: {n} lines, rms {rms:.4f} Å. Saved: {path}</source>
         <translation>{k} Ordnungen zusammengefügt; Wellenlängenlösung: {n} Linien, rms {rms:.4f} Å. Gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1144"/>
+        <location filename="../../ui/spectro_page.py" line="1147"/>
         <source>{k} orders traced and extracted.</source>
         <translation>{k} Ordnungen verfolgt und extrahiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1152"/>
+        <location filename="../../ui/spectro_page.py" line="1155"/>
         <source>Arc, order {m}: pixel (click a line to identify it)</source>
         <translation>Bogen, Ordnung {m}: Pixel (Linie anklicken, um sie zu identifizieren)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1217"/>
+        <location filename="../../ui/spectro_page.py" line="1220"/>
         <source>rejected (3σ)</source>
         <translation>verworfen (3σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1217"/>
+        <location filename="../../ui/spectro_page.py" line="1220"/>
         <source>Residual (mÅ)</source>
         <translation>Residuum (mÅ)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1164"/>
+        <location filename="../../ui/spectro_page.py" line="1167"/>
         <source>Extract with an arc first and give the lowest order number: the database names orders.</source>
         <translation>Zuerst mit einem Arc extrahieren und die niedrigste Ordnungsnummer angeben: die Datenbank nennt Ordnungen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1167"/>
+        <location filename="../../ui/spectro_page.py" line="1170"/>
         <source>IRAF ecidentify database</source>
         <translation>IRAF-ecidentify-Datenbank</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1173"/>
+        <location filename="../../ui/spectro_page.py" line="1176"/>
         <source>no echelle orders in it (an identify database is for the Reduce tab)</source>
         <translation>keine Echelle-Ordnungen darin (eine identify-Datenbank ist für den Reiter Reduktion)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1180"/>
+        <location filename="../../ui/spectro_page.py" line="1183"/>
         <source>Cannot use {file}: {error}</source>
         <translation>{file} kann nicht verwendet werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1184"/>
+        <location filename="../../ui/spectro_page.py" line="1187"/>
         <source>lines from a database</source>
         <translation>Linien aus einer Datenbank</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1195"/>
+        <location filename="../../ui/spectro_page.py" line="1198"/>
         <source>All arc lines will be used again at the next fit.</source>
         <translation>Bei der nächsten Anpassung werden wieder alle Linien verwendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1205"/>
+        <location filename="../../ui/spectro_page.py" line="1208"/>
         <source>leave out an arc line</source>
         <translation>Bogenlinie auslassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1208"/>
+        <location filename="../../ui/spectro_page.py" line="1211"/>
         <source>{n} arc line(s) left out; press Refit without the left-out lines.</source>
         <translation>{n} Linie(n) ausgelassen; „Ohne die ausgelassenen Linien neu anpassen“ drücken.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1231"/>
+        <location filename="../../ui/spectro_page.py" line="1234"/>
         <source>identify a line</source>
         <translation>Linie identifizieren</translation>
     </message>
@@ -5562,7 +5562,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>Inspector</name>
     <message>
-        <location filename="../../ui/kit/inspector.py" line="25"/>
+        <location filename="../../ui/kit/inspector.py" line="24"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
@@ -5663,17 +5663,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>LightCurvePage</name>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="21"/>
+        <location filename="../../ui/lightcurve_page.py" line="23"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="22"/>
+        <location filename="../../ui/lightcurve_page.py" line="24"/>
         <source>Frequency analysis</source>
         <translation>Frequenzanalyse</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_page.py" line="23"/>
+        <location filename="../../ui/lightcurve_page.py" line="25"/>
         <source>Variable star search</source>
         <translation>Suche nach Veränderlichen</translation>
     </message>
@@ -5836,13 +5836,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Bild speichern (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="583"/>
+        <location filename="../../ui/area_windows.py" line="580"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Viele Bilder umwandeln (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="579"/>
+        <location filename="../../ui/area_windows.py" line="576"/>
         <location filename="../../ui/main_menus.py" line="34"/>
         <source>&amp;Close image</source>
         <translation>Bild &amp;schließen</translation>
@@ -5983,97 +5983,97 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="391"/>
+        <location filename="../../ui/area_windows.py" line="388"/>
         <source>target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="391"/>
+        <location filename="../../ui/area_windows.py" line="388"/>
         <source>comparison</source>
         <translation>Vergleich</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="389"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="394"/>
+        <location filename="../../ui/area_windows.py" line="391"/>
         <source>not marked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="395"/>
+        <location filename="../../ui/area_windows.py" line="392"/>
         <source>saturated</source>
         <translation>gesättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="397"/>
+        <location filename="../../ui/area_windows.py" line="394"/>
         <source>Role</source>
         <translation>Rolle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="398"/>
+        <location filename="../../ui/area_windows.py" line="395"/>
         <source>x, y (FITS pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="399"/>
+        <location filename="../../ui/area_windows.py" line="396"/>
         <source>Peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="400"/>
+        <location filename="../../ui/area_windows.py" line="397"/>
         <source>Sky per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="401"/>
+        <location filename="../../ui/area_windows.py" line="398"/>
         <source>Net counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="402"/>
+        <location filename="../../ui/area_windows.py" line="399"/>
         <source>Signal-to-noise</source>
         <translation>Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="434"/>
+        <location filename="../../ui/area_windows.py" line="431"/>
         <source>star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="434"/>
+        <location filename="../../ui/area_windows.py" line="431"/>
         <source>sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="432"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="432"/>
         <source>read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="441"/>
+        <location filename="../../ui/area_windows.py" line="438"/>
         <source>Noise from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="441"/>
+        <location filename="../../ui/area_windows.py" line="438"/>
         <source>Predicted error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="449"/>
+        <location filename="../../ui/area_windows.py" line="446"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="581"/>
+        <location filename="../../ui/area_windows.py" line="578"/>
         <location filename="../../ui/main_menus.py" line="35"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Alle Bilder schließen</translation>
@@ -6262,7 +6262,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="672"/>
+        <location filename="../../ui/area_windows.py" line="669"/>
         <source>&amp;Measure</source>
         <translation>&amp;Messen</translation>
     </message>
@@ -6283,69 +6283,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="92"/>
-        <location filename="../../ui/area_windows.py" line="644"/>
+        <location filename="../../ui/area_windows.py" line="641"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="658"/>
+        <location filename="../../ui/area_windows.py" line="655"/>
         <source>&amp;Stars</source>
         <translation>&amp;Sterne</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="435"/>
-        <location filename="../../ui/area_windows.py" line="553"/>
-        <location filename="../../ui/area_windows.py" line="685"/>
+        <location filename="../../ui/area_windows.py" line="550"/>
+        <location filename="../../ui/area_windows.py" line="682"/>
         <source>&amp;Analyse</source>
         <translation>Anal&amp;yse</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="531"/>
+        <location filename="../../ui/area_windows.py" line="528"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>In Farbkanäle zerlegen (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="533"/>
+        <location filename="../../ui/area_windows.py" line="530"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Das Rohbild einer Farbkamera als drei Bilder halber Größe, eines je Farbe (ohne Interpolation)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="539"/>
+        <location filename="../../ui/area_windows.py" line="536"/>
         <source>Stack the open images…</source>
         <translation>Geöffnete Bilder stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="541"/>
+        <location filename="../../ui/area_windows.py" line="538"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Die geöffneten Bilder an ihren Sternen ausgerichtet und unter Verwerfen von Ausreißern gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="544"/>
+        <location filename="../../ui/area_windows.py" line="541"/>
         <source>Drizzle the open images…</source>
         <translation>Geöffnete Bilder drizzeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="546"/>
+        <location filename="../../ui/area_windows.py" line="543"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Versetzt aufgenommene Bilder auf ein doppelt so feines Raster (schärfer bei unterabgetasteten Sternen)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="557"/>
+        <location filename="../../ui/area_windows.py" line="554"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="558"/>
+        <location filename="../../ui/area_windows.py" line="555"/>
         <source>&amp;Colour</source>
         <translation>Fa&amp;rbe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="559"/>
+        <location filename="../../ui/area_windows.py" line="556"/>
         <source>S&amp;tack</source>
         <translation>S&amp;tapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="569"/>
+        <location filename="../../ui/area_windows.py" line="566"/>
         <source>Copy the header</source>
         <translation>Header kopieren</translation>
     </message>
@@ -6779,7 +6779,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Das Spektrum speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="491"/>
+        <location filename="../../ui/area_windows.py" line="488"/>
         <source>&amp;Job</source>
         <translation>Auf&amp;gabe</translation>
     </message>
@@ -8190,17 +8190,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>die Bilder sind nicht gleich groß: Aufnahmen einer Kamera und eines Binnings verwenden oder zuerst zuschneiden / binnen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="382"/>
+        <location filename="../../ui/messages.py" line="385"/>
         <source>no orders found: check that the flat shows the orders as bright stripes, or add them by hand on the flat</source>
         <translation>keine Ordnungen gefunden: prüfen, ob der Flat die Ordnungen als helle Streifen zeigt, oder sie von Hand auf dem Flat hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="406"/>
+        <location filename="../../ui/messages.py" line="409"/>
         <source>the spectrum could not be followed: for a faint one, give a brighter spectrum&apos;s row for its trace shape</source>
         <translation>das Spektrum konnte nicht verfolgt werden: für ein schwaches die Zeile eines helleren Spektrums für die Spurform angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="527"/>
+        <location filename="../../ui/messages.py" line="530"/>
         <source>no minimum found: the window must hold one whole minimum with points on both sides</source>
         <translation>kein Minimum gefunden: das Fenster muss ein ganzes Minimum mit Punkten auf beiden Seiten enthalten</translation>
     </message>
@@ -8986,826 +8986,836 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/messages.py" line="342"/>
+        <source>ALCDEF needs a value for {keyword}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="343"/>
+        <source>ALCDEF keyword {keyword} is not valid: {reason}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/messages.py" line="345"/>
         <source>star name, observer code and filter are required</source>
         <translation>Sternname, Beobachtercode und Filter sind erforderlich</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="344"/>
+        <location filename="../../ui/messages.py" line="347"/>
         <source>need half-wave-plate angles that differ (e.g. 0, 22.5, 45, 67.5)</source>
         <translation>unterschiedliche Winkel der Halbwellenplatte nötig (z. B. 0, 22,5, 45, 67,5)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="345"/>
+        <location filename="../../ui/messages.py" line="348"/>
         <source>polarisation error must be above zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="346"/>
+        <location filename="../../ui/messages.py" line="349"/>
         <source>standard-star lists differ in length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="347"/>
+        <location filename="../../ui/messages.py" line="350"/>
         <source>need at least 2 standard stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="348"/>
+        <location filename="../../ui/messages.py" line="351"/>
         <source>no polarised standard star: the zero angle cannot be fitted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="349"/>
+        <location filename="../../ui/messages.py" line="352"/>
         <source>standard stars do not fix the offset: add stars with different angles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="351"/>
+        <location filename="../../ui/messages.py" line="354"/>
         <source>SIMBAD does not know &apos;{name}&apos;</source>
         <translation>SIMBAD kennt &apos;{name}&apos; nicht</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="352"/>
+        <location filename="../../ui/messages.py" line="355"/>
         <source>cannot reach SIMBAD and &apos;{name}&apos; is not in the local cache ({error})</source>
         <translation>SIMBAD ist nicht erreichbar und &apos;{name}&apos; ist nicht im lokalen Zwischenspeicher ({error})</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="354"/>
+        <location filename="../../ui/messages.py" line="357"/>
         <source>not allowed in an expression: {expr}</source>
         <translation>in einem Ausdruck nicht erlaubt: {expr}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="355"/>
+        <location filename="../../ui/messages.py" line="358"/>
         <source>the two images are not on the same pixel grid</source>
         <translation>die beiden Bilder liegen nicht auf demselben Pixelraster</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="356"/>
+        <location filename="../../ui/messages.py" line="359"/>
         <source>cannot read the expression: {error}</source>
         <translation>der Ausdruck ist nicht lesbar: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="357"/>
+        <location filename="../../ui/messages.py" line="360"/>
         <source>unknown band {band}; available: {bands}</source>
         <translation>unbekanntes Band {band}; vorhanden: {bands}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="358"/>
+        <location filename="../../ui/messages.py" line="361"/>
         <source>no pixel has a value in every band</source>
         <translation>kein Pixel hat in jedem Band einen Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="360"/>
+        <location filename="../../ui/messages.py" line="363"/>
         <source>the files are not the same size: open bands of one scene at the same resolution</source>
         <translation>die Dateien sind nicht gleich groß: öffnen Sie Bänder einer Szene mit gleicher Auflösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="361"/>
+        <location filename="../../ui/messages.py" line="364"/>
         <source>no image (2-D variable) in this file</source>
         <translation>kein Bild (2-D-Variable) in dieser Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="363"/>
+        <location filename="../../ui/messages.py" line="366"/>
         <source>too few points in the window</source>
         <translation>zu wenige Punkte im Fenster</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="364"/>
+        <location filename="../../ui/messages.py" line="367"/>
         <source>too few points on one side of the line</source>
         <translation>zu wenige Punkte auf einer Seite der Linie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="365"/>
+        <location filename="../../ui/messages.py" line="368"/>
         <source>no red emission peak above the continuum</source>
         <translation>kein roter Emissionsgipfel über dem Kontinuum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="366"/>
+        <location filename="../../ui/messages.py" line="369"/>
         <source>pick at least two continuum points</source>
         <translation>mindestens zwei Kontinuumspunkte wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="367"/>
+        <location filename="../../ui/messages.py" line="370"/>
         <source>the reference spectrum does not cover the observed one</source>
         <translation>das Referenzspektrum deckt das beobachtete nicht ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="369"/>
+        <location filename="../../ui/messages.py" line="372"/>
         <source>no grid spectra</source>
         <translation>keine Gitterspektren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="370"/>
+        <location filename="../../ui/messages.py" line="373"/>
         <source>the grid does not cover this spectrum&apos;s wavelengths</source>
         <translation>das Gitter deckt die Wellenlängen dieses Spektrums nicht ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="371"/>
+        <location filename="../../ui/messages.py" line="374"/>
         <source>the grid has no complete box of points</source>
         <translation>das Gitter hat keine vollständige Punktbox</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="373"/>
+        <location filename="../../ui/messages.py" line="376"/>
         <source>observed and template spectra hardly overlap for this velocity range</source>
         <translation>beobachtetes und Vorlagenspektrum überlappen sich für diesen Geschwindigkeitsbereich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="374"/>
+        <location filename="../../ui/messages.py" line="377"/>
         <source>the broadening function shows fewer than {n} peaks</source>
         <translation>die Verbreiterungsfunktion zeigt weniger als {n} Gipfel</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="376"/>
+        <location filename="../../ui/messages.py" line="379"/>
         <source>the cube has no wavelength axis (CRVAL3 / CDELT3)</source>
         <translation>der Würfel hat keine Wellenlängenachse (CRVAL3 / CDELT3)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="377"/>
+        <location filename="../../ui/messages.py" line="380"/>
         <source>unknown wavelength unit {unit}</source>
         <translation>unbekannte Wellenlängeneinheit {unit}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="378"/>
+        <location filename="../../ui/messages.py" line="381"/>
         <source>no 3-D data cube in this file</source>
         <translation>kein 3-D-Datenwürfel in dieser Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="380"/>
+        <location filename="../../ui/messages.py" line="383"/>
         <source>the spectra hardly overlap</source>
         <translation>die Spektren überlappen sich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="386"/>
+        <location filename="../../ui/messages.py" line="389"/>
         <source>identify at least four lines in at least two orders</source>
         <translation>mindestens vier Linien in mindestens zwei Ordnungen identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="387"/>
+        <location filename="../../ui/messages.py" line="390"/>
         <source>order at row {row} could not be traced</source>
         <translation>die Ordnung in Zeile {row} ließ sich nicht verfolgen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="388"/>
+        <location filename="../../ui/messages.py" line="391"/>
         <source>too few lines matched: check the identified lines, order numbers and line list</source>
         <translation>zu wenige Linien zugeordnet: identifizierte Linien, Ordnungsnummern und Linienliste prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="389"/>
+        <location filename="../../ui/messages.py" line="392"/>
         <source>at least two orders are needed to measure the scattered light</source>
         <translation>mindestens zwei Ordnungen sind nötig, um das Streulicht zu messen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="391"/>
+        <location filename="../../ui/messages.py" line="394"/>
         <source>observed and template spectra hardly overlap</source>
         <translation>beobachtetes und Vorlagenspektrum überlappen sich kaum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="392"/>
+        <location filename="../../ui/messages.py" line="395"/>
         <source>CCF peak at the edge of the velocity range: widen the range</source>
         <translation>CCF-Gipfel am Rand des Geschwindigkeitsbereichs: den Bereich erweitern</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="394"/>
+        <location filename="../../ui/messages.py" line="397"/>
         <source>TODCOR peak at the edge of the velocity range: widen the range</source>
         <translation>TODCOR-Gipfel am Rand des Geschwindigkeitsbereichs: den Bereich erweitern</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="396"/>
+        <location filename="../../ui/messages.py" line="399"/>
         <source>{name}: no spectrum found</source>
         <translation>{name}: kein Spektrum gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="397"/>
+        <location filename="../../ui/messages.py" line="400"/>
         <source>{name}: 1-D image without a wavelength solution (CRVAL1/CDELT1)</source>
         <translation>{name}: 1-D-Bild ohne Wellenlängenlösung (CRVAL1/CDELT1)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="399"/>
+        <location filename="../../ui/messages.py" line="402"/>
         <source>give a period guess (e.g. from the period search)</source>
         <translation>eine Periodenschätzung angeben (z. B. aus der Periodensuche)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="400"/>
+        <location filename="../../ui/messages.py" line="403"/>
         <source>the arc and the spectrum differ in length: extract the arc with the same aperture</source>
         <translation>Bogen und Spektrum sind verschieden lang: extrahieren Sie den Bogen mit derselben Apertur</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="401"/>
+        <location filename="../../ui/messages.py" line="404"/>
         <source>{file} has {n} orders of {nx} pixels, the science spectrum {m} of {mx}: extract it with the same apertures</source>
         <translation>{file} hat {n} Ordnungen zu {nx} Pixeln, das Wissenschaftsspektrum {m} zu {mx}: extrahieren Sie es mit denselben Aperturen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="410"/>
+        <location filename="../../ui/messages.py" line="413"/>
         <source>the spectrum runs the other way on this frame: change &apos;Dispersion along&apos; (rows / columns)</source>
         <translation>das Spektrum verläuft auf diesem Bild in der anderen Richtung: ändern Sie „Dispersion entlang“ (Zeilen / Spalten)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="415"/>
+        <location filename="../../ui/messages.py" line="418"/>
         <source>the spectrum has no part with a clear signal to compare</source>
         <translation>das Spektrum hat keinen Teil mit einem deutlichen Signal zum Vergleichen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="417"/>
+        <location filename="../../ui/messages.py" line="420"/>
         <source>the spectrum does not cover a telluric band</source>
         <translation>das Spektrum deckt kein tellurisches Band ab</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="419"/>
+        <location filename="../../ui/messages.py" line="422"/>
         <source>identify at least two lines</source>
         <translation>mindestens zwei Linien identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="420"/>
+        <location filename="../../ui/messages.py" line="423"/>
         <source>too few lines matched: check the identified lines and the line list</source>
         <translation>zu wenige Linien zugeordnet: identifizierte Linien und Linienliste prüfen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="422"/>
+        <location filename="../../ui/messages.py" line="425"/>
         <source>the MK standards cover 3800-5600 A: the spectrum has too little of that range</source>
         <translation>die MK-Standards decken 3800-5600 Å ab: das Spektrum enthält zu wenig von diesem Bereich</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="423"/>
+        <location filename="../../ui/messages.py" line="426"/>
         <source>the MK standards could not be read from the download</source>
         <translation>die MK-Standards konnten aus dem Download nicht gelesen werden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="424"/>
+        <location filename="../../ui/messages.py" line="427"/>
         <source>no MK standards in the library folder</source>
         <translation>keine MK-Standards im Bibliotheksordner</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="426"/>
+        <location filename="../../ui/messages.py" line="429"/>
         <source>{name}: no identified lines (not an IRAF identify / ecidentify database?)</source>
         <translation>{name}: keine identifizierten Linien (keine IRAF-identify- / ecidentify-Datenbank?)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="427"/>
+        <location filename="../../ui/messages.py" line="430"/>
         <source>no IRAF database {name} next to it: choose the database file itself</source>
         <translation>keine IRAF-Datenbank {name} daneben: wählen Sie die Datenbankdatei selbst</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="429"/>
+        <location filename="../../ui/messages.py" line="432"/>
         <source>not a star list (.stars.json)</source>
         <translation>keine Sternliste (.stars.json)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="430"/>
+        <location filename="../../ui/messages.py" line="433"/>
         <source>the target of the star list is outside this frame</source>
         <translation>das Ziel der Sternliste liegt außerhalb dieser Aufnahme</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="431"/>
+        <location filename="../../ui/messages.py" line="434"/>
         <source>not a multi-plot template</source>
         <translation>keine Mehrfachdiagramm-Vorlage</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="432"/>
+        <location filename="../../ui/messages.py" line="435"/>
         <source>the meridian flip needs the times</source>
         <translation>der Meridianflip braucht die Zeiten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="433"/>
+        <location filename="../../ui/messages.py" line="436"/>
         <source>not in this light curve: {missing}</source>
         <translation>nicht in dieser Lichtkurve: {missing}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="434"/>
+        <location filename="../../ui/messages.py" line="437"/>
         <source>a colour needs images in two filters</source>
         <translation>für eine Farbe braucht es Bilder in zwei Filtern</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="435"/>
+        <location filename="../../ui/messages.py" line="438"/>
         <source>join needs two nights or more</source>
         <translation>zum Zusammenfügen braucht es zwei Nächte oder mehr</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="437"/>
+        <location filename="../../ui/messages.py" line="440"/>
         <source>too few points around the minimum for a polynomial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="438"/>
+        <location filename="../../ui/messages.py" line="441"/>
         <source>the eclipse&apos;s branches are not covered between 20 % and 80 % of its depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="439"/>
+        <location filename="../../ui/messages.py" line="442"/>
         <source>unknown timing method {method}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="440"/>
+        <location filename="../../ui/messages.py" line="443"/>
         <source>too few points around this kind of minimum to make its template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="441"/>
+        <location filename="../../ui/messages.py" line="444"/>
         <source>the template does not match this eclipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="442"/>
+        <location filename="../../ui/messages.py" line="445"/>
         <source>no template for this kind of minimum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="443"/>
+        <location filename="../../ui/messages.py" line="446"/>
         <source>unknown time standard {standard}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="445"/>
+        <location filename="../../ui/messages.py" line="448"/>
         <source>the potential is below the critical one: the surface is not closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="447"/>
+        <location filename="../../ui/messages.py" line="450"/>
         <source>the upper limit must be above the lower one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="448"/>
+        <location filename="../../ui/messages.py" line="451"/>
         <source>a log-uniform prior needs a positive lower limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="449"/>
+        <location filename="../../ui/messages.py" line="452"/>
         <source>the width of a Gaussian prior must be positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="450"/>
+        <location filename="../../ui/messages.py" line="453"/>
         <source>the start is outside the prior or the model fails there</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="452"/>
+        <location filename="../../ui/messages.py" line="455"/>
         <source>{name} = {value} is outside its limits {lower} to {upper}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="453"/>
+        <location filename="../../ui/messages.py" line="456"/>
         <source>{name} needs finite limits above zero for a log-uniform prior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="455"/>
+        <location filename="../../ui/messages.py" line="458"/>
         <source>differential evolution needs finite limits on every free parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="456"/>
+        <location filename="../../ui/messages.py" line="459"/>
         <source>unknown optimiser: {optimiser}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="458"/>
+        <location filename="../../ui/messages.py" line="461"/>
         <source>unknown morphology: {morphology}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="460"/>
+        <location filename="../../ui/messages.py" line="463"/>
         <source>append curves in the same unit and time standard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="461"/>
+        <location filename="../../ui/messages.py" line="464"/>
         <source>unknown weighting: {kind}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="463"/>
+        <location filename="../../ui/messages.py" line="466"/>
         <source>not a light-curve file of this version: {version}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="465"/>
+        <location filename="../../ui/messages.py" line="468"/>
         <source>the AAVSO exoplanet file takes at most four detrending columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="466"/>
+        <location filename="../../ui/messages.py" line="469"/>
         <source>the first line must be #TYPE=EXOPLANET</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="467"/>
+        <location filename="../../ui/messages.py" line="470"/>
         <source>line {n} is blank: WebObs rejects a blank line not commented with #</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="468"/>
+        <location filename="../../ui/messages.py" line="471"/>
         <source>line {n}: unknown header key {key}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="469"/>
+        <location filename="../../ui/messages.py" line="472"/>
         <source>the header needs #{key}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="470"/>
+        <location filename="../../ui/messages.py" line="473"/>
         <source>line {n}: {expected} columns expected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="472"/>
+        <location filename="../../ui/messages.py" line="475"/>
         <source>line {n}: {x} is not a number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="473"/>
+        <location filename="../../ui/messages.py" line="476"/>
         <source>the first line must be #TYPE=Extended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="474"/>
+        <location filename="../../ui/messages.py" line="477"/>
         <source>the header needs the column line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="476"/>
+        <location filename="../../ui/messages.py" line="479"/>
         <source>ExoClock needs BJD_TDB times: give the target&apos;s position when measuring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="478"/>
+        <location filename="../../ui/messages.py" line="481"/>
         <source>no object found near x={x0} y={y0} on {name}: mark it on the first and the last frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="482"/>
+        <location filename="../../ui/messages.py" line="485"/>
         <source>pick at least one star on the first frame to align on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="484"/>
+        <location filename="../../ui/messages.py" line="487"/>
         <source>unknown detrending series: {name}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="486"/>
+        <location filename="../../ui/messages.py" line="489"/>
         <source>no comparison star passed the rules; most were removed by: {reasons}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="488"/>
+        <location filename="../../ui/messages.py" line="491"/>
         <source>unknown detrending method: {method}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="490"/>
+        <location filename="../../ui/messages.py" line="493"/>
         <source>unknown table style: {style}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="492"/>
+        <location filename="../../ui/messages.py" line="495"/>
         <source>conservative transfer between equal masses changes no period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="494"/>
+        <location filename="../../ui/messages.py" line="497"/>
         <source>{child} is related to {parent}, which is itself related</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="495"/>
+        <location filename="../../ui/messages.py" line="498"/>
         <source>unknown frequency unit: {freq_unit}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="497"/>
+        <location filename="../../ui/messages.py" line="500"/>
         <source>at most {MAX_SPOTS} spots per star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="498"/>
+        <location filename="../../ui/messages.py" line="501"/>
         <source>unknown spot overlap rule: {rule}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="500"/>
+        <location filename="../../ui/messages.py" line="503"/>
         <source>the {law} law takes {need} coefficients</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="501"/>
+        <location filename="../../ui/messages.py" line="504"/>
         <source>the limb-darkening coefficients make the intensity negative near the limb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="502"/>
+        <location filename="../../ui/messages.py" line="505"/>
         <source>the limb-darkening coefficients make the limb brighter than the centre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="504"/>
+        <location filename="../../ui/messages.py" line="507"/>
         <source>{name}: there is no {path}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="506"/>
+        <location filename="../../ui/messages.py" line="509"/>
         <source>{name} must be a number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="507"/>
+        <location filename="../../ui/messages.py" line="510"/>
         <source>{name} must be a whole number, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="508"/>
+        <location filename="../../ui/messages.py" line="511"/>
         <source>{name} = {value} is below the smallest allowed value {low}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="509"/>
+        <location filename="../../ui/messages.py" line="512"/>
         <source>{name} = {value} is above the largest allowed value {high}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="510"/>
+        <location filename="../../ui/messages.py" line="513"/>
         <source>{name} must be true or false, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="511"/>
+        <location filename="../../ui/messages.py" line="514"/>
         <source>{name} must be one of {known}, not {value}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="512"/>
+        <location filename="../../ui/messages.py" line="515"/>
         <source>unknown parameter kind {kind}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="513"/>
+        <location filename="../../ui/messages.py" line="516"/>
         <source>{step_id}: the description of {name} does not match the step&apos;s default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="514"/>
+        <location filename="../../ui/messages.py" line="517"/>
         <source>a velocity table needs a time column and a velocity column (e.g. time, rv1, rv2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="515"/>
+        <location filename="../../ui/messages.py" line="518"/>
         <source>the light curves have times in different standards ({scales}): convert them to one first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="518"/>
+        <location filename="../../ui/messages.py" line="521"/>
         <source>the nights were measured with different numbers of comparison stars</source>
         <translation>die Nächte wurden mit unterschiedlich vielen Vergleichssternen gemessen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="519"/>
+        <location filename="../../ui/messages.py" line="522"/>
         <source>no night has a frame with every comparison star</source>
         <translation>keine Nacht hat eine Aufnahme mit allen Vergleichssternen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="520"/>
+        <location filename="../../ui/messages.py" line="523"/>
         <source>not a light curve exported from the Photometry window (CSV)</source>
         <translation>keine aus dem Photometrie-Fenster exportierte Lichtkurve (CSV)</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="521"/>
+        <location filename="../../ui/messages.py" line="524"/>
         <source>no two images of the two filters close enough in time to form a colour</source>
         <translation>keine zwei Bilder der beiden Filter liegen zeitlich nah genug, um eine Farbe zu bilden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="523"/>
+        <location filename="../../ui/messages.py" line="526"/>
         <source>filter not understood: {part}</source>
         <translation>Filter nicht verstanden: {part}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="524"/>
+        <location filename="../../ui/messages.py" line="527"/>
         <source>no column {name} in the measurements table</source>
         <translation>keine Spalte {name} in der Messtabelle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="526"/>
+        <location filename="../../ui/messages.py" line="529"/>
         <source>the minimum must have data on both sides</source>
         <translation>das Minimum braucht Daten auf beiden Seiten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="532"/>
+        <location filename="../../ui/messages.py" line="535"/>
         <source>no observation time in header (DATE-OBS, UT-OBS, JD, MJD-OBS): add DATE-OBS in the Images window&apos;s Header tab</source>
         <translation>keine Beobachtungszeit im Header (DATE-OBS, UT-OBS, JD, MJD-OBS): DATE-OBS im Fenster Bilder im Reiter Header hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="536"/>
+        <location filename="../../ui/messages.py" line="539"/>
         <source>not an angle: {value}</source>
         <translation>kein Winkel: {value}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="538"/>
+        <location filename="../../ui/messages.py" line="541"/>
         <source>the service sent an answer in an unexpected form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="539"/>
+        <location filename="../../ui/messages.py" line="542"/>
         <source>no GitHub repository configured for update checks</source>
         <translation>kein GitHub-Repository für die Update-Prüfung eingestellt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="541"/>
+        <location filename="../../ui/messages.py" line="544"/>
         <source>solving</source>
         <translation>Lösen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="542"/>
+        <location filename="../../ui/messages.py" line="545"/>
         <source>catalogues</source>
         <translation>Kataloge</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="543"/>
+        <location filename="../../ui/messages.py" line="546"/>
         <source>reading headers</source>
         <translation>Header werden gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="544"/>
+        <location filename="../../ui/messages.py" line="547"/>
         <source>master bias</source>
         <translation>Master-Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="545"/>
+        <location filename="../../ui/messages.py" line="548"/>
         <source>master dark</source>
         <translation>Master-Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="546"/>
+        <location filename="../../ui/messages.py" line="549"/>
         <source>master flat</source>
         <translation>Master-Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="547"/>
+        <location filename="../../ui/messages.py" line="550"/>
         <source>calibrating</source>
         <translation>wird kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="548"/>
+        <location filename="../../ui/messages.py" line="551"/>
         <source>combining</source>
         <translation>wird kombiniert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="549"/>
+        <location filename="../../ui/messages.py" line="552"/>
         <source>aligning</source>
         <translation>wird ausgerichtet</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="550"/>
+        <location filename="../../ui/messages.py" line="553"/>
         <source>stacking</source>
         <translation>wird gestapelt</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="551"/>
+        <location filename="../../ui/messages.py" line="554"/>
         <source>drizzle</source>
         <translation>Drizzle</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="552"/>
+        <location filename="../../ui/messages.py" line="555"/>
         <source>reading</source>
         <translation>wird gelesen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="553"/>
+        <location filename="../../ui/messages.py" line="556"/>
         <source>writing</source>
         <translation>wird geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="554"/>
+        <location filename="../../ui/messages.py" line="557"/>
         <source>plate solving</source>
         <translation>Astrometrische Lösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="555"/>
+        <location filename="../../ui/messages.py" line="558"/>
         <source>checking</source>
         <translation>wird geprüft</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="556"/>
+        <location filename="../../ui/messages.py" line="559"/>
         <source>downloading</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="557"/>
+        <location filename="../../ui/messages.py" line="560"/>
         <source>simulating</source>
         <translation>wird simuliert</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="558"/>
+        <location filename="../../ui/messages.py" line="561"/>
         <source>simulating a transit night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="559"/>
+        <location filename="../../ui/messages.py" line="562"/>
         <source>photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="560"/>
+        <location filename="../../ui/messages.py" line="563"/>
         <source>quality</source>
         <translation>Qualität</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="561"/>
+        <location filename="../../ui/messages.py" line="564"/>
         <source>catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="562"/>
+        <location filename="../../ui/messages.py" line="565"/>
         <source>astrometry</source>
         <translation>Astrometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="563"/>
+        <location filename="../../ui/messages.py" line="566"/>
         <source>fit</source>
         <translation>Anpassung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="564"/>
+        <location filename="../../ui/messages.py" line="567"/>
         <source>trace</source>
         <translation>Spur</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="565"/>
+        <location filename="../../ui/messages.py" line="568"/>
         <source>trace orders</source>
         <translation>Ordnungen verfolgen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="566"/>
+        <location filename="../../ui/messages.py" line="569"/>
         <source>extraction</source>
         <translation>Extraktion</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="567"/>
+        <location filename="../../ui/messages.py" line="570"/>
         <source>arc</source>
         <translation>Vergleichsspektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="568"/>
+        <location filename="../../ui/messages.py" line="571"/>
         <source>wavelength solution</source>
         <translation>Wellenlängenlösung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="569"/>
+        <location filename="../../ui/messages.py" line="572"/>
         <source>downloading the template library</source>
         <translation>Vorlagenbibliothek wird heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="570"/>
+        <location filename="../../ui/messages.py" line="573"/>
         <source>comparing</source>
         <translation>wird verglichen</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="571"/>
+        <location filename="../../ui/messages.py" line="574"/>
         <source>comparing with the MK standards</source>
         <translation>Vergleich mit den MK-Standards</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="572"/>
+        <location filename="../../ui/messages.py" line="575"/>
         <source>disentangling</source>
         <translation>wird entflochten</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="573"/>
+        <location filename="../../ui/messages.py" line="576"/>
         <source>band math</source>
         <translation>Bandrechnung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="574"/>
+        <location filename="../../ui/messages.py" line="577"/>
         <source>folder not found: {path}</source>
         <translation>Ordner nicht gefunden: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="575"/>
+        <location filename="../../ui/messages.py" line="578"/>
         <source>{key} holds a date but no time of day, and no time keyword was found</source>
         <translation>{key} enthält ein Datum, aber keine Uhrzeit, und kein Zeit-Schlüsselwort wurde gefunden</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="576"/>
+        <location filename="../../ui/messages.py" line="579"/>
         <source>give the target&apos;s name or coordinates</source>
         <translation>Namen oder Koordinaten des Ziels angeben</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="577"/>
+        <location filename="../../ui/messages.py" line="580"/>
         <source>give the spectrograph&apos;s resolution R = lambda / delta lambda</source>
         <translation>die Auflösung des Spektrographen angeben: R = lambda / delta lambda</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="578"/>
+        <location filename="../../ui/messages.py" line="581"/>
         <source>the Sun</source>
         <translation>die Sonne</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="579"/>
+        <location filename="../../ui/messages.py" line="582"/>
         <source>first estimate</source>
         <translation>erste Schätzung</translation>
     </message>
     <message>
-        <location filename="../../ui/messages.py" line="636"/>
+        <location filename="../../ui/messages.py" line="639"/>
         <source>Cannot save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11150,273 +11160,273 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ObservatoryDialog</name>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="46"/>
+        <location filename="../../ui/observatory_dialog.py" line="51"/>
         <source>Observatory set-up</source>
         <translation>Observatorium einrichten</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="54"/>
+        <location filename="../../ui/observatory_dialog.py" line="59"/>
         <source>Latitude (°, N+)</source>
         <translation>Breite (°, N+)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="55"/>
+        <location filename="../../ui/observatory_dialog.py" line="60"/>
         <source>Longitude (°, E+)</source>
         <translation>Länge (°, O+)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="56"/>
+        <location filename="../../ui/observatory_dialog.py" line="61"/>
         <source>Height (m)</source>
         <translation>Höhe (m)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="57"/>
+        <location filename="../../ui/observatory_dialog.py" line="62"/>
         <source>Height above sea level in metres</source>
         <translation>Höhe über dem Meeresspiegel in Metern</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="59"/>
+        <location filename="../../ui/observatory_dialog.py" line="64"/>
         <source>Longitude of the telescope in degrees, east positive (west of Greenwich is negative)</source>
         <translation>Länge des Teleskops in Grad, Ost positiv (westlich von Greenwich negativ)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="61"/>
+        <location filename="../../ui/observatory_dialog.py" line="66"/>
         <source>Latitude of the telescope in degrees, north positive</source>
         <translation>Breite des Teleskops in Grad, Nord positiv</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="64"/>
+        <location filename="../../ui/observatory_dialog.py" line="69"/>
         <source>Devices</source>
         <translation>Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="67"/>
+        <location filename="../../ui/observatory_dialog.py" line="72"/>
         <source>Device</source>
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="67"/>
+        <location filename="../../ui/observatory_dialog.py" line="72"/>
         <source>Protocol</source>
         <translation>Protokoll</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="67"/>
+        <location filename="../../ui/observatory_dialog.py" line="72"/>
         <source>Address (host:port)</source>
         <translation>Adresse (Host:Port)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="67"/>
+        <location filename="../../ui/observatory_dialog.py" line="72"/>
         <source>Number or INDI name</source>
         <translation>Nummer oder INDI-Name</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="72"/>
+        <location filename="../../ui/observatory_dialog.py" line="77"/>
         <source>Find Alpaca devices on the network</source>
         <translation>Alpaca-Geräte im Netzwerk suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="75"/>
+        <location filename="../../ui/observatory_dialog.py" line="80"/>
         <source>Asks the local network which ASCOM Alpaca devices are there and adds them to the list</source>
         <translation>Fragt das lokale Netz, welche ASCOM-Alpaca-Geräte es gibt, und fügt sie der Liste hinzu</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="77"/>
+        <location filename="../../ui/observatory_dialog.py" line="82"/>
         <source>Add device</source>
         <translation>Gerät hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="80"/>
+        <location filename="../../ui/observatory_dialog.py" line="85"/>
         <source>A row for a device by hand: kind, protocol (Alpaca or INDI), address and number or name</source>
         <translation>Eine Zeile für ein Gerät von Hand: Art, Protokoll (Alpaca oder INDI), Adresse und Nummer oder Name</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="82"/>
+        <location filename="../../ui/observatory_dialog.py" line="87"/>
         <source>Remove device</source>
         <translation>Gerät entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="84"/>
+        <location filename="../../ui/observatory_dialog.py" line="89"/>
         <source>Removes the selected device</source>
         <translation>Entfernt das gewählte Gerät</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="97"/>
+        <location filename="../../ui/observatory_dialog.py" line="102"/>
         <source>Lowest altitude</source>
         <translation>Niedrigste Höhe</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="98"/>
+        <location filename="../../ui/observatory_dialog.py" line="103"/>
         <source>The night ends when the Sun is above</source>
         <translation>Die Nacht endet, wenn die Sonne höher steht als</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="99"/>
+        <location filename="../../ui/observatory_dialog.py" line="104"/>
         <source>Highest humidity</source>
         <translation>Höchste Luftfeuchte</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="100"/>
+        <location filename="../../ui/observatory_dialog.py" line="105"/>
         <source>Highest wind speed</source>
         <translation>Höchste Windgeschwindigkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="101"/>
+        <location filename="../../ui/observatory_dialog.py" line="106"/>
         <source>Above this wind speed (from the weather station) the observatory closes</source>
         <translation>Über dieser Windgeschwindigkeit (von der Wetterstation) schließt die Sternwarte</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="104"/>
+        <location filename="../../ui/observatory_dialog.py" line="109"/>
         <source>Above this humidity (from the weather station) the observatory closes, before dew forms on the optics</source>
         <translation>Über dieser Feuchte (von der Wetterstation) schließt die Sternwarte, bevor sich Tau auf der Optik bildet</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="109"/>
+        <location filename="../../ui/observatory_dialog.py" line="114"/>
         <source>Observing stops and the telescope parks when the Sun rises above this altitude (−6°: civil twilight, −12°: nautical)</source>
         <translation>Die Beobachtung endet und das Teleskop parkt, wenn die Sonne über diese Höhe steigt (−6°: bürgerliche, −12°: nautische Dämmerung)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="113"/>
+        <location filename="../../ui/observatory_dialog.py" line="118"/>
         <source>The mount never points lower than this</source>
         <translation>Die Montierung zeigt nie tiefer als dies</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="115"/>
+        <location filename="../../ui/observatory_dialog.py" line="120"/>
         <source>empty: no guiding; or host:port, e.g. 127.0.0.1:4400</source>
         <translation>leer: keine Nachführung; oder Host:Port, z. B. 127.0.0.1:4400</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="116"/>
+        <location filename="../../ui/observatory_dialog.py" line="121"/>
         <source>PHD2 guiding</source>
         <translation>PHD2-Nachführung</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="117"/>
+        <location filename="../../ui/observatory_dialog.py" line="122"/>
         <source>Address of a running PHD2 for guiding and dithering during sequences</source>
         <translation>Adresse eines laufenden PHD2 für Nachführung und Dithering während der Folgen</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="119"/>
+        <location filename="../../ui/observatory_dialog.py" line="124"/>
         <source>e.g. L=0, B=-30, V=15 (focuser steps)</source>
         <translation>z. B. L=0, B=-30, V=15 (Fokussiererschritte)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="120"/>
+        <location filename="../../ui/observatory_dialog.py" line="125"/>
         <source>The focuser moves by the difference when the filter changes</source>
         <translation>Beim Filterwechsel fährt der Fokussierer um die Differenz</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="121"/>
+        <location filename="../../ui/observatory_dialog.py" line="126"/>
         <source>Filter focus offsets</source>
         <translation>Filter-Fokusversätze</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="122"/>
+        <location filename="../../ui/observatory_dialog.py" line="127"/>
         <source> steps/°C</source>
         <translation> Schritte/°C</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="124"/>
+        <location filename="../../ui/observatory_dialog.py" line="129"/>
         <source>Focuser steps per degree; during a sequence the focus follows the focuser&apos;s temperature (0: off)</source>
         <translation>Fokussiererschritte pro Grad; während einer Sequenz folgt der Fokus der Temperatur des Fokussierers (0: aus)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="126"/>
+        <location filename="../../ui/observatory_dialog.py" line="131"/>
         <source>Temperature compensation</source>
         <translation>Temperaturkompensation</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="127"/>
+        <location filename="../../ui/observatory_dialog.py" line="132"/>
         <source>Other computers may connect (protected by the token)</source>
         <translation>Andere Computer dürfen sich verbinden (durch das Token geschützt)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="130"/>
+        <location filename="../../ui/observatory_dialog.py" line="135"/>
         <source>Off: only this computer can control the telescope. On: others on the network can, with the token.</source>
         <translation>Aus: nur dieser Rechner steuert das Teleskop. Ein: andere im Netz können es mit dem Token.</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="132"/>
+        <location filename="../../ui/observatory_dialog.py" line="137"/>
         <source>Encrypt the connection (HTTPS; recommended when others may connect)</source>
         <translation>Verbindung verschlüsseln (HTTPS; empfohlen, wenn andere sich verbinden dürfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="136"/>
+        <location filename="../../ui/observatory_dialog.py" line="141"/>
         <source>The connection is encrypted, so the token and commands cannot be read on the network</source>
         <translation>Die Verbindung wird verschlüsselt, damit Token und Befehle im Netz nicht mitgelesen werden können</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="141"/>
+        <location filename="../../ui/observatory_dialog.py" line="146"/>
         <source>Open…</source>
         <translation>Öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="143"/>
+        <location filename="../../ui/observatory_dialog.py" line="148"/>
         <source>Loads a saved observatory configuration</source>
         <translation>Lädt eine gespeicherte Sternwartenkonfiguration</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="144"/>
+        <location filename="../../ui/observatory_dialog.py" line="149"/>
         <source>Save…</source>
         <translation>Speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="146"/>
+        <location filename="../../ui/observatory_dialog.py" line="151"/>
         <source>Saves this configuration to a file</source>
         <translation>Speichert diese Konfiguration in einer Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="147"/>
+        <location filename="../../ui/observatory_dialog.py" line="152"/>
         <source>Save and start</source>
         <translation>Speichern und starten</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="150"/>
+        <location filename="../../ui/observatory_dialog.py" line="155"/>
         <source>Saves the configuration and starts the observatory program on this computer</source>
         <translation>Speichert die Konfiguration und startet das Sternwartenprogramm auf diesem Rechner</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="172"/>
+        <location filename="../../ui/observatory_dialog.py" line="177"/>
         <source>What the device is: mount, camera, focuser, filter wheel, dome, safety monitor, weather station, rotator, flat panel</source>
         <translation>Was das Gerät ist: Montierung, Kamera, Fokussierer, Filterrad, Kuppel, Sicherheitsmonitor, Wetterstation, Rotator, Flatpanel</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="176"/>
+        <location filename="../../ui/observatory_dialog.py" line="181"/>
         <source>ASCOM Alpaca (Windows drivers, network devices) or INDI (Linux, Raspberry Pi)</source>
         <translation>ASCOM Alpaca (Windows-Treiber, Netzwerkgeräte) oder INDI (Linux, Raspberry Pi)</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="194"/>
+        <location filename="../../ui/observatory_dialog.py" line="199"/>
         <source>Searching the network…</source>
         <translation>Durchsuche das Netzwerk…</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="210"/>
+        <location filename="../../ui/observatory_dialog.py" line="215"/>
         <source>Search failed: {e}</source>
         <translation>Suche fehlgeschlagen: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="217"/>
+        <location filename="../../ui/observatory_dialog.py" line="222"/>
         <source>{n} devices found, {m} added. Check the list: one device of each kind.</source>
         <translation>{n} Geräte gefunden, {m} hinzugefügt. Liste prüfen: ein Gerät jeder Art.</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="245"/>
+        <location filename="../../ui/observatory_dialog.py" line="250"/>
         <source>Filter focus offsets: write name=steps, e.g. B=-30</source>
         <translation>Filter-Fokusversätze: Name=Schritte schreiben, z. B. B=-30</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="279"/>
-        <location filename="../../ui/observatory_dialog.py" line="308"/>
+        <location filename="../../ui/observatory_dialog.py" line="284"/>
+        <location filename="../../ui/observatory_dialog.py" line="313"/>
         <source>Observatory configuration</source>
         <translation>Observatoriumskonfiguration</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="284"/>
+        <location filename="../../ui/observatory_dialog.py" line="289"/>
         <source>Cannot read {file}: {error}</source>
         <translation type="unfinished">{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/observatory_dialog.py" line="300"/>
+        <location filename="../../ui/observatory_dialog.py" line="305"/>
         <source>Saved: {p}</source>
         <translation>Gespeichert: {p}</translation>
     </message>
@@ -12398,187 +12408,187 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>Overlays</name>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="14"/>
+        <location filename="../../ui/overlay_actions.py" line="15"/>
         <source>&amp;Overlays</source>
         <translation>&amp;Überlagerungen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="15"/>
+        <location filename="../../ui/overlay_actions.py" line="16"/>
         <source>Contours…</source>
         <translation>Konturen…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="16"/>
+        <location filename="../../ui/overlay_actions.py" line="17"/>
         <source>Coordinate grid</source>
         <translation>Koordinatengitter</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="18"/>
+        <location filename="../../ui/overlay_actions.py" line="19"/>
         <source>Catalogue stars (Gaia DR3)…</source>
         <translation>Katalogsterne (Gaia DR3)…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="21"/>
+        <location filename="../../ui/overlay_actions.py" line="22"/>
         <source>Variable stars (VSX)</source>
         <translation>Veränderliche (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="25"/>
+        <location filename="../../ui/overlay_actions.py" line="26"/>
         <source>AAVSO comparison stars (VSP)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="29"/>
+        <location filename="../../ui/overlay_actions.py" line="30"/>
         <source>Asteroids and comets (SkyBoT)</source>
         <translation>Asteroiden und Kometen (SkyBoT)</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="31"/>
+        <location filename="../../ui/overlay_actions.py" line="32"/>
         <source>Finder chart…</source>
         <translation>Aufsuchkarte…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="33"/>
+        <location filename="../../ui/overlay_actions.py" line="34"/>
         <source>Load DS9 regions…</source>
         <translation>DS9-Regionen laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="34"/>
+        <location filename="../../ui/overlay_actions.py" line="35"/>
         <source>Save markers as DS9 regions…</source>
         <translation>Markierungen als DS9-Regionen speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="37"/>
+        <location filename="../../ui/overlay_actions.py" line="38"/>
         <source>Clear overlays</source>
         <translation>Überlagerungen entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="41"/>
+        <location filename="../../ui/overlay_actions.py" line="42"/>
         <source>&amp;Magnifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="45"/>
+        <location filename="../../ui/overlay_actions.py" line="46"/>
         <source>&amp;Navigator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="48"/>
+        <location filename="../../ui/overlay_actions.py" line="49"/>
         <source>&amp;Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="59"/>
+        <location filename="../../ui/overlay_actions.py" line="60"/>
         <source>No overlays on this image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="69"/>
+        <location filename="../../ui/overlay_actions.py" line="70"/>
         <source>Orien&amp;tation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="76"/>
+        <location filename="../../ui/overlay_actions.py" line="77"/>
         <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="85"/>
+        <location filename="../../ui/overlay_actions.py" line="86"/>
         <source>&amp;North up, East left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="86"/>
+        <location filename="../../ui/overlay_actions.py" line="87"/>
         <source>Turn 90° &amp;clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="87"/>
+        <location filename="../../ui/overlay_actions.py" line="88"/>
         <source>&amp;Mirror left–right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="88"/>
+        <location filename="../../ui/overlay_actions.py" line="89"/>
         <source>&amp;Original orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="91"/>
+        <location filename="../../ui/overlay_actions.py" line="92"/>
         <source>&amp;Compass and scale bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="123"/>
+        <location filename="../../ui/overlay_actions.py" line="124"/>
         <source>Contours</source>
         <translation>Konturen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="124"/>
+        <location filename="../../ui/overlay_actions.py" line="125"/>
         <source>Number of levels:</source>
         <translation>Anzahl der Stufen:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="143"/>
-        <location filename="../../ui/overlay_actions.py" line="160"/>
-        <location filename="../../ui/overlay_actions.py" line="228"/>
+        <location filename="../../ui/overlay_actions.py" line="144"/>
+        <location filename="../../ui/overlay_actions.py" line="161"/>
+        <location filename="../../ui/overlay_actions.py" line="229"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Das Bild hat keine Himmelskoordinaten: zuerst astrometrisch lösen (Menü Bild).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="168"/>
+        <location filename="../../ui/overlay_actions.py" line="169"/>
         <source>Catalogue stars</source>
         <translation>Katalogsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="169"/>
+        <location filename="../../ui/overlay_actions.py" line="170"/>
         <source>Faintest magnitude:</source>
         <translation>Schwächste Helligkeit:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="177"/>
-        <location filename="../../ui/overlay_actions.py" line="233"/>
+        <location filename="../../ui/overlay_actions.py" line="178"/>
+        <location filename="../../ui/overlay_actions.py" line="234"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog wird abgefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="198"/>
-        <location filename="../../ui/overlay_actions.py" line="212"/>
+        <location filename="../../ui/overlay_actions.py" line="199"/>
+        <location filename="../../ui/overlay_actions.py" line="213"/>
         <source>Finder chart</source>
         <translation>Aufsuchkarte</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="199"/>
+        <location filename="../../ui/overlay_actions.py" line="200"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Zielkoordinaten (RA Dec), z. B. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="205"/>
+        <location filename="../../ui/overlay_actions.py" line="206"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinaten nicht verstanden.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="217"/>
+        <location filename="../../ui/overlay_actions.py" line="218"/>
         <source>Making the finder chart…</source>
         <translation>Aufsuchkarte wird erstellt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="253"/>
+        <location filename="../../ui/overlay_actions.py" line="254"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} Katalogsterne angezeigt: den Mauszeiger auf einen Ring halten, um seine Beschriftung zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="258"/>
+        <location filename="../../ui/overlay_actions.py" line="259"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} Katalogsterne angezeigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="267"/>
-        <location filename="../../ui/overlay_actions.py" line="301"/>
+        <location filename="../../ui/overlay_actions.py" line="268"/>
+        <location filename="../../ui/overlay_actions.py" line="302"/>
         <source>DS9 regions</source>
         <translation>DS9-Regionen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="293"/>
+        <location filename="../../ui/overlay_actions.py" line="294"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Keine Markierungen im Bild (im Fenster Photometrie gewählte Sterne sind Markierungen).</translation>
     </message>
@@ -13491,12 +13501,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PhotometryChoices</name>
     <message>
-        <location filename="../../ui/photometry_choices.py" line="23"/>
+        <location filename="../../ui/photometry_choices.py" line="26"/>
         <source>Chosen automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_choices.py" line="30"/>
+        <location filename="../../ui/photometry_choices.py" line="33"/>
         <source>Target: {name}, the star the files&apos; OBJECT names; its catalogue position gives the barycentric times.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17592,174 +17602,174 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ReduceTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="263"/>
+        <location filename="../../ui/spectro_page.py" line="264"/>
         <source>Science frame</source>
         <translation>Wissenschaftsbild</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="264"/>
+        <location filename="../../ui/spectro_page.py" line="265"/>
         <source>Arc lamp (optional)</source>
         <translation>Bogenlampe (optional)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="275"/>
+        <location filename="../../ui/spectro_page.py" line="276"/>
         <source>Width of each sky strip; the sky under the spectrum is fitted from them, row by row along the slit</source>
         <translation>Breite jedes Himmelsstreifens; der Himmel unter dem Spektrum wird aus ihnen angepasst, Zeile für Zeile entlang des Spalts</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="279"/>
+        <location filename="../../ui/spectro_page.py" line="280"/>
         <source>Distance from the spectrum&apos;s centre to the sky strips on both sides; beyond the star&apos;s light</source>
         <translation>Abstand von der Mitte des Spektrums zu den Himmelsstreifen auf beiden Seiten; jenseits des Sternlichts</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="283"/>
+        <location filename="../../ui/spectro_page.py" line="284"/>
         <source>Width of the strip across the spectrum that is added up; about two to three times the spectrum&apos;s FWHM</source>
         <translation>Breite des Streifens quer zum Spektrum, der aufsummiert wird; etwa das Zwei- bis Dreifache der FWHM des Spektrums</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="287"/>
+        <location filename="../../ui/spectro_page.py" line="288"/>
         <source>its own</source>
         <translation>eigene</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="290"/>
+        <location filename="../../ui/spectro_page.py" line="291"/>
         <source>For a spectrum too faint to follow: the row of a brighter spectrum in the slit, whose traced shape is moved to the faint one (IRAF apall&apos;s reference aperture)</source>
         <translation>Für ein zu schwaches Spektrum: die Zeile eines helleren Spektrums im Spalt, dessen Spurform zum schwachen verschoben wird (Referenzapertur von IRAF apall)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="295"/>
+        <location filename="../../ui/spectro_page.py" line="296"/>
         <source>the brightest</source>
         <translation>das hellste</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="298"/>
+        <location filename="../../ui/spectro_page.py" line="299"/>
         <source>A row the spectrum crosses, when the frame holds several (two orders, a second star): it is followed from there along the frame. Check the traced line drawn on the frame after extracting.</source>
         <translation>Eine Zeile, die das Spektrum kreuzt, wenn die Aufnahme mehrere enthält (zwei Ordnungen, ein zweiter Stern): von dort wird es entlang der Aufnahme verfolgt. Prüfen Sie nach dem Extrahieren die auf der Aufnahme gezeichnete Spur.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="302"/>
+        <location filename="../../ui/spectro_page.py" line="303"/>
         <source>Optimal extraction (Horne)</source>
         <translation>Optimale Extraktion (Horne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="306"/>
+        <location filename="../../ui/spectro_page.py" line="307"/>
         <source>Horne (1986): each pixel counts by the spectrum&apos;s profile and its noise; more signal-to-noise for faint spectra. Turn off for saturated or very bright spectra.</source>
         <translation>Horne (1986): jedes Pixel zählt nach dem Profil des Spektrums und seinem Rauschen; mehr Signal-Rausch bei schwachen Spektren. Bei gesättigten oder sehr hellen Spektren ausschalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="310"/>
+        <location filename="../../ui/spectro_page.py" line="311"/>
         <source>Zero point from the night-sky lines</source>
         <translation>Nullpunkt aus den Nachthimmelslinien</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="314"/>
+        <location filename="../../ui/spectro_page.py" line="315"/>
         <source>The spectrograph flexes between the arc and the star: the night-sky lines [O I] 5577, 6300 and 6363 Å in the sky bands give the shift, used only when two lines agree or one is very strong (long exposures); otherwise the arc&apos;s zero point stays</source>
         <translation>Der Spektrograph biegt sich zwischen Bogen und Stern: die Nachthimmelslinien [O I] 5577, 6300 und 6363 Å in den Himmelsbändern geben die Verschiebung, nur verwendet, wenn zwei Linien übereinstimmen oder eine sehr stark ist (lange Belichtungen); sonst bleibt der Nullpunkt des Bogens</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="324"/>
+        <location filename="../../ui/spectro_page.py" line="325"/>
         <source>The gas of your arc lamp: after your identified lines, further lines of this list are found and added to the fit, as IRAF identify does</source>
         <translation>Das Gas Ihrer Arc-Lampe: nach Ihren identifizierten Linien werden weitere Linien dieser Liste gefunden und in die Anpassung aufgenommen, wie in IRAF identify</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="330"/>
+        <location filename="../../ui/spectro_page.py" line="331"/>
         <source>Spectrum at row</source>
         <translation>Spektrum in Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="331"/>
+        <location filename="../../ui/spectro_page.py" line="332"/>
         <source>Trace shape from row</source>
         <translation>Spurform aus Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="332"/>
+        <location filename="../../ui/spectro_page.py" line="333"/>
         <source>Aperture width (px)</source>
         <translation>Blendenbreite (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="333"/>
+        <location filename="../../ui/spectro_page.py" line="334"/>
         <source>Sky offset (px)</source>
         <translation>Himmelsabstand (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="334"/>
+        <location filename="../../ui/spectro_page.py" line="335"/>
         <source>Sky width (px)</source>
         <translation>Himmelsbreite (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="335"/>
+        <location filename="../../ui/spectro_page.py" line="336"/>
         <source>Arc line list</source>
         <translation>Bogenlinienliste</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="347"/>
+        <location filename="../../ui/spectro_page.py" line="348"/>
         <source>Follows the spectrum along the frame, subtracts the sky and adds it up across the slit; the arc is extracted along the same trace</source>
         <translation>Folgt dem Spektrum über das Bild, zieht den Himmel ab und summiert quer zum Spalt; der Arc wird entlang derselben Spur extrahiert</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_figures.py" line="37"/>
-        <location filename="../../ui/spectro_page.py" line="354"/>
+        <location filename="../../ui/spectro_page.py" line="355"/>
         <source>Pixel</source>
         <translation>Pixel</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_figures.py" line="37"/>
-        <location filename="../../ui/spectro_page.py" line="354"/>
+        <location filename="../../ui/spectro_page.py" line="355"/>
         <source>Wavelength (Å)</source>
         <translation>Wellenlänge (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="356"/>
+        <location filename="../../ui/spectro_page.py" line="357"/>
         <source>type a wavelength</source>
         <translation>Wellenlänge eingeben</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="359"/>
+        <location filename="../../ui/spectro_page.py" line="360"/>
         <source>Lines from a reference arc / IRAF database…</source>
         <translation>Linien aus einem Referenz-Arc / einer IRAF-Datenbank…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="362"/>
+        <location filename="../../ui/spectro_page.py" line="363"/>
         <source>For a spectrograph whose arc was identified before (an IRAF identify database, with its reference arc spectrum, e.g. from the observatory&apos;s pipeline): this arc is matched to the reference (stretch and shift, as PypeIt and IRAF reidentify) and the known lines are placed on its peaks. They fill the table for you to check before solving.</source>
         <translation>Für einen Spektrographen, dessen Arc früher identifiziert wurde (eine IRAF-identify-Datenbank mit ihrem Referenz-Arc-Spektrum, z. B. aus der Pipeline der Sternwarte): dieser Arc wird mit der Referenz abgeglichen (Streckung und Verschiebung, wie PypeIt und IRAF reidentify) und die bekannten Linien werden auf seine Gipfel gesetzt. Sie füllen die Tabelle zur Prüfung vor dem Lösen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="371"/>
+        <location filename="../../ui/spectro_page.py" line="372"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="372"/>
+        <location filename="../../ui/spectro_page.py" line="373"/>
         <source>clear the lines</source>
         <translation>Linien leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="373"/>
+        <location filename="../../ui/spectro_page.py" line="374"/>
         <source>Removes every identified line (Ctrl+Z brings them back)</source>
         <translation>Entfernt alle identifizierten Linien (Strg+Z holt sie zurück)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="378"/>
+        <location filename="../../ui/spectro_page.py" line="379"/>
         <source>Fits pixel → wavelength through the identified lines (at least three), shows the residual of every line and saves the calibrated spectrum</source>
         <translation>Passt Pixel → Wellenlänge durch die identifizierten Linien an (mindestens drei), zeigt den Rest jeder Linie und speichert das kalibrierte Spektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="401"/>
+        <location filename="../../ui/spectro_page.py" line="402"/>
         <source>The science frame appears here once it is chosen</source>
         <translation>Das Wissenschaftsbild erscheint hier, sobald es gewählt ist</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="416"/>
+        <location filename="../../ui/spectro_page.py" line="417"/>
         <source>Choose a science frame.</source>
         <translation>Ein Wissenschaftsbild wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="426"/>
+        <location filename="../../ui/spectro_page.py" line="427"/>
         <source>An arc and at least two identified lines are needed.</source>
         <translation>Ein Bogenspektrum und mindestens zwei identifizierte Linien sind nötig.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="443"/>
+        <location filename="../../ui/spectro_page.py" line="444"/>
         <source>Working…</source>
         <translation>Arbeite…</translation>
     </message>
@@ -17792,117 +17802,117 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Pixel (Linie anklicken, um sie zu identifizieren)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="575"/>
+        <location filename="../../ui/spectro_page.py" line="576"/>
         <source>Green: the trace and the aperture extracted; blue: the sky bands. Choose another row if this is not your star.</source>
         <translation>Grün: die Spur und die extrahierte Blende; blau: die Himmelsbänder. Eine andere Zeile wählen, wenn das nicht Ihr Stern ist.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="477"/>
+        <location filename="../../ui/spectro_page.py" line="478"/>
         <source>Wavelength solution: {n} lines, polynomial of degree {d}, rms {rms:.3f} Å. Saved: {path}</source>
         <translation>Wellenlängenlösung: {n} Linien, Polynom vom Grad {d}, rms {rms:.3f} Å. Gespeichert: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="223"/>
+        <location filename="../../ui/spectro_page.py" line="224"/>
         <source>Calibrate the science frame and the arc: bias, dark, flat (IRAF ccdproc)</source>
         <translation>Wissenschaftsbild und Bogen kalibrieren: Bias, Dark, Flat (IRAF ccdproc)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="225"/>
+        <location filename="../../ui/spectro_page.py" line="226"/>
         <source>Calibrate the science frame and the arc in the Calibration window (bias and dark; the flat divides the science frame, never the arc), then choose them below.</source>
         <translation>Kalibrieren Sie Wissenschaftsbild und Bogen im Fenster Kalibrierung (Bias und Dark; das Flat teilt das Wissenschaftsbild, nie den Bogen), dann unten wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="230"/>
+        <location filename="../../ui/spectro_page.py" line="231"/>
         <source>Choose the science frame and the arc</source>
         <translation>Wissenschaftsbild und Bogen wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="231"/>
+        <location filename="../../ui/spectro_page.py" line="232"/>
         <source>Choose both files below (Browse…) and how the spectrum runs on the image.</source>
         <translation>Wählen Sie unten beide Dateien (Durchsuchen…) und wie das Spektrum auf dem Bild verläuft.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="234"/>
+        <location filename="../../ui/spectro_page.py" line="235"/>
         <source>Extract, and check the trace and the aperture on the image (apall)</source>
         <translation>Extrahieren und Spur und Apertur auf dem Bild prüfen (apall)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="236"/>
+        <location filename="../../ui/spectro_page.py" line="237"/>
         <source>Press 3. Extract; the image at the bottom shows the traced spectrum and the aperture: if it is not your star, give its row and extract again.</source>
         <translation>Drücken Sie 3. Extrahieren; das Bild unten zeigt das verfolgte Spektrum und die Apertur: ist es nicht Ihr Stern, geben Sie seine Zeile an und extrahieren Sie erneut.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="241"/>
+        <location filename="../../ui/spectro_page.py" line="242"/>
         <source>Identify arc lines with the atlas: 3 or more (identify)</source>
         <translation>Bogenlinien mit dem Atlas bestimmen: 3 oder mehr (identify)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="243"/>
+        <location filename="../../ui/spectro_page.py" line="244"/>
         <source>Click a line in the arc plot and type its wavelength from your lamp&apos;s atlas; after three lines the line list&apos;s lines are labelled on the arc and a click fills in the wavelength: check it against the atlas.</source>
         <translation>Eine Linie im Bogendiagramm anklicken und ihre Wellenlänge aus dem Atlas Ihrer Lampe eintippen; nach drei Linien werden die Linien der Linienliste auf dem Bogen beschriftet, und ein Klick trägt die Wellenlänge ein: mit dem Atlas vergleichen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="249"/>
+        <location filename="../../ui/spectro_page.py" line="250"/>
         <source>Fit the wavelengths and check the residuals (identify f, d; dispcor)</source>
         <translation>Wellenlängen anpassen und Residuen prüfen (identify f, d; dispcor)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="251"/>
+        <location filename="../../ui/spectro_page.py" line="252"/>
         <source>Press 5. Fit wavelengths and save; in the residual plot click lines that lie far off to leave them out, then Refit.</source>
         <translation>Drücken Sie 5. Wellenlängen anpassen und speichern; im Residuendiagramm weit abliegende Linien anklicken, um sie auszulassen, dann neu anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="256"/>
+        <location filename="../../ui/spectro_page.py" line="257"/>
         <source>Measure the velocity (fxcor)</source>
         <translation>Die Geschwindigkeit messen (fxcor)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="257"/>
+        <location filename="../../ui/spectro_page.py" line="258"/>
         <source>The calibrated spectrum is saved: measure it on the Radial velocity tab.</source>
         <translation>Das kalibrierte Spektrum ist gespeichert: messen Sie es im Reiter Radialgeschwindigkeit.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="343"/>
+        <location filename="../../ui/spectro_page.py" line="344"/>
         <source>3. Extract</source>
         <translation>3. Extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="352"/>
+        <location filename="../../ui/spectro_page.py" line="353"/>
         <source>4. Click arc lines in the arc plot, type their wavelengths (Å):</source>
         <translation>4. Bogenlinien im Bogendiagramm anklicken, ihre Wellenlängen eintippen (Å):</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="374"/>
+        <location filename="../../ui/spectro_page.py" line="375"/>
         <source>5. Fit wavelengths and save</source>
         <translation>5. Wellenlängen anpassen und speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="385"/>
+        <location filename="../../ui/spectro_page.py" line="386"/>
         <source>Refit without the left-out lines</source>
         <translation>Ohne die ausgelassenen Linien neu anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="387"/>
+        <location filename="../../ui/spectro_page.py" line="388"/>
         <source>Click points in the residual plot (bottom) to leave those arc lines out, then refit</source>
         <translation>Punkte im Residuendiagramm (unten) anklicken, um diese Linien auszulassen, dann neu anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="390"/>
+        <location filename="../../ui/spectro_page.py" line="391"/>
         <source>Use all lines again</source>
         <translation>Wieder alle Linien verwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="391"/>
+        <location filename="../../ui/spectro_page.py" line="392"/>
         <source>use all lines again</source>
         <translation>alle Linien wieder verwenden</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="392"/>
+        <location filename="../../ui/spectro_page.py" line="393"/>
         <source>Takes back every line left out in the residual plot</source>
         <translation>Nimmt alle im Residuendiagramm ausgelassenen Linien wieder auf</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="489"/>
+        <location filename="../../ui/spectro_page.py" line="490"/>
         <source>Extracted {n} columns; {m} arc lines found.</source>
         <translation>{n} Spalten extrahiert; {m} Bogenlinien gefunden.</translation>
     </message>
@@ -17914,77 +17924,77 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/spectro_figures.py" line="58"/>
         <location filename="../../ui/spectro_figures.py" line="64"/>
-        <location filename="../../ui/spectro_page.py" line="598"/>
+        <location filename="../../ui/spectro_page.py" line="599"/>
         <source>Residual (mÅ)</source>
         <translation>Residuum (mÅ)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="510"/>
+        <location filename="../../ui/spectro_page.py" line="511"/>
         <source>Already extracted (1-D): only the wavelength calibration is done. Choose the arc extracted with the same aperture and press 3. Extract to see it.</source>
         <translation>Bereits extrahiert (1-D): nur die Wellenlängenkalibrierung wird gemacht. Wählen Sie den mit derselben Apertur extrahierten Bogen und drücken Sie 3. Extrahieren, um ihn zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="557"/>
+        <location filename="../../ui/spectro_page.py" line="558"/>
         <source>Zero point corrected by {s:+.2f} Å from the night-sky lines ({lines}).</source>
         <translation>Nullpunkt um {s:+.2f} Å aus den Nachthimmelslinien korrigiert ({lines}).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="560"/>
+        <location filename="../../ui/spectro_page.py" line="561"/>
         <source>No night-sky line strong enough for the zero point: the arc&apos;s zero point is kept.</source>
         <translation>Keine Nachthimmelslinie stark genug für den Nullpunkt: der Nullpunkt des Bogens bleibt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="587"/>
+        <location filename="../../ui/spectro_page.py" line="588"/>
         <source>leave out an arc line</source>
         <translation>Bogenlinie auslassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="590"/>
+        <location filename="../../ui/spectro_page.py" line="591"/>
         <source>{n} arc line(s) left out; press Refit without the left-out lines.</source>
         <translation>{n} Linie(n) ausgelassen; „Ohne die ausgelassenen Linien neu anpassen“ drücken.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="608"/>
+        <location filename="../../ui/spectro_page.py" line="609"/>
         <source>identify a line</source>
         <translation>Linie identifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="619"/>
+        <location filename="../../ui/spectro_page.py" line="620"/>
         <source>Extract with an arc first (1. Extract): its lines are matched.</source>
         <translation>Zuerst mit einem Arc extrahieren (1. Extrahieren): seine Linien werden abgeglichen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="624"/>
+        <location filename="../../ui/spectro_page.py" line="625"/>
         <source>IRAF database or reference arc</source>
         <translation>IRAF-Datenbank oder Referenz-Arc</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="624"/>
+        <location filename="../../ui/spectro_page.py" line="625"/>
         <source>IRAF databases and spectra (*)</source>
         <translation>IRAF-Datenbanken und Spektren (*)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="641"/>
+        <location filename="../../ui/spectro_page.py" line="642"/>
         <source>{m} of {n} lines of {ref} found in this arc (correlation {c:.2f}; rms {rms:.2f} Å against the reference&apos;s lines). Check them on the arc plot, delete wrong rows, then 3. Solve.</source>
         <translation>{m} von {n} Linien von {ref} in diesem Arc gefunden (Korrelation {c:.2f}; rms {rms:.2f} Å gegen die Linien der Referenz). Prüfen Sie sie im Arc-Diagramm, löschen Sie falsche Zeilen, dann 3. Lösen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="649"/>
+        <location filename="../../ui/spectro_page.py" line="650"/>
         <source>{m} of {n} lines of {db} found in this arc, shifted by {s:+.1f} px (the database&apos;s pixels are taken as this spectrograph&apos;s). Check them on the arc plot, delete wrong rows, then 3. Solve.</source>
         <translation>{m} von {n} Linien von {db} in diesem Arc gefunden, um {s:+.1f} px verschoben (die Pixel der Datenbank werden als die dieses Spektrographen genommen). Prüfen Sie sie im Arc-Diagramm, löschen Sie falsche Zeilen, dann 3. Lösen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="655"/>
+        <location filename="../../ui/spectro_page.py" line="656"/>
         <source>Cannot use {file}: {error}</source>
         <translation>{file} kann nicht verwendet werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="660"/>
+        <location filename="../../ui/spectro_page.py" line="661"/>
         <source>Few lines agree: is the reference from the same spectrograph, grating, slit and lamp? Identify the lines by hand instead.</source>
         <translation>Wenige Linien stimmen überein: stammt die Referenz von demselben Spektrographen, Gitter, Spalt und derselben Lampe? Identifizieren Sie die Linien stattdessen von Hand.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="663"/>
+        <location filename="../../ui/spectro_page.py" line="664"/>
         <source>lines from a reference</source>
         <translation>Linien aus einer Referenz</translation>
     </message>
@@ -17992,207 +18002,207 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>RemoteSensingPage</name>
     <message>
-        <location filename="../../ui/rs_page.py" line="46"/>
+        <location filename="../../ui/rs_page.py" line="47"/>
         <source>No image yet: press Open image… on the right, or drop the files here</source>
         <translation>Noch kein Bild: rechts Bild öffnen… drücken oder die Dateien hier ablegen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="50"/>
+        <location filename="../../ui/rs_page.py" line="51"/>
         <source>Remote sensing</source>
         <translation>Fernerkundung</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="56"/>
+        <location filename="../../ui/rs_page.py" line="57"/>
         <source>Open the image, or the band files of one scene</source>
         <translation>Das Bild oder die Banddateien einer Szene öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="57"/>
+        <location filename="../../ui/rs_page.py" line="58"/>
         <source>Press Open image…; for Sentinel-2 or Landsat select all band files of the scene at once.</source>
         <translation>Drücken Sie Bild öffnen…; für Sentinel-2 oder Landsat wählen Sie alle Banddateien der Szene auf einmal.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="60"/>
+        <location filename="../../ui/rs_page.py" line="61"/>
         <source>Check which band is which</source>
         <translation>Prüfen, welches Band welches ist</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="62"/>
+        <location filename="../../ui/rs_page.py" line="63"/>
         <source>Check the BLUE, GREEN, RED, NIR and SWIR band choices: they are filled from the file names where possible.</source>
         <translation>Prüfen Sie die Bandwahl für BLUE, GREEN, RED, NIR und SWIR: sie wird wo möglich aus den Dateinamen gefüllt.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="67"/>
+        <location filename="../../ui/rs_page.py" line="68"/>
         <source>Compute an index (NDVI, NDWI…) or your own formula</source>
         <translation>Einen Index (NDVI, NDWI…) oder eine eigene Formel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="68"/>
+        <location filename="../../ui/rs_page.py" line="69"/>
         <source>Choose an index or type a formula and press Compute.</source>
         <translation>Wählen Sie einen Index oder geben Sie eine Formel ein und drücken Sie Berechnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="71"/>
+        <location filename="../../ui/rs_page.py" line="72"/>
         <source>Optional: classify (k-means) or principal components</source>
         <translation>Optional: Klassifizieren (k-Means) oder Hauptkomponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="73"/>
+        <location filename="../../ui/rs_page.py" line="74"/>
         <source>Classify (k-means) groups similar pixels; Principal components finds the main patterns of the bands.</source>
         <translation>Klassifizieren (k-Means) gruppiert ähnliche Pixel; Hauptkomponenten findet die wichtigsten Muster der Bänder.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="81"/>
+        <location filename="../../ui/rs_page.py" line="82"/>
         <source>Open image (GeoTIFF, FITS, JPEG2000, NetCDF, HDF5)…</source>
         <translation>Bild öffnen (GeoTIFF, FITS, JPEG2000, NetCDF, HDF5)…</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="85"/>
+        <location filename="../../ui/rs_page.py" line="86"/>
         <source>A satellite or aerial image with one or more bands; every band can be shown and used in the formulas. Select several files at once for the bands of one scene that come one per file (Sentinel-2, Landsat)</source>
         <translation>Ein Satelliten- oder Luftbild mit einem oder mehreren Bändern; jedes Band kann angezeigt und in Formeln verwendet werden. Wählen Sie mehrere Dateien zugleich für die Bänder einer Szene, die je Band eine Datei hat (Sentinel-2, Landsat)</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="90"/>
+        <location filename="../../ui/rs_page.py" line="91"/>
         <source>No image</source>
         <translation>Kein Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="94"/>
+        <location filename="../../ui/rs_page.py" line="95"/>
         <source>Show</source>
         <translation>Zeigen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="97"/>
+        <location filename="../../ui/rs_page.py" line="98"/>
         <source>Which band or result to show</source>
         <translation>Welches Band oder Ergebnis gezeigt wird</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="100"/>
+        <location filename="../../ui/rs_page.py" line="101"/>
         <source>Band roles (for the indices)</source>
         <translation>Bandrollen (für die Indizes)</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="107"/>
+        <location filename="../../ui/rs_page.py" line="108"/>
         <source>Which band of the image holds this colour; the indices (NDVI…) use these roles</source>
         <translation>Welches Band des Bildes diese Farbe enthält; die Indizes (NDVI…) verwenden diese Rollen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="112"/>
+        <location filename="../../ui/rs_page.py" line="113"/>
         <source>Index…</source>
         <translation>Index…</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="117"/>
+        <location filename="../../ui/rs_page.py" line="118"/>
         <source>A known index (NDVI, NDWI…) fills in its formula with the bands of the roles</source>
         <translation>Ein bekannter Index (NDVI, NDWI…) füllt seine Formel mit den Bändern der Rollen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="120"/>
+        <location filename="../../ui/rs_page.py" line="121"/>
         <source>band math, e.g. (B4 - B3) / (B4 + B3)</source>
         <translation>Bandrechnung, z. B. (B4 - B3) / (B4 + B3)</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="121"/>
+        <location filename="../../ui/rs_page.py" line="122"/>
         <source>A formula of the bands B1, B2…: + − * / ** and numbers</source>
         <translation>Eine Formel aus den Bändern B1, B2…: + − * / ** und Zahlen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="124"/>
+        <location filename="../../ui/rs_page.py" line="125"/>
         <source>Compute</source>
         <translation>Berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="126"/>
+        <location filename="../../ui/rs_page.py" line="127"/>
         <source>Computes the formula for every pixel and shows the result</source>
         <translation>Berechnet die Formel für jedes Pixel und zeigt das Ergebnis</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="132"/>
+        <location filename="../../ui/rs_page.py" line="133"/>
         <source>How many classes k-means divides the pixels into</source>
         <translation>In wie viele Klassen k-Means die Pixel aufteilt</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="133"/>
+        <location filename="../../ui/rs_page.py" line="134"/>
         <source>Classify (k-means)</source>
         <translation>Klassifizieren (k-Means)</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="136"/>
+        <location filename="../../ui/rs_page.py" line="137"/>
         <source>Groups the pixels by their values in all bands into this many classes, without training data</source>
         <translation>Gruppiert die Pixel nach ihren Werten in allen Bändern in so viele Klassen, ohne Trainingsdaten</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="138"/>
+        <location filename="../../ui/rs_page.py" line="139"/>
         <source>Principal components</source>
         <translation>Hauptkomponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="142"/>
+        <location filename="../../ui/rs_page.py" line="143"/>
         <source>New bands that are combinations of the old ones, the first holding the most variation; useful to see differences hidden in many bands</source>
         <translation>Neue Bänder als Kombinationen der alten, das erste mit der meisten Variation; nützlich, um in vielen Bändern versteckte Unterschiede zu sehen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="146"/>
+        <location filename="../../ui/rs_page.py" line="147"/>
         <source>classes</source>
         <translation>Klassen</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="191"/>
+        <location filename="../../ui/rs_page.py" line="193"/>
         <source>Cannot open: {e}</source>
         <translation>Kann nicht geöffnet werden: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="210"/>
+        <location filename="../../ui/rs_page.py" line="212"/>
         <source>no map projection</source>
         <translation>keine Kartenprojektion</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="212"/>
+        <location filename="../../ui/rs_page.py" line="214"/>
         <source>{name}: {n} bands, {nx} × {ny} px, {crs}</source>
         <translation>{name}: {n} Bänder, {nx} × {ny} px, {crs}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="243"/>
+        <location filename="../../ui/rs_page.py" line="245"/>
         <source>{name}: min {min:.4g}, median {median:.4g}, max {max:.4g}, mean {mean:.4g} ± {std:.4g}</source>
         <translation>{name}: Min {min:.4g}, Median {median:.4g}, Max {max:.4g}, Mittel {mean:.4g} ± {std:.4g}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="259"/>
+        <location filename="../../ui/rs_page.py" line="261"/>
         <source>Type an expression or choose an index.</source>
         <translation>Einen Ausdruck eingeben oder einen Index wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="273"/>
+        <location filename="../../ui/rs_page.py" line="275"/>
         <source>Open an image first.</source>
         <translation>Zuerst ein Bild öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="275"/>
+        <location filename="../../ui/rs_page.py" line="277"/>
         <source>Working…</source>
         <translation>Arbeite…</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="295"/>
+        <location filename="../../ui/rs_page.py" line="297"/>
         <source>Explained variance: {v}</source>
         <translation>Erklärte Varianz: {v}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="298"/>
+        <location filename="../../ui/rs_page.py" line="300"/>
         <source>Saved: {p}</source>
         <translation>Gespeichert: {p}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="310"/>
+        <location filename="../../ui/rs_page.py" line="312"/>
         <source>pixel {x:.0f}, {y:.0f}: {v:.5g}</source>
         <translation>Pixel {x:.0f}, {y:.0f}: {v:.5g}</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="335"/>
+        <location filename="../../ui/rs_page.py" line="337"/>
         <source>Band</source>
         <translation>Band</translation>
     </message>
     <message>
-        <location filename="../../ui/rs_page.py" line="331"/>
+        <location filename="../../ui/rs_page.py" line="333"/>
         <source>Value at pixel {x:.0f}, {y:.0f}</source>
         <translation>Wert am Pixel {x:.0f}, {y:.0f}</translation>
     </message>
@@ -19019,12 +19029,12 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>Spectroscopy</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="169"/>
+        <location filename="../../ui/spectro_page.py" line="170"/>
         <source>Taken as calibrated (the header says bias and dark were taken off): {files}.</source>
         <translation>Als kalibriert genommen (laut Header wurden Bias und Dark abgezogen): {files}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="175"/>
+        <location filename="../../ui/spectro_page.py" line="176"/>
         <source>Not calibrated (raw): {files}. Bias and dark are best taken off in the Calibration window first; the overscan is taken off here where the header gives it.</source>
         <translation>Nicht kalibriert (roh): {files}. Bias und Dark zieht man am besten zuerst im Fenster Kalibrierung ab; der Overscan wird hier abgezogen, wo der Header ihn angibt.</translation>
     </message>
@@ -19032,108 +19042,108 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>SpectroscopyPage</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2096"/>
+        <location filename="../../ui/spectro_page.py" line="2099"/>
         <source>Reduce</source>
         <translation>Reduktion</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2097"/>
+        <location filename="../../ui/spectro_page.py" line="2100"/>
         <source>Echelle</source>
         <translation>Echelle</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2098"/>
+        <location filename="../../ui/spectro_page.py" line="2101"/>
         <source>Telluric</source>
         <translation>Tellurisch</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2099"/>
+        <location filename="../../ui/spectro_page.py" line="2102"/>
         <source>Radial velocity &amp;&amp; orbit</source>
         <translation>Radialgeschwindigkeit &amp;&amp; Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2100"/>
+        <location filename="../../ui/spectro_page.py" line="2103"/>
         <source>IFU cube</source>
         <translation>IFU-Würfel</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2104"/>
+        <location filename="../../ui/spectro_page.py" line="2107"/>
         <source>Spectrum tools</source>
         <translation>Spektrenwerkzeuge</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2110"/>
-        <location filename="../../ui/spectro_page.py" line="2238"/>
+        <location filename="../../ui/spectro_page.py" line="2113"/>
+        <location filename="../../ui/spectro_page.py" line="2241"/>
         <source>Instrument profile</source>
         <translation>Instrumentprofil</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2116"/>
+        <location filename="../../ui/spectro_page.py" line="2119"/>
         <source>Saved settings of a spectrograph (orientation, widths, line list, order numbers…): choose one to fill the Reduce and Echelle tabs</source>
         <translation>Gespeicherte Einstellungen eines Spektrographen (Ausrichtung, Breiten, Linienliste, Ordnungsnummern…): eine wählen, um die Reiter Reduktion und Echelle zu füllen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2120"/>
+        <location filename="../../ui/spectro_page.py" line="2123"/>
         <source>Save as…</source>
         <translation>Speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2124"/>
+        <location filename="../../ui/spectro_page.py" line="2127"/>
         <source>Saves the present settings of the Reduce and Echelle tabs under a name, for the next night with this spectrograph</source>
         <translation>Speichert die jetzigen Einstellungen der Reiter Reduktion und Echelle unter einem Namen, für die nächste Nacht mit diesem Spektrographen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2128"/>
+        <location filename="../../ui/spectro_page.py" line="2131"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2130"/>
+        <location filename="../../ui/spectro_page.py" line="2133"/>
         <source>Deletes the chosen instrument profile</source>
         <translation>Löscht das gewählte Instrumentprofil</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2138"/>
+        <location filename="../../ui/spectro_page.py" line="2141"/>
         <source>In what order? (click)</source>
         <translation>In welcher Reihenfolge? (klicken)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2141"/>
+        <location filename="../../ui/spectro_page.py" line="2144"/>
         <source>1. Raw frames from your spectrograph: &lt;b&gt;Reduce&lt;/b&gt; (long slit: arc lamp → trace → extraction → wavelengths) or &lt;b&gt;Echelle&lt;/b&gt; (many orders). Calibrate the frames (bias, dark, flat) in the Calibration window first.&lt;br&gt;2. Spectra that already have wavelengths (an archive, another pipeline): start at 3.&lt;br&gt;3. &lt;b&gt;Telluric&lt;/b&gt; (optional): divides out the Earth&apos;s atmosphere (O₂, H₂O bands, mostly red) with a hot star observed near your target.&lt;br&gt;4. &lt;b&gt;Radial velocity &amp;amp; orbit&lt;/b&gt;: the star&apos;s velocity in every spectrum against a template, two stars of a binary (TODCOR, broadening function), the orbit, the spectral type (MK).&lt;br&gt;5. &lt;b&gt;Spectrum tools&lt;/b&gt;: normalise, measure a line (equivalent width, FWHM, V/R), smooth, add or divide spectra, atmospheric parameters (Teff, log g, [Fe/H]).&lt;br&gt;The methods and their formulas: Guide, Spectroscopy and Mathematics of the methods.</source>
         <translation>1. Rohbilder Ihres Spektrographen: &lt;b&gt;Reduktion&lt;/b&gt; (Langspalt: Bogenlampe → Spur → Extraktion → Wellenlängen) oder &lt;b&gt;Echelle&lt;/b&gt; (viele Ordnungen). Kalibrieren Sie die Bilder (Bias, Dark, Flat) zuerst im Fenster Kalibrierung.&lt;br&gt;2. Spektren, die schon Wellenlängen haben (ein Archiv, eine andere Pipeline): bei 3 beginnen.&lt;br&gt;3. &lt;b&gt;Tellurisch&lt;/b&gt; (freiwillig): dividiert die Erdatmosphäre heraus (O₂-, H₂O-Banden, meist im Roten) mit einem heißen Stern, der nahe dem Ziel beobachtet wurde.&lt;br&gt;4. &lt;b&gt;Radialgeschwindigkeit und Bahn&lt;/b&gt;: die Geschwindigkeit des Sterns in jedem Spektrum gegen eine Vorlage, zwei Sterne eines Doppelsterns (TODCOR, Verbreiterungsfunktion), die Bahn, der Spektraltyp (MK).&lt;br&gt;5. &lt;b&gt;Spektrenwerkzeuge&lt;/b&gt;: normieren, eine Linie messen (Äquivalentbreite, FWHM, V/R), glätten, Spektren addieren oder dividieren, Atmosphärenparameter (Teff, log g, [Fe/H]).&lt;br&gt;Die Methoden und ihre Formeln: Anleitung, Spektroskopie und Mathematik der Methoden.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2191"/>
+        <location filename="../../ui/spectro_page.py" line="2194"/>
         <source>Raw long-slit frames: arc lamp → trace → extraction → wavelengths</source>
         <translation>Rohe Langspalt-Aufnahmen: Bogenlampe → Spur → Extraktion → Wellenlängen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2192"/>
+        <location filename="../../ui/spectro_page.py" line="2195"/>
         <source>Raw échelle frames: orders traced and extracted, wavelengths from the ThAr</source>
         <translation>Rohe Echelle-Aufnahmen: Ordnungen verfolgt und extrahiert, Wellenlängen aus dem ThAr</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2195"/>
+        <location filename="../../ui/spectro_page.py" line="2198"/>
         <source>Optional: divides out the Earth&apos;s atmosphere with a hot star observed near the target</source>
         <translation>Optional: teilt die Erdatmosphäre mit einem heißen Stern heraus, der nahe dem Ziel beobachtet wurde</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2198"/>
+        <location filename="../../ui/spectro_page.py" line="2201"/>
         <source>Velocities against a template, the two stars of a binary, the orbit and the spectral type</source>
         <translation>Geschwindigkeiten gegen eine Vorlage, die zwei Sterne eines Doppelsterns, die Bahn und der Spektraltyp</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2202"/>
+        <location filename="../../ui/spectro_page.py" line="2205"/>
         <source>Integral-field data cubes: an image at each wavelength, spectra of regions</source>
         <translation>Integralfeld-Datenwürfel: ein Bild bei jeder Wellenlänge, Spektren von Bereichen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2205"/>
+        <location filename="../../ui/spectro_page.py" line="2208"/>
         <source>One spectrum: normalise, measure lines, smooth, add or divide, combine exposures, stellar parameters</source>
         <translation>Ein Spektrum: normieren, Linien messen, glätten, addieren oder teilen, Aufnahmen kombinieren, Sternparameter</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="2238"/>
+        <location filename="../../ui/spectro_page.py" line="2241"/>
         <source>Name (e.g. telescope + spectrograph):</source>
         <translation>Name (z. B. Teleskop + Spektrograf):</translation>
     </message>
@@ -20304,7 +20314,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StatusSegments</name>
     <message>
-        <location filename="../../ui/kit/status.py" line="28"/>
+        <location filename="../../ui/kit/status.py" line="27"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -20813,7 +20823,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="737"/>
+        <location filename="../../photometry/steps.py" line="740"/>
         <location filename="../../timeseries/steps.py" line="133"/>
         <source>Band</source>
         <translation>Band</translation>
@@ -20834,7 +20844,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="604"/>
+        <location filename="../../photometry/steps.py" line="607"/>
         <location filename="../../timeseries/steps.py" line="177"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
@@ -20845,57 +20855,57 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="552"/>
+        <location filename="../../photometry/steps.py" line="555"/>
         <source>Most stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="553"/>
+        <location filename="../../photometry/steps.py" line="556"/>
         <source>The brightest stars of the field that are measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="560"/>
-        <location filename="../../photometry/steps.py" line="592"/>
-        <location filename="../../photometry/steps.py" line="632"/>
+        <location filename="../../photometry/steps.py" line="563"/>
+        <location filename="../../photometry/steps.py" line="595"/>
+        <location filename="../../photometry/steps.py" line="635"/>
         <location filename="../../spectroscopy/step_params.py" line="75"/>
         <location filename="../../spectroscopy/step_params.py" line="152"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="561"/>
+        <location filename="../../photometry/steps.py" line="564"/>
         <source>Aperture photometry, or PSF fitting for crowded fields</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="568"/>
+        <location filename="../../photometry/steps.py" line="571"/>
         <source>Threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="569"/>
+        <location filename="../../photometry/steps.py" line="572"/>
         <source>How many times its expected scatter a star must vary to be listed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="579"/>
+        <location filename="../../photometry/steps.py" line="582"/>
         <source>Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="580"/>
+        <location filename="../../photometry/steps.py" line="583"/>
         <source>snr: the radius of the best signal-to-noise; aij: AstroImageJ&apos;s, from the FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="605"/>
+        <location filename="../../photometry/steps.py" line="608"/>
         <source>With the period: every eclipse in the curve gets its own time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="27"/>
-        <location filename="../../photometry/steps.py" line="613"/>
+        <location filename="../../photometry/steps.py" line="616"/>
         <location filename="../../timeseries/steps.py" line="186"/>
         <source>Period</source>
         <translation type="unfinished"></translation>
@@ -21074,142 +21084,142 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="614"/>
+        <location filename="../../photometry/steps.py" line="617"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>Period of the ephemeris used to count the cycles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="46"/>
-        <location filename="../../photometry/steps.py" line="620"/>
+        <location filename="../../photometry/steps.py" line="623"/>
         <source>Detrend against</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="621"/>
+        <location filename="../../photometry/steps.py" line="624"/>
         <source>Airmass, sky, position… fitted with the transit (trapezoid only)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="52"/>
-        <location filename="../../photometry/steps.py" line="645"/>
+        <location filename="../../photometry/steps.py" line="648"/>
         <source>Shortest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="646"/>
+        <location filename="../../photometry/steps.py" line="649"/>
         <source>The search starts here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="61"/>
-        <location filename="../../photometry/steps.py" line="654"/>
+        <location filename="../../photometry/steps.py" line="657"/>
         <source>Longest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="655"/>
+        <location filename="../../photometry/steps.py" line="658"/>
         <source>Empty: half the time span</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/measure_params.py" line="31"/>
-        <location filename="../../photometry/steps.py" line="666"/>
+        <location filename="../../photometry/steps.py" line="669"/>
         <source>Outer sky radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="387"/>
+        <location filename="../../photometry/steps.py" line="390"/>
         <source>Ask the catalogues again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="388"/>
+        <location filename="../../photometry/steps.py" line="391"/>
         <source>Not the answers saved from an earlier look-up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="667"/>
+        <location filename="../../photometry/steps.py" line="670"/>
         <source>No other star may fall inside it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="675"/>
+        <location filename="../../photometry/steps.py" line="678"/>
         <source>Comparison stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="676"/>
+        <location filename="../../photometry/steps.py" line="679"/>
         <source>How many to suggest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="693"/>
+        <location filename="../../photometry/steps.py" line="696"/>
         <source>FWHM limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="694"/>
+        <location filename="../../photometry/steps.py" line="697"/>
         <source>A frame whose FWHM exceeds this times the median is bad (focus, trails)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="702"/>
+        <location filename="../../photometry/steps.py" line="705"/>
         <source>Star fraction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="703"/>
+        <location filename="../../photometry/steps.py" line="706"/>
         <source>A frame that finds fewer than this share of the stars is bad (clouds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="710"/>
+        <location filename="../../photometry/steps.py" line="713"/>
         <source>Sky limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="711"/>
+        <location filename="../../photometry/steps.py" line="714"/>
         <source>A frame whose sky exceeds this times the median is bad (Moon, twilight)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="720"/>
+        <location filename="../../photometry/steps.py" line="723"/>
         <source>First band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="721"/>
+        <location filename="../../photometry/steps.py" line="724"/>
         <source>The filter of the first image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="727"/>
+        <location filename="../../photometry/steps.py" line="730"/>
         <source>Second band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="728"/>
+        <location filename="../../photometry/steps.py" line="731"/>
         <source>The filter of the second image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="738"/>
+        <location filename="../../photometry/steps.py" line="741"/>
         <source>The band of the standard magnitudes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="746"/>
+        <location filename="../../photometry/steps.py" line="749"/>
         <source>auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field&apos;s AAVSO sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="758"/>
+        <location filename="../../photometry/steps.py" line="761"/>
         <source>Mission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="759"/>
+        <location filename="../../photometry/steps.py" line="762"/>
         <source>The space telescope whose light curves are fetched</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21321,7 +21331,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/io.py" line="41"/>
-        <location filename="../../photometry/steps.py" line="765"/>
+        <location filename="../../photometry/steps.py" line="768"/>
         <source>Flux</source>
         <translation>Fluss</translation>
     </message>
@@ -21749,53 +21759,58 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../engine/io.py" line="157"/>
-        <source>Warnings</source>
+        <source>Quick period of each candidate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="158"/>
-        <source>Spectral window</source>
+        <source>Warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="159"/>
-        <source>Files written</source>
+        <source>Spectral window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="160"/>
+        <source>Files written</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../engine/io.py" line="161"/>
         <location filename="../../photometry/comet_step.py" line="72"/>
         <location filename="../../photometry/isophote_step.py" line="44"/>
         <source>Zero point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="593"/>
+        <location filename="../../photometry/steps.py" line="596"/>
         <source>Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek&apos;s eclipse model, a Gaussian, a Lorentzian, the bisector or a polynomial (each with its three errors)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="633"/>
+        <location filename="../../photometry/steps.py" line="636"/>
         <source>Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="682"/>
+        <location filename="../../photometry/steps.py" line="685"/>
         <source>Comparison-star rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="683"/>
+        <location filename="../../photometry/steps.py" line="686"/>
         <source>The rules&apos; settings; each star left out is given its reason (with a field)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="745"/>
+        <location filename="../../photometry/steps.py" line="748"/>
         <source>Magnitudes from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="766"/>
+        <location filename="../../photometry/steps.py" line="769"/>
         <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22018,22 +22033,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="778"/>
+        <location filename="../../photometry/steps.py" line="781"/>
         <source>Colour coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="779"/>
+        <location filename="../../photometry/steps.py" line="782"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="786"/>
+        <location filename="../../photometry/steps.py" line="789"/>
         <source>Comparison colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="787"/>
+        <location filename="../../photometry/steps.py" line="790"/>
         <source>The comparison ensemble&apos;s catalogue colour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -23274,63 +23289,63 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>TelluricTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1292"/>
+        <location filename="../../ui/spectro_page.py" line="1295"/>
         <source>Spectrum (1-D)</source>
         <translation>Spektrum (1-D)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1293"/>
+        <location filename="../../ui/spectro_page.py" line="1296"/>
         <source>Telluric standard (hot, fast-rotating star)</source>
         <translation>Tellurischer Standard (heißer, schnell rotierender Stern)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1280"/>
-        <location filename="../../ui/spectro_page.py" line="1302"/>
+        <location filename="../../ui/spectro_page.py" line="1283"/>
+        <location filename="../../ui/spectro_page.py" line="1305"/>
         <source>Correct and save</source>
         <translation>Korrigieren und speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1273"/>
+        <location filename="../../ui/spectro_page.py" line="1276"/>
         <source>Choose the spectrum and a telluric standard of the same night (IRAF telluric)</source>
         <translation>Das Spektrum und einen tellurischen Standard derselben Nacht wählen (IRAF telluric)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1275"/>
+        <location filename="../../ui/spectro_page.py" line="1278"/>
         <source>Choose the calibrated 1-D spectrum and a hot, fast-rotating star observed at a similar airmass.</source>
         <translation>Wählen Sie das kalibrierte 1-D-Spektrum und einen heißen, schnell rotierenden Stern, der bei ähnlicher Luftmasse beobachtet wurde.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1281"/>
+        <location filename="../../ui/spectro_page.py" line="1284"/>
         <source>Press Correct and save: the strength and the shift of the telluric lines are fitted.</source>
         <translation>Drücken Sie Korrigieren und speichern: Stärke und Verschiebung der tellurischen Linien werden angepasst.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1284"/>
+        <location filename="../../ui/spectro_page.py" line="1287"/>
         <source>Measure the velocity</source>
         <translation>Die Geschwindigkeit messen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1285"/>
+        <location filename="../../ui/spectro_page.py" line="1288"/>
         <source>Measure the corrected spectrum on the Radial velocity tab.</source>
         <translation>Messen Sie das korrigierte Spektrum auf dem Reiter Radialgeschwindigkeit &amp; Bahn.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1300"/>
+        <location filename="../../ui/spectro_page.py" line="1303"/>
         <source>The standard star&apos;s spectrum gives the atmosphere&apos;s transmission in the telluric bands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1306"/>
+        <location filename="../../ui/spectro_page.py" line="1309"/>
         <source>Divides the spectrum by the standard&apos;s atmospheric lines, fitted in strength and shift, and saves the result next to the spectrum</source>
         <translation>Teilt das Spektrum durch die in Stärke und Verschiebung angepassten atmosphärischen Linien des Standards und speichert das Ergebnis neben dem Spektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1323"/>
+        <location filename="../../ui/spectro_page.py" line="1326"/>
         <source>Choose the spectrum and the standard.</source>
         <translation>Spektrum und Standard wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1327"/>
+        <location filename="../../ui/spectro_page.py" line="1330"/>
         <source>Working…</source>
         <translation>Arbeite…</translation>
     </message>
@@ -23361,7 +23376,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Wellenlänge (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1335"/>
+        <location filename="../../ui/spectro_page.py" line="1338"/>
         <source>Optical depth scale {s:.3f}, shift {v:.2f} km/s. Saved: {path}</source>
         <translation>Skala der optischen Tiefe {s:.3f}, Verschiebung {v:.2f} km/s. Gespeichert: {path}</translation>
     </message>
@@ -23388,6 +23403,29 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/tour.py" line="68"/>
         <source>Done</source>
         <translation>Fertig</translation>
+    </message>
+</context>
+<context>
+    <name>VarFind</name>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="15"/>
+        <source>Save the candidates (.csv)…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="16"/>
+        <source>Save their light curves (.ecsv)…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="36"/>
+        <source>Save the candidates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="45"/>
+        <source>Folder for the light curves</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -23519,14 +23557,14 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/varfind_page.py" line="130"/>
-        <location filename="../../ui/varfind_page.py" line="194"/>
-        <location filename="../../ui/varfind_page.py" line="195"/>
+        <location filename="../../ui/varfind_page.py" line="204"/>
+        <location filename="../../ui/varfind_page.py" line="205"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
     <message>
         <location filename="../../ui/varfind_page.py" line="131"/>
-        <location filename="../../ui/varfind_page.py" line="196"/>
+        <location filename="../../ui/varfind_page.py" line="206"/>
         <source>rms (mag)</source>
         <translation>rms (mag)</translation>
     </message>
@@ -23541,7 +23579,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="139"/>
+        <location filename="../../ui/varfind_page.py" line="134"/>
+        <source>Period (d)</source>
+        <translation type="unfinished">Periode (d)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="135"/>
+        <source>Power</source>
+        <translation type="unfinished">Leistung</translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="141"/>
         <source>How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart</source>
         <translation type="unfinished"></translation>
     </message>
@@ -23556,53 +23604,53 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Die Lichtkurve des gewählten Sterns geht zum Reiter Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="147"/>
+        <location filename="../../ui/varfind_page.py" line="149"/>
         <source>{n} frames</source>
         <translation>{n} Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="154"/>
+        <location filename="../../ui/varfind_page.py" line="156"/>
         <source>Measuring every star…</source>
         <translation>Alle Sterne werden gemessen…</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="172"/>
+        <location filename="../../ui/varfind_page.py" line="182"/>
         <source>{n} stars measured, {m} candidates.</source>
         <translation>{n} Sterne gemessen, {m} Kandidaten.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="184"/>
-        <location filename="../../ui/varfind_page.py" line="204"/>
+        <location filename="../../ui/varfind_page.py" line="194"/>
+        <location filename="../../ui/varfind_page.py" line="214"/>
         <source>stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="186"/>
+        <location filename="../../ui/varfind_page.py" line="196"/>
         <source>candidates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="187"/>
+        <location filename="../../ui/varfind_page.py" line="197"/>
         <source>typical rms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="191"/>
+        <location filename="../../ui/varfind_page.py" line="201"/>
         <source>chosen star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="196"/>
+        <location filename="../../ui/varfind_page.py" line="206"/>
         <source>Instrumental magnitude</source>
         <translation>Instrumentelle Helligkeit</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="195"/>
+        <location filename="../../ui/varfind_page.py" line="205"/>
         <source>JD − {d:.0f}</source>
         <translation>JD − {d:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="218"/>
+        <location filename="../../ui/varfind_page.py" line="228"/>
         <source>star at x={x:.0f} y={y:.0f}</source>
         <translation>Stern bei x={x:.0f} y={y:.0f}</translation>
     </message>
@@ -23610,241 +23658,241 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>VelocityTab</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1398"/>
+        <location filename="../../ui/spectro_page.py" line="1401"/>
         <source>1-D spectra (FITS table, 1-D FITS with wavelength WCS, or text)</source>
         <translation>1-D-Spektren (FITS-Tabelle, 1-D-FITS mit Wellenlängen-WCS oder Text)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1402"/>
+        <location filename="../../ui/spectro_page.py" line="1405"/>
         <source>Add…</source>
         <translation>Hinzufügen…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1404"/>
+        <location filename="../../ui/spectro_page.py" line="1407"/>
         <source>Adds wavelength-calibrated 1-D spectra of the same star, one per night or exposure</source>
         <translation>Fügt wellenlängenkalibrierte 1-D-Spektren desselben Sterns hinzu, eines pro Nacht oder Belichtung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1405"/>
+        <location filename="../../ui/spectro_page.py" line="1408"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1407"/>
+        <location filename="../../ui/spectro_page.py" line="1410"/>
         <source>Empties the list of spectra</source>
         <translation>Leert die Liste der Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1411"/>
+        <location filename="../../ui/spectro_page.py" line="1414"/>
         <source>Template</source>
         <translation>Vorlage</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1415"/>
+        <location filename="../../ui/spectro_page.py" line="1418"/>
         <source>Second template (double-lined binary, optional)</source>
         <translation>Zweite Vorlage (doppelliniger Doppelstern, optional)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1420"/>
+        <location filename="../../ui/spectro_page.py" line="1423"/>
         <source>from the header if empty</source>
         <translation>aus dem Header, wenn leer</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1421"/>
+        <location filename="../../ui/spectro_page.py" line="1424"/>
         <source>Needed for the barycentric correction; empty: taken from the header</source>
         <translation>Nötig für die baryzentrische Korrektur; leer: aus dem Header</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1425"/>
-        <location filename="../../ui/spectro_page.py" line="1431"/>
+        <location filename="../../ui/spectro_page.py" line="1428"/>
+        <location filename="../../ui/spectro_page.py" line="1434"/>
         <source>Velocities searched (km/s): wide enough for the star&apos;s motion and orbit; narrower is faster and safer from false peaks</source>
         <translation>Gesuchte Geschwindigkeiten (km/s): weit genug für die Bewegung und Bahn des Sterns; enger ist schneller und sicherer vor falschen Gipfeln</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1438"/>
-        <location filename="../../ui/spectro_page.py" line="1444"/>
+        <location filename="../../ui/spectro_page.py" line="1441"/>
+        <location filename="../../ui/spectro_page.py" line="1447"/>
         <source>Only this wavelength range is used: leave out telluric bands, broad Balmer lines and noisy ends; 0 and 0: everything</source>
         <translation>Nur dieser Wellenlängenbereich wird verwendet: tellurische Banden, breite Balmerlinien und verrauschte Enden auslassen; 0 und 0: alles</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1449"/>
+        <location filename="../../ui/spectro_page.py" line="1452"/>
         <source>Starting value for the orbit fit (days); 0: searched from the velocities</source>
         <translation>Startwert für die Bahnanpassung (Tage); 0: wird aus den Geschwindigkeiten gesucht</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1468"/>
+        <location filename="../../ui/spectro_page.py" line="1471"/>
         <source>Cross-correlation (TODCOR with a second template)</source>
         <translation>Kreuzkorrelation (TODCOR mit einer zweiten Vorlage)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1469"/>
+        <location filename="../../ui/spectro_page.py" line="1472"/>
         <source>Broadening function, one star (fast rotators)</source>
         <translation>Verbreiterungsfunktion, ein Stern (schnelle Rotatoren)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1470"/>
+        <location filename="../../ui/spectro_page.py" line="1473"/>
         <source>Broadening function, two stars (contact binaries)</source>
         <translation>Verbreiterungsfunktion, zwei Sterne (Kontaktsysteme)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1477"/>
+        <location filename="../../ui/spectro_page.py" line="1480"/>
         <source>Cross-correlation for most stars (with a second template: both stars of a double-lined binary, TODCOR); broadening function for fast rotators and contact binaries</source>
         <translation>Kreuzkorrelation für die meisten Sterne (mit einer zweiten Vorlage: beide Sterne eines doppelliniigen Doppelsterns, TODCOR); Verbreiterungsfunktion für schnelle Rotatoren und Kontaktsysteme</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1483"/>
+        <location filename="../../ui/spectro_page.py" line="1486"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1484"/>
+        <location filename="../../ui/spectro_page.py" line="1487"/>
         <source>Target RA Dec</source>
         <translation>Ziel RA Dek</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1485"/>
+        <location filename="../../ui/spectro_page.py" line="1488"/>
         <source>Velocity range from (km/s)</source>
         <translation>Geschwindigkeitsbereich von (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1486"/>
+        <location filename="../../ui/spectro_page.py" line="1489"/>
         <source>to (km/s)</source>
         <translation>bis (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1487"/>
+        <location filename="../../ui/spectro_page.py" line="1490"/>
         <source>Wavelengths from (Å, 0 = all)</source>
         <translation>Wellenlängen von (Å, 0 = alle)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1488"/>
+        <location filename="../../ui/spectro_page.py" line="1491"/>
         <source>to (Å, 0 = all)</source>
         <translation>bis (Å, 0 = alle)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1489"/>
+        <location filename="../../ui/spectro_page.py" line="1492"/>
         <source>Period guess (d)</source>
         <translation>Periodenschätzung (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1499"/>
+        <location filename="../../ui/spectro_page.py" line="1502"/>
         <source>Spectral type of the first spectrum (and a template)</source>
         <translation>Spektraltyp des ersten Spektrums (und eine Vorlage)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1502"/>
+        <location filename="../../ui/spectro_page.py" line="1505"/>
         <source>MK type against the MK standard stars of Gray &amp; Corbally (as MKCLASS; 3800–5600 Å, both downloaded once), ranked with scores; and the closest of the Pickles library&apos;s 131 stars becomes the template</source>
         <translation>MK-Typ gegen die MK-Standardsterne von Gray &amp; Corbally (wie MKCLASS; 3800–5600 Å, beide einmal heruntergeladen), mit Bewertungen gereiht; und der nächste der 131 Sterne der Pickles-Bibliothek wird die Vorlage</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1625"/>
+        <location filename="../../ui/spectro_page.py" line="1628"/>
         <source>MK type against the MK standard stars (Gray &amp; Corbally&apos;s libnor36, 3800–5600 Å; smaller is better): {t}. A suggestion: check the spectrum against the standards before using it.</source>
         <translation>MK-Typ gegen die MK-Standardsterne (libnor36 von Gray &amp; Corbally, 3800–5600 Å; kleiner ist besser): {t}. Ein Vorschlag: vergleichen Sie das Spektrum vor der Verwendung mit den Standards.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1688"/>
+        <location filename="../../ui/spectro_page.py" line="1691"/>
         <source>No MK type: {why}.</source>
         <translation>Kein MK-Typ: {why}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1692"/>
+        <location filename="../../ui/spectro_page.py" line="1695"/>
         <source>Closest library spectra (Pickles): {t}. The best one is now the template.</source>
         <translation>Nächste Bibliotheksspektren (Pickles): {t}. Das beste ist jetzt die Vorlage.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1508"/>
+        <location filename="../../ui/spectro_page.py" line="1511"/>
         <source>Measure radial velocities</source>
         <translation>Radialgeschwindigkeiten messen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1511"/>
+        <location filename="../../ui/spectro_page.py" line="1514"/>
         <source>Velocity of every spectrum against the template, corrected to the barycentre, with its error</source>
         <translation>Geschwindigkeit jedes Spektrums gegen die Vorlage, auf das Baryzentrum korrigiert, mit Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1513"/>
+        <location filename="../../ui/spectro_page.py" line="1516"/>
         <source>Fit orbit</source>
         <translation>Bahn anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1518"/>
+        <location filename="../../ui/spectro_page.py" line="1521"/>
         <source>Fits a Keplerian orbit to the velocities: period, eccentricity, K, γ (both stars for a double-lined binary)</source>
         <translation>Passt eine Keplerbahn an die Geschwindigkeiten an: Periode, Exzentrizität, K, γ (beide Sterne bei einem doppelliniigen System)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1528"/>
+        <location filename="../../ui/spectro_page.py" line="1531"/>
         <source>Separate the two stars&apos; spectra (disentangling)</source>
         <translation>Die Spektren der beiden Sterne trennen (Disentangling)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1533"/>
+        <location filename="../../ui/spectro_page.py" line="1536"/>
         <source>With the two stars&apos; velocities in every spectrum, finds each star&apos;s own spectrum (disentangling); needs spectra at many orbital phases</source>
         <translation>Findet mit den Geschwindigkeiten beider Sterne in jedem Spektrum das eigene Spektrum jedes Sterns (Disentangling); braucht Spektren bei vielen Bahnphasen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1739"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
         <location filename="../../ui/spectro_figures.py" line="223"/>
-        <location filename="../../ui/spectro_page.py" line="1739"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
         <source>RV (km/s)</source>
         <translation>RV (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1739"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1739"/>
+        <location filename="../../ui/spectro_page.py" line="1742"/>
         <source>RV 2 (km/s)</source>
         <translation>RV 2 (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1740"/>
+        <location filename="../../ui/spectro_page.py" line="1743"/>
         <source>Error 2</source>
         <translation>Fehler 2</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1740"/>
+        <location filename="../../ui/spectro_page.py" line="1743"/>
         <source>Barycentric corr.</source>
         <translation>Baryz. Korr.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1559"/>
+        <location filename="../../ui/spectro_page.py" line="1562"/>
         <source>Add spectra</source>
         <translation>Spektren hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1580"/>
-        <location filename="../../ui/spectro_page.py" line="1605"/>
+        <location filename="../../ui/spectro_page.py" line="1583"/>
+        <location filename="../../ui/spectro_page.py" line="1608"/>
         <source>Add spectra and choose a template.</source>
         <translation>Spektren hinzufügen und eine Vorlage wählen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1600"/>
+        <location filename="../../ui/spectro_page.py" line="1603"/>
         <source>Measuring…</source>
         <translation>Messe…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1607"/>
+        <location filename="../../ui/spectro_page.py" line="1610"/>
         <source>Comparing with the template library…</source>
         <translation>Vergleiche mit der Vorlagenbibliothek…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1616"/>
+        <location filename="../../ui/spectro_page.py" line="1619"/>
         <source>No library spectrum covers these wavelengths.</source>
         <translation>Kein Bibliotheksspektrum deckt diese Wellenlängen ab.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1707"/>
+        <location filename="../../ui/spectro_page.py" line="1710"/>
         <source>Folder for the two spectra</source>
         <translation>Ordner für die beiden Spektren</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1722"/>
+        <location filename="../../ui/spectro_page.py" line="1725"/>
         <source>Separating the two spectra…</source>
         <translation>Trenne die beiden Spektren…</translation>
     </message>
@@ -23865,97 +23913,97 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Wellenlänge (Å)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1358"/>
+        <location filename="../../ui/spectro_page.py" line="1361"/>
         <source>Add the spectra: wavelength-calibrated, one per exposure</source>
         <translation>Die Spektren hinzufügen: wellenlängenkalibriert, eines je Belichtung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1360"/>
+        <location filename="../../ui/spectro_page.py" line="1363"/>
         <source>Add… the 1-D spectra of one star (from the Reduce or Echelle tab, or an archive). They must have wavelengths.</source>
         <translation>Mit Hinzufügen… die 1-D-Spektren eines Sterns (aus dem Reiter Reduzieren oder Echelle oder einem Archiv). Sie brauchen Wellenlängen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1365"/>
+        <location filename="../../ui/spectro_page.py" line="1368"/>
         <source>Choose a template: a similar star or a synthetic spectrum (fxcor template)</source>
         <translation>Eine Vorlage wählen: ein ähnlicher Stern oder ein synthetisches Spektrum (fxcor-Vorlage)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1367"/>
+        <location filename="../../ui/spectro_page.py" line="1370"/>
         <source>Choose a template of a similar type (the Spectral type button suggests one). An observed star: type its own velocity; a fast rotator: its v sin i. Two stars: a second template.</source>
         <translation>Wählen Sie eine Vorlage ähnlichen Typs (der Knopf Spektraltyp schlägt eine vor). Ein beobachteter Stern: seine eigene Geschwindigkeit eintippen; ein schneller Rotator: sein v sin i. Zwei Sterne: eine zweite Vorlage.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1372"/>
+        <location filename="../../ui/spectro_page.py" line="1375"/>
         <source>Measure the velocities (fxcor; TODCOR or broadening function for two stars)</source>
         <translation>Die Geschwindigkeiten messen (fxcor; TODCOR oder Verbreiterungsfunktion für zwei Sterne)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1373"/>
+        <location filename="../../ui/spectro_page.py" line="1376"/>
         <source>Press Measure radial velocities.</source>
         <translation>Drücken Sie Radialgeschwindigkeiten messen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1376"/>
+        <location filename="../../ui/spectro_page.py" line="1379"/>
         <source>Check each spectrum&apos;s correlation peak (fxcor&apos;s plot)</source>
         <translation>Den Korrelationsgipfel jedes Spektrums prüfen (fxcors Diagramm)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1378"/>
+        <location filename="../../ui/spectro_page.py" line="1381"/>
         <source>Click a row of the table: its correlation (or broadening function) is drawn with the measured velocity. One clean peak means a reliable velocity; leave out spectra whose peak is doubtful.</source>
         <translation>Eine Tabellenzeile anklicken: ihre Korrelation (oder Verbreiterungsfunktion) wird mit der gemessenen Geschwindigkeit gezeichnet. Ein sauberer Gipfel heißt eine verlässliche Geschwindigkeit; Spektren mit zweifelhaftem Gipfel weglassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1384"/>
+        <location filename="../../ui/spectro_page.py" line="1387"/>
         <source>Fit the orbit</source>
         <translation>Die Bahn anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1385"/>
+        <location filename="../../ui/spectro_page.py" line="1388"/>
         <source>Give a period guess (from the photometry or a period search) and press Fit orbit.</source>
         <translation>Geben Sie eine Periodenschätzung an (aus der Photometrie oder einer Periodensuche) und drücken Sie Bahn anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1388"/>
+        <location filename="../../ui/spectro_page.py" line="1391"/>
         <source>Two stars: separate their spectra (optional)</source>
         <translation>Zwei Sterne: ihre Spektren trennen (optional)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1390"/>
+        <location filename="../../ui/spectro_page.py" line="1393"/>
         <source>Separate the two stars&apos; spectra (disentangling), then classify each, or use them as templates for a second, sharper measurement.</source>
         <translation>Die Spektren der beiden Sterne trennen (Disentangling), dann jedes klassifizieren oder als Vorlagen für eine zweite, schärfere Messung verwenden.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1452"/>
+        <location filename="../../ui/spectro_page.py" line="1455"/>
         <source>The template star&apos;s own radial velocity (km/s), as its spectrum shows it (for a barycentric archive spectrum: the star&apos;s catalogue velocity). The velocities are measured against the template, so this is added to them. 0 for a synthetic template.</source>
         <translation>Die eigene Radialgeschwindigkeit des Vorlagesterns (km/s), wie sein Spektrum sie zeigt (bei einem baryzentrischen Archivspektrum: die Katalog-Geschwindigkeit des Sterns). Die Geschwindigkeiten werden gegen die Vorlage gemessen, daher wird dieser Wert addiert. 0 für eine synthetische Vorlage.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1460"/>
+        <location filename="../../ui/spectro_page.py" line="1463"/>
         <source>Broadens the template&apos;s lines by rotation to match the star (km/s; as with fxcor and TODCOR): needed when a star rotates fast and the template is sharp-lined (e.g. a giant&apos;s companion at 45 km/s). 0 = as it is. The broadening function measures v sin i, if you do not know it.</source>
         <translation>Verbreitert die Linien der Vorlage durch Rotation passend zum Stern (km/s; wie bei fxcor und TODCOR): nötig, wenn ein Stern schnell rotiert und die Vorlage scharfe Linien hat (z. B. der Begleiter eines Riesen mit 45 km/s). 0 = unverändert. Die Verbreiterungsfunktion misst v sin i, wenn Sie es nicht kennen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1490"/>
+        <location filename="../../ui/spectro_page.py" line="1493"/>
         <source>Template&apos;s own velocity (km/s)</source>
         <translation>Eigengeschwindigkeit der Vorlage (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1491"/>
+        <location filename="../../ui/spectro_page.py" line="1494"/>
         <source>Second template&apos;s velocity (km/s)</source>
         <translation>Geschwindigkeit der zweiten Vorlage (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1492"/>
+        <location filename="../../ui/spectro_page.py" line="1495"/>
         <source>Template v sin i (km/s)</source>
         <translation>v sin i der Vorlage (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1493"/>
+        <location filename="../../ui/spectro_page.py" line="1496"/>
         <source>Second template v sin i (km/s)</source>
         <translation>v sin i der zweiten Vorlage (km/s)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1547"/>
+        <location filename="../../ui/spectro_page.py" line="1550"/>
         <source>Click a row to see that spectrum&apos;s correlation peak and the velocity read from it</source>
         <translation>Eine Zeile anklicken, um den Korrelationsgipfel dieses Spektrums und die daraus gelesene Geschwindigkeit zu sehen</translation>
     </message>
@@ -23995,92 +24043,92 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Korrelation</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1630"/>
+        <location filename="../../ui/spectro_page.py" line="1633"/>
         <source>excellent</source>
         <translation>ausgezeichnet</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1631"/>
+        <location filename="../../ui/spectro_page.py" line="1634"/>
         <source>very good</source>
         <translation>sehr gut</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1632"/>
+        <location filename="../../ui/spectro_page.py" line="1635"/>
         <source>good</source>
         <translation>gut</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1633"/>
+        <location filename="../../ui/spectro_page.py" line="1636"/>
         <source>fair</source>
         <translation>mäßig</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1634"/>
+        <location filename="../../ui/spectro_page.py" line="1637"/>
         <source>poor</source>
         <translation>schwach</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1638"/>
+        <location filename="../../ui/spectro_page.py" line="1641"/>
         <source>Quality of the match (as MKCLASS rates it, from the S/N and the fit): {q}.</source>
         <translation>Qualität der Übereinstimmung (wie MKCLASS sie bewertet, aus S/N und Anpassung): {q}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1645"/>
+        <location filename="../../ui/spectro_page.py" line="1648"/>
         <source>Luminosity class from the gravity-sensitive lines (Sr II 4077, 4216, Ca I 4226, Y II 4376, Mg b, MgH), as a classifier decides it for G5–M stars.</source>
         <translation>Leuchtkraftklasse aus den schwerebeschleunigungsempfindlichen Linien (Sr II 4077, 4216, Ca I 4226, Y II 4376, Mg b, MgH), wie ein Klassifizierer sie für G5–M-Sterne bestimmt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1651"/>
+        <location filename="../../ui/spectro_page.py" line="1654"/>
         <source>an Ap (Sr) star?</source>
         <translation>ein Ap-Stern (Sr)?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1651"/>
+        <location filename="../../ui/spectro_page.py" line="1654"/>
         <source>an Ap (Si) star?</source>
         <translation>ein Ap-Stern (Si)?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1652"/>
+        <location filename="../../ui/spectro_page.py" line="1655"/>
         <source>a barium star?</source>
         <translation>ein Bariumstern?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1654"/>
+        <location filename="../../ui/spectro_page.py" line="1657"/>
         <source>Lines much stronger than in the standard: {l}.</source>
         <translation>Linien viel stärker als im Standard: {l}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1663"/>
+        <location filename="../../ui/spectro_page.py" line="1666"/>
         <source>a CN-strong giant?</source>
         <translation>ein CN-starker Riese?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1663"/>
+        <location filename="../../ui/spectro_page.py" line="1666"/>
         <source>a CH star?</source>
         <translation>ein CH-Stern?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1665"/>
+        <location filename="../../ui/spectro_page.py" line="1668"/>
         <source>Bands much deeper than in the standard: {b}.</source>
         <translation>Banden viel tiefer als im Standard: {b}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1675"/>
+        <location filename="../../ui/spectro_page.py" line="1678"/>
         <source>the metal lines are later than the hydrogen lines: a metallic-line (Am) star?</source>
         <translation>die Metalllinien sind später als die Wasserstofflinien: ein Metalllinienstern (Am)?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1677"/>
+        <location filename="../../ui/spectro_page.py" line="1680"/>
         <source>the K line and the metal lines are earlier than the hydrogen lines: a metal-weak star (λ Boo, horizontal branch)?</source>
         <translation>K-Linie und Metalllinien sind früher als die Wasserstofflinien: ein metallarmer Stern (λ Boo, Horizontalast)?</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1682"/>
+        <location filename="../../ui/spectro_page.py" line="1685"/>
         <source>Types from the K line {k}, the hydrogen lines {h}, the metal lines {m}</source>
         <translation>Typen aus der K-Linie {k}, den Wasserstofflinien {h}, den Metalllinien {m}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1697"/>
+        <location filename="../../ui/spectro_page.py" line="1700"/>
         <source>The template library could not be fetched ({why}): choose a template yourself.</source>
         <translation>Die Vorlagenbibliothek konnte nicht geladen werden ({why}): wählen Sie selbst eine Vorlage.</translation>
     </message>
@@ -24105,122 +24153,122 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1728"/>
+        <location filename="../../ui/spectro_page.py" line="1731"/>
         <source>Written: {a} and {b}</source>
         <translation>Geschrieben: {a} und {b}</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1731"/>
+        <location filename="../../ui/spectro_page.py" line="1734"/>
         <source>The two stars&apos; velocity separation changes by {v:.0f} km/s across these spectra: features narrower than about {a:.1f} Å are separated; broader ones (Balmer-line wings, the continuum) are not set by the data, so do not read them — or a spectral type that rests on them — from the two spectra. More spectra over the whole orbit widen this.</source>
         <translation>Der Geschwindigkeitsabstand der beiden Sterne ändert sich über diese Spektren um {v:.0f} km/s: Strukturen schmaler als etwa {a:.1f} Å werden getrennt; breitere (Flügel der Balmerlinien, das Kontinuum) sind durch die Daten nicht festgelegt, also lesen Sie sie — oder einen Spektraltyp, der auf ihnen beruht — nicht aus den beiden Spektren ab. Mehr Spektren über die ganze Bahn erweitern diese Grenze.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1756"/>
+        <location filename="../../ui/spectro_page.py" line="1759"/>
         <source>not applied</source>
         <translation>nicht angewandt</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1764"/>
+        <location filename="../../ui/spectro_page.py" line="1767"/>
         <source>v sin i = {v:.1f} km/s</source>
         <translation>v sin i = {v:.1f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1828"/>
+        <location filename="../../ui/spectro_page.py" line="1831"/>
         <source>Barycentric correction needs the time, the target position and the site (Planning window).</source>
         <translation>Die baryzentrische Korrektur braucht die Zeit, die Zielposition und den Standort (Fenster Planung).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1772"/>
+        <location filename="../../ui/spectro_page.py" line="1775"/>
         <source>site from the file header</source>
         <translation>Ort aus dem Datei-Header</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1772"/>
+        <location filename="../../ui/spectro_page.py" line="1775"/>
         <source>site from the Planning window</source>
         <translation>Ort aus dem Fenster Planung</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1778"/>
+        <location filename="../../ui/spectro_page.py" line="1781"/>
         <source>{n} velocities.</source>
         <translation>{n} Geschwindigkeiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1781"/>
+        <location filename="../../ui/spectro_page.py" line="1784"/>
         <source>They are relative to the template: for an observed star as template add its own velocity (e.g. τ Ceti −16.6 km/s); a synthetic or laboratory template is at rest.</source>
         <translation>Sie sind relativ zur Vorlage: ist die Vorlage ein beobachteter Stern, addieren Sie dessen eigene Geschwindigkeit (z. B. τ Ceti −16,6 km/s); eine synthetische oder Laborvorlage ruht.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1785"/>
+        <location filename="../../ui/spectro_page.py" line="1788"/>
         <source>One template for both stars: star 1 is the one that gives more light.</source>
         <translation>Eine Vorlage für beide Sterne: Stern 1 ist der, der mehr Licht gibt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1790"/>
+        <location filename="../../ui/spectro_page.py" line="1793"/>
         <source>Barycentric correction for: {w}.</source>
         <translation>Baryzentrische Korrektur für: {w}.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1794"/>
+        <location filename="../../ui/spectro_page.py" line="1797"/>
         <source>{n} spectra are already barycentric (SPECSYS or HELIO in the header): not corrected again.</source>
         <translation>{n} Spektren sind bereits baryzentrisch (SPECSYS oder HELIO im Header): nicht noch einmal korrigiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1800"/>
+        <location filename="../../ui/spectro_page.py" line="1803"/>
         <source>The template was smoothed to the spectra&apos;s resolution (it is much finer).</source>
         <translation>Die Vorlage wurde auf die Auflösung der Spektren geglättet (sie ist viel feiner).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1806"/>
+        <location filename="../../ui/spectro_page.py" line="1809"/>
         <source>Emission lines left out of the correlation in {n} spectra (the template has none).</source>
         <translation>Emissionslinien in {n} Spektren aus der Korrelation herausgenommen (die Vorlage hat keine).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1813"/>
+        <location filename="../../ui/spectro_page.py" line="1816"/>
         <source>Vacuum wavelengths converted to air (VACUUM in the header).</source>
         <translation>Vakuum-Wellenlängen in Luft umgerechnet (VACUUM im Header).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1819"/>
+        <location filename="../../ui/spectro_page.py" line="1822"/>
         <source>{file} left out: it covers {a:.0f}–{b:.0f} Å, outside the chosen wavelengths.</source>
         <translation>{file} ausgelassen: deckt {a:.0f}–{b:.0f} Å ab, außerhalb der gewählten Wellenlängen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1846"/>
+        <location filename="../../ui/spectro_page.py" line="1849"/>
         <source>Give a period guess (e.g. from the period search).</source>
         <translation>Eine Periodenschätzung angeben (z. B. aus der Periodensuche).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1859"/>
+        <location filename="../../ui/spectro_page.py" line="1862"/>
         <source>Fit an orbit first.</source>
         <translation>Zuerst eine Bahn anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1886"/>
+        <location filename="../../ui/spectro_page.py" line="1889"/>
         <source>Spectroscopic orbit: Keplerian least-squares fit to {n} radial velocities; 1σ errors from the covariance matrix (e and ω from its draws).</source>
         <translation>Spektroskopische Bahn: Kepler-Anpassung nach kleinsten Quadraten an {n} Radialgeschwindigkeiten; 1σ-Fehler aus der Kovarianzmatrix (e und ω aus Ziehungen daraus).</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1890"/>
+        <location filename="../../ui/spectro_page.py" line="1893"/>
         <source>Circular orbit adopted (e not significant, Lucy &amp; Sweeney 1971): e and ω fixed.</source>
         <translation>Kreisbahn angenommen (e nicht signifikant, Lucy &amp; Sweeney 1971): e und ω fest.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1899"/>
+        <location filename="../../ui/spectro_page.py" line="1902"/>
         <source>P = {p:.6f} ± {pe:.6f} d, e = {e:.3f} ± {ee:.3f}, ω = {w:.1f} ± {we:.1f}°, K = {k:.3f} ± {ke:.3f} km/s, γ = {g:.3f} ± {ge:.3f} km/s, rms = {rms:.3f} km/s</source>
         <translation>P = {p:.6f} ± {pe:.6f} d, e = {e:.3f} ± {ee:.3f}, ω = {w:.1f} ± {we:.1f}°, K = {k:.3f} ± {ke:.3f} km/s, γ = {g:.3f} ± {ge:.3f} km/s, rms = {rms:.3f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1916"/>
+        <location filename="../../ui/spectro_page.py" line="1919"/>
         <source>Circular orbit: the eccentricity was not significant (under 2.45 times its error, Lucy &amp; Sweeney 1971), so e = 0 and ω = 90° were fixed; T_peri is then the time the star crosses γ going down.</source>
         <translation>Kreisbahn: die Exzentrizität war nicht signifikant (unter dem 2,45-fachen ihres Fehlers, Lucy &amp; Sweeney 1971), daher wurden e = 0 und ω = 90° festgehalten; T_peri ist dann der Zeitpunkt, zu dem der Stern γ abwärts kreuzt.</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1921"/>
+        <location filename="../../ui/spectro_page.py" line="1924"/>
         <source>K2 = {k2:.3f} ± {k2e:.3f} km/s, q = M2/M1 = {q:.4f} ± {qe:.4f}, M1 sin³i = {m1:.4f} ± {m1e:.4f} M☉, M2 sin³i = {m2:.4f} ± {m2e:.4f} M☉, a sin i = {a:.3f} ± {ae:.3f} R☉, rms 2 = {rms2:.3f} km/s</source>
         <translation>K2 = {k2:.3f} ± {k2e:.3f} km/s, q = M2/M1 = {q:.4f} ± {qe:.4f}, M1 sin³i = {m1:.4f} ± {m1e:.4f} M☉, M2 sin³i = {m2:.4f} ± {m2e:.4f} M☉, a sin i = {a:.3f} ± {ae:.3f} R☉, rms 2 = {rms2:.3f} km/s</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="1938"/>
+        <location filename="../../ui/spectro_page.py" line="1941"/>
         <source>f(m) = {fm:.4g} M☉, a sin i = {a:.3f} R☉</source>
         <translation>f(m) = {fm:.4g} M☉, a sin i = {a:.3f} R☉</translation>
     </message>
@@ -24427,17 +24475,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>_FileRow</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="193"/>
+        <location filename="../../ui/spectro_page.py" line="194"/>
         <source>Path of the file: type it or choose it with Browse…</source>
         <translation>Pfad der Datei: eintippen oder mit Durchsuchen… wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="194"/>
+        <location filename="../../ui/spectro_page.py" line="195"/>
         <source>Browse…</source>
         <translation>Durchsuchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="196"/>
+        <location filename="../../ui/spectro_page.py" line="197"/>
         <source>Choose the file in a dialog</source>
         <translation>Die Datei in einem Dialog wählen</translation>
     </message>
@@ -24445,32 +24493,32 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>_Orientation</name>
     <message>
-        <location filename="../../ui/spectro_page.py" line="98"/>
+        <location filename="../../ui/spectro_page.py" line="99"/>
         <source>Dispersion along</source>
         <translation>Dispersion entlang</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="100"/>
+        <location filename="../../ui/spectro_page.py" line="101"/>
         <source>rows (x)</source>
         <translation>Zeilen (x)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="100"/>
+        <location filename="../../ui/spectro_page.py" line="101"/>
         <source>columns (y)</source>
         <translation>Spalten (y)</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="103"/>
+        <location filename="../../ui/spectro_page.py" line="104"/>
         <source>Along which axis of the detector the wavelength changes; many coudé spectrographs disperse along the columns</source>
         <translation>Entlang welcher Achse des Detektors sich die Wellenlänge ändert; viele Coudé-Spektrographen dispergieren entlang der Spalten</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="107"/>
+        <location filename="../../ui/spectro_page.py" line="108"/>
         <source>blue on the right</source>
         <translation>Blau rechts</translation>
     </message>
     <message>
-        <location filename="../../ui/spectro_page.py" line="109"/>
+        <location filename="../../ui/spectro_page.py" line="110"/>
         <source>Tick when the wavelength decreases along the axis (blue on the right, or at the top)</source>
         <translation>Ankreuzen, wenn die Wellenlänge entlang der Achse abnimmt (Blau rechts oder oben)</translation>
     </message>

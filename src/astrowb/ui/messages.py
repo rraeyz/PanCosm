@@ -338,6 +338,9 @@ TEMPLATES = (
     ),
     # photometry/export.py
     QT_TRANSLATE_NOOP("Messages", "give one catalogue magnitude per comparison star"),
+    # photometry/reports/alcdef.py
+    QT_TRANSLATE_NOOP("Messages", "ALCDEF needs a value for {keyword}"),
+    QT_TRANSLATE_NOOP("Messages", "ALCDEF keyword {keyword} is not valid: {reason}"),
     # photometry/reports/aavso_extended.py
     QT_TRANSLATE_NOOP("Messages", "star name, observer code and filter are required"),
     # photometry/polarimetry.py
