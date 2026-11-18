@@ -221,3 +221,21 @@ def test_coefficients_saved_dated_and_offered_in_the_aavso_dialog(qapp, tmp_path
     assert d.coefficient.text() == "0.0900"
     d.filter.setCurrentText("CV")
     assert d.profile_button.isHidden()
+
+
+def test_site_has_time_zone_horizon_seeing_empty_until_given(tmp_path):
+    s = Settings(tmp_path)
+    site = profiles.section(s, "site")
+    assert site["time_zone"] == "" and site["horizon"] is None and site["seeing"] is None
+    profiles.update(s, "site", time_zone="Europe/Istanbul", horizon=20.0, seeing=2.5)
+    assert profiles.section(s, "site")["horizon"] == 20.0
+
+
+def test_a_record_names_the_active_profile(tmp_path, monkeypatch):
+    from astrowb.core import provenance
+
+    monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path))
+    profiles.switch(Settings(tmp_path), "Remote")
+    rec = provenance.record("x.y", {}, {})
+    assert rec["profile"] == "Remote"
+    assert provenance.digest(rec) == provenance.digest({**rec, "profile": "Other"})  # the hash ignores it

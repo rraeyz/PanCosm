@@ -50,6 +50,16 @@ def _versions():
     return out
 
 
+def _profile_name():
+    """The active profile's name (ARC-16): which site, camera and observer values the step could have used."""
+    from ..settings import Settings
+
+    try:  # read only: profiles.active() would write the first-run migration from a step's worker process
+        return (Settings().get("profile") or {}).get("name") or "Default"
+    except (OSError, ValueError):
+        return ""
+
+
 def record(step_id, params, inputs):
     """The record of one step: inputs is {role: path or [paths]}; params must be JSON values."""
 
@@ -65,6 +75,7 @@ def record(step_id, params, inputs):
     files = {role: [describe(p) for p in v] for role, v in lists.items()}
     return {
         "step": step_id,
+        "profile": _profile_name(),
         "params": json.loads(json.dumps(params, default=str)),
         "inputs": files,
         "versions": _versions(),
@@ -80,7 +91,7 @@ def when(seconds):
 def digest(rec):
     """A short hash of the record (PROCHASH): equal for equal steps on equal inputs, whenever they ran (and
     whenever their catalogue answers were fetched)."""
-    stable = {k: v for k, v in rec.items() if k not in ("made", "services")}
+    stable = {k: v for k, v in rec.items() if k not in ("made", "services", "profile")}
     return hashlib.blake2b(json.dumps(stable, sort_keys=True).encode(), digest_size=8).hexdigest()
 
 
@@ -93,6 +104,8 @@ def to_fits(header, rec):
     header["PROCSTEP"] = (rec["step"], "processing step")
     header["PROCHASH"] = (digest(rec), "hash of step, parameters and inputs")
     header.add_history(f"{rec['step']} at {rec['made']}")
+    if rec.get("profile"):
+        header.add_history(f"  profile: {rec['profile']}"[:72])
     for key, value in rec["params"].items():
         header.add_history(f"  {key} = {value}"[:72])
     for role, files in rec["inputs"].items():

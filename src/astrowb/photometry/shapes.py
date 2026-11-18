@@ -5,6 +5,7 @@ pixel masks (TESS-like stamps, blends).
     {"kind": "ellipse", "ratio": b/a, "angle": degrees from +x}     radii r_ap, r_in, r_out are the major semi-axes
     {"kind": "racetrack", "length": px, "angle": degrees from +x}   radii are distances from the trail's segment
     {"kind": "pixels", "mask": [bool 2-D per star]}                 the sky ring is r_in…r_out around each star
+    {"kind": "pixels", "offsets": [[dx, dy], …]}                    the same pixels around each star's own pixel
 
 Each shape's sky ring has its own form (an elliptical ring, a ring of equal distance from the trail). The flux, its
 error and the sky follow aperture.measure: a sigma-clipped median sky per pixel, the scatter in the ring, the same
@@ -76,6 +77,17 @@ def _pixels(data, x, y, mask, r_in, r_out):
     return float(data[mask].sum()), float(mask.sum()), data[(d >= r_in) & (d <= r_out) & ~mask]
 
 
+def _offset_mask(shape, x, y, offsets):
+    """The pixels at whole-pixel offsets from the star's own pixel (those on the frame): a few numbers in the step's
+    parameters instead of a full-frame mask per star."""
+    mask = np.zeros(shape, bool)
+    for dx, dy in offsets:
+        px, py = round(x) + int(dx), round(y) + int(dy)
+        if 0 <= py < shape[0] and 0 <= px < shape[1]:
+            mask[py, px] = True
+    return mask
+
+
 def measure_shaped(data, xy, shape, r_ap, r_in, r_out, gain=1.0):
     """aperture.measure for a shape: (flux, error, sky per pixel), one value per star."""
     data = np.asarray(data, float)
@@ -87,7 +99,8 @@ def measure_shaped(data, xy, shape, r_ap, r_in, r_out, gain=1.0):
         elif kind == "ellipse":
             total, area, ring = _ellipse(data, x, y, shape["ratio"], shape.get("angle", 0.0), r_ap, r_in, r_out)
         elif kind == "pixels":
-            total, area, ring = _pixels(data, x, y, shape["mask"][i], r_in, r_out)
+            mask = shape["mask"][i] if "mask" in shape else _offset_mask(data.shape, x, y, shape["offsets"])
+            total, area, ring = _pixels(data, x, y, mask, r_in, r_out)
         else:
             raise ValueError(f"unknown aperture shape: {kind}")
         clipped = sigma_clip(ring[np.isfinite(ring)], sigma=3.0, maxiters=10)

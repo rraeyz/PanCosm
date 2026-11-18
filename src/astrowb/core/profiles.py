@@ -14,7 +14,9 @@ unchanged; the others wait under "profiles" by name until switch() brings one in
 """
 
 DEFAULTS = {
-    "site": {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0},  # east-positive longitude, metres
+    # east-positive longitude, metres; time_zone: IANA name, "" = not given; horizon: lowest altitude observed, °;
+    # seeing: typical value, ″ (both None until given; not used by planning yet)
+    "site": {"name": "", "lat": 39.9, "lon": 32.8, "height": 900.0, "time_zone": "", "horizon": None, "seeing": None},
     # e-/ADU, e-, e-/s, ADU (where the response stops being linear), ADU
     # pixel_size: µm (binned, as XPIXSZ gives it)
     "camera": {

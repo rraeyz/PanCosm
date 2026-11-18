@@ -413,7 +413,12 @@ tests/ui/test_aperture_shape.py.) Done (2026-11-21): the live light curve takes 
 `aperture_shape`; `LiveLightCurve` passes it to the frame measurement; test_live.py
 `test_live_uses_the_aperture_shape_as_the_night_run`, 1e-9), and the Shape choice has "Racetrack" with trail length
 and angle typed (no "Read from the star" for it: shapes.py has no racetrack fit; test_racetrack_choice_and_trailed_star).
-Left: painted-pixel controls, the lightkurve cross-check of a painted mask.
+Done (2026-11-27): painted-pixel controls: `ui/photometry_paint.py` — the Shape choice "Painted pixels"; a click on
+the image (`PhotometryPage._clicked`) or the Area tool's rectangle toggles pixels of the target's mask (kept as offsets
+from the target's pixel, so every star gets the same pixels around itself), shown as the "paint" layer of `Box`es;
+Clear and "From threshold" (`pixels.threshold_mask`); `paint_shape` passes `{"kind": "pixels", "mask": [one full-frame
+mask per star]}` (nested lists) as `aperture_shape`. Tests: tests/ui/test_painted_mask.py.
+Left: the lightkurve cross-check of a painted mask (lightkurve is not an installed dependency; none is added).
 - **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
   `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
 - **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the

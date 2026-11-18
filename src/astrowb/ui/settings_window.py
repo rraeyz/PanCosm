@@ -56,6 +56,24 @@ PROFILE_FIELDS = {
         (-500, 9000, 0),
         "m",
     ),
+    ("site", "time_zone"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Time zone"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "IANA name, e.g. Europe/Istanbul; empty: not given"),
+        "text",
+        "",
+    ),
+    ("site", "horizon"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Horizon"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "Lowest altitude you can observe at; 0: not given"),
+        (0, 90, 1),
+        "°",
+    ),
+    ("site", "seeing"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Seeing"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "Typical value; 0: not given"),
+        (0, 20, 1),
+        "″",
+    ),
     ("camera", "gain"): (
         QT_TRANSLATE_NOOP("SettingsWindow", "Gain"),
         QT_TRANSLATE_NOOP("SettingsWindow", "Electrons per ADU"),

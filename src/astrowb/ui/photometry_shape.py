@@ -12,6 +12,7 @@ def add_shape_controls(page, body):
     page.shape_kind.addItem(translate("PhotometryShape", "Circle"), "circle")
     page.shape_kind.addItem(translate("PhotometryShape", "Ellipse"), "ellipse")
     page.shape_kind.addItem(translate("PhotometryShape", "Racetrack"), "racetrack")
+    page.shape_kind.addItem(translate("PhotometryShape", "Painted pixels"), "pixels")
     page.shape_kind.setToolTip(
         translate(
             "PhotometryShape",
@@ -64,6 +65,9 @@ def add_shape_controls(page, body):
     lay.addWidget(QLabel(translate("PhotometryShape", "Angle"), page))
     lay.addWidget(page.shape_trail_angle)
     body.addWidget(page.shape_trail)
+    from .photometry_paint import add_paint_controls
+
+    add_paint_controls(page, body)
     page.shape_kind.currentIndexChanged.connect(lambda *_: _changed(page))
     _changed(page)
 
@@ -71,6 +75,7 @@ def add_shape_controls(page, body):
 def _changed(page):
     page.shape_ellipse.setVisible(page.shape_kind.currentData() == "ellipse")
     page.shape_trail.setVisible(page.shape_kind.currentData() == "racetrack")
+    page.shape_paint.setVisible(page.shape_kind.currentData() == "pixels")
     if hasattr(page, "star_table"):
         page._fill_star_table()
 
@@ -78,6 +83,10 @@ def _changed(page):
 def shape_params(page):
     """The `aperture_shape` step parameter: None for circles."""
     kind = page.shape_kind.currentData()
+    if kind == "pixels":
+        from .photometry_paint import paint_shape
+
+        return paint_shape(page)
     if kind == "racetrack":
         return {"kind": "racetrack", "length": page.shape_length.value(), "angle": page.shape_trail_angle.value()}
     if kind != "ellipse":
@@ -88,7 +97,11 @@ def shape_params(page):
 def shape_text(page):
     s = shape_params(page)
     if s is None:
+        if page.shape_kind.currentData() == "pixels":  # nothing painted yet
+            return translate("PhotometryShape", "painted pixels")
         return translate("PhotometryShape", "circle")
+    if s["kind"] == "pixels":
+        return translate("PhotometryShape", "painted pixels")
     if s["kind"] == "racetrack":
         return translate("PhotometryShape", "racetrack {length:.0f} px, {angle:.0f}°").format(**s)
     return translate("PhotometryShape", "ellipse {ratio:.2f}, {angle:.0f}°").format(**s)

@@ -45,6 +45,8 @@ from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend
 from .photometry_banner import neighbour_banner
 from .photometry_export import export_csv  # noqa: F401 (the tests import it from here)
 from .photometry_method import add_method_boxes, method_params
+from .photometry_paint import paint_click
+from .photometry_paint import painting as paint_on
 from .photometry_shape import add_shape_controls, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
@@ -1256,6 +1258,9 @@ class PhotometryPage(Undoable, QWidget):
                 self._set_aperture(i)
 
     def _clicked(self, x, y):
+        if self.viewer.tool == "pan" and paint_on(self):
+            paint_click(self, x, y)
+            return
         if self.viewer.tool != "pan":  # an image tool is chosen: the click measures, it does not mark
             return
         self.edit(self.tr("mark or unmark a star"), self._mark, *snap_click(self, x, y))
