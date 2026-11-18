@@ -115,3 +115,10 @@ def test_a_refusing_or_dead_service_is_said_in_words():
 
     got = dict((n, d) for n, _ok, d in selfcheck._run({"cds": down, "aavso": refused}))
     assert "down or moved" in got["cds"] and "refused" in got["aavso"]
+
+
+def test_every_service_module_is_in_the_installation_check():
+    mods = {f.stem for f in (SRC / "services").glob("*.py") if f.stem != "__init__"} - set(selfcheck.NOT_SERVICES)
+    assert mods == set(selfcheck.SERVICE_CHECKS), mods ^ set(selfcheck.SERVICE_CHECKS)
+    names = selfcheck._checks(None, lambda: None, lambda: None)
+    assert set(selfcheck.SERVICE_CHECKS.values()) <= set(names)

@@ -263,6 +263,22 @@ def online():
         return _run(_checks(vega, mast, iers))
 
 
+# Which check of _checks exercises each services/ module (ARC-14 item 5); tests/test_selfcheck.py keeps it complete.
+SERVICE_CHECKS = {
+    "aavso_vsp": "AAVSO VSP (comparison sequences)",
+    "feeds_gaia": "Gaia Science Alerts",
+    "forecast": "Open-Meteo (weather forecast)",
+    "gaia_tap": "ESA Gaia archive (ADQL)",
+    "github_releases": "GitHub releases (update check)",
+    "iers": "IERS Earth orientation",
+    "mast": "MAST (TESS / Kepler)",
+    "mirrors": "VizieR: Gaia DR3 (overlays)",
+    "simbad": "SIMBAD (target names)",
+    "vizier": "VizieR: APASS / Gaia (standard magnitudes)",
+}
+NOT_SERVICES = ("cache", "http")  # infrastructure the services share
+
+
 def _checks(vega, mast, iers):
     import astropy.units as u
     from astropy.coordinates import SkyCoord
@@ -270,6 +286,7 @@ def _checks(vega, mast, iers):
     from . import overlays, updates
     from .photometry import catalog
     from .planning import ephemerides, targets
+    from .services import aavso_vsp, feeds_gaia, forecast, gaia_tap
     from .spectroscopy import atmosphere, templates
     from .timeseries import surveys
 
@@ -289,6 +306,12 @@ def _checks(vega, mast, iers):
         "IRSA ZTF light curves": lambda: f"{len(surveys.ztf(SkyCoord(285.6 * u.deg, 30.5 * u.deg)))} points",
         "AAVSO International Database": lambda: (
             f"{len(surveys.aavso('SS Cyg', from_jd=2460600, to_jd=2460620))} points"
+        ),
+        "AAVSO VSP (comparison sequences)": lambda: f"{len(aavso_vsp.sequence(325.679, 43.586, 30.0)['stars'])} stars",
+        "Gaia Science Alerts": lambda: f"{len(feeds_gaia.alerts())} alerts",
+        "Open-Meteo (weather forecast)": lambda: f"{len(forecast.forecast(39.9, 32.8, 1)['time'])} hours",
+        "ESA Gaia archive (ADQL)": lambda: (
+            f"{len(gaia_tap.run('SELECT TOP 1 source_id FROM gaiadr3.gaia_source'))} row"
         ),
         "MAST (TESS / Kepler)": mast,
         "PHOENIX spectra (stellar parameters)": lambda: _head(atmosphere.PHOENIX),
