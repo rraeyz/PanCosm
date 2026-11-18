@@ -734,9 +734,14 @@ reference), `solve_kernel` (delta-basis kernel, every pixel free, plus a sky dif
 4σ clipping), `convolve`, `difference`, `gaussian_psf`, `flux_changes` (δF fitted with the reference PSF convolved by
 the frame's kernel, in reference units, with its error). Test (tests/test_dia.py): a crowded field of 600 stars,
 seeing 1.5–2.1 px against a 1.2 px reference, thin cloud and sky changes: the kernel's sum is the frame's scale
-within 1 %, a star varying by 5 % is recovered within 3σ, constant bright stars scatter as their errors say. Left:
-the reference built from the best frames (CAL stack) and the registration, a spatially varying kernel for wide
-fields, the GPU convolution, the reference PSF from its stars, the Measure-stage method and the result tab, the
+within 1 %, a star varying by 5 % is recovered within 3σ, constant bright stars scatter as their errors say. (2026-11-27)
+The reference and the registration: `photometry/dia_curve.py`: `reference(paths, n_best)` (n_best required; the frames
+of smallest FWHM by `quality.measure`, combined by `calibration.stacking.stack`, returns image and header),
+`register` (phase-correlation shift of `aperture.frame_shift`, spline), `light_curve` (registers each frame, solves
+the kernel, returns δF, errors and kernel sums); test: tests/test_dia_curve.py (shifted frames of 1.1–2.1 px seeing,
+crowded field, variable star within its errors). Left: a spatially varying kernel for wide
+fields, the GPU convolution, the reference PSF from its stars, the Measure-stage method and the result tab (no
+measure-method choice exists yet to hook onto; `photometry_method.py` has only the PSF / neighbour boxes), the
 real crowded set and the speed target.
 - **Why:** very crowded fields (Galactic plane, clusters, novae, microlensing) where even PSF fitting fails.
 - **Reference:** Alard & Lupton 1998 (ApJ 503, 325) and Alard 2000 (kernel as Gaussians × polynomials, spatially
