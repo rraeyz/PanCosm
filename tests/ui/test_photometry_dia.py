@@ -3,9 +3,9 @@
 import numpy as np
 import pytest
 from astropy.io import fits
+from test_dia import render
 
 from astrowb.settings import Settings
-from tests.test_dia import render
 
 
 @pytest.fixture

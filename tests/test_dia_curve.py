@@ -2,9 +2,9 @@
 
 import numpy as np
 from astropy.io import fits
+from test_dia import render
 
 from astrowb.photometry import dia_curve
-from tests.test_dia import render
 
 
 def test_reference_from_sharpest_and_variable_star_with_shifts(tmp_path):
