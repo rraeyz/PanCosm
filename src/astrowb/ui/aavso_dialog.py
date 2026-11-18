@@ -81,6 +81,7 @@ class AavsoDialog(QDialog):
         form.addRow(self.tr("Colour term (transformation)"), self.coefficient)
         self.profile_button = QPushButton(self)
         self.profile_button.clicked.connect(self._take_profile_coefficient)
+        self.profile_button.setToolTip(self.tr("The colour term last saved in the profile for this filter"))
         form.addRow("", self.profile_button)
         self.filter.currentTextChanged.connect(self._offer_profile_coefficient)
         self._offer_profile_coefficient()

@@ -129,37 +129,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="87"/>
-        <source>Colours of the comparison stars</source>
+        <location filename="../../ui/aavso_dialog.py" line="84"/>
+        <source>The colour term last saved in the profile for this filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/aavso_dialog.py" line="88"/>
+        <source>Colours of the comparison stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/aavso_dialog.py" line="89"/>
         <source>Colour of the variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="99"/>
+        <location filename="../../ui/aavso_dialog.py" line="100"/>
         <source>Take {v:.4f} from the profile ({key}, {date})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="133"/>
+        <location filename="../../ui/aavso_dialog.py" line="134"/>
         <source>Chart {chart}: {labels}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="136"/>
+        <location filename="../../ui/aavso_dialog.py" line="137"/>
         <source>Not in the sequence: C{stars}; choose sequence stars or type the magnitudes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="189"/>
+        <location filename="../../ui/aavso_dialog.py" line="190"/>
         <source>Identify the field first: the stars&apos; sky positions come from its solution.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="193"/>
+        <location filename="../../ui/aavso_dialog.py" line="194"/>
         <source>Mark the stars on the first frame: the plate solution belongs to it.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -5,11 +5,13 @@ import numpy as np
 import pytest
 from astropy.io import fits
 from PySide6.QtCore import QPointF, Qt
+from PySide6.QtGui import QColor
 from PySide6.QtTest import QTest
 from test_apertures import STARS, field
 
 from astrowb.photometry import differential as d
 from astrowb.photometry.lightcurve import light_curve
+from astrowb.ui.kit import tokens
 from astrowb.ui.plot.spec import NO_LEGEND
 from astrowb.ui.plot.toolbar import PlotToolbar
 from astrowb.ui.plot.view import PlotView
@@ -379,7 +381,10 @@ def test_frame_list_quality_and_blink(tmp_path, qtbot):
     rows = [{"file": p, "fwhm": 2.5, "stars": 30, "background": 300.0, "good": True, "why": []} for p in paths]
     rows[4] |= {"fwhm": 7.9, "good": False, "why": ["stars blurred"]}
     page.show_quality(rows)
-    assert t.item(4, 2).text() == "7.90" and t.item(4, 0).foreground().color().name() == "#e5484d"
+    assert (
+        t.item(4, 2).text() == "7.90"
+        and t.item(4, 0).foreground().color().name() == QColor(tokens.role("saturated")).name()
+    )
     page._drop_bad()
     assert t.item(4, 0).checkState() == Qt.Unchecked and len(page.images) == 5  # left out, not deleted
     page.viewer.zoom(3.0)
@@ -440,8 +445,8 @@ def test_photometry_page_names_the_frames_the_measurement_left_out(qtbot):
     assert "2 frame(s) left out" in text and "frame_060.fits: comparison star C2" in text
     assert "frame_061.fits: the stars were not found" in text
     row = page.frame_table.item(60, 0)
-    assert row.foreground().color() == QColor("#e5484d") and "C2" in row.toolTip()
-    assert page.frame_table.item(5, 0).foreground().color() != QColor("#e5484d")
+    assert row.foreground().color() == QColor(tokens.role("saturated")) and "C2" in row.toolTip()
+    assert page.frame_table.item(5, 0).foreground().color() != QColor(tokens.role("saturated"))
 
 
 def test_comparison_stars_are_ticked_on_and_off_and_the_light_curve_follows(qtbot):
@@ -465,7 +470,7 @@ def test_comparison_stars_are_ticked_on_and_off_and_the_light_curve_follows(qtbo
     rows = {page.star_table.item(i, 0).text(): i for i in range(page.star_table.rowCount())}
     scat = {k: float(page.star_table.item(rows[k], 5).text()) for k in ("C1", "C2", "C3")}
     assert max(scat, key=scat.get) == "C3" and scat["C3"] > 2 * scat["C1"]  # C1 and C2 see C3 among the others
-    assert page.star_table.item(rows["C3"], 5).foreground().color() == QColor("#e5484d")
+    assert page.star_table.item(rows["C3"], 5).foreground().color() == QColor(tokens.role("saturated"))
     before = np.asarray(page.light_curve["rel_flux"])
     page.star_table.item(rows["C3"], 0).setCheckState(Qt.Unchecked)
     after = np.asarray(page.light_curve["rel_flux"])
@@ -762,7 +767,7 @@ def test_photometry_page_marks_frames_kept_without_a_comparison_star(qtbot):
     assert np.isfinite(page.light_curve["rel_flux"]).all()
     assert "10 frame(s) without some comparison stars" in page.result.text()
     item = page.frame_table.item(15, 0)
-    assert item.foreground().color().name() == "#f76b15" and "C2" in item.toolTip()
+    assert item.foreground().color().name() == QColor(tokens.role("non_linear")).name() and "C2" in item.toolTip()
 
 
 def test_header_time_convention_shutter_delay_and_hjd(tmp_path):

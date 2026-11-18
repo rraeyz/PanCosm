@@ -129,37 +129,42 @@
         <translation>Renk terimi (dönüşüm)</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="87"/>
+        <location filename="../../ui/aavso_dialog.py" line="84"/>
+        <source>The colour term last saved in the profile for this filter</source>
+        <translation>Bu filtre için profile en son kaydedilen renk terimi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/aavso_dialog.py" line="88"/>
         <source>Colours of the comparison stars</source>
         <translation>Karşılaştırma yıldızlarının renkleri</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="88"/>
+        <location filename="../../ui/aavso_dialog.py" line="89"/>
         <source>Colour of the variable</source>
         <translation>Değişkenin rengi</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="99"/>
+        <location filename="../../ui/aavso_dialog.py" line="100"/>
         <source>Take {v:.4f} from the profile ({key}, {date})</source>
         <translation>Profilden {v:.4f} al ({key}, {date})</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="133"/>
+        <location filename="../../ui/aavso_dialog.py" line="134"/>
         <source>Chart {chart}: {labels}.</source>
         <translation>Harita {chart}: {labels}.</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="136"/>
+        <location filename="../../ui/aavso_dialog.py" line="137"/>
         <source>Not in the sequence: C{stars}; choose sequence stars or type the magnitudes.</source>
         <translation>Dizide olmayanlar: C{stars}; dizideki yıldızları seçin ya da kadirleri yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="189"/>
+        <location filename="../../ui/aavso_dialog.py" line="190"/>
         <source>Identify the field first: the stars&apos; sky positions come from its solution.</source>
         <translation>Önce alanı tanımlayın: yıldızların gökteki konumları onun çözümünden gelir.</translation>
     </message>
     <message>
-        <location filename="../../ui/aavso_dialog.py" line="193"/>
+        <location filename="../../ui/aavso_dialog.py" line="194"/>
         <source>Mark the stars on the first frame: the plate solution belongs to it.</source>
         <translation>Yıldızları ilk karede işaretleyin: plaka çözümü ona aittir.</translation>
     </message>
@@ -9464,7 +9469,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="487"/>
         <source>fewer than 3 comparison stars lie on a frame: the frames do not overlap enough</source>
-        <translation>bir karede 3'ten az karşılaştırma yıldızı var: kareler yeterince örtüşmüyor</translation>
+        <translation>bir karede 3&apos;ten az karşılaştırma yıldızı var: kareler yeterince örtüşmüyor</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="489"/>
