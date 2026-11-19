@@ -9,7 +9,7 @@ from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
 from ..io.lzw import readable
-from . import masters
+from . import masters, planes_out
 from .frames import Frame, scan
 from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
 
@@ -127,13 +127,16 @@ def _unused_groups(plan, reps, temp_tol):
     split_colour=True,
     linearity=(),
     use={},
+    write_planes=True,
+    gain=0.0,
+    saturation=0.0,
 )
 def run_step(inputs, params, ctx):
     """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
     linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty."""
     from .output import check_space, estimate
 
-    need = estimate(inputs["frames"], params.get("split_colour", False))
+    need = estimate(inputs["frames"], params.get("split_colour", False), params.get("write_planes", True))
     check_space(inputs["output_dir"], need)  # CAL-14: refused before anything is written, with the numbers
     with masters.linearity(params["linearity"]):
         out = _run(inputs, params, ctx)
@@ -180,9 +183,6 @@ def _record_masters(header, entry, built, flat_used, params):
 
 
 def _run(inputs, params, ctx):
-    import numpy as np
-    from astropy.io import fits
-
     frames = _frames(inputs["frames"])
     plan = _chosen(make_plan(frames, params["temp_tol"]), frames, params.get("use") or {})
     out = Path(inputs["output_dir"])
@@ -205,23 +205,25 @@ def _run(inputs, params, ctx):
         (k for k in plan.groups if k not in unused), key=lambda k: ("bias", "dark", "flat").index(kinds[k])
     )  # flats need bias + dark
     failed, qc = [], {}  # masters not made (their frames left out, lights calibrated without); the reports (CAL-6)
+    variances = {}  # group key -> the master's variance plane (CAL-13)
     for n, key in enumerate(order):
         ctx.check()
         ctx.progress(0.5 * n / max(1, len(order)), f"master {kinds[key]}")
         paths, rep = plan.groups[key], reps[key]
-        bias = best("bias", rep)[0]
+        bias, v = best("bias", rep)[0], {}  # v: the master's variance, σ² / N (CAL-13)
         try:
             if kinds[key] == "bias":
-                data, h = masters.master_bias(paths, params["sigma"])
+                data, h = masters.master_bias(paths, params["sigma"], var_out=v)
             elif kinds[key] == "dark":
-                data, h = masters.master_dark(paths, bias, params["sigma"])
+                data, h = masters.master_dark(paths, bias, params["sigma"], var_out=v)
             else:  # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
                 dark, dh, _ = best("dark", rep)
-                data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"])
+                data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"], var_out=v)
         except masters.CalibrationError as e:  # one bad group (e.g. flats that are not flats) must not stop the night
             failed.append({"kind": kinds[key], "frames": len(paths), "file": Path(paths[0]).name, "reason": str(e)})
             continue
         built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias))
+        variances[key] = v.get("var")
 
     calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
@@ -244,17 +246,7 @@ def _run(inputs, params, ctx):
             header["DARKSCAL"] = (round(k, 4), "dark scale that minimised the noise")
             dark_scales.append(float(k))
         if params["fix_defects"] and (d is not None or f is not None):
-            pair = (entry["dark"], entry["flat"])
-            if pair not in defect_maps:  # one map per dark / flat pair, saved next to the masters
-                signal = None if d is None else d if dh.get("BIASSUB") or b is None else d - b
-                bad = masters.defect_map(signal, f)
-                path = out / "masters" / f"defects_{len(defect_maps):02d}.fits"
-                masters.save(
-                    path, bad.astype(np.float32), fits.Header({"IMAGETYP": "Defect map", "NBAD": int(bad.sum())})
-                )
-                defect_maps[pair] = (bad, path)
-            defects, path = defect_maps[pair]
-            header["CALDEF"] = (path.name, f"{int(defects.sum())} hot / dead pixels repaired")
+            defects = _defects(entry, b, d, dh, f, defect_maps, out, header)
         pattern = bayer.pattern_of(header) if params["split_colour"] else None
         data = masters.calibrate(light, exptime, b, d, dh, f, dark_factor=k, defects=None if pattern else defects)
         if pattern and defects is not None:  # fill from pixels of the same colour only
@@ -267,9 +259,13 @@ def _run(inputs, params, ctx):
         channels = bayer.split(data, pattern).items() if pattern else [("", data)]
         for colour, plane in channels:
             h = bayer.channel_header(header, pattern, colour) if pattern else header
+            cosmic = []
             if params["cosmic_rays"]:
-                plane = _remove_cosmic_rays(plane, h, params["read_noise"])
-            saved = masters.save(out / f"{stem}{'_' + colour if colour else ''}.fits", plane, h)
+                plane = _remove_cosmic_rays(plane, h, params["read_noise"], cosmic)
+            used = planes_out.used_masters(entry, built, variances, f is not None)
+            path = out / f"{stem}{'_' + colour if colour else ''}.fits"
+            saved = planes_out.save(path, plane, h, params, None if pattern else light, exptime, used, k, defects,
+                                    cosmic[0] if cosmic else None)  # fmt: skip
             (arcs if entry["light"] in lamps else calibrated).append(saved)
     written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
     return {
@@ -284,6 +280,23 @@ def _run(inputs, params, ctx):
         "arcs": arcs,
         "dark_scales": dark_scales,  # shown to the user: a scale far from 1 points to a wrong dark
     }
+
+
+def _defects(entry, b, d, dh, f, defect_maps, out, header):
+    """The hot / dead pixel map of the light's dark and flat: one per pair, saved next to the masters."""
+    import numpy as np
+    from astropy.io import fits
+
+    pair = (entry["dark"], entry["flat"])
+    if pair not in defect_maps:
+        signal = None if d is None else d if dh.get("BIASSUB") or b is None else d - b
+        bad = masters.defect_map(signal, f)
+        path = out / "masters" / f"defects_{len(defect_maps):02d}.fits"
+        masters.save(path, bad.astype(np.float32), fits.Header({"IMAGETYP": "Defect map", "NBAD": int(bad.sum())}))
+        defect_maps[pair] = (bad, path)
+    bad, path = defect_maps[pair]
+    header["CALDEF"] = (path.name, f"{int(bad.sum())} hot / dead pixels repaired")
+    return bad
 
 
 def _save_master(out, kind, n, data, header, qc, paths, bias):
@@ -308,13 +321,15 @@ def _quality(kind, data, header, n_inputs, bias):
         return {}
 
 
-def _remove_cosmic_rays(data, header, read_noise):
+def _remove_cosmic_rays(data, header, read_noise, mask_out=None):
     import numpy as np
 
     from .cosmics import detect_cosmics  # astroscrappy's answer, its later passes only where they can differ
 
     gain = get(header, "EGAIN", "GAIN", default=1.0) or 1.0
     mask, clean = detect_cosmics(np.nan_to_num(data), gain=gain, readnoise=read_noise)
+    if mask_out is not None:
+        mask_out.append(mask)
     header["CRCLEAN"] = (int(mask.sum()), "pixels replaced by astroscrappy")
     return np.where(np.isnan(data), np.nan, clean).astype(np.float32)
 

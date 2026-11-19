@@ -211,6 +211,29 @@
             "null"
            ]
           },
+          "write_planes": {
+           "description": "Write variance and quality planes: Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "gain": {
+           "description": "Gain (e⁻/ADU): For the variance plane when the header does not give it (0: unknown)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "saturation": {
+           "description": "Saturation (ADU): Raw values from here on are flagged saturated when the header lacks it (0: none)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
           "linearity": {
            "description": "Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none"
           },

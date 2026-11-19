@@ -99,6 +99,35 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "A colour camera's frames become one file per colour"),
     ),
     P(
+        "write_planes",
+        "bool",
+        True,
+        label=QT_TRANSLATE_NOOP("Steps", "Write variance and quality planes"),
+        help=QT_TRANSLATE_NOOP("Steps", "Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images"),
+    ),
+    P(
+        "gain",
+        "float",
+        0.0,
+        unit="e⁻/ADU",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Gain"),
+        help=QT_TRANSLATE_NOOP("Steps", "For the variance plane when the header does not give it (0: unknown)"),
+        advanced=True,
+    ),
+    P(
+        "saturation",
+        "float",
+        0.0,
+        unit="ADU",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Saturation"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "Raw values from here on are flagged saturated when the header lacks it (0: none)"
+        ),
+        advanced=True,
+    ),
+    P(
         "linearity",
         "table",
         (),

@@ -434,8 +434,17 @@ flat with their variances and the flat's relative error, DQ OR-ed), `shift` (bil
 weights and VARCORR in the header, DQ of every contributing pixel, NODATA at the edges), `write` / `read` (a plain
 FITS reads without planes)). Tests (tests/test_planes.py): over 30 repeated lights the scatter equals the frames'
 own variance plane within 3 % on the sky (10 % over 49 star pixels); a saturated core, a hot pixel and a cosmic ray
-stay flagged through calibration and a 0.4 px shift; the file round trip. Left: the calibration run and the stacks
-writing these planes, inverse-variance weights, overscan errors, the check tool. Photometry uses VAR and DQ (2026-11-27, PHO-36: `photometry/planes_use.py`, `aperture.measure(var=)`, test_photometry_planes).
+stay flagged through calibration and a 0.4 px shift; the file round trip. The calibration run writes them (2026-11-27:
+`calibration/planes_out.py` (`frame`, `save`, `used_masters`), `masters.combine_files(var_out=)` (σ²/N of the kept
+frames per master), setting `calibration.write_planes` (Settings → Files, default on; step parameter `write_planes`,
+`gain`, `saturation`), `planes.write` puts the header in the primary HDU and in SCI so every reader of the image
+sees it); gain and read noise from the header (EGAIN/GAIN, RDNOISE) then the profile, no gain: DQ only and a HISTORY
+line; saturated, bad-pixel (BAD+REPAIRED) and cosmic-ray (COSMIC+REPAIRED) bits; colour-split frames and the setting
+off: plain FITS with a HISTORY line. Tests (tests/test_calibration_planes.py): the VAR on the sky equals the scatter
+of 30 repeated frames within 1 %, a saturated pixel flagged, setting off, no gain, Photometry and `read_image` open the
+output, an old plain file reads. Left: the stacks carrying the planes (stacks read SCI through `find_image_hdu` and
+write plain), the live calibration, non-linear bits and planes of split colour frames, masters' variance saved in
+their files, inverse-variance weights, overscan errors, the check tool. Photometry uses VAR and DQ (2026-11-27, PHO-36: `photometry/planes_use.py`, `aperture.measure(var=)`, test_photometry_planes).
 - **Why:** AD-8.
 - **Reference:** Astropy `CCDData` (data, `StdDevUncertainty` / `VarianceUncertainty`, mask, flags), ccdproc's
   propagation through `subtract_bias`, `subtract_dark`, `flat_correct`; ESO pipelines' ERR and DQ extensions; HST

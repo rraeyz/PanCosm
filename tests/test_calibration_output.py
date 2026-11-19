@@ -24,8 +24,8 @@ def test_the_estimate_matches_what_is_written(tmp_path):
         fits.PrimaryHDU((300 + rng.normal(0, 3, (300, 400))).astype(np.float32),
                         fits.Header({"IMAGETYP": "BIAS"})).writeto(raw / f"b{i}.fits")  # fmt: skip
     for i in range(12):
-        fits.PrimaryHDU((800 + rng.normal(0, 10, (300, 400))).astype(np.float32),
-                        fits.Header({"IMAGETYP": "LIGHT", "EXPTIME": 5.0})).writeto(raw / f"l{i}.fits")  # fmt: skip
+        light = fits.Header({"IMAGETYP": "LIGHT", "EXPTIME": 5.0, "EGAIN": 1.5})
+        fits.PrimaryHDU((800 + rng.normal(0, 10, (300, 400))).astype(np.float32), light).writeto(raw / f"l{i}.fits")
     scan = execute("calibration.scan", {"folder": str(raw)}, {}, Ctx())
     out = execute("calibration.run", {"frames": scan["frames"], "output_dir": str(tmp_path / "cal")}, {}, Ctx())
     written = sum(p.stat().st_size for p in (tmp_path / "cal").rglob("*.fits"))

@@ -31,6 +31,9 @@ parameters (default):
   split_colour = true  (bool)  Split colour frames: A colour camera's frames become one file per colour
   linearity = []  (table)  Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none
   use = {}  (object)  Masters chosen by hand: {filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched
+  write_planes = true  (bool)  Write variance and quality planes: Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images
+  gain = 0.0  (float, e⁻/ADU, >= 0.0)  Gain: For the variance plane when the header does not give it (0: unknown)
+  saturation = 0.0  (float, ADU, >= 0.0)  Saturation: Raw values from here on are flagged saturated when the header lacks it (0: none)
 ```
 
 ## calibration.scan

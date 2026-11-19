@@ -238,8 +238,9 @@ def _rows(hdu, r0, r1):
     return _linear(np.asarray(hdu.section[rows.start + r0 : rows.start + r1, cols], dtype=np.float32)) - level
 
 
-def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None):
+def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None, var_out=None):
     """Clipped-mean combine of FITS files. prepare(i, block, r0, r1) -> corrected float32 block.
+    var_out: a dict that gets "var", the variance of the combined image, σ² / N of the frames kept (CAL-13).
 
     Returns (image, kept_count, device_used)."""
     paths = [str(p) for p in paths]
@@ -251,20 +252,37 @@ def combine_files(paths, prepare=None, sigma=3.0, maxiters=5, ctx=None):
     try:
         rows = max(1, MEMORY_BUDGET // (len(paths) * nx * 4))
         out, cnt, used = np.empty((ny, nx), np.float32), np.empty((ny, nx), np.int32), set()
+        var = np.zeros((ny, nx), np.float32)
         for r0 in range(0, ny, rows):
             r1 = min(ny, r0 + rows)
             stack = np.stack(
                 [prepare(i, _rows(h, r0, r1), r0, r1) if prepare else _rows(h, r0, r1) for i, h in enumerate(hdus)]
             )
             out[r0:r1], cnt[r0:r1], dev = clipped_mean(stack, sigma, maxiters)
+            if var_out is not None:
+                var[r0:r1] = _mean_variance(stack, out[r0:r1], cnt[r0:r1], sigma)
             used.add(dev)
             if ctx:
                 ctx.check()
                 ctx.progress(r1 / ny, "combining")
+        if var_out is not None:
+            var_out["var"] = var
         return out, cnt, "+".join(sorted(used))
     finally:
         for h in hduls:
             h.close()
+
+
+def _mean_variance(stack, mean, cnt, sigma):
+    """σ² / N per pixel over the frames within `sigma` standard deviations of the mean (those the combine kept,
+    to within the clipping iterations); 0 for a single frame."""
+    if len(stack) < 2:
+        return np.zeros(mean.shape, np.float32)
+    with np.errstate(all="ignore"):
+        kept = np.abs(stack - mean) <= sigma * stack.std(axis=0)
+        n = np.maximum(kept.sum(axis=0), 2)
+        spread = (kept * (stack - mean) ** 2).sum(axis=0) / (n - 1)
+    return np.nan_to_num(spread / n).astype(np.float32)
 
 
 def _header(paths, kind, extra):
@@ -320,18 +338,18 @@ def load(path, crop=None):
         return data, header
 
 
-def master_bias(paths, sigma=3.0, ctx=None):
-    img, _, dev = combine_files(paths, sigma=sigma, ctx=ctx)
+def master_bias(paths, sigma=3.0, ctx=None, var_out=None):
+    img, _, dev = combine_files(paths, sigma=sigma, ctx=ctx, var_out=var_out)
     return img, _header(paths, "Bias", {"EXPTIME": 0.0, "SIGCLIP": sigma, "DEVICE": dev})
 
 
-def master_dark(paths, bias=None, sigma=3.0, ctx=None):
+def master_dark(paths, bias=None, sigma=3.0, ctx=None, var_out=None):
     """bias: master bias array or None."""
     times = {_exptime(p) for p in paths}
     if max(times) - min(times) > EXPTIME_RTOL * max(times):
         raise CalibrationError(f"darks with different exposure times cannot be combined: {sorted(times)}")
     prep = (lambda i, b, r0, r1: b - bias[r0:r1]) if bias is not None else None
-    img, _, dev = combine_files(paths, prep, sigma=sigma, ctx=ctx)
+    img, _, dev = combine_files(paths, prep, sigma=sigma, ctx=ctx, var_out=var_out)
     return img, _header(
         paths,
         "Dark",
@@ -354,7 +372,7 @@ def dark_for(exptime, bias, dark, dark_header):
     )
 
 
-def master_flat(paths, bias=None, dark=None, dark_header=None, sigma=3.0, ctx=None):
+def master_flat(paths, bias=None, dark=None, dark_header=None, sigma=3.0, ctx=None, var_out=None):
     corr = []
     for p in paths:  # per-frame level: median of the corrected frame
         data, h = load(p)
@@ -373,8 +391,11 @@ def master_flat(paths, bias=None, dark=None, dark_header=None, sigma=3.0, ctx=No
             block = block - d[r0:r1]
         return block * scale
 
-    img, _, dev = combine_files(paths, prep, sigma=sigma, ctx=ctx)
-    img /= np.float32(np.nanmedian(img))
+    img, _, dev = combine_files(paths, prep, sigma=sigma, ctx=ctx, var_out=var_out)
+    level = np.float32(np.nanmedian(img))
+    img /= level
+    if var_out is not None:
+        var_out["var"] /= level**2
     return img, _header(paths, "Flat", {"SIGCLIP": sigma, "DEVICE": dev, "NORMALIZ": (True, "median = 1")})
 
 

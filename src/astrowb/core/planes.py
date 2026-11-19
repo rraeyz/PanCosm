@@ -86,16 +86,21 @@ def shift(frame, dx, dy):
 
 
 def write(path, frame):
+    """SCI / VAR / DQ extensions; the header goes into the primary HDU and into SCI too, so a reader that looks
+    only at the image's header (every reader of the program) sees the target, time, WCS and filter."""
     from astropy.io import fits
 
-    hdus = [fits.PrimaryHDU(), fits.ImageHDU(np.asarray(frame.sci, np.float32), name="SCI")]
+    from ..io.fits import CHECKSUMS, STRUCTURAL
+
+    cards = fits.Header(frame.header) if not isinstance(frame.header, fits.Header) else frame.header
+    keep = fits.Header([c for c in cards.cards if c.keyword not in STRUCTURAL + CHECKSUMS])
+    sci = fits.ImageHDU(np.asarray(frame.sci, np.float32), header=keep.copy(), name="SCI")
+    hdus = [fits.PrimaryHDU(header=keep.copy()), sci]
     if frame.var is not None:
         hdus.append(fits.ImageHDU(np.asarray(frame.var, np.float32), name="VAR"))
     if frame.dq is not None:
         hdus.append(fits.ImageHDU(np.asarray(frame.dq, np.uint8), name="DQ"))
-    for k, v in frame.header.items():
-        hdus[0].header[k] = v
-    fits.HDUList(hdus).writeto(path, overwrite=True)
+    fits.HDUList(hdus).writeto(path, overwrite=True, output_verify="silentfix")
     return path
 
 

@@ -603,12 +603,23 @@ class CalibratePage(Undoable, QWidget):
             for g in glow
         ]
 
+    def _camera_params(self):
+        """Settings → Files (planes on or off) and the profile's camera numbers, for the variance and DQ planes."""
+        from ..core import profiles
+        from ..settings import Settings
+
+        settings = Settings()
+        camera = profiles.section(settings, "camera")
+        return {"write_planes": bool(settings.get("calibration.write_planes", True)),
+                "gain": float(camera["gain"] or 0.0), "saturation": float(camera["saturation"] or 0.0)}  # fmt: skip
+
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))
         params = {"sigma": self.sigma.value(), "cosmic_rays": self.cosmics.isChecked()}
         params |= {"optimize_dark": self.optimize_dark.isChecked(), "fix_defects": self.fix_defects.isChecked()}
         params["divide_flat"] = not self.spectra.isChecked()
         params["split_colour"] = self.split_colour.isChecked()
+        params |= self._camera_params()
         params["use"] = self.master_choices  # the masters chosen by hand, over the program's matches
         try:
             params["linearity"] = [float(v) for v in self.linearity.text().replace(",", " ").split()]

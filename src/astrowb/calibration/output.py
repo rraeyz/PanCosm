@@ -19,14 +19,17 @@ def _fits_bytes(ny, nx, bytes_per_pixel=4):
     return HEADER + -(-data // BLOCK) * BLOCK
 
 
-def estimate(frames, split_colour=False):
-    """Bytes the run will write: frames are scan records (dicts with kind, shape)."""
+def estimate(frames, split_colour=False, planes=False):
+    """Bytes the run will write: frames are scan records (dicts with kind, shape). planes: a light also carries
+    its variance (float32) and DQ (uint8) extensions (an overestimate when there is no gain: no variance then)."""
     total = 0
     groups = set()
     for f in frames:
         ny, nx = f.get("shape") or (0, 0)
         if f.get("kind") in ("light", "arc"):
             total += 4 * _fits_bytes(ny // 2, nx // 2) if split_colour else _fits_bytes(ny, nx)
+            if planes:
+                total += _fits_bytes(ny, nx) + _fits_bytes(ny, nx, 1)
         elif f.get("kind") in ("bias", "dark", "flat"):
             groups.add((f["kind"], tuple(f.get("shape") or ()), f.get("exptime"), f.get("filter")))
     for _kind, shape, *_ in groups:

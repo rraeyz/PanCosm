@@ -181,7 +181,7 @@ INTERNAL = (
 SHOWN = (
     "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
     "profile", "compute.device", "observatory.download_dir", "services.offline", "time.auto_refresh",
-    "camera.clock_utc_offset", "areas.show_experimental",
+    "camera.clock_utc_offset", "areas.show_experimental", "calibration.write_planes",
 )  # fmt: skip
 
 
@@ -381,6 +381,14 @@ class SettingsWindow(Dialog):
         folder.changed.connect(lambda paths: self.settings.set("observatory.download_dir", paths[0] if paths else home))
         note = self.tr("Where frames fetched from the observatory's computer are kept, one folder per night")
         self._row(c, self.tr("Download folder"), folder, note)
+        planes = Toggle("", bool(self.settings.get("calibration.write_planes", True)), self)
+        planes.toggled.connect(lambda _on: self.settings.set("calibration.write_planes", planes.isChecked()))
+        note = self.tr(
+            "Calibrated images carry a variance and a quality plane as extensions. Programs that read only the "
+            "first image (AstroImageJ, the default view of DS9) see the calibrated image in extension 1; "
+            "off: plain single-image FITS"
+        )
+        self._row(c, self.tr("Write variance and quality planes (multi-extension FITS)"), planes, note, default=True)
 
     def _automatic(self):
         """What the program does without a press (ui/automatic.py): each step on or off; its button stays."""
