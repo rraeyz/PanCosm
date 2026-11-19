@@ -210,6 +210,7 @@ TEMPLATES = (
         "Messages",
         "the light curve shows {n} eclipses: give T0 and the period (e.g. from the period search) to time each one",
     ),
+    QT_TRANSLATE_NOOP("Messages", "the light curve shows {n} eclipses: compare the methods on a light curve with one"),
     QT_TRANSLATE_NOOP(
         "Messages",
         "no whole eclipse at the times predicted by T0 and the period: check T0, the period and the time scale",
