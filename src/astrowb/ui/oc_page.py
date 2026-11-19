@@ -24,11 +24,14 @@ from ..photometry import lcfile
 from .kit import tokens
 from .kit.widgets import StepGuide, _title
 from .oc_lcfile import load_lcfile
+from .oc_leave_out import connect as leave_out
+from .oc_leave_out import left_out_series, restore, use_state
 from .oc_minima import add_result_buttons
 from .oc_minima_table import add_minima_table, as_text, minima_for_fit
 from .oc_symbols import point_series
 from .oc_years import year_axis
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .undo import Undoable
 
 
 def _decimals(err):
@@ -36,7 +39,7 @@ def _decimals(err):
     return max(0, 1 - int(np.floor(np.log10(err)))) if err > 0 and np.isfinite(err) else 4
 
 
-class OCPage(QWidget):
+class OCPage(Undoable, QWidget):
     """Minimum times -> epochs, linear or quadratic ephemeris, O-C diagram."""
 
     planning_requested = Signal(dict)  # the fitted ephemeris as a Planning target (oc_to_planning)
@@ -47,6 +50,7 @@ class OCPage(QWidget):
         from .plot.view import PlotView
 
         super().__init__(parent)
+        self.init_undo()
         self.fit_result = None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
@@ -191,6 +195,7 @@ class OCPage(QWidget):
         from .oc_point_select import connect
 
         connect(self)
+        leave_out(self)
         split.setSizes([380, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -289,6 +294,12 @@ class OCPage(QWidget):
         for b in (self.linear, self.quadratic, self.ltte, self.apsidal):
             b.toggled.connect(mcmc_allowed)
         mcmc_allowed()
+
+    def undo_state(self):
+        return use_state(self)
+
+    def set_undo_state(self, state):
+        restore(self, state)
 
     def add_minimum(self, time, error, source="", kind="I"):
         self.text.appendPlainText(f"{time:.6f} {error:.6f} {kind} {source}".rstrip())
@@ -410,6 +421,7 @@ class OCPage(QWidget):
         colour)], residuals below."""
         errs = np.nan_to_num(errs * 1440)  # a minimum without an error: no bar
         series = point_series(f, errs, prim, methods, [m.time for m in self.fit_minima])
+        series += left_out_series(self, f)
         series += [SeriesSpec(n, e, y * 1440, kind="line", colour=c) for n, e, y, c in lines]
         res = [
             SeriesSpec(self.tr("Residual (min)"), f.epochs, f.residuals * 1440, yerr=errs, size=3),
