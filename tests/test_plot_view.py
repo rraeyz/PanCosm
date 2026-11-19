@@ -489,3 +489,46 @@ def test_a_histogram_with_edges_is_drawn(qtbot, caplog):
     hist = SeriesSpec("h", edges, counts, kind="histogram")
     view.set_figure(FigureSpec([PanelSpec(AxisSpec("x"), AxisSpec("n"), [hist])]))
     assert "plot not drawn" not in caplog.text
+
+
+def _pool_figure(n, flavour):
+    def panel(i):
+        s = [SeriesSpec("a", [1, 2, 3], [1, 2, 4]), SeriesSpec("b", [1, 2, 3], [2, 3, 5])]
+        if flavour == 1:
+            return PanelSpec(
+                AxisSpec("x", scale="log"), AxisSpec("y", scale="log"), s, top=AxisSpec("t", ticks=[(2, "u")])
+            )
+        if flavour == 2:
+            s = [SeriesSpec("c", [1, 2, 3], [1, 2, 4], values=[1.0, 2.0, 3.0])]
+            return PanelSpec(AxisSpec("x"), AxisSpec("y"), s, colourbar="Order", right=AxisSpec("r", ticks=[(2, "v")]))
+        return PanelSpec(AxisSpec(f"p{i}"), AxisSpec("q"), s[:1], grid=True)
+
+    return FigureSpec([panel(i) for i in range(n)], shared_x=n > 1, title="T")
+
+
+def _state(view):
+    return [
+        (
+            p.getAxis("bottom").labelText,
+            p.vb.state["logMode"],
+            p.legend is not None,
+            p.getAxis("top").isVisible(),
+            p.getAxis("right").isVisible(),
+            len(p.items),
+            p.titleLabel.isVisible(),
+        )
+        for p in view.plots
+    ] + [len(view.colourbars)]
+
+
+def test_redraws_reuse_the_pooled_plot_items(qapp):
+    from astrowb.ui.plot.view import PlotView
+
+    view = PlotView()
+    for i in range(200):
+        view.set_figure(_pool_figure((1, 3, 2)[i % 3], i % 3))
+    assert len(view._pool) == 3
+    view.set_figure(_pool_figure(3, 1))
+    view.set_figure(_pool_figure(1, 0))
+    fresh = PlotView(_pool_figure(1, 0))
+    assert _state(view) == _state(fresh) and len(view.graphics.ci.items) == len(fresh.graphics.ci.items)

@@ -16,7 +16,7 @@ import numpy as np
 import pyqtgraph as pg
 from PySide6.QtCore import QCoreApplication, QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QPainterPath, QPen
-from PySide6.QtWidgets import QApplication, QGraphicsPathItem, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QGraphicsItem, QGraphicsPathItem, QLabel, QVBoxLayout, QWidget
 
 from ..kit import tokens
 from . import spec as S
@@ -152,6 +152,7 @@ class PlotView(QWidget):
         self.base_mode = "pan"  # what a released key goes back to; the toolbar sets it
         self.mode = "pan"  # "range", "lasso", "zoom" while their key is held, or set by the toolbar
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
+        self.colourbars, self._pool = [], []
         self.cursor_x = None
         self._measure_from = None
         self.hit = None  # (series, id, x, y) nearest the cursor, for keys like Delete
@@ -234,25 +235,18 @@ class PlotView(QWidget):
     def _draw_figure(self, figure, keep):
         if not keep:
             self.original = figure
-        for old_plot in self.plots:  # pyqtgraph: clear() alone leaves widgets PySide may free twice
-            vb = old_plot.vb
-            vb.sigStateChanged.disconnect(old_plot.viewStateChanged)  # close() drops its buttons
-            # close() lets go of the options menu at once while the plot's actions still hold its widgets: kept
-            # here and deleted after the plot (and its actions), it is not freed twice (access violations seen)
-            menu = old_plot.ctrlMenu
-            old_plot.close()
-            # freed here, in the window's thread: left to the garbage collector they could go in a worker thread
-            for obj in (vb.menu, vb, old_plot, menu):
-                if obj is not None:
-                    obj.deleteLater()
-            vb.menu = None
-        self.graphics.clear()
+        # PlotItems are never destroyed while the view lives (freeing pyqtgraph's PySide-owned menus corrupted the
+        # heap); a redraw takes them from the pool, a new one is made only for more panels than ever before
+        for item in [*self.plots, *self.colourbars]:
+            self.graphics.removeItem(item)
+        for plot in self.plots:
+            plot.hide()
         self.figure, self.plots, self.items, self.offsets = figure, [], [], {}
         self.colourbars = []
         colours = figure.colours()
         for row, panel in enumerate(figure.panels):
-            vb = _ViewBox(self)
-            plot = self.graphics.addPlot(row=row, col=0, viewBox=vb, title=figure.title if row == 0 else None)
+            plot = self._pool_plot(row, figure.title if row == 0 else None)
+            vb = plot.vb
             self.graphics.ci.layout.setRowStretchFactor(row, max(1, round(panel.height_ratio * 10)))
             xs = [s.x for s in panel.series if s.x is not None and s.kind not in ("hline",)]
             offset = S.time_offset(np.concatenate(xs) if xs else None, panel.x)
@@ -263,10 +257,7 @@ class PlotView(QWidget):
                 axis = plot.getAxis(side)
                 axis.setPen(self._muted)
                 axis.setTextPen(self._ink)
-            plot.setLogMode(x=panel.x.scale == "log", y=panel.y.scale == "log")
-            vb.menu.addSeparator()  # beside pyqtgraph's own entries: the same two as every PlotCanvas
-            vb.menu.addAction(translate("PlotCanvas", "Copy picture"), self.copy_picture)
-            vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)
+            plot.setLogMode(x=panel.x.scale == "log", y=panel.y.scale == "log")  # the pool's reset left it linear
             vb.invertX(panel.x.invert)
             vb.invertY(panel.y.invert)
             vb.setAspectLocked(panel.equal)
@@ -294,9 +285,43 @@ class PlotView(QWidget):
             vb.disableAutoRange()  # its items hold only the decimated points in view: show_all() uses all the data
             if figure.shared_x and self.plots:
                 plot.setXLink(self.plots[0])
-            vb.sigRangeChanged.connect(lambda *_, vb=vb: self._redraw(vb))
+            vb.sigRangeChanged.connect(vb.redraw_slot)
+            vb.redraw_connected = True
             self.plots.append(plot)
         self.show_all()
+
+    def _pool_plot(self, row, title):
+        """The pooled PlotItem of this row, reset to what a new one is, and placed in the layout."""
+        if row == len(self._pool):
+            vb = _ViewBox(self)
+            vb.redraw_connected = False
+            vb.redraw_slot = lambda *_, vb=vb: self._redraw(vb)
+            plot = pg.PlotItem(viewBox=vb)
+            vb.menu.addSeparator()  # beside pyqtgraph's own entries: the same two as every PlotCanvas
+            vb.menu.addAction(translate("PlotCanvas", "Copy picture"), self.copy_picture)
+            vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)
+            self._pool.append(plot)
+        plot = self._pool[row]
+        vb = plot.vb
+        if vb.redraw_connected:
+            vb.sigRangeChanged.disconnect(vb.redraw_slot)
+            vb.redraw_connected = False
+        plot.clear()
+        if plot.legend is not None:
+            QGraphicsItem.setParentItem(plot.legend, None)  # LegendItem's own override wants a parent
+            plot.legend = None
+        plot.setXLink(None)
+        plot.setLogMode(False, False)
+        for side in ("left", "bottom", "top", "right"):
+            axis = plot.getAxis(side)
+            axis.setTicks(None)
+            axis.showLabel(False)
+        plot.hideAxis("top")
+        plot.hideAxis("right")
+        plot.setTitle(title)
+        plot.show()
+        self.graphics.addItem(plot, row=row, col=0)
+        return plot
 
     def _full_range(self, vb, panel):
         """((x0, x1), (y0, y1)) of all the data of a panel, or its limits when the spec gives them."""
