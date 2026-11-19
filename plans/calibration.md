@@ -589,8 +589,15 @@ background run, the nights level in the frames panel, resuming, the library's ma
 **partial** — done (2026-11-14), the engine: `calibration/live.py` `LiveCalibrator` (the night's masters read once;
 `process` calibrates one light with the batch run's calls and writes its CALB / CALD / CALF; `poll` takes every
 new file of a folder, oldest first). Test (tests/test_calibration_live.py): a night replayed frame by frame equals
-the batch run bit for bit. Left: "Follow a folder" in the Calibrate stage, handing each frame to Photometry's live
-mode and the live stack, the Observing window's switch, the library's masters.
+the batch run bit for bit. Done (2026-11-27), the stage: `ui/calibrate_follow.py` `add_follow_button` ("Follow a
+folder…" on the Calibrate page; the masters of the last run, else "Make or choose the masters first"; the line
+"Following <folder>: n frames calibrated, last <name>" with a per-frame error under it, following goes on);
+`ui/image_follow.py` `FolderFollower(page, on_new)` shared with the Images strip; `LiveCalibrator` now writes through
+`planes_out.save` (SCI / VAR / DQ, `calibration.write_planes`) like the batch run (its VAR counts the masters'
+variance as 0). Test (tests/ui/test_calibration_follow.py): a replayed night's SCI planes equal the batch's, a bad
+file shows its error and following continues, the button refuses without masters. Left: handing each frame to
+Photometry's live mode and the live stack, the Observing window's switch, the library's masters, the masters'
+variance in the live VAR plane.
 - **Reference:** AstroImageJ Data Processor polling; MaxIm DL auto-calibrate on acquire.
 - **Build:** "Follow a folder" in the Calibrate stage with the night's masters (or the library's): each new light is
   calibrated on arrival and handed to whoever follows (Photometry PHO-19, live stack, Images); the Observing window

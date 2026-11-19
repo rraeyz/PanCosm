@@ -1,28 +1,47 @@
 """The editable minima table of the O−C window (plans/interface.md UI-16.5): the pasted or loaded text is read by
 parse_minima into rows (Use, Time, Error, Type, Source, Weight); the fit reads the table, so a row can be left out or
-down-weighted without editing the text. The parser gives no method column, so none is shown."""
+down-weighted without editing the text. The Method column (CCD, pe, pg, vis or empty) comes from the text when a row
+names it and can be edited; "Weight by method" turns it into the weights of timeseries.ephemeris_models."""
 
 import re
 from math import sqrt
 
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtWidgets import QLabel, QPushButton, QTableWidgetItem
+from PySide6.QtWidgets import QCheckBox, QLabel, QPushButton, QTableWidgetItem
 
-from ..timeseries.ephemeris import Minimum, hjd_scale_unknown, parse_minima
+from ..timeseries.ephemeris import METHOD_CODES, Minimum, hjd_scale_unknown, parse_minima
+from ..timeseries.ephemeris_models import weights_by_method
 from .kit.table_view import DataTable
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("OcMinimaTable", "…") calls
-USE, TIME, ERROR, KIND, SOURCE, WEIGHT = range(6)
+USE, TIME, ERROR, KIND, SOURCE, WEIGHT, METHOD = range(7)  # Method last: the other columns keep their places
+_WEIGHT_KEY = {"vis": "visual", "pg": "photographic", "pe": "electronic", "CCD": "electronic"}
 
 
 def add_minima_table(page, layout):
     """The table under the paste box and a Paste button; the box stays the way text comes in."""
     frame = DataTable(page)
-    frame.prepare([translate("OcMinimaTable", h) for h in ("Use", "Time", "Error (d)", "Type", "Source", "Weight")])
+    frame.prepare(
+        [translate("OcMinimaTable", h) for h in ("Use", "Time", "Error (d)", "Type", "Source", "Weight", "Method")]
+    )
     frame.table.setObjectName("minima_input_table")
+    frame.table.horizontalHeaderItem(METHOD).setToolTip(
+        translate("OcMinimaTable", "CCD, pe (photoelectric), pg (photographic), vis (visual) or empty (not stated)")
+    )
     page.minima_input = frame.table
     layout.addWidget(frame, 1)
+    page.weight_by_method = QCheckBox(
+        translate("OcMinimaTable", "Weight by method (visual 1, photographic 3, electronic 10)")
+    )
+    page.weight_by_method.setToolTip(
+        translate(
+            "OcMinimaTable",
+            "Multiply each row's weight by its method's weight (vis 1, pg 3, pe and CCD 10). A row with no method "
+            "keeps the weight its error gives, as without this option.",
+        )
+    )
+    layout.addWidget(page.weight_by_method)
     page.minima_count, page.minima_standard = QLabel(page), QLabel(page)
     page.minima_count.setObjectName("minima_count")
     page.minima_standard.setObjectName("minima_standard")
@@ -89,12 +108,13 @@ def fill(page):
         return
     t = page.minima_input
     kept = {
-        t.item(r, TIME).text(): (t.item(r, USE).checkState(), t.item(r, WEIGHT).text()) for r in range(t.rowCount())
+        t.item(r, TIME).text(): (t.item(r, USE).checkState(), t.item(r, WEIGHT).text(), t.item(r, METHOD).text())
+        for r in range(t.rowCount())
     }
     t.blockSignals(True)
     t.setRowCount(len(minima))
     for r, m in enumerate(minima):
-        use, weight = kept.get(repr(m.time), (Qt.Checked, "1"))
+        use, weight, method = kept.get(repr(m.time), (Qt.Checked, "1", ""))
         check = _cell("", Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
         check.setCheckState(use)
         fixed = Qt.ItemIsEnabled | Qt.ItemIsSelectable
@@ -104,6 +124,7 @@ def fill(page):
         t.setItem(r, KIND, _cell(m.kind, fixed))
         t.setItem(r, SOURCE, _cell(m.source, fixed))
         t.setItem(r, WEIGHT, _cell(weight))
+        t.setItem(r, METHOD, _cell(method or m.method or ""))
     t.blockSignals(False)
 
 
@@ -120,13 +141,17 @@ def minima_for_fit(page):
             raise ValueError("the error and the weight of a minimum must be numbers") from None
         if not w > 0:
             raise ValueError("the weight of a minimum must be positive")
+        method = METHOD_CODES.get(t.item(r, METHOD).text().strip().lower())  # anything else: not stated
+        if page.weight_by_method.isChecked():
+            w *= weights_by_method([_WEIGHT_KEY.get(method)])[0]
         out.append(Minimum(float(t.item(r, TIME).text()), None if error is None else error / sqrt(w),
-                           t.item(r, KIND).text(), t.item(r, SOURCE).text()))  # fmt: skip
+                           t.item(r, KIND).text(), t.item(r, SOURCE).text(), method))  # fmt: skip
     return out
 
 
 def as_text(minima):
     """The minima as the text the oc_fit step parses (the background fit takes text)."""
     return "\n".join(
-        f"{m.time!r} {'' if m.error is None else repr(m.error)} {m.kind} {m.source}".strip() for m in minima
+        f"{m.time!r} {'' if m.error is None else repr(m.error)} {m.kind} {m.method or ''} {m.source}".strip()
+        for m in minima
     )

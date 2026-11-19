@@ -11,11 +11,11 @@ import re
 from pathlib import Path
 
 from ..hdr import get
-from . import masters
+from . import masters, planes_out
 
 
 class LiveCalibrator:
-    def __init__(self, master_paths, output_dir, cosmic_rays=False, read_noise=10.0, divide_flat=True):
+    def __init__(self, master_paths, output_dir, cosmic_rays=False, read_noise=10.0, divide_flat=True, params=None):
         from ..photometry.live import load_masters
         from .frames import classify
 
@@ -28,6 +28,7 @@ class LiveCalibrator:
         self.out = Path(output_dir)
         self.out.mkdir(parents=True, exist_ok=True)
         self.cosmic_rays, self.read_noise, self.divide_flat = cosmic_rays, read_noise, divide_flat
+        self.params = {"read_noise": read_noise} | (params or {})  # write_planes, gain, saturation: as the batch run
         self.seen = set()
 
     def process(self, path):
@@ -44,9 +45,15 @@ class LiveCalibrator:
             header[f"CAL{kind[0].upper()}"] = (used or "none", f"{kind} used for calibration")
         if self.cosmic_rays:
             data = _remove_cosmic_rays(data, header, self.read_noise)
+        used = {
+            k: (*self.masters[k], None)
+            for k in ("bias", "dark", "flat")
+            if k in self.masters and (k != "flat" or f is not None)
+        }
         stem = re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", Path(path).name, flags=re.I)
         self.seen.add(str(Path(path).resolve()))
-        return str(masters.save(self.out / f"{stem}.fits", data, header))
+        # the masters' variance planes are not read here: the VAR plane counts them as 0 (the data is the batch's)
+        return planes_out.save(self.out / f"{stem}.fits", data, header, self.params, light, exptime, used)
 
     def poll(self, folder):
         """Calibrate every FITS file in folder not processed yet (by name, oldest first); [calibrated paths]."""

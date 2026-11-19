@@ -27,6 +27,7 @@ from ..calibration.frames import Frame
 from ..calibration.matching import make_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
 from . import automatic
+from .calibrate_follow import add_follow_button
 from .kit.help import help_line
 from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
@@ -263,6 +264,7 @@ class CalibratePage(Undoable, QWidget):
             )
         )
         add_masters_button(self, row, lay)  # "Choose the masters by hand…" on its line, then Calibrate
+        add_follow_button(self, lay)  # CAL-22
         lay.addLayout(row)
         lay.addWidget(self.cosmics)  # its own line: beside the button it kept the column wider than a small window
         self.linearity = QLineEdit(self)
@@ -629,7 +631,7 @@ class CalibratePage(Undoable, QWidget):
         self.run_requested.emit(self.frames, self.output.text(), params)
 
     def show_result(self, out: dict):
-        self.calibrated = out["calibrated"]
+        self.calibrated, self.masters = out["calibrated"], out["masters"]  # the masters Follow a folder uses
         for i in (1, 2):
             self.guide.set_state(i, "done")
         self.stack_button.setEnabled(len(self.calibrated) > 1)

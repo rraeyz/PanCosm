@@ -26,10 +26,11 @@ def fits_in(folder):
 
 
 class FolderFollower:
-    """Adds the FITS files that appear in a folder to the open list (the page's add_open, looked up at call time)."""
+    """Hands the FITS files that appear in a folder to on_new(paths); by default the page's add_open, looked up at
+    call time (the Calibrate stage passes its own)."""
 
-    def __init__(self, page):
-        self.page, self.folder, self.seen = page, None, set()
+    def __init__(self, page, on_new=None):
+        self.page, self.on_new, self.folder, self.seen = page, on_new, None, set()
         self.watcher = QFileSystemWatcher(page)
         self.timer = QTimer(page)  # a file is still being written when the folder first changes
         self.timer.setSingleShot(True)
@@ -62,7 +63,7 @@ class FolderFollower:
             return self.stop()
         self.seen.update(new)
         if new:
-            self.page.add_open(new)
+            (self.on_new or self.page.add_open)(new)
 
 
 def strip_buttons(page, parent):

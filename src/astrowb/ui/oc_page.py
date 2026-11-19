@@ -26,6 +26,7 @@ from .kit.widgets import StepGuide, _title
 from .oc_lcfile import load_lcfile
 from .oc_minima import add_result_buttons
 from .oc_minima_table import add_minima_table, as_text, minima_for_fit
+from .oc_symbols import point_series
 from .oc_years import year_axis
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
@@ -392,18 +393,20 @@ class OCPage(QWidget):
         errs = np.array([m.error or np.nan for m in minima])
         prim = np.array([m.kind == "I" for m in minima])
         e_line = np.linspace(f.epochs.min(), f.epochs.max(), 200)
-        self._draw_oc(f, errs, prim, [(self.tr("model"), e_line, f.model_o_minus_c(e_line), tokens.role("saturated"))])
+        self._draw_oc(
+            f,
+            errs,
+            prim,
+            [(self.tr("model"), e_line, f.model_o_minus_c(e_line), tokens.role("saturated"))],
+            [m.method for m in minima],
+        )
         return f
 
-    def _draw_oc(self, f, errs, prim, lines):
+    def _draw_oc(self, f, errs, prim, lines, methods=None):
         """O-C (min) of the primary and secondary minima with the model curves `lines` [(name, epochs, O-C days,
         colour)], residuals below."""
         errs = np.nan_to_num(errs * 1440)  # a minimum without an error: no bar
-        series = [
-            SeriesSpec(label, f.epochs[sel], f.o_minus_c[sel] * 1440, yerr=errs[sel], symbol=mk)
-            for sel, label, mk in ((prim, self.tr("primary"), "o"), (~prim, self.tr("secondary"), "s"))
-            if sel.any()
-        ]
+        series = point_series(f, errs, prim, methods)
         series += [SeriesSpec(n, e, y * 1440, kind="line", colour=c) for n, e, y, c in lines]
         res = [
             SeriesSpec(self.tr("Residual (min)"), f.epochs, f.residuals * 1440, yerr=errs, size=3),
@@ -482,5 +485,5 @@ class OCPage(QWidget):
             for sel, label, kind in ((prim, self.tr("primary"), "I"), (~prim, self.tr("secondary"), "II"))
             if sel.any()
         ]
-        self._draw_oc(f, errs, prim, lines)
+        self._draw_oc(f, errs, prim, lines, [m.method for m in minima])
         return f

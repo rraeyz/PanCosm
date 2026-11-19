@@ -22,10 +22,15 @@ class Minimum:
     error: float | None = None
     kind: str = "I"  # I = primary, II = secondary
     source: str = ""
+    method: str | None = None  # CCD, pe, pg or vis when the row names it (parse_minima), else None
+
+
+METHOD_CODES = {"ccd": "CCD", "pe": "pe", "photoelectric": "pe", "pg": "pg", "photographic": "pg", "vis": "vis",
+                 "visual": "vis"}  # fmt: skip
 
 
 def parse_minima(text: str) -> list[Minimum]:
-    """Lines 'time [error] [I|II|p|s] [source...]', comma/space/tab separated; '#' starts a comment."""
+    """Lines 'time [error] [I|II|p|s] [CCD|pe|pg|vis] [source...]', comma/space/tab separated; '#' starts a comment."""
     out = []
     for n, line in enumerate(text.splitlines(), 1):
         line = line.split("#", 1)[0].replace(",", " ").replace(";", " ").strip()
@@ -45,10 +50,16 @@ def parse_minima(text: str) -> list[Minimum]:
                 rest = rest[1:]
             except ValueError:
                 pass
+        method = None
+        for i, word in enumerate(rest):  # a separate token only; nothing else is read as a method
+            if word.lower() in METHOD_CODES:
+                method = METHOD_CODES[word.lower()]
+                rest = rest[:i] + rest[i + 1 :]
+                break
         if rest and rest[0].upper() in ("I", "II", "P", "S", "1", "2", "PRI", "SEC"):
             kind = "II" if rest[0].upper() in ("II", "S", "2", "SEC") else "I"
             rest = rest[1:]
-        out.append(Minimum(time, error, kind, " ".join(rest)))
+        out.append(Minimum(time, error, kind, " ".join(rest), method))
     return out
 
 
