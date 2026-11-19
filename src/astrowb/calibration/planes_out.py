@@ -80,3 +80,10 @@ def save(path, data, header, params, light=None, exptime=0.0, used=None, k=1.0, 
     if cosmic is not None:
         fr.dq[cosmic] |= planes.COSMIC | planes.REPAIRED
     return str(planes.write(path, fr))
+
+
+def save_master(path, data, header, var=None):
+    """A master as plain FITS, or with its variance (SCI + VAR, the layout of the calibrated lights) when given."""
+    if var is None:
+        return masters.save(path, data, header)
+    return str(planes.write(path, planes.Frame(np.asarray(data, np.float32), var, None, header)))

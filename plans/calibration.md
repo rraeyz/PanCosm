@@ -434,7 +434,7 @@ flat with their variances and the flat's relative error, DQ OR-ed), `shift` (bil
 weights and VARCORR in the header, DQ of every contributing pixel, NODATA at the edges), `write` / `read` (a plain
 FITS reads without planes)). Tests (tests/test_planes.py): over 30 repeated lights the scatter equals the frames'
 own variance plane within 3 % on the sky (10 % over 49 star pixels); a saturated core, a hot pixel and a cosmic ray
-stay flagged through calibration and a 0.4 px shift; the file round trip. The calibration run writes them (2026-11-27:
+stay flagged through calibration and a 0.4 px shift; the file round trip. The calibration run writes them (2026-11-28: masters too carry their VAR extension, `planes_out.save_master`; 2026-11-27:
 `calibration/planes_out.py` (`frame`, `save`, `used_masters`), `masters.combine_files(var_out=)` (σ²/N of the kept
 frames per master), setting `calibration.write_planes` (Settings → Files, default on; step parameter `write_planes`,
 `gain`, `saturation`), `planes.write` puts the header in the primary HDU and in SCI so every reader of the image
@@ -599,8 +599,13 @@ file shows its error and following continues, the button refuses without masters
 frame to Photometry" (`calibrate_follow._send`, `MainWindow.feed_photometry_live`, `ui/photometry_feed.py`): the
 frames join Photometry's live poll; not measuring yet, the Photometry window opens, the frames wait and the line says
 so. Test (tests/ui/test_calibration_to_photometry.py `test_calibrated_frames_reach_live_photometry_and_equal_the_batch`).
-Left: the live stack, the Observing window's switch, the library's masters, the masters'
-variance in the live VAR plane.
+Done (2026-11-28): the masters' variance in the live VAR plane: with `calibration.write_planes` on the batch run
+writes each master with its variance as a VAR extension (`planes_out.save_master`, `steps._save_master`; the variance
+is kept as float32 in memory too), `LiveCalibrator` reads it (`photometry/planes_use.read`) and passes it to
+`planes_out.save` like the batch run. Tests (tests/test_calibration_live.py
+`test_live_var_plane_counts_the_masters_variance_like_the_batch`, `test_masters_stay_single_image_when_planes_are_off`).
+Left: the live stack, the Observing window's switch, the library's masters (with CAL-7: the batch run does not use
+the library yet).
 - **Reference:** AstroImageJ Data Processor polling; MaxIm DL auto-calibrate on acquire.
 - **Build:** "Follow a folder" in the Calibrate stage with the night's masters (or the library's): each new light is
   calibrated on arrival and handed to whoever follows (Photometry PHO-19, live stack, Images); the Observing window

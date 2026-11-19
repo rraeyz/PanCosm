@@ -222,8 +222,12 @@ def _run(inputs, params, ctx):
         except masters.CalibrationError as e:  # one bad group (e.g. flats that are not flats) must not stop the night
             failed.append({"kind": kinds[key], "frames": len(paths), "file": Path(paths[0]).name, "reason": str(e)})
             continue
-        built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias))
-        variances[key] = v.get("var")
+        var = v.get("var")
+        if var is not None:
+            var = var.astype("float32").astype("float64")  # as a master file keeps it: a live run reads the same
+        keep = var if params.get("write_planes", True) else None
+        built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias, keep))
+        variances[key] = var
 
     calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
@@ -299,11 +303,12 @@ def _defects(entry, b, d, dh, f, defect_maps, out, header):
     return bad
 
 
-def _save_master(out, kind, n, data, header, qc, paths, bias):
-    """The master written next to the frames, and its quality report kept under its name."""
+def _save_master(out, kind, n, data, header, qc, paths, bias, var=None):
+    """The master written next to the frames (with its variance as a VAR extension when given), and its quality
+    report kept under its name."""
     name = f"master_{kind}_{n:02d}.fits"
     qc[name] = _quality(kind, data, header, len(paths), bias)
-    return masters.save(out / "masters" / name, data, header)
+    return planes_out.save_master(out / "masters" / name, data, header, var)
 
 
 def _quality(kind, data, header, n_inputs, bias):
