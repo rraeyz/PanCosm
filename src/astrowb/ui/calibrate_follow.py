@@ -2,7 +2,7 @@
 masters of the last run (or none: refused) by `LiveCalibrator`, written to the output folder like the batch run."""
 
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QFileDialog, QPushButton
+from PySide6.QtWidgets import QCheckBox, QFileDialog, QPushButton
 
 from .image_follow import FolderFollower
 from .messages import translate as message
@@ -20,9 +20,19 @@ def add_follow_button(page, column):
             "the calibrated file is written to the output folder",
         )
     )
+    page.live_sink = None  # the main window sets it
     page.follower, page.follow_state = FolderFollower(page, lambda paths: _calibrate(page, paths)), None
     page.follow_button.toggled.connect(lambda on: _toggled(page, on))
     column.addWidget(page.follow_button)
+    page.follow_send = QCheckBox(translate("CalibrateFollow", "Send each calibrated frame to Photometry"), page)
+    page.follow_send.setToolTip(
+        translate(
+            "CalibrateFollow",
+            "The Photometry window measures each frame as soon as it is calibrated, "
+            "with the stars and apertures set there",
+        )
+    )
+    column.addWidget(page.follow_send)
 
 
 def _toggled(page, on):
@@ -46,21 +56,36 @@ def _toggled(page, on):
         page.result.setText(message(e))
         page.follow_button.setChecked(False)
         return
-    page.follow_state = {"live": live, "folder": folder, "n": 0, "last": "", "error": ""}
+    page.follow_state = {"live": live, "folder": folder, "n": 0, "last": "", "error": "", "waiting": False}
     page.follower.start(folder)
     _show(page)
 
 
 def _calibrate(page, paths):
     state = page.follow_state
+    done = []
     for path in paths:
         try:
-            state["last"] = _name(state["live"].process(path))
+            out = state["live"].process(path)
+            state["last"] = _name(out)
+            done.append(out)
             state["n"] += 1
             state["error"] = ""
         except (OSError, ValueError) as e:  # an unreadable or wrong-sized file: said here, following goes on
             state["error"] = f"{_name(path)}: {message(e)}"
+    state["waiting"] = bool(done) and page.follow_send.isChecked() and not _send(page, done)
     _show(page)
+
+
+def _send(page, done):
+    """Hand the calibrated files to Photometry's live mode; False when it is not measuring (they wait there)."""
+    if page.live_sink is None:
+        return True
+    try:
+        return page.live_sink(done)
+    except (OSError, ValueError) as e:  # a Photometry error: said, goes on
+        page.follow_state["error"] = message(e)
+        return True
 
 
 def _name(path):
@@ -74,4 +99,7 @@ def _show(page):
     line = translate("CalibrateFollow", "Following {folder}: {n} frames calibrated, last {name}").format(
         folder=s["folder"], n=s["n"], name=s["last"] or "-"
     )
-    page.result.setText(f"{line}\n{s['error']}" if s["error"] else line)
+    wait = translate(
+        "CalibrateFollow", "Photometry is not measuring yet: set the stars and start live photometry there"
+    )
+    page.result.setText("\n".join(x for x in (line, s["error"], wait if s.get("waiting") else "") if x))

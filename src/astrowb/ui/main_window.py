@@ -523,6 +523,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.stack_requested.connect(self.stack_images)
         page.photometry_requested.connect(self.send_to_photometry)
         page.images_requested.connect(self.send_to_images)
+        page.live_sink = self.feed_photometry_live  # Follow a folder → Photometry's live mode (CAL-22)
         return page
 
     def show_workspace(self, key):

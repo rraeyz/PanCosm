@@ -57,6 +57,18 @@ class AreaActions:
         self.show_workspace("photometry")
         return paths
 
+    def feed_photometry_live(self, paths):
+        """Calibrated frames to Photometry's live mode; True when it is measuring. Not yet: the Photometry window
+        opens once and the frames wait there for live mode to start."""
+        from .photometry_feed import feed, measuring
+
+        phot = self.photometry_page
+        waiting = not measuring(phot) and not getattr(phot, "live_fed", [])
+        done = feed(phot, paths)
+        if waiting and not done:
+            self.show_workspace("photometry")
+        return done
+
     def photometry_from_image(self, x, y, comparison=False):
         """Start photometry from the Images page: the open images (or the shown one) go to the Photometry window with
         this star as the target, or add it as a comparison star."""

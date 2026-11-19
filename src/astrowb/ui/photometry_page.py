@@ -1081,10 +1081,11 @@ class PhotometryPage(Undoable, QWidget):
         import threading
 
         from ..photometry import live
+        from .photometry_feed import take_fed
 
         if self.live is None or self._live_busy:
             return
-        new = live.ready_files(self.live_folder, self.live_seen)
+        new = take_fed(self, live.ready_files(self.live_folder, self.live_seen))  # + the Calibrate stage's frames
         if not new:
             return
         self._live_busy = True

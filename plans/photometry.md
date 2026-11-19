@@ -300,7 +300,8 @@ error codes. Done (2026-11-21): the eclipse of the fainter star, `tests/test_psf
   messages, tests, guide 06.
 
 ### PHO-19. Real-time photometry is the same code as the night run  (P1)
-**partial** — done (2026-11-13): each live frame is measured by `lightcurve._measure_at`, the night run's own
+**partial** — done (2026-11-13): Calibrated frames from the Calibrate stage (2026-11-27, `ui/photometry_feed.py` `feed`/`take_fed`, taken by `poll_live`; test
+tests/ui/test_calibration_to_photometry.py `test_calibrated_frames_reach_live_photometry_and_equal_the_batch`: equal to the batch to 1e-9) are measured by the same code; done (2026-11-13): each live frame is measured by `lightcurve._measure_at`, the night run's own
 per-frame code, so the PSF path, "remove neighbours" (set up on the first frame) and every sky method reach the live
 light curve; the window passes the same method settings to both (`ui/photometry_method.method_params`). Test: the
 variable-neighbour night measured live equals the night run to 1e-9. Also `_measure_frame` (the night run's search
