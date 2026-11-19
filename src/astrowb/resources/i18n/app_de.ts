@@ -2240,19 +2240,19 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="481"/>
-        <location filename="../../ui/calibrate_page.py" line="657"/>
+        <location filename="../../ui/calibrate_page.py" line="668"/>
         <source>bias</source>
         <translation>Bias</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="482"/>
-        <location filename="../../ui/calibrate_page.py" line="657"/>
+        <location filename="../../ui/calibrate_page.py" line="668"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="483"/>
-        <location filename="../../ui/calibrate_page.py" line="657"/>
+        <location filename="../../ui/calibrate_page.py" line="668"/>
         <source>flat</source>
         <translation>Flat</translation>
     </message>
@@ -2357,37 +2357,37 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="607"/>
+        <location filename="../../ui/calibrate_page.py" line="617"/>
         <source>Calibrating…</source>
         <translation>Kalibriere…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="616"/>
+        <location filename="../../ui/calibrate_page.py" line="627"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Linearitätskorrektur: Zahlen c0 c1 c2 … schreiben, z. B. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="627"/>
+        <location filename="../../ui/calibrate_page.py" line="638"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Fertig: {n} Bilder kalibriert, {m} Masterbilder nach {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="631"/>
+        <location filename="../../ui/calibrate_page.py" line="642"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} Bogenlampen-Aufnahmen kalibriert (nur Bias und Dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="637"/>
+        <location filename="../../ui/calibrate_page.py" line="648"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark mit {lo:.3f}–{hi:.3f} skaliert (DARKSCAL im Header jeder Datei).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="651"/>
+        <location filename="../../ui/calibrate_page.py" line="662"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} Gruppen von Kalibrationsbildern passen zu keinem Bild und wurden nicht kombiniert (z. B. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="659"/>
+        <location filename="../../ui/calibrate_page.py" line="670"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>Master-{kind} aus {n} Bildern (z. B. {file}) nicht erstellt, ohne ihn kalibriert: {why}</translation>
     </message>
@@ -7291,7 +7291,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Zum Stapeln zwei oder mehr Bilder öffnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_actions.py" line="177"/>
+        <location filename="../../ui/area_actions.py" line="194"/>
         <source>the Photometry window</source>
         <translation>dem Fenster Photometrie</translation>
     </message>
@@ -10980,355 +10980,355 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>OCPage</name>
     <message>
-        <location filename="../../ui/oc_page.py" line="52"/>
+        <location filename="../../ui/oc_page.py" line="53"/>
         <source>O−C diagram</source>
         <translation>O−C-Diagramm</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="56"/>
+        <location filename="../../ui/oc_page.py" line="57"/>
         <source>Times of minimum: measured (Minimum tab) and from the literature</source>
         <translation>Minimumszeiten: gemessen (Reiter Minimum) und aus der Literatur</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="58"/>
+        <location filename="../../ui/oc_page.py" line="59"/>
         <source>Put the times of minimum below, one per line: your own from the Minimum tab (Light curves or Photometry window) and the published ones (Load file…; e.g. from the O−C gateway or the papers), all in the same time scale (BJD_TDB preferably).</source>
         <translation>Tragen Sie die Minimumszeiten unten ein, eine pro Zeile: Ihre eigenen aus dem Reiter Minimum (Fenster Lichtkurven oder Photometrie) und die veröffentlichten (Datei laden…; z. B. aus dem O−C-Gateway oder Veröffentlichungen), alle in derselben Zeitskala (am besten BJD_TDB).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="64"/>
+        <location filename="../../ui/oc_page.py" line="65"/>
         <source>The ephemeris: reference T0 and period (VSX, GCVS or a paper)</source>
         <translation>Die Ephemeride: Referenz-T0 und Periode (VSX, GCVS oder eine Veröffentlichung)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="66"/>
+        <location filename="../../ui/oc_page.py" line="67"/>
         <source>Type the star&apos;s name and press Look up (VSX), or type the period (and T0) of a published ephemeris; it counts the cycles.</source>
         <translation>Geben Sie den Namen des Sterns ein und drücken Sie Nachschlagen (VSX), oder geben Sie die Periode (und T0) einer veröffentlichten Ephemeride ein; sie zählt die Zyklen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="71"/>
+        <location filename="../../ui/oc_page.py" line="72"/>
         <source>Linear ephemeris first: look at the O−C diagram</source>
         <translation>Zuerst lineare Ephemeride: das O−C-Diagramm ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="73"/>
+        <location filename="../../ui/oc_page.py" line="74"/>
         <source>Keep Linear ephemeris and press Fit and draw O-C. Look at the diagram: a straight scatter means a constant period; a parabola, a wave or diverging I and II minima tell you the next model.</source>
         <translation>Lineare Ephemeride lassen und Anpassen und O-C zeichnen drücken. Sehen Sie das Diagramm an: eine gerade Streuung bedeutet eine konstante Periode; eine Parabel, eine Welle oder auseinanderlaufende I- und II-Minima nennen das nächste Modell.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="79"/>
+        <location filename="../../ui/oc_page.py" line="80"/>
         <source>The model the O−C shape asks for</source>
         <translation>Das Modell, das die Form des O−C verlangt</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="81"/>
+        <location filename="../../ui/oc_page.py" line="82"/>
         <source>Parabola: Quadratic (period change). Wave: Third body (light-travel time). Primary and secondary minima drifting apart: Apsidal motion. Fit again.</source>
         <translation>Parabel: Quadratisch (Periodenänderung). Welle: Dritter Körper (Lichtlaufzeit). Auseinanderlaufende Haupt- und Nebenminima: Apsidendrehung. Erneut anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="86"/>
+        <location filename="../../ui/oc_page.py" line="87"/>
         <source>Errors and the table for the paper</source>
         <translation>Fehler und die Tabelle für die Veröffentlichung</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="88"/>
+        <location filename="../../ui/oc_page.py" line="89"/>
         <source>For a third body or apsidal motion tick MCMC uncertainties and fit again; then Export results (CSV / LaTeX).</source>
         <translation>Für einen dritten Körper oder Apsidendrehung MCMC-Unsicherheiten ankreuzen und erneut anpassen; dann Ergebnisse exportieren (CSV / LaTeX).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="98"/>
+        <location filename="../../ui/oc_page.py" line="99"/>
         <source>Minimum times, one per line: time [error] [I/II] [source]</source>
         <translation>Minimumszeiten, eine pro Zeile: Zeit [Fehler] [I/II] [Quelle]</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="107"/>
+        <location filename="../../ui/oc_page.py" line="108"/>
         <source>Load file…</source>
         <translation>Datei laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="111"/>
+        <location filename="../../ui/oc_page.py" line="112"/>
         <source>A text file of times of minimum or maximum: time, error, type (I / II), source; one per line</source>
         <translation>Eine Textdatei mit Minimums- oder Maximumszeiten: Zeit, Fehler, Art (I / II), Quelle; eine pro Zeile</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="119"/>
+        <location filename="../../ui/oc_page.py" line="120"/>
         <source>The star&apos;s name: Look up fills T0 and the period from AAVSO VSX</source>
         <translation>Name des Sterns: Nachschlagen füllt T0 und die Periode aus AAVSO VSX</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="120"/>
+        <location filename="../../ui/oc_page.py" line="121"/>
         <source>Look up</source>
         <translation>Nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="121"/>
+        <location filename="../../ui/oc_page.py" line="122"/>
         <source>T0 and the period of the star from AAVSO VSX (needs the internet)</source>
         <translation>T0 und Periode des Sterns aus AAVSO VSX (braucht das Internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="124"/>
+        <location filename="../../ui/oc_page.py" line="125"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="132"/>
+        <location filename="../../ui/oc_page.py" line="133"/>
         <source>Reference T0</source>
         <translation>Referenz-T0</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="133"/>
+        <location filename="../../ui/oc_page.py" line="134"/>
         <source>Period of the ephemeris used to count the cycles; the fit improves it</source>
         <translation>Periode der Ephemeride zum Zählen der Epochen; die Anpassung verbessert sie</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="134"/>
+        <location filename="../../ui/oc_page.py" line="135"/>
         <source>Epoch zero of the ephemeris (BJD or HJD, as the times); empty: the first minimum</source>
         <translation>Nullepoche der Ephemeride (BJD oder HJD, wie die Zeiten); leer: das erste Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="136"/>
+        <location filename="../../ui/oc_page.py" line="137"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="140"/>
+        <location filename="../../ui/oc_page.py" line="141"/>
         <source>Linear ephemeris</source>
         <translation>Lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="141"/>
+        <location filename="../../ui/oc_page.py" line="142"/>
         <source>A constant period: O−C on a straight line (corrects T0 and the period)</source>
         <translation>Konstante Periode: O−C auf einer Geraden (korrigiert T0 und Periode)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="142"/>
+        <location filename="../../ui/oc_page.py" line="143"/>
         <source>Quadratic (period change)</source>
         <translation>Quadratisch (Periodenänderung)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="144"/>
+        <location filename="../../ui/oc_page.py" line="145"/>
         <source>A steadily changing period (mass transfer, mass loss): O−C on a parabola; gives dP/dt</source>
         <translation>Gleichmäßig sich ändernde Periode (Massenaustausch, Massenverlust): O−C auf einer Parabel; liefert dP/dt</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="146"/>
+        <location filename="../../ui/oc_page.py" line="147"/>
         <source>Third body (light-travel time)</source>
         <translation>Dritter Körper (Lichtlaufzeit)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="149"/>
+        <location filename="../../ui/oc_page.py" line="150"/>
         <source>A third star moves the pair around: O−C waves with the third body&apos;s orbit (Irwin 1952); needs minima over more than one cycle of the wave</source>
         <translation>Ein dritter Stern bewegt das Paar: O−C schwankt mit der Bahn des dritten Körpers (Irwin 1952); braucht Minima über mehr als einen Zyklus der Welle</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="153"/>
+        <location filename="../../ui/oc_page.py" line="154"/>
         <source>Apsidal motion (eccentric orbit, primary and secondary)</source>
         <translation>Apsidendrehung (exzentrische Bahn, Haupt- und Nebenminima)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="156"/>
+        <location filename="../../ui/oc_page.py" line="157"/>
         <source>An eccentric orbit turns: primary and secondary minima drift in opposite directions; needs both kinds of minimum (type I and II)</source>
         <translation>Eine exzentrische Bahn dreht sich: Haupt- und Nebenminima wandern gegenläufig; braucht beide Arten von Minima (Typ I und II)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="199"/>
+        <location filename="../../ui/oc_page.py" line="200"/>
         <source>Text (*.txt *.csv *.dat);;Light-curve file (*.lc.ecsv *.ecsv);;All (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="209"/>
+        <location filename="../../ui/oc_page.py" line="212"/>
         <source>Cannot read {file}: {error}</source>
         <translation type="unfinished">{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="260"/>
+        <location filename="../../ui/oc_page.py" line="263"/>
         <source>MCMC uncertainties (slower, for correlated parameters)</source>
         <translation>MCMC-Unsicherheiten (langsamer, für korrelierte Parameter)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="263"/>
+        <location filename="../../ui/oc_page.py" line="266"/>
         <source>After the fit, Markov chains explore the third-body or apsidal parameters: 68 % intervals of every parameter, e and ω included, when they depend on each other. A linear or quadratic ephemeris is a linear problem: its least-squares errors are already exact.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="273"/>
+        <location filename="../../ui/oc_page.py" line="276"/>
         <source>The most steps of the Markov chains; they stop earlier once converged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="224"/>
+        <location filename="../../ui/oc_page.py" line="227"/>
         <source>The times are HJD without a time scale: taken as UTC. If they are TT, every O−C here is {s:.0f} s too late; write UTC or TT in the file when you know it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="329"/>
+        <location filename="../../ui/oc_page.py" line="332"/>
         <source>Errors: the larger side of the MCMC 68 % intervals (at most {s} steps).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="272"/>
+        <location filename="../../ui/oc_page.py" line="275"/>
         <source> steps</source>
         <translation> Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="165"/>
+        <location filename="../../ui/oc_page.py" line="166"/>
         <source>Fit and draw O-C</source>
         <translation>Anpassen und O-C zeichnen</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="168"/>
+        <location filename="../../ui/oc_page.py" line="169"/>
         <source>Fits the chosen model to the times and draws O−C (observed minus calculated) against cycle number</source>
         <translation>Passt das gewählte Modell an die Zeiten an und zeichnet O−C (beobachtet minus berechnet) gegen die Epochennummer</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="197"/>
+        <location filename="../../ui/oc_page.py" line="198"/>
         <source>Load minimum times</source>
         <translation>Minimumszeiten laden</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="231"/>
+        <location filename="../../ui/oc_page.py" line="234"/>
         <source>Asking VSX…</source>
         <translation>VSX wird gefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="237"/>
+        <location filename="../../ui/oc_page.py" line="240"/>
         <source>{name}: no period in VSX; type it.</source>
         <translation>{name}: keine Periode in VSX; bitte eingeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="243"/>
+        <location filename="../../ui/oc_page.py" line="246"/>
         <source>{name}: T0 and period from {source}. Press Fit and draw O-C.</source>
         <translation>{name}: T0 und Periode aus {source}. Drücken Sie Anpassen und O-C zeichnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="293"/>
+        <location filename="../../ui/oc_page.py" line="296"/>
         <source>Fit the O−C diagram first.</source>
         <translation>Zuerst das O−C-Diagramm anpassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="308"/>
+        <location filename="../../ui/oc_page.py" line="311"/>
         <source>light-travel time in a third-body orbit (Irwin 1952)</source>
         <translation>Lichtlaufzeiteffekt in einer Drittkörperbahn (Irwin 1952)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="318"/>
+        <location filename="../../ui/oc_page.py" line="321"/>
         <source>apsidal motion of an eccentric orbit</source>
         <translation>Apsidendrehung einer exzentrischen Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="323"/>
+        <location filename="../../ui/oc_page.py" line="326"/>
         <source>quadratic ephemeris</source>
         <translation>quadratische Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="323"/>
+        <location filename="../../ui/oc_page.py" line="326"/>
         <source>linear ephemeris</source>
         <translation>lineare Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="326"/>
+        <location filename="../../ui/oc_page.py" line="329"/>
         <source>O−C fit to {n} times of minimum: {model}; weighted least squares, 1σ errors (scaled by √χ²ᵣ when χ²ᵣ &gt; 1).</source>
         <translation>O−C-Anpassung an {n} Minimumszeiten: {model}; gewichtete kleinste Quadrate, 1σ-Fehler (mit √χ²ᵣ skaliert, wenn χ²ᵣ &gt; 1).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="342"/>
+        <location filename="../../ui/oc_page.py" line="345"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Geben Sie die Periode in Tagen ein, oder den Namen des Sterns und Nachschlagen.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="353"/>
+        <location filename="../../ui/oc_page.py" line="356"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Anpassung, danach läuft die MCMC ({s} Schritte) als Aufgabe…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="363"/>
+        <location filename="../../ui/oc_page.py" line="366"/>
         <source>Cannot fit: {error}</source>
         <translation>Anpassung nicht möglich: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="378"/>
+        <location filename="../../ui/oc_page.py" line="381"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="379"/>
+        <location filename="../../ui/oc_page.py" line="382"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="383"/>
+        <location filename="../../ui/oc_page.py" line="386"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="387"/>
+        <location filename="../../ui/oc_page.py" line="390"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="392"/>
+        <location filename="../../ui/oc_page.py" line="395"/>
         <source>model</source>
         <translation>Modell</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="401"/>
-        <location filename="../../ui/oc_page.py" line="479"/>
+        <location filename="../../ui/oc_page.py" line="404"/>
+        <location filename="../../ui/oc_page.py" line="482"/>
         <source>primary</source>
         <translation>Hauptminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="401"/>
-        <location filename="../../ui/oc_page.py" line="479"/>
+        <location filename="../../ui/oc_page.py" line="404"/>
+        <location filename="../../ui/oc_page.py" line="482"/>
         <source>secondary</source>
         <translation>Nebenminimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="412"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="410"/>
+        <location filename="../../ui/oc_page.py" line="413"/>
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="412"/>
+        <location filename="../../ui/oc_page.py" line="415"/>
         <source>Epoch</source>
         <translation>Epoche</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="406"/>
-        <location filename="../../ui/oc_page.py" line="412"/>
+        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="415"/>
         <source>Residual (min)</source>
         <translation>Residuum (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="419"/>
+        <location filename="../../ui/oc_page.py" line="422"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Dritter Körper: P3 = {p:.2f} ± {pe:.2f} a, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="428"/>
+        <location filename="../../ui/oc_page.py" line="431"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="443"/>
+        <location filename="../../ui/oc_page.py" line="446"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="451"/>
+        <location filename="../../ui/oc_page.py" line="454"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidendrehung: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/Zyklus, U = {u:.1f} a</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="453"/>
+        <location filename="../../ui/oc_page.py" line="456"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} Minima</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="466"/>
+        <location filename="../../ui/oc_page.py" line="469"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (Akzeptanz {a:.2f}): </translation>
     </message>
@@ -12545,35 +12545,58 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
 </context>
 <context>
+    <name>OcToPlanning</name>
+    <message>
+        <location filename="../../ui/oc_to_planning.py" line="17"/>
+        <source>Fit a linear or quadratic ephemeris first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_to_planning.py" line="20"/>
+        <source>Type the star&apos;s name first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_to_planning.py" line="41"/>
+        <source>Send the ephemeris to Planning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_to_planning.py" line="42"/>
+        <source>The fitted ephemeris, updated to the latest epoch, becomes a Planning target so tonight&apos;s minima are predicted</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/oc_stages.py" line="17"/>
-        <location filename="../../ui/oc_stages.py" line="33"/>
+        <location filename="../../ui/oc_stages.py" line="18"/>
+        <location filename="../../ui/oc_stages.py" line="34"/>
         <source>Minima</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="17"/>
+        <location filename="../../ui/oc_stages.py" line="18"/>
         <source>Ephemeris</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="18"/>
+        <location filename="../../ui/oc_stages.py" line="19"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="18"/>
+        <location filename="../../ui/oc_stages.py" line="19"/>
         <source>Uncertainty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="19"/>
+        <location filename="../../ui/oc_stages.py" line="20"/>
         <source>Fit and report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="34"/>
+        <location filename="../../ui/oc_stages.py" line="35"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12584,7 +12607,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/oc_correlations.py" line="23"/>
-        <location filename="../../ui/oc_stages.py" line="51"/>
+        <location filename="../../ui/oc_stages.py" line="53"/>
         <source>Parameter</source>
         <translation type="unfinished">Parameter</translation>
     </message>
@@ -12594,17 +12617,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="51"/>
+        <location filename="../../ui/oc_stages.py" line="53"/>
         <source>Value</source>
         <translation type="unfinished">Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="52"/>
+        <location filename="../../ui/oc_stages.py" line="54"/>
         <source>Error</source>
         <translation type="unfinished">Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="52"/>
+        <location filename="../../ui/oc_stages.py" line="54"/>
         <source>Unit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -19324,117 +19347,127 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="389"/>
+        <location filename="../../ui/settings_window.py" line="387"/>
+        <source>Calibrated images carry a variance and a quality plane as extensions. Programs that read only the first image (AstroImageJ, the default view of DS9) see the calibrated image in extension 1; off: plain single-image FITS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="391"/>
+        <source>Write variance and quality planes (multi-extension FITS)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="397"/>
         <source>Automatic steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="398"/>
+        <location filename="../../ui/settings_window.py" line="406"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="404"/>
+        <location filename="../../ui/settings_window.py" line="412"/>
         <source>The camera&apos;s clock minus UTC, for camera raw files and pictures without a UTC time (DSLR)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="405"/>
+        <location filename="../../ui/settings_window.py" line="413"/>
         <source>Camera clock − UTC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="408"/>
+        <location filename="../../ui/settings_window.py" line="416"/>
         <source>Online services</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="410"/>
+        <location filename="../../ui/settings_window.py" line="418"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="411"/>
+        <location filename="../../ui/settings_window.py" line="419"/>
         <source>Work offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="412"/>
+        <location filename="../../ui/settings_window.py" line="420"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="413"/>
+        <location filename="../../ui/settings_window.py" line="421"/>
         <source>Earth-rotation tables</source>
         <translation>Erdrotationstabellen</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="422"/>
+        <location filename="../../ui/settings_window.py" line="430"/>
         <source>Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="430"/>
+        <location filename="../../ui/settings_window.py" line="438"/>
         <source>Click the field and press the keys; the dot puts the program&apos;s keys back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="445"/>
+        <location filename="../../ui/settings_window.py" line="453"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="450"/>
+        <location filename="../../ui/settings_window.py" line="458"/>
         <source>Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="452"/>
+        <location filename="../../ui/settings_window.py" line="460"/>
         <source>Plugins folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="452"/>
+        <location filename="../../ui/settings_window.py" line="460"/>
         <source>Python files put here add steps and menu entries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="456"/>
+        <location filename="../../ui/settings_window.py" line="464"/>
         <source>New or changed plugins run only once you allow them: they run with your rights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="457"/>
+        <location filename="../../ui/settings_window.py" line="465"/>
         <source>Waiting to be allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="463"/>
+        <location filename="../../ui/settings_window.py" line="471"/>
         <source>Allow…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="463"/>
+        <location filename="../../ui/settings_window.py" line="471"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="477"/>
+        <location filename="../../ui/settings_window.py" line="485"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="478"/>
+        <location filename="../../ui/settings_window.py" line="486"/>
         <source>The settings, app.log and error.log: what a problem report is made from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="479"/>
+        <location filename="../../ui/settings_window.py" line="487"/>
         <source>Settings and logs folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="485"/>
+        <location filename="../../ui/settings_window.py" line="493"/>
         <source>Open the folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22332,6 +22365,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../calibration/step_params.py" line="114"/>
         <location filename="../../photometry/measure_params.py" line="40"/>
         <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
@@ -23046,119 +23080,144 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="105"/>
+        <source>Write variance and quality planes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="106"/>
+        <source>Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="115"/>
+        <source>For the variance plane when the header does not give it (0: unknown)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="124"/>
+        <source>Saturation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="125"/>
+        <source>Raw values from here on are flagged saturated when the header lacks it (0: none)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="134"/>
         <source>Linearity correction</source>
         <translation type="unfinished">Linearitätskorrektur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="106"/>
+        <location filename="../../calibration/step_params.py" line="135"/>
         <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="113"/>
+        <location filename="../../calibration/step_params.py" line="142"/>
         <source>Masters chosen by hand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="114"/>
+        <location filename="../../calibration/step_params.py" line="143"/>
         <source>{filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="135"/>
+        <location filename="../../calibration/step_params.py" line="164"/>
         <source>Combine</source>
         <translation>Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="136"/>
+        <location filename="../../calibration/step_params.py" line="165"/>
         <location filename="../../spectroscopy/step_params.py" line="76"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="143"/>
+        <location filename="../../calibration/step_params.py" line="172"/>
         <location filename="../../spectroscopy/step_params.py" line="83"/>
         <source>Rejection</source>
         <translation type="unfinished">Verwerfung</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="144"/>
+        <location filename="../../calibration/step_params.py" line="173"/>
         <source>Pixels left out before combining (satellites, cosmic rays)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="151"/>
+        <location filename="../../calibration/step_params.py" line="180"/>
         <source>Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="153"/>
+        <location filename="../../calibration/step_params.py" line="182"/>
         <source>Frames or percent dropped at the low end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="160"/>
+        <location filename="../../calibration/step_params.py" line="189"/>
         <source>High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="162"/>
+        <location filename="../../calibration/step_params.py" line="191"/>
         <source>Frames or percent dropped at the high end (min / max, percentile)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="169"/>
+        <location filename="../../calibration/step_params.py" line="198"/>
         <source>Normalise</source>
         <translation>Normieren</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="170"/>
+        <location filename="../../calibration/step_params.py" line="199"/>
         <source>Each frame shifted or scaled to the first before combining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="178"/>
+        <location filename="../../calibration/step_params.py" line="207"/>
         <source>noise: 1/σ² weights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="185"/>
+        <location filename="../../calibration/step_params.py" line="214"/>
         <location filename="../../engine/step_params.py" line="276"/>
         <source>Align</source>
         <translation>Ausrichten</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="186"/>
+        <location filename="../../calibration/step_params.py" line="215"/>
         <source>Shift only, star patterns, none (aligned already) or on the stars picked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="192"/>
+        <location filename="../../calibration/step_params.py" line="221"/>
         <source>Stars to align on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="193"/>
+        <location filename="../../calibration/step_params.py" line="222"/>
         <source>Positions on the first frame (x y) for the picked alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="204"/>
+        <location filename="../../calibration/step_params.py" line="233"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="205"/>
+        <location filename="../../calibration/step_params.py" line="234"/>
         <source>The output pixels are this many times finer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="213"/>
+        <location filename="../../calibration/step_params.py" line="242"/>
         <source>Drop size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="214"/>
+        <location filename="../../calibration/step_params.py" line="243"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -23169,13 +23228,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="45"/>
-        <location filename="../../calibration/step_params.py" line="127"/>
+        <location filename="../../calibration/step_params.py" line="156"/>
         <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Sigma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="128"/>
+        <location filename="../../calibration/step_params.py" line="157"/>
         <location filename="../../spectroscopy/step_params.py" line="92"/>
         <source>Rejection limit in standard deviations</source>
         <translation type="unfinished"></translation>
@@ -23191,7 +23250,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="177"/>
+        <location filename="../../calibration/step_params.py" line="206"/>
         <location filename="../../spectroscopy/step_params.py" line="107"/>
         <source>Weights</source>
         <translation>Gewichte</translation>

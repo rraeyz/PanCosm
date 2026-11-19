@@ -248,8 +248,13 @@ fitted around the middle epoch, returned in the caller's numbering with the cova
 (conservative), `ambiguous` (|O−C| > P/4), `updated` (T0 and P at the middle or the latest epoch) and
 `observer_form` ("Min I = BJD_TDB 2459000.12346(12) + 0.365123451(31) E"). Tests: dP/dt inside 1σ in 60–76 % and
 2σ in ≥ 92 % of 200 realisations; the F-test rejects a parabola on linear data in ≤ 2 % at the 1 % level; a period
-jump located within 300 cycles in 45 of 50. Left: the W UMa published dP/dt check, the interface panel, sending
-the updated ephemeris to Planning.
+jump located within 300 cycles in 45 of 50. Left: the W UMa published dP/dt check, the interface panel. (2026-11-27) Sending the
+updated ephemeris to Planning: `ui/oc_to_planning.py` (`add_button`, `target_from_fit`; the "Send the ephemeris to
+Planning" button of the Fit and report stage, enabled by a linear or quadratic fit): `ephemeris_models.updated(…,
+at="latest")` of the fit (T0 and the instantaneous P at the latest epoch), source "O−C fit", secondary when a minimum is
+II; the name is the Star field or the file's stem, the coordinates come from `MainWindow.send_to_planning` (the
+`planning.resolve` step), then the Planning window is raised; errors in the result line;
+`tests/ui/test_oc_to_planning.py`.
 - **Ours now:** `ephemeris.fit` (linear / quadratic, weighted, centred epochs).
 - **Build:**
   1. Weights: from errors; or by method (a table of relative weights the user can edit; default 1 / 3 / 10 for

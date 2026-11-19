@@ -164,6 +164,23 @@ class AreaActions:
             on_fail=self.plan_page.status.setText,
         )
 
+    def send_to_planning(self, target):
+        """O−C → Planning: the name gives the coordinates (Planning's own Resolve), the O−C fit the ephemeris."""
+        from ..settings import config_dir
+        from .messages import translate as message
+
+        def add(out):
+            self.plan_page.add_target(out["target"] | target)
+            self.open_area("plan")
+
+        return self.run_step_for(
+            "oc",
+            "planning.resolve",
+            {"name": target["name"], "cache_file": str(config_dir() / "targets.json")},
+            on_done=add,
+            on_fail=lambda msg: self.oc_page.result.setText(message(msg)),
+        )
+
     def lookup_ephemeris(self, name):
         return self.run_step(
             "planning.ephemeris",

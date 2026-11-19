@@ -269,6 +269,7 @@ def make_oc_page(main):
         )
 
     oc.background = oc_background
+    oc.planning_requested.connect(main.send_to_planning)
     return oc
 
 

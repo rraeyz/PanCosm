@@ -38,6 +38,7 @@ def _decimals(err):
 class OCPage(QWidget):
     """Minimum times -> epochs, linear or quadratic ephemeris, O-C diagram."""
 
+    planning_requested = Signal(dict)  # the fitted ephemeris as a Planning target (oc_to_planning)
     ephemeris_requested = Signal(str)  # a star's name: its T0 and period from VSX (planning.ephemeris)
 
     def __init__(self, parent=None):
@@ -198,6 +199,8 @@ class OCPage(QWidget):
                 "",
                 self.tr("Text (*.txt *.csv *.dat);;Light-curve file (*.lc.ecsv *.ecsv);;All (*)"),
             )
+        if path:
+            self.file_stem = Path(path).stem  # the star's name when none is typed (oc_to_planning)
         if path and lcfile.is_lcfile(path):
             load_lcfile(self, path)
             return
