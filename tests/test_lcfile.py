@@ -35,6 +35,12 @@ def test_round_trip(tmp_path):
         lcfile.read(tmp_path / "old.lc.ecsv")
 
 
+def test_var_plane_record_round_trips(tmp_path):
+    lc = measured() | {"var_plane": [i % 3 == 0 for i in range(12)]}
+    back = lcfile.read(lcfile.write(lc, tmp_path / "v.lc.ecsv"))
+    assert back["var_plane"] == lc["var_plane"] and Table.read(tmp_path / "v.lc.ecsv")["var_plane"].description
+
+
 def test_save_all_writes_the_whole_night(tmp_path):
     """PHO-27 item 5: one folder with the light curve, the measurements table, the star list, the fit and the plot."""
     import csv

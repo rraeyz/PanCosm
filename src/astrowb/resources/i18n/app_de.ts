@@ -13810,239 +13810,254 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="30"/>
+        <location filename="../../ui/photometry_checks.py" line="24"/>
+        <source>saturated pixel in an aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="25"/>
+        <source>bad pixel or no data in an aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="32"/>
         <source>Expose {suggest:.0f} s instead of {now:.0f} s: the highest peak reached {peak:.0f} of the limit {limit:.0f}; this puts it at 60 %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="35"/>
+        <location filename="../../ui/photometry_checks.py" line="37"/>
         <source>Defocus a little: the brightest pixel holds {percent:.0f} % of the target&apos;s light, so flat-field errors weigh on every point.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="40"/>
+        <location filename="../../ui/photometry_checks.py" line="42"/>
         <source>Comparison {star} was missing on {percent:.0f} % of the frames: point so that it stays well inside the frame, or choose another.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="45"/>
+        <location filename="../../ui/photometry_checks.py" line="47"/>
         <source>Only {points} points over the ingress at a {cadence_s:.0f} s cadence: shorter exposures resolve it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="50"/>
+        <location filename="../../ui/photometry_checks.py" line="52"/>
         <source>{term} is {percent:.0f} % of the target&apos;s noise: {remedy}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="51"/>
+        <location filename="../../ui/photometry_checks.py" line="53"/>
         <source>Point {dx:+d} px in x and {dy:+d} px in y on the frame: every star&apos;s path over the night then stays inside it with its sky ring.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="56"/>
+        <location filename="../../ui/photometry_checks.py" line="58"/>
         <source>The target moved about {px:.0f} px over the night: flat-field errors then enter the light curve; guide better, or take flats the same night.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="61"/>
+        <location filename="../../ui/photometry_checks.py" line="63"/>
         <source>The stars spread wider than the frame over the night: choose comparison stars nearer the target.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="66"/>
+        <location filename="../../ui/photometry_checks.py" line="68"/>
         <source>The sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="67"/>
+        <location filename="../../ui/photometry_checks.py" line="69"/>
         <source>a smaller aperture, a narrower filter or a darker sky lowers it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="68"/>
+        <location filename="../../ui/photometry_checks.py" line="70"/>
         <source>Scintillation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="69"/>
+        <location filename="../../ui/photometry_checks.py" line="71"/>
         <source>longer exposures or a larger telescope lower it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="70"/>
+        <location filename="../../ui/photometry_checks.py" line="72"/>
         <source>Read noise</source>
         <translation>Ausleserauschen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="71"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>longer exposures or binning lower it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="72"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Dark current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="73"/>
+        <location filename="../../ui/photometry_checks.py" line="75"/>
         <source>a colder camera lowers it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="92"/>
+        <location filename="../../ui/photometry_checks.py" line="94"/>
         <source>Measure the light curve to check the night.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="94"/>
+        <location filename="../../ui/photometry_checks.py" line="96"/>
         <source>Leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="96"/>
+        <location filename="../../ui/photometry_checks.py" line="98"/>
         <source>Their points leave the light curve; Undo brings them back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="100"/>
+        <location filename="../../ui/photometry_checks.py" line="102"/>
         <source>Leave out only…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="101"/>
+        <location filename="../../ui/photometry_checks.py" line="103"/>
         <source>The frames of one kind of flag, the others kept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="112"/>
+        <location filename="../../ui/photometry_checks.py" line="114"/>
         <source>Reports and files then carry the scaled errors too (rel_flux_err_scaled); the formal ones stay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="167"/>
+        <location filename="../../ui/photometry_checks.py" line="169"/>
         <source>For next time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="179"/>
+        <location filename="../../ui/photometry_checks.py" line="181"/>
         <source>Scatter from point to point: {r:.2f} × the predicted errors.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="182"/>
+        <location filename="../../ui/photometry_checks.py" line="184"/>
         <source> The errors are too small: scale them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="190"/>
+        <location filename="../../ui/photometry_checks.py" line="192"/>
         <source>Use the formal errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="192"/>
+        <location filename="../../ui/photometry_checks.py" line="194"/>
         <source>Scale the errors by {f:.2f}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="220"/>
+        <location filename="../../ui/photometry_checks.py" line="222"/>
         <source>Comparison counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="221"/>
+        <location filename="../../ui/photometry_checks.py" line="223"/>
         <source>Sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="222"/>
+        <location filename="../../ui/photometry_checks.py" line="224"/>
         <source>Ellipticity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="223"/>
+        <location filename="../../ui/photometry_checks.py" line="225"/>
         <source>Airmass</source>
         <translation>Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="229"/>
+        <location filename="../../ui/photometry_checks.py" line="231"/>
         <source>Target peak / limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="234"/>
+        <location filename="../../ui/photometry_checks.py" line="236"/>
         <source>Comparison − check (mag)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="244"/>
-        <location filename="../../ui/photometry_checks.py" line="324"/>
+        <location filename="../../ui/photometry_checks.py" line="246"/>
+        <location filename="../../ui/photometry_checks.py" line="334"/>
         <source>Flagged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="274"/>
+        <location filename="../../ui/photometry_checks.py" line="276"/>
         <source>measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="276"/>
+        <location filename="../../ui/photometry_checks.py" line="278"/>
         <source>white noise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="270"/>
+        <location filename="../../ui/photometry_checks.py" line="272"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="272"/>
+        <location filename="../../ui/photometry_checks.py" line="274"/>
         <source>T1 (no check star)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="277"/>
+        <location filename="../../ui/photometry_checks.py" line="279"/>
         <source>RMS against bin size, {who}: β = {beta:.2f}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="278"/>
+        <location filename="../../ui/photometry_checks.py" line="280"/>
         <source>Points per bin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="338"/>
+        <location filename="../../ui/photometry_checks.py" line="312"/>
+        <source>errors from the VAR plane</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="348"/>
         <source>leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="352"/>
+        <location filename="../../ui/photometry_checks.py" line="362"/>
         <source>{kind} ({n})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="357"/>
+        <location filename="../../ui/photometry_checks.py" line="367"/>
         <source>Flagged frames: {list}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="359"/>
+        <location filename="../../ui/photometry_checks.py" line="369"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="246"/>
-        <location filename="../../ui/photometry_checks.py" line="370"/>
+        <location filename="../../ui/photometry_checks.py" line="248"/>
+        <location filename="../../ui/photometry_checks.py" line="380"/>
         <source>Frame</source>
         <translation>Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="370"/>
+        <location filename="../../ui/photometry_checks.py" line="380"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="371"/>
+        <location filename="../../ui/photometry_checks.py" line="381"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18032,13 +18047,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="238"/>
-        <location filename="../../ui/plot/view.py" line="161"/>
+        <location filename="../../ui/plot/view.py" line="175"/>
         <source>Nothing to show yet: the plot appears here once there are results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="295"/>
-        <location filename="../../ui/plot/view.py" line="188"/>
+        <location filename="../../ui/plot/view.py" line="202"/>
         <source>This plot could not be drawn: {error}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18054,13 +18069,13 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="393"/>
-        <location filename="../../ui/plot/view.py" line="303"/>
+        <location filename="../../ui/plot/view.py" line="316"/>
         <source>Copy picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="394"/>
-        <location filename="../../ui/plot/view.py" line="304"/>
+        <location filename="../../ui/plot/view.py" line="317"/>
         <source>Copy data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18085,7 +18100,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Publikationsgrafik</translation>
     </message>
     <message>
-        <location filename="../../ui/plot/view.py" line="608"/>
+        <location filename="../../ui/plot/view.py" line="621"/>
         <source>Δx = {dx:.6g}   Δy = {dy:.6g}</source>
         <translation type="unfinished"></translation>
     </message>

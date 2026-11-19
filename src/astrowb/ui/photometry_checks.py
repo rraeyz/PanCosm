@@ -21,6 +21,8 @@ def kinds():
         "near_saturation": translate("PhotometryChecks", "near saturation"),
         "spike": translate("PhotometryChecks", "cosmic ray or hot pixel in an aperture"),
         "trail": translate("PhotometryChecks", "satellite or aircraft trail across an aperture"),
+        "saturated_pixel": translate("PhotometryChecks", "saturated pixel in an aperture"),
+        "bad_pixel": translate("PhotometryChecks", "bad pixel or no data in an aperture"),
     }
 
 
@@ -300,8 +302,16 @@ class ChecksTab(QWidget):
             for i in v:
                 if i < len(files):
                     why.setdefault(Path(str(files[i])).name, []).append(names[k])
+        var = {Path(str(f)).name for f, v in zip(files, lc.get("var_plane") or [], strict=False) if v}
         for r, path in enumerate(self.page.images[: table.rowCount()]):
             reasons = why.get(Path(path).name)
+            if Path(path).name in var and table.item(r, 0) is not None:  # PHO-36: errors from the frame's VAR plane
+                first = table.item(r, 0)
+                first.setToolTip(
+                    ", ".join(
+                        filter(None, [first.toolTip(), translate("PhotometryChecks", "errors from the VAR plane")])
+                    )
+                )
             for c in range(table.columnCount()):
                 item = table.item(r, c)
                 if reasons and item is not None:

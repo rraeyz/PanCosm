@@ -40,6 +40,8 @@ def write(lc, path, provenance=None):
     if "time" in t.colnames:
         t["time"].unit = "d"
         t["time"].description = f"mid-exposure time, {lc.get('time_scale', 'unknown scale')}"
+    if "var_plane" in t.colnames:
+        t["var_plane"].description = "True where the frame's errors came from its VAR plane"
     if "airmass" in t.colnames:  # the formula's name beside the column (ARC-15 item 6; default formula)
         from ..core.units import AIRMASS_NOTE
 

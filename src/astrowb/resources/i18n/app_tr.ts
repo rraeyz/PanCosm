@@ -13812,239 +13812,254 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>açıklıktan geçen uydu veya uçak izi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="30"/>
+        <location filename="../../ui/photometry_checks.py" line="24"/>
+        <source>saturated pixel in an aperture</source>
+        <translation>açıklıkta doygun piksel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="25"/>
+        <source>bad pixel or no data in an aperture</source>
+        <translation>açıklıkta bozuk piksel ya da veri yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="32"/>
         <source>Expose {suggest:.0f} s instead of {now:.0f} s: the highest peak reached {peak:.0f} of the limit {limit:.0f}; this puts it at 60 %.</source>
         <translation>{now:.0f} s yerine {suggest:.0f} s poz verin: en yüksek tepe {limit:.0f} sınırının {peak:.0f} değerine ulaştı; bu onu %60&apos;a getirir.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="35"/>
+        <location filename="../../ui/photometry_checks.py" line="37"/>
         <source>Defocus a little: the brightest pixel holds {percent:.0f} % of the target&apos;s light, so flat-field errors weigh on every point.</source>
         <translation>Biraz odak dışına alın: en parlak piksel hedefin ışığının %{percent:.0f} kadarını tutuyor, bu yüzden düz alan hataları her noktayı etkiliyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="40"/>
+        <location filename="../../ui/photometry_checks.py" line="42"/>
         <source>Comparison {star} was missing on {percent:.0f} % of the frames: point so that it stays well inside the frame, or choose another.</source>
         <translation>Karşılaştırma yıldızı {star} karelerin %{percent:.0f} kadarında yoktu: kadrajın içinde kalacak şekilde yönlendirin ya da başka bir yıldız seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="45"/>
+        <location filename="../../ui/photometry_checks.py" line="47"/>
         <source>Only {points} points over the ingress at a {cadence_s:.0f} s cadence: shorter exposures resolve it.</source>
         <translation>{cadence_s:.0f} s kadansla girişte yalnızca {points} nokta var: daha kısa pozlar onu çözer.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="50"/>
+        <location filename="../../ui/photometry_checks.py" line="52"/>
         <source>{term} is {percent:.0f} % of the target&apos;s noise: {remedy}</source>
         <translation>{term}, hedefin gürültüsünün %{percent:.0f} kadarı: {remedy}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="51"/>
+        <location filename="../../ui/photometry_checks.py" line="53"/>
         <source>Point {dx:+d} px in x and {dy:+d} px in y on the frame: every star&apos;s path over the night then stays inside it with its sky ring.</source>
         <translation>Teleskobu karede x&apos;te {dx:+d} px, y&apos;de {dy:+d} px kaydırın: her yıldızın gece boyunca izlediği yol, gök halkasıyla birlikte karenin içinde kalır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="56"/>
+        <location filename="../../ui/photometry_checks.py" line="58"/>
         <source>The target moved about {px:.0f} px over the night: flat-field errors then enter the light curve; guide better, or take flats the same night.</source>
         <translation>Hedef gece boyunca yaklaşık {px:.0f} px kaydı: düz alan (flat) hataları ışık eğrisine girer; daha iyi izleme yapın ya da aynı gece flat alın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="61"/>
+        <location filename="../../ui/photometry_checks.py" line="63"/>
         <source>The stars spread wider than the frame over the night: choose comparison stars nearer the target.</source>
         <translation>Yıldızlar gece boyunca karenin genişliğinden fazla yayılıyor: hedefe daha yakın karşılaştırma yıldızları seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="66"/>
+        <location filename="../../ui/photometry_checks.py" line="68"/>
         <source>The sky</source>
         <translation>Gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="67"/>
+        <location filename="../../ui/photometry_checks.py" line="69"/>
         <source>a smaller aperture, a narrower filter or a darker sky lowers it.</source>
         <translation>daha küçük bir açıklık, daha dar bir filtre ya da daha karanlık bir gökyüzü onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="68"/>
+        <location filename="../../ui/photometry_checks.py" line="70"/>
         <source>Scintillation</source>
         <translation>Sintilasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="69"/>
+        <location filename="../../ui/photometry_checks.py" line="71"/>
         <source>longer exposures or a larger telescope lower it.</source>
         <translation>daha uzun pozlar ya da daha büyük bir teleskop onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="70"/>
+        <location filename="../../ui/photometry_checks.py" line="72"/>
         <source>Read noise</source>
         <translation>Okuma gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="71"/>
+        <location filename="../../ui/photometry_checks.py" line="73"/>
         <source>longer exposures or binning lower it.</source>
         <translation>daha uzun pozlar ya da birleştirme (binning) onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="72"/>
+        <location filename="../../ui/photometry_checks.py" line="74"/>
         <source>Dark current</source>
         <translation>Karanlık akım</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="73"/>
+        <location filename="../../ui/photometry_checks.py" line="75"/>
         <source>a colder camera lowers it.</source>
         <translation>daha soğuk bir kamera onu azaltır.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="92"/>
+        <location filename="../../ui/photometry_checks.py" line="94"/>
         <source>Measure the light curve to check the night.</source>
         <translation>Geceyi denetlemek için ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="94"/>
+        <location filename="../../ui/photometry_checks.py" line="96"/>
         <source>Leave out the flagged points</source>
         <translation>İşaretli noktaları dışarıda bırak</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="96"/>
+        <location filename="../../ui/photometry_checks.py" line="98"/>
         <source>Their points leave the light curve; Undo brings them back</source>
         <translation>Noktaları ışık eğrisinden çıkar; Geri al onları geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="100"/>
+        <location filename="../../ui/photometry_checks.py" line="102"/>
         <source>Leave out only…</source>
         <translation>Yalnızca şunu çıkar…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="101"/>
+        <location filename="../../ui/photometry_checks.py" line="103"/>
         <source>The frames of one kind of flag, the others kept</source>
         <translation>Tek bir işaret türünün kareleri; diğerleri kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="112"/>
+        <location filename="../../ui/photometry_checks.py" line="114"/>
         <source>Reports and files then carry the scaled errors too (rel_flux_err_scaled); the formal ones stay</source>
         <translation>Raporlar ve dosyalar o zaman ölçeklenmiş hataları da taşır (rel_flux_err_scaled); biçimsel hatalar kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="167"/>
+        <location filename="../../ui/photometry_checks.py" line="169"/>
         <source>For next time:</source>
         <translation>Bir dahaki sefere:</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="179"/>
+        <location filename="../../ui/photometry_checks.py" line="181"/>
         <source>Scatter from point to point: {r:.2f} × the predicted errors.</source>
         <translation>Noktadan noktaya saçılma: tahmin edilen hataların {r:.2f} katı.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="182"/>
+        <location filename="../../ui/photometry_checks.py" line="184"/>
         <source> The errors are too small: scale them.</source>
         <translation> Hatalar çok küçük: ölçekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="190"/>
+        <location filename="../../ui/photometry_checks.py" line="192"/>
         <source>Use the formal errors</source>
         <translation>Biçimsel hataları kullan</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="192"/>
+        <location filename="../../ui/photometry_checks.py" line="194"/>
         <source>Scale the errors by {f:.2f}</source>
         <translation>Hataları {f:.2f} ile ölçekle</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="220"/>
+        <location filename="../../ui/photometry_checks.py" line="222"/>
         <source>Comparison counts</source>
         <translation>Karşılaştırma sayımları</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="221"/>
+        <location filename="../../ui/photometry_checks.py" line="223"/>
         <source>Sky</source>
         <translation>Gökyüzü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="222"/>
+        <location filename="../../ui/photometry_checks.py" line="224"/>
         <source>Ellipticity</source>
         <translation>Basıklık</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="223"/>
+        <location filename="../../ui/photometry_checks.py" line="225"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="229"/>
+        <location filename="../../ui/photometry_checks.py" line="231"/>
         <source>Target peak / limit</source>
         <translation>Hedefin tepe değeri / sınır</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="234"/>
+        <location filename="../../ui/photometry_checks.py" line="236"/>
         <source>Comparison − check (mag)</source>
         <translation>Karşılaştırma − kontrol (kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="244"/>
-        <location filename="../../ui/photometry_checks.py" line="324"/>
+        <location filename="../../ui/photometry_checks.py" line="246"/>
+        <location filename="../../ui/photometry_checks.py" line="334"/>
         <source>Flagged</source>
         <translation>İşaretli</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="274"/>
+        <location filename="../../ui/photometry_checks.py" line="276"/>
         <source>measured</source>
         <translation>ölçülen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="276"/>
+        <location filename="../../ui/photometry_checks.py" line="278"/>
         <source>white noise</source>
         <translation>beyaz gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="270"/>
+        <location filename="../../ui/photometry_checks.py" line="272"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="272"/>
+        <location filename="../../ui/photometry_checks.py" line="274"/>
         <source>T1 (no check star)</source>
         <translation>T1 (kontrol yıldızı yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="277"/>
+        <location filename="../../ui/photometry_checks.py" line="279"/>
         <source>RMS against bin size, {who}: β = {beta:.2f}</source>
         <translation>Kutu boyutuna göre RMS, {who}: β = {beta:.2f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="278"/>
+        <location filename="../../ui/photometry_checks.py" line="280"/>
         <source>Points per bin</source>
         <translation>Kutu başına nokta</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="338"/>
+        <location filename="../../ui/photometry_checks.py" line="312"/>
+        <source>errors from the VAR plane</source>
+        <translation>hatalar VAR düzleminden</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="348"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="352"/>
+        <location filename="../../ui/photometry_checks.py" line="362"/>
         <source>{kind} ({n})</source>
         <translation>{kind} ({n})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="357"/>
+        <location filename="../../ui/photometry_checks.py" line="367"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="359"/>
+        <location filename="../../ui/photometry_checks.py" line="369"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="246"/>
-        <location filename="../../ui/photometry_checks.py" line="370"/>
+        <location filename="../../ui/photometry_checks.py" line="248"/>
+        <location filename="../../ui/photometry_checks.py" line="380"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="370"/>
+        <location filename="../../ui/photometry_checks.py" line="380"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="371"/>
+        <location filename="../../ui/photometry_checks.py" line="381"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>
@@ -18034,13 +18049,13 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="238"/>
-        <location filename="../../ui/plot/view.py" line="161"/>
+        <location filename="../../ui/plot/view.py" line="175"/>
         <source>Nothing to show yet: the plot appears here once there are results</source>
         <translation>Henüz gösterilecek bir şey yok: sonuçlar çıkınca grafik burada görünür</translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="295"/>
-        <location filename="../../ui/plot/view.py" line="188"/>
+        <location filename="../../ui/plot/view.py" line="202"/>
         <source>This plot could not be drawn: {error}</source>
         <translation>Bu grafik çizilemedi: {error}</translation>
     </message>
@@ -18056,13 +18071,13 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="393"/>
-        <location filename="../../ui/plot/view.py" line="303"/>
+        <location filename="../../ui/plot/view.py" line="316"/>
         <source>Copy picture</source>
         <translation>Resmi kopyala</translation>
     </message>
     <message>
         <location filename="../../ui/kit/widgets.py" line="394"/>
-        <location filename="../../ui/plot/view.py" line="304"/>
+        <location filename="../../ui/plot/view.py" line="317"/>
         <source>Copy data</source>
         <translation>Veriyi kopyala</translation>
     </message>
@@ -18087,7 +18102,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Yayın şekli</translation>
     </message>
     <message>
-        <location filename="../../ui/plot/view.py" line="608"/>
+        <location filename="../../ui/plot/view.py" line="621"/>
         <source>Δx = {dx:.6g}   Δy = {dy:.6g}</source>
         <translation>Δx = {dx:.6g}   Δy = {dy:.6g}</translation>
     </message>

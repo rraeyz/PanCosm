@@ -131,6 +131,7 @@ def _spoiled(cols, marks, flags, names):
         "B": "bad pixel or no data",
         "S": "saturated pixel",
         "C": "cosmic ray or hot pixel",
+        "R": "repaired pixel in the aperture: measured, marked",
         "T": "satellite or aircraft trail",
         "E": "off the edge",
     }

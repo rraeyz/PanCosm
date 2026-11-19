@@ -39,6 +39,11 @@ def test_dq_letters_on_their_frames_and_var_error_equals_the_formula(tmp_path):
     lc, plain = _run(_night(a, True)), _run(_night(b, False))
     got = [row[0] for row in lc["flags"]]
     assert got == ["B" if 10 <= i <= 14 else "T" if i == 20 else "" for i in range(N)]
+    assert lc["var_plane"] == [True] * N and plain["var_plane"] == [False] * N  # which frames used the VAR plane
+    from astrowb.photometry.quality import lc_checks
+
+    kinds = lc_checks(lc)[0]
+    assert kinds["bad_pixel"] == [10, 11, 12, 13, 14] and kinds["trail"] == [20]
     assert all(row[1] == "" and row[2] == "" for row in lc["flags"])  # the comparison stars are 40 px or more away
     assert all(row[0] == "" for row in plain["flags"])  # frames without planes behave as before
     from astrowb.photometry.measurements import measurements
@@ -68,3 +73,10 @@ def test_letters_and_merge():
     dq[20, 20] = planes.NODATA
     assert letters(dq, [(10, 10), (20, 20), (np.nan, 1), (2, 2)], 2.0) == ["SC", "B", "", ""]
     assert merge(["C", "E"], ["SC", ""]) == ["CS", "E"]
+
+
+def test_repaired_alone_is_marked_r():
+    dq = np.zeros((30, 30), np.uint8)
+    dq[10, 10] = planes.REPAIRED
+    dq[20, 20] = planes.COSMIC | planes.REPAIRED  # a repaired cosmic ray stays "C"
+    assert letters(dq, [(10, 10), (20, 20)], 2.0) == ["R", "C"]

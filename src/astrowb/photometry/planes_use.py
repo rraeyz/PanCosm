@@ -6,8 +6,10 @@ import numpy as np
 
 from ..core import planes
 
-# letter -> DQ bits; a repaired cosmic ray is still "C" (the value is kept), REPAIRED alone says nothing
-LETTERS = (("B", planes.BAD | planes.NODATA), ("S", planes.SATURATED), ("C", planes.COSMIC), ("T", planes.TRAIL))
+# letter -> DQ bits; a repaired cosmic ray is "C" only (its REPAIRED bit goes with it), REPAIRED without COSMIC is
+# "R": the repaired value is measured and marked (PHO-36)
+LETTERS = (("B", planes.BAD | planes.NODATA), ("S", planes.SATURATED), ("C", planes.COSMIC), ("T", planes.TRAIL),
+           ("R", planes.REPAIRED))  # fmt: skip
 
 
 def read(path):
@@ -44,6 +46,7 @@ def letters(dq, xy, r_ap):
         )
         yy, xx = np.mgrid[y0:y1, x0:x1]
         bits = np.bitwise_or.reduce(dq[y0:y1, x0:x1][(xx - x) ** 2 + (yy - y) ** 2 <= r_ap * r_ap], initial=0)
+        bits = int(bits) & ~(planes.REPAIRED if bits & planes.COSMIC else 0)
         out.append("".join(c for c, b in LETTERS if bits & b))
     return out
 

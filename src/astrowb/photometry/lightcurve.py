@@ -502,7 +502,12 @@ def _pixel_file_rows(src, paths, stars0, radii, gain, box):
 def _shape_series(fwhms, peaks):
     """The per-frame FWHM and ellipticity of the stars, each only when measured (a pixel file's cadences have none)."""
     e = [p[2] if len(p) > 2 else None for p in peaks]
-    return ({"fwhm": fwhms} if fwhms else {}) | ({"ellipticity": e} if any(v is not None for v in e) else {})
+    var = [bool(p[3]) if len(p) > 3 else False for p in peaks]  # frames whose errors came from the VAR plane
+    return (
+        ({"fwhm": fwhms} if fwhms else {})
+        | ({"ellipticity": e} if any(v is not None for v in e) else {})
+        | {"var_plane": var}
+    )
 
 
 def _peaks(data, xy, r_ap, trails=False, planes=None):
@@ -518,7 +523,7 @@ def _peaks(data, xy, r_ap, trails=False, planes=None):
         flags = [f + "T" * t for f, t in zip(flags, trail_flags(data, xy, r_ap), strict=True)]
     if planes is not None and planes[1] is not None:  # CAL-13: the DQ bits inside each aperture
         flags = planes_use.merge(flags, planes_use.letters(planes[1], xy, r_ap))
-    return peak, flags, ellipticity(data, xy, r_ap)
+    return peak, flags, ellipticity(data, xy, r_ap), planes is not None and planes[0] is not None
 
 
 def normalise(rel, mask=None):
