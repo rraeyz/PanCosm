@@ -107,7 +107,8 @@ def fourier_fit(t, y, freqs):
         s, c = np.sin(arg), np.cos(arg)
         return np.column_stack([np.ones_like(t), (2 * np.pi * ak * c * t).T, s.T, (2 * np.pi * ak * c).T])
 
-    p = least_squares(resid, np.concatenate([[coef[0]], f, a0, ph0]), jac=jac, x_scale="jac").x
+    # MINPACK's Levenberg-Marquardt: the same minimum as "trf" without bounds, about twice as fast (speed.py)
+    p = least_squares(resid, np.concatenate([[coef[0]], f, a0, ph0]), jac=jac, x_scale="jac", method="lm").x
     f, a, ph = p[1 : n + 1], p[n + 1 : 2 * n + 1], p[2 * n + 1 :]
     flip = a < 0
     a, ph = np.abs(a), (ph + 0.5 * flip) % 1.0
