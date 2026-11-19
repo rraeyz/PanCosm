@@ -297,6 +297,8 @@ class PlotView(QWidget):
             vb.redraw_connected = False
             vb.redraw_slot = lambda *_, vb=vb: self._redraw(vb)
             plot = pg.PlotItem(viewBox=vb)
+            for menu in (vb.menu, plot.ctrlMenu):  # pyqtgraph leaves them parentless: Qt, not Python's GC, frees them
+                menu.setParent(self, menu.windowFlags())
             vb.menu.addSeparator()  # beside pyqtgraph's own entries: the same two as every PlotCanvas
             vb.menu.addAction(translate("PlotCanvas", "Copy picture"), self.copy_picture)
             vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)

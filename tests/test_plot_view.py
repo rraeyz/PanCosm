@@ -534,3 +534,15 @@ def test_redraws_reuse_the_pooled_plot_items(qapp):
     view.set_figure(_pool_figure(1, 0))
     fresh = PlotView(_pool_figure(1, 0))
     assert _state(view) == _state(fresh) and len(view.graphics.ci.items) == len(fresh.graphics.ci.items)
+
+
+def test_qt_owns_the_menus_of_every_plot(qapp):
+    from astrowb.ui.plot.view import PlotView
+
+    for i in range(20):
+        view = PlotView(_pool_figure(1 + i % 3, i % 3))
+        view.set_figure(_pool_figure(3, 1))
+        for plot in view._pool:  # pyqtgraph leaves them parentless: freed by Python's GC they corrupted the heap
+            assert plot.vb.menu.parent() is view and plot.ctrlMenu.parent() is view
+        view.deleteLater()
+        qapp.processEvents()
