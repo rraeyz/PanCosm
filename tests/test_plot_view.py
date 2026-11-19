@@ -409,7 +409,9 @@ def test_text_span_dash_clicks_and_keys_in_both_outputs(view, tmp_path):
     view.key_pressed.connect(lambda k, x: keys.append((k, x)))
     QTest.mouseClick(view.graphics.viewport(), Qt.LeftButton, Qt.NoModifier, screen_of(view, 0, 3.0, 0.5))
     assert got and got[-1][0] == 0 and got[-1][1] == pytest.approx(3.0, abs=0.2)
+    QTest.qWait(50)  # spaced like a real mouse: pyqtgraph drops a move that comes right after the click
     QTest.mouseMove(view.graphics.viewport(), screen_of(view, 0, 7.0, 0.5))
+    QTest.qWait(50)
     QTest.keyClick(view, Qt.Key_W)
     assert keys == [("w", pytest.approx(7.0, abs=0.2))]
 
