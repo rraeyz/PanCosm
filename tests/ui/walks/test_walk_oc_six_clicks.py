@@ -6,7 +6,7 @@ known amplitude, primaries (CCD) and secondaries (visual), each with its error."
 import csv
 
 import numpy as np
-import pytest
+from PySide6.QtCore import Qt
 
 T0, P, AMP, P3 = 2455000.1234, 0.8123456, 0.0050, 2900.0  # days; the injected third body
 CLICKS = ("click ", "choose ", "menu ")
@@ -63,14 +63,19 @@ def test_symbols_differ_for_primary_and_secondary_and_by_method(walk, tmp_path):
     assert set(pts) == {"primary · CCD", "secondary · vis"} and pts["primary · CCD"] != pts["secondary · vis"]
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="OC-W: a click on an O−C point does not select its table row yet (UI-16.5 does "
-    "not describe it; the O−C series are not pickable)",
-)
-def test_a_click_on_a_point_selects_its_row(walk, tmp_path):
-    _, page, _, _ = _flow(walk, tmp_path)
-    series = page.plot.figure.panels[0].series[0]
+def test_a_click_on_a_point_selects_its_row_and_a_row_rings_its_point(walk, tmp_path):
+    h, page, _, _ = _flow(walk, tmp_path)
+    table = page.minima_input
+    series = next(s for s in page.plot.figure.panels[0].series if s.name == "secondary · vis")
     assert series.pickable
-    page.plot.point_clicked.emit(series.name, 0)
-    assert page.minima_input.selectionModel().hasSelection()
+    table.sortItems(1, Qt.DescendingOrder)  # rows moved: the time, not the index, finds the row
+    time = float(series.ids[2])
+    page.plot.point_clicked.emit(series.name, time)
+    assert {i.row() for i in table.selectedItems()} == {
+        r for r in range(table.rowCount()) if float(table.item(r, 1).text()) == time
+    }
+    rung = []
+    page.plot.highlight = lambda name, ids: rung.append((name, list(ids)))
+    other = float(series.ids[5])
+    table.selectRow(next(r for r in range(table.rowCount()) if float(table.item(r, 1).text()) == other))
+    assert (series.name, [other]) in rung

@@ -188,6 +188,9 @@ class OCPage(QWidget):
         rl.addWidget(PlotToolbar(self.plot, self))
         rl.addWidget(self.plot, 1)
         split.addWidget(right)
+        from .oc_point_select import connect
+
+        connect(self)
         split.setSizes([380, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -406,7 +409,7 @@ class OCPage(QWidget):
         """O-C (min) of the primary and secondary minima with the model curves `lines` [(name, epochs, O-C days,
         colour)], residuals below."""
         errs = np.nan_to_num(errs * 1440)  # a minimum without an error: no bar
-        series = point_series(f, errs, prim, methods)
+        series = point_series(f, errs, prim, methods, [m.time for m in self.fit_minima])
         series += [SeriesSpec(n, e, y * 1440, kind="line", colour=c) for n, e, y, c in lines]
         res = [
             SeriesSpec(self.tr("Residual (min)"), f.epochs, f.residuals * 1440, yerr=errs, size=3),
