@@ -50,6 +50,7 @@ class PlanPage(Undoable, QWidget):
     ephemeris_requested = Signal(str)  # name: VSX or NASA Exoplanet Archive
     plan_requested = Signal(dict, str, list, dict)  # site, date (YYYY-MM-DD), targets, params
     schedule_requested = Signal(list)  # blocks for the Observe page
+    profile_requested = Signal()  # Settings → Profiles, for a new user without a site
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
@@ -494,6 +495,10 @@ class PlanPage(Undoable, QWidget):
         self.lat.setToolTip(self.tr("Latitude of the site in degrees, north positive"))
         grid.addWidget(self._horizon_button(), 7, 0, 1, 2)
         grid.addWidget(almanac_label(self), 8, 0, 1, 2)
+        self.site_button = QPushButton(self.tr("Set the site…"), self)
+        self.site_button.setToolTip(self.tr("Opens Settings → Profiles, where the site is saved for every window"))
+        self.site_button.clicked.connect(self.profile_requested)
+        grid.addWidget(self.site_button, 9, 0, 1, 2)
 
     def _horizon_button(self):
         """The site's horizon profile (PLN-1): a file of azimuth–altitude pairs, kept in the settings."""

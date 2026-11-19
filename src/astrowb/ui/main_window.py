@@ -436,6 +436,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.schedule_requested.connect(
             lambda blocks: (self.observe_page.load_schedule(blocks), self.show_workspace("observe"))
         )
+        page.profile_requested.connect(lambda: self.show_settings().show_profiles())
         from .start_page import show_experimental
 
         page.send_button.setVisible(show_experimental(self.settings))  # it hands the schedule to hidden Observing

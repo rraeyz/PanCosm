@@ -59,7 +59,9 @@ def refresh(page, label):
     line = text(a, page.local_offset(Time(f"{date}T00:00:00").jd + 1.0))
     from ..core import profiles
 
-    if not profiles.has(page.settings, "site") and not page.site_name.text().strip():  # PLN-W: say so first
+    unset = not profiles.has(page.settings, "site") and not page.site_name.text().strip()
+    page.site_button.setVisible(unset)  # opens the profile
+    if unset:  # PLN-W: say so first
         line = translate("PlanAlmanac", "No site saved yet: these times are for the default place. Type your "
                          "observatory's name or position above; Plan the night keeps it.") + "\n" + line  # fmt: skip
     label.setText(line)
