@@ -11,7 +11,6 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QCheckBox, QLabel, QPushButton, QTableWidgetItem
 
 from ..timeseries.ephemeris import METHOD_CODES, Minimum, hjd_scale_unknown, parse_minima
-from ..timeseries.ephemeris_models import weights_by_method
 from .kit.table_view import DataTable
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("OcMinimaTable", "…") calls
@@ -143,6 +142,8 @@ def minima_for_fit(page):
             raise ValueError("the weight of a minimum must be positive")
         method = METHOD_CODES.get(t.item(r, METHOD).text().strip().lower())  # anything else: not stated
         if page.weight_by_method.isChecked():
+            from ..timeseries.ephemeris_models import weights_by_method  # scipy: not at start-up
+
             w *= weights_by_method([_WEIGHT_KEY.get(method)])[0]
         out.append(Minimum(float(t.item(r, TIME).text()), None if error is None else error / sqrt(w),
                            t.item(r, KIND).text(), t.item(r, SOURCE).text(), method))  # fmt: skip
