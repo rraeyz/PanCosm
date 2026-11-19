@@ -234,6 +234,13 @@
            ],
            "minimum": 0.0
           },
+          "library_folder": {
+           "description": "Library of masters: A light whose night has no master of a kind takes the library's within its validity; empty: none",
+           "type": [
+            "string",
+            "null"
+           ]
+          },
           "linearity": {
            "description": "Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none"
           },

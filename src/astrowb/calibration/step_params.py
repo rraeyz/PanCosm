@@ -128,6 +128,16 @@ describe(
         advanced=True,
     ),
     P(
+        "library_folder",
+        "folder",
+        "",
+        label=QT_TRANSLATE_NOOP("Steps", "Library of masters"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "A light whose night has no master of a kind takes the library's within its validity; empty: none"
+        ),
+        advanced=True,
+    ),
+    P(
         "linearity",
         "table",
         (),

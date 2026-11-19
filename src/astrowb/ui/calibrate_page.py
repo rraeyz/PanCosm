@@ -24,10 +24,11 @@ from PySide6.QtWidgets import (
 )
 
 from ..calibration.frames import Frame
-from ..calibration.matching import make_plan
+from ..calibration.library_use import shown_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
 from . import automatic
 from .calibrate_follow import add_follow_button
+from .calibrate_library import library_line, library_text
 from .kit.help import help_line
 from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
@@ -548,11 +549,12 @@ class CalibratePage(Undoable, QWidget):
                 n=raw_converted, h=f"{self.clock_offset.value():g}"
             )
         self.summary.setText(text)
-        plan = make_plan([Frame(**f | {"binning": tuple(f["binning"]), "shape": tuple(f["shape"])}) for f in frames])
+        plan = shown_plan([Frame(**f | {"binning": tuple(f["binning"]), "shape": tuple(f["shape"])}) for f in frames])
         cannot = self.tr("Cannot read {file}: {error}")
         lines = [cannot.format(file=Path(p).name, error=translate(e)) for p, e in problems]
         lines += [self.tr("Type unknown, ignored: {file}").format(file=Path(p).name) for p in plan.unknown]
         lines += [f"{Path(p).name}: {self._missing_text(k, why)}" for p, k, why in plan.missing]
+        lines += [f"{Path(p).name}: {library_text(self, k, note)}" for p, k, note in plan.library]
         if frames and not counts["light"]:
             lines.insert(
                 0,
@@ -612,8 +614,11 @@ class CalibratePage(Undoable, QWidget):
 
         settings = Settings()
         camera = profiles.section(settings, "camera")
+        from ..calibration.library_use import library_folder
+
         return {"write_planes": bool(settings.get("calibration.write_planes", True)),
-                "gain": float(camera["gain"] or 0.0), "saturation": float(camera["saturation"] or 0.0)}  # fmt: skip
+                "gain": float(camera["gain"] or 0.0), "saturation": float(camera["saturation"] or 0.0),
+                "library_folder": library_folder(settings)}  # fmt: skip
 
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))
@@ -665,6 +670,8 @@ class CalibratePage(Undoable, QWidget):
                     n=len(unused), file=unused[0]["file"]
                 )
             )
+        if line := library_line(self, out):
+            self.result.setText(self.result.text() + " " + line)
         failed = out.get("failed_masters") or []
         if failed:  # said where the user looks for problems, the frames list's note box
             kinds = {"bias": self.tr("bias"), "dark": self.tr("dark"), "flat": self.tr("flat")}

@@ -9,7 +9,7 @@ from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
 from ..io.lzw import readable
-from . import masters, planes_out
+from . import library_use, masters, planes_out
 from .frames import Frame, scan
 from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
 
@@ -130,6 +130,7 @@ def _unused_groups(plan, reps, temp_tol):
     write_planes=True,
     gain=0.0,
     saturation=0.0,
+    library_folder="",
 )
 def run_step(inputs, params, ctx):
     """Build every master the plan needs, then calibrate every light. Missing corrections are skipped and listed.
@@ -174,6 +175,13 @@ def _chosen(plan, frames, use):
     return plan
 
 
+def _order(plan, reps, kinds, temp_tol):
+    """(groups no light needs, the groups to combine: bias, then darks, then flats — flats need bias + dark)."""
+    unused = _unused_groups(plan, reps, temp_tol)  # e.g. full-chip bias next to the cropped lights' (real LCO night)
+    wanted = (k for k in plan.groups if k not in unused)
+    return unused, sorted(wanted, key=lambda k: ("bias", "dark", "flat").index(kinds[k]))
+
+
 def _record_masters(header, entry, built, flat_used, params):
     """CALB / CALD / CALF keywords and the provenance record of one calibrated light (ARC-11)."""
     used = {k: built[entry[k]][2] for k in ("bias", "dark", "flat") if entry[k] and (k != "flat" or flat_used)}
@@ -200,10 +208,8 @@ def _run(inputs, params, ctx):
         return any(k[0] == "bias" for k in built)
 
     temp_tol = params["temp_tol"]
-    unused = _unused_groups(plan, reps, temp_tol)  # e.g. full-chip bias next to the cropped lights' (real LCO night)
-    order = sorted(
-        (k for k in plan.groups if k not in unused), key=lambda k: ("bias", "dark", "flat").index(kinds[k])
-    )  # flats need bias + dark
+    unused, order = _order(plan, reps, kinds, temp_tol)
+    from_library = library_use.fill(plan, frames, params.get("library_folder"))  # what the night lacks (CAL-7)
     failed, qc = [], {}  # masters not made (their frames left out, lights calibrated without); the reports (CAL-6)
     variances = {}  # group key -> the master's variance plane (CAL-13)
     for n, key in enumerate(order):
@@ -229,6 +235,7 @@ def _run(inputs, params, ctx):
         built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias, keep))
         variances[key] = var
 
+    built |= from_library
     calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
     lights = plan.lights
@@ -277,6 +284,7 @@ def _run(inputs, params, ctx):
             {"kind": k[0], "frames": len(plan.groups[k]), "file": Path(plan.groups[k][0]).name} for k in unused
         ],
         "masters": written,
+        "library_used": [[Path(k[2]).name, k[0]] for k in sorted(from_library)],
         "calibrated": calibrated,
         "missing": plan.missing,
         "failed_masters": failed,

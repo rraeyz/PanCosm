@@ -90,6 +90,7 @@ class Plan:
     )  # [{"light": path, "bias": key|None, "dark": key|None, "flat": key|None}]
     missing: list = field(default_factory=list)  # [(light path, "bias"|"dark"|"flat", what it must match)]
     unknown: list = field(default_factory=list)  # paths that could not be classified
+    library: list = field(default_factory=list)  # [(light path, kind, {"age", "used", "valid_days"})] library_use.fill
 
 
 def make_plan(frames: list[Frame], temp_tol=TEMP_TOL) -> Plan:
@@ -131,7 +132,7 @@ def apply_choices(plan, frames, use):
     for key, paths in plan.groups.items():
         for p in paths:
             key_of[p] = key
-    unknown = []
+    unknown, declined = [], set()
     for entry in plan.lights:
         light = by_path[entry["light"]]
         chosen = use.get(_norm_filter(light.filter) or "", None) or use.get("*", {})
@@ -140,12 +141,13 @@ def apply_choices(plan, frames, use):
                 continue
             if pick == "none":
                 entry[kind] = None
+                declined.add((entry["light"], kind))  # chosen, not missing: the library must not fill it
             elif pick in key_of and key_of[pick][0] == kind:
                 entry[kind] = key_of[pick]
             else:
                 unknown.append((entry["light"], kind, pick))
     plan.missing = [m for m in plan.missing if (m[0], m[1]) not in {(e["light"], k) for e in plan.lights
-                    for k in ("bias", "dark", "flat") if e.get(k)}]  # fmt: skip
+                    for k in ("bias", "dark", "flat") if e.get(k)} | declined]  # fmt: skip
     return unknown
 
 

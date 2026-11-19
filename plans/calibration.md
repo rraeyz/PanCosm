@@ -300,8 +300,14 @@ header keywords), the input flats' levels in the run, the real LCO masters.
 their headers — kind, size, binning, read-out, temperature, exposure, filter, date; `best` for a light: same size /
 binning / read-out, a dark of the exposure and temperature, a flat of the filter, the nearest in date, with its
 age and validity (bias 90 d, dark 90 d, flat 7 d; an older one offered marked); `retire`; `compare`: the ratio of
-two masters and the dust shadows that moved). Tests (tests/test_master_library.py). Left: Settings → Files folder,
-"Add these masters to the library" after a run, the plan using it, the Library dialog, QC values in the index.
+two masters and the dust shadows that moved). Tests (tests/test_master_library.py). Done (2026-11-28): Settings →
+Files `calibration.library_folder` (default `masters` in the settings folder) and `calibration.add_to_library` (on);
+`calibration/library_use.py` (`fill`: for what the night lacks, `Library.best` per kind — within validity it is used and
+marked "from the library, 12 days old", outside it only listed in amber with what is done instead; the night's own
+masters always win; each library master read once; `add_masters`: the run's masters filed, not twice, "n masters added
+to the library"; `shown_plan` for the Calibrate page's notes and Plan tab); step param `library_folder`, output
+`library_used`. Tests (tests/test_calibration_library_use.py). Left: the Library dialog, QC values in the index (left
+out), a camera rotation (`ROTATANG`) ending a flat's validity.
 - **Reference:** MaxIm DL keeps calibration groups between sessions; N.I.N.A.'s flat and dark libraries; observatory
   pipelines select masters by date validity.
 - **Build:** `calibration/library.py`: a folder (Settings → Files) with masters filed by camera / binning / gain /
@@ -604,8 +610,12 @@ writes each master with its variance as a VAR extension (`planes_out.save_master
 is kept as float32 in memory too), `LiveCalibrator` reads it (`photometry/planes_use.read`) and passes it to
 `planes_out.save` like the batch run. Tests (tests/test_calibration_live.py
 `test_live_var_plane_counts_the_masters_variance_like_the_batch`, `test_masters_stay_single_image_when_planes_are_off`).
-Left: the live stack, the Observing window's switch, the library's masters (with CAL-7: the batch run does not use
-the library yet).
+Done (2026-11-28): the library's masters: `LiveCalibrator(library=…)` supplies the kinds the last run gave no master
+of from the library (`library_use.for_light`, each read once); a light that would get no master at all is skipped with
+the translated line "no master in the library fits this frame: no valid bias, dark, flat" and following goes on; the
+button is allowed without masters when a library exists. Test (tests/test_calibration_library_use.py
+`test_follow_with_an_empty_run_uses_the_library_and_skips_a_light_with_no_match`). Left: the live stack, the
+Observing window's switch.
 - **Reference:** AstroImageJ Data Processor polling; MaxIm DL auto-calibrate on acquire.
 - **Build:** "Follow a folder" in the Calibrate stage with the night's masters (or the library's): each new light is
   calibrated on arrival and handed to whoever follows (Photometry PHO-19, live stack, Images); the Observing window

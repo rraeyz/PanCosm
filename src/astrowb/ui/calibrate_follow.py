@@ -39,8 +39,11 @@ def _toggled(page, on):
     if not on:
         page.follower.stop()
         return
-    masters = list(getattr(page, "masters", []))
-    if not masters or not page.output.text():
+    from ..calibration.library_use import library_folder, open_library
+    from ..settings import Settings
+
+    masters, library = list(getattr(page, "masters", [])), library_folder(Settings())
+    if (not masters and open_library(library) is None) or not page.output.text():
         page.result.setText(translate("CalibrateFollow", "Make or choose the masters first"))
         page.follow_button.setChecked(False)
         return
@@ -51,7 +54,7 @@ def _toggled(page, on):
     from ..calibration.live import LiveCalibrator
 
     try:
-        live = LiveCalibrator(masters, page.output.text(), params=page._camera_params())
+        live = LiveCalibrator(masters, page.output.text(), params=page._camera_params(), library=library)
     except (OSError, ValueError) as e:
         page.result.setText(message(e))
         page.follow_button.setChecked(False)

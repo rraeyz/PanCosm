@@ -182,6 +182,7 @@ SHOWN = (
     "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
     "profile", "compute.device", "observatory.download_dir", "services.offline", "time.auto_refresh",
     "camera.clock_utc_offset", "areas.show_experimental", "calibration.write_planes",
+    "calibration.library_folder", "calibration.add_to_library",
 )  # fmt: skip
 
 
@@ -389,6 +390,21 @@ class SettingsWindow(Dialog):
             "off: plain single-image FITS"
         )
         self._row(c, self.tr("Write variance and quality planes (multi-extension FITS)"), planes, note, default=True)
+        from ..calibration.library_use import library_folder
+
+        library = PathField("folder", parent=self)
+        library.set_paths([library_folder(self.settings)])
+        library.changed.connect(
+            lambda paths: self.settings.set("calibration.library_folder", paths[0] if paths else "")
+        )
+        note = self.tr(
+            "Where the masters of past nights are kept; a night without its own darks, bias or flats uses them"
+        )
+        self._row(c, self.tr("Library of masters"), library, note)
+        add = Toggle("", bool(self.settings.get("calibration.add_to_library", True)), self)
+        add.toggled.connect(lambda _on: self.settings.set("calibration.add_to_library", add.isChecked()))
+        note = self.tr("After a calibration run the masters it made are filed in the library of masters")
+        self._row(c, self.tr("Add the masters of each run to the library"), add, note, default=True)
 
     def _automatic(self):
         """What the program does without a press (ui/automatic.py): each step on or off; its button stays."""

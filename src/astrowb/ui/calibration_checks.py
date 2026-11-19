@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .calibrate_library import library_text
 from .kit.table_view import DataTable
 from .kit.tokens import role
 from .messages import translate as message
@@ -234,14 +235,19 @@ def refresh_plan(page):
     """The Plan tab: one row per filter and exposure of the lights with the bias, dark and flat each gets (automatic
     shows the match), each a choice kept in page.master_choices; what is missing in amber, with what is done instead."""
     from ..calibration.frames import Frame
-    from ..calibration.matching import make_plan
+    from ..calibration.library_use import shown_plan
     from .master_choice import groups as master_groups
 
     frames = [Frame(**f | {"binning": tuple(f["binning"]), "shape": tuple(f["shape"])}) for f in page.frames]
-    plan = make_plan(frames)
+    plan = shown_plan(frames)
     key_of = {p: key for key, paths in plan.groups.items() for p in paths}
     options = master_groups(page.frames)
     desc = {key_of[p]: text for rows in options.values() for p, text in rows if p in key_of}
+    notes = {(p, k): n for p, k, n in plan.library}
+    for e in plan.lights:  # a library master the plan uses: its file and age in the "automatic" choice
+        for k in KINDS:
+            if (e[k] or ())[1:2] == ("library",):
+                desc[e[k]] = f"{Path(e[k][2]).name}: {library_text(page, k, notes[(e['light'], k)])}"
     names = _kind_names()
     by_path = {f.path: f for f in frames}
     seen = {}
@@ -260,6 +266,9 @@ def refresh_plan(page):
     missing = {}
     for path, kind, why in plan.missing:
         missing.setdefault(path, []).append(page._missing_text(kind, why))
+    for path, kind, n in plan.library:
+        if not n["used"]:  # outside its validity: in amber with what is done instead
+            missing.setdefault(path, []).append(library_text(page, kind, n))
     for r, ((filt, exp), entries) in enumerate(sorted(seen.items(), key=lambda e: (e[0][0], e[0][1] or 0))):
         for c, v in enumerate((filt or "—", "" if exp is None else f"{exp:g}", len(entries))):
             table.table.setItem(r, c, QTableWidgetItem(str(v)))
