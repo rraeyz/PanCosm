@@ -128,7 +128,10 @@ Order of work: PHO-W, then P1: 17, 25, 36, 48, 26, 27, 23, 18, 19, 33, 34, 41; t
 31, 32, 35, 37, 42, 43, 45; then P3: 38, 39, 40, 44, 46.
 
 ### PHO-W. The Photometry window on the new anatomy  (P1)
-**open**
+**partial** — the window is UI-16.1 (done, see there); the extra accept on the practice night: choose the images,
+the target, Measure, Time of minimum in seven clicks or fewer with each automatic choice listed in its stage
+(`tests/ui/walks/test_walk_photometry.py::test_practice_night_in_seven_clicks`, 2026-11-28 checked). Left: the
+Field step in the count (the practice frames carry no plate scale; needs the owner's NY Vir night).
 - This is `plans/interface.md` UI-16.1; claim it there and here. Stages: Images, Field, Stars, Apertures, Measure,
   Light curve, Timing and fit, Report; results dock: Light curve, Multi-plot, Measurements, Stars, Frames, Checks.
 - **Extra accept for this window:** the owner's NY Vir flow (choose the images → the field is identified → the
