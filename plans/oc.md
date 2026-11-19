@@ -447,7 +447,7 @@ Left: WASP-12 b from the published mid-times list (the list is not stored yet), 
 - **Files:** `timeseries/transit_timing.py`, `ui/oc/panels/` (Transits mode), `tests/test_transit_timing.py`
 
 ### OC-14. From the literature's ephemerides to tonight  (P2)
-**open**
+**partial** (2026-11-28: "What changed since the catalogue ephemeris?" done — `timeseries/catalogue_check.against`, `ui/oc_catalogue_check.add_catalogue_check`, wired in `ui/oc_stages`; tests `tests/test_catalogue_check.py`, `tests/ui/test_oc_catalogue_check.py`. Open: star context panel, services' minima counts, recorded-response tests.)
 - **Ours now:** `planning/ephemerides.vsx` (VSX ephemeris look-up) used by the O−C window's Look up button.
 - **Build:** the Minima stage's "Star" field resolves the star (services), shows the VSX / GCVS / Kreiner ephemeris
   and type, the Gaia distance, known multiplicity notes (WDS / literature flags when in SIMBAD), and how many minima

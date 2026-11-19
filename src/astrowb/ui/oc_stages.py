@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QLineEdit
 
 from . import oc_minima
 from .kit.table_view import DataTable
+from .oc_catalogue_check import add_catalogue_check
 from .oc_correlations import show_correlations
 from .oc_to_planning import add_button
 from .stage_boxes import stages_from_boxes
@@ -43,6 +44,7 @@ def oc_stages(win, page):
                    page.period.textChanged, page.use_mcmc.toggled,
                    *(b.toggled for b in (page.linear, page.quadratic, page.ltte, page.apsidal))):  # fmt: skip
         signal.connect(lambda *_: mark(page.fit_result is not None))
+    add_catalogue_check(page)
     add_button(page)  # wraps show_fit first, so this window's wrapper below sees it
     show = page.show_fit
 
