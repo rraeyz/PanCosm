@@ -74,6 +74,9 @@ def plan_stages(win, page):
     anchors = {"site": "planning-your-site", "targets": "planning-adding-targets", "night": "planning-reading-plot",
                "schedule": "planning-plan-observing"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "site", 1: "targets", 2: "night", 4: "schedule"})
+    from .plan_inspector import plan_inspector
+
+    plan_inspector(win, page)
 
 
 def exoplanets_stages(win, page):
