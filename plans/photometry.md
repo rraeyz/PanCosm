@@ -600,7 +600,7 @@ result says "Mid-eclipse" with the depth, the details table shows `occ`, the O�
 2026-11-02, the scaled errors): Tc 2461347.61121 ± 41 s, O−C +73 s on the NASA Exoplanet Archive's ephemeris
 (epoch 3601, whose own error there is about 30 s), depth 21.9 ppt, Rp/R★ 0.148 ± 0.004, T14 1.64 h against the
 archive's 1.66 h. Done: the fitted mid-time goes to the O − C window's list, as the
-times of minimum do.
+times of minimum do. Done (2026-11-27): the Timing stage offers every eclipse timing method of `timeseries/timing_methods.py` — a combo box beside the eclipsing-binary radio button (`ui/photometry_minimum_methods.add_method_choice`: Kwee–van Woerden by default, Mikulášek, polynomial, Gaussian, Lorentzian, bisector, each with a tooltip; enabled only with that radio; `minimum_params`, `method_names` for the result sentence) and a "Compare methods" button (step `photometry.compare_minimum_methods` in `photometry/compare_step.py`; `show_comparison` fills a table of method, time, error in s and difference from Kwee–van Woerden in s; tests `test_each_eclipse_method_is_sent_and_named`, `test_compare_methods_gives_a_row_per_method_within_errors`).
 - **Why:** AstroImageJ's most used feature after the light curve: fit the transit with detrending and priors and read
   depth, duration and mid-time at once. Ours fits a trapezoid; the exact model is one window away.
 - **Reference:** AstroImageJ fit panel (see the table above): parameters and their priors, locks, "auto-update

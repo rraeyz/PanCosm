@@ -236,7 +236,7 @@ class PlanPage(Undoable, QWidget):
                 "The schedule becomes the night plan of the Observing window; you still check it and start it there"
             )
         )
-        for b in (self.schedule_button, self.send_button, self._more_button()):
+        for b in (self.schedule_button, self.send_button):
             b.setEnabled(False)
             row.addWidget(b)
         lay.addLayout(row)
@@ -257,6 +257,14 @@ class PlanPage(Undoable, QWidget):
 
         right = QSplitter(Qt.Vertical, self)
         box, self.plot = plot_box(self)
+        # always in sight beside the chart, not inside a stage (owner's report 2026-11-27); on the toolbar's
+        # own row, so the page needs no more height on a short window
+        toolbar = box.layout().takeAt(0).widget()
+        chart_row = QHBoxLayout()
+        chart_row.addWidget(toolbar, 1)
+        chart_row.addWidget(self._more_button())
+        box.layout().insertLayout(0, chart_row)
+        self.more_button.setEnabled(False)
         right.addWidget(box)
         events, self.events = _read_only(
             self,

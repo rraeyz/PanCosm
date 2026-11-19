@@ -2745,6 +2745,18 @@ def test_the_planning_window_has_stages(window):
     win.close()
 
 
+def test_the_plan_chart_choices_are_visible_in_every_stage(window):
+    """UI-16.8: "More charts…" sits beside the chart, outside the stages, and shows with every stage chosen."""
+    win = window.open_area("plan")
+    win.show()
+    page = window.plan_page
+    assert not any(p.isAncestorOf(page.more_button) for p in win.stage_panels.values())
+    for key in win.stage_panels:
+        win.rail.choose(key)
+        assert page.more_button.isVisible(), key
+    win.close()
+
+
 def test_the_oc_window_has_stages(window):
     """UI-16.5: Minima, Ephemeris, Model, Fit and report as stages beside the O−C diagram."""
     win = window.open_area("oc")

@@ -744,6 +744,24 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.compare_minimum_methods"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.dia_curve"
         }
        }
@@ -2874,6 +2892,7 @@
        "photometry.afrho",
        "photometry.apertures",
        "photometry.catalog",
+       "photometry.compare_minimum_methods",
        "photometry.dia_curve",
        "photometry.identify_field",
        "photometry.isophotes",

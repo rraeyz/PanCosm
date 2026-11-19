@@ -24,8 +24,11 @@ def add_menu(win):
     win._action(h, QCoreApplication.translate("MainWindow", "&Practice data for a first night…"), win.practice_data)
     guided_menu = h.addMenu(QCoreApplication.translate("MainWindow", "Guided tasks"))
     from .kit import guided
+    from .start_page import EXPERIMENTAL, show_experimental
 
     for task in guided.available(win.settings.get("ui.language", "en")):
+        if not show_experimental(win.settings) and {task["area"], *(s[2] for s in task["steps"])} & EXPERIMENTAL:
+            continue  # a task that works in a hidden area
         win._action(guided_menu, task["title"], lambda _=False, t=task: start_guided(win, t))
     win._action(
         h,

@@ -44,6 +44,10 @@ def collect_in_main_thread():
 @pytest.fixture(autouse=True)
 def isolated_config(tmp_path, monkeypatch):
     monkeypatch.setenv("ASTROWB_CONFIG_DIR", str(tmp_path / "config"))
+    # the tests drive the unfinished areas too (most build Settings(tmp_path)); test_hidden_areas puts the set back
+    from astrowb.ui import start_page
+
+    monkeypatch.setattr(start_page, "EXPERIMENTAL", set())
 
 
 @pytest.fixture

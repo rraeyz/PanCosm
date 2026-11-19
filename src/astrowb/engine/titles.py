@@ -28,6 +28,7 @@ TITLES = {
     "photometry.multifilter": QT_TRANSLATE_NOOP("Steps", "Measure every filter and the colour index"),
     "photometry.afrho": QT_TRANSLATE_NOOP("Steps", "Comet Afρ"),
     "photometry.isophotes": QT_TRANSLATE_NOOP("Steps", "Isophotes (surface brightness profile)"),
+    "photometry.compare_minimum_methods": QT_TRANSLATE_NOOP("Steps", "Compare timing methods"),
     "photometry.polarimetry": QT_TRANSLATE_NOOP("Steps", "Polarimetry"),
     "photometry.quality": QT_TRANSLATE_NOOP("Steps", "Find the bad frames"),
     "photometry.suggest_comparisons": QT_TRANSLATE_NOOP("Steps", "Suggest comparison stars"),

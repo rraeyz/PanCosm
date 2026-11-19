@@ -350,7 +350,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
 
     # --- pages, built on first use -------------------------------------------
     def _make_start_page(self):
-        page = StartPage(self, self.ui_mode(), self.recent_work())
+        page = StartPage(self, self.ui_mode(), self.recent_work(), self.settings)
         page.action.connect(self._start_action)
         page.resume.connect(self._resume)
         page.mode_chosen.connect(self.set_ui_mode)
@@ -361,10 +361,10 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
     def recent_work(self):
         """[(kind, path)] for "Continue where you left off": the last projects, then the last files of each area
         window."""
-        from .start_page import areas
+        from .start_page import visible_areas
 
         out = [("project", p) for p in self.settings.get("recent_projects", [])[:4]]
-        for key, *_ in areas():
+        for key, *_ in visible_areas(self.settings):
             out += [(key, p) for p in self.settings.get(f"area.{key}.recent", [])[:2]]
         return out[:8]
 
@@ -436,6 +436,9 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page.schedule_requested.connect(
             lambda blocks: (self.observe_page.load_schedule(blocks), self.show_workspace("observe"))
         )
+        from .start_page import show_experimental
+
+        page.send_button.setVisible(show_experimental(self.settings))  # it hands the schedule to hidden Observing
         page.plan_requested.connect(
             lambda site, date, targets, params: self.run_step_for(
                 "plan",

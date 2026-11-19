@@ -14,7 +14,7 @@ class WindowMenu:
 
     def _fill_window_menu(self):
         from .kit.window import AreaWindow, _raise
-        from .start_page import areas
+        from .start_page import visible_areas
 
         self.window_menu.clear()
         self._action(self.window_menu, translate("MainWindow", "Main window"), lambda: _raise(self))
@@ -27,7 +27,7 @@ class WindowMenu:
         if open_now:
             self.window_menu.addSeparator()
         sub = self.window_menu.addMenu(translate("MainWindow", "Open an area"))
-        for key, _, name, _ in areas():
+        for key, _, name, _ in visible_areas(self.settings):
             self._action(sub, name, lambda k=key: self.open_area(k))
         if open_now:
             from .kit.window import arrange_menu

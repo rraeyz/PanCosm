@@ -19,7 +19,7 @@ def _action(text, slot):
 def commands(main):
     """[(line shown, QAction)] for the palette."""
     from .guide_page import anchors
-    from .start_page import areas
+    from .start_page import visible_areas
 
     translate = QCoreApplication.translate
     areas_, recent, guide, settings = (
@@ -28,7 +28,10 @@ def commands(main):
         translate("StartSearch", "Guide"),
         translate("StartSearch", "Settings"),
     )
-    out = [_action(f"{areas_} › {name}", lambda k=key: main.open_area(k)) for key, _s, name, _w in areas()]
+    out = [
+        _action(f"{areas_} › {name}", lambda k=key: main.open_area(k))
+        for key, _s, name, _w in visible_areas(main.settings)
+    ]
     for kind, path in main.recent_work():
         if Path(path).exists():
             out.append(_action(f"{recent} › {Path(path).name}", lambda k=kind, p=path: main._resume(k, p)))

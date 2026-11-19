@@ -181,7 +181,7 @@ INTERNAL = (
 SHOWN = (
     "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
     "profile", "compute.device", "observatory.download_dir", "services.offline", "time.auto_refresh",
-    "camera.clock_utc_offset",
+    "camera.clock_utc_offset", "areas.show_experimental",
 )  # fmt: skip
 
 
@@ -278,6 +278,13 @@ class SettingsWindow(Dialog):
         hints.toggled.connect(lambda _on: self.settings.set("ui.hints", hints.isChecked()))
         self._row(c, self.tr("Hints"), hints, self.tr("A short hint the first time a stage of a window is opened"),
                   default=True)  # fmt: skip
+        more = Toggle("", bool(self.settings.get("areas.show_experimental", False)), self)
+        more.toggled.connect(lambda _on: self.settings.set("areas.show_experimental", more.isChecked()))
+        note = self.tr(
+            "Spectroscopy, Remote sensing, Astrometry, Observing and Automation are not finished and may change; "
+            "the Window menu and Ctrl+K follow at once, the start window at the next start"
+        )
+        self._row(c, self.tr("Show unfinished areas (experimental)"), more, note, default=False)
         expert = self.tr("Every option open; in Basic mode the rarely changed ones are folded (nothing is removed)")
         self._row(c, self.tr("Expert mode"), self._mirror(main.expert_action), expert, default=False)
 

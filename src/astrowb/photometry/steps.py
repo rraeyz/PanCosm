@@ -791,4 +791,4 @@ describe(
     ),
 )
 
-from . import comet_step, dia_step, fit_steps, isophote_step, polarimetry_step  # noqa: E402, F401  (register steps)
+from . import comet_step, compare_step, dia_step, fit_steps, isophote_step, polarimetry_step  # noqa: E402, F401  (register steps)

@@ -615,7 +615,7 @@ rail            stage panel (example: 3 Stars)          main: image             
   radii as draggable lines; "Scale radii with seeing"). **5 Measure** (sky method, noise model, time-stamp
   convention, other radii — all folded but the first; primary "Measure the light curve"). **6 Light curve** (leave
   out points / frames, detrend with BIC, flip, spline, normalisation range, binning). **7 Timing and fit** (time of
-  minimum by Kwee–van Woerden / polynomial / trapezoid / exact model (PHO-26); send to O−C; fit a transit with
+  minimum by Kwee–van Woerden / Mikulášek / polynomial / Gaussian / Lorentzian / bisector / trapezoid / exact model (PHO-26), "Compare methods" table; send to O−C; fit a transit with
   priors). **8 Report** (exports: CSV / ECSV, AAVSO Extended, AAVSO Exoplanet, ExoClock, ETD / VarAstro, TFOP
   package (PHO-27), measurement table, figure).
 - Results dock tabs: Light curve (with comparison–check curve below it), Multi-plot, Measurements, Stars (table
@@ -766,7 +766,7 @@ rail           stage panel (example: 3 Planets)             main                
 - **Files:** `ui/exoplanets/` (see EXO-W)
 
 #### UI-16.8 Planning
-**partial** — 2026-11-14: the window on the stage anatomy (`ui/plan_window.py`: Site and night, Targets, Night, Schedule as stages from the page's four parts, the chart and the tables in the middle, the step guide moving the rail; test_ui). Earlier the same day: stage 1's almanac line is in the present Plan page (`ui/plan_almanac.py`: sunset, dark hours, sunrise and the Moon in local time under the site, refreshed as the site or date changes; test_plan_chart)
+**partial** — 2026-11-27 (owner's report: the chart choices were too hidden): "More charts…" (`PlanPage.more_button`) moved from the Schedule stage to a row right above the chart in the main view, so it shows with every stage chosen (`test_the_plan_chart_choices_are_visible_in_every_stage`). 2026-11-14: the window on the stage anatomy (`ui/plan_window.py`: Site and night, Targets, Night, Schedule as stages from the page's four parts, the chart and the tables in the middle, the step guide moving the rail; test_ui). Earlier the same day: stage 1's almanac line is in the present Plan page (`ui/plan_almanac.py`: sunset, dark hours, sunrise and the Moon in local time under the site, refreshed as the site or date changes; test_plan_chart)
 ```
 rail            stage panel (example: 2 Targets)            main                                   inspector
 1 Site, night   Targets of 2026-11-14            ?          ┌ altitude / airmass against time, ────┐ NY Vir

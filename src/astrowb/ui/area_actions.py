@@ -7,6 +7,7 @@ from pathlib import Path
 from PySide6.QtCore import QCoreApplication
 
 from . import automatic
+from .photometry_minimum_methods import show_comparison
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
 
@@ -125,6 +126,12 @@ class AreaActions:
 
     def time_minimum(self, light_curve, params):
         pp, page = self.period_page, self.photometry_page
+        if params.get("compare"):  # the Compare methods button
+            return self.run_step(
+                "photometry.compare_minimum_methods", {"light_curve": light_curve}, {},
+                on_done=lambda out: show_comparison(page, out["comparison"]),
+                on_fail=lambda msg: page.result.setText(translate(msg)), area="photometry",
+            )  # fmt: skip
         if "period" not in params and pp.best and pp.time and len(pp.time) == len(light_curve["time"]):
             params = params | {"period": float(pp.best), "t0": float(pp._t0())}  # from the period search just made
             page.period.setText(f"{params['period']:.8f}")

@@ -45,6 +45,7 @@ from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend
 from .photometry_banner import neighbour_banner
 from .photometry_export import export_csv  # noqa: F401 (the tests import it from here)
 from .photometry_method import add_method_boxes, method_params
+from .photometry_minimum_methods import add_compare, add_method_choice, method_names, minimum_params
 from .photometry_paint import paint_click
 from .photometry_paint import painting as paint_on
 from .photometry_shape import add_shape_controls, shape_text
@@ -859,9 +860,7 @@ class PhotometryPage(Undoable, QWidget):
         )
         self.kvw.setChecked(True)
         group = QButtonGroup(method_box)
-        for b in (self.kvw, self.trapezoid):
-            group.addButton(b)
-            mb.addWidget(b)
+        add_method_choice(self, mb, group)  # the two radio buttons with the eclipse methods between them
         note = help_line(self.tr("A V-shaped or rounded minimum: a binary star; a flat-bottomed dip: a planet."),
                          "photometry-time-minimum", self)  # fmt: skip
         mb.addWidget(note)
@@ -884,7 +883,7 @@ class PhotometryPage(Undoable, QWidget):
                 "Time of minimum of the curve shown, with its error (every minimum if the night holds more than one)"
             )
         )
-        ml.addWidget(self.minimum_button)
+        add_compare(self, ml)
         ml.addStretch(1)
         self.res_tabs.addTab(min_tab, self.tr("Minimum"))
         # export and standard magnitudes
@@ -2063,6 +2062,7 @@ class PhotometryPage(Undoable, QWidget):
         self._show_lower(True)
         self.next_box.setVisible(True)
         self.minimum_button.setEnabled(True)
+        self.compare_button.setEnabled(True)
         self.export_button.setEnabled(True)
         self.aavso_button.setEnabled(True)
         self.nights_button.setEnabled(True)
@@ -2978,7 +2978,7 @@ class PhotometryPage(Undoable, QWidget):
             self.result.setText(translate(str(e)))
 
     def _minimum(self):
-        params = {"method": "kvw" if self.kvw.isChecked() else "trapezoid"}
+        params = minimum_params(self)
         try:
             if self.t0.text().strip() and self.period.text().strip():
                 params |= {"t0": float(self.t0.text()), "period": float(self.period.text())}
@@ -2998,7 +2998,7 @@ class PhotometryPage(Undoable, QWidget):
 
     def show_minimum(self, m):
         self.guide.set_state(5, "done")
-        methods = {"kvw": self.tr("Kwee–van Woerden"), "trapezoid": self.tr("trapezoid fit")}
+        methods = method_names()
         if "minima" in m:  # every eclipse of a long series (TESS, several nights)
             ms = m["minima"]
             oc = np.array([x["o_minus_c"] for x in ms]) * 1440

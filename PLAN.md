@@ -334,6 +334,10 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
 
 ## 5. Roadmap
 
+2026-11-27 owner decision: core first (Calibration → Photometry → Light curves → O−C, Planning); Spectroscopy,
+Remote sensing, Astrometry, Observing, Automation hidden behind Settings → Show unfinished areas until each is
+finished in turn. Only entry points hide (`start_page.EXPERIMENTAL`, `visible_areas`); the code stays.
+
 Stages run in order. Inside a stage, areas run in the order listed; inside an area, steps run in the order of its
 plan file. Every step has a priority: **P1** = needed for parity with the reference programs and for trust;
 **P2** = beyond the reference programs or large comfort gains; **P3** = long tail. Several agents may work at

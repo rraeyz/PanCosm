@@ -62,6 +62,20 @@ def areas():
     return [(key, symbol, t("Areas", name), t("Areas", what)) for key, symbol, name, what in AREAS]
 
 
+# owner decision 2026-11-27: core first; these stay in the code and open from anywhere, only their entry points hide
+EXPERIMENTAL = {"spectroscopy", "remotesensing", "astrometry", "observe", "automation"}
+
+
+def show_experimental(settings):
+    return settings is None or not EXPERIMENTAL or bool(settings.get("areas.show_experimental", False))
+
+
+def visible_areas(settings):
+    """areas() without the unfinished ones unless Settings → General → "Show unfinished areas" is on."""
+    show = show_experimental(settings)
+    return [a for a in areas() if show or a[0] not in EXPERIMENTAL]
+
+
 class StartPage(QWidget):
     """The project, the work to continue, and one block per area."""
 
@@ -71,7 +85,7 @@ class StartPage(QWidget):
     search_requested = Signal(str)  # text typed in "Find anything" (Ctrl+K): the main window opens the palette
     tonight_ready = Signal(str)  # the Tonight line, computed off the GUI thread
 
-    def __init__(self, parent=None, mode="basic", recent=()):
+    def __init__(self, parent=None, mode="basic", recent=(), settings=None):
         super().__init__(parent)
         lay = QVBoxLayout(self)
         head = QHBoxLayout()  # the title and "Find anything" on one row: the page must fit a short window
@@ -128,7 +142,7 @@ class StartPage(QWidget):
         self.grid = QGridLayout()
         self.grid.setSpacing(6)
         self.columns = 0
-        self.blocks = [self._area_block(key, name, what) for key, _symbol, name, what in areas()]
+        self.blocks = [self._area_block(key, name, what) for key, _symbol, name, what in visible_areas(settings)]
         self._arrange(1)
         lay.addLayout(self.grid)
         lay.addStretch(1)

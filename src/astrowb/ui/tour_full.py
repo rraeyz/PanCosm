@@ -8,9 +8,13 @@ translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainW
 
 
 def start_full(main):
+    from .start_page import EXPERIMENTAL, show_experimental
     from .tour import TourOverlay, rect_of
 
-    main.tour = TourOverlay(main, _steps(main, rect_of))
+    steps = _steps(main, rect_of)
+    if not show_experimental(main.settings):  # item() marks a stop with its area
+        steps = [s for s in steps if getattr(s[0], "area", None) not in EXPERIMENTAL]
+    main.tour = TourOverlay(main, steps)
     main.tour.start()
     return main.tour
 
@@ -20,7 +24,9 @@ def _steps(main, rect_of):
     from PySide6.QtWidgets import QToolButton
 
     def item(key):  # the area's block on the start page
-        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
+        where = lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)  # noqa: E731
+        where.area = key
+        return where
 
     def blocks():
         shown = [rect_of(b, main) for b in main.start_page.blocks]
@@ -86,7 +92,9 @@ def _later_steps(main, rect_of, dock):
     def item(key):  # the area's block on the start page
         from PySide6.QtWidgets import QToolButton
 
-        return lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)
+        where = lambda: rect_of(main.start_page.findChild(QToolButton, f"start_{key}"), main)  # noqa: E731
+        where.area = key
+        return where
 
     return [
         (

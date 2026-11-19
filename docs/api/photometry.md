@@ -64,6 +64,19 @@ parameters (default):
   source = "auto"  (choice, one of auto, apass, aavso)  Magnitudes from: auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field's AAVSO sequence
 ```
 
+## photometry.compare_minimum_methods
+
+```text
+photometry.compare_minimum_methods  (Compare timing methods)
+
+The same minimum by each eclipse method: rows of time, error and difference from Kwee–van Woerden (s).
+
+inputs:      light_curve
+outputs:     comparison
+  light_curve  (file)  Light curve
+  comparison  (object)  Timing methods compared
+```
+
 ## photometry.dia_curve
 
 ```text
