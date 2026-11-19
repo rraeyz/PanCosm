@@ -7,7 +7,7 @@ import threading
 
 import numpy as np
 from PySide6.QtCore import QObject, Signal
-from PySide6.QtWidgets import QDoubleSpinBox, QHBoxLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QAbstractItemView, QDoubleSpinBox, QHBoxLayout, QLabel, QPushButton
 
 from .kit.dialogs import Dialog
 from .kit.table_view import DataTable
@@ -31,11 +31,13 @@ class FinderDialog(Dialog):
         self.mag.setValue(13.0)
         self.mag.setPrefix(self.tr("V brighter than "))
         self.view = DataTable(self)
-        self.view.row_chosen.connect(lambda key: setattr(self, "chosen", [] if key is None else [key]))
+        self.view.table.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.view.table.itemSelectionChanged.connect(self._selection_changed)
         row = QHBoxLayout()
         self.fetch_button = QPushButton(self.tr("Fetch"), self)
         self.fetch_button.clicked.connect(lambda: self.load())
         self.add_button = QPushButton(self.tr("Add as target"), self)
+        self.add_button.setToolTip(self.tr("Ctrl or Shift picks several results"))
         self.add_button.clicked.connect(self.add_chosen)
         for w in (self.mag, self.fetch_button, self.add_button):
             row.addWidget(w)
@@ -92,8 +94,14 @@ class FinderDialog(Dialog):
                  round(1000 * e["depth"], 1), round(e["moon"]), e["why"]] for e in self.events]  # fmt: skip
         self.view.set_data(header, rows, keys=list(range(len(self.events))))
 
+    def _selection_changed(self):
+        t = self.view.table
+        rows = sorted({i.row() for i in t.selectedItems()})  # table order, as sorted on screen
+        self.chosen = [k for k in map(self.view.key, rows) if k is not None]
+        self.add_button.setText(self.tr("Add as targets") if len(rows) > 1 else self.tr("Add as target"))
+
     def add_chosen(self):
-        """The chosen planet as a target with its ephemeris (t0, period, duration in days)."""
+        """The chosen planets as targets with their ephemeris (t0, period, duration in days); one undo step."""
         t = self.table
         out = []
         for i in self.chosen:
@@ -104,5 +112,7 @@ class FinderDialog(Dialog):
                         "t0": float(t["t0"][k]), "period": float(t["period"][k]),
                         "duration": float(t["duration"][k])})  # fmt: skip
         if out:
-            self.page._add_list(out)
+            new = self.page.edit(self.tr("add targets"), self.page._add_list, out)
+            if len(new) < len(out):  # _add_target said "added"; the skipped count goes after it
+                self.note.setText(self.tr("{n} already in the targets, skipped.").format(n=len(out) - len(new)))
         return out

@@ -1,6 +1,6 @@
 """PLN-W accept: from an empty Planning window, "What can I observe tonight?" → three results → chart → schedule →
 Send to Observing. The finder is given the recorded Exoplanet Archive sample, never the network. Today the flow
-takes 11 clicks (the six-click goal is a strict expected failure until the finder asks, adds and plots by itself)."""
+takes 9 clicks (the six-click goal is a strict expected failure until the finder asks, adds and plots by itself)."""
 
 from pathlib import Path
 
@@ -34,8 +34,11 @@ def _flow(walk, monkeypatch):
     table = dlg.view.table
     for row in range(3):
         pos = table.visualItemRect(table.item(row, 0)).center()
-        h._act(f"pick result {row}", lambda pos=pos: QTest.mouseClick(table.viewport(), Qt.LeftButton, pos=pos), 2.0)
-        h.click("finder.add_button")
+        mod = Qt.NoModifier if row == 0 else Qt.ControlModifier  # Ctrl picks several
+        h._act(
+            f"pick result {row}", lambda pos=pos, m=mod: QTest.mouseClick(table.viewport(), Qt.LeftButton, m, pos), 2.0
+        )
+    h.click("finder.add_button")
     h.click("plan_button")
     h.wait(lambda: page.result is not None)
     h.click("schedule_button")
@@ -48,10 +51,10 @@ def _flow(walk, monkeypatch):
 
 
 def test_tonights_planets_to_observing(walk, monkeypatch):
-    assert _flow(walk, monkeypatch) == 11
+    assert _flow(walk, monkeypatch) == 9
 
 
-@pytest.mark.xfail(strict=True, reason="PLN-W: Fetch, pick + Add and Plan the night are still separate clicks")
+@pytest.mark.xfail(strict=True, reason="PLN-W: Fetch, the picks + Add and Plan the night are still separate clicks")
 def test_in_six_clicks(walk, monkeypatch):
     assert _flow(walk, monkeypatch) <= 6
 

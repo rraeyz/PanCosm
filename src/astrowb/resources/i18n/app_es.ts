@@ -4330,68 +4330,89 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="36"/>
+        <location filename="../../ui/plan_finder.py" line="37"/>
         <source>Fetch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="38"/>
+        <location filename="../../ui/plan_finder.py" line="39"/>
+        <location filename="../../ui/plan_finder.py" line="101"/>
         <source>Add as target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="45"/>
+        <location filename="../../ui/plan_finder.py" line="40"/>
+        <source>Ctrl or Shift picks several results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="47"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="51"/>
+        <location filename="../../ui/plan_finder.py" line="53"/>
         <source>Asking the NASA Exoplanet Archive…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="83"/>
+        <location filename="../../ui/plan_finder.py" line="85"/>
         <source>{n} transits tonight, best first (local time UTC{off:+g}).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Planet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Start</source>
         <translation>Inicio</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Middle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>End</source>
         <translation>Fin</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Depth (mmag)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Why</source>
         <translation>Motivo</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Moon (°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="101"/>
+        <source>Add as targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="115"/>
+        <source>add targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="117"/>
+        <source>{n} already in the targets, skipped.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

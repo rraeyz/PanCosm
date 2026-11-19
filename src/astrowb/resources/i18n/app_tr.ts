@@ -4330,69 +4330,90 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>V parlaklık sınırı: </translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="36"/>
+        <location filename="../../ui/plan_finder.py" line="37"/>
         <source>Fetch</source>
         <translation>Getir</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="38"/>
+        <location filename="../../ui/plan_finder.py" line="39"/>
+        <location filename="../../ui/plan_finder.py" line="101"/>
         <source>Add as target</source>
         <translation>Hedef olarak ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="45"/>
+        <location filename="../../ui/plan_finder.py" line="40"/>
+        <source>Ctrl or Shift picks several results</source>
+        <translation>Ctrl veya Shift ile birden çok sonuç seçilir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="47"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="51"/>
+        <location filename="../../ui/plan_finder.py" line="53"/>
         <source>Asking the NASA Exoplanet Archive…</source>
         <translation>NASA Ötegezegen Arşivi&apos;ne soruluyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="83"/>
+        <location filename="../../ui/plan_finder.py" line="85"/>
         <source>{n} transits tonight, best first (local time UTC{off:+g}).</source>
         <translation>Bu gece {n} geçiş, en iyisi önce (yerel saat UTC{off:+g}).</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Planet</source>
         <translation>Gezegen</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Start</source>
         <translation>Başlangıç</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>Middle</source>
         <translation>Orta</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>End</source>
         <translation>Bitiş</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="89"/>
+        <location filename="../../ui/plan_finder.py" line="91"/>
         <source>V</source>
         <translation>V</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Depth (mmag)</source>
         <translation>Derinlik (mmag)</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Why</source>
         <translation>Neden</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_finder.py" line="90"/>
+        <location filename="../../ui/plan_finder.py" line="92"/>
         <source>Moon (°)</source>
         <translation>Ay (°)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="101"/>
+        <source>Add as targets</source>
+        <translation>Hedef olarak ekle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="115"/>
+        <source>add targets</source>
+        <translation>hedef ekle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plan_finder.py" line="117"/>
+        <source>{n} already in the targets, skipped.</source>
+        <translation>{n} tanesi zaten hedeflerde, atlandı.</translation>
     </message>
 </context>
 <context>
@@ -17473,7 +17494,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/plan_page.py" line="499"/>
         <source>Opens Settings → Profiles, where the site is saved for every window</source>
-        <translation>Ayarlar → Profiller'i açar; konum her pencere için orada kaydedilir</translation>
+        <translation>Ayarlar → Profiller&apos;i açar; konum her pencere için orada kaydedilir</translation>
     </message>
     <message>
         <location filename="../../ui/plan_page.py" line="509"/>
