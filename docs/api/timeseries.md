@@ -113,7 +113,7 @@ conditional entropy or string length): the periodogram and the best periods.
 
 inputs:      time, flux
 optional:    err
-outputs:     periods, power, best, warnings, peaks, fap, peak_faps
+outputs:     periods, power, best, warnings, peaks, fap, peak_faps, peak_snr
   time  (object)  Times
   flux  (object)  Flux
   err  (object)  Errors
@@ -124,6 +124,7 @@ outputs:     periods, power, best, warnings, peaks, fap, peak_faps
   peaks  (object)  Highest peaks and their aliases
   fap  (number)  False-alarm probability
   peak_faps  (object)  False-alarm probability of each listed peak
+  peak_snr  (object)  Signal-to-noise ratio of each listed peak (Breger et al. 1993)
 parameters (default):
   method = "lomb-scargle"  (choice, one of lomb-scargle, bls, pdm, anova, gls, aovmh, conditional_entropy, string_length)  Method: Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy
   p_min = 0.05  (float, d, >= 0.0)  Shortest period: The search starts here

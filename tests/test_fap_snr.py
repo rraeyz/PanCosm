@@ -48,3 +48,37 @@ def test_table_has_fap_and_marks_a_low_snr(qtbot):
     snr = model.table.colnames.index("S/N")
     assert model.data(model.index(0, snr), Qt.BackgroundRole) is None
     assert "Breger" in model.data(model.index(1, snr), Qt.ToolTipRole)
+
+
+def _period_step(t, y):
+    from astrowb.photometry.steps import period_step
+
+    class Ctx:
+        def progress(self, *a):
+            pass
+
+    return period_step(
+        {"time": t.tolist(), "flux": y.tolist()}, {"method": "lomb-scargle", "p_min": 0.1, "p_max": None}, Ctx()
+    )
+
+
+def test_period_step_gives_the_peak_snr_and_fap():
+    t, rng = _times(), np.random.default_rng(4)
+    out = _period_step(t, 0.1 * np.sin(2 * np.pi * 3.7 * t) + rng.normal(0, 0.05, t.size))
+    assert out["peak_snr"][0] > 4 and out["peak_faps"][0] < 1e-3
+    assert len(out["peak_snr"]) == len(out["peak_faps"])
+    noise = _period_step(t, rng.normal(0, 0.05, t.size))
+    assert noise["peak_snr"][0] < 4
+
+
+def test_peak_table_shows_snr_and_marks_the_weak_ones():
+    from astrowb.ui.lightcurve_fold import peak_marks, peak_table
+
+    periods = np.linspace(0.1, 5, 400)
+    power = np.exp(-(((periods - 1) / 0.02) ** 2)) + 0.5 * np.exp(-(((periods - 2) / 0.02) ** 2))
+    table = peak_table(
+        {"periods": periods.tolist(), "power": power.tolist(), "peak_faps": [1e-5, 0.4], "peak_snr": [6.2, 2.0]}
+    )
+    assert table.colnames == ["period", "power", "fap", "snr"] and list(table["snr"]) == ["6.2", "2.0"]
+    assert list(peak_marks(table)) == [(1, "snr")]
+    assert list(peak_table({"periods": periods.tolist(), "power": power.tolist()})["snr"]) == ["—", "—"]

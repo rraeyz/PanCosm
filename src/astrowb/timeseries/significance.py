@@ -91,6 +91,24 @@ def peak_faps(t, y, periods, power, f_max, n):
     return frequency_faps(t, y, (1 / peak_periods).tolist(), f_max) if len(peak_periods) else []
 
 
+def peak_snrs(t, y, periods, power, n, box=2.0):
+    """S/N of each of the n highest local maxima (the order of `period_maxima`), as the Frequencies table gives it
+    (Breger et al. 1993): the amplitude of a sinusoid fitted at the peak over the mean amplitude of the residual
+    spectrum within +-box/2 c/d of it."""
+    from .fourier import dft, evaluate, fourier_fit, noise_at
+
+    t, y = np.asarray(t, float), np.asarray(y, float)
+    peak_periods, _ = period_maxima(periods, power, n)
+    step = 1 / (4 * np.ptp(t))  # coarser than the Frequencies table's grid: only a local mean is needed
+    out = []
+    for f in 1 / peak_periods:
+        fit = fourier_fit(t, y, [f])
+        f0 = fit["freq"][0]
+        grid = np.arange(max(f0 - box / 2, step), f0 + box / 2, step)
+        out.append(float(fit["amp"][0] / noise_at(grid, dft(t, y - evaluate(fit, t), grid), f0, box)))
+    return out
+
+
 def fap_shuffled(t, y, search, best_power, n=100, seed=0):
     """The share of n light curves with their values shuffled among the times (the sampling kept, any period
     destroyed) whose highest power reaches best_power; search(t, y) → (periods, power, best). The smallest

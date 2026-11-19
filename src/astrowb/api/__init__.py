@@ -35,7 +35,8 @@ class Result(dict):
             cols = {k: v for k, v in d.items() if _is_column(v)}
             if not cols:
                 return None
-            n = max({len(v) for v in cols.values()}, key=[len(v) for v in cols.values()].count)
+            lengths = [len(v) for v in cols.values()]
+            n = max(set(lengths), key=lambda k: (lengths.count(k), k))  # the commonest length, the longer on a tie
             return Table({k: v for k, v in cols.items() if len(v) == n})
 
         def as_table(v):

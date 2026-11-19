@@ -24,7 +24,11 @@ def peak_table(periodogram, n=PEAKS):
     p, power = period_maxima(periodogram["periods"], periodogram["power"], n)
     faps = periodogram.get("peak_faps")
     faps = faps if faps is not None and len(faps) == len(p) else [None] * len(p)
-    table = Table({"period": p, "power": power, "fap": [fap_text(f) for f in faps]})
+    snr = periodogram.get("peak_snr")
+    snr = snr if snr is not None and len(snr) == len(p) else [None] * len(p)
+    table = Table({"period": p, "power": power, "fap": [fap_text(f) for f in faps],
+                   "snr": ["—" if v is None else f"{v:.1f}" for v in snr]})  # fmt: skip
+    table.meta["snr"] = snr  # the raw values, for the marks of peak_marks
     table["period"].unit = "d"
     table["fap"].description = (
         translate("PeriodWindow", "False-alarm probability of the peak (Baluev 2008), Lomb–Scargle periodograms only")
@@ -33,7 +37,26 @@ def peak_table(periodogram, n=PEAKS):
             "PeriodWindow", "A false-alarm probability exists only for Lomb–Scargle periodograms; not for this method"
         )
     )
+    table["snr"].description = (
+        translate(
+            "PeriodWindow", "Amplitude over the mean residual amplitude spectrum within ±1 c/d (Breger et al. 1993)"
+        )
+        if any(v is not None for v in snr)
+        else translate("PeriodWindow", "S/N is computed for Lomb–Scargle periodograms only; not for this method")
+    )
     return table
+
+
+def peak_marks(table):
+    """{(row, "snr"): (colour, reason)} for the peaks below S/N 4, as the Frequencies table marks them."""
+    from .kit import tokens
+
+    reason = translate("PeriodWindow", "S/N below 4: not significant (Breger et al. 1993)")
+    return {
+        (i, "snr"): (tokens.role("saturated"), reason)
+        for i, v in enumerate(table.meta["snr"])
+        if v is not None and v < 4
+    }
 
 
 def fold_stage(page):
@@ -97,7 +120,8 @@ def peak_inspector(win, page):
 
     def show_result(out):
         show(out)
-        view.set_table(peak_table(out))
+        table = peak_table(out)
+        view.set_table(table, marks=peak_marks(table))
         dock.show()
 
     page.show_result = show_result
