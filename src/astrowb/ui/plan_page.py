@@ -28,6 +28,7 @@ from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
 from .plan_almanac import almanac_label
+from .plan_profile_save import with_save_button
 from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
 
@@ -129,7 +130,7 @@ class PlanPage(Undoable, QWidget):
                 "Targets below this altitude count as not observable (trees, buildings, thick air near the horizon)"
             )
         )
-        grid.addWidget(self.min_alt, 5, 1)
+        grid.addWidget(with_save_button(self, self.min_alt), 5, 1)
         self.utc_offset = self._spin(self.settings.get("plan.utc_offset", AUTO), AUTO, 14, 1)
         self.utc_offset.setSingleStep(0.5)
         self.utc_offset.setSpecialValueText(self.tr("Auto"))
