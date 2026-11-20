@@ -28,6 +28,7 @@ from ..calibration.matching import make_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
 from . import automatic
 from .kit.help import help_line
+from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
 from .master_choice import add_button as add_masters_button
 from .messages import translate
@@ -164,26 +165,19 @@ class CalibratePage(Undoable, QWidget):
         row.addWidget(remove)
         row.addWidget(clear)
         lay.addLayout(row)
-        self.table = QTableWidget(0, 6, self)
+        frame = DataTable(self)
+        frame.prepare([self.tr("File"), self.tr("Type"), self.tr("Exposure (s)"), self.tr("Filter"),
+                       self.tr("Temp. (°C)"), self.tr("Binning")])  # fmt: skip
+        self.table = frame.table
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
         self.table.setSelectionMode(QTableWidget.ExtendedSelection)
         self.table.installEventFilter(self)  # the Delete key removes the selected frames
-        self.table.setHorizontalHeaderLabels(
-            [
-                self.tr("File"),
-                self.tr("Type"),
-                self.tr("Exposure (s)"),
-                self.tr("Filter"),
-                self.tr("Temp. (°C)"),
-                self.tr("Binning"),
-            ]
-        )
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.table.cellDoubleClicked.connect(self._edit_kind)
         self.table.setToolTip(self.tr("Double-click a frame's type to change it"))
-        lay.addWidget(self.table, 1)
+        lay.addWidget(frame, 1)
         lay.addWidget(help_line(self.tr("The type comes from the header, else from the file name; double-click a "
                                         "type to change it."), "calibration-1-scan-raw-frames", self))  # fmt: skip
         self.warnings = QPlainTextEdit(self)

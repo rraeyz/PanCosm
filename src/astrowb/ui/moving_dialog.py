@@ -8,7 +8,6 @@ from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
     QFormLayout,
-    QHeaderView,
     QLabel,
     QLineEdit,
     QPushButton,
@@ -20,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..core import profiles
+from .kit.table_view import DataTable
 from .viewer import ImageViewer
 
 
@@ -51,11 +51,11 @@ class MovingObjectPage(QWidget):
         self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
         self.viewer.empty_hint = self.tr("The first frame appears here once the images are chosen")
         main.addWidget(self.viewer, 3)
-        self.table = QTableWidget(0, 4, self)
-        self.table.setHorizontalHeaderLabels(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        frame = DataTable(self)
+        frame.prepare(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])
+        self.table = frame.table
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
-        main.addWidget(self.table, 1)
+        main.addWidget(frame, 1)
         split.setStretchFactor(1, 1)
         from .stage_boxes import boxes_from_column
 

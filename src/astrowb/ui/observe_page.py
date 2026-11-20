@@ -26,7 +26,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QSplitter,
-    QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
     QWidget,
@@ -34,6 +33,7 @@ from PySide6.QtWidgets import (
 
 from ..devices.client import Client
 from .kit.focus import read_in_order
+from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
 from .observe_buttons import quick_buttons
@@ -262,8 +262,8 @@ class ObservePage(Undoable, QWidget):
         self.plan_box.hide()
         self.plan = []
         rl.addWidget(self.plan_box)
-        self.exposures = QTableWidget(0, 9, self)
-        self.exposures.setHorizontalHeaderLabels(
+        frame = DataTable(self)
+        frame.prepare(
             [
                 self.tr("Type"),
                 self.tr("Filter"),
@@ -276,6 +276,7 @@ class ObservePage(Undoable, QWidget):
                 self.tr("Sub-frame x, y, w, h"),
             ]
         )
+        self.exposures = frame.table
         self.exposures.setToolTip(
             self.tr(
                 "Gain, offset, read-out mode (number in the camera's list) and sub-frame (binned pixels): "
@@ -284,7 +285,7 @@ class ObservePage(Undoable, QWidget):
         )
         # each column at least as wide as its header (Stretch cut them, I6b (4)); the table scrolls sideways if narrow
         self.exposures.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        rl.addWidget(self.exposures, 1)
+        rl.addWidget(frame, 1)
         row = QHBoxLayout()
         self.buttons["add_row"] = add = QPushButton(self.tr("Add exposure row"), self)
         add.clicked.connect(lambda: self.edit(self.tr("add an exposure row"), self.add_exposure_row))

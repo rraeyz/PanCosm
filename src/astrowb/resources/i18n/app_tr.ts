@@ -1542,645 +1542,645 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CalibratePage</name>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="57"/>
+        <location filename="../../ui/calibrate_page.py" line="58"/>
         <source>Choose the folders of the lights and of the bias, dark and flat frames, then Scan</source>
         <translation>Bilim karelerinin ve bias, dark, flat karelerinin klasörlerini seçin, sonra Tara</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="59"/>
+        <location filename="../../ui/calibrate_page.py" line="60"/>
         <source>Choose the light frames&apos; folder and the calibration frames&apos; folder (Browse…), then press Scan.</source>
         <translation>Bilim karelerinin klasörünü ve kalibrasyon karelerinin klasörünü seçin (Gözat…), sonra Tara düğmesine basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="63"/>
+        <location filename="../../ui/calibrate_page.py" line="64"/>
         <source>Check the frame types found (IRAF ccdlist)</source>
         <translation>Bulunan kare türlerini denetleyin (IRAF ccdlist)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="65"/>
+        <location filename="../../ui/calibrate_page.py" line="66"/>
         <source>Check the table: each frame&apos;s type, exposure, filter and temperature. Double-click a wrong type to change it, and read the problems listed under the table.</source>
         <translation>Tabloyu denetleyin: her karenin türü, pozu, filtresi ve sıcaklığı. Yanlış bir türü değiştirmek için üzerine çift tıklayın; tablonun altında listelenen sorunları okuyun.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="71"/>
+        <location filename="../../ui/calibrate_page.py" line="72"/>
         <source>Combine the masters and calibrate the lights (zerocombine, darkcombine, flatcombine, ccdproc)</source>
         <translation>Ana kareleri birleştirin ve bilim karelerini kalibre edin (zerocombine, darkcombine, flatcombine, ccdproc)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="74"/>
+        <location filename="../../ui/calibrate_page.py" line="75"/>
         <source>Choose where to write the results and press 3. Calibrate. For spectra tick Spectra: do not divide by the flat.</source>
         <translation>Sonuçların yazılacağı yeri seçin ve 3. Kalibre et düğmesine basın. Tayflar için Tayf: flat&apos;e bölme kutusunu işaretleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="79"/>
+        <location filename="../../ui/calibrate_page.py" line="80"/>
         <source>Measure them, or stack them (phot, imcombine)</source>
         <translation>Ölçün ya da üst üste ekleyin (phot, imcombine)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="86"/>
+        <location filename="../../ui/calibrate_page.py" line="87"/>
         <source>1. Choose your frames: the lights and the calibration frames (BDF).</source>
         <translation>1. Karelerinizi seçin: light&apos;lar ve kalibrasyon kareleri (BDF).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="91"/>
+        <location filename="../../ui/calibrate_page.py" line="92"/>
         <source>light frames (data) folder</source>
         <translation>light kareleri (veri) klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="93"/>
+        <location filename="../../ui/calibrate_page.py" line="94"/>
         <source>Every frame here is a light, unless its header says bias, dark or flat. Sub-folders are read too.</source>
         <translation>Buradaki her kare light&apos;tır; yalnızca başlığı bias, dark ya da flat diyorsa öyle sayılır. Alt klasörler de okunur.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="95"/>
-        <location filename="../../ui/calibrate_page.py" line="111"/>
-        <location filename="../../ui/calibrate_page.py" line="198"/>
+        <location filename="../../ui/calibrate_page.py" line="96"/>
+        <location filename="../../ui/calibrate_page.py" line="112"/>
+        <location filename="../../ui/calibrate_page.py" line="192"/>
         <source>Browse…</source>
         <translation>Gözat…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="97"/>
-        <location filename="../../ui/calibrate_page.py" line="113"/>
-        <location filename="../../ui/calibrate_page.py" line="206"/>
+        <location filename="../../ui/calibrate_page.py" line="98"/>
+        <location filename="../../ui/calibrate_page.py" line="114"/>
+        <location filename="../../ui/calibrate_page.py" line="200"/>
         <source>Choose the folder in a dialog</source>
         <translation>Klasörü bir pencereden seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="98"/>
+        <location filename="../../ui/calibrate_page.py" line="99"/>
         <source>Lights</source>
         <translation>Light&apos;lar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="104"/>
+        <location filename="../../ui/calibrate_page.py" line="105"/>
         <source>bias / dark / flat folder; another folder; …</source>
         <translation>bias / dark / flat klasörü; başka bir klasör; …</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="107"/>
+        <location filename="../../ui/calibrate_page.py" line="108"/>
         <source>Calibration frames, sorted into bias, dark and flat. Several folders separated by &apos;;&apos; (e.g. a calibration library). Everything in one folder: give it here only.</source>
         <translation>Kalibrasyon kareleri, bias, dark ve flat olarak ayrılır. Birkaç klasör &apos;;&apos; ile ayrılır (örn. bir kalibrasyon kütüphanesi). Her şey tek klasördeyse: yalnızca buraya verin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="114"/>
+        <location filename="../../ui/calibrate_page.py" line="115"/>
         <source>Add folder…</source>
         <translation>Klasör ekle…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="116"/>
+        <location filename="../../ui/calibrate_page.py" line="117"/>
         <source>Read frames from one more folder, e.g. master or calibration frames kept elsewhere</source>
         <translation>Bir klasörden daha kare oku, örn. başka yerde duran master ya da kalibrasyon kareleri</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="119"/>
+        <location filename="../../ui/calibrate_page.py" line="120"/>
         <source>BDF</source>
         <translation>BDF</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="124"/>
+        <location filename="../../ui/calibrate_page.py" line="125"/>
         <source>Scan</source>
         <translation>Tara</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="128"/>
+        <location filename="../../ui/calibrate_page.py" line="129"/>
         <source>Reads every frame and sorts it by its header into bias, dark, flat, arc and light; nothing is changed yet, check the table</source>
         <translation>Her kareyi okur ve başlığına göre bias, dark, flat, ark ve light olarak ayırır; henüz hiçbir şey değişmez, tabloyu kontrol edin</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="135"/>
+        <location filename="../../ui/calibrate_page.py" line="136"/>
         <source>DSLR clock − UTC: </source>
         <translation>DSLR saati − UTC: </translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="136"/>
+        <location filename="../../ui/calibrate_page.py" line="137"/>
         <source> h</source>
         <translation> sa</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="139"/>
+        <location filename="../../ui/calibrate_page.py" line="140"/>
         <source>Camera raw files (CR2, NEF, ARW, DNG…) are converted to FITS in the folder fits_from_raw. Their time is the camera clock: give how many hours it is ahead of UTC (0 if the camera is set to UTC), and check the clock against a time signal — timing errors go straight into minima and O−C.</source>
         <translation>Kamera ham dosyaları (CR2, NEF, ARW, DNG…) fits_from_raw klasöründe FITS&apos;e dönüştürülür. Zamanları kamera saatidir: saatin UTC&apos;den kaç saat ileri olduğunu girin (kamera UTC&apos;ye ayarlıysa 0) ve saati bir zaman sinyaliyle karşılaştırın — zaman hataları doğrudan minimumlara ve O−C&apos;ye geçer.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="151"/>
+        <location filename="../../ui/calibrate_page.py" line="152"/>
         <source>Remove from the list</source>
         <translation>Listeden çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="154"/>
+        <location filename="../../ui/calibrate_page.py" line="155"/>
         <source>Leaves the selected frames out of the calibration (Delete key; Ctrl+Z brings them back). The files are not deleted.</source>
         <translation>Seçili kareleri kalibrasyonun dışında bırakır (Delete tuşu; Ctrl+Z geri getirir). Dosyalar silinmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="159"/>
+        <location filename="../../ui/calibrate_page.py" line="160"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="160"/>
+        <location filename="../../ui/calibrate_page.py" line="161"/>
         <source>Empties the folders and the frame list, to choose the folders again (Ctrl+Z undoes)</source>
         <translation>Klasörleri ve kare listesini boşaltır; klasörleri yeniden seçmek için (Ctrl+Z geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="173"/>
+        <location filename="../../ui/calibrate_page.py" line="169"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="174"/>
+        <location filename="../../ui/calibrate_page.py" line="169"/>
         <source>Type</source>
         <translation>Tür</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="175"/>
+        <location filename="../../ui/calibrate_page.py" line="169"/>
         <source>Exposure (s)</source>
         <translation>Poz (sn)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="176"/>
+        <location filename="../../ui/calibrate_page.py" line="169"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="177"/>
+        <location filename="../../ui/calibrate_page.py" line="170"/>
         <source>Temp. (°C)</source>
         <translation>Sıcaklık (°C)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="178"/>
+        <location filename="../../ui/calibrate_page.py" line="170"/>
         <source>Binning</source>
         <translation>Binning</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="185"/>
+        <location filename="../../ui/calibrate_page.py" line="179"/>
         <source>Double-click a frame&apos;s type to change it</source>
         <translation>Bir karenin türünü değiştirmek için üzerine çift tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="192"/>
+        <location filename="../../ui/calibrate_page.py" line="186"/>
         <source>Problems and missing calibration frames are listed here.</source>
         <translation>Sorunlar ve eksik kalibrasyon kareleri burada listelenir.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="195"/>
+        <location filename="../../ui/calibrate_page.py" line="189"/>
         <source>2. Choose where to write master frames and calibrated images.</source>
         <translation>2. Master karelerin ve kalibre görüntülerin yazılacağı yeri seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="202"/>
+        <location filename="../../ui/calibrate_page.py" line="196"/>
         <source>Folder for the master frames and the calibrated images; created if it does not exist. The raw frames are never changed.</source>
         <translation>Ana kareler ve kalibre edilmiş görüntüler için klasör; yoksa oluşturulur. Ham karelere hiç dokunulmaz.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="211"/>
+        <location filename="../../ui/calibrate_page.py" line="205"/>
         <source>Rejection (sigma):</source>
         <translation>Reddetme (sigma):</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="218"/>
+        <location filename="../../ui/calibrate_page.py" line="212"/>
         <source>A pixel further than this many standard deviations from the other frames&apos; values is left out when the masters are combined and when images are stacked; 3 is the usual value</source>
         <translation>Diğer karelerdeki değerlerden bu kadar standart sapmadan daha uzak bir piksel, ana kareler birleştirilirken ve görüntüler yığılırken dışarıda bırakılır; 3 olağan değerdir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="223"/>
+        <location filename="../../ui/calibrate_page.py" line="217"/>
         <source>Remove cosmic rays from lights</source>
         <translation>Light karelerden kozmik ışınları temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="226"/>
+        <location filename="../../ui/calibrate_page.py" line="220"/>
         <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights: switch it off for a quick pass.</source>
         <translation>Her ışık karesindeki kozmik ışın vuruşlarını keskin kenarlarından bulur (L.A.Cosmic, astroscrappy) ve değiştirir. Uzun pozlar ve tayflar için yararlıdır; çok kare reddetmeyle yığılıyorsa gerekmez. Işık karelerinin kalibrasyonunda en yavaş kısımdır: hızlı geçiş için kapatın.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="231"/>
+        <location filename="../../ui/calibrate_page.py" line="225"/>
         <source>Scale the dark to each light (dark optimisation)</source>
         <translation>Dark&apos;ı her ışık karesine ölçekle (dark optimizasyonu)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="233"/>
+        <location filename="../../ui/calibrate_page.py" line="227"/>
         <source>Finds the dark scale that leaves the least noise; useful when the camera temperature drifted</source>
         <translation>En az gürültü bırakan dark ölçeğini bulur; kamera sıcaklığı kaydığında işe yarar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="235"/>
+        <location filename="../../ui/calibrate_page.py" line="229"/>
         <source>Repair hot and dead pixels (defect map from the masters)</source>
         <translation>Sıcak ve ölü pikselleri onar (master&apos;lardan kusur haritası)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="238"/>
+        <location filename="../../ui/calibrate_page.py" line="232"/>
         <source>Hot pixels (from the master dark) and dead pixels (from the master flat) are replaced by the median of their neighbours in every light; the map is saved with the masters</source>
         <translation>Sıcak pikseller (ana dark&apos;tan) ve ölü pikseller (ana flat&apos;tan) her light karesinde komşularının medyanıyla değiştirilir; harita ana karelerle birlikte kaydedilir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="242"/>
+        <location filename="../../ui/calibrate_page.py" line="236"/>
         <source>Spectra: do not divide by the flat</source>
         <translation>Tayf: flat&apos;e bölme</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="249"/>
+        <location filename="../../ui/calibrate_page.py" line="243"/>
         <source>Colour camera: each colour as its own image</source>
         <translation>Renkli kamera: her renk ayrı görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="253"/>
+        <location filename="../../ui/calibrate_page.py" line="247"/>
         <source>Frames with a Bayer pattern (BAYERPAT) are calibrated as a mosaic, then written as three half-size images R, G, B (filters TR, TG, TB) without interpolation; G is closest to V. Monochrome frames are not affected.</source>
         <translation>Bayer deseni (BAYERPAT) olan kareler mozaik olarak kalibre edilir, sonra ara değerleme yapılmadan yarı boyutlu üç görüntü R, G, B (filtreler TR, TG, TB) olarak yazılır; G, V&apos;ye en yakın olandır. Tek renkli kareler etkilenmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="259"/>
+        <location filename="../../ui/calibrate_page.py" line="253"/>
         <source>3. Calibrate</source>
         <translation>3. Kalibre et</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="264"/>
+        <location filename="../../ui/calibrate_page.py" line="258"/>
         <source>Makes the master bias, dark and flat and writes every light as (light − bias − dark) / flat into the output folder</source>
         <translation>Ana bias, dark ve flat&apos;ı oluşturur ve her light karesini (light − bias − dark) / flat olarak çıktı klasörüne yazar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="272"/>
+        <location filename="../../ui/calibrate_page.py" line="266"/>
         <source>linearity correction c0 c1 c2 … (empty: none)</source>
         <translation>doğrusallık düzeltmesi c0 c1 c2 … (boş: yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="275"/>
+        <location filename="../../ui/calibrate_page.py" line="269"/>
         <source>The camera&apos;s non-linearity: every raw value v becomes c0 + c1·v + c2·v² + … before calibration (from the maker&apos;s sheet or a series of flats of rising exposure)</source>
         <translation>Kameranın doğrusal olmayışı: her ham değer v, kalibrasyondan önce c0 + c1·v + c2·v² + … olur (üreticinin belgesinden ya da artan pozlu bir flat dizisinden)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="279"/>
+        <location filename="../../ui/calibrate_page.py" line="273"/>
         <source>More calibration options</source>
         <translation>Diğer kalibrasyon seçenekleri</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="80"/>
+        <location filename="../../ui/calibrate_page.py" line="81"/>
         <source>Press 4. Measure them in the Photometry window →, or stack them into one deep picture.</source>
         <translation>4. Fotometri penceresinde ölç → düğmesine basın ya da kareleri tek bir derin görüntüde üst üste ekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="53"/>
+        <location filename="../../ui/calibrate_page.py" line="54"/>
         <source>Calibration</source>
         <translation>Kalibrasyon</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="87"/>
+        <location filename="../../ui/calibrate_page.py" line="88"/>
         <source>Lights in one folder, bias / dark / flat (BDF) in another — or everything as BDF.</source>
         <translation>Light&apos;lar bir klasörde, bias / dark / flat (BDF) başka bir klasörde — ya da hepsi BDF olarak.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="187"/>
+        <location filename="../../ui/calibrate_page.py" line="181"/>
         <source>The type comes from the header, else from the file name; double-click a type to change it.</source>
         <translation>Tür başlıktan, yoksa dosya adından bulunur; değiştirmek için türe çift tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="245"/>
+        <location filename="../../ui/calibrate_page.py" line="239"/>
         <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy window.</source>
         <translation>Eşel ve uzun yarık kareleri için: flat order/mertebeler arasında sıfıra yakındır, ona bölmek gürültüyü patlatır. Master flat yine yapılır; onu Tayf penceresine verin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="286"/>
+        <location filename="../../ui/calibrate_page.py" line="280"/>
         <source>4. Measure them in the Photometry window →</source>
         <translation>4. Fotometri penceresinde ölç →</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="290"/>
+        <location filename="../../ui/calibrate_page.py" line="284"/>
         <source>Sends the calibrated lights to the Photometry window and opens it (a light curve, a variable star)</source>
         <translation>Kalibre edilmiş light&apos;ları Fotometri penceresine gönderir ve açar (ışık eğrisi, değişen yıldız)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="296"/>
+        <location filename="../../ui/calibrate_page.py" line="290"/>
         <source>Or: stack them into one deep picture (not for a light curve)</source>
         <translation>Ya da: tek bir derin görüntüde yığ (ışık eğrisi için değil)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="301"/>
+        <location filename="../../ui/calibrate_page.py" line="295"/>
         <source>Aligns the calibrated images on their stars and adds them into one image per filter: fainter stars and nebulae show, for a picture, astrometry or a colour image. Not needed for photometry: a light curve measures every single image (a stack has one time only).</source>
         <translation>Kalibre edilmiş görüntüleri yıldızlarına göre hizalar ve her filtre için tek görüntüde toplar: daha sönük yıldızlar ve bulutsular görünür; bir fotoğraf, astrometri ya da renkli görüntü için. Fotometri için gerekmez: ışık eğrisi her bir görüntüyü ayrı ölçer (yığının tek bir zamanı vardır).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="311"/>
+        <location filename="../../ui/calibrate_page.py" line="305"/>
         <source>Combine</source>
         <translation>Birleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="306"/>
         <source>mean</source>
         <translation>ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="306"/>
         <source>median</source>
         <translation>medyan</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="306"/>
         <source>sum</source>
         <translation>toplam</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="315"/>
+        <location filename="../../ui/calibrate_page.py" line="309"/>
         <source>Reject</source>
         <translation>Reddet</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="317"/>
+        <location filename="../../ui/calibrate_page.py" line="311"/>
         <source>sigma clipping</source>
         <translation>sigma kırpma</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="318"/>
+        <location filename="../../ui/calibrate_page.py" line="312"/>
         <source>sigma clipping, median / MAD spread</source>
         <translation>sigma kırpma, medyan / MAD yayılımı</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="319"/>
+        <location filename="../../ui/calibrate_page.py" line="313"/>
         <source>winsorized sigma clipping</source>
         <translation>winsorized sigma kırpma</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="320"/>
+        <location filename="../../ui/calibrate_page.py" line="314"/>
         <source>min / max (drop lowest and highest)</source>
         <translation>min / maks (en düşük ve en yükseği at)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="321"/>
+        <location filename="../../ui/calibrate_page.py" line="315"/>
         <source>percentile clipping</source>
         <translation>yüzdelik kırpma</translation>
     </message>
     <message>
+        <location filename="../../ui/calibrate_page.py" line="316"/>
         <location filename="../../ui/calibrate_page.py" line="322"/>
-        <location filename="../../ui/calibrate_page.py" line="328"/>
         <source>none</source>
         <translation>yok</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="326"/>
+        <location filename="../../ui/calibrate_page.py" line="320"/>
         <source>Normalise</source>
         <translation>Normalleştir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="329"/>
+        <location filename="../../ui/calibrate_page.py" line="323"/>
         <source>multiplicative (scale to the first frame)</source>
         <translation>çarpımsal (ilk kareye ölçekle)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="330"/>
+        <location filename="../../ui/calibrate_page.py" line="324"/>
         <source>additive (shift to the first frame)</source>
         <translation>toplamsal (ilk kareye kaydır)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="327"/>
         <source>Weights</source>
         <translation>Ağırlıklar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="327"/>
         <source>equal</source>
         <translation>eşit</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="327"/>
         <source>by noise (1 / σ²)</source>
         <translation>gürültüye göre (1 / σ²)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="335"/>
+        <location filename="../../ui/calibrate_page.py" line="329"/>
         <source>Align</source>
         <translation>Hizala</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="337"/>
+        <location filename="../../ui/calibrate_page.py" line="331"/>
         <source>shift only</source>
         <translation>yalnızca kaydırma</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="338"/>
+        <location filename="../../ui/calibrate_page.py" line="332"/>
         <source>star patterns (rotation and scale too)</source>
         <translation>yıldız desenleri (döndürme ve ölçek de)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="343"/>
+        <location filename="../../ui/calibrate_page.py" line="337"/>
         <source>mean: the least noise; median: robust without rejection; sum: keeps the counts</source>
         <translation>ortalama: en az gürültü; medyan: reddetme olmadan da sağlam; toplam: sayımları korur</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="345"/>
+        <location filename="../../ui/calibrate_page.py" line="339"/>
         <source>Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; sigma clipping is IRAF imcombine&apos;s (median ± σ × rms) where ten or more frames cover a pixel and the median / MAD spread where fewer do; min / max and percentile also work with few frames</source>
         <translation>Diğerlerine benzemeyen pikseller (uydular, kozmik ışınlar, sıcak pikseller) birleştirmeden önce dışarıda bırakılır; sigma kırpma, pikseli on ya da daha çok kare kapsıyorsa IRAF imcombine&apos;ınkidir (medyan ± σ × rms), daha az kare kapsıyorsa medyan / MAD yayılımı kullanılır; min / maks ve yüzdelik az kareyle de çalışır</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="350"/>
+        <location filename="../../ui/calibrate_page.py" line="344"/>
         <source>Brings the frames to the same level before rejection: multiplicative when the transparency changed, additive when the sky background changed</source>
         <translation>Reddetmeden önce kareleri aynı düzeye getirir: saydamlık değiştiyse çarpımsal, gökyüzü arka planı değiştiyse toplamsal</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="353"/>
+        <location filename="../../ui/calibrate_page.py" line="347"/>
         <source>By noise: noisier frames (thin cloud, twilight) count less</source>
         <translation>Gürültüye göre: daha gürültülü kareler (ince bulut, alacakaranlık) daha az sayılır</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="355"/>
+        <location filename="../../ui/calibrate_page.py" line="349"/>
         <source>Shift only: an equatorial mount without field rotation; star patterns: the field rotates or the scale differs (alt-az mount, meridian flip, another telescope)</source>
         <translation>Yalnız kaydırma: alan dönmesi olmayan ekvatoral kundak; yıldız desenleri: alan dönüyor ya da ölçek farklı (alt-az kundak, meridyen dönüşü, başka teleskop)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="372"/>
+        <location filename="../../ui/calibrate_page.py" line="366"/>
         <source>min / max: how many values to drop; percentile: the fraction of the median</source>
         <translation>min / maks: kaç değer atılacağı; yüzdelik: medyanın kesri</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="373"/>
+        <location filename="../../ui/calibrate_page.py" line="367"/>
         <source>Low / high</source>
         <translation>Alt / üst</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="378"/>
+        <location filename="../../ui/calibrate_page.py" line="372"/>
         <source>Stacking options</source>
         <translation>Yığma seçenekleri</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="380"/>
+        <location filename="../../ui/calibrate_page.py" line="374"/>
         <source>Drizzle onto a 2× finer grid (undersampled, dithered frames)</source>
         <translation>2× ince ızgaraya drizzle (az örneklenmiş, dither&apos;lı kareler)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="383"/>
+        <location filename="../../ui/calibrate_page.py" line="377"/>
         <source>For stars only one or two pixels wide (FWHM under about 2 px) in frames shifted a little between exposures: recovers detail on a grid twice as fine (Fruchter &amp; Hook 2002). Needs many frames; otherwise leave it off.</source>
         <translation>Pozlar arasında biraz kaydırılmış karelerde yalnızca bir iki piksel genişliğindeki yıldızlar için (FWHM yaklaşık 2 pikselden küçük): ayrıntıyı iki kat ince bir ızgarada geri kazanır (Fruchter &amp; Hook 2002). Çok kare gerekir; yoksa kapalı bırakın.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="422"/>
+        <location filename="../../ui/calibrate_page.py" line="416"/>
         <source>Stacking…</source>
         <translation>Hizala ve birleştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="424"/>
+        <location filename="../../ui/calibrate_page.py" line="418"/>
         <source>Only one frame through {f}: nothing to stack.</source>
         <translation>{f} filtresinde yalnızca bir kare var: yığılacak bir şey yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="437"/>
+        <location filename="../../ui/calibrate_page.py" line="431"/>
         <source>Choose folder</source>
         <translation>Klasör seçin</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="452"/>
+        <location filename="../../ui/calibrate_page.py" line="446"/>
         <source>Add folder</source>
         <translation>Klasör ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="476"/>
+        <location filename="../../ui/calibrate_page.py" line="470"/>
         <source>change a frame&apos;s type</source>
         <translation>bir karenin türünü değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="484"/>
-        <location filename="../../ui/calibrate_page.py" line="659"/>
+        <location filename="../../ui/calibrate_page.py" line="478"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>bias</source>
         <translation>bias</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="485"/>
-        <location filename="../../ui/calibrate_page.py" line="659"/>
+        <location filename="../../ui/calibrate_page.py" line="479"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>dark</source>
         <translation>dark</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="486"/>
-        <location filename="../../ui/calibrate_page.py" line="659"/>
+        <location filename="../../ui/calibrate_page.py" line="480"/>
+        <location filename="../../ui/calibrate_page.py" line="653"/>
         <source>flat</source>
         <translation>flat</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="487"/>
+        <location filename="../../ui/calibrate_page.py" line="481"/>
         <source>light</source>
         <translation>light</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="488"/>
+        <location filename="../../ui/calibrate_page.py" line="482"/>
         <source>arc lamp</source>
         <translation>ark lambası</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="489"/>
+        <location filename="../../ui/calibrate_page.py" line="483"/>
         <source>unknown</source>
         <translation>bilinmiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="512"/>
+        <location filename="../../ui/calibrate_page.py" line="506"/>
         <source>remove frames from the list</source>
         <translation>kareleri listeden çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="521"/>
+        <location filename="../../ui/calibrate_page.py" line="515"/>
         <source>clear the frame list</source>
         <translation>kare listesini temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="548"/>
+        <location filename="../../ui/calibrate_page.py" line="542"/>
         <source>({n} camera raw files read; times: camera clock − {h} h)</source>
         <translation>({n} kamera ham dosyası okundu; zamanlar: kamera saati − {h} sa)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="553"/>
+        <location filename="../../ui/calibrate_page.py" line="547"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="555"/>
+        <location filename="../../ui/calibrate_page.py" line="549"/>
         <source>Type unknown, ignored: {file}</source>
         <translation>Türü bilinmiyor, atlandı: {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="561"/>
+        <location filename="../../ui/calibrate_page.py" line="555"/>
         <source>No light frames found, so there is nothing to calibrate yet. If the lights are in another folder, choose the folder that holds both (sub-folders are read) or add it with “Add folder…”.</source>
         <translation>Light karesi bulunamadı, bu yüzden henüz kalibre edilecek bir şey yok. Light&apos;lar başka bir klasördeyse ikisini birden içeren klasörü seçin (alt klasörler okunur) ya da “Klasör ekle…” ile ekleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="567"/>
+        <location filename="../../ui/calibrate_page.py" line="561"/>
         <source>Needs at least one light frame</source>
         <translation>En az bir light karesi gerekir</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="572"/>
+        <location filename="../../ui/calibrate_page.py" line="566"/>
         <source>no flat for filter &apos;{filter}&apos; ({size}); will be calibrated without flat</source>
         <translation>&apos;{filter}&apos; filtresi için flat yok ({size}); flat&apos;sız kalibre edilecek</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="577"/>
+        <location filename="../../ui/calibrate_page.py" line="571"/>
         <source>no dark for {t} s within {tol} °C of {temp} °C (darks of another exposure need bias frames to be scaled); will be calibrated without dark</source>
         <translation>{t} sn için {temp} °C&apos;nin ±{tol} °C yakınında dark yok (başka pozlamadaki darkların ölçeklenmesi için bias gerekir); dark&apos;sız kalibre edilecek</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="582"/>
+        <location filename="../../ui/calibrate_page.py" line="576"/>
         <source>no bias ({size}); will be calibrated without bias</source>
         <translation>bias yok ({size}); bias&apos;sız kalibre edilecek</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="586"/>
+        <location filename="../../ui/calibrate_page.py" line="580"/>
         <source>noise beyond what averaging leaves ({v:.2f} ADU)</source>
         <translation>ortalamanın bırakacağından fazla gürültü ({v:.2f} ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="587"/>
+        <location filename="../../ui/calibrate_page.py" line="581"/>
         <source>row or column banding ({v:.2f} ADU)</source>
         <translation>satır ya da sütun bantlaşması ({v:.2f} ADU)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="588"/>
+        <location filename="../../ui/calibrate_page.py" line="582"/>
         <source>{v:.0f} hot pixels</source>
         <translation>{v:.0f} sıcak piksel</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="589"/>
+        <location filename="../../ui/calibrate_page.py" line="583"/>
         <source>an input flat at {v:.0%} of full well (20–80 % advised)</source>
         <translation>tam kuyunun {v:.0%} düzeyinde bir düz alan karesi (%20–80 önerilir)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="590"/>
+        <location filename="../../ui/calibrate_page.py" line="584"/>
         <source>a dust shadow {v:.1%} deep</source>
         <translation>{v:.1%} derinliğinde bir toz gölgesi</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="595"/>
+        <location filename="../../ui/calibrate_page.py" line="589"/>
         <source>{master}: {what}.</source>
         <translation>{master}: {what}.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="602"/>
+        <location filename="../../ui/calibrate_page.py" line="596"/>
         <source>{dark} has amplifier glow: scaling it from {t:g} s to {others} s leaves the glow wrong; take darks of the lights&apos; exposure or accept the residual.</source>
         <translation>{dark} karesinde yükselteç parlaması var: onu {t:g} s&apos;den {others} s&apos;ye ölçeklemek parlamayı yanlış bırakır; ışık karelerinin pozunda dark çekin ya da kalıntıyı kabul edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="609"/>
+        <location filename="../../ui/calibrate_page.py" line="603"/>
         <source>Calibrating…</source>
         <translation>Kalibre ediliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="618"/>
+        <location filename="../../ui/calibrate_page.py" line="612"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Doğrusallık düzeltmesi: c0 c1 c2 … sayılarını yazın, ör. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="629"/>
+        <location filename="../../ui/calibrate_page.py" line="623"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Bitti: {n} görüntü kalibre edildi, {m} master kare {folder} klasörüne yazıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="633"/>
+        <location filename="../../ui/calibrate_page.py" line="627"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} ark lambası karesi kalibre edildi (yalnızca bias ve dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="639"/>
+        <location filename="../../ui/calibrate_page.py" line="633"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark {lo:.3f}–{hi:.3f} ile ölçeklendi (her dosyanın başlığında DARKSCAL).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="653"/>
+        <location filename="../../ui/calibrate_page.py" line="647"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} kalibrasyon karesi grubu hiçbir bilim karesine uymadığı için birleştirilmedi (örn. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="661"/>
+        <location filename="../../ui/calibrate_page.py" line="655"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>{n} kareden (örn. {file}) master {kind} yapılamadı, onsuz kalibre edildi: {why}</translation>
     </message>
@@ -4301,379 +4301,379 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Açık görüntüler: göstermek için birine tıklayın ya da ok tuşlarını kullanın</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="123"/>
-        <location filename="../../ui/image_page.py" line="422"/>
+        <location filename="../../ui/image_header_table.py" line="15"/>
+        <location filename="../../ui/image_page.py" line="416"/>
         <source>Keyword</source>
         <translation>Anahtar</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="123"/>
-        <location filename="../../ui/image_page.py" line="130"/>
-        <location filename="../../ui/image_page.py" line="422"/>
+        <location filename="../../ui/image_header_table.py" line="15"/>
+        <location filename="../../ui/image_page.py" line="124"/>
+        <location filename="../../ui/image_page.py" line="416"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="123"/>
-        <location filename="../../ui/image_page.py" line="422"/>
+        <location filename="../../ui/image_header_table.py" line="15"/>
+        <location filename="../../ui/image_page.py" line="416"/>
         <source>Comment</source>
         <translation>Açıklama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="128"/>
+        <location filename="../../ui/image_header_table.py" line="23"/>
         <source>Double-click a keyword to change it; drag a column&apos;s edge to widen it; right-click to copy</source>
         <translation>Değiştirmek için anahtar sözcüğe çift tıklayın; genişletmek için sütunun kenarını sürükleyin; kopyalamak için sağ tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="130"/>
+        <location filename="../../ui/image_page.py" line="124"/>
         <source>Quantity</source>
         <translation>Büyüklük</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="141"/>
+        <location filename="../../ui/image_page.py" line="135"/>
         <source>Histogram</source>
         <translation>Histogram</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="142"/>
+        <location filename="../../ui/image_page.py" line="136"/>
         <source>Profile along x (column means)</source>
         <translation>x boyunca profil (sütun ortalamaları)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="143"/>
+        <location filename="../../ui/image_page.py" line="137"/>
         <source>Profile along y (row means)</source>
         <translation>y boyunca profil (satır ortalamaları)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="144"/>
+        <location filename="../../ui/image_page.py" line="138"/>
         <source>3-D surface</source>
         <translation>3-B yüzey</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="147"/>
+        <location filename="../../ui/image_page.py" line="141"/>
         <source>What to draw for a rectangle</source>
         <translation>Dikdörtgen için ne çizileceği</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="151"/>
+        <location filename="../../ui/image_page.py" line="145"/>
         <source>Export data (CSV)…</source>
         <translation>Veriyi dışa aktar (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="153"/>
+        <location filename="../../ui/image_page.py" line="147"/>
         <source>The numbers of the graph shown, as a table for a spreadsheet</source>
         <translation>Gösterilen grafiğin sayıları, hesap tablosu için tablo olarak</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="165"/>
+        <location filename="../../ui/image_page.py" line="159"/>
         <source>Add or change keyword…</source>
         <translation>Anahtar sözcük ekle ya da değiştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="166"/>
+        <location filename="../../ui/image_page.py" line="160"/>
         <source>Delete keyword</source>
         <translation>Anahtar sözcüğü sil</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="169"/>
+        <location filename="../../ui/image_page.py" line="163"/>
         <source>Only in this window until you save a copy; Ctrl+Z takes it back</source>
         <translation>Bir kopya kaydedene kadar yalnızca bu pencerede; Ctrl+Z geri alır</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="177"/>
+        <location filename="../../ui/image_page.py" line="171"/>
         <source>Save a copy with these header changes…</source>
         <translation>Bu başlık değişiklikleriyle bir kopya kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="181"/>
+        <location filename="../../ui/image_page.py" line="175"/>
         <source>The original file is not changed: a copy with the new header is written (Ctrl+Z takes back a change before that)</source>
         <translation>Asıl dosya değişmez: yeni başlıklı bir kopya yazılır (Ctrl+Z bundan önce bir değişikliği geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="189"/>
+        <location filename="../../ui/image_page.py" line="183"/>
         <source>Header</source>
         <translation>Başlık</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="190"/>
-        <location filename="../../ui/image_page.py" line="299"/>
+        <location filename="../../ui/image_page.py" line="184"/>
+        <location filename="../../ui/image_page.py" line="293"/>
         <source>Information</source>
         <translation>Bilgi</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="191"/>
-        <location filename="../../ui/image_page.py" line="300"/>
+        <location filename="../../ui/image_page.py" line="185"/>
+        <location filename="../../ui/image_page.py" line="294"/>
         <source>Graph</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="197"/>
+        <location filename="../../ui/image_page.py" line="191"/>
         <source>Results in small floating windows over the image (as MaxIm DL&apos;s Information and Graph windows); off: in these tabs</source>
         <translation>Sonuçlar görüntünün üstünde küçük yüzen pencerelerde (MaxIm DL&apos;in Information ve Graph pencereleri gibi); kapalıysa bu sekmelerde</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="375"/>
-        <location filename="../../ui/image_page.py" line="396"/>
+        <location filename="../../ui/image_page.py" line="369"/>
+        <location filename="../../ui/image_page.py" line="390"/>
         <source>{key}: not a keyword that can be edited.</source>
         <translation>{key}: düzenlenebilen bir anahtar sözcük değil.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="378"/>
+        <location filename="../../ui/image_page.py" line="372"/>
         <source>{key}: FITS headers take plain ASCII text only.</source>
         <translation>{key}: FITS başlıkları yalnızca düz ASCII metin alır (Türkçe harf yok).</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="410"/>
+        <location filename="../../ui/image_page.py" line="404"/>
         <source>delete a keyword</source>
         <translation>anahtar kelime silme</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="418"/>
+        <location filename="../../ui/image_page.py" line="412"/>
         <source>Add or change keyword</source>
         <translation>Anahtar sözcük ekle ya da değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="421"/>
+        <location filename="../../ui/image_page.py" line="415"/>
         <source>text, number, or T / F</source>
         <translation>metin, sayı ya da T / F</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="430"/>
+        <location filename="../../ui/image_page.py" line="424"/>
         <source>change a keyword</source>
         <translation>anahtar kelime değiştirme</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="436"/>
+        <location filename="../../ui/image_page.py" line="430"/>
         <source>{n} change(s) not saved yet; the file itself is never changed.</source>
         <translation>{n} değişiklik henüz kaydedilmedi; dosyanın kendisi hiç değişmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="514"/>
-        <location filename="../../ui/image_page.py" line="574"/>
+        <location filename="../../ui/image_page.py" line="508"/>
+        <location filename="../../ui/image_page.py" line="568"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="524"/>
+        <location filename="../../ui/image_page.py" line="518"/>
         <source>Centroid x, y (FITS pixels)</source>
         <translation>Merkez x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="530"/>
+        <location filename="../../ui/image_page.py" line="524"/>
         <source>RA, Dec</source>
         <translation>RA, Dec</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="533"/>
+        <location filename="../../ui/image_page.py" line="527"/>
         <source>Peak pixel (counts)</source>
         <translation>Tepe piksel (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="534"/>
+        <location filename="../../ui/image_page.py" line="528"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="536"/>
+        <location filename="../../ui/image_page.py" line="530"/>
         <source>Background per pixel (counts)</source>
         <translation>Piksel başına arka plan (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="537"/>
+        <location filename="../../ui/image_page.py" line="531"/>
         <source>Net counts in the aperture</source>
         <translation>Açıklıktaki net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="540"/>
+        <location filename="../../ui/image_page.py" line="534"/>
         <source>Net electrons</source>
         <translation>Net elektron</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="541"/>
+        <location filename="../../ui/image_page.py" line="535"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="543"/>
+        <location filename="../../ui/image_page.py" line="537"/>
         <source>per second</source>
         <translation>saniyede</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="543"/>
+        <location filename="../../ui/image_page.py" line="537"/>
         <source>per frame</source>
         <translation>kare başına</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="546"/>
+        <location filename="../../ui/image_page.py" line="540"/>
         <source>Instrumental magnitude ({unit})</source>
         <translation>Aletsel kadir ({unit})</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="551"/>
+        <location filename="../../ui/image_page.py" line="545"/>
         <source>FWHM (px)</source>
         <translation>FWHM (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="552"/>
+        <location filename="../../ui/image_page.py" line="546"/>
         <source>Half-flux diameter (px)</source>
         <translation>Yarı akı çapı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="553"/>
+        <location filename="../../ui/image_page.py" line="547"/>
         <source>Ellipticity, position angle (°)</source>
         <translation>Basıklık, konum açısı (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="554"/>
+        <location filename="../../ui/image_page.py" line="548"/>
         <source>Aperture; sky annulus (px)</source>
         <translation>Açıklık; gök halkası (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="555"/>
+        <location filename="../../ui/image_page.py" line="549"/>
         <source>Pixels in the aperture</source>
         <translation>Açıklıktaki piksel sayısı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="560"/>
+        <location filename="../../ui/image_page.py" line="554"/>
         <source>Radius (px)</source>
         <translation>Yarıçap (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="560"/>
+        <location filename="../../ui/image_page.py" line="554"/>
         <source>Counts above background</source>
         <translation>Arka plan üstü sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="577"/>
+        <location filename="../../ui/image_page.py" line="571"/>
         <source>Corners x, y (FITS pixels)</source>
         <translation>Köşeler x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="578"/>
+        <location filename="../../ui/image_page.py" line="572"/>
         <source>Size (px)</source>
         <translation>Boyut (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="579"/>
+        <location filename="../../ui/image_page.py" line="573"/>
         <source>Pixels</source>
         <translation>Piksel sayısı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="580"/>
+        <location filename="../../ui/image_page.py" line="574"/>
         <source>Sum (counts)</source>
         <translation>Toplam (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="583"/>
+        <location filename="../../ui/image_page.py" line="577"/>
         <source>Sum (electrons)</source>
         <translation>Toplam (elektron)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="585"/>
+        <location filename="../../ui/image_page.py" line="579"/>
         <source>Mean</source>
         <translation>Ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="586"/>
+        <location filename="../../ui/image_page.py" line="580"/>
         <source>Median</source>
         <translation>Medyan</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="587"/>
+        <location filename="../../ui/image_page.py" line="581"/>
         <source>Standard deviation</source>
         <translation>Standart sapma</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="588"/>
+        <location filename="../../ui/image_page.py" line="582"/>
         <source>Robust standard deviation (MAD)</source>
         <translation>Sağlam standart sapma (MAD)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="589"/>
+        <location filename="../../ui/image_page.py" line="583"/>
         <source>Minimum (at x, y)</source>
         <translation>En küçük (x, y&apos;de)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="590"/>
+        <location filename="../../ui/image_page.py" line="584"/>
         <source>Maximum (at x, y)</source>
         <translation>En büyük (x, y&apos;de)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="617"/>
-        <location filename="../../ui/image_page.py" line="629"/>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="611"/>
+        <location filename="../../ui/image_page.py" line="623"/>
+        <location filename="../../ui/image_page.py" line="669"/>
         <source>Counts</source>
         <translation>Sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="617"/>
+        <location filename="../../ui/image_page.py" line="611"/>
         <source>Number of pixels</source>
         <translation>Piksel sayısı</translation>
     </message>
     <message>
+        <location filename="../../ui/image_page.py" line="623"/>
         <location filename="../../ui/image_page.py" line="629"/>
-        <location filename="../../ui/image_page.py" line="635"/>
         <source>x (FITS pixels)</source>
         <translation>x (FITS pikseli)</translation>
     </message>
     <message>
+        <location filename="../../ui/image_page.py" line="623"/>
         <location filename="../../ui/image_page.py" line="629"/>
-        <location filename="../../ui/image_page.py" line="635"/>
         <source>y (FITS pixels)</source>
         <translation>y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="636"/>
+        <location filename="../../ui/image_page.py" line="630"/>
         <source>Mean counts</source>
         <translation>Ortalama sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="653"/>
+        <location filename="../../ui/image_page.py" line="647"/>
         <source>Start x, y (FITS pixels)</source>
         <translation>Başlangıç x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="654"/>
+        <location filename="../../ui/image_page.py" line="648"/>
         <source>End x, y (FITS pixels)</source>
         <translation>Bitiş x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="655"/>
+        <location filename="../../ui/image_page.py" line="649"/>
         <source>Length (px)</source>
         <translation>Uzunluk (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="656"/>
+        <location filename="../../ui/image_page.py" line="650"/>
         <source>Angle from +x (°)</source>
         <translation>+x&apos;ten açı (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="664"/>
+        <location filename="../../ui/image_page.py" line="658"/>
         <source>Separation on the sky (″)</source>
         <translation>Gökyüzünde uzaklık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="665"/>
+        <location filename="../../ui/image_page.py" line="659"/>
         <source>Position angle on the sky (°, N through E)</source>
         <translation>Gökyüzünde konum açısı (°, K&apos;den D&apos;ye)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="668"/>
+        <location filename="../../ui/image_page.py" line="662"/>
         <source>Minimum, maximum along the line</source>
         <translation>Çizgi boyunca en küçük, en büyük</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="669"/>
+        <location filename="../../ui/image_page.py" line="663"/>
         <source>Mean along the line</source>
         <translation>Çizgi boyunca ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="669"/>
         <source>Distance along the line (px)</source>
         <translation>Çizgi boyunca uzaklık (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="685"/>
+        <location filename="../../ui/image_page.py" line="679"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
@@ -10428,7 +10428,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Planlama penceresinden gönderilen gece planını unutur; poz satırları kalır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="380"/>
+        <location filename="../../ui/observe_page.py" line="381"/>
         <source>One frame with this exposure, shown in the Images window (to check pointing and focus)</source>
         <translation>Bu poz süresiyle tek kare; Görüntüler penceresinde gösterilir (yönelimi ve odağı kontrol etmek için)</translation>
     </message>
@@ -10449,7 +10449,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="269"/>
-        <location filename="../../ui/observe_page.py" line="410"/>
+        <location filename="../../ui/observe_page.py" line="411"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
@@ -10489,343 +10489,343 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Alt kare x, y, g, y</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="281"/>
+        <location filename="../../ui/observe_page.py" line="282"/>
         <source>Gain, offset, read-out mode (number in the camera&apos;s list) and sub-frame (binned pixels): empty keeps the camera&apos;s setting and the full frame</source>
         <translation>Kazanç, ofset, okuma modu (kameranın listesindeki sıra) ve alt kare (birleştirilmiş piksel): boş bırakılırsa kameranın ayarı ve tam kare kullanılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="289"/>
+        <location filename="../../ui/observe_page.py" line="290"/>
         <source>Add exposure row</source>
         <translation>Poz satırı ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="290"/>
+        <location filename="../../ui/observe_page.py" line="291"/>
         <source>add an exposure row</source>
         <translation>poz satırı ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="292"/>
+        <location filename="../../ui/observe_page.py" line="293"/>
         <source>A new row: type, filter, exposure time, count, binning (gain, offset and the rest may stay empty)</source>
         <translation>Yeni bir satır: tür, filtre, poz süresi, sayı, binning (kazanç, ofset ve diğerleri boş kalabilir)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="294"/>
+        <location filename="../../ui/observe_page.py" line="295"/>
         <source>Remove row</source>
         <translation>Satırı kaldır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="296"/>
+        <location filename="../../ui/observe_page.py" line="297"/>
         <source>remove an exposure row</source>
         <translation>poz satırını sil</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="298"/>
+        <location filename="../../ui/observe_page.py" line="299"/>
         <source>Removes the selected exposure row</source>
         <translation>Seçili poz satırını siler</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="299"/>
+        <location filename="../../ui/observe_page.py" line="300"/>
         <source>Start sequence</source>
         <translation>Çekim sırasını başlat</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="302"/>
+        <location filename="../../ui/observe_page.py" line="303"/>
         <source>Sends the sequence to the observatory, which runs it on its own; Abort stops it</source>
         <translation>Diziyi gözlemevine gönderir, gözlemevi onu kendi başına yürütür; Durdur onu durdurur</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="304"/>
+        <location filename="../../ui/observe_page.py" line="305"/>
         <source>Sky flats</source>
         <translation>Gökyüzü flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="307"/>
+        <location filename="../../ui/observe_page.py" line="308"/>
         <source>Twilight flats with the filter and count of the selected row; exposure times follow the sky brightness. Point the telescope at the flat spot first, tracking off.</source>
         <translation>Seçili satırın filtresi ve sayısıyla alacakaranlık flatları; poz süreleri gökyüzü parlaklığını izler. Önce teleskopu flat noktasına çevirin, izleme kapalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="312"/>
+        <location filename="../../ui/observe_page.py" line="313"/>
         <source>Panel flats</source>
         <translation>Panel flatları</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="315"/>
+        <location filename="../../ui/observe_page.py" line="316"/>
         <source>Flats on the flat panel (cover closed, panel lit, exposure adjusted to the target level), with the filter and count of the selected row; the panel is switched off afterwards</source>
         <translation>Düz alan panelinde flatlar (kapak kapalı, panel yanık, poz hedef düzeye göre ayarlanır), seçili satırın filtresi ve sayısıyla; sonra panel kapatılır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="332"/>
+        <location filename="../../ui/observe_page.py" line="333"/>
         <source>type a value</source>
         <translation>değer yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="337"/>
+        <location filename="../../ui/observe_page.py" line="338"/>
         <source>Copying the frames failed: {e}</source>
         <translation>Kareler kopyalanamadı: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="350"/>
+        <location filename="../../ui/observe_page.py" line="351"/>
         <source>Exposure time of a single test frame (not saved with the sequence)</source>
         <translation>Tek bir deneme karesinin poz süresi (diziyle birlikte kaydedilmez)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="357"/>
+        <location filename="../../ui/observe_page.py" line="358"/>
         <source>Target temperature of the camera sensor; darks must be taken at the same temperature as the lights</source>
         <translation>Kamera algılayıcısının hedef sıcaklığı; dark&apos;lar light&apos;larla aynı sıcaklıkta alınmalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="362"/>
+        <location filename="../../ui/observe_page.py" line="363"/>
         <source>Focuser position in steps</source>
         <translation>Odaklayıcı konumu, adım</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="365"/>
+        <location filename="../../ui/observe_page.py" line="366"/>
         <source>Filter of the filter wheel by its name</source>
         <translation>Filtre tekerleğindeki filtre, adıyla</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="375"/>
+        <location filename="../../ui/observe_page.py" line="376"/>
         <source>Preview</source>
         <translation>Önizleme</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="378"/>
+        <location filename="../../ui/observe_page.py" line="379"/>
         <source>Take preview</source>
         <translation>Önizleme çek</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="386"/>
+        <location filename="../../ui/observe_page.py" line="387"/>
         <source>Cooler</source>
         <translation>Soğutucu</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="389"/>
+        <location filename="../../ui/observe_page.py" line="390"/>
         <source>Cool to</source>
         <translation>Soğut</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="389"/>
+        <location filename="../../ui/observe_page.py" line="390"/>
         <source>Switches the cooler on and sets this temperature</source>
         <translation>Soğutucuyu açar ve bu sıcaklığı ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="392"/>
+        <location filename="../../ui/observe_page.py" line="393"/>
         <source>Off</source>
         <translation>Kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="394"/>
+        <location filename="../../ui/observe_page.py" line="395"/>
         <source>Switches the cooler off (do it slowly at the end of the night)</source>
         <translation>Soğutucuyu kapatır (gece sonunda yavaşça yapın)</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="399"/>
+        <location filename="../../ui/observe_page.py" line="400"/>
         <source>Focuser</source>
         <translation>Odaklayıcı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="402"/>
+        <location filename="../../ui/observe_page.py" line="403"/>
         <source>Move</source>
         <translation>Taşı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="404"/>
+        <location filename="../../ui/observe_page.py" line="405"/>
         <source>Moves the focuser to this position</source>
         <translation>Odaklayıcıyı bu konuma götürür</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="413"/>
+        <location filename="../../ui/observe_page.py" line="414"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="415"/>
+        <location filename="../../ui/observe_page.py" line="416"/>
         <source>Turns the filter wheel to this filter</source>
         <translation>Filtre tekerleğini bu filtreye çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="452"/>
+        <location filename="../../ui/observe_page.py" line="453"/>
         <source>on</source>
         <translation>açık</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="452"/>
+        <location filename="../../ui/observe_page.py" line="453"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="453"/>
+        <location filename="../../ui/observe_page.py" line="454"/>
         <source>Camera {t:.1f} °C, cooler {on}</source>
         <translation>Kamera {t:.1f} °C, soğutucu {on}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="455"/>
+        <location filename="../../ui/observe_page.py" line="456"/>
         <source>focuser at {p}</source>
         <translation>odaklayıcı {p} konumunda</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="461"/>
+        <location filename="../../ui/observe_page.py" line="462"/>
         <source>filter {f}</source>
         <translation>filtre {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="490"/>
+        <location filename="../../ui/observe_page.py" line="491"/>
         <source>Copying {n} frames to {f}…</source>
         <translation>{n} kare {f} klasörüne kopyalanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="520"/>
-        <location filename="../../ui/observe_page.py" line="531"/>
+        <location filename="../../ui/observe_page.py" line="521"/>
+        <location filename="../../ui/observe_page.py" line="532"/>
         <source>Observatory configuration</source>
         <translation>Gözlemevi yapılandırması</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="557"/>
+        <location filename="../../ui/observe_page.py" line="558"/>
         <source>No connection to the observatory: {e}</source>
         <translation>Gözlemeviyle bağlantı yok: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="562"/>
+        <location filename="../../ui/observe_page.py" line="563"/>
         <source>NOT SAFE: the safety supervisor has not checked for {s:.0f} s — restart the observatory</source>
         <translation>GÜVENLİ DEĞİL: güvenlik denetçisi {s:.0f} sn&apos;dir denetim yapmadı — gözlemevini yeniden başlatın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="566"/>
+        <location filename="../../ui/observe_page.py" line="567"/>
         <source>Safe</source>
         <translation>Güvenli</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="569"/>
+        <location filename="../../ui/observe_page.py" line="570"/>
         <source>aborted — press Resume when ready</source>
         <translation>durduruldu — hazır olunca Devam et&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="570"/>
+        <location filename="../../ui/observe_page.py" line="571"/>
         <source>NOT SAFE: {r}</source>
         <translation>GÜVENLİ DEĞİL: {r}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="575"/>
+        <location filename="../../ui/observe_page.py" line="576"/>
         <source>Mount: alt {alt:.1f}°, az {az:.1f}°, {state}</source>
         <translation>Kundak: irtifa {alt:.1f}°, azimut {az:.1f}°, {state}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="578"/>
+        <location filename="../../ui/observe_page.py" line="579"/>
         <source>parked</source>
         <translation>park hâlinde</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="580"/>
+        <location filename="../../ui/observe_page.py" line="581"/>
         <source>tracking</source>
         <translation>izliyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="580"/>
+        <location filename="../../ui/observe_page.py" line="581"/>
         <source>not tracking</source>
         <translation>izlemiyor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="588"/>
+        <location filename="../../ui/observe_page.py" line="589"/>
         <source>Stopped: {e}</source>
         <translation>Durdu: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="593"/>
+        <location filename="../../ui/observe_page.py" line="594"/>
         <source>Finished, {n} frames.</source>
         <translation>Bitti, {n} kare.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="593"/>
+        <location filename="../../ui/observe_page.py" line="594"/>
         <source>Finished.</source>
         <translation>Bitti.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="600"/>
+        <location filename="../../ui/observe_page.py" line="601"/>
         <source>Connect first.</source>
         <translation>Önce bağlanın.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="607"/>
+        <location filename="../../ui/observe_page.py" line="608"/>
         <source>Refused: {e}</source>
         <translation>Reddedildi: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="615"/>
+        <location filename="../../ui/observe_page.py" line="616"/>
         <source>Coordinates not understood: {t}</source>
         <translation>Koordinat anlaşılamadı: {t}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="634"/>
+        <location filename="../../ui/observe_page.py" line="635"/>
         <source>Centred to {e:.0f} arcsec after {n} frames.</source>
         <translation>{n} karede {e:.0f} yay saniyesine kadar ortalandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>lower the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ indirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="636"/>
+        <location filename="../../ui/observe_page.py" line="637"/>
         <source>raise the axis by {v:.1f}′</source>
         <translation>ekseni {v:.1f}′ yükseltin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="637"/>
+        <location filename="../../ui/observe_page.py" line="638"/>
         <source>turn it west by {v:.1f}′</source>
         <translation>{v:.1f}′ batıya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="637"/>
+        <location filename="../../ui/observe_page.py" line="638"/>
         <source>turn it east by {v:.1f}′</source>
         <translation>{v:.1f}′ doğuya çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="638"/>
+        <location filename="../../ui/observe_page.py" line="639"/>
         <source>Polar axis off by {t:.1f}′: {alt}, {az}.</source>
         <translation>Kutup ekseni {t:.1f}′ kaymış: {alt}, {az}.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="658"/>
+        <location filename="../../ui/observe_page.py" line="659"/>
         <source>light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, shutter closed; flat: an evenly lit field</source>
         <translation>light: gökyüzü; dark: örtücü kapalı, light&apos;lar kadar uzun; bias: en kısa poz, örtücü kapalı; flat: düzgün aydınlatılmış alan</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="669"/>
+        <location filename="../../ui/observe_page.py" line="670"/>
         <source>Exposure time of each frame in seconds</source>
         <translation>Her karenin poz süresi, saniye</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="677"/>
+        <location filename="../../ui/observe_page.py" line="678"/>
         <source>How many frames</source>
         <translation>Kaç kare</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="677"/>
+        <location filename="../../ui/observe_page.py" line="678"/>
         <source>Binning: 1 is full resolution, 2 adds 2×2 pixels</source>
         <translation>Binning: 1 tam çözünürlük, 2 ise 2×2 pikseli toplar</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="713"/>
+        <location filename="../../ui/observe_page.py" line="714"/>
         <source>change an exposure row</source>
         <translation>poz satırını değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="723"/>
+        <location filename="../../ui/observe_page.py" line="724"/>
         <source>Row {row}: gain, offset and read-out mode are whole numbers</source>
         <translation>Satır {row}: kazanç, ofset ve okuma modu tam sayıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="730"/>
+        <location filename="../../ui/observe_page.py" line="731"/>
         <source>Row {row}: sub-frame is x, y, width, height in pixels</source>
         <translation>Satır {row}: alt kare piksel cinsinden x, y, genişlik, yükseklik olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="763"/>
+        <location filename="../../ui/observe_page.py" line="764"/>
         <source>The rotator angle must be a number of degrees.</source>
         <translation>Rotator açısı derece cinsinden bir sayı olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="799"/>
+        <location filename="../../ui/observe_page.py" line="800"/>
         <source>load a sequence</source>
         <translation>dizi yükle</translation>
     </message>
