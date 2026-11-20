@@ -30,7 +30,6 @@ from ..spectroscopy.frame_state import calibrated, extracted
 from . import spectro_figures
 from .kit.focus import read_in_order
 from .kit.help import help_line
-from .kit.widgets import PlotCanvas
 from .messages import translate
 from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
@@ -678,7 +677,7 @@ class EchelleTab(Undoable, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_undo()
-        self.result, self.excluded_lines, self._resid_ax, self._arc_ax = None, [], None, None
+        self.result, self.excluded_lines, self._arc_panel, self._resid_points = None, [], None, None
         self.order_rows, self.order_traces, self._orders_source, self._orders_shown = None, [], None, False
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
@@ -888,8 +887,8 @@ class EchelleTab(Undoable, QWidget):
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
+        self.plot_box, self.plot = plot_box(self)
+        self._connect_plot()
         split.addWidget(_frame_and_plot(self, self.tr("The flat appears here with its traced orders"), left))
         self.frame_view.clicked.connect(lambda x, y: self._order_clicked(x, y) if self._orders_shown else None)
         split.setSizes([400, 800])
@@ -978,7 +977,7 @@ class EchelleTab(Undoable, QWidget):
         g = self._guesses()
         ok = len(g) >= 4 and len({x[0] for x in g}) >= 2 and self.first_order.value()
         self.guide.set_state(4, "done" if ok else None)
-        if self.result and self._arc_ax is not None:
+        if self.result and self._arc_panel is not None:
             self._draw()  # the line list's lines appear on the arc as soon as there are three in this order
 
     def _provisional(self, k):
@@ -1143,42 +1142,11 @@ class EchelleTab(Undoable, QWidget):
         if not r:
             return
         k = self.order_view.value()
-        self.plot.figure.clear()
-        has_arc = r.get("arc") is not None
-        lines = (r.get("solution") or {}).get("lines") or []
-        axes = self.plot.figure.subplots(1 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
-        if r.get("merged"):
-            axes[0].plot(r["merged"]["wave"], r["merged"]["flux"], lw=0.6)
-            axes[0].set_xlabel(self.tr("Wavelength (Å)"))
-        else:
-            axes[0].plot(r["flux"][k], lw=0.6)
-            axes[0].set_xlabel(self.tr("Pixel"))
-        axes[0].set_ylabel(self.tr("Flux"))
-        self._arc_ax = None
-        if has_arc:
-            axes[1].plot(r["arc"][k], lw=0.6, color="gray")
-            for p in r["arc_peaks"][k]:
-                axes[1].axvline(p, color="orange", lw=0.4)
-            top = float(np.nanmax(r["arc"][k])) if len(r["arc"][k]) else 1.0
-            for p, w in self._atlas(k):  # the line list's lines on this arc, from the lines identified so far
-                axes[1].text(p, top, f"{w:.2f}", rotation=90, fontsize=6, va="top", ha="center", color="#1f6feb")
-            orders = self._orders()
-            name = orders[k] if orders else k
-            axes[1].set_xlabel(self.tr("Arc, order {m}: pixel (click a line to identify it)").format(m=name))
-            self._arc_ax = axes[1]
-        self._resid_ax = None
-        if lines:  # the wavelength fit, line by line, as IRAF ecidentify shows it
-            ax = axes[-1]
-            a = np.asarray(lines, float)
-            used = a[:, 4] > 0
-            sc = ax.scatter(a[used, 1], a[used, 3] * 1000, c=a[used, 0], s=6, cmap="viridis")
-            ax.plot(a[~used, 1], a[~used, 3] * 1000, "x", color="gray", ms=4, label=self.tr("rejected (3σ)"))
-            ax.axhline(0, color="gray", lw=0.5)
-            ax.set_xlabel(self.tr("Pixel (click a point to leave that arc line out)"))
-            ax.set_ylabel(self.tr("Residual (mÅ)"))
-            self.plot.figure.colorbar(sc, ax=ax, label=self.tr("Order"))
-            self._resid_ax, self._resid_points = ax, a
-        self.plot.draw()
+        orders = self._orders()
+        arc_name = self.tr("Arc, order {m}: pixel (click a line to identify it)").format(m=orders[k] if orders else k)
+        figure, self._arc_panel, self._resid_points = spectro_figures.echelle_figure(r, k, self._atlas(k), arc_name)
+        self.plot.set_figure(figure)
+        self._ring_excluded()
 
     def lines_from_database(self, path=None):
         """Identifications from an IRAF ecidentify database, shifted onto this arc's peaks order by order."""
@@ -1220,29 +1188,37 @@ class EchelleTab(Undoable, QWidget):
         self.excluded_lines = []
         self.status.setText(self.tr("All arc lines will be used again at the next fit."))
 
-    def _plot_clicked(self, event):
-        if self._resid_ax is not None and event.inaxes is self._resid_ax:
-            a = self._resid_points
-            pix = self._resid_ax.transData.transform(np.column_stack([a[:, 1], a[:, 3] * 1000]))
-            i = int(np.argmin(np.hypot(pix[:, 0] - event.x, pix[:, 1] - event.y)))
-            line = [float(a[i, 0]), float(a[i, 1])]
-            if line not in self.excluded_lines:
-                self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, line)
-                self._resid_ax.plot(a[i, 1], a[i, 3] * 1000, "o", mfc="none", color="#e5484d", ms=9)
-                self.plot.draw()
-            self.status.setText(
-                self.tr("{n} arc line(s) left out; press Refit without the left-out lines.").format(
-                    n=len(self.excluded_lines)
-                )
+    def _connect_plot(self):
+        self.plot.plot_clicked.connect(self._plot_clicked)
+        self.plot.point_clicked.connect(self._residual_clicked)
+
+    def _residual_clicked(self, name, i):
+        a = self._resid_points
+        line = [float(a[i, 0]), float(a[i, 1])]
+        if line not in self.excluded_lines:
+            self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, line)
+            self._ring_excluded()
+        self.status.setText(
+            self.tr("{n} arc line(s) left out; press Refit without the left-out lines.").format(
+                n=len(self.excluded_lines)
             )
-            return
-        if not self.result or self._arc_ax is None or event.inaxes is not self._arc_ax or event.xdata is None:
+        )
+
+    def _ring_excluded(self):
+        a = self._resid_points
+        if a is not None:
+            left_out = [i for i, row in enumerate(a) if [float(row[0]), float(row[1])] in self.excluded_lines]
+            for name in (self.tr("Residual (mÅ)"), self.tr("rejected (3σ)")):
+                self.plot.highlight(name, left_out)
+
+    def _plot_clicked(self, panel, x, _y):
+        if not self.result or panel != self._arc_panel:
             return
         k = self.order_view.value()
         peaks = np.asarray(self.result["arc_peaks"][k])
         if peaks.size == 0:
             return
-        p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
+        p = float(peaks[np.argmin(np.abs(peaks - x))])
         orders = self._orders()
         known = dict(self._atlas(k))  # the line list's wavelength at this peak, if the lines so far point to one
         guess = f"{known[p]:.4f}" if p in known else ""

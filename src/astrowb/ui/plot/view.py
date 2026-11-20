@@ -119,6 +119,17 @@ class _AsLeft:
         return Qt.LeftButton
 
 
+def _cmap():
+    return pg.colormap.get("viridis")
+
+
+def _colours(values):
+    """One colour per value along the colour map, from the smallest to the largest (NaN: the smallest)."""
+    v = np.nan_to_num(np.asarray(values, float), nan=np.nanmin(values) if np.isfinite(values).any() else 0.0)
+    span = np.ptp(v) or 1.0
+    return _cmap().map((v - v.min()) / span, mode="qcolor")
+
+
 class PlotView(QWidget):
     range_selected = Signal(float, float)
     point_clicked = Signal(str, object)
@@ -225,6 +236,7 @@ class PlotView(QWidget):
             self.original = figure
         self.graphics.clear()
         self.figure, self.plots, self.items, self.offsets = figure, [], [], {}
+        self.colourbars = []
         colours = figure.colours()
         for row, panel in enumerate(figure.panels):
             vb = _ViewBox(self)
@@ -263,6 +275,7 @@ class PlotView(QWidget):
                 plot.getAxis("right").setTextPen(self._ink)
                 plot.getAxis("right").setTicks([[(v, t) for v, t in panel.right.ticks or []]])
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
+            self._add_colourbar(row, panel)
             legend = plot.addLegend() if sum(s.kind not in S.NO_LEGEND for s in panel.series) > 1 else None
             for s in panel.series:
                 self.items.append(self._add_series(plot, vb, s, colours[s.name], offset, legend))
@@ -310,6 +323,19 @@ class PlotView(QWidget):
             vb.setRange(xRange=(x0, x1), yRange=(y0, y1), padding=None if not panel.x.limits else 0)
             self._redraw(vb)
 
+    def _add_colourbar(self, row, panel):
+        values = [s.values for s in panel.series if s.values is not None and s.kind == "points"]
+        values = np.concatenate(values) if values else np.array([])
+        values = values[np.isfinite(values)]
+        if not panel.colourbar or not len(values):
+            return
+        bar = pg.ColorBarItem(values=(values.min(), values.max()), colorMap=_cmap(), interactive=False)
+        bar.axis.setLabel(panel.colourbar)  # on the side of the numbers (the item's own label goes to the other side)
+        bar.axis.setPen(self._muted)
+        bar.axis.setTextPen(self._ink)
+        self.graphics.addItem(bar, row=row, col=1)
+        self.colourbars.append(bar)
+
     def _add_series(self, plot, vb, s, colour, offset, legend):
         x = s.x - offset if s.kind != "hline" else s.x
         y = s.y
@@ -319,7 +345,9 @@ class PlotView(QWidget):
         colour.setAlphaF(s.alpha)
         dash = {"dash": Qt.DashLine, "dot": Qt.DotLine}.get(s.dash, Qt.SolidLine)
         pen, brush = pg.mkPen(colour, width=s.width, style=dash), pg.mkBrush(colour)
-        entry = {"spec": s, "vb": vb, "x": x, "y": y, "ids": ids, "ok": ok, "errors": None}
+        entry = {"spec": s, "vb": vb, "x": x, "y": y, "ids": ids, "ok": ok, "errors": None, "brushes": None}
+        if s.values is not None and s.kind == "points":
+            entry["brushes"] = np.array([pg.mkBrush(c) for c in _colours(s.values)], dtype=object)
         if s.kind == "points" or s.kind == "errorbars":
             entry["item"] = pg.ScatterPlotItem(pen=None, brush=brush, size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"))
             entry["item"].sigClicked.connect(lambda _i, _pts, ev, vb=vb: self._pick(vb, ev.scenePos()))  # on a dot
@@ -407,7 +435,8 @@ class PlotView(QWidget):
                 np.log10(np.clip(v, 1e-300, None)) if m else v
                 for v, m in zip((x[index], y[index]), vb.state["logMode"], strict=True)
             )
-            e["item"].setData(lx, ly, data=e["ids"][index])  # a scatter item has no log mode of its own
+            brush = {} if e["brushes"] is None else {"brush": list(e["brushes"][index])}
+            e["item"].setData(lx, ly, data=e["ids"][index], **brush)  # a scatter item has no log mode of its own
             if e["errors"] is not None:
                 small = len(index) <= S.MAX_ERRORBARS
                 err = {}

@@ -61,12 +61,13 @@ class SeriesSpec:
     dash: str = ""  # "" solid, "dash" or "dot" (lines, vlines, hlines)
     labels: list | None = None  # kind "text": one label per (x, y), written at angle degrees (90 = reading upward)
     angle: float = 0.0
+    values: np.ndarray | None = None  # kind "points": one number per point, coloured by the "viridis" map over min..max
     # kind "span": x = left edges, y = right edges of x ranges shaded over the panel's whole height (alpha = opacity)
 
     def __post_init__(self):
         if self.kind not in KINDS:
             raise ValueError(f"unknown series kind {self.kind}")
-        for name in ("x", "y", "yerr", "xerr", "ids"):
+        for name in ("x", "y", "yerr", "xerr", "ids", "values"):
             value = getattr(self, name)
             if value is not None:
                 setattr(self, name, np.asarray(value))
@@ -82,6 +83,7 @@ class PanelSpec:
     equal: bool = False  # one unit as long on x as on y (an orbit on the sky)
     top: AxisSpec | None = None  # a second x axis along the top: its `ticks` sit at positions in x's units
     right: AxisSpec | None = None  # a second y axis on the right: its `ticks` sit at positions in y's units
+    colourbar: str | None = None  # label of a colour bar for the panel's series with `values`
 
 
 @dataclass

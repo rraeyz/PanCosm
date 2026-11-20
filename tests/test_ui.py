@@ -521,8 +521,6 @@ def test_plan_page_resolve_and_plan(window, qtbot):
 
 
 def test_echelle_tab_identifies_lines_with_order_numbers(window):
-    from types import SimpleNamespace
-
     tab = window.spectro_page.echelle_tab
     arc = np.zeros((3, 200))
     arc[:, 50] = arc[:, 120] = 100
@@ -532,7 +530,7 @@ def test_echelle_tab_identifies_lines_with_order_numbers(window):
         {"n_orders": 3, "flux": arc.tolist(), "arc": arc.tolist(), "arc_peaks": [[50.0, 120.0]] * 3, "solution": None}
     )
     tab.order_view.setValue(2)
-    tab._plot_clicked(SimpleNamespace(inaxes=tab._arc_ax, xdata=118.0))
+    tab._plot_clicked(tab._arc_panel, 118.0, 0.0)  # a click on the arc plot
     assert tab.guesses.item(0, 0).text() == "38" and tab.guesses.item(0, 1).text() == "120.00"
     tab.guesses.item(0, 2).setText("5000.5")
     assert tab._guesses() == [[38.0, 120.0, 5000.5]]

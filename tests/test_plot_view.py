@@ -452,3 +452,29 @@ def test_a_second_x_axis_along_the_top_in_both_outputs(qapp):
     plot = PlotView(spec).plots[0]
     assert plot.getAxis("top").isVisible() and plot.getAxis("top")._tickLevels[0] == [(1.5, "a"), (2.5, "b")]
     assert plot.getAxis("right").isVisible() and plot.getAxis("right")._tickLevels[0] == [(1.2, "3"), (1.8, "2")]
+
+
+def test_a_series_coloured_by_values_has_a_colour_bar_in_both_outputs(qapp, tmp_path):
+    from astrowb.ui.plot import publish as P
+    from astrowb.ui.plot.view import PlotView
+
+    order = [30.0, 30.0, 31.0, 32.0]
+    spec = FigureSpec(
+        [
+            PanelSpec(
+                AxisSpec("x"),
+                AxisSpec("y"),
+                [SeriesSpec("res", [1, 2, 3, 4], [1, 2, 3, 4], values=order)],
+                colourbar="Order",
+            )
+        ]
+    )
+    fig = P.figure(spec)
+    assert len(fig.axes) == 2 and fig.axes[1].get_ylabel() == "Order"  # the plot and its colour bar
+    assert list(fig.axes[0].collections[0].get_array()) == order
+    view = PlotView(spec)
+    assert view.colourbars[0].axis.labelText == "Order" and view.colourbars[0].values == (30.0, 32.0)
+    brushes = view.items[0]["brushes"]
+    assert brushes[0].color() != brushes[3].color() and brushes[0].color() == brushes[1].color()
+    P.data_behind(spec, tmp_path / "d.ecsv")
+    assert "values" in (tmp_path / "d.ecsv").read_text() and spec.to_dict()["panels"][0]["series"][0]["values"] == order

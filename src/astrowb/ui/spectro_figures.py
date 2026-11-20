@@ -68,6 +68,50 @@ def reduce_figure(s, atlas):
     return FigureSpec(panels, shared_x=False), arc_panel, points
 
 
+def echelle_figure(r, k, atlas, arc_name):
+    """(figure, index of the arc panel or None, the fit's lines as an array or None) of an echelle result `r`,
+    order index k; the fit's residuals are coloured by order number. atlas: as for reduce_figure."""
+    tab = "EchelleTab"
+    lines = (r.get("solution") or {}).get("lines") or []
+    flux = r["flux"][k]
+    if r.get("merged"):
+        wave, xname = r["merged"]["wave"], translate(tab, "Wavelength (Å)")
+        merged = _line(translate(tab, "Flux"), wave, r["merged"]["flux"], width=0.6)
+    else:
+        xname, merged = translate(tab, "Pixel"), _line(translate(tab, "Flux"), np.arange(len(flux)), flux, width=0.6)
+    panels = [PanelSpec(AxisSpec(xname), AxisSpec(translate(tab, "Flux")), [merged])]
+    arc_panel = points = None
+    if r.get("arc") is not None:
+        arc = r["arc"][k]
+        series = [
+            _line(translate("ReduceTab", "Arc"), np.arange(len(arc)), arc, width=0.6, colour=GREY),
+            SeriesSpec(translate("ReduceTab", "peaks"), r["arc_peaks"][k], kind="vline", width=0.4, colour=ORANGE),
+        ]
+        if atlas:
+            series.append(_arc_labels(atlas, float(np.nanmax(arc)) if len(arc) else 1.0))
+        panels.append(PanelSpec(AxisSpec(arc_name), AxisSpec(""), series))
+        arc_panel = 1
+    if lines:  # the wavelength fit, line by line, as IRAF ecidentify shows it
+        points = a = np.asarray(lines, float)
+        used = a[:, 4] > 0
+        series = [
+            SeriesSpec(translate(tab, "Residual (mÅ)"), a[used, 1], a[used, 3] * 1000, pickable=True, size=5,
+                       values=a[used, 0], ids=np.flatnonzero(used)),
+            SeriesSpec(translate(tab, "rejected (3σ)"), a[~used, 1], a[~used, 3] * 1000, pickable=True, symbol="x",
+                       colour=GREY, ids=np.flatnonzero(~used)),
+            SeriesSpec("0", [0.0], kind="hline", width=0.5, colour=GREY),
+        ]  # fmt: skip
+        panels.append(
+            PanelSpec(
+                AxisSpec(translate(tab, "Pixel (click a point to leave that arc line out)")),
+                AxisSpec(translate(tab, "Residual (mÅ)")),
+                series,
+                colourbar=translate(tab, "Order"),
+            )
+        )
+    return FigureSpec(panels, shared_x=False), arc_panel, points
+
+
 def telluric_figure(r):
     before = _line(translate("TelluricTab", "before"), r["wave"], r["flux"], width=0.6, colour=GREY)
     top = PanelSpec(
