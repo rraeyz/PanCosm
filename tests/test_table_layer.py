@@ -258,3 +258,18 @@ def test_row_actions_use_one_wording_and_act_on_the_selected_rows_and_time_stand
     assert got == [[1]] and row_word("bring_back") == "Bring back"
     assert view.model.headerData(0, Qt.Horizontal) == "bjd [d] · BJD_TDB"
     assert view.model.headerData(1, Qt.Horizontal) == "flux"
+
+
+def test_prepared_data_table_keeps_cells_and_widgets_in_place(qapp):
+    from PySide6.QtWidgets import QCheckBox, QTableWidgetItem
+
+    from astrowb.ui.kit.table_view import DataTable
+
+    d = DataTable()
+    d.prepare(["a", "b"], 2)
+    for r, text in enumerate(("z", "a")):
+        d.table.setItem(r, 0, QTableWidgetItem(text))
+        d.table.setCellWidget(r, 1, QCheckBox())
+    assert not d.table.isSortingEnabled() and d.table.editTriggers() & d.table.EditTrigger.DoubleClicked
+    d.table.horizontalHeader().sectionClicked.emit(0)
+    assert [d.table.item(r, 0).text() for r in range(2)] == ["z", "a"]

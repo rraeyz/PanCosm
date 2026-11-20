@@ -187,7 +187,7 @@ def models_stages(win, page):
     """The Models window (UI-16.6): Data, Parameters, Fit beside the light curve and its model; on the Visual binary
     tab the stages do not apply and their dock is hidden."""
     lay = page.guide.parentWidget().layout()
-    page.stage_boxes = boxes_from_column(lay, [("data", page.file), ("parameters", page.table),
+    page.stage_boxes = boxes_from_column(lay, [("data", page.file), ("parameters", page.table.parent()),
                                                ("fit", page.use_mcmc)])  # fmt: skip
     from PySide6.QtWidgets import QGridLayout
 

@@ -142,7 +142,7 @@ def test_velocity_tab_shows_sb2(qtbot, tmp_path):
         for i, ti in enumerate(t)
     ]
     tab.show_rvs(rows)
-    assert tab.table.item(0, 4).text() != "—" and tab._is_sb2() and tab.orbit_button.isEnabled()
+    assert tab.table.model.data(tab.table.model.index(0, 4)) != "—" and tab._is_sb2() and tab.orbit_button.isEnabled()
     emitted = []
     tab.orbit_requested.connect(lambda i, p: emitted.append(i))
     tab.period.setValue(3.0)
