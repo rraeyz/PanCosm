@@ -2473,7 +2473,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>2000&apos;den çok zamanda yükseklikler verilmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="120"/>
+        <location filename="../../ui/converter_dialog.py" line="119"/>
         <source>If the source did not say whether its HJD is in UTC or TT, the times may be off by up to {s:.1f} s (TT − UTC on those dates).</source>
         <translation>Kaynak HJD&apos;sinin UTC mi TT mi olduğunu söylemediyse zamanlar {s:.1f} s&apos;ye kadar kayık olabilir (o tarihlerde TT − UTC).</translation>
     </message>
@@ -3725,47 +3725,47 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Yeni</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="61"/>
+        <location filename="../../ui/headers_dialog.py" line="62"/>
         <source>Write copies…</source>
         <translation>Kopyalarını yaz…</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="63"/>
+        <location filename="../../ui/headers_dialog.py" line="64"/>
         <source>Write into the files…</source>
         <translation>Dosyaların kendisine yaz…</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="72"/>
+        <location filename="../../ui/headers_dialog.py" line="73"/>
         <source>Choose the files</source>
         <translation>Dosyaları seç</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="74"/>
+        <location filename="../../ui/headers_dialog.py" line="75"/>
         <source>{n} files</source>
         <translation>{n} dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="103"/>
+        <location filename="../../ui/headers_dialog.py" line="104"/>
         <source>{n} changes in {m} files.</source>
         <translation>{m} dosyada {n} değişiklik.</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="113"/>
+        <location filename="../../ui/headers_dialog.py" line="114"/>
         <source>Write into the files</source>
         <translation>Dosyaların kendisine yaz</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="114"/>
+        <location filename="../../ui/headers_dialog.py" line="115"/>
         <source>Change the headers of {n} files themselves? The old values are not kept.</source>
         <translation>{n} dosyanın başlığı kendisinde değiştirilsin mi? Eski değerler saklanmaz.</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="119"/>
+        <location filename="../../ui/headers_dialog.py" line="120"/>
         <source>Folder for the copies</source>
         <translation>Kopyalar için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="127"/>
+        <location filename="../../ui/headers_dialog.py" line="128"/>
         <source>{n} files written.</source>
         <translation>{n} dosya yazıldı.</translation>
     </message>
@@ -3791,466 +3791,466 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>ImagePage</name>
     <message>
-        <location filename="../../ui/image_page.py" line="53"/>
+        <location filename="../../ui/image_page.py" line="55"/>
         <source>No image yet: File → Open…, or drop image files here</source>
         <translation>Henüz görüntü yok: Dosya → Aç… ya da görüntü dosyalarını buraya bırakın</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="60"/>
+        <location filename="../../ui/image_page.py" line="62"/>
         <source>Move</source>
         <translation>Kaydır</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="60"/>
+        <location filename="../../ui/image_page.py" line="62"/>
         <source>Drag to move the image, wheel to zoom</source>
         <translation>Görüntüyü kaydırmak için sürükleyin, yakınlaştırmak için tekerleği çevirin</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="62"/>
+        <location filename="../../ui/image_page.py" line="64"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="63"/>
+        <location filename="../../ui/image_page.py" line="65"/>
         <source>Click a star: counts in an aperture, background, signal-to-noise, FWHM, HFD, shape</source>
         <translation>Bir yıldıza tıklayın: açıklıktaki sayım, arka plan, sinyal/gürültü, FWHM, HFD, biçim</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="65"/>
+        <location filename="../../ui/image_page.py" line="67"/>
         <source>Area</source>
         <translation>Alan</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="65"/>
+        <location filename="../../ui/image_page.py" line="67"/>
         <source>Drag a rectangle: pixel count, sum, mean, median, std, min, max</source>
         <translation>Dikdörtgen sürükleyin: piksel sayısı, toplam, ortalama, medyan, std, min, maks</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="66"/>
+        <location filename="../../ui/image_page.py" line="68"/>
         <source>Line</source>
         <translation>Çizgi</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="66"/>
+        <location filename="../../ui/image_page.py" line="68"/>
         <source>Drag a line: pixel values along it, length and angle</source>
         <translation>Çizgi sürükleyin: boyunca piksel değerleri, uzunluk ve açı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="82"/>
+        <location filename="../../ui/image_page.py" line="84"/>
         <source>Aperture radius (px)</source>
         <translation>Açıklık yarıçapı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="86"/>
+        <location filename="../../ui/image_page.py" line="88"/>
         <source>from the star</source>
         <translation>yıldızdan</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="87"/>
+        <location filename="../../ui/image_page.py" line="89"/>
         <source>0: aperture and sky annulus chosen from the star&apos;s profile</source>
         <translation>0: açıklık ve gök halkası yıldızın profilinden seçilir</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="89"/>
+        <location filename="../../ui/image_page.py" line="91"/>
         <source>Line width (px)</source>
         <translation>Çizgi genişliği (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="94"/>
+        <location filename="../../ui/image_page.py" line="96"/>
         <source>Pixels across the line that are averaged for its profile; wider is less noisy</source>
         <translation>Profil için çizgiye dik ortalanan piksel sayısı; daha geniş daha az gürültülü</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="97"/>
+        <location filename="../../ui/image_page.py" line="99"/>
         <source>Whole image</source>
         <translation>Tüm görüntü</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="98"/>
+        <location filename="../../ui/image_page.py" line="100"/>
         <source>Statistics and histogram of the whole image</source>
         <translation>Tüm görüntünün istatistiği ve histogramı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="104"/>
+        <location filename="../../ui/image_page.py" line="106"/>
         <source>Open images: click one or use the arrow keys to show it</source>
         <translation>Açık görüntüler: göstermek için birine tıklayın ya da ok tuşlarını kullanın</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Keyword</source>
         <translation>Anahtar</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="129"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="130"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Comment</source>
         <translation>Açıklama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="126"/>
+        <location filename="../../ui/image_page.py" line="128"/>
         <source>Double-click a keyword to change it; drag a column&apos;s edge to widen it; right-click to copy</source>
         <translation>Değiştirmek için anahtar sözcüğe çift tıklayın; genişletmek için sütunun kenarını sürükleyin; kopyalamak için sağ tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="129"/>
+        <location filename="../../ui/image_page.py" line="130"/>
         <source>Quantity</source>
         <translation>Büyüklük</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="139"/>
+        <location filename="../../ui/image_page.py" line="141"/>
         <source>Histogram</source>
         <translation>Histogram</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="140"/>
+        <location filename="../../ui/image_page.py" line="142"/>
         <source>Profile along x (column means)</source>
         <translation>x boyunca profil (sütun ortalamaları)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="141"/>
+        <location filename="../../ui/image_page.py" line="143"/>
         <source>Profile along y (row means)</source>
         <translation>y boyunca profil (satır ortalamaları)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="142"/>
+        <location filename="../../ui/image_page.py" line="144"/>
         <source>3-D surface</source>
         <translation>3-B yüzey</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="145"/>
+        <location filename="../../ui/image_page.py" line="147"/>
         <source>What to draw for a rectangle</source>
         <translation>Dikdörtgen için ne çizileceği</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="149"/>
+        <location filename="../../ui/image_page.py" line="151"/>
         <source>Export data (CSV)…</source>
         <translation>Veriyi dışa aktar (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="151"/>
+        <location filename="../../ui/image_page.py" line="153"/>
         <source>The numbers of the graph shown, as a table for a spreadsheet</source>
         <translation>Gösterilen grafiğin sayıları, hesap tablosu için tablo olarak</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="163"/>
+        <location filename="../../ui/image_page.py" line="165"/>
         <source>Add or change keyword…</source>
         <translation>Anahtar sözcük ekle ya da değiştir…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="164"/>
+        <location filename="../../ui/image_page.py" line="166"/>
         <source>Delete keyword</source>
         <translation>Anahtar sözcüğü sil</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="167"/>
+        <location filename="../../ui/image_page.py" line="169"/>
         <source>Only in this window until you save a copy; Ctrl+Z takes it back</source>
         <translation>Bir kopya kaydedene kadar yalnızca bu pencerede; Ctrl+Z geri alır</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="175"/>
+        <location filename="../../ui/image_page.py" line="177"/>
         <source>Save a copy with these header changes…</source>
         <translation>Bu başlık değişiklikleriyle bir kopya kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="179"/>
+        <location filename="../../ui/image_page.py" line="181"/>
         <source>The original file is not changed: a copy with the new header is written (Ctrl+Z takes back a change before that)</source>
         <translation>Asıl dosya değişmez: yeni başlıklı bir kopya yazılır (Ctrl+Z bundan önce bir değişikliği geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="187"/>
+        <location filename="../../ui/image_page.py" line="189"/>
         <source>Header</source>
         <translation>Başlık</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="188"/>
-        <location filename="../../ui/image_page.py" line="297"/>
+        <location filename="../../ui/image_page.py" line="190"/>
+        <location filename="../../ui/image_page.py" line="299"/>
         <source>Information</source>
         <translation>Bilgi</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="189"/>
-        <location filename="../../ui/image_page.py" line="298"/>
+        <location filename="../../ui/image_page.py" line="191"/>
+        <location filename="../../ui/image_page.py" line="300"/>
         <source>Graph</source>
         <translation>Grafik</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="195"/>
+        <location filename="../../ui/image_page.py" line="197"/>
         <source>Results in small floating windows over the image (as MaxIm DL&apos;s Information and Graph windows); off: in these tabs</source>
         <translation>Sonuçlar görüntünün üstünde küçük yüzen pencerelerde (MaxIm DL&apos;in Information ve Graph pencereleri gibi); kapalıysa bu sekmelerde</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="373"/>
-        <location filename="../../ui/image_page.py" line="394"/>
+        <location filename="../../ui/image_page.py" line="375"/>
+        <location filename="../../ui/image_page.py" line="396"/>
         <source>{key}: not a keyword that can be edited.</source>
         <translation>{key}: düzenlenebilen bir anahtar sözcük değil.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="376"/>
+        <location filename="../../ui/image_page.py" line="378"/>
         <source>{key}: FITS headers take plain ASCII text only.</source>
         <translation>{key}: FITS başlıkları yalnızca düz ASCII metin alır (Türkçe harf yok).</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="408"/>
+        <location filename="../../ui/image_page.py" line="410"/>
         <source>delete a keyword</source>
         <translation>anahtar kelime silme</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="416"/>
+        <location filename="../../ui/image_page.py" line="418"/>
         <source>Add or change keyword</source>
         <translation>Anahtar sözcük ekle ya da değiştir</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="419"/>
+        <location filename="../../ui/image_page.py" line="421"/>
         <source>text, number, or T / F</source>
         <translation>metin, sayı ya da T / F</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="428"/>
+        <location filename="../../ui/image_page.py" line="430"/>
         <source>change a keyword</source>
         <translation>anahtar kelime değiştirme</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="434"/>
+        <location filename="../../ui/image_page.py" line="436"/>
         <source>{n} change(s) not saved yet; the file itself is never changed.</source>
         <translation>{n} değişiklik henüz kaydedilmedi; dosyanın kendisi hiç değişmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="499"/>
-        <location filename="../../ui/image_page.py" line="566"/>
+        <location filename="../../ui/image_page.py" line="500"/>
+        <location filename="../../ui/image_page.py" line="567"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="509"/>
+        <location filename="../../ui/image_page.py" line="510"/>
         <source>Centroid x, y (FITS pixels)</source>
         <translation>Merkez x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="515"/>
+        <location filename="../../ui/image_page.py" line="516"/>
         <source>RA, Dec</source>
         <translation>RA, Dec</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="518"/>
+        <location filename="../../ui/image_page.py" line="519"/>
         <source>Peak pixel (counts)</source>
         <translation>Tepe piksel (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="519"/>
+        <location filename="../../ui/image_page.py" line="520"/>
         <source>saturated</source>
         <translation>doymuş</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="521"/>
+        <location filename="../../ui/image_page.py" line="522"/>
         <source>Background per pixel (counts)</source>
         <translation>Piksel başına arka plan (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="522"/>
+        <location filename="../../ui/image_page.py" line="523"/>
         <source>Net counts in the aperture</source>
         <translation>Açıklıktaki net sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="525"/>
+        <location filename="../../ui/image_page.py" line="526"/>
         <source>Net electrons</source>
         <translation>Net elektron</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="526"/>
+        <location filename="../../ui/image_page.py" line="527"/>
         <source>Signal-to-noise</source>
         <translation>Sinyal/gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="528"/>
+        <location filename="../../ui/image_page.py" line="529"/>
         <source>per second</source>
         <translation>saniyede</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="528"/>
+        <location filename="../../ui/image_page.py" line="529"/>
         <source>per frame</source>
         <translation>kare başına</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="531"/>
+        <location filename="../../ui/image_page.py" line="532"/>
         <source>Instrumental magnitude ({unit})</source>
         <translation>Aletsel kadir ({unit})</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="536"/>
+        <location filename="../../ui/image_page.py" line="537"/>
         <source>FWHM (px)</source>
         <translation>FWHM (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="537"/>
+        <location filename="../../ui/image_page.py" line="538"/>
         <source>Half-flux diameter (px)</source>
         <translation>Yarı akı çapı (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="538"/>
+        <location filename="../../ui/image_page.py" line="539"/>
         <source>Ellipticity, position angle (°)</source>
         <translation>Basıklık, konum açısı (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="539"/>
+        <location filename="../../ui/image_page.py" line="540"/>
         <source>Aperture; sky annulus (px)</source>
         <translation>Açıklık; gök halkası (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="540"/>
+        <location filename="../../ui/image_page.py" line="541"/>
         <source>Pixels in the aperture</source>
         <translation>Açıklıktaki piksel sayısı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="551"/>
-        <location filename="../../ui/image_page.py" line="554"/>
+        <location filename="../../ui/image_page.py" line="552"/>
+        <location filename="../../ui/image_page.py" line="555"/>
         <source>Radius (px)</source>
         <translation>Yarıçap (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="552"/>
-        <location filename="../../ui/image_page.py" line="554"/>
+        <location filename="../../ui/image_page.py" line="553"/>
+        <location filename="../../ui/image_page.py" line="555"/>
         <source>Counts above background</source>
         <translation>Arka plan üstü sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="569"/>
+        <location filename="../../ui/image_page.py" line="570"/>
         <source>Corners x, y (FITS pixels)</source>
         <translation>Köşeler x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="570"/>
+        <location filename="../../ui/image_page.py" line="571"/>
         <source>Size (px)</source>
         <translation>Boyut (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="571"/>
+        <location filename="../../ui/image_page.py" line="572"/>
         <source>Pixels</source>
         <translation>Piksel sayısı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="572"/>
+        <location filename="../../ui/image_page.py" line="573"/>
         <source>Sum (counts)</source>
         <translation>Toplam (sayım)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="575"/>
+        <location filename="../../ui/image_page.py" line="576"/>
         <source>Sum (electrons)</source>
         <translation>Toplam (elektron)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="577"/>
+        <location filename="../../ui/image_page.py" line="578"/>
         <source>Mean</source>
         <translation>Ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="578"/>
+        <location filename="../../ui/image_page.py" line="579"/>
         <source>Median</source>
         <translation>Medyan</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="579"/>
+        <location filename="../../ui/image_page.py" line="580"/>
         <source>Standard deviation</source>
         <translation>Standart sapma</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="580"/>
+        <location filename="../../ui/image_page.py" line="581"/>
         <source>Robust standard deviation (MAD)</source>
         <translation>Sağlam standart sapma (MAD)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="581"/>
+        <location filename="../../ui/image_page.py" line="582"/>
         <source>Minimum (at x, y)</source>
         <translation>En küçük (x, y&apos;de)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="582"/>
+        <location filename="../../ui/image_page.py" line="583"/>
         <source>Maximum (at x, y)</source>
         <translation>En büyük (x, y&apos;de)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="612"/>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="613"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="676"/>
         <source>Counts</source>
         <translation>Sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="612"/>
+        <location filename="../../ui/image_page.py" line="613"/>
         <source>Number of pixels</source>
         <translation>Piksel sayısı</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="631"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="632"/>
         <source>x (FITS pixels)</source>
         <translation>x (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="631"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="632"/>
         <source>y (FITS pixels)</source>
         <translation>y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="632"/>
+        <location filename="../../ui/image_page.py" line="633"/>
         <source>Mean counts</source>
         <translation>Ortalama sayım</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="650"/>
+        <location filename="../../ui/image_page.py" line="651"/>
         <source>Start x, y (FITS pixels)</source>
         <translation>Başlangıç x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="651"/>
+        <location filename="../../ui/image_page.py" line="652"/>
         <source>End x, y (FITS pixels)</source>
         <translation>Bitiş x, y (FITS pikseli)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="652"/>
+        <location filename="../../ui/image_page.py" line="653"/>
         <source>Length (px)</source>
         <translation>Uzunluk (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="653"/>
+        <location filename="../../ui/image_page.py" line="654"/>
         <source>Angle from +x (°)</source>
         <translation>+x&apos;ten açı (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="661"/>
+        <location filename="../../ui/image_page.py" line="662"/>
         <source>Separation on the sky (″)</source>
         <translation>Gökyüzünde uzaklık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="662"/>
+        <location filename="../../ui/image_page.py" line="663"/>
         <source>Position angle on the sky (°, N through E)</source>
         <translation>Gökyüzünde konum açısı (°, K&apos;den D&apos;ye)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="665"/>
+        <location filename="../../ui/image_page.py" line="666"/>
         <source>Minimum, maximum along the line</source>
         <translation>Çizgi boyunca en küçük, en büyük</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="666"/>
+        <location filename="../../ui/image_page.py" line="667"/>
         <source>Mean along the line</source>
         <translation>Çizgi boyunca ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="676"/>
         <source>Distance along the line (px)</source>
         <translation>Çizgi boyunca uzaklık (piksel)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="687"/>
+        <location filename="../../ui/image_page.py" line="688"/>
         <source>Export data</source>
         <translation>Veriyi dışa aktar</translation>
     </message>
@@ -14049,12 +14049,12 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>İstenen sinyal/gürültü için ne kadar poz verileceği ve bir yıldızın ne zaman doyuma ulaşacağı</translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="135"/>
+        <location filename="../../ui/converter_dialog.py" line="134"/>
         <source>Time converter…</source>
         <translation>Zaman dönüştürücü…</translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="137"/>
+        <location filename="../../ui/converter_dialog.py" line="136"/>
         <source>JD, HJD and BJD in UTC, TT or TDB, altitude and airmass for a target and the site</source>
         <translation>Bir hedef için UTC, TT ya da TDB&apos;de JD, HJD ve BJD, yükseklik ve hava kütlesi</translation>
     </message>
@@ -14674,6 +14674,59 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/kit/widgets.py" line="432"/>
         <source>Publication figure</source>
         <translation>Yayın şekli</translation>
+    </message>
+</context>
+<context>
+    <name>PlotToolbar</name>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="25"/>
+        <source>Pick</source>
+        <translation>Seç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="26"/>
+        <source>Box zoom</source>
+        <translation>Kutu yakınlaştırma</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="27"/>
+        <source>Select range</source>
+        <translation>Aralık seç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="35"/>
+        <source>Show all</source>
+        <translation>Tümünü göster</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="36"/>
+        <source>Export data…</source>
+        <translation>Veriyi dışa aktar…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="37"/>
+        <source>Publication figure…</source>
+        <translation>Yayın şekli…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="38"/>
+        <source>Open in a window</source>
+        <translation>Pencerede aç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="52"/>
+        <source>Export data</source>
+        <translation>Veriyi dışa aktar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="60"/>
+        <source>Publication figure</source>
+        <translation>Yayın şekli</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="71"/>
+        <source>Plot</source>
+        <translation>Grafik</translation>
     </message>
 </context>
 <context>

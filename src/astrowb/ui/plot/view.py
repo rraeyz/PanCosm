@@ -121,6 +121,7 @@ class PlotView(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.graphics)
         self.setFocusPolicy(Qt.StrongFocus)
+        self.base_mode = "pan"  # what a released key goes back to; the toolbar sets it
         self.mode = "pan"  # "range", "lasso", "zoom" while their key is held, or set by the toolbar
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
@@ -311,7 +312,7 @@ class PlotView(QWidget):
 
     def keyReleaseEvent(self, ev):
         if ev.key() in (Qt.Key_R, Qt.Key_L, Qt.Key_Z) and not ev.isAutoRepeat():
-            self.mode = "pan"
+            self.mode = self.base_mode
         else:
             super().keyReleaseEvent(ev)
 

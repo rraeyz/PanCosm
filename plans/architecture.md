@@ -429,7 +429,7 @@ the suite is green after each.
 - **Depends on:** ARC-4 for the area being migrated.
 
 ### ARC-6. Plot layer: fast interactive plots, publication export from the same description  (P1)
-**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the layer is built and used, left: item 6 toolbar, item 8 moving the windows' plots onto PlotView)
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: no change since 11-11; the layer is built and used, left: item 8 moving the windows' plots onto PlotView) (2026-11-20) item 6 done: `ui/plot/toolbar.py` `PlotToolbar` (pick, box zoom, select range, show all, Export data… as ECSV, Publication figure…, Open in a window; the mode buttons set `PlotView.base_mode`), `test_toolbar_modes_show_all_exports_and_pop_out`; mounted in the windows with item 8)
 - **Progress (agent3):** items 0, 1, 2, 3, 5, 7 done — `ui/plot/spec.py` (spec, Okabe–Ito colours, time offsets,
   decimation), `ui/plot/view.py` (`PlotView`: every interaction of item 2, driven by QTests in
   `tests/test_plot_view.py`), `ui/plot/publish.py` (AAS / A&A / MNRAS / screen styles, fonts embedded, ECSV data and

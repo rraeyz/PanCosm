@@ -2473,7 +2473,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="120"/>
+        <location filename="../../ui/converter_dialog.py" line="119"/>
         <source>If the source did not say whether its HJD is in UTC or TT, the times may be off by up to {s:.1f} s (TT − UTC on those dates).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3725,47 +3725,47 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished">Nuevo</translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="61"/>
+        <location filename="../../ui/headers_dialog.py" line="62"/>
         <source>Write copies…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="63"/>
+        <location filename="../../ui/headers_dialog.py" line="64"/>
         <source>Write into the files…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="72"/>
+        <location filename="../../ui/headers_dialog.py" line="73"/>
         <source>Choose the files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="74"/>
+        <location filename="../../ui/headers_dialog.py" line="75"/>
         <source>{n} files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="103"/>
+        <location filename="../../ui/headers_dialog.py" line="104"/>
         <source>{n} changes in {m} files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="113"/>
+        <location filename="../../ui/headers_dialog.py" line="114"/>
         <source>Write into the files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="114"/>
+        <location filename="../../ui/headers_dialog.py" line="115"/>
         <source>Change the headers of {n} files themselves? The old values are not kept.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="119"/>
+        <location filename="../../ui/headers_dialog.py" line="120"/>
         <source>Folder for the copies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/headers_dialog.py" line="127"/>
+        <location filename="../../ui/headers_dialog.py" line="128"/>
         <source>{n} files written.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3791,466 +3791,466 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>ImagePage</name>
     <message>
-        <location filename="../../ui/image_page.py" line="53"/>
+        <location filename="../../ui/image_page.py" line="55"/>
         <source>No image yet: File → Open…, or drop image files here</source>
         <translation>Aún no hay imagen: Archivo → Abrir… o suelte aquí archivos de imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="60"/>
+        <location filename="../../ui/image_page.py" line="62"/>
         <source>Move</source>
         <translation>Mover</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="60"/>
+        <location filename="../../ui/image_page.py" line="62"/>
         <source>Drag to move the image, wheel to zoom</source>
         <translation>Arrastre para mover la imagen; la rueda hace zoom</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="62"/>
+        <location filename="../../ui/image_page.py" line="64"/>
         <source>Star</source>
         <translation>Estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="63"/>
+        <location filename="../../ui/image_page.py" line="65"/>
         <source>Click a star: counts in an aperture, background, signal-to-noise, FWHM, HFD, shape</source>
         <translation>Pulse una estrella: cuentas en una apertura, fondo, señal-ruido, FWHM, HFD, forma</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="65"/>
+        <location filename="../../ui/image_page.py" line="67"/>
         <source>Area</source>
         <translation>Área</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="65"/>
+        <location filename="../../ui/image_page.py" line="67"/>
         <source>Drag a rectangle: pixel count, sum, mean, median, std, min, max</source>
         <translation>Arrastre un rectángulo: número de píxeles, suma, media, mediana, desv. típica, mín., máx.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="66"/>
+        <location filename="../../ui/image_page.py" line="68"/>
         <source>Line</source>
         <translation>Línea</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="66"/>
+        <location filename="../../ui/image_page.py" line="68"/>
         <source>Drag a line: pixel values along it, length and angle</source>
         <translation>Arrastre una línea: valores de los píxeles a lo largo, longitud y ángulo</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="82"/>
+        <location filename="../../ui/image_page.py" line="84"/>
         <source>Aperture radius (px)</source>
         <translation>Radio de apertura (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="86"/>
+        <location filename="../../ui/image_page.py" line="88"/>
         <source>from the star</source>
         <translation>según la estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="87"/>
+        <location filename="../../ui/image_page.py" line="89"/>
         <source>0: aperture and sky annulus chosen from the star&apos;s profile</source>
         <translation>0: apertura y anillo de cielo elegidos a partir del perfil de la estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="89"/>
+        <location filename="../../ui/image_page.py" line="91"/>
         <source>Line width (px)</source>
         <translation>Anchura de la línea (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="94"/>
+        <location filename="../../ui/image_page.py" line="96"/>
         <source>Pixels across the line that are averaged for its profile; wider is less noisy</source>
         <translation>Píxeles a través de la línea que se promedian para su perfil; más ancho es menos ruidoso</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="97"/>
+        <location filename="../../ui/image_page.py" line="99"/>
         <source>Whole image</source>
         <translation>Imagen entera</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="98"/>
+        <location filename="../../ui/image_page.py" line="100"/>
         <source>Statistics and histogram of the whole image</source>
         <translation>Estadísticas e histograma de toda la imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="104"/>
+        <location filename="../../ui/image_page.py" line="106"/>
         <source>Open images: click one or use the arrow keys to show it</source>
         <translation>Imágenes abiertas: haga clic en una o use las flechas para mostrarla</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Keyword</source>
         <translation>Palabra clave</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="129"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="130"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="121"/>
-        <location filename="../../ui/image_page.py" line="420"/>
+        <location filename="../../ui/image_page.py" line="123"/>
+        <location filename="../../ui/image_page.py" line="422"/>
         <source>Comment</source>
         <translation>Comentario</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="126"/>
+        <location filename="../../ui/image_page.py" line="128"/>
         <source>Double-click a keyword to change it; drag a column&apos;s edge to widen it; right-click to copy</source>
         <translation>Doble clic en una palabra clave para cambiarla; arrastre el borde de una columna para ensancharla; clic derecho para copiar</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="129"/>
+        <location filename="../../ui/image_page.py" line="130"/>
         <source>Quantity</source>
         <translation>Magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="139"/>
+        <location filename="../../ui/image_page.py" line="141"/>
         <source>Histogram</source>
         <translation>Histograma</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="140"/>
+        <location filename="../../ui/image_page.py" line="142"/>
         <source>Profile along x (column means)</source>
         <translation>Perfil a lo largo de x (medias de columnas)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="141"/>
+        <location filename="../../ui/image_page.py" line="143"/>
         <source>Profile along y (row means)</source>
         <translation>Perfil a lo largo de y (medias de filas)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="142"/>
+        <location filename="../../ui/image_page.py" line="144"/>
         <source>3-D surface</source>
         <translation>Superficie 3-D</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="145"/>
+        <location filename="../../ui/image_page.py" line="147"/>
         <source>What to draw for a rectangle</source>
         <translation>Qué dibujar para un rectángulo</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="149"/>
+        <location filename="../../ui/image_page.py" line="151"/>
         <source>Export data (CSV)…</source>
         <translation>Exportar datos (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="151"/>
+        <location filename="../../ui/image_page.py" line="153"/>
         <source>The numbers of the graph shown, as a table for a spreadsheet</source>
         <translation>Los números del gráfico mostrado, como tabla para una hoja de cálculo</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="163"/>
+        <location filename="../../ui/image_page.py" line="165"/>
         <source>Add or change keyword…</source>
         <translation>Añadir o cambiar palabra clave…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="164"/>
+        <location filename="../../ui/image_page.py" line="166"/>
         <source>Delete keyword</source>
         <translation>Eliminar palabra clave</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="167"/>
+        <location filename="../../ui/image_page.py" line="169"/>
         <source>Only in this window until you save a copy; Ctrl+Z takes it back</source>
         <translation>Solo en esta ventana hasta que guarde una copia; Ctrl+Z lo deshace</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="175"/>
+        <location filename="../../ui/image_page.py" line="177"/>
         <source>Save a copy with these header changes…</source>
         <translation>Guardar una copia con estos cambios de cabecera…</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="179"/>
+        <location filename="../../ui/image_page.py" line="181"/>
         <source>The original file is not changed: a copy with the new header is written (Ctrl+Z takes back a change before that)</source>
         <translation>El archivo original no cambia: se escribe una copia con la nueva cabecera (Ctrl+Z deshace antes un cambio)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="187"/>
+        <location filename="../../ui/image_page.py" line="189"/>
         <source>Header</source>
         <translation>Cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="188"/>
-        <location filename="../../ui/image_page.py" line="297"/>
+        <location filename="../../ui/image_page.py" line="190"/>
+        <location filename="../../ui/image_page.py" line="299"/>
         <source>Information</source>
         <translation>Información</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="189"/>
-        <location filename="../../ui/image_page.py" line="298"/>
+        <location filename="../../ui/image_page.py" line="191"/>
+        <location filename="../../ui/image_page.py" line="300"/>
         <source>Graph</source>
         <translation>Gráfico</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="195"/>
+        <location filename="../../ui/image_page.py" line="197"/>
         <source>Results in small floating windows over the image (as MaxIm DL&apos;s Information and Graph windows); off: in these tabs</source>
         <translation>Resultados en pequeñas ventanas flotantes sobre la imagen (como las ventanas Information y Graph de MaxIm DL); desactivado: en estas pestañas</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="373"/>
-        <location filename="../../ui/image_page.py" line="394"/>
+        <location filename="../../ui/image_page.py" line="375"/>
+        <location filename="../../ui/image_page.py" line="396"/>
         <source>{key}: not a keyword that can be edited.</source>
         <translation>{key}: no es una palabra clave editable.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="376"/>
+        <location filename="../../ui/image_page.py" line="378"/>
         <source>{key}: FITS headers take plain ASCII text only.</source>
         <translation>{key}: las cabeceras FITS solo admiten texto ASCII simple.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="408"/>
+        <location filename="../../ui/image_page.py" line="410"/>
         <source>delete a keyword</source>
         <translation>borrar una palabra clave</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="416"/>
+        <location filename="../../ui/image_page.py" line="418"/>
         <source>Add or change keyword</source>
         <translation>Añadir o cambiar palabra clave</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="419"/>
+        <location filename="../../ui/image_page.py" line="421"/>
         <source>text, number, or T / F</source>
         <translation>texto, número o T / F</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="428"/>
+        <location filename="../../ui/image_page.py" line="430"/>
         <source>change a keyword</source>
         <translation>cambiar una palabra clave</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="434"/>
+        <location filename="../../ui/image_page.py" line="436"/>
         <source>{n} change(s) not saved yet; the file itself is never changed.</source>
         <translation>{n} cambio(s) sin guardar; el archivo en sí nunca se modifica.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="499"/>
-        <location filename="../../ui/image_page.py" line="566"/>
+        <location filename="../../ui/image_page.py" line="500"/>
+        <location filename="../../ui/image_page.py" line="567"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="509"/>
+        <location filename="../../ui/image_page.py" line="510"/>
         <source>Centroid x, y (FITS pixels)</source>
         <translation>Centroide x, y (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="515"/>
+        <location filename="../../ui/image_page.py" line="516"/>
         <source>RA, Dec</source>
         <translation>AR, Dec</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="518"/>
+        <location filename="../../ui/image_page.py" line="519"/>
         <source>Peak pixel (counts)</source>
         <translation>Píxel máximo (cuentas)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="519"/>
+        <location filename="../../ui/image_page.py" line="520"/>
         <source>saturated</source>
         <translation>saturado</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="521"/>
+        <location filename="../../ui/image_page.py" line="522"/>
         <source>Background per pixel (counts)</source>
         <translation>Fondo por píxel (cuentas)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="522"/>
+        <location filename="../../ui/image_page.py" line="523"/>
         <source>Net counts in the aperture</source>
         <translation>Cuentas netas en la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="525"/>
+        <location filename="../../ui/image_page.py" line="526"/>
         <source>Net electrons</source>
         <translation>Electrones netos</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="526"/>
+        <location filename="../../ui/image_page.py" line="527"/>
         <source>Signal-to-noise</source>
         <translation>Señal-ruido</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="528"/>
+        <location filename="../../ui/image_page.py" line="529"/>
         <source>per second</source>
         <translation>por segundo</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="528"/>
+        <location filename="../../ui/image_page.py" line="529"/>
         <source>per frame</source>
         <translation>por toma</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="531"/>
+        <location filename="../../ui/image_page.py" line="532"/>
         <source>Instrumental magnitude ({unit})</source>
         <translation>Magnitud instrumental ({unit})</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="536"/>
+        <location filename="../../ui/image_page.py" line="537"/>
         <source>FWHM (px)</source>
         <translation>FWHM (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="537"/>
+        <location filename="../../ui/image_page.py" line="538"/>
         <source>Half-flux diameter (px)</source>
         <translation>Diámetro de media luz (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="538"/>
+        <location filename="../../ui/image_page.py" line="539"/>
         <source>Ellipticity, position angle (°)</source>
         <translation>Elipticidad, ángulo de posición (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="539"/>
+        <location filename="../../ui/image_page.py" line="540"/>
         <source>Aperture; sky annulus (px)</source>
         <translation>Apertura; anillo de cielo (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="540"/>
+        <location filename="../../ui/image_page.py" line="541"/>
         <source>Pixels in the aperture</source>
         <translation>Píxeles en la apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="551"/>
-        <location filename="../../ui/image_page.py" line="554"/>
+        <location filename="../../ui/image_page.py" line="552"/>
+        <location filename="../../ui/image_page.py" line="555"/>
         <source>Radius (px)</source>
         <translation>Radio (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="552"/>
-        <location filename="../../ui/image_page.py" line="554"/>
+        <location filename="../../ui/image_page.py" line="553"/>
+        <location filename="../../ui/image_page.py" line="555"/>
         <source>Counts above background</source>
         <translation>Cuentas sobre el fondo</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="569"/>
+        <location filename="../../ui/image_page.py" line="570"/>
         <source>Corners x, y (FITS pixels)</source>
         <translation>Esquinas x, y (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="570"/>
+        <location filename="../../ui/image_page.py" line="571"/>
         <source>Size (px)</source>
         <translation>Tamaño (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="571"/>
+        <location filename="../../ui/image_page.py" line="572"/>
         <source>Pixels</source>
         <translation>Píxeles</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="572"/>
+        <location filename="../../ui/image_page.py" line="573"/>
         <source>Sum (counts)</source>
         <translation>Suma (cuentas)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="575"/>
+        <location filename="../../ui/image_page.py" line="576"/>
         <source>Sum (electrons)</source>
         <translation>Suma (electrones)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="577"/>
+        <location filename="../../ui/image_page.py" line="578"/>
         <source>Mean</source>
         <translation>Media</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="578"/>
+        <location filename="../../ui/image_page.py" line="579"/>
         <source>Median</source>
         <translation>Mediana</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="579"/>
+        <location filename="../../ui/image_page.py" line="580"/>
         <source>Standard deviation</source>
         <translation>Desviación típica</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="580"/>
+        <location filename="../../ui/image_page.py" line="581"/>
         <source>Robust standard deviation (MAD)</source>
         <translation>Desviación típica robusta (MAD)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="581"/>
+        <location filename="../../ui/image_page.py" line="582"/>
         <source>Minimum (at x, y)</source>
         <translation>Mínimo (en x, y)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="582"/>
+        <location filename="../../ui/image_page.py" line="583"/>
         <source>Maximum (at x, y)</source>
         <translation>Máximo (en x, y)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="612"/>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="613"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="676"/>
         <source>Counts</source>
         <translation>Cuentas</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="612"/>
+        <location filename="../../ui/image_page.py" line="613"/>
         <source>Number of pixels</source>
         <translation>Número de píxeles</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="631"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="632"/>
         <source>x (FITS pixels)</source>
         <translation>x (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="623"/>
-        <location filename="../../ui/image_page.py" line="631"/>
+        <location filename="../../ui/image_page.py" line="624"/>
+        <location filename="../../ui/image_page.py" line="632"/>
         <source>y (FITS pixels)</source>
         <translation>y (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="632"/>
+        <location filename="../../ui/image_page.py" line="633"/>
         <source>Mean counts</source>
         <translation>Cuentas medias</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="650"/>
+        <location filename="../../ui/image_page.py" line="651"/>
         <source>Start x, y (FITS pixels)</source>
         <translation>Inicio x, y (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="651"/>
+        <location filename="../../ui/image_page.py" line="652"/>
         <source>End x, y (FITS pixels)</source>
         <translation>Fin x, y (píxeles FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="652"/>
+        <location filename="../../ui/image_page.py" line="653"/>
         <source>Length (px)</source>
         <translation>Longitud (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="653"/>
+        <location filename="../../ui/image_page.py" line="654"/>
         <source>Angle from +x (°)</source>
         <translation>Ángulo desde +x (°)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="661"/>
+        <location filename="../../ui/image_page.py" line="662"/>
         <source>Separation on the sky (″)</source>
         <translation>Separación en el cielo (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="662"/>
+        <location filename="../../ui/image_page.py" line="663"/>
         <source>Position angle on the sky (°, N through E)</source>
         <translation>Ángulo de posición en el cielo (°, de N hacia E)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="665"/>
+        <location filename="../../ui/image_page.py" line="666"/>
         <source>Minimum, maximum along the line</source>
         <translation>Mínimo, máximo a lo largo de la línea</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="666"/>
+        <location filename="../../ui/image_page.py" line="667"/>
         <source>Mean along the line</source>
         <translation>Media a lo largo de la línea</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="675"/>
+        <location filename="../../ui/image_page.py" line="676"/>
         <source>Distance along the line (px)</source>
         <translation>Distancia a lo largo de la línea (px)</translation>
     </message>
     <message>
-        <location filename="../../ui/image_page.py" line="687"/>
+        <location filename="../../ui/image_page.py" line="688"/>
         <source>Export data</source>
         <translation>Exportar datos</translation>
     </message>
@@ -14047,12 +14047,12 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Cuánto exponer para una señal/ruido deseada y cuándo se satura una estrella</translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="135"/>
+        <location filename="../../ui/converter_dialog.py" line="134"/>
         <source>Time converter…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/converter_dialog.py" line="137"/>
+        <location filename="../../ui/converter_dialog.py" line="136"/>
         <source>JD, HJD and BJD in UTC, TT or TDB, altitude and airmass for a target and the site</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14672,6 +14672,59 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <location filename="../../ui/kit/widgets.py" line="432"/>
         <source>Publication figure</source>
         <translation>Figura para publicación</translation>
+    </message>
+</context>
+<context>
+    <name>PlotToolbar</name>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="25"/>
+        <source>Pick</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="26"/>
+        <source>Box zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="27"/>
+        <source>Select range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="35"/>
+        <source>Show all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="36"/>
+        <source>Export data…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="37"/>
+        <source>Publication figure…</source>
+        <translation type="unfinished">Figura para publicación…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="38"/>
+        <source>Open in a window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="52"/>
+        <source>Export data</source>
+        <translation type="unfinished">Exportar datos</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="60"/>
+        <source>Publication figure</source>
+        <translation type="unfinished">Figura para publicación</translation>
+    </message>
+    <message>
+        <location filename="../../ui/plot/toolbar.py" line="71"/>
+        <source>Plot</source>
+        <translation type="unfinished">Gráfico</translation>
     </message>
 </context>
 <context>
