@@ -2698,3 +2698,22 @@ def test_the_light_curves_window_has_stages(window):
     window.lightcurve_page.setCurrentIndex(0)
     assert win.docks["stages"].isVisibleTo(win)
     win.close()
+
+
+def test_the_remote_sensing_window_has_stages(window):
+    """UI-16.13: Scene, Display, Indices, Classes as stages beside the map; the read-out and the plot stay."""
+    win = window.open_area("remotesensing")
+    page = window.rs_page
+    assert list(win.stage_panels) == ["scene", "display", "indices", "classes"]
+    assert win.stage_panels["scene"].isAncestorOf(page.open_button) and win.stage_panels["scene"].isAncestorOf(
+        page.info
+    )
+    assert win.stage_panels["display"].isAncestorOf(page.show_combo)
+    assert win.stage_panels["indices"].isAncestorOf(page.compute_button)
+    assert win.stage_panels["classes"].isAncestorOf(page.classify_button)
+    assert win.stage_panels["classes"].isAncestorOf(page.pca_button)
+    assert not any(p.isAncestorOf(page.plot) or p.isAncestorOf(page.readout) for p in win.stage_panels.values())
+    assert page.plot.isVisibleTo(page) and not page.guide.isVisibleTo(page)
+    page.guide.set_state(2, "done")
+    assert win.rail.states["indices"] == "done"
+    win.close()

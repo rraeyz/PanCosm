@@ -878,7 +878,9 @@ rail          stage panel (example: 3 Find)                 main: image with bli
 - **Files:** `ui/automation/` (see AUT-W)
 
 #### UI-16.13 Remote sensing
-**open**
+**partial** (2026-11-20: the stages Scene, Display, Indices, Classes beside the map; the pixel read-out, the
+status and the plot stay in the column under them; band roles two per row; test_the_remote_sensing_window_has_stages.
+Left: the Layers list, Change and Export stages, the inspector)
 ```
 rail           stage panel (example: 3 Indices)            main: the map                           inspector
 1 Scene        Index or formula               ?            ┌─────────────────────────────────────┐ Pixel 5120, 3311

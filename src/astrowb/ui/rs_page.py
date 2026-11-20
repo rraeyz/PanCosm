@@ -100,11 +100,11 @@ class RemoteSensingPage(QWidget):
         grid = QGridLayout()
         self.roles = {}
         for i, role in enumerate(ROLES):
-            grid.addWidget(QLabel(role, self), i // 3, 2 * (i % 3))
+            grid.addWidget(QLabel(role, self), i // 2, 2 * (i % 2))  # two per row: the Display stage is narrow
             combo = QComboBox(self)
             self.roles[role] = combo
             combo.setToolTip(self.tr("Which band of the image holds this colour; the indices (NDVI…) use these roles"))
-            grid.addWidget(combo, i // 3, 2 * (i % 3) + 1)
+            grid.addWidget(combo, i // 2, 2 * (i % 2) + 1)
         lay.addLayout(grid)
         row = QHBoxLayout()
         self.index = QComboBox(self)

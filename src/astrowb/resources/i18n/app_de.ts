@@ -2135,17 +2135,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CalibrationWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="133"/>
+        <location filename="../../ui/stage_boxes.py" line="135"/>
         <source>Frames</source>
         <translation type="unfinished">Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="134"/>
+        <location filename="../../ui/stage_boxes.py" line="136"/>
         <source>Calibrate</source>
         <translation type="unfinished">Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="135"/>
+        <location filename="../../ui/stage_boxes.py" line="137"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4977,7 +4977,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="231"/>
-        <location filename="../../ui/area_menus.py" line="459"/>
+        <location filename="../../ui/area_menus.py" line="462"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportieren</translation>
@@ -5072,8 +5072,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="243"/>
-        <location filename="../../ui/area_menus.py" line="471"/>
-        <location filename="../../ui/area_menus.py" line="528"/>
+        <location filename="../../ui/area_menus.py" line="474"/>
+        <location filename="../../ui/area_menus.py" line="531"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>&amp;Exportieren</translation>
@@ -5192,7 +5192,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="230"/>
-        <location filename="../../ui/area_menus.py" line="455"/>
+        <location filename="../../ui/area_menus.py" line="458"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
@@ -5387,102 +5387,102 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="454"/>
+        <location filename="../../ui/area_menus.py" line="457"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Das Bedeckungs- oder Transitmodell anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="457"/>
+        <location filename="../../ui/area_menus.py" line="460"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="458"/>
+        <location filename="../../ui/area_menus.py" line="461"/>
         <source>Visual orbit</source>
         <translation>Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="463"/>
+        <location filename="../../ui/area_menus.py" line="466"/>
         <source>F&amp;it</source>
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="542"/>
+        <location filename="../../ui/area_menus.py" line="545"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="545"/>
+        <location filename="../../ui/area_menus.py" line="548"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Das Langspaltspektrum extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="551"/>
+        <location filename="../../ui/area_menus.py" line="554"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Die Echelle-Ordnungen auf dem Flat finden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="553"/>
+        <location filename="../../ui/area_menus.py" line="556"/>
         <source>Extract the échelle orders</source>
         <translation>Die Echelle-Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="558"/>
+        <location filename="../../ui/area_menus.py" line="561"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Das Spektrum des Würfelbereichs speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="563"/>
+        <location filename="../../ui/area_menus.py" line="566"/>
         <source>&amp;Lines</source>
         <translation>&amp;Linien</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="568"/>
+        <location filename="../../ui/area_menus.py" line="571"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Die Wellenlängen anpassen (Langspalt)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="572"/>
+        <location filename="../../ui/area_menus.py" line="575"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Die Wellenlängen anpassen, die Ordnungen zusammenfügen (Echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="586"/>
+        <location filename="../../ui/area_menus.py" line="589"/>
         <source>S&amp;pectrum</source>
         <translation>S&amp;pektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="600"/>
+        <location filename="../../ui/area_menus.py" line="603"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="602"/>
+        <location filename="../../ui/area_menus.py" line="605"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Arithmetik mit Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="606"/>
+        <location filename="../../ui/area_menus.py" line="609"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="608"/>
+        <location filename="../../ui/area_menus.py" line="611"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="632"/>
+        <location filename="../../ui/area_menus.py" line="635"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="633"/>
+        <location filename="../../ui/area_menus.py" line="636"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="532"/>
+        <location filename="../../ui/area_menus.py" line="535"/>
         <source>Save the spectrum as…</source>
         <translation>Das Spektrum speichern unter…</translation>
     </message>
@@ -6146,12 +6146,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="466"/>
+        <location filename="../../ui/area_menus.py" line="469"/>
         <source>Visual &amp;orbit</source>
         <translation>&amp;Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="617"/>
+        <location filename="../../ui/area_menus.py" line="620"/>
         <source>Velo&amp;city</source>
         <translation>Ges&amp;chwindigkeit</translation>
     </message>
@@ -8695,17 +8695,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ModelsWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="151"/>
+        <location filename="../../ui/stage_boxes.py" line="153"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="151"/>
+        <location filename="../../ui/stage_boxes.py" line="153"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="152"/>
+        <location filename="../../ui/stage_boxes.py" line="154"/>
         <source>Fit</source>
         <translation type="unfinished">Anpassen</translation>
     </message>
@@ -10311,22 +10311,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <location filename="../../ui/stage_boxes.py" line="51"/>
         <source>Minima</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="49"/>
+        <location filename="../../ui/stage_boxes.py" line="51"/>
         <source>Ephemeris</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <location filename="../../ui/stage_boxes.py" line="52"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="50"/>
+        <location filename="../../ui/stage_boxes.py" line="52"/>
         <source>Fit and report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10958,17 +10958,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="179"/>
+        <location filename="../../ui/stage_boxes.py" line="177"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="179"/>
+        <location filename="../../ui/stage_boxes.py" line="177"/>
         <source>Clean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="180"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Search</source>
         <translation type="unfinished">Suchen</translation>
     </message>
@@ -14479,22 +14479,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PlanWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="41"/>
+        <location filename="../../ui/stage_boxes.py" line="43"/>
         <source>Site and night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="41"/>
+        <location filename="../../ui/stage_boxes.py" line="43"/>
         <source>Targets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="42"/>
+        <location filename="../../ui/stage_boxes.py" line="44"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="42"/>
+        <location filename="../../ui/stage_boxes.py" line="44"/>
         <source>Schedule</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15384,6 +15384,29 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/rs_page.py" line="327"/>
         <source>Value at pixel {x:.0f}, {y:.0f}</source>
         <translation>Wert am Pixel {x:.0f}, {y:.0f}</translation>
+    </message>
+</context>
+<context>
+    <name>RemoteSensingWindow</name>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="192"/>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="193"/>
+        <source>Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="194"/>
+        <source>Indices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="195"/>
+        <source>Classes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

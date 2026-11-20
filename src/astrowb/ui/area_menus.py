@@ -433,6 +433,9 @@ def remotesensing(main, page, win):
         toolbar=[win.file_menu.actions()[0], None, compute, classify, pca],
     )
     win.set_icons({win.file_menu.actions()[0]: "open", compute: "compute", classify: "classify", pca: "pca"})
+    from .stage_boxes import rs_stages
+
+    rs_stages(win, page)  # UI-16.13: the controls as stages beside the map
 
 
 def orbits(main, page, win):

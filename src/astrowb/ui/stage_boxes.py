@@ -8,8 +8,9 @@ from PySide6.QtWidgets import QSplitter, QVBoxLayout, QWidget
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("PlanWindow", "…") calls
 
 
-def stages_from_boxes(win, page, titles, anchors, step_stage):
-    """titles, anchors: {box key: stage title, guide anchor}; step_stage: {guide step: box key}."""
+def stages_from_boxes(win, page, titles, anchors, step_stage, keep_column=False):
+    """titles, anchors: {box key: stage title, guide anchor}; step_stage: {guide step: box key}; keep_column: only
+    the guide is hidden, the rest of its column (a plot under the controls) stays."""
     from .kit.anatomy import Stage
 
     stages = []
@@ -23,7 +24,8 @@ def stages_from_boxes(win, page, titles, anchors, step_stage):
     column = page.guide.parentWidget()  # the left column keeps only the title and the guide: the rail says it now
     while column.parentWidget() is not None and not isinstance(column.parentWidget(), QSplitter):
         column = column.parentWidget()  # up to the splitter's left side (a scroll area on the Plan page)
-    column.hide()
+    if not keep_column:
+        column.hide()
     page.guide.hide()
     set_state = page.guide.set_state
 
@@ -35,6 +37,30 @@ def stages_from_boxes(win, page, titles, anchors, step_stage):
 
     page.guide.set_state = follow
     win.restoreDockWidget(win.docks["stages"])
+    _refit_columns(page)
+
+
+def _refit_columns(page):
+    """A page's columns scroll in areas as wide as the columns were when built (main_window._fields_scroll); with
+    their controls moved into the stages they are narrower, and the page must fit beside the stages."""
+    from PySide6.QtWidgets import QScrollArea
+
+    for area in page.findChildren(QScrollArea):
+        if isinstance(area.parentWidget(), QSplitter) and area.widget() is not None and area.minimumWidth() > 0:
+            area.setMinimumWidth(area.widget().minimumSizeHint().width() + 20)
+
+
+def _current_tab_only(tabs):
+    """Only the shown tab counts for the page's width: the other tabs hide the stages and have the whole window."""
+    from PySide6.QtWidgets import QSizePolicy
+
+    def follow(i):
+        for k in range(tabs.count()):
+            w = tabs.widget(k)
+            w.setSizePolicy(QSizePolicy.Preferred if k == i else QSizePolicy.Ignored, w.sizePolicy().verticalPolicy())
+
+    tabs.currentChanged.connect(follow)
+    follow(tabs.currentIndex())
 
 
 def plan_stages(win, page):
@@ -63,12 +89,12 @@ def _index(layout, widget):
     raise ValueError(widget)
 
 
-def boxes_from_column(layout, starts):
+def boxes_from_column(layout, starts, end=None):
     """starts: [(key, first widget)] in the column's order; each box holds the items from its first widget up to
-    the next box's (the last one: to the column's end)."""
+    the next box's (the last one: to the column's end, or to the widget end, which stays)."""
     from PySide6.QtWidgets import QVBoxLayout, QWidget
 
-    boxes, stop = {}, layout.count()
+    boxes, stop = {}, layout.count() if end is None else _index(layout, end)
     for key, widget in reversed(starts):
         box = QWidget()
         QVBoxLayout(box).setContentsMargins(0, 0, 0, 0)
@@ -154,6 +180,7 @@ def models_stages(win, page):
                "fit": "orbits-models-mcmc-uncertainties"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "parameters", 2: "fit", 3: "fit"})
     page.tabs.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
+    _current_tab_only(page.tabs)
 
 
 def period_stages(win, light_curves):
@@ -178,3 +205,24 @@ def period_stages(win, light_curves):
                "search": "methods-period-search"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "clean", 2: "search", 3: "search"})
     light_curves.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
+    _current_tab_only(light_curves)
+
+
+def rs_stages(win, page):
+    """The Remote sensing window (UI-16.13): Scene, Display, Indices, Classes beside the map; the pixel read-out,
+    the status and the plot stay in the column under them."""
+    lay = page.guide.parentWidget().layout()
+    page.open_button = lay.itemAt(_index(lay, page.guide) + 1).widget()  # Open image…, the column's first control
+    starts = [("scene", page.open_button), ("display", page.show_combo), ("indices", page.index), ("classes", page.k)]
+    page.stage_boxes = boxes_from_column(lay, starts, end=page.readout)
+    titles = {"scene": translate("RemoteSensingWindow", "Scene"),
+              "display": translate("RemoteSensingWindow", "Display"),
+              "indices": translate("RemoteSensingWindow", "Indices"),
+              "classes": translate("RemoteSensingWindow", "Classes")}  # fmt: skip
+    anchors = {
+        "scene": "remote-sensing-opening-image",
+        "display": "remote-sensing-band-roles-indices",
+        "indices": "remote-sensing-band-math",
+        "classes": "remote-sensing-classification-principal-components",
+    }
+    stages_from_boxes(win, page, titles, anchors, {0: "scene", 1: "display", 2: "indices", 3: "classes"}, True)
