@@ -37,7 +37,7 @@ def notes(lc, fit=None, scale=None, predicted_tc=None, neb=None):
 
 def tfop_files(folder, lc, fit, stars, neb, image):
     """Save all's TFOP pieces (PHO-27 item 3): field.png and seeing_profile.png from the marked frame, notes.txt,
-    NEB_check.csv after the nearby-eclipsing-binary check."""
+    NEB/NEB_check.csv with its plots after the nearby-eclipsing-binary check."""
     import csv
     from pathlib import Path
 
@@ -56,7 +56,8 @@ def tfop_files(folder, lc, fit, stars, neb, image):
     (folder / "notes.txt").write_text(notes(lc, fit, st.get("scale"), st.get("predicted_tc"), neb), encoding="utf-8")
     out.append(folder / "notes.txt")
     if neb:
-        path = folder / "NEB_check.csv"
+        (folder / "NEB").mkdir(parents=True, exist_ok=True)
+        path = folder / "NEB" / "NEB_check.csv"  # beside its plots (PHO-23)
         cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
         with open(path, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)
