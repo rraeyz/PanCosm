@@ -346,6 +346,7 @@ def _photometry_stages(win, page):
 
     page.checks = ChecksTab(page)  # PHO-33: the night's flags, refreshed with every light curve
     page.res_tabs.addTab(page.checks, translate("MainWindow", "Checks"))
+    page.checks.stage_line(win.stage_panels["lightcurve"])
     from .photometry_transit import attach
 
     attach(win.parent(), page)  # PHO-26: the exact transit under Time of minimum (the window's parent: main)
