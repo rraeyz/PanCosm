@@ -16,9 +16,9 @@ def test_practice_long_slit_spectrum_to_its_wavelengths(walk, tmp_path, lang):
     h.type("reduce_tab.science.edit", str(science))
     h.type("reduce_tab.arc.edit", str(arc))
     h.click("reduce_tab.extract_button")
-    h.wait(lambda: tab.result is not None and tab._arc_ax is not None)
+    h.wait(lambda: tab.result is not None and tab._arc_panel is not None)
     for pixel, wavelength in ((269, "4471.477"), (578, "5015.675"), (1062, "5875.618")):
-        h.click_plot(tab.plot, tab._arc_ax, pixel)
+        h.click_plot(tab.plot, tab._arc_panel, pixel)
         h.keys(wavelength)
     h.click("reduce_tab.solve_button")
     h.wait(lambda: bool(tab.result.get("solution")))

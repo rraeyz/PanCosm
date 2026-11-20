@@ -110,7 +110,7 @@ def weather_figure(f, hours0_jd, sun_hours=None, sun_alt=None):
             spans = _dark_spans(sun_hours, sun_alt, level)
             if spans:
                 series.append(
-                    SeriesSpec(f"Sun below {level:g}°", *np.array(spans).T, kind="span", colour="#000080", alpha=shade)
+                    SeriesSpec(f"Sun below {level:g}°", *np.array(spans).T, kind="span", colour=SERIES[0], alpha=shade)
                 )
     for key, label, colour, width in (
         ("cloud", "total", role("rejected"), 2.4),

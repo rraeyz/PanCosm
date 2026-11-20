@@ -246,14 +246,13 @@ class Harness:
         self._act(f"click image at {x:.0f},{y:.0f}", lambda: QTest.mouseClick(viewer.viewport(), Qt.LeftButton,
                                                                              pos=pos), budget)  # fmt: skip
 
-    def click_plot(self, plot, ax, x, budget=BUDGET_S):
-        """A click on a PlotCanvas at data x, half-way up the axes, through the canvas as the mouse gives it."""
-        canvas = plot.canvas
-        px = ax.transData.transform((x, 0))[0]
-        py = ax.transAxes.transform((0, 0.5))[1]
-        ratio = canvas.device_pixel_ratio
-        pos = QPoint(round(px / ratio), round((canvas.figure.bbox.height - py) / ratio))
-        self._act(f"click plot at {x:g}", lambda: QTest.mouseClick(canvas, Qt.LeftButton, pos=pos), budget)
+    def click_plot(self, view, panel, x, budget=BUDGET_S):
+        """A click on a PlotView panel at data x, half-way up its view box, as the mouse gives it."""
+        vb = view.plots[panel].getViewBox()
+        (_, _), (y0, y1) = vb.viewRange()
+        pos = view.graphics.mapFromScene(vb.mapViewToScene(QPointF(x, (y0 + y1) / 2)))
+        port = view.graphics.viewport()
+        self._act(f"click plot at {x:g}", lambda: QTest.mouseClick(port, Qt.LeftButton, pos=pos), budget)
 
     def keys(self, text, budget=BUDGET_S):
         """Type into whatever has the focus (an editor a click opened), then Enter."""
