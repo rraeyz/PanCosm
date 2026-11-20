@@ -4,6 +4,7 @@ continuum, instrument response, series of equivalent widths, BeSS / ARAS export.
 from pathlib import Path
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -21,13 +22,12 @@ from PySide6.QtWidgets import (
     QScrollArea,
     QSpinBox,
     QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
 from . import spectro_figures, spectrum_keys
+from .kit.table import TableView
 from .messages import translate
 from .plot.toolbar import plot_box
 from .undo import Undoable
@@ -323,21 +323,21 @@ class SpectrumToolsTab(Undoable, QWidget):
         box, self.plot = plot_box(self)
         spectrum_keys.connect(self)  # clicks, and the splot keys w m f c d
         right.addWidget(box)
-        self.table = QTableWidget(0, len(LINE_COLUMNS), self)
-        self.table.setHorizontalHeaderLabels(
-            [
-                self.tr("File / date"),
-                self.tr("Centre (Å)"),
-                self.tr("FWHM (Å)"),
-                self.tr("EW (Å)"),
-                self.tr("σ EW"),
-                self.tr("EW of fit"),
-                self.tr("Depth"),
-                self.tr("Line flux"),
-                self.tr("S/N"),
-                self.tr("V/R"),
-            ]
+        self.names = (
+            self.tr("File / date"),
+            self.tr("Centre (Å)"),
+            self.tr("FWHM (Å)"),
+            self.tr("EW (Å)"),
+            self.tr("σ EW"),
+            self.tr("EW of fit"),
+            self.tr("Depth"),
+            self.tr("Line flux"),
+            self.tr("S/N"),
+            self.tr("V/R"),
         )
+        self.lines = []  # one measure per row, the file's name first
+        self.table = TableView(self)
+        self._show_lines()
         right.addWidget(self.table)
         right.setSizes([600, 200])
         split.addWidget(right)
@@ -496,13 +496,16 @@ class SpectrumToolsTab(Undoable, QWidget):
         self._plot()
 
     # --- measurements --------------------------------------------------------
+    def _show_lines(self):
+        cols = [[row[k] for row in self.lines] for k in range(len(LINE_COLUMNS))]
+        table = Table(cols, names=self.names, dtype=(str, *(float,) * (len(LINE_COLUMNS) - 1)))
+        for col in list(table.columns.values())[1:]:
+            col.format = ".5g"
+        self.table.set_table(table)
+
     def _add_row(self, label, m):
-        r = self.table.rowCount()
-        self.table.insertRow(r)
-        for c, key in enumerate(LINE_COLUMNS):
-            v = label if key == "file" else m.get(key)
-            text = v if isinstance(v, str) else ("" if v is None else f"{v:.5g}")
-            self.table.setItem(r, c, QTableWidgetItem(text))
+        self.lines.append([label if k == "file" else (np.nan if m.get(k) is None else m[k]) for k in LINE_COLUMNS])
+        self._show_lines()
 
     def _measure(self):
         from ..spectroscopy.analysis import measure_line

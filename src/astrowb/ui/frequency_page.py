@@ -2,6 +2,7 @@
 multi-frequency fit and times of maximum, on the light curve of the Period search tab."""
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -11,14 +12,13 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
 from .kit import tokens
 from .kit.help import help_line
+from .kit.table import TableView
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
 
@@ -118,23 +118,22 @@ class FrequencyPage(QWidget):
         self.status.setWordWrap(True)
         self.status.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.status)
-        self.table = QTableWidget(0, len(FREQ_COLUMNS), self)
-        self.table.setHorizontalHeaderLabels(
-            [
-                self.tr("Frequency (c/d)"),
-                self.tr("σ"),
-                self.tr("Period (d)"),
-                self.tr("Amplitude"),
-                self.tr("σ"),
-                self.tr("Phase"),
-                self.tr("σ"),
-                self.tr("S/N"),
-            ]
+        self.names = (
+            self.tr("Frequency (c/d)"),
+            self.tr("σ frequency"),
+            self.tr("Period (d)"),
+            self.tr("Amplitude"),
+            self.tr("σ amplitude"),
+            self.tr("Phase"),
+            self.tr("σ phase"),
+            self.tr("S/N"),
         )
+        self.table = TableView(self)
+        self._set_frequencies([])
         lay.addWidget(self.table, 2)
         lay.addWidget(QLabel(self.tr("Times of maximum"), self))
-        self.maxima = QTableWidget(0, 2, self)
-        self.maxima.setHorizontalHeaderLabels([self.tr("Time"), self.tr("σ (d)")])
+        self.maxima = TableView(self)
+        self._set_maxima([])
         lay.addWidget(self.maxima, 1)
         self.to_oc = QPushButton(self.tr("Send maxima to the O-C diagram"), self)
         self.to_oc.setEnabled(False)
@@ -148,6 +147,18 @@ class FrequencyPage(QWidget):
         split.addWidget(box)
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
+
+    def _set_frequencies(self, rows):
+        table = Table(list(np.asarray(rows, float).reshape(-1, len(FREQ_COLUMNS)).T), names=self.names)
+        for col in table.columns.values():
+            col.format = ".6g"
+        self.table.set_table(table)
+
+    def _set_maxima(self, maxima):
+        table = Table(list(np.asarray(maxima, float).reshape(-1, 2).T), names=(self.tr("Time"), self.tr("σ (d)")))
+        for col in table.columns.values():
+            col.format = ".6f"
+        self.maxima.set_table(table)
 
     def _analyse(self):
         if not self.period_page.time or len(self.period_page.time) < 10:
@@ -169,15 +180,8 @@ class FrequencyPage(QWidget):
         for i in (0, 1):
             self.guide.set_state(i, "done")
         rows = out["frequencies"]
-        self.table.setRowCount(len(rows))
-        for r, row in enumerate(rows):
-            values = dict(row, period=1 / row["freq"])
-            for c, key in enumerate(FREQ_COLUMNS):
-                self.table.setItem(r, c, QTableWidgetItem(f"{values[key]:.6g}"))
-        self.maxima.setRowCount(len(out["maxima"]))
-        for r, (tm, err) in enumerate(out["maxima"]):
-            self.maxima.setItem(r, 0, QTableWidgetItem(f"{tm:.6f}"))
-            self.maxima.setItem(r, 1, QTableWidgetItem(f"{err:.6f}"))
+        self._set_frequencies([[dict(row, period=1 / row["freq"])[key] for key in FREQ_COLUMNS] for row in rows])
+        self._set_maxima(out["maxima"])
         self.to_oc.setEnabled(bool(out["maxima"]))
         if rows:
             self.status.setText(self.tr("{n} frequencies; residual rms {rms:.4g}").format(n=len(rows), rms=out["rms"]))

@@ -1,23 +1,22 @@
 """Visual binary orbit: position angles and separations in, Campbell elements, plot and ephemeris out."""
 
 import numpy as np
+from astropy.table import Table
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QFileDialog,
     QGridLayout,
-    QHeaderView,
     QLabel,
     QPlainTextEdit,
     QPushButton,
     QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
 from .kit import tokens
+from .kit.table import TableView
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 
@@ -77,10 +76,9 @@ class VisualOrbitTab(QWidget):
             )
         )
         lay.addWidget(self.fit_button)
-        self.table = QTableWidget(0, 2, self)
-        self.table.setHorizontalHeaderLabels([self.tr("Element"), self.tr("Value")])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.table.verticalHeader().hide()
+        self.names = (self.tr("Element"), self.tr("Value"))
+        self.table = TableView(self)
+        self.table.set_table(Table(names=self.names, dtype=(str, str)))
         lay.addWidget(self.table, 1)
         self.status = QLabel(self)
         self.status.setWordWrap(True)
@@ -135,10 +133,7 @@ class VisualOrbitTab(QWidget):
         ]
         if "mass" in o:
             rows.append((self.tr("Total mass (M☉)"), f"{o['mass']:.3f} ± {o['mass_err']:.3f}"))
-        self.table.setRowCount(len(rows))
-        for r, (k, v) in enumerate(rows):
-            self.table.setItem(r, 0, QTableWidgetItem(k))
-            self.table.setItem(r, 1, QTableWidgetItem(v))
+        self.table.set_table(Table(rows=rows, names=self.names, dtype=(str, str)))
         self.status.setText(
             self.tr("{n} measures. Ω and ω can both be turned by 180° without radial velocities.").format(n=o["n"])
         )
