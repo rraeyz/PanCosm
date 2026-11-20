@@ -124,6 +124,19 @@ def test_keys_show_all_and_range_selection(view):
     )
 
 
+def test_a_click_a_few_pixels_off_a_point_still_picks_it(view):
+    """The tolerance is in screen pixels: 3 px off picks the nearest point, 30 px off nothing."""
+    pts = SeriesSpec("p", [1.0, 5.0, 9.0], [1.0, 3.0, 2.0], pickable=True, ids=[10, 20, 30])
+    view.set_figure(FigureSpec([PanelSpec(AxisSpec("x"), AxisSpec("y"), [pts])]))
+    clicked = []
+    view.point_clicked.connect(lambda name, pid: clicked.append((name, pid)))
+    p, port = screen_of(view, 0, 5.0, 3.0), view.graphics.viewport()
+    QTest.mouseClick(port, Qt.LeftButton, Qt.NoModifier, p + QPoint(3, 3))
+    assert clicked == [("p", 20)]
+    QTest.mouseClick(port, Qt.LeftButton, Qt.NoModifier, p + QPoint(0, 30))
+    assert clicked == [("p", 20)]
+
+
 def test_click_lasso_and_cursor_readout(view):
     e = view.items[0]
     i = 700

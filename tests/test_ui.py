@@ -2355,11 +2355,12 @@ def test_the_checks_tab(window):
     assert flags["cloud"] == [10, 11, 12] and page.checks.table.table.rowCount() == 3
     assert "behind cloud" in page.checks.verdict.text()
     assert page.checks.table.table.item(0, 1).text() == "f10.fits"
-    axes = page.checks.panels.figure.axes  # the series this curve has
+    panels = page.checks.panels.figure.panels  # the series this curve has
     labels = ["Comparison counts", "FWHM", "x", "y", "Target peak / limit", "Comparison − check (mag)"]
-    assert [a.get_ylabel() for a in axes] == labels
-    assert np.allclose(axes[4].lines[0].get_ydata(), 1 / 3) and np.allclose(axes[5].lines[0].get_ydata(), 0)
-    assert len(axes[0].lines) == 2 and list(axes[0].lines[1].get_xdata()) == [10, 11, 12]  # the cloud marked
+    assert [p.y.label for p in panels] == labels
+    assert np.allclose(panels[4].series[0].y, 1 / 3) and np.allclose(panels[5].series[0].y, 0)
+    marked = panels[0].series[1]  # the cloud marked on every panel
+    assert marked.name == "Flagged" and list(marked.x) == [10, 11, 12] and all(len(p.series) == 2 for p in panels)
     from matplotlib.figure import Figure
 
     ax = Figure().add_subplot()
@@ -2415,8 +2416,20 @@ def test_the_checks_tab_shows_red_noise(window):
         lc = {"comp_flux": [[1e5, 1e5]] * n, "rel_flux": [1.0] * n, "file": [""] * n,
               "extra": [{"name": "C3", "role": "check", "rel_flux": curve.tolist()}]}  # fmt: skip
         page.checks.show_checks(lc)
-        assert low < page.checks.beta < high and page.checks.rms.isVisibleTo(page.checks)
-        assert "check star" in page.checks.rms.figure.axes[0].get_title()
+        assert low < page.checks.beta < high and page.checks.rms_box.isVisibleTo(page.checks)
+        fig = page.checks.rms.figure
+        assert "check star" in fig.title and f"β = {page.checks.beta:.2f}" in fig.title
+        panel = fig.panels[0]
+        assert panel.x.scale == panel.y.scale == "log" and [s.name for s in panel.series][-1] == "white noise"
+    from time import perf_counter
+
+    n = 1000  # the draw of a long night stays quick
+    lc = {"comp_flux": [[1e5, 1e5]] * n, "rel_flux": [1.0] * n, "fwhm": [3.0] * n, "file": [""] * n,
+          "extra": [{"name": "C3", "role": "check", "rel_flux": (1 + rng.normal(0, 0.002, n)).tolist()}]}  # fmt: skip
+    start = perf_counter()
+    page.checks._draw_panels(lc, {"cloud": list(range(0, n, 7))})
+    page.checks._draw_rms(lc)
+    assert perf_counter() - start < 0.15
 
 
 def test_the_checks_tab_offers_to_scale_errors_that_are_too_small(window):

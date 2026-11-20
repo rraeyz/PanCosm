@@ -7,7 +7,8 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QMenu, QPushButton, QVBoxLayout, QWidget
 
 from .kit.table_view import DataTable
-from .kit.widgets import PlotCanvas
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("PhotometryChecks", "…") calls
 
@@ -123,14 +124,14 @@ class ChecksTab(QWidget):
         row.addWidget(self.leave_kind)
         row.addStretch(1)
         lay.addLayout(row)
-        self.panels = PlotCanvas(self)
+        self.panels_box, self.panels = plot_box(self)
         self.panels.setMinimumHeight(260)
-        self.panels.hide()
-        lay.addWidget(self.panels, 2)
-        self.rms = PlotCanvas(self)  # PHO-34: RMS against bin size, the red noise's β
+        self.panels_box.hide()
+        lay.addWidget(self.panels_box, 2)
+        self.rms_box, self.rms = plot_box(self)  # PHO-34: RMS against bin size, the red noise's β
         self.rms.setMinimumHeight(180)
-        self.rms.hide()
-        lay.addWidget(self.rms, 1)
+        self.rms_box.hide()
+        lay.addWidget(self.rms_box, 1)
         lay.addWidget(self.table, 1)
         self.line = QLabel(self)  # the same verdict in the Light curve stage (stage_line)
         self.line.setWordWrap(True)
@@ -230,21 +231,18 @@ class ChecksTab(QWidget):
             c = np.asarray(check["rel_flux"], float)
             series[translate("PhotometryChecks", "Comparison − check (mag)")] = -2.5 * np.log10(c / np.nanmedian(c))
         shown = {k: v for k, v in series.items() if v is not None and len(v) == n and np.isfinite(v).any()}
-        self.panels.setVisible(bool(shown))
-        fig = self.panels.figure
-        fig.clear()
+        self.panels_box.setVisible(bool(shown))
         if not shown:
             return
-        flagged = sorted({i for v in flags.values() for i in v if i < n})
-        axes = fig.subplots(len(shown), 1, sharex=True)
-        for ax, (label, y) in zip(np.atleast_1d(axes), shown.items(), strict=True):
-            ax.plot(np.arange(n), y, ".", ms=2)
-            if flagged:
-                ax.plot(flagged, y[flagged], "o", ms=4, color=role("saturated"))  # the warning colour
-            ax.set_ylabel(label, fontsize=7)
-            ax.tick_params(labelsize=7)
-        np.atleast_1d(axes)[-1].set_xlabel(translate("PhotometryChecks", "Frame"), fontsize=7)
-        self.panels.draw()
+        flagged = np.array(sorted({i for v in flags.values() for i in v if i < n}), int)
+        frames, panels = np.arange(n), []
+        for label, y in shown.items():
+            series = [SeriesSpec(label, frames, y, size=3)]
+            if len(flagged):  # the warning colour
+                series.append(SeriesSpec(translate("PhotometryChecks", "Flagged"), flagged, y[flagged], size=6,
+                                         colour=role("saturated"), z=1))  # fmt: skip
+            panels.append(PanelSpec(AxisSpec(translate("PhotometryChecks", "Frame")), AxisSpec(label), series))
+        self.panels.set_figure(FigureSpec(panels, shared_x=True))
 
     def _draw_rms(self, lc):
         """The binned RMS of a constant star's curve against the bin size, with the white-noise line, and β (Winn et
@@ -259,30 +257,25 @@ class ChecksTab(QWidget):
         y = y[np.isfinite(y)]
         sizes = [n for n in (1, 2, 3, 5, 8, 12, 20, 30, 50, 80) if len(y) // n >= 3]
         show = len(sizes) >= 3 and bool(np.std(y) > 0)
-        self.rms.setVisible(show)
+        self.rms_box.setVisible(show)
         if not show:
             return None
         r = y / np.median(y) - 1
         rows = rms_vs_bin(r, sizes)
         beta = beta_factor(r, sizes[1:])
-        fig = self.rms.figure
-        fig.clear()
-        ax = fig.add_subplot(111)
         n, got, white = (np.array(c, float) for c in zip(*rows, strict=True))
-        ax.loglog(n, 1000 * got, "o-", ms=3, label=translate("PhotometryChecks", "measured"))
-        ax.loglog(n, 1000 * white, "--", label=translate("PhotometryChecks", "white noise"))
         who = (
             translate("PhotometryChecks", "check star")
             if check
             else translate("PhotometryChecks", "T1 (no check star)")
         )
-        ax.set_title(translate("PhotometryChecks", "RMS against bin size, {who}: β = {beta:.2f}").format(who=who,
-                     beta=beta), fontsize=8)  # fmt: skip
-        ax.set_xlabel(translate("PhotometryChecks", "Points per bin"), fontsize=7)
-        ax.set_ylabel("RMS (ppt)", fontsize=7)
-        ax.tick_params(labelsize=7)
-        ax.legend(fontsize=7)
-        self.rms.draw()
+        measured = translate("PhotometryChecks", "measured")
+        series = [SeriesSpec(measured, n, 1000 * got, kind="line"), SeriesSpec(measured, n, 1000 * got, size=5),
+                  SeriesSpec(translate("PhotometryChecks", "white noise"), n, 1000 * white, kind="line")]  # fmt: skip
+        title = translate("PhotometryChecks", "RMS against bin size, {who}: β = {beta:.2f}").format(who=who, beta=beta)
+        panel = PanelSpec(AxisSpec(translate("PhotometryChecks", "Points per bin"), scale="log"),
+                          AxisSpec("RMS", "ppt", scale="log"), series)  # fmt: skip
+        self.rms.set_figure(FigureSpec([panel], title=title))
         return beta
 
     def stage_line(self, panel):
