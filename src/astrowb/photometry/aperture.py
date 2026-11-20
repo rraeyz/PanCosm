@@ -202,19 +202,34 @@ def _gauss2d(data, mask=None, error=None):
 CENTROIDS = {"auto": centroid_1dg, "moments": _moments, "gauss": _gauss2d}
 
 
-def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
+def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto", in_place=False):
     """Centroids near the predicted (x, y) positions (0-based pixels). A centroid that fails or lands
     more than max_move pixels from the prediction (a neighbour, a defect) is replaced by the
     prediction. Centroids are found on a copy without single hot pixels so one cannot capture them.
     found: also return which positions are centroids (True) rather than the prediction kept (False).
     method (PHO-44, IRAF's calgorithm): "auto" (1-D Gaussians, centre of light for stars wider than the box),
-    "moments" (centre of light above the box's median), "gauss" (a 2-D Gaussian), "none" (the prediction)."""
+    "moments" (centre of light above the box's median), "gauss" (a 2-D Gaussian), "none" (the prediction).
+    in_place: a writeable float32 frame is worked on without the copy (14 ms for 4k x 4k) and put back as it was before
+    returning; for callers whose thread is the frame's only reader (a light curve's frame loop)."""
     xy = np.asarray(xy, dtype=float)
     if method == "none":
         return (xy.copy(), np.isfinite(xy).all(axis=1)) if found else xy.copy()
-    clean = np.array(data, dtype=np.float32)  # a copy: hot pixels are taken out of it below
+    if in_place and isinstance(data, np.ndarray) and data.dtype == np.float32 and data.flags.writeable:
+        undo = []
+        try:
+            return _recenter(data, xy, box, max_move, found, method, undo)
+        finally:
+            for sl, saved in reversed(undo):  # the windows were saved after earlier ones changed: last first
+                data[sl] = saved
+    return _recenter(np.array(data, dtype=np.float32), xy, box, max_move, found, method, None)
+
+
+def _recenter(clean, xy, box, max_move, found, method, undo):
+    """recenter on `clean`, which it may change: with `undo` a list, each changed place is kept there to be restored."""
     bad = ~np.isfinite(clean)
     if bad.any():  # as nan_to_num, on the few bad pixels only (on the whole frame it took 0.1 s per 16 MP frame)
+        if undo is not None:
+            undo.append((bad, clean[bad].copy()))
         clean[bad] = np.nan_to_num(clean[bad])
     ny, nx = clean.shape
     h = box // 2 + 2
@@ -223,6 +238,8 @@ def recenter(data, xy, box=11, max_move=2.5, found=False, method="auto"):
             y0, y1 = max(0, int(py) - h), min(ny, int(py) + h + 1)
             x0, x1 = max(0, int(px) - h), min(nx, int(px) + h + 1)
             if y1 - y0 >= 3 and x1 - x0 >= 3:
+                if undo is not None:
+                    undo.append(((slice(y0, y1), slice(x0, x1)), clean[y0:y1, x0:x1].copy()))
                 clean[y0:y1, x0:x1] = _unspike(clean[y0:y1, x0:x1])
     out = np.full_like(xy, np.nan)
     inside = np.isfinite(xy).all(axis=1) & (xy[:, 0] >= 0) & (xy[:, 0] <= nx - 1) & (xy[:, 1] >= 0)
@@ -461,6 +478,25 @@ def _histogram_centroid(v, khist=3.0, binsize=0.1, reject=3.0, maxiter=10):
     return centre, sd, int(keep.sum())
 
 
+def _stamps(data, xy, r_out, sky_mask):
+    """(mosaic, positions in it, mask mosaic) of float64 tiles around each star, or None when the frame is small, a
+    star is not finite or a tile would reach the frame's edge (measure then takes the whole frame)."""
+    data, xy = np.asarray(data), np.asarray(xy, float)
+    if data.ndim != 2 or xy.ndim != 2 or data.size < 1 << 20 or not np.isfinite(xy).all():
+        return None
+    m = int(np.ceil(r_out)) + 2
+    x0, y0 = np.floor(xy[:, 0]).astype(int) - m, np.floor(xy[:, 1]).astype(int) - m
+    side = 2 * m + 1
+    if (x0 < 0).any() or (y0 < 0).any() or (x0 + side > data.shape[1]).any() or (y0 + side > data.shape[0]).any():
+        return None
+
+    def tiles(a, dtype):
+        return np.hstack([np.asarray(a[y : y + side, x : x + side], dtype) for x, y in zip(x0, y0, strict=True)])
+
+    where = xy - np.column_stack([x0, y0]) + np.column_stack([np.arange(len(xy)) * side, np.zeros(len(xy))])
+    return tiles(data, np.float64), where, None if sky_mask is None else tiles(sky_mask, bool)
+
+
 def measure(
     data, xy, r_ap, r_in, r_out, gain=1.0, pixel_noise=None, camera=None, sky_method="median", sky_mask=None, shape=None
 ):
@@ -474,6 +510,9 @@ def measure(
         from .shapes import measure_shaped
 
         return measure_shaped(data, xy, shape, r_ap, r_in, r_out, gain)
+    stamps = _stamps(data, xy, r_out, sky_mask)
+    if stamps is not None:  # big frame: the stars' surroundings only, side by side (the whole-frame float64 copy
+        data, xy, sky_mask = stamps  # took 28 ms of 4k x 4k); every aperture and ring lies inside its own tile
     data = np.asarray(data, dtype=np.float64)
     ap = CircularAperture(xy, r=r_ap)
     an = CircularAnnulus(xy, r_in=r_in, r_out=r_out)

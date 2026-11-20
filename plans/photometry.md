@@ -889,7 +889,7 @@ and "Leave out the flagged points" takes them.
 - **Files:** `photometry/aperture.py`, `photometry/lightcurve.py`, `photometry/measurements.py` (`Flags_<star>`), `core/planes.py`, `tests/test_photometry_flags.py`
 
 ### PHO-37. Speed at scale  (P2)
-**open**
+**partial** — done (2026-11-20): the three cases in `tools/speed.py` (scaled to the disk: 100 × 4k² here, CI's `--ci` sizes); the split per 4k² frame with 10 stars: read 31 ms, register 50–63, centre 72 → 43, measure 33 → 4 (tiles around the stars instead of a whole-frame float64 copy, `aperture._stamps`; `recenter(in_place=True)` in the frame loop), sums 0.3 ms — so no native `aperture_sums` (sums are 0.2 % of a frame). 100 frames 35.4 s → 25.1 s (≈ 251 s for 1000, under the 5-minute budget); results identical (relative difference 0; IRAF validation unchanged); `test_apertures`. Left: the 2000-star field case (30 × 2000 stars 48.5 s; no budget written), the FFT of register and the sky clip of centre.
 - **Build:** benchmark cases in `tools/speed.py`: 1000 × 4k² frames, 10 stars (aperture); 300 × 4k², 2000 stars
   (PHO-30); pixel file 18 000 cadences. Native kernel `aperture_sums(data, xy, radii)` (exact circle–pixel overlap
   for many stars and radii in one pass, threaded) if the profile shows the sums dominate; a GPU twin only for the
