@@ -2,6 +2,7 @@
 airmass computed for every frame, previewed, written into copies — into the files themselves only after a question
 that names how many."""
 
+from astropy.table import Table
 from PySide6.QtWidgets import (
     QCheckBox,
     QDoubleSpinBox,
@@ -12,11 +13,10 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
 )
 
 from .kit.dialogs import Dialog
+from .kit.table import TableView
 
 
 class HeadersDialog(Dialog):
@@ -56,8 +56,9 @@ class HeadersDialog(Dialog):
         self.body.addLayout(form)
         self.preview_button = QPushButton(self.tr("Preview"), self)
         self.preview_button.clicked.connect(self.preview)
-        self.table = QTableWidget(0, 4, self)
-        self.table.setHorizontalHeaderLabels([self.tr("File"), self.tr("Keyword"), self.tr("Now"), self.tr("New")])
+        self.table = TableView(self)
+        self.names = (self.tr("File"), self.tr("Keyword"), self.tr("Now"), self.tr("New"))
+        self.table.set_table(Table(names=self.names, dtype=(str,) * 4))
         self.copies_button = QPushButton(self.tr("Write copies…"), self)
         self.copies_button.clicked.connect(lambda: self.write())
         self.inplace_button = QPushButton(self.tr("Write into the files…"), self)
@@ -96,10 +97,10 @@ class HeadersDialog(Dialog):
         except (OSError, ValueError, KeyError) as e:
             self.note.setText(translate(e))
             return []
-        self.table.setRowCount(min(len(rows), 500))
-        for r, row in enumerate(rows[:500]):
-            for c, key in enumerate(("file", "key", "old", "new")):
-                self.table.setItem(r, c, QTableWidgetItem("" if row[key] is None else str(row[key])))
+        shown = [["" if row[k] is None else str(row[k]) for k in ("file", "key", "old", "new")] for row in rows[:500]]
+        self.table.set_table(
+            Table(rows=shown, names=self.names) if shown else Table(names=self.names, dtype=(str,) * 4)
+        )
         self.note.setText(self.tr("{n} changes in {m} files.").format(n=len(rows), m=len(self.paths)))
         return rows
 
