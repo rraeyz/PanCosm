@@ -2342,13 +2342,16 @@ def test_the_checks_tab(window):
     comp = np.full((n, 2), 1e5)
     comp[10:13] *= 0.5
     lc = {"comp_flux": comp.tolist(), "fwhm": [3.0] * n, "xy": [[[100.0, 100.0]]] * n, "peak": [[2e4]] * n,
-          "saturation": 6e4, "file": [f"f{i}.fits" for i in range(n)], "rel_flux": [1.0] * n}  # fmt: skip
+          "saturation": 6e4, "file": [f"f{i}.fits" for i in range(n)], "rel_flux": [1.0] * n,
+          "extra": [{"role": "check", "rel_flux": [0.5] * n}]}  # fmt: skip
     flags = page.checks.show_checks(lc)
     assert flags["cloud"] == [10, 11, 12] and page.checks.table.table.rowCount() == 3
     assert "behind cloud" in page.checks.verdict.text()
     assert page.checks.table.table.item(0, 1).text() == "f10.fits"
-    axes = page.checks.panels.figure.axes  # counts, FWHM, x, y: the series this curve has
-    assert [a.get_ylabel() for a in axes] == ["Comparison counts", "FWHM", "x", "y"]
+    axes = page.checks.panels.figure.axes  # the series this curve has
+    labels = ["Comparison counts", "FWHM", "x", "y", "Target peak / limit", "Comparison − check (mag)"]
+    assert [a.get_ylabel() for a in axes] == labels
+    assert np.allclose(axes[4].lines[0].get_ydata(), 1 / 3) and np.allclose(axes[5].lines[0].get_ydata(), 0)
     assert len(axes[0].lines) == 2 and list(axes[0].lines[1].get_xdata()) == [10, 11, 12]  # the cloud marked
     from matplotlib.figure import Figure
 

@@ -11166,68 +11166,78 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished">Masa de aire</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="259"/>
+        <location filename="../../ui/photometry_checks.py" line="221"/>
+        <source>Target peak / limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="226"/>
+        <source>Comparison − check (mag)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="267"/>
         <source>measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="260"/>
+        <location filename="../../ui/photometry_checks.py" line="268"/>
         <source>white noise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="262"/>
+        <location filename="../../ui/photometry_checks.py" line="270"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="264"/>
+        <location filename="../../ui/photometry_checks.py" line="272"/>
         <source>T1 (no check star)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="266"/>
+        <location filename="../../ui/photometry_checks.py" line="274"/>
         <source>RMS against bin size, {who}: β = {beta:.2f}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="268"/>
+        <location filename="../../ui/photometry_checks.py" line="276"/>
         <source>Points per bin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="295"/>
+        <location filename="../../ui/photometry_checks.py" line="303"/>
         <source>leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="309"/>
+        <location filename="../../ui/photometry_checks.py" line="317"/>
         <source>{kind} ({n})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="314"/>
+        <location filename="../../ui/photometry_checks.py" line="322"/>
         <source>Flagged frames: {list}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="316"/>
+        <location filename="../../ui/photometry_checks.py" line="324"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="233"/>
-        <location filename="../../ui/photometry_checks.py" line="325"/>
+        <location filename="../../ui/photometry_checks.py" line="241"/>
+        <location filename="../../ui/photometry_checks.py" line="333"/>
         <source>Frame</source>
         <translation type="unfinished">Imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="325"/>
+        <location filename="../../ui/photometry_checks.py" line="333"/>
         <source>File</source>
         <translation type="unfinished">Archivo</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="326"/>
+        <location filename="../../ui/photometry_checks.py" line="334"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>

@@ -11168,68 +11168,78 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="259"/>
+        <location filename="../../ui/photometry_checks.py" line="221"/>
+        <source>Target peak / limit</source>
+        <translation>Hedefin tepe değeri / sınır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="226"/>
+        <source>Comparison − check (mag)</source>
+        <translation>Karşılaştırma − kontrol (kadir)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="267"/>
         <source>measured</source>
         <translation>ölçülen</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="260"/>
+        <location filename="../../ui/photometry_checks.py" line="268"/>
         <source>white noise</source>
         <translation>beyaz gürültü</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="262"/>
+        <location filename="../../ui/photometry_checks.py" line="270"/>
         <source>check star</source>
         <translation>kontrol yıldızı</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="264"/>
+        <location filename="../../ui/photometry_checks.py" line="272"/>
         <source>T1 (no check star)</source>
         <translation>T1 (kontrol yıldızı yok)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="266"/>
+        <location filename="../../ui/photometry_checks.py" line="274"/>
         <source>RMS against bin size, {who}: β = {beta:.2f}</source>
         <translation>Kutu boyutuna göre RMS, {who}: β = {beta:.2f}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="268"/>
+        <location filename="../../ui/photometry_checks.py" line="276"/>
         <source>Points per bin</source>
         <translation>Kutu başına nokta</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="295"/>
+        <location filename="../../ui/photometry_checks.py" line="303"/>
         <source>leave out the flagged points</source>
         <translation>işaretli noktaları dışarıda bırakma</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="309"/>
+        <location filename="../../ui/photometry_checks.py" line="317"/>
         <source>{kind} ({n})</source>
         <translation>{kind} ({n})</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="314"/>
+        <location filename="../../ui/photometry_checks.py" line="322"/>
         <source>Flagged frames: {list}</source>
         <translation>İşaretlenen kareler: {list}</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="316"/>
+        <location filename="../../ui/photometry_checks.py" line="324"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation>İşaretlenen kare yok: bulut, görüş bozulması, alan sıçraması ya da doyma yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="233"/>
-        <location filename="../../ui/photometry_checks.py" line="325"/>
+        <location filename="../../ui/photometry_checks.py" line="241"/>
+        <location filename="../../ui/photometry_checks.py" line="333"/>
         <source>Frame</source>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="325"/>
+        <location filename="../../ui/photometry_checks.py" line="333"/>
         <source>File</source>
         <translation>Dosya</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="326"/>
+        <location filename="../../ui/photometry_checks.py" line="334"/>
         <source>Flags</source>
         <translation>İşaretler</translation>
     </message>
