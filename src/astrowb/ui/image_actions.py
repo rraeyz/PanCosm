@@ -474,8 +474,9 @@ class ImageActions:
         label = translate("MainWindow", "value")
         text = f"x={x:.0f}  y={y:.0f}  {label}={value:.6g}"
         if self.wcs is not None:
-            sky = self.wcs.pixel_to_world(x - 1, y - 1)
-            text += "  " + sky.to_string("hmsdms", precision=1)
+            from .image.readout import sky_text
+
+            text += "  " + sky_text(self.wcs, x - 1, y - 1)
         self.pixel_label.setText(text)
         if getattr(self, "image_pixel_label", None) is not None:  # the cursor read-out of the Images window
             self.image_pixel_label.setText(text)

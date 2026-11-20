@@ -18,6 +18,7 @@ TINY = 4  # screen pixels: below this ring radius the rings cannot be seen and t
 class ImageViewer(QGraphicsView):
     # FITS 1-based pixel coordinates and the value under the cursor
     hovered = Signal(float, float, float)
+    view_changed = Signal()  # panned, zoomed or resized (linked views follow it)
     # a click without dragging, in 0-based array coordinates (x = column, y = row; pixel centres on integers)
     clicked = Signal(float, float)
     context_requested = Signal(float, float, QPoint)  # array x, y and the screen position of a right click
@@ -231,6 +232,7 @@ class ImageViewer(QGraphicsView):
         self._fit_mode = True
         self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
         self._update_reticles()
+        self.view_changed.emit()
 
     def actual_size(self):
         """One image pixel on one screen pixel (100 %), around the centre of the view."""
@@ -244,10 +246,16 @@ class ImageViewer(QGraphicsView):
         self._fit_mode = False
         self.scale(factor, factor)
         self._update_reticles()
+        self.view_changed.emit()
         self._hover_at_cursor()
+
+    def scrollContentsBy(self, dx, dy):
+        super().scrollContentsBy(dx, dy)
+        self.view_changed.emit()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
+        self.view_changed.emit()
         if self._fit_mode and self.data is not None:
             self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
         self._update_reticles()
@@ -389,6 +397,13 @@ class ImageViewer(QGraphicsView):
             self.scene().addItem(item)
         if items:
             self._overlays[name] = items
+
+    def set_sequence(self, paths, loader=None):
+        """Show a series of frames; returns the bar (slider, previous / next, play) for the window to place."""
+        from .image import sequence
+
+        self.sequence = sequence.SequenceBar(self, paths, loader or sequence.read_frame)
+        return self.sequence
 
     def overlay_names(self):
         return sorted(self._overlays)
