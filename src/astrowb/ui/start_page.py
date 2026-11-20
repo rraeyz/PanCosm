@@ -312,7 +312,7 @@ class StartPage(QWidget):
     CARDS = 6  # the most recent work shown
 
     def _arrange(self, columns):
-        """Two columns of blocks where they fit, one on a narrow window."""
+        """Three columns of blocks where they fit, else two, else one on a narrow window."""
         if columns != self.columns:
             self.columns = columns
             for i, block in enumerate(self.blocks):
@@ -342,7 +342,8 @@ class StartPage(QWidget):
         room = width - margins.left() - margins.right()
         # two columns once each is wide enough to read (descriptions wrap to a second line): ten blocks in one
         # column were taller than a laptop window at 125 % (1100 x 600)
-        self._arrange(2 if room >= 2 * self.MIN_COLUMN + self.grid.horizontalSpacing() else 1)
+        gap = self.grid.horizontalSpacing()
+        self._arrange(3 if room >= 3 * self.MIN_COLUMN + 2 * gap else 2 if room >= 2 * self.MIN_COLUMN + gap else 1)
         # the project buttons and Basic / Expert side by side when they fit, else one row under the other
         buttons = sum(b.sizeHint().width() for b in self.buttons) + 2 * self.project_row.spacing()
         self.project_row.setDirection(QHBoxLayout.LeftToRight if room >= buttons else QHBoxLayout.TopToBottom)
