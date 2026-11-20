@@ -58,7 +58,7 @@ def test_a_vsx_sized_table_in_seconds():
     start = time.perf_counter()
     found = tonight_events(t, SITE, "2026-11-13", min_alt=30.0, mag_range=(8, 15))
     took = time.perf_counter() - start
-    assert len(found) > 100 and took < 15
+    assert len(found) > 100 and took < 30  # ~5 s here (the plan); the loaded Linux runner took 16-18 s
     assert found[0]["score"] >= found[-1]["score"]
     assert all(8 <= e["mag"] <= 15 for e in found)
 
