@@ -15,7 +15,8 @@ from PySide6.QtWidgets import (
 )
 
 from .files import images_filter
-from .kit.widgets import PlotCanvas
+from .kit import tokens
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 BANDS = ("B", "V", "R", "I", "SG", "SR", "SI")
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
@@ -25,6 +26,9 @@ class CoefficientsDialog(QDialog):
     transform_requested = Signal(str, str, dict)  # image A, image B, params
 
     def __init__(self, light_curve=None, parent=None):
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
+
         super().__init__(parent)
         self.setWindowTitle(self.tr("Photometric coefficients"))
         self.resize(820, 640)
@@ -81,7 +85,8 @@ class CoefficientsDialog(QDialog):
         self.tr_result.setWordWrap(True)
         g.addWidget(self.tr_result, 3, 0, 1, 4)
         lay.addWidget(box)
-        self.plot = PlotCanvas(self)
+        self.plot = PlotView(parent=self)
+        lay.addWidget(PlotToolbar(self.plot, self))
         lay.addWidget(self.plot, 1)
 
     def compute_extinction(self):
@@ -102,16 +107,16 @@ class CoefficientsDialog(QDialog):
         )
         x = np.asarray(self.lc["airmass"], float)
         m = -2.5 * np.log10(np.clip(flux, 1e-9, None))
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        for j in range(m.shape[1]):
-            ax.plot(x, m[:, j] - np.nanmean(m[:, j]), ".", ms=3)
         xs = np.linspace(x.min(), x.max(), 2)
-        ax.plot(xs, k["k"] * (xs - x.mean()), "k-", lw=1)
-        ax.invert_yaxis()
-        ax.set_xlabel(self.tr("Airmass"))
-        ax.set_ylabel(self.tr("Instrumental magnitude − mean"))
-        self.plot.draw()
+        series = [
+            SeriesSpec(self.tr("Comparison star {n}").format(n=j + 1), x, m[:, j] - np.nanmean(m[:, j]), size=3)
+            for j in range(m.shape[1])
+        ]
+        series.append(
+            SeriesSpec(self.tr("Fit"), xs, k["k"] * (xs - x.mean()), kind="line", colour=tokens.role("suggested"))
+        )
+        axes = AxisSpec(self.tr("Airmass")), AxisSpec(self.tr("Instrumental magnitude − mean"), invert=True)
+        self.plot.set_figure(FigureSpec([PanelSpec(*axes, series)]))
         return k
 
     def set_image(self, i, path):
@@ -151,11 +156,12 @@ class CoefficientsDialog(QDialog):
         s = out["stars"]
         ca, cb, ia, ib = (np.asarray(s[k], float) for k in ("cat_a", "cat_b", "inst_a", "inst_b"))
         t = c[f"t{a}{b}".lower()]
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        ax.plot(ia - ib, ca - cb, "o", ms=4)
         xs = np.linspace(np.nanmin(ia - ib), np.nanmax(ia - ib), 2)
-        ax.plot(xs, t["value"] * xs + t["zero_point"], "k-", lw=1)
-        ax.set_xlabel(f"{a.lower()} − {b.lower()}")
-        ax.set_ylabel(f"{a} − {b}")
-        self.plot.draw()
+        series = [
+            SeriesSpec(self.tr("Stars"), ia - ib, ca - cb),
+            SeriesSpec(
+                self.tr("Fit"), xs, t["value"] * xs + t["zero_point"], kind="line", colour=tokens.role("suggested")
+            ),
+        ]
+        axes = AxisSpec(f"{a.lower()} − {b.lower()}"), AxisSpec(f"{a} − {b}")
+        self.plot.set_figure(FigureSpec([PanelSpec(*axes, series)]))

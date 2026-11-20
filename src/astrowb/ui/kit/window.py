@@ -308,9 +308,10 @@ class AreaWindow(Anatomy, QMainWindow):
 
     def _show_busy(self, text):
         """Empty plots of the window say what is running instead of "nothing to show" (UI-6)."""
+        from ..plot.view import PlotView
         from .widgets import PlotCanvas
 
-        for plot in self.findChildren(PlotCanvas):
+        for plot in [*self.findChildren(PlotCanvas), *self.findChildren(PlotView)]:
             plot.set_busy(self.tr("Working: {task}").format(task=text) if text else None)
 
     def cancel_tasks(self):

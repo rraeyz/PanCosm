@@ -12,13 +12,14 @@ million points pan smoothly without OpenGL. Times are drawn minus a round offset
 
 import numpy as np
 import pyqtgraph as pg
-from PySide6.QtCore import QPointF, Qt, Signal
+from PySide6.QtCore import QCoreApplication, QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QPainterPath, QPen
-from PySide6.QtWidgets import QGraphicsPathItem, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QGraphicsPathItem, QLabel, QVBoxLayout, QWidget
 
 from ..kit import tokens
 from . import spec as S
 
+translate = QCoreApplication.translate  # the texts of PlotCanvas ("PlotCanvas" context), so one translation serves both
 _SYMBOLS = {"o": "o", "s": "s", "^": "t1", "v": "t", "d": "d", "+": "+", "x": "x", "*": "star"}
 
 
@@ -125,6 +126,15 @@ class PlotView(QWidget):
         self.mode = "pan"  # "range", "lasso", "zoom" while their key is held, or set by the toolbar
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
+        # said over the empty plot (UI-6: no blank rectangle without words), as PlotCanvas does
+        self._empty_text = translate("PlotCanvas", "Nothing to show yet: the plot appears here once there are results")
+        self.failed = None
+        self.hint = QLabel(self._empty_text, self.graphics.viewport())
+        self.hint.setWordWrap(True)
+        self.hint.setAlignment(Qt.AlignCenter)
+        self.hint.setProperty("muted", True)
+        self.hint.setAttribute(Qt.WA_TransparentForMouseEvents)
+        self._update_hint()
         if figure is not None:
             self.set_figure(figure)
 
@@ -136,6 +146,62 @@ class PlotView(QWidget):
         )
 
     def set_figure(self, figure, keep=False):
+        """Draw the figure; a figure that cannot be drawn says why over the plot (and is logged)."""
+        try:
+            self._draw_figure(figure, keep)
+        except Exception as e:  # noqa: BLE001 (any failure while drawing: the window must go on)
+            import logging
+
+            logging.getLogger(__name__).warning("plot not drawn: %s", e, exc_info=True)
+            self.failed = str(e)
+            self.hint.setText(translate("PlotCanvas", "This plot could not be drawn: {error}").format(error=e))
+            self.hint.setGeometry(self.graphics.viewport().rect().adjusted(24, 24, -24, -24))
+            self.hint.show()
+            self.hint.raise_()
+            return
+        if self.failed:
+            self.failed = None
+            self.hint.setText(self._empty_text)
+        self._update_hint()
+
+    def set_empty_hint(self, text):
+        self._empty_text = text
+        self.hint.setText(text)
+        self._update_hint()
+
+    def set_busy(self, text):
+        """UI-6's loading state: while the window's task runs, an empty plot says so (None: back to its hint)."""
+        self.hint.setText(text or self._empty_text)
+
+    def is_empty(self):
+        return not any(len(s.x) for p in (self.figure.panels if self.figure else []) for s in p.series)
+
+    def _update_hint(self):
+        empty = self.is_empty()
+        self.hint.setVisible(empty)
+        if empty:
+            self.hint.setGeometry(self.graphics.viewport().rect().adjusted(24, 24, -24, -24))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._update_hint()
+
+    def copy_picture(self):
+        QApplication.clipboard().setPixmap(self.graphics.grab())
+
+    def copy_data(self):
+        """Tab-separated axis, series, x, y: pastes into a spreadsheet. Returns the number of rows."""
+        lines = ["axis\tseries\tx\ty"]
+        for a, panel in enumerate(self.figure.panels if self.figure else [], 1):
+            for s in panel.series:
+                if s.y is not None and s.kind not in ("vline", "hline"):
+                    lines += [
+                        f"{panel.y.title() or f'axis {a}'}\t{s.name}\t{x}\t{y}" for x, y in zip(s.x, s.y, strict=False)
+                    ]
+        QApplication.clipboard().setText("\n".join(lines))
+        return len(lines) - 1
+
+    def _draw_figure(self, figure, keep):
         if not keep:
             self.original = figure
         self.graphics.clear()
@@ -155,6 +221,9 @@ class PlotView(QWidget):
                 axis.setPen(self._muted)
                 axis.setTextPen(self._ink)
             plot.setLogMode(x=panel.x.scale == "log", y=panel.y.scale == "log")
+            vb.menu.addSeparator()  # beside pyqtgraph's own entries: the same two as every PlotCanvas
+            vb.menu.addAction(translate("PlotCanvas", "Copy picture"), self.copy_picture)
+            vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)
             vb.invertX(panel.x.invert)
             vb.invertY(panel.y.invert)
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
