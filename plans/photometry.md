@@ -413,8 +413,11 @@ Gaia stars within the radius that could make the depth are measured on every fra
 judged (a synthetic night: the dimming neighbour not cleared, the quiet one cleared); the Photometry window's
 "Nearby-eclipsing-binary check…" (depth from the transit fit) shows the table, a row shows its star. The box fit at the predicted window
 (2026-11-14: `neb.box`, from the transit fit's Tc and T14; the table's "Box at the transit" column; the dimming
-neighbour's 30 % found, the quiet one's box zero within its error). Left: the plots and folder, ExoFOP, the public
-TFOP night.
+neighbour's 30 % found, the quiet one's box zero within its error). (2026-11-20: the plots and folder: `neb.run` rows carry
+their time, normalised flux and window; `reports/neb_plots.write` puts `NEB/star_NN.png` (curve, depth needed
+dashed, predicted window shaded), `NEB/dmag_vs_rms.png` and `NEB/field_neb.png` (candidates numbered, coloured by
+disposition) beside NEB_check.csv, called from `tfop_files`. Test: `test_neb_plots_and_folder`.) Left: ExoFOP, the
+public TFOP night.
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
 - **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in

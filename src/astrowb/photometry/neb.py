@@ -108,5 +108,8 @@ def run(images, target_xy, comps_xy, field, depth_ppt, r_ap, r_in, r_out, radius
     names = [f"{k + 1}: G{g[i]:.1f} @ {sep[i]:.0f}″" for k, i in enumerate(near)]  # unique: twins share G and distance
     rows = check(np.asarray(lc["target_flux"], float)[ok], dict(zip(names, fluxes[ok].T, strict=True)), depth_ppt,
                  np.pi * r_ap**2, np.asarray(lc["jd_utc"], float)[ok], window)  # fmt: skip
-    return [r | {"x": xy[k][0], "y": xy[k][1], "gmag": float(g[i]), "separation": float(sep[i])}
+    t, flux = np.asarray(lc["jd_utc"], float)[ok], fluxes[ok]  # for the plots (reports/neb_plots); lists: the
+    # project log stores a step's outputs as JSON
+    return [r | {"x": xy[k][0], "y": xy[k][1], "gmag": float(g[i]), "separation": float(sep[i]), "time": t.tolist(),
+                 "flux": (flux[:, k] / np.median(flux[:, k])).tolist(), "window": window}
             for k, (r, i) in enumerate(zip(rows, near, strict=True))]  # fmt: skip
