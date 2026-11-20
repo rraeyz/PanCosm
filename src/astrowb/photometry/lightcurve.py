@@ -234,8 +234,8 @@ def light_curve(
         "target_flux_err": err[:, 0].tolist(),
         "comp_flux": cf.tolist(),
         "comp_flux_err": ce.tolist(),
-        "peak": [p for p, _ in peaks],  # brightest pixel in each star's aperture (target, comparisons, extra stars)
-        "flags": [f for _, f in peaks],  # per frame and star: C a spike (cosmic ray, hot pixel), E off the edge
+        "peak": [p[0] for p in peaks],  # brightest pixel in each star's aperture (target, comparisons, extra stars)
+        "flags": [p[1] for p in peaks],  # per frame and star: C a spike (cosmic ray, hot pixel), E off the edge
         "saturation": saturation,
         "exptime": [float(e) for e in exptimes],  # per frame: the cloud check compares counts per second
         "sky": [r[4].tolist() for r in rows],
@@ -257,8 +257,7 @@ def light_curve(
         out["apertures"] = chosen
     if (by := _by_aperture(opts, [r[9] if len(r) > 9 else None for r in rows], scint)) is not None:
         out["by_aperture"] = by  # item 10: choose the radius later, no measuring
-    if fwhms:
-        out["fwhm"] = fwhms
+    out |= _shape_series(fwhms, peaks)
     if len(extra_xy):
         out["extra_flux"] = flux[:, 1 + n_comp :].tolist()
         out["extra_flux_err"] = err[:, 1 + n_comp :].tolist()
@@ -470,14 +469,21 @@ def _pixel_file_rows(src, paths, stars0, radii, gain, box):
     return rows, [(p, [""] * len(p)) for p in peak.tolist()], [list(radii)] * len(paths), (bjd, utc)
 
 
+def _shape_series(fwhms, peaks):
+    """The per-frame FWHM and ellipticity of the stars, each only when measured (a pixel file's cadences have none)."""
+    e = [p[2] if len(p) > 2 else None for p in peaks]
+    return ({"fwhm": fwhms} if fwhms else {}) | ({"ellipticity": e} if any(v is not None for v in e) else {})
+
+
 def _peaks(data, xy, r_ap):
-    """(brightest pixel inside each aperture, for saturation warnings; the letters of what spoils it, flags.py)."""
+    """(brightest pixel inside each aperture, for saturation warnings; the letters of what spoils it, flags.py; the
+    median ellipticity of the stars)."""
     from photutils.aperture import ApertureStats, CircularAperture
 
-    from .flags import aperture_flags
+    from .flags import aperture_flags, ellipticity
 
     peak = np.atleast_1d(ApertureStats(np.asarray(data), CircularAperture(xy, r=r_ap)).max).tolist()  # no float copy
-    return peak, aperture_flags(data, xy, r_ap)
+    return peak, aperture_flags(data, xy, r_ap), ellipticity(data, xy, r_ap)
 
 
 def normalise(rel, mask=None):

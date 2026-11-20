@@ -316,6 +316,22 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
 - Report to the owner honestly, in Turkish, briefly: what was done, what was **not** tested, what the owner must
   try. Never call something working that was not tried.
 
+### R13 Manager and workers (owner, 2026-11-20)
+- **The main agent manages; worker subagents (a cheaper model) write the code.** The manager hands each worker a
+  whole plan item (not a sliver), reviews every diff, runs the tests, fixes what review finds, commits and pushes.
+  The review is never skipped: it found a real bug in almost every piece.
+- **The manager decides, the owner is not asked** (the owner gave full authority until the project ends). Where a
+  plan leaves a design open, the manager picks the option closest to the plan's own sketch, writes the choice into
+  the item's status line and goes on. Workers do not stop for such choices: their prompt carries the decisions,
+  and anything else unclear they settle with the smallest option consistent with the plan and name in their report.
+  Never delete a feature; keep it beside the new form when in doubt.
+- **Only what needs the owner** (a run on their machine, their data, a try of a released feature) goes into
+  `ISTEKLER.md`, in Turkish; the work goes on meanwhile.
+- **Several workers at once** on files that do not overlap (each prompt names the files to stay out of); shared
+  files (`tests/test_ui.py`, the `.ts` files) are committed hunk by hunk.
+- **CI is not waited on.** Work goes on locally while CI runs; commits are pushed in batches (each push cancels the
+  run before it). Only for a risky change whose CI result matters, or before a release, the push waits for green.
+
 ## 5. Roadmap
 
 Stages run in order. Inside a stage, areas run in the order listed; inside an area, steps run in the order of its

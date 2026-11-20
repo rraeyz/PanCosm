@@ -64,3 +64,34 @@ def aperture_flags(data, xy, r_ap):
                     flags += "C"
         out.append(flags)
     return out
+
+
+def ellipticity(data, xy, r_ap):
+    """Median e = 1 - b/a of the stars at xy on one frame (None when none is measurable): the sky-subtracted,
+    intensity-weighted second moments inside the aperture, as _spike takes them; a stamp only, never the frame."""
+    data = np.asarray(data)
+    ny, nx = data.shape
+    m, e = int(np.ceil(r_ap)) + 2, []
+    for x, y in np.asarray(xy, float).reshape(-1, 2):
+        if not (np.isfinite(x) and np.isfinite(y)):
+            continue
+        y0, y1, x0, x1 = max(int(y) - m, 0), min(int(y) + m + 1, ny), max(int(x) - m, 0), min(int(x) + m + 1, nx)
+        stamp = np.asarray(data[y0:y1, x0:x1], float)
+        if y1 <= y0 or x1 <= x0 or stamp.size < 49 or not np.isfinite(stamp).all():
+            continue
+        yy, xx = np.mgrid[y0:y1, x0:x1]
+        inside = (xx - x) ** 2 + (yy - y) ** 2 <= r_ap * r_ap
+        if inside.all() or not inside.any():
+            continue
+        w = np.clip(stamp - np.median(stamp[~inside]), 0, None) * inside
+        if w.sum() <= 0:
+            continue
+        cx, cy = (w * xx).sum() / w.sum(), (w * yy).sum() / w.sum()
+        dx, dy = xx - cx, yy - cy
+        cov = (
+            np.array([[(w * dx * dx).sum(), (w * dx * dy).sum()], [(w * dx * dy).sum(), (w * dy * dy).sum()]]) / w.sum()
+        )
+        lo, hi = np.linalg.eigvalsh(cov)
+        if hi > 0 and lo > 0:
+            e.append(1 - np.sqrt(lo / hi))
+    return float(np.median(e)) if e else None

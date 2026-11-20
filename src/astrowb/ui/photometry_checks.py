@@ -218,6 +218,7 @@ class ChecksTab(QWidget):
         comp = np.asarray(lc.get("comp_flux") or [], float)
         series = {translate("PhotometryChecks", "Comparison counts"): comp.reshape(n, -1).sum(1) if comp.size else None}
         names = {"sky": translate("PhotometryChecks", "Sky"), "fwhm": "FWHM", "x": "x", "y": "y",
+                 "ellipticity": translate("PhotometryChecks", "Ellipticity"),
                  "airmass": translate("PhotometryChecks", "Airmass")}  # fmt: skip
         for key, label in names.items():
             values = _series(lc, key)

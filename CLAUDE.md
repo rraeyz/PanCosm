@@ -13,9 +13,15 @@ This file is the short list every agent must follow.
 - Never fabricate data, results, constants or validations. If a format or a method is not written down in the repo
   (plan text, docstrings, code), stop and report instead of guessing.
 
+## Manager and workers (PLAN.md R13)
+- The main agent manages: it hands whole plan items to worker subagents with the design decisions taken, reviews,
+  tests, commits. It decides open design questions itself (the owner gave full authority); only what needs the
+  owner goes into `ISTEKLER.md`. CI is not waited on: work goes on locally, pushes go in batches.
+
 ## Subagents (code written for a reviewer)
 - Write code only; do not commit or push. Do one plan piece, the smallest complete change.
-- If the piece needs a design decision or data you don't have, stop and report what is unclear.
+- Do not stop for design choices: follow the decisions in your prompt; anything else unclear, take the smallest
+  option consistent with the plan and name it in your report. Stop only for missing data or a risk to a feature.
 - Run tests in one short foreground command each; do not leave background test runs behind.
 - Report briefly: files changed, what was done, test results, what was left out and why.
 

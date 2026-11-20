@@ -63,3 +63,17 @@ def test_elongated_core_is_not_a_spike():
             assert aperture_flags(img, [(cx, cy)], 5.0) == [""], (cx, cy, sx, sy)
             img[int(cy) - 3, int(cx) + 2] += 8000.0  # a cosmic ray in the same aperture
             assert aperture_flags(img, [(cx, cy)], 5.0) == ["C"], (cx, cy, sx, sy)
+
+
+def test_ellipticity_round_and_elongated():
+    from astrowb.photometry.flags import ellipticity
+
+    yy, xx = np.mgrid[:60, :60]
+    rng = np.random.default_rng(1)
+
+    def star(sx, sy):
+        return 1000 * np.exp(-((xx - 30) ** 2 / sx**2 + (yy - 30) ** 2 / sy**2) / 2) + 50 + rng.normal(0, 2, xx.shape)
+
+    assert ellipticity(star(2, 2), [[30, 30]], 10) < 0.05
+    assert abs(ellipticity(star(1.5, 3), [[30, 30]], 10) - 0.5) < 0.05
+    assert ellipticity(star(2, 2), [[np.nan, 5]], 10) is None
