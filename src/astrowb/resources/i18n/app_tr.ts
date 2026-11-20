@@ -11338,7 +11338,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/photometry_choices.py" line="30"/>
         <source>Target: {name}, the star the files&apos; OBJECT names; its catalogue position gives the barycentric times.</source>
-        <translation>Hedef: {name}, dosyalardaki OBJECT'in adını verdiği yıldız; katalog konumu barimerkez zamanları verir.</translation>
+        <translation>Hedef: {name}, dosyalardaki OBJECT&apos;in adını verdiği yıldız; katalog konumu barisentrik zamanları verir.</translation>
     </message>
 </context>
 <context>
@@ -15594,6 +15594,24 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/kit/sections.py" line="29"/>
         <source>Help on this part</source>
         <translation>Bu bölümle ilgili yardım</translation>
+    </message>
+</context>
+<context>
+    <name>Sequence</name>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="51"/>
+        <source>Play</source>
+        <translation>Oynat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="56"/>
+        <source> frames/s</source>
+        <translation> kare/sn</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image/sequence.py" line="57"/>
+        <source>Same levels for all frames</source>
+        <translation>Tüm karelerde aynı düzeyler</translation>
     </message>
 </context>
 <context>

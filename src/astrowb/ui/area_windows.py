@@ -289,7 +289,7 @@ def _stage_parts(page):
             page.show_what,
             "photometry-deleting-bad-points-spacing",
         ),
-        ("timing", translate("MainWindow", "Timing"), page.minimum_button, "photometry-time-minimum"),
+        ("timing", translate("MainWindow", "Timing and fit"), page.minimum_button, "photometry-time-minimum"),
         ("report", translate("MainWindow", "Report"), page.export_button, "photometry-exporting"),
     )
     from .photometry_field import field_stage
@@ -350,6 +350,9 @@ def _photometry_stages(win, page):
     from .photometry_transit import attach
 
     attach(win.parent(), page)  # PHO-26: the exact transit under Time of minimum (the window's parent: main)
+    from .photometry_choices import attach as list_choices
+
+    list_choices(win, page)  # every automatic choice with its reason, in its stage
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)
