@@ -103,6 +103,30 @@ PROFILE_FIELDS = {
         (0, 100000, 0),
         "mm",
     ),
+    ("spectrograph", "kind"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Spectrograph"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "Kind, e.g. long-slit, echelle, slitless"),
+        "text",
+        "",
+    ),
+    ("spectrograph", "slit_width"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Slit width"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "On the sky (0: unknown)"),
+        (0, 100, 2),
+        "″",
+    ),
+    ("spectrograph", "grating"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Grating"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "Lines per millimetre (0: unknown)"),
+        (0, 10000, 0),
+        "l/mm",
+    ),
+    ("spectrograph", "resolving_power"): (
+        QT_TRANSLATE_NOOP("SettingsWindow", "Resolving power"),
+        QT_TRANSLATE_NOOP("SettingsWindow", "λ / Δλ (0: unknown)"),
+        (0, 1000000, 0),
+        "",
+    ),
     ("observer", "name"): (
         QT_TRANSLATE_NOOP("SettingsWindow", "Observer"),
         QT_TRANSLATE_NOOP("SettingsWindow", "Your name, in reports and FITS headers"),

@@ -119,6 +119,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the compiled routines are missing from this installation"),
     # core/profiles.py
     QT_TRANSLATE_NOOP("Messages", "a profile named {name} exists already"),
+    QT_TRANSLATE_NOOP("Messages", "{file} is not a profile file"),
+    QT_TRANSLATE_NOOP("Messages", "{file} was saved by a newer version of the application"),
     QT_TRANSLATE_NOOP("Messages", "the active profile cannot be removed: switch to another first"),
     # core/table.py
     QT_TRANSLATE_NOOP("Messages", "no column {name} in the table"),

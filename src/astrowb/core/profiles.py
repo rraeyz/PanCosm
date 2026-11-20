@@ -26,7 +26,18 @@ DEFAULTS = {
         "pixel_size": 0.0,
     },  # fmt: skip
     "optics": {"aperture": 0.0, "focal_length": 0.0},  # mm; with a reducer: the focal length with it
-    "filters": {"names": {}},  # a header's filter name -> its AAVSO band, where the guess below is wrong
+    # names: a header's filter name -> its AAVSO band, where the guess below is wrong; zero_points: the same name ->
+    # magnitude zero point; focus_offsets: the same name -> focuser steps from the reference filter
+    "filters": {"names": {}, "zero_points": {}, "focus_offsets": {}},
+    # kind: "long-slit", "echelle", ...; dispersion_axis: "x" or "y"; slit_width ″; grating lines/mm; lamps: text
+    "spectrograph": {
+        "kind": "",
+        "dispersion_axis": "x",
+        "slit_width": 0.0,
+        "grating": 0.0,
+        "resolving_power": 0.0,
+        "lamps": "",
+    },  # fmt: skip
     "observer": {"name": "", "aavso_code": "", "mpc_code": "", "observers": "", "catalog": "Gaia3"},
 }
 
@@ -86,6 +97,45 @@ def remove(settings, name):
     stored = dict(settings.get("profiles") or {})
     stored.pop(name, None)
     settings.set("profiles", stored)
+
+
+FILE_VERSION = 1
+
+
+def export_profile(settings, path):
+    """The active profile written as a JSON file another computer can import."""
+    import json
+    from pathlib import Path
+
+    doc = {"astrowb_profile": FILE_VERSION} | {k: v for k, v in _profile(settings).items()}
+    Path(path).write_text(json.dumps(doc, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+def import_profile(settings, path, name=None):
+    """A profile file read into the stored profiles under `name` (default: the file's own); it is not made active.
+    Sections and fields this version does not know are dropped. Returns the name."""
+    import json
+    from pathlib import Path
+
+    from .errors import AppError
+
+    try:
+        doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        doc = None
+    if not isinstance(doc, dict) or "astrowb_profile" not in doc:
+        raise AppError("{file} is not a profile file", file=Path(path).name)
+    if int(doc["astrowb_profile"]) > FILE_VERSION:
+        raise AppError("{file} was saved by a newer version of the application", file=Path(path).name)
+    name = (name or doc.get("name") or Path(path).stem).strip()
+    if name in names(settings):
+        raise AppError("a profile named {name} exists already", name=name)
+    chosen = {"name": name}
+    for part, fields in DEFAULTS.items():
+        if isinstance(doc.get(part), dict):
+            chosen[part] = {k: v for k, v in doc[part].items() if k in fields}
+    settings.set("profiles", {**(settings.get("profiles") or {}), name: chosen})
+    return name
 
 
 def has(settings, part):
