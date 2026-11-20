@@ -152,7 +152,7 @@ DirectX 12 on Windows) and falls back to the processor when there is none. Compa
 The first window asks for the **language**, where computations run (**Automatic** is recommended: the
 graphics card when it is faster) and the **look** (dark or light); all can be changed later in *Settings*.
 A one-minute **quick tour** shows the pages, the Tasks panel and the menus. The **Guide** page
-(*Help → Training guide*, F1) is the full manual: twelve searchable chapters, from *Getting started* to
+(*Help → Training guide*, F1) is the full manual: fourteen searchable chapters, from *Getting started* to
 *Troubleshooting*, in every interface language.
 
 ---
@@ -162,7 +162,9 @@ A one-minute **quick tour** shows the pages, the Tasks panel and the menus. The 
 The sidebar lists the pages in the order of an observing night. Long jobs run in the background in separate
 processes, with progress in the **Tasks** panel: the window never freezes, and a crash in one job never takes
 the application down. Right-click any page in the sidebar to show it as a **panel beside the image**; every
-border can be dragged.
+border can be dragged. Each area opens in its own window with a **rail of stages** on the left (for example
+Data, Star, Planets, Model, Fit, Uncertainty, Results): one stage's controls are shown at a time, the main view
+shows the data and the result, and the "?" of a stage opens its part of the guide.
 
 ### Plan
 Your site, the date and the targets (SIMBAD by name, cached for offline use, or coordinates). Altitude of
@@ -198,12 +200,17 @@ dithered frames onto a finer grid.
   or a line (profile, length and angle).
 - **Overlays:** contours, a coordinate grid, Gaia DR3 and **VSX** stars, known **asteroids and comets**
   (SkyBoT) at the exposure time, DS9 regions, and AAVSO-style **finder charts**.
-- **Plate solving** with ASTAP or astrometry.net; **asteroid and comet astrometry** with an MPC (ADES) report;
-  **colour images** from three filters.
+- **Plate solving** with ASTAP or astrometry.net; **colour images** from three filters.
 - **Processing** that carries the WCS along: pixel math between images, flips, rotations, resampling, binning,
   cropping, Gaussian / median / unsharp / kernel filters, background removal, Richardson–Lucy deconvolution,
   DDP, histogram matching — on one image or on **every open image** at once.
 - Header editing (into a copy), multi-extension FITS, and batch conversion to PNG / JPEG / TIFF.
+
+### Astrometry
+Positions of an asteroid or comet on a series of plate-solved frames, in stages: choose the frames, solve those
+that have no solution, click the object on the first and the last frame, measure every frame (residuals from a
+straight-line motion show bad points), and write the **MPC report (ADES)** with your observatory code and the
+star catalogue of the solutions.
 
 ### Photometry
 Click the target and comparison stars, or let PanCosm suggest comparison stars (similar brightness,
@@ -233,6 +240,12 @@ field and marks the candidates. **Polarimetry** for dual-beam and single-beam da
 - **Stellar parameters** (Teff, log g, [Fe/H], v sin i) by fitting PHOENIX synthetic spectra, relative to the Sun.
 - **Orbits** of single- and double-lined binaries, and **IFU data cubes** (line maps, spaxel spectra).
 
+### Exoplanets
+An exact transit model (limb darkening, period, mid-transit, Rp/R★, a/R★, impact parameter) fitted to a saved
+light curve, with detrending against airmass, FWHM, sky or position, a correction for red noise and MCMC
+errors. Mid-transit time, depth, durations, stellar density and quality of fit are listed, and the upload files
+for **ExoClock** and the **Exoplanet Transit Database** are written.
+
 ### Orbits & models
 An eclipsing-binary / transit light-curve model fitted to your data (inclination, radii, surface-brightness
 ratio, third light, eccentricity) with MCMC errors; with a double-lined orbit, **absolute dimensions**
@@ -259,8 +272,8 @@ sequence from dusk to dawn → Calibrate the folder → Photometry: click the st
 *Measure light curve* → *Time of minimum* → paste it with your earlier minima on the O-C page. The *Eclipsing
 binary night* automation does everything after the observation in one run.
 
-**An exoplanet transit.** The same, with the trapezoid fit (mid-transit time, depth, duration), then the model
-fit on Orbits & models.
+**An exoplanet transit.** The same, with the trapezoid fit (mid-transit time, depth, duration), then the exact
+transit fit in the Exoplanets window and its ExoClock / ETD files (or the model fit on Orbits & models).
 
 **A double-lined spectroscopic binary.** Reduce each spectrum → telluric correction → radial velocities with
 TODCOR or the broadening function → *Fit orbit* → with the light curve: masses and radii.
