@@ -87,6 +87,7 @@ def test_quick_tour(qtbot, tmp_path):
 
 def test_full_tour_keeps_the_old_stops(qtbot, tmp_path):
     """The 16-stop tour stays beside the six-stop quick one (Help → Full tour)."""
+    from astrowb.ui import tour_full
     from astrowb.ui.main_window import MainWindow
 
     win = MainWindow(Settings(tmp_path))
@@ -94,7 +95,7 @@ def test_full_tour_keeps_the_old_stops(qtbot, tmp_path):
     win.resize(1200, 800)
     win.show()
     try:
-        tour = win.start_full_tour()
+        tour = tour_full.start_full(win)
         assert len(tour.steps) == 16 and tour._rect() is None  # the welcome has no highlight
         for _ in tour.steps[:-1]:
             assert tour.bubble.geometry().intersects(tour.rect()) and tour.text.text()
