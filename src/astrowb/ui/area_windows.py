@@ -353,6 +353,11 @@ def _photometry_stages(win, page):
     from .photometry_choices import attach as list_choices
 
     list_choices(win, page)  # every automatic choice with its reason, in its stage
+    from . import photometry_images, photometry_multi, photometry_name
+
+    photometry_images.attach(win, page)  # the Images stage's summary: frames, filters, calibrated?, bad frames
+    photometry_multi.attach(page)  # Multi-plot as a results tab
+    photometry_name.attach(win, win.parent(), page)  # the Field stage's target by name
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)
