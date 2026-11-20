@@ -302,7 +302,10 @@ class PlotView(QWidget):
         else:  # vline, hline: one infinite line per value
             angle = 90 if s.kind == "vline" else 0
             entry["item"] = pg.ItemGroup()
-            entry["lines"] = [pg.InfiniteLine(v, angle=angle, pen=pen) for v in (x if s.kind == "vline" else s.x)]
+            entry["lines"] = [
+                pg.InfiniteLine(self._line_pos(vb, v, s.kind == "vline"), angle=angle, pen=pen)
+                for v in (x if s.kind == "vline" else s.x)
+            ]
             for line in entry["lines"]:
                 plot.addItem(line)
         entry["item"].setZValue(s.z)
@@ -315,6 +318,11 @@ class PlotView(QWidget):
             legend.addItem(entry["item"], s.name)
         entry["item"].setVisible(s.visible)
         return entry
+
+    @staticmethod
+    def _line_pos(vb, value, vertical):
+        """Where an infinite line sits: pyqtgraph does not log-map lines on a log axis."""
+        return np.log10(max(value, 1e-300)) if vb.state["logMode"][0 if vertical else 1] else value
 
     def _view_rect(self, vb):
         (x0, x1), (y0, y1) = vb.viewRange()
@@ -344,7 +352,11 @@ class PlotView(QWidget):
             else:
                 index = np.flatnonzero(ok)[S.decimate_points(x[ok], y[ok], x0, x1, y0, y1, width, height)]
             e["shown"] = index
-            e["item"].setData(x[index], y[index], data=e["ids"][index])
+            lx, ly = (
+                np.log10(np.clip(v, 1e-300, None)) if m else v
+                for v, m in zip((x[index], y[index]), vb.state["logMode"], strict=True)
+            )
+            e["item"].setData(lx, ly, data=e["ids"][index])  # a scatter item has no log mode of its own
             if e["errors"] is not None:
                 small = len(index) <= S.MAX_ERRORBARS
                 err = {}
@@ -367,6 +379,14 @@ class PlotView(QWidget):
                 e["vb"].addItem(ring)
             index = np.flatnonzero(np.isin(e["ids"], np.asarray(ids)) & e["ok"])
             ring.setData(e["x"][index], e["y"][index])
+
+    def move_vline(self, name, value):
+        """Put the vline series `name` at `value` without redrawing the figure (a draggable level)."""
+        for e in self.items:
+            if e["spec"].name == name and e["spec"].kind == "vline":
+                e["spec"].x = np.array([value])
+                for line in e["lines"]:
+                    line.setValue(self._line_pos(e["vb"], value - self.offsets[id(e["vb"])], True))
 
     def set_visible(self, name, visible):
         for e in self.items:

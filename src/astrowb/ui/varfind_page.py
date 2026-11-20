@@ -2,7 +2,7 @@
 magnitude-scatter diagram with the candidates marked, and any star's light curve one click away."""
 
 import numpy as np
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QDoubleSpinBox,
@@ -19,8 +19,10 @@ from PySide6.QtWidgets import (
 )
 
 from .files import images_filter
+from .kit import tokens
 from .kit.help import help_line
-from .kit.widgets import PlotCanvas
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 
 FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 
@@ -114,9 +116,9 @@ class VarFindPage(QWidget):
         self.send.setToolTip(self.tr("The chosen star's light curve goes to the Period search tab"))
         lay.addWidget(self.send)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        self.plot.canvas.mpl_connect("button_press_event", self._clicked)
-        split.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        self.plot.point_clicked.connect(self._clicked)
+        split.addWidget(box)
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -170,36 +172,31 @@ class VarFindPage(QWidget):
         v = self.result["variability"]
         mean, rms = np.asarray(v["mean"]), np.asarray(v["rms"])
         cand = np.asarray(v["candidate"])
-        self.plot.figure.clear()
-        ax1, ax2 = self.plot.figure.subplots(2, 1)
-        ax1.plot(mean, rms, ".", ms=4, color="C0")
-        ax1.plot(mean[cand], rms[cand], "o", ms=6, mfc="none", color="C3")
         order = np.argsort(mean)
-        ax1.plot(mean[order], np.asarray(v["typical"])[order], lw=0.8, color="C1")
-        ax1.set_yscale("log")
-        ax1.set_xlabel(self.tr("Instrumental magnitude"))
-        ax1.set_ylabel(self.tr("rms (mag)"))
-        self._scatter_ax = ax1
+        halo, red = tokens.role("comparison"), tokens.role("target")
+        stars = [
+            SeriesSpec(self.tr("stars"), mean, rms, size=5, pickable=True),
+            # a ring round each candidate (a halo behind the dot: the plot has no hollow symbols)
+            SeriesSpec(self.tr("candidates"), mean[cand], rms[cand], size=10, alpha=0.4, colour=halo),
+            SeriesSpec(self.tr("typical rms"), mean[order], np.asarray(v["typical"])[order], kind="line", width=0.8),
+        ]
+        curve, x_label, y_label = [], "", ""
         if j is not None:
-            ax1.plot(mean[j], rms[j], "*", ms=12, color="C2")
+            stars.append(SeriesSpec(self.tr("chosen star"), [mean[j]], [rms[j]], symbol="*", size=14, colour=red))
             t = np.asarray(self.result["field"]["time"])
             m = np.asarray(v["corrected"])[:, j]
-            ax2.plot(t - np.floor(t.min()), m, ".", ms=3)
-            ax2.invert_yaxis()
-            ax2.set_xlabel(self.tr("JD − {d:.0f}").format(d=np.floor(t.min())))
-            ax2.set_ylabel(self.tr("Magnitude"))
+            curve = [SeriesSpec(self.tr("Magnitude"), t - np.floor(t.min()), m, size=4)]
+            x_label, y_label = self.tr("JD − {d:.0f}").format(d=np.floor(t.min())), self.tr("Magnitude")
+        top = PanelSpec(AxisSpec(self.tr("Instrumental magnitude")), AxisSpec(self.tr("rms (mag)"), scale="log"), stars)
+        self.plot.set_figure(
+            FigureSpec([top, PanelSpec(AxisSpec(x_label), AxisSpec(y_label, invert=True), curve)], shared_x=False)
+        )
         self.send.setEnabled(j is not None)
-        self.plot.draw()
 
-    def _clicked(self, event):
-        if self.result is None or event.inaxes is not getattr(self, "_scatter_ax", None) or event.ydata is None:
-            return
-        v = self.result["variability"]
-        mean, rms = np.asarray(v["mean"]), np.log10(np.maximum(np.asarray(v["rms"]), 1e-6))
-        (x0, x1), (y0, y1) = event.inaxes.get_xlim(), np.log10(np.maximum(event.inaxes.get_ylim(), 1e-6))
-        d = np.hypot((mean - event.xdata) / (x1 - x0), (rms - np.log10(max(event.ydata, 1e-6))) / (y1 - y0))
-        d[~np.isfinite(d)] = np.inf
-        self.show_star(int(np.argmin(d)))
+    def _clicked(self, name, j):
+        """A click on a star of the scatter shows its light curve (after this click: the plot is redrawn)."""
+        if self.result is not None and name == self.tr("stars"):
+            QTimer.singleShot(0, lambda: self.show_star(int(j)))
 
     def _send(self):
         self.guide.set_state(3, "done")

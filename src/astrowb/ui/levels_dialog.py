@@ -14,18 +14,22 @@ from PySide6.QtWidgets import (
 )
 
 from ..display import COLOUR_MAPS, display_limits
+from .kit import tokens
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 
 
 class LevelsDialog(QDialog):
     def __init__(self, viewer, parent=None):
-        from .kit.widgets import PlotCanvas
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
 
         super().__init__(parent)
         self.viewer = viewer
         self.setWindowTitle(self.tr("Display levels and colours"))
         self.resize(560, 460)
         lay = QVBoxLayout(self)
-        self.plot = PlotCanvas(self)
+        self.plot = PlotView(parent=self)
+        lay.addWidget(PlotToolbar(self.plot, self))
         lay.addWidget(self.plot, 1)
         grid = QGridLayout()
         self.black, self.white = QDoubleSpinBox(self), QDoubleSpinBox(self)
@@ -84,7 +88,6 @@ class LevelsDialog(QDialog):
         )
         grid.addWidget(self.invert, 2, 2)
         lay.addLayout(grid)
-        self._lines = []
         self.refresh()
 
     def refresh(self):
@@ -98,14 +101,21 @@ class LevelsDialog(QDialog):
         lo, hi = self.viewer.limits or display_limits(data, self.viewer.interval)
         a, b = np.percentile(sample, (0.05, 99.95)) if sample.size else (0.0, 1.0)
         a, b = min(a, lo), max(b, hi)
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.hist(sample, bins=256, range=(a, b if b > a else a + 1), color="#8e8e93")
-        ax.set_yscale("log")
-        ax.set_xlabel(self.tr("Pixel value"))
-        ax.set_ylabel(self.tr("Number of pixels"))
-        self._lines = [ax.axvline(v, color=c, lw=1.2) for v, c in ((lo, "#3e63dd"), (hi, "#e5484d"))]
-        self.plot.draw()
+        counts, edges = np.histogram(sample, bins=256, range=(a, b if b > a else a + 1))
+        # shortcut: empty bins sit at 0.5 so the log axis can draw them; exact counts are in the data copy otherwise
+        series = [
+            SeriesSpec(
+                self.tr("Number of pixels"),
+                edges[:-1],
+                np.maximum(counts, 0.5),
+                kind="steps",
+                colour=tokens.role("rejected"),
+            ),
+            SeriesSpec(self.tr("Black level"), [lo], kind="vline", colour=tokens.role("check")),
+            SeriesSpec(self.tr("White level"), [hi], kind="vline", colour=tokens.role("saturated")),
+        ]
+        axes = AxisSpec(self.tr("Pixel value")), AxisSpec(self.tr("Number of pixels"), scale="log")
+        self.plot.set_figure(FigureSpec([PanelSpec(*axes, series)]))
         for w, v in ((self.black, lo), (self.white, hi)):
             w.blockSignals(True)
             w.setValue(v)
@@ -119,6 +129,5 @@ class LevelsDialog(QDialog):
         lo, hi = self.black.value(), self.white.value()
         limits = (lo, hi) if hi > lo else None
         self.viewer.set_levels(limits, self.cmap.currentData(), self.invert.isChecked())
-        for line, v in zip(self._lines, (lo, hi), strict=False):
-            line.set_xdata([v, v])
-        self.plot.draw()
+        self.plot.move_vline(self.tr("Black level"), lo)
+        self.plot.move_vline(self.tr("White level"), hi)

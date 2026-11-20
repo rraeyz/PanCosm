@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import QEvent, Qt, Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QDoubleSpinBox,
@@ -18,8 +18,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .kit.widgets import PlotCanvas, StepGuide
+from .kit import tokens
+from .kit.widgets import StepGuide
 from .messages import translate
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .undo import Undoable
 
 
@@ -223,9 +225,7 @@ class PeriodPage(Undoable, QWidget):
         lay.addWidget(self.result)
         lay.addStretch(1)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        self.plot.canvas.mpl_connect("button_press_event", self._clicked)
-        split.addWidget(self.plot)
+        split.addWidget(self._plot_box())
         split.setSizes([380, 800])
         QVBoxLayout(self).addWidget(split)
         self.original, self.magnitudes = None, False
@@ -312,20 +312,28 @@ class PeriodPage(Undoable, QWidget):
             t, y, e = self.original
             self.set_light_curve(t, y, self.label, True, e)
 
-    def _clicked(self, event):
-        if getattr(event.inaxes, "_kind", "") == "periodogram" and event.xdata and not self.delete_mode.isChecked():
-            return self.fold_at(event.xdata)  # UI-16.4: a click on a peak folds at once
-        if not (self.delete_mode.isChecked() and self.time and event.inaxes is not None and event.xdata is not None):
-            return
-        ax = event.inaxes
-        t, y = np.asarray(self.time), np.asarray(self.flux)
-        x = t - ax._t_ref if getattr(ax, "_kind", "") == "time" else fold_phase(t, self.best, self._t0())
-        if getattr(ax, "_kind", "") not in ("time", "phase"):
-            return
-        (x0, x1), (y0, y1) = ax.get_xlim(), ax.get_ylim()
-        d = np.hypot((x - event.xdata) / (x1 - x0), (y - event.ydata) / (y1 - y0))
-        i = int(np.argmin(d))
-        if d[i] < 0.02:
+    def _plot_box(self):
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
+
+        box = QWidget(self)
+        lay = QVBoxLayout(box)
+        lay.setContentsMargins(0, 0, 0, 0)
+        self.plot = PlotView(parent=self)
+        self.plot.point_clicked.connect(self._picked)
+        self.plot.installEventFilter(self)  # ← → step to the neighbouring peaks
+        lay.addWidget(PlotToolbar(self.plot, self))
+        lay.addWidget(self.plot, 1)
+        return box
+
+    def _picked(self, name, i):
+        """A click on a point: on the periodogram it folds at that peak (UI-16.4); in delete mode on the data it
+        removes the point."""
+        if name == self.tr("Power"):
+            if not self.delete_mode.isChecked():
+                self.fold_at(self.periodogram["periods"][i])
+        elif self.delete_mode.isChecked() and self.time:
+            t, y = np.asarray(self.time), np.asarray(self.flux)
             e = None if self.err is None else np.delete(np.asarray(self.err), i)
             self.edit(
                 self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted"), e
@@ -342,9 +350,13 @@ class PeriodPage(Undoable, QWidget):
         self._plot_phase()
         return self.best
 
-    def _key(self, event):
-        if event.key in ("left", "right") and self.best and getattr(self, "periodogram", None):
-            self.step_peak(1 if event.key == "right" else -1)
+    def eventFilter(self, obj, event):
+        keys = (Qt.Key_Left, Qt.Key_Right)
+        if obj is self.plot and event.type() == QEvent.KeyPress and event.key() in keys and self.best:
+            if getattr(self, "periodogram", None):
+                self.step_peak(1 if event.key() == Qt.Key_Right else -1)
+                return True
+        return super().eventFilter(obj, event)
 
     def step_peak(self, direction):
         """Fold at the next peak of the periodogram towards longer (+1) or shorter (−1) periods."""
@@ -366,23 +378,33 @@ class PeriodPage(Undoable, QWidget):
         t, f = np.asarray(self.time), np.asarray(self.flux)
         return t[np.argmax(f) if self.magnitudes else np.argmin(f)]
 
+    def _data_series(self, x, alpha, size):
+        """The light curve's points against x, with error bars when there are errors; clickable (delete mode)."""
+        return SeriesSpec(
+            self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"),
+            x,
+            self.flux,
+            yerr=self.err,
+            alpha=alpha,
+            size=size,
+            pickable=True,
+        )
+
+    def _draw(self, panels):
+        """panels: [(x axis, series, y axis or None for the flux axis)]; magnitudes run upwards-down."""
+        flux_axis = AxisSpec(
+            self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"), invert=self.magnitudes
+        )
+        figure = FigureSpec([PanelSpec(x, y or flux_axis, series) for x, series, y in panels], shared_x=False)
+        self.plot.set_figure(figure)
+
     def _plot_light_curve(self):
         if self.best:
             return self._plot_phase()
-        self.plot.figure.clear()
-        ax = self.plot.figure.subplots()
-        ax._kind = "time"
         t = np.asarray(self.time)
-        ax._t_ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
-        if self.err is not None:
-            ax.errorbar(t - ax._t_ref, self.flux, self.err, fmt=".", ms=2, lw=0.5, elinewidth=0.5, alpha=0.8)
-        else:
-            ax.plot(t - ax._t_ref, self.flux, ".", ms=2)
-        ax.set_xlabel(self.tr("Time − {t:.0f} (d)").format(t=ax._t_ref) if ax._t_ref else self.tr("Time (d)"))
-        ax.set_ylabel(self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"))
-        if self.magnitudes:
-            ax.invert_yaxis()
-        self.plot.draw()
+        ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
+        label = self.tr("Time − {t:.0f} (d)").format(t=ref) if ref else self.tr("Time (d)")
+        self._draw([(AxisSpec(label), [self._data_series(t - ref, 0.8, 4)], None)])
 
     def _load(self, path=None):
         """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
@@ -482,34 +504,29 @@ class PeriodPage(Undoable, QWidget):
 
     def _plot_phase(self):
         out = self.periodogram
-        self.plot.figure.clear()
-        ax, ax2 = self.plot.figure.subplots(2, 1)
-        ax._kind = "periodogram"
-        if not getattr(self, "_keys_on", False):  # ← → step to the neighbouring peaks (once a periodogram is shown)
-            self._keys_on = self.plot.canvas.mpl_connect("key_press_event", self._key) is not None
-        ax.plot(out["periods"], out["power"], lw=0.7)
-        ax.axvline(self.best, color="r", lw=0.8)
-        for k in (0.5, 2.0):  # the aliases an eclipsing binary or a pulsator is most often mistaken for
-            ax.axvline(self.best * k, color="r", lw=0.6, ls=":", alpha=0.6)
-        ax.set_xscale("log")
-        ax.set_xlabel(self.tr("Period (d)"))
-        ax.set_ylabel(self.tr("Power"))
         t, f = np.asarray(self.time), np.asarray(self.flux)
         ph = fold_phase(t, self.best, self._t0())
-        ax2._kind = "phase"
-        alpha = 0.5 if self.phase_bins.value() else 1
-        if self.err is not None:
-            ax2.errorbar(ph, f, self.err, fmt=".", ms=2, lw=0.5, elinewidth=0.5, alpha=alpha)
-        else:
-            ax2.plot(ph, f, ".", ms=2, alpha=alpha)
+        power, red = self.tr("Power"), tokens.role("saturated")
+        periods = np.asarray(out["periods"], float)
+        curve = [  # the line, and the same points invisible but clickable: a click folds at that peak
+            SeriesSpec(power, periods, out["power"], kind="line", width=0.7),
+            SeriesSpec(power, periods, out["power"], size=8, alpha=0, pickable=True),
+            SeriesSpec(self.tr("best period"), [self.best], kind="vline", colour=red),
+            # the aliases an eclipsing binary or a pulsator is most often mistaken for
+            SeriesSpec(self.tr("aliases"), [self.best * 0.5, self.best * 2.0], kind="vline", colour=red, alpha=0.6),
+        ]
+        folded = [self._data_series(ph, 0.5 if self.phase_bins.value() else 1, 4)]
         if self.phase_bins.value():
             c, mean, err, _ = fourier_edit().bin_phase(ph, f, self.phase_bins.value())
-            ax2.errorbar(c, mean, err, fmt="o", ms=3, color="C3", lw=0.8)
-        ax2.set_xlabel(self.tr("Phase"))
-        ax2.set_ylabel(self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"))
-        if self.magnitudes:
-            ax2.invert_yaxis()
-        self.plot.draw()
+            folded.append(
+                SeriesSpec(self.tr("binned mean"), c, mean, yerr=err, size=6, colour=tokens.role("comparison"))
+            )
+        self._draw(
+            [
+                (AxisSpec(self.tr("Period (d)"), scale="log"), curve, AxisSpec(power)),
+                (AxisSpec(self.tr("Phase")), folded, None),
+            ]
+        )
 
 
 def fold_phase(t, period, t0):

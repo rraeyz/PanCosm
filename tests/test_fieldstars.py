@@ -112,7 +112,11 @@ def test_varfind_tab(qtbot, tmp_path):
     out = varfind_step({"images": paths}, got[0], Ctx())
     page.show_result(out)
     assert page.table.rowCount() == 1 and page.star is not None
+    panels = page.plot.figure.panels
+    assert panels[0].y.scale == "log" and panels[1].series and page.plot.failed is None
     sent = []
     page.light_curve_chosen.connect(lambda t, f, label: sent.append(f))
     page.send.click()
     assert len(sent[0]) == 10 and abs(max(sent[0]) / min(sent[0]) - 10**0.12) < 0.05
+    page._clicked("stars", 0)  # a click on a star of the scatter shows its light curve
+    qtbot.waitUntil(lambda: page.star == 0, timeout=2000)

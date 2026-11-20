@@ -141,9 +141,11 @@ def add_mcmc_box(page, layout):
 
 def details_dialog(page, lc, out):
     """The fitted parameters with their errors, and the curve with the model and the residuals below it."""
+    from .kit import tokens
     from .kit.dialogs import Dialog
     from .kit.table_view import DataTable
-    from .kit.widgets import PlotCanvas
+    from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+    from .plot.toolbar import plot_box
 
     d = Dialog(translate("PhotometryTransit", "Transit fit"), page, getattr(page, "settings", None), "transit_fit")
     table = DataTable(d)
@@ -153,21 +155,28 @@ def details_dialog(page, lc, out):
     rows += [[k, out[k], ""] for k in ("chi2r", "bic", "rms_ppt", "beta")]
     table.set_data([translate("PhotometryTransit", "Parameter"), translate("PhotometryTransit", "Value"),
                     translate("PhotometryTransit", "Error")], rows)  # fmt: skip
-    plot = PlotCanvas(d)
+    box, plot = plot_box(d)
     t = np.asarray(lc["time"], float)
     f, m = np.asarray(lc["rel_flux"], float), np.asarray(out["model"], float)
     base = v["baseline"]
-    top, bottom = plot.figure.subplots(2, 1, sharex=True, height_ratios=(3, 1))
-    top.plot(t - t[0], f / base, ".", ms=3, alpha=0.6, label=translate("PhotometryTransit", "measured"))
-    top.plot(t - t[0], m / base, "-", lw=1.5, label=translate("PhotometryTransit", "model"))
-    top.set_ylabel(translate("PhotometryTransit", "Relative flux"))
-    top.legend()
-    bottom.plot(t - t[0], (f - m) / base * 1000, ".", ms=3)
-    bottom.axhline(0, lw=0.8, color="0.5")
-    bottom.set_ylabel(translate("PhotometryTransit", "O − C (ppt)"))
-    bottom.set_xlabel(translate("PhotometryTransit", "Days from {t0:.5f}").format(t0=t[0]))
-    plot.draw()
-    d.body.addWidget(plot, 3)
+    day = t - t[0]
+    ctx = "PhotometryTransit"
+    series = [
+        SeriesSpec(translate(ctx, "measured"), day, f / base, size=3, alpha=0.6),
+        SeriesSpec(translate(ctx, "model"), day, m / base, kind="line", width=1.5, colour=tokens.role("saturated")),
+    ]
+    x = AxisSpec(translate(ctx, "Days from {t0:.5f}").format(t0=t[0]))
+    residual = SeriesSpec(translate(ctx, "O − C (ppt)"), day, (f - m) / base * 1000, size=3)
+    zero = SeriesSpec("0", [0.0], kind="hline", colour=tokens.role("rejected"))
+    plot.set_figure(
+        FigureSpec(
+            [
+                PanelSpec(x, AxisSpec(translate(ctx, "Relative flux")), series, height_ratio=3),
+                PanelSpec(x, AxisSpec(translate(ctx, "O − C (ppt)")), [residual, zero]),
+            ]
+        )
+    )
+    d.body.addWidget(box, 3)
     d.body.addWidget(table, 2)
     d.add_buttons(translate("PhotometryTransit", "Close")).setDefault(True)
     d.resize(max(d.width(), 760), max(d.height(), 640))

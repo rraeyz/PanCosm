@@ -17,8 +17,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit import tokens
 from .kit.help import help_line
-from .kit.widgets import PlotCanvas
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+from .plot.toolbar import plot_box
 
 FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr")
 
@@ -142,8 +144,8 @@ class FrequencyPage(QWidget):
         self.to_oc.clicked.connect(lambda: self.guide.set_state(3, "done"))
         lay.addWidget(self.to_oc)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        split.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        split.addWidget(box)
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
 
@@ -182,24 +184,38 @@ class FrequencyPage(QWidget):
         else:
             self.status.setText(self.tr("No peak above the S/N limit."))
         grid = np.asarray(out["grid"])
-        self.plot.figure.clear()
-        ax1, ax2, ax3 = self.plot.figure.subplots(3, 1, sharex=True)
-        ax1.plot(grid, out["spectrum"], lw=0.6, label=self.tr("amplitude spectrum"))
+        spectrum = [SeriesSpec(self.tr("amplitude spectrum"), grid, out["spectrum"], kind="line", width=0.6)]
         if out.get("clean_spectrum"):
-            ax1.plot(grid, out["clean_spectrum"], lw=0.8, color="C2", label=self.tr("CLEAN"))
-            ax1.legend(loc="upper right", fontsize="small")
-        for row in rows:
-            ax1.axvline(row["freq"], color="r", lw=0.6, alpha=0.6)
-        ax1.set_ylabel(
-            self.tr("Amplitude (mag)") if self.magnitudes.isChecked() else self.tr("Amplitude (relative flux)")
+            spectrum.append(
+                SeriesSpec(self.tr("CLEAN"), grid, out["clean_spectrum"], kind="line", colour=tokens.role("target"))
+            )
+        spectrum.append(
+            SeriesSpec(
+                self.tr("frequencies"),
+                [r["freq"] for r in rows],
+                kind="vline",
+                colour=tokens.role("saturated"),
+                alpha=0.6,
+            )
         )
-        ax2.plot(grid, out["residual_spectrum"], lw=0.6)
-        ax2.plot(grid, self.snr_min.value() * _running_mean(np.asarray(out["residual_spectrum"]), grid), lw=0.8)
-        ax2.set_ylabel(self.tr("Residuals"))
-        ax3.plot(grid, out["window"], lw=0.6)
-        ax3.set_ylabel(self.tr("Window"))
-        ax3.set_xlabel(self.tr("Frequency (c/d)"))
-        self.plot.draw()
+        noise = self.snr_min.value() * _running_mean(np.asarray(out["residual_spectrum"]), grid)
+        x = AxisSpec(self.tr("Frequency (c/d)"))
+        amplitude = self.tr("Amplitude (mag)") if self.magnitudes.isChecked() else self.tr("Amplitude (relative flux)")
+        panels = [
+            PanelSpec(x, AxisSpec(amplitude), spectrum),
+            PanelSpec(
+                x,
+                AxisSpec(self.tr("Residuals")),
+                [
+                    SeriesSpec(self.tr("Residuals"), grid, out["residual_spectrum"], kind="line", width=0.6),
+                    SeriesSpec(self.tr("S/N limit"), grid, noise, kind="line"),
+                ],
+            ),
+            PanelSpec(
+                x, AxisSpec(self.tr("Window")), [SeriesSpec(self.tr("Window"), grid, out["window"], kind="line")]
+            ),
+        ]
+        self.plot.set_figure(FigureSpec(panels))
 
 
 def _running_mean(amp, grid, box=2.0):
