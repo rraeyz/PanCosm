@@ -8,7 +8,6 @@ observing plan. The Exoplanet Archive gives the mid-transit time in BJD_TDB and 
 
 import json
 import urllib.parse
-import urllib.request
 
 from .targets import TargetError
 
@@ -17,12 +16,11 @@ EXO_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 
 
 def _get(url, params, timeout=20):
+    from ..services import http
     from ..services.cache import cached
 
     def now():
-        req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed https catalogue URLs)
-            return json.loads(r.read().decode("utf-8"))
+        return json.loads(http.get(url, params, timeout, agent="Mozilla/5.0").decode("utf-8"))
 
     return cached("ephemerides", (url, params), now)
 
@@ -39,24 +37,22 @@ def _vsx_vizier(name):
     like the VSX API's answer: used when aavso.org does not answer. A name VSX does not list (an alias such as
     Algol) is looked up in SIMBAD and the VSX star within 10" taken, as the VSX API does."""
     import astropy.units as u
-    from astroquery.vizier import Vizier
 
-    from ..mirrors import cds
+    from ..services import vizier
     from .targets import _simbad
 
-    def ask(server, **where):
-        v = Vizier(columns=["**"], row_limit=5, vizier_server=server)
+    def ask(**where):
         if "coord" in where:
-            return v.query_region(where["coord"], radius=10 * u.arcsec, catalog="B/vsx/vsx")
-        return v.query_constraints(catalog="B/vsx/vsx", Name=name)
+            return vizier.region(where["coord"], 10 * u.arcsec, "B/vsx/vsx", ["**"], 5)
+        return vizier.constraints("B/vsx/vsx", ["**"], 5, Name=name)
 
     def same(a):
         return " ".join(str(a).lower().split()) == " ".join(name.lower().split())
 
-    tables = cds("vizier", ask)
+    tables = ask()
     rows = [r for r in (tables[0] if len(tables) else []) if same(r["Name"])]
     if not rows:
-        tables = cds("vizier", lambda server: ask(server, coord=_simbad(name).coord))
+        tables = ask(coord=_simbad(name).coord)
         rows = list(tables[0]) if len(tables) else []
     if not rows:
         return {}
@@ -167,8 +163,9 @@ def transiting_planets(fetch=None):
     def now():
         if fetch:
             return fetch(url)
-        with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (a fixed https catalogue URL)
-            return r.read().decode("utf-8")
+        from ..services import http
+
+        return http.get(url, timeout=60).decode("utf-8")
 
     rows = list(csv.DictReader(io.StringIO(cached("ephemerides", url, now))))
 

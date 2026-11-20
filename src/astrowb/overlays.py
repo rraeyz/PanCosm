@@ -91,24 +91,19 @@ def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_l
     if query is None:
         import astropy.units as u
         from astropy.coordinates import SkyCoord
-        from astroquery.vizier import Vizier
 
-        from .mirrors import cds
+        from .services import vizier
 
-        def ask(server, cat, ra, dec, radius_deg, mag_col, mag_limit):
+        def ask(cat, ra, dec, radius_deg, mag_col, mag_limit):
             sort = ["+" + mag_col] if catalogue == "gaia" else []  # bright first when the cone is cut at row_limit
-            v = Vizier(columns=["*", "_RAJ2000", "_DEJ2000", *sort], row_limit=row_limit, vizier_server=server)
-            if catalogue == "gaia":
-                v.column_filters = {mag_col: f"<{mag_limit}"}
-            tables = v.query_region(SkyCoord(ra * u.deg, dec * u.deg), radius=radius_deg * u.deg, catalog=cat)
-            return tables[0] if len(tables) else []
+            filters = {mag_col: f"<{mag_limit}"} if catalogue == "gaia" else None
+            return vizier.region(SkyCoord(ra * u.deg, dec * u.deg), radius_deg * u.deg, cat,
+                                 ["*", "_RAJ2000", "_DEJ2000", *sort], row_limit, filters, first=True)  # fmt: skip
 
         def query(*args):
             from .services.cache import cached
 
-            return cached(
-                "vizier", ("cone", *args, row_limit), lambda: cds("vizier", lambda server: ask(server, *args))
-            )
+            return cached("vizier", ("cone", *args, row_limit), lambda: ask(*args))
 
     esa = catalogue == "gaia" and default  # the ESA Gaia archive can stand in for VizieR
     try:
@@ -259,7 +254,6 @@ def dss_image(ra, dec, fov_deg=0.3, size=800, fetch=None):
     """A north-up DSS2 red image around (ra, dec) from the CDS hips2fits service: (data, WCS)."""
     import io
     import urllib.parse
-    import urllib.request
 
     from astropy.io import fits
     from astropy.wcs import WCS
@@ -278,13 +272,10 @@ def dss_image(ra, dec, fov_deg=0.3, size=800, fetch=None):
     if fetch is None:
 
         def fetch(url):
+            from .services import http
             from .services.cache import cached
 
-            def now():
-                with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
-                    return r.read()
-
-            return cached("hips2fits", url, now)
+            return cached("hips2fits", url, lambda: http.get(url))
 
     with fits.open(io.BytesIO(fetch(HIPS2FITS + "?" + urllib.parse.urlencode(params)))) as hdul:
         return np.asarray(hdul[0].data, float), WCS(hdul[0].header).celestial
@@ -375,7 +366,6 @@ def minor_planets(ra, dec, radius_deg, jd, mag_limit=None, fetch=None):
     """Asteroids and comets in the field at the time `jd` (UTC), from the IMCCE SkyBoT service (geocentric
     positions: the parallax is a few arcseconds for main-belt objects, more for near-Earth ones)."""
     import urllib.parse
-    import urllib.request
 
     params = {
         "-ep": f"{jd:.6f}",
@@ -390,13 +380,10 @@ def minor_planets(ra, dec, radius_deg, jd, mag_limit=None, fetch=None):
     if fetch is None:
 
         def fetch(url):
+            from .services import http
             from .services.cache import cached
 
-            def now():
-                with urllib.request.urlopen(url, timeout=60) as r:  # noqa: S310 (fixed https service)
-                    return r.read().decode("utf-8", errors="replace")
-
-            return cached("skybot", url, now)
+            return cached("skybot", url, lambda: http.get(url).decode("utf-8", errors="replace"))
 
     found = parse_skybot(fetch(url))
     return [p for p in found if mag_limit is None or p["mag"] is None or p["mag"] <= mag_limit]

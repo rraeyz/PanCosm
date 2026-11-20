@@ -43,9 +43,8 @@ def vizier_fetch(coord, radius_arcsec=3.0):
 
 def _vizier_fetch(coord, radius_arcsec):
     import astropy.units as u
-    from astroquery.vizier import Vizier
 
-    from ..mirrors import cds
+    from ..services import vizier
 
     out, error = {}, None
     for key, cat, cols in (
@@ -53,12 +52,7 @@ def _vizier_fetch(coord, radius_arcsec):
         ("gaia", "I/355/gaiadr3", ["Gmag", "e_Gmag", "BPmag", "RPmag"]),
     ):
         try:
-            tables = cds(  # "+_r": nearest first
-                "vizier",
-                lambda server, cat=cat, cols=cols: Vizier(
-                    columns=["+_r", *cols], row_limit=5, vizier_server=server
-                ).query_region(coord, radius=radius_arcsec * u.arcsec, catalog=cat),
-            )
+            tables = vizier.region(coord, radius_arcsec * u.arcsec, cat, ["+_r", *cols], 5)  # "+_r": nearest first
         except Exception as e:  # noqa: BLE001 - no VizieR server answered: Gaia from the ESA archive below
             tables, error = [], e
         t = tables[0] if len(tables) and len(tables[0]) else None

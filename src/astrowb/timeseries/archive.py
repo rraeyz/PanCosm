@@ -61,24 +61,14 @@ def download(target, mission, folder, author=None, observations=None, max_files=
     """Pipeline light-curve files of a target (name or 'RA Dec') into folder; returns their paths."""
     if not str(target).strip():
         raise ValueError("give the target's name or coordinates")
-    given = observations is not None
-    if not given:
-        from astroquery.mast import Observations as observations
-    from astroquery.mast import conf
-
-    def lookup():
-        collection = "K2" if mission == "K2" else mission
-        with conf.set_temp("timeout", 120):  # an archive that stops answering must not hold the task forever
-            obs = observations.query_criteria(
-                objectname=target, radius="0.001 deg", obs_collection=collection, dataproduct_type="timeseries"
-            )
-        if len(obs) == 0:
-            raise ValueError(f"no {mission} light curves for {target}")
-        return observations.get_product_list(obs)
-
+    from ..services import mast
     from ..services.cache import cached
 
     # the archive's list kept a day (ARC-14); a list handed in (tests) is not the archive's and is not kept
+    def lookup():
+        return mast.products(target, mission, observations)
+
+    given = observations is not None
     products = lookup() if given else cached("lightcurves", ("mast", str(target).strip(), mission), lookup)
     # light curves: "LC" (TESS), "LLC" (Kepler / K2 long cadence); the product list names the pipeline in
     # "project" (astroquery 0.4.11, 2026; "provenance_name" before)
@@ -93,5 +83,5 @@ def download(target, mission, folder, author=None, observations=None, max_files=
         raise ValueError(f"no {mission} light curves for {target}")
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    table = observations.download_products(products[:max_files], download_dir=str(folder), cache=True)
+    table = mast.download(products[:max_files], folder, observations)
     return [str(p) for p in table["Local Path"]]
