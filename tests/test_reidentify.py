@@ -159,3 +159,29 @@ def test_echelle_tab_lines_from_ecidentify(qtbot, tmp_path):
         [["58", "1002.49", "5882.6242"], ["58", "1071.52", "5888.5841"], ["57", "865.72", "5973.6649"],
          ["57", "1019.27", "5987.3016"]]
     )  # fmt: skip
+
+
+def test_reduce_plot_arc_click_identifies_and_residual_click_leaves_a_line_out(qtbot):
+    from astrowb.ui.spectro_page import ReduceTab
+
+    tab = ReduceTab()
+    qtbot.addWidget(tab)
+    n = 200
+    arc = np.zeros(n)
+    arc[[50, 120]] = 100.0
+    lines = [[20.0 * k, 5000 + 3.0 * k, 0.001 * k] for k in range(1, 6)]
+    solution = {"lines": lines, "n_lines": 5, "rms": 0.01}
+    tab.show_spectrum({"trace": None, "flux": [1.0] * n, "wave": None, "pixel": list(range(n)), "arc": arc.tolist(),
+                       "arc_peaks": [50.0, 120.0], "solution": solution})  # fmt: skip
+    panels = tab.plot.figure.panels
+    assert len(panels) == 3 and tab._arc_panel == 1 and panels[2].series[0].pickable
+    tab.plot.plot_clicked.emit(0, 118.0, 0.0)  # on the spectrum: nothing
+    assert tab.guesses.rowCount() == 0
+    tab.plot.plot_clicked.emit(1, 118.0, 0.0)  # on the arc: the nearest peak
+    assert tab.guesses.item(0, 0).text() == "120.00"
+    tab.plot.point_clicked.emit("Residual (mÅ)", 2)
+    assert tab.excluded_lines == [60.0] and "1 arc line" in tab.status.text()
+    ring = next(e for e in tab.plot.items if e["spec"].pickable)["ring"]
+    assert len(ring.data["x"]) == 1
+    tab.undo_stack.undo()
+    assert tab.excluded_lines == [] and len(ring.data["x"]) == 0

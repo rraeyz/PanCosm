@@ -129,8 +129,6 @@ def test_spectrum_tools_tab(qtbot, tmp_path):
 
 def test_spectrum_keys(qtbot, tmp_path):
     """UI-12: the splot keys over the plot: w w a window, m centres it, f measures, c adds a point, d deletes it."""
-    from types import SimpleNamespace
-
     from astrowb.ui.spectrum_keys import key
     from astrowb.ui.spectrum_tools import SpectrumToolsTab
 
@@ -141,7 +139,7 @@ def test_spectrum_keys(qtbot, tmp_path):
     assert tab._open(spectrum_io.write(tmp_path / "s.fits", w, line, np.zeros(w.size)))
 
     def press(k, x):
-        return key(tab, SimpleNamespace(key=k, xdata=x, inaxes=True))
+        return key(tab, k, x)
 
     assert press("w", 6580) == "edge" and press("w", 6540) == "window"
     assert (tab.lo.value(), tab.hi.value()) == (6540, 6580)
@@ -175,3 +173,29 @@ def test_a_window_that_cuts_the_line_is_pointed_out(qtbot, tmp_path):
     tab.lo.setValue(6561)
     tab._measure()
     assert "edge of the window" in tab.status.text()
+
+
+def test_spectrum_plot_on_plotview_span_clicks_and_line_labels(qtbot, tmp_path):
+    """The Spectrum tools plot: a dragged span sets the window, a click while picking adds a continuum point, the line
+    markers are rotated labels, the continuum and fit overlay the spectrum."""
+    from astrowb.ui.spectrum_tools import SpectrumToolsTab
+
+    tab = SpectrumToolsTab()
+    qtbot.addWidget(tab)
+    assert tab.plot.is_empty()
+    w = np.arange(6400.0, 6700.0, 0.5)
+    assert tab._open(spectrum_io.write(tmp_path / "s.fits", w, 1 - 0.5 * np.exp(-0.5 * ((w - 6563) / 2.0) ** 2), w * 0))
+    assert tab.plot.mode == tab.plot.base_mode == "range"  # a drag selects, as the span selector did
+    tab.plot.range_selected.emit(6550.0, 6575.0)
+    assert (tab.lo.value(), tab.hi.value()) == (6550, 6575)
+    tab.plot.range_selected.emit(6500.0, 6500.01)  # a click, not a window
+    assert tab.lo.value() == 6550
+    tab.pick.setChecked(True)
+    tab.plot.plot_clicked.emit(0, 6450.0, 1.0)
+    assert tab.points == [6450.0] and "continuum points" in [s.name for s in tab.plot.figure.panels[0].series]
+    tab.pick.setChecked(False)
+    tab.markers.setChecked(True)
+    tab._measure()
+    names = {s.name: s for s in tab.plot.figure.panels[0].series}
+    assert names["line names"].kind == "text" and names["line names"].angle == 90 and "Hα" in names["line names"].labels
+    assert names["continuum"].dash == "dash" and "fit" in names

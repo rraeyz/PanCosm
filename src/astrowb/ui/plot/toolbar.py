@@ -21,6 +21,7 @@ class PlotToolbar(QWidget):
         row.setContentsMargins(0, 0, 0, 0)
         row.setSpacing(2)
         self.modes = QButtonGroup(self)  # exclusive: one of pick (pan), box zoom, select range
+        self.mode_buttons = {}
         for mode, kind, text in (
             ("pan", "centre", translate("PlotToolbar", "Pick")),
             ("zoom", "zoom_in", translate("PlotToolbar", "Box zoom")),
@@ -30,6 +31,7 @@ class PlotToolbar(QWidget):
             button.setChecked(mode == "pan")
             button.toggled.connect(lambda on, m=mode: on and self.set_mode(m))
             self.modes.addButton(button)
+            self.mode_buttons[mode] = button
             row.addWidget(button)
         for kind, text, action in (
             ("fit", translate("PlotToolbar", "Show all"), view.show_all),
@@ -44,6 +46,7 @@ class PlotToolbar(QWidget):
 
     def set_mode(self, mode):
         self.view.base_mode = self.view.mode = mode
+        self.mode_buttons[mode].setChecked(True)  # when a page sets the mode itself
 
     def export_data(self, path=None):
         """The plotted numbers as ECSV (publish.data_behind)."""

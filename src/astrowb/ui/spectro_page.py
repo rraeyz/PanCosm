@@ -27,9 +27,11 @@ from PySide6.QtWidgets import (
 )
 
 from ..spectroscopy.frame_state import calibrated, extracted
+from . import spectro_figures
 from .kit.help import help_line
 from .kit.widgets import PlotCanvas
 from .messages import translate
+from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
 
 
@@ -124,7 +126,7 @@ def _frame_and_plot(tab, hint):
     tab.frame_view.empty_hint = hint
     right = QSplitter(Qt.Vertical, tab)
     right.addWidget(tab.frame_view)
-    right.addWidget(tab.plot)
+    right.addWidget(getattr(tab, "plot_box", tab.plot))  # a PlotView comes with its toolbar
     right.setSizes([300, 500])
     return right
 
@@ -202,7 +204,7 @@ class ReduceTab(Undoable, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_undo()
-        self.result, self.excluded_lines, self._resid_ax, self._arc_ax = None, [], None, None
+        self.result, self.excluded_lines, self._resid_points, self._arc_panel = None, [], None, None
         split = QSplitter(Qt.Horizontal, self)
         left = QWidget(self)
         lay = QVBoxLayout(left)
@@ -387,8 +389,8 @@ class ReduceTab(Undoable, QWidget):
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
+        self.plot_box, self.plot = plot_box(self)
+        self._connect_plot()
         split.addWidget(_frame_and_plot(self, self.tr("The science frame appears here once it is chosen")))
         split.setSizes([380, 820])
         QVBoxLayout(self).addWidget(split)
@@ -484,35 +486,11 @@ class ReduceTab(Undoable, QWidget):
         s = self.result
         if not s:
             return
-        self.plot.figure.clear()
-        has_arc = bool(s.get("arc"))
-        lines = (s.get("solution") or {}).get("lines") or []
-        axes = self.plot.figure.subplots(1 + has_arc + bool(lines), 1, squeeze=False)[:, 0]
         if s["trace"] is not None:  # None: the spectrum came already extracted
             self._draw_trace(s["trace"])  # the user sees what was extracted, as IRAF's aptrace shows it
-        x = s["wave"] if s["wave"] is not None else s["pixel"]
-        axes[0].plot(x, s["flux"], lw=0.7)
-        axes[0].set_xlabel(self.tr("Wavelength (Å)") if s["wave"] is not None else self.tr("Pixel"))
-        axes[0].set_ylabel(self.tr("Flux"))
-        self._arc_ax = self._resid_ax = None
-        if has_arc:
-            axes[1].plot(s["pixel"], s["arc"], lw=0.7, color="gray")
-            for p in s["arc_peaks"]:
-                axes[1].axvline(p, color="orange", lw=0.5)
-            top = float(np.nanmax(s["arc"]))
-            for p, w in self._atlas():  # the line list's lines on the arc, from the lines identified so far
-                axes[1].text(p, top, f"{w:.2f}", rotation=90, fontsize=6, va="top", ha="center", color="#1f6feb")
-            axes[1].set_xlabel(self.tr("Pixel (click a line to identify it)"))
-            self._arc_ax = axes[1]
-        if lines:  # the fit line by line, as IRAF identify shows it after 'f'
-            ax = axes[1 + has_arc]
-            a = np.asarray(lines, float)
-            ax.plot(a[:, 0], a[:, 2] * 1000, "o", ms=4)
-            ax.axhline(0, color="gray", lw=0.5)
-            ax.set_xlabel(self.tr("Pixel (click a point to leave that arc line out)"))
-            ax.set_ylabel(self.tr("Residual (mÅ)"))
-            self._resid_ax, self._resid_points = ax, a
-        self.plot.draw()
+        figure, self._arc_panel, self._resid_points = spectro_figures.reduce_figure(s, self._atlas())
+        self.plot.set_figure(figure)
+        self._ring_excluded()
 
     def _files_changed(self):
         chosen = [r.text() for r in (self.science, self.arc) if r.text()]
@@ -535,7 +513,7 @@ class ReduceTab(Undoable, QWidget):
             _show_frame(self, self.science.text())
 
     def _lines_changed(self):
-        if self.result and self._arc_ax is not None:
+        if self.result and self._arc_panel is not None:
             self._draw()  # the line list's lines appear on the arc as soon as three lines are identified
 
     def _atlas(self):
@@ -592,27 +570,33 @@ class ReduceTab(Undoable, QWidget):
             )  # fmt: skip
         )
 
-    def _plot_clicked(self, event):
-        if self._resid_ax is not None and event.inaxes is self._resid_ax:
-            a = self._resid_points
-            pix = self._resid_ax.transData.transform(np.column_stack([a[:, 0], a[:, 2] * 1000]))
-            i = int(np.argmin(np.hypot(pix[:, 0] - event.x, pix[:, 1] - event.y)))
-            if float(a[i, 0]) not in self.excluded_lines:
-                self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, float(a[i, 0]))
-                self._resid_ax.plot(a[i, 0], a[i, 2] * 1000, "o", mfc="none", color="#e5484d", ms=9)
-                self.plot.draw()
-            self.status.setText(
-                self.tr("{n} arc line(s) left out; press Refit without the left-out lines.").format(
-                    n=len(self.excluded_lines)
-                )
+    def _connect_plot(self):
+        self.plot.plot_clicked.connect(self._plot_clicked)
+        self.plot.point_clicked.connect(self._residual_clicked)
+
+    def _residual_clicked(self, name, i):
+        a = self._resid_points
+        if float(a[i, 0]) not in self.excluded_lines:
+            self.edit(self.tr("leave out an arc line"), self.excluded_lines.append, float(a[i, 0]))
+            self._ring_excluded()
+        self.status.setText(
+            self.tr("{n} arc line(s) left out; press Refit without the left-out lines.").format(
+                n=len(self.excluded_lines)
             )
-            return
-        if not self.result or self._arc_ax is not event.inaxes or event.xdata is None:
+        )
+
+    def _ring_excluded(self):
+        if self._resid_points is not None:
+            left_out = np.flatnonzero(np.isin(self._resid_points[:, 0], self.excluded_lines))
+            self.plot.highlight(self.tr("Residual (mÅ)"), left_out)
+
+    def _plot_clicked(self, panel, x, _y):
+        if not self.result or panel != self._arc_panel:
             return
         peaks = np.asarray(self.result["arc_peaks"])
         if peaks.size == 0:
             return
-        p = float(peaks[np.argmin(np.abs(peaks - event.xdata))])
+        p = float(peaks[np.argmin(np.abs(peaks - x))])
         known = dict(self._atlas())  # the line list's wavelength at this peak, if the lines so far point to one
         self.edit(self.tr("identify a line"), self._add_line, [f"{p:.2f}", f"{known[p]:.4f}" if p in known else ""])
         self.guesses.editItem(self.guesses.item(self.guesses.rowCount() - 1, 1))
@@ -679,6 +663,7 @@ class ReduceTab(Undoable, QWidget):
     def set_undo_state(self, st):
         _set_rows(self.guesses, st["guesses"])
         self.excluded_lines = list(st.get("excluded", []))
+        self._ring_excluded()
 
 
 class EchelleTab(Undoable, QWidget):
@@ -1344,8 +1329,8 @@ class TelluricTab(QWidget):
         lay.addWidget(self.status)
         lay.addStretch(1)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        split.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        split.addWidget(box)
         split.setSizes([380, 820])
         QVBoxLayout(self).addWidget(split)
 
@@ -1361,16 +1346,7 @@ class TelluricTab(QWidget):
     def show_result(self, r):
         for i in (0, 1):
             self.guide.set_state(i, "done")
-        self.plot.figure.clear()
-        ax, ax2 = self.plot.figure.subplots(2, 1, sharex=True)
-        ax.plot(r["wave"], r["flux"], lw=0.6, color="gray", label=self.tr("before"))
-        ax.plot(r["wave"], r["corrected"], lw=0.6, label=self.tr("corrected"))
-        ax.legend(loc="lower left")
-        ax.set_ylabel(self.tr("Flux"))
-        ax2.plot(r["wave"], r["transmission"], lw=0.6, color="tab:green")
-        ax2.set_ylabel(self.tr("Transmission"))
-        ax2.set_xlabel(self.tr("Wavelength (Å)"))
-        self.plot.draw()
+        self.plot.set_figure(spectro_figures.telluric_figure(r))
         self.status.setText(
             self.tr("Optical depth scale {s:.3f}, shift {v:.2f} km/s. Saved: {path}").format(
                 s=r["power"], v=r["shift_kms"], path=r.get("path", "—")
@@ -1600,8 +1576,8 @@ class VelocityTab(QWidget):
         )
         self.table.cellClicked.connect(lambda r, _c: self.show_profile(r))
         right.addWidget(self.table)
-        self.plot = PlotCanvas(self)
-        right.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        right.addWidget(box)
         right.setSizes([220, 500])
         split.addWidget(right)
         split.setSizes([400, 800])
@@ -1623,23 +1599,7 @@ class VelocityTab(QWidget):
             return
         row, p = self.rvs[i], self.rvs[i]["profile"]
         t1, t2 = self._template_rv
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        v = np.asarray(p["v"], float)
-        names = {"ccf": self.tr("Cross-correlation"), "bf": self.tr("Broadening function"), "todcor": "TODCOR"}
-        ax.plot(v + t1, p["y"], lw=0.9, label=names[p["kind"]] + (" — " + self.tr("star 1") if "y2" in p else ""))
-        if "y2" in p:
-            ax.plot(v + t2, p["y2"], lw=0.9, label="TODCOR — " + self.tr("star 2"))
-        if p.get("model") is not None:
-            ax.plot(v + t1, p["model"], "--", lw=0.8, label=self.tr("fitted rotational profiles"))
-        ax.axvline(row["rv_obs"], color="#e5484d", lw=0.8)
-        if row.get("rv2_obs") is not None:
-            ax.axvline(row["rv2_obs"], color="#e5484d", lw=0.8, ls=":")
-        ax.set_xlabel(self.tr("Velocity, before the barycentric correction (km/s)"))
-        ax.set_ylabel(self.tr("Correlation"))
-        ax.set_title(row["file"], fontsize=9)
-        ax.legend(fontsize="small")
-        self.plot.draw()
+        self.plot.set_figure(spectro_figures.profile_figure(row, p, t1, t2))
         self.guide.set_state(3, "done")
 
     def _measure(self):
@@ -1768,18 +1728,7 @@ class VelocityTab(QWidget):
             )
         self.status.setText("\n".join(lines))
         if mk and mk_model:
-            self.plot.figure.clear()
-            ax = self.plot.figure.add_subplot()
-            ax.plot(mk_model["wave"], mk_model["star"], lw=0.8, color="k", label=self.tr("this star"))
-            star = np.asarray(mk_model["star"], float)
-            model = np.asarray(mk_model["model"], float)
-            model = np.where(np.isfinite(star) & (model > 0), model, np.nan)  # only where both have data
-            ax.plot(mk_model["wave"], model, lw=0.8, color="C3", label=mk[0]["type"])
-            ax.set_xlabel(self.tr("Wavelength (Å)"))
-            ax.set_ylabel(self.tr("Relative flux"))
-            ax.set_title(self.tr("The star over the best MK standard"), fontsize="medium")
-            ax.legend(loc="lower right", fontsize="small")
-            self.plot.draw()
+            self.plot.set_figure(spectro_figures.mk_figure(mk_model, mk[0]["type"]))
 
     def separate(self, folder=None):
         """Disentangle with the velocities measured on these spectra (observed frame) and their light ratio."""
@@ -1803,14 +1752,7 @@ class VelocityTab(QWidget):
 
     def show_components(self, c):
         self.guide.set_state(5, "done")
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.plot(c["wave"], c["star1"], lw=0.7, label=self.tr("Star 1"))
-        ax.plot(c["wave"], np.asarray(c["star2"]) - 0.5, lw=0.7, label=self.tr("Star 2 (shifted down by 0.5)"))
-        ax.set_xlabel(self.tr("Wavelength (Å)"))
-        ax.set_ylabel(self.tr("Flux"))
-        ax.legend(fontsize="small")
-        self.plot.draw()
+        self.plot.set_figure(spectro_figures.components_figure(c))
         text = self.tr("Written: {a} and {b}").format(a=c["paths"][0], b=c["paths"][1])
         if c.get("separable_kms") is not None:
             text += " " + self.tr(
@@ -1973,8 +1915,6 @@ class VelocityTab(QWidget):
         return rows, caption
 
     def show_orbit(self, o):
-        from ..spectroscopy.orbit import rv_model
-
         self.orbit_result = o
         self.guide.set_state(4, "done")
 
@@ -2023,34 +1963,8 @@ class VelocityTab(QWidget):
                 fm=o["mass_function"], a=o["a_sini_rsun"]
             )
         self.status.setText(text)
-        phase = ((t - o["t_peri"]) / o["period"]) % 1
-        ph = np.linspace(0, 1, 400)
-        model = rv_model(
-            o["t_peri"] + ph * o["period"], o["period"], o["t_peri"], o["e"], o["omega"], o["k"], o["gamma"]
-        )
-        self.plot.figure.clear()
-        # velocities with the orbit above, residuals below (the usual figure of an orbit paper)
-        ax, res = self.plot.figure.subplots(2, 1, sharex=True, gridspec_kw={"height_ratios": (3, 1), "hspace": 0})
-        args = (o["period"], o["t_peri"], o["e"])
-        ax.axhline(o["gamma"], color="0.5", lw=0.6, ls=":")
-        ax.errorbar(phase, v, e, fmt="o", ms=4, label=self.tr("primary"))
-        ax.plot(ph, model, "r-", lw=1)
-        res.errorbar(phase, v - rv_model(t, *args, o["omega"], o["k"], o["gamma"]), e, fmt="o", ms=3)
-        if "k2" in o:
-            t2, v2, e2 = (np.asarray(a, float) for a in self._series(2))
-            model2 = rv_model(o["t_peri"] + ph * o["period"], *args, o["omega"] + 180, o["k2"], o["gamma"])
-            phase2 = ((t2 - o["t_peri"]) / o["period"]) % 1
-            ax.errorbar(phase2, v2, e2, fmt="s", ms=4, color="tab:orange", label=self.tr("secondary"))
-            ax.plot(ph, model2, "-", color="tab:orange", lw=1)
-            resid2 = v2 - rv_model(t2, *args, o["omega"] + 180, o["k2"], o["gamma"])
-            res.errorbar(phase2, resid2, e2, fmt="s", ms=3, color="tab:orange")
-            ax.legend(fontsize="small")
-        res.axhline(0, color="0.5", lw=0.6)
-        res.set_ylabel(self.tr("O−C (km/s)"))
-        res.set_xlabel(self.tr("Phase (from periastron)"))
-        res.set_xlim(0, 1)
-        ax.set_ylabel(self.tr("RV (km/s)"))
-        self.plot.draw()
+        second = tuple(np.asarray(a, float) for a in self._series(2)) if "k2" in o else None
+        self.plot.set_figure(spectro_figures.orbit_figure(o, (t, v, e), second))
 
 
 class CubeTab(QWidget):
@@ -2121,8 +2035,8 @@ class CubeTab(QWidget):
         self.status = QLabel(self.tr("Click a spaxel to see its spectrum."), self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        self.plot = PlotCanvas(self)
-        lay.addWidget(self.plot, 1)
+        box, self.plot = plot_box(self)
+        lay.addWidget(box, 1)
         split.addWidget(side)
         split.setSizes([700, 500])
         QVBoxLayout(self).addWidget(split)
@@ -2167,13 +2081,7 @@ class CubeTab(QWidget):
         if self.data is None:
             return
         self.spectrum = (x, y, cube.spaxel_spectrum(self.data, x, y, self.radius.value()))
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.plot(self.wave, self.spectrum[2], lw=0.7)
-        ax.set_xlabel(self.tr("Wavelength (Å)"))
-        ax.set_ylabel(self.tr("Flux"))
-        ax.set_title(self.tr("Spaxel {x:.0f}, {y:.0f}").format(x=x, y=y), fontsize=9)
-        self.plot.draw()
+        self.plot.set_figure(spectro_figures.cube_figure(self.wave, self.spectrum[2], x, y))
         self.save_button.setEnabled(True)
 
     def _save(self):

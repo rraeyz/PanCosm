@@ -7,6 +7,8 @@ d  delete the continuum point nearest the cursor                   a  the whole 
 
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication
 
+from .plot.toolbar import PlotToolbar
+
 HINT = QT_TRANSLATE_NOOP(
     "SpectrumKeys",
     "Keys over the plot: w window edges, m centre the window here, f measure, c continuum point, d delete point",
@@ -14,18 +16,18 @@ HINT = QT_TRANSLATE_NOOP(
 
 
 def connect(tab):
-    """Clicks and keys of the tab's plot (tab: SpectrumToolsTab)."""
-    tab.plot.canvas.mpl_connect("button_press_event", lambda event: tab.pick.isChecked() and key(tab, event, "c"))
-    tab.plot.canvas.mpl_connect("key_press_event", lambda event: key(tab, event))
+    """Clicks, keys and the dragged span of the tab's plot (tab: SpectrumToolsTab)."""
+    tab.plot.parent().findChild(PlotToolbar).set_mode("range")  # a drag selects the measuring window
+    tab.plot.range_selected.connect(tab._selected)
+    tab.plot.plot_clicked.connect(lambda _panel, x, _y: tab.pick.isChecked() and key(tab, "c", x))
+    tab.plot.key_pressed.connect(lambda letter, x: key(tab, letter, x))
     tab.plot.setToolTip(QCoreApplication.translate("SpectrumKeys", HINT))
     tab._edge = None  # the first w of a pair
 
 
-def key(tab, event, pressed=None):
-    """One key over the plot (pressed: instead of the event's key: a click while picking points is "c"); returns
-    what it did (for tests), or None."""
-    x = event.xdata if event.inaxes is not None else None
-    pressed = pressed or event.key
+def key(tab, pressed, x):
+    """One key over the plot at wavelength x (None: the cursor is outside the plot; a click while picking points is
+    "c"); returns what it did (for tests), or None."""
     if pressed == "f":
         tab._measure()
         return "measure"

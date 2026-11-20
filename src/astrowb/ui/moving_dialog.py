@@ -49,6 +49,7 @@ class MovingObjectPage(QWidget):
         self.viewer = ImageViewer(self)
         self.viewer.clicked.connect(self._clicked)
         self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
+        self.viewer.empty_hint = self.tr("The first frame appears here once the images are chosen")
         main.addWidget(self.viewer, 3)
         self.table = QTableWidget(0, 4, self)
         self.table.setHorizontalHeaderLabels(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])

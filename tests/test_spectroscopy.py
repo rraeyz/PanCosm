@@ -457,8 +457,8 @@ def test_mk_suggestion_is_drawn_and_survives_without_the_template_library(qtbot)
     model = {"wave": wave.tolist(), "star": np.ones(500).tolist(), "model": np.r_[np.zeros(10), np.ones(490)].tolist()}
     tab.show_classes([], [{"type": "G0 V", "score": 0.05}], None, model, "SSL: CERTIFICATE_VERIFY_FAILED")
     assert "G0 V" in tab.status.text() and "choose a template yourself" in tab.status.text()
-    ax = tab.plot.figure.axes[0]
-    assert len(ax.lines) == 2 and np.isnan(ax.lines[1].get_ydata()[:10]).all()  # no fake drop where it has no data
+    star, standard = tab.plot.figure.panels[0].series
+    assert np.isnan(standard.y[:10]).all()  # no fake drop where it has no data
 
 
 def test_bess_amateur_spectra(tmp_path):
@@ -703,4 +703,4 @@ def test_reduce_shows_the_trace_aperture_and_sky_on_the_frame(qtbot, tmp_path):
     tab.show_spectrum({"trace": [0.0, 40.0], "flux": [1.0] * n, "wave": None, "pixel": list(range(n)), "arc": None,
                        "arc_peaks": [], "solution": None})  # fmt: skip
     assert {"aperture", "sky"} <= set(tab.frame_view.overlay_names())
-    assert len(tab.plot.figure.axes) == 1  # the spectrum only: the frame is no longer a subplot
+    assert len(tab.plot.figure.panels) == 1  # the spectrum only: the frame is no longer a subplot
