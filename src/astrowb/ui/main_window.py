@@ -400,6 +400,9 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         page = ProjectPage(self)
         page.run_selected.connect(lambda run_id: page.show_run(self.engine.project.run(run_id)))
         page.rerun_requested.connect(self.rerun)
+        from ..core.methods import methods
+
+        page.methods_provider = lambda: methods(self.engine.project.runs()) if self.engine.project else ""
         return page
 
     def rerun(self, run_id):

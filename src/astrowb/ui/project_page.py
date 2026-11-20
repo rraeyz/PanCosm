@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QListWidget,
     QPlainTextEdit,
     QPushButton,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -25,13 +26,17 @@ class ProjectPage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        lay = QVBoxLayout(self)
+        top = QVBoxLayout(self)
         self.name_label = QLabel(self)
-        lay.addWidget(self.name_label)
-        lay.addWidget(QLabel(self.tr("Files"), self))
+        top.addWidget(self.name_label)
+        self.tabs = QTabWidget(self)  # UI-16.14: Files, History, Methods text (Products, Sessions, Tasks: not yet)
+        top.addWidget(self.tabs, 1)
         self.files_list = QListWidget(self)
-        lay.addWidget(self.files_list, 1)
-        lay.addWidget(QLabel(self.tr("History"), self))
+        self.tabs.addTab(self.files_list, self.tr("Files"))
+        history = QWidget(self)
+        lay = QVBoxLayout(history)
+        self.tabs.addTab(history, self.tr("History"))
+        self._methods_tab()
         self.run_ids = []  # the run id of each table row, same order
         self._run_id = None
         self.run_names = (self.tr("Step"), self.tr("Status"), self.tr("Started"), self.tr("Settings"))
@@ -68,6 +73,30 @@ class ProjectPage(QWidget):
         self.details.setReadOnly(True)
         self.details.setPlaceholderText(self.tr("Select a run to see its inputs, settings, results and versions."))
         lay.addWidget(self.details, 1)
+
+    def _methods_tab(self):
+        """The methods paragraph of the successful runs, as text to copy into a paper; made when the tab is shown."""
+        tab = QWidget(self)
+        lay = QVBoxLayout(tab)
+        self.methods_text = QPlainTextEdit(self)
+        self.methods_text.setReadOnly(True)
+        self.methods_text.setPlaceholderText(self.tr("Run steps and the methods paragraph appears here."))
+        lay.addWidget(self.methods_text, 1)
+        self.methods_button = QPushButton(self.tr("Copy"), self)
+        self.methods_button.setToolTip(self.tr("Copies the methods text to the clipboard"))
+        self.methods_button.clicked.connect(self.copy_methods)
+        lay.addWidget(self.methods_button)
+        self.methods_provider = lambda: ""  # the window sets it: the text from the project's full runs
+        self.tabs.addTab(tab, self.tr("Methods text"))
+        self.tabs.currentChanged.connect(lambda i: i == self.tabs.indexOf(tab) and self.refresh_methods())
+
+    def refresh_methods(self):
+        self.methods_text.setPlainText(self.methods_provider())
+
+    def copy_methods(self):
+        from PySide6.QtWidgets import QApplication
+
+        QApplication.clipboard().setText(self.methods_text.toPlainText())
 
     def selected_run(self):
         return self._run_id

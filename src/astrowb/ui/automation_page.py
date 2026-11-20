@@ -33,6 +33,7 @@ from ..engine import automation, steps
 from .kit.widgets import _title
 from .messages import translate
 from .names import setting_name
+from .step_chain import StepChain
 
 
 def _json_or_text(text):
@@ -40,6 +41,13 @@ def _json_or_text(text):
         return json.loads(text)
     except ValueError:
         return text
+
+
+def _summary(entry):
+    """One line of what the step is set to: its own settings, else where its inputs come from."""
+    items = entry.get("params") or {k: f"← {v}" for k, v in (entry.get("inputs") or {}).items()}
+    text = ", ".join(f"{k}: {json.dumps(v) if not isinstance(v, str) else v}" for k, v in items.items())
+    return text if len(text) <= 60 else text[:59] + "…"
 
 
 class AutomationPage(QWidget):
@@ -84,7 +92,7 @@ class AutomationPage(QWidget):
         self.description.setProperty("muted", True)
         ml.addWidget(self.description)
         ml.addWidget(QLabel(self.tr("Steps, in order"), self))
-        self.steps = QListWidget(self)
+        self.steps = StepChain(self)
         self.steps.currentRowChanged.connect(self._show_step)
         ml.addWidget(self.steps, 1)
         self.step_choice = QComboBox(self)
@@ -117,19 +125,19 @@ class AutomationPage(QWidget):
             row.addWidget(b)
             self.step_buttons.append(b)
         ml.addLayout(row)
+        split.addWidget(mid)
+
+        right = QWidget(self)
+        rl = QVBoxLayout(right)
         hint = QLabel(self.tr("Settings of the selected step (input ← data name, or a value)"), self)
         hint.setWordWrap(True)
-        ml.addWidget(hint)
+        rl.addWidget(hint)
         self.settings_table = QTableWidget(0, 2, self)
         self.settings_table.setHorizontalHeaderLabels([self.tr("Setting"), self.tr("Value")])
         self.settings_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.settings_table.verticalHeader().hide()
         self.settings_table.itemChanged.connect(self._setting_changed)
-        ml.addWidget(self.settings_table, 1)
-        split.addWidget(mid)
-
-        right = QWidget(self)
-        rl = QVBoxLayout(right)
+        rl.addWidget(self.settings_table, 1)
         rl.addWidget(QLabel(self.tr("Inputs"), self))
         self.form = QFormLayout()
         self.form.setRowWrapPolicy(QFormLayout.WrapAllRows)  # long labels above their fields
@@ -159,7 +167,7 @@ class AutomationPage(QWidget):
         self.result.setReadOnly(True)
         rl.addWidget(self.result, 1)
         split.addWidget(right)
-        split.setSizes([330, 420, 520])
+        split.setSizes([260, 340, 520])
         QVBoxLayout(self).addWidget(split)
         self.refresh()
 
@@ -226,8 +234,7 @@ class AutomationPage(QWidget):
         self.steps.clear()
         for i, entry in enumerate(self.auto["steps"]):
             each = self.tr(" — for each {name}").format(name=entry["each"]) if entry.get("each") else ""
-            self.steps.addItem(f"{i + 1}. {step_name(entry['step'])}{each}")
-            self.steps.item(i).setToolTip(entry["step"])
+            self.steps.add_card(f"{i + 1}. {step_name(entry['step'])}{each}", _summary(entry), entry["step"])
         self.steps.blockSignals(False)
         self.steps.setCurrentRow(min(row, self.steps.count() - 1))
         self._show_step(self.steps.currentRow())
@@ -296,6 +303,7 @@ class AutomationPage(QWidget):
         params = {k: v for k, v in entry.get("params", {}).items() if k not in self.step_form.readers}
         params |= {k: v for k, v in self.step_form.values().items() if v != s.defaults.get(k)}
         entry["params"] = params
+        self.steps.set_summary(self.steps.currentRow(), _summary(entry))
 
     def _setting_changed(self, item):
         entry = self.auto["steps"][self.steps.currentRow()]
@@ -306,6 +314,7 @@ class AutomationPage(QWidget):
             links.pop(name, None) if text in ("", name) else links.__setitem__(name, text)
         else:
             entry.setdefault("params", {})[name] = _json_or_text(text)
+        self.steps.set_summary(self.steps.currentRow(), _summary(entry))
         self._fill_inputs()
 
     # --- inputs and running ---------------------------------------------------
