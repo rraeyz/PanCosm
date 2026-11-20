@@ -2021,8 +2021,8 @@ class PhotometryPage(Undoable, QWidget):
         self._recompute()
 
     def export_etd(self, path=None):
-        """The light curve as the ETD / VarAstro upload reads it (photometry.export.etd_text)."""
-        from ..photometry.export import etd_text
+        """The light curve as the ETD / VarAstro upload reads it (photometry.reports.etd.etd_text)."""
+        from ..photometry.reports.etd import etd_text
 
         if self.light_curve is None:
             return None
@@ -3019,7 +3019,7 @@ class PhotometryPage(Undoable, QWidget):
     def _export_aavso(self):
         self.guide.set_state(5, "done")
         from ..brand import BRAND
-        from ..photometry.export import aavso_extended
+        from ..photometry.reports.aavso_extended import aavso_extended
 
         dialog = AavsoDialog(len(self.comps), self, sequence=lambda filt: from_sequence(self, filt))
         mags = self.known_comp_mags()

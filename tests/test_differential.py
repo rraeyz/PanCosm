@@ -143,7 +143,7 @@ def synthetic_lc(n=60):
 
 
 def test_photometry_page_differential_workflow(qtbot, tmp_path):
-    from astrowb.photometry.export import aavso_extended
+    from astrowb.photometry.reports.aavso_extended import aavso_extended
     from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
@@ -960,7 +960,7 @@ def test_etd_text_and_the_csv_the_models_page_reads(tmp_path):
     """plans/photometry.md item 15: the ETD / VarAstro file is "first column the Julian date, second the brightness"
     (their FAQ), with the error third; the CSV export opens on the Models page as it is."""
     from astrowb.models.data import read_light_curve
-    from astrowb.photometry.export import etd_text
+    from astrowb.photometry.reports.etd import etd_text
     from astrowb.ui.photometry_page import export_csv
 
     lc = synthetic_lc()
