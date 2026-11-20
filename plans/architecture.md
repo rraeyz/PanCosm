@@ -558,7 +558,7 @@ the suite is green after each.
 - **Depends on:** ARC-4.7.
 
 ### ARC-8. Table layer: one table for every window  (P1)
-**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: the layer is done, left: item 5, moving the old tables onto TableView) (2026-11-20) item 5 begun: the header-edit preview (`HeadersDialog`) is a TableView (`test_headers`); left: about 27 plain QTableWidgets and the DataTable users (photometry checks, NEB, stars, transit)
+**partial — unclaimed** (agent3's claim of 2026-11-10 released on 2026-11-13: the layer is done, left: item 5, moving the old tables onto TableView) (2026-11-20) item 5 begun: the header-edit preview (`HeadersDialog`) is a TableView (`test_headers`), the time converter's result and the image's Information tab too (`test_units_time`, `test_inspect`); the Project runs list and the header table need a decision (selection with ids, live editing); left: about 27 plain QTableWidgets and the DataTable users (photometry checks, NEB, stars, transit)
 - **Progress (agent3):** items 1 and 2 done. `core/table.py`: `select()` (column names, arithmetic, chained
   comparisons, and / or / not, abs / isnan / log10 / sqrt — parsed with `ast`, nothing else can run), `write()`
   to CSV, ECSV, VOTable, HTML (Astropy's writers), AASTeX deluxetable and Markdown with "value ± error" rounded by

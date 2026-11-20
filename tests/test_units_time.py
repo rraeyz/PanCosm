@@ -103,7 +103,7 @@ def test_converter_window(qapp, tmp_path):
     d.target.setText("02:04:10.3 +46:41:16")
     d.times.setPlainText("2460512.5\n2460512.6")
     d.convert()
-    assert d.table.rowCount() == 2 and d.table.item(0, 0).text() == "2460512.500000"
+    assert d.table.model.rowCount() == 2 and d.table.copy_text([0]).splitlines()[1].startswith("2460512.500000")
     assert d.text().splitlines()[0].startswith("JD_UTC\tMJD_UTC") and len(d.text().splitlines()) == 3
     assert "69.2 s" not in d.status.text()
     d.standard.setCurrentText("HJD_UTC")  # ARC-15 item 4: UTC or TT unknown in old papers: 69.184 s apart in 2024

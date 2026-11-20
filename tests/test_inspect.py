@@ -83,12 +83,12 @@ def test_images_page_tools(qtbot, tmp_path):
     page.set_tool("aperture")
     assert page.viewer.tool == "aperture"
     page.viewer.clicked.emit(60.0, 71.0)
-    names = [page.info.item(i, 0).text() for i in range(page.info.rowCount())]
+    names = list(page.info.model.table.columns[0])
     assert "Net counts in the aperture" in names and "Net electrons" in names and "FWHM (px)" in names
     assert page.graph is not None and page.graph.figure.axes
     page.set_tool("area")
     page.viewer.region_selected.emit(10.0, 10.0, 29.0, 19.0)
-    values = {page.info.item(i, 0).text(): page.info.item(i, 1).text() for i in range(page.info.rowCount())}
+    values = dict(zip(*page.info.model.table.columns.values(), strict=True))
     assert values["Pixels"] == "200" and values["Size (px)"] == "20 × 10"
     for i in range(page.graph_kind.count()):  # histogram, row and column profiles, 3-D surface
         page.graph_kind.setCurrentIndex(i)
@@ -101,6 +101,6 @@ def test_images_page_tools(qtbot, tmp_path):
     assert rows[0].count(",") == 2 and len(rows) == 1 + 200
     page.set_tool("line")
     page.viewer.line_selected.emit(0.0, 70.6, 199.0, 70.6)
-    values = {page.info.item(i, 0).text(): page.info.item(i, 1).text() for i in range(page.info.rowCount())}
+    values = dict(zip(*page.info.model.table.columns.values(), strict=True))
     assert values["Length (px)"] == "199.00"
     assert page.measure_whole()["pixels"] == 200 * 200

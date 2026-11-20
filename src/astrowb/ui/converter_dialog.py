@@ -3,6 +3,7 @@ column of times in one standard → the same times in every standard, with altit
 airmass (core/units.convert_times). Pasting a whole column converts it; Copy puts the table on the clipboard."""
 
 import numpy as np
+from astropy.table import Column, Table
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import (
     QApplication,
@@ -14,12 +15,11 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPlainTextEdit,
     QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
 )
 
 from ..core import profiles, units
+from .kit.table import TableView
 from .messages import translate
 
 COLUMNS = (*units.STANDARDS, "alt", "az", "ha", "airmass", "v_bary")  # v_bary: km/s to add to an observed velocity
@@ -67,8 +67,8 @@ class ConverterDialog(QDialog):
         self.status = QLabel(self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        self.table = QTableWidget(0, len(COLUMNS), self)
-        self.table.setHorizontalHeaderLabels(COLUMNS)
+        self.table = TableView(self)
+        self.table.set_table(Table(names=COLUMNS, dtype=(float,) * len(COLUMNS)))
         lay.addWidget(self.table, 1)
         self.resize(1000, 520)
         self.result = None
@@ -102,13 +102,12 @@ class ConverterDialog(QDialog):
             + self._scale_doubt()
         )
         shown = min(n, 2000)
-        self.table.setRowCount(shown)
-        for col, key in enumerate(COLUMNS):
-            column = self.result.get(key)
-            for row in range(shown if column is not None else 0):
-                v = float(column[row])
-                text = f"{v:.6f}" if key in units.STANDARDS else f"{v:.3f}"
-                self.table.setItem(row, col, QTableWidgetItem(text))
+        shown_table = Table()
+        for key in COLUMNS:
+            column = self.result.get(key)  # a column left out (altitudes beyond 2000 times) shows empty
+            values = np.asarray(column[:shown], dtype=float) if column is not None else np.full(shown, np.nan)
+            shown_table[key] = Column(values, format="{:.6f}" if key in units.STANDARDS else "{:.3f}")
+        self.table.set_table(shown_table)
         return self.result
 
     def _scale_doubt(self):
