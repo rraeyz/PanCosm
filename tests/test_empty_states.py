@@ -21,6 +21,7 @@ def test_every_view_says_what_will_appear(main, qtbot):
     from PySide6.QtWidgets import QApplication
 
     from astrowb.ui.kit.widgets import PlotCanvas
+    from astrowb.ui.plot.view import PlotView
     from astrowb.ui.viewer import ImageViewer
 
     blank = []
@@ -31,6 +32,9 @@ def test_every_view_says_what_will_appear(main, qtbot):
         for view in area.findChildren(ImageViewer):
             if view.isVisible() and view.data is None and not view.empty_hint.strip():
                 blank.append(f"{key}: image view {view.objectName() or type(view.parent()).__name__}")
+        for plot in area.findChildren(PlotView):
+            if plot.isVisible() and plot.is_empty() and not (plot.hint.isVisible() and plot.hint.text().strip()):
+                blank.append(f"{key}: plot in {type(plot.parent()).__name__}")
         for plot in area.findChildren(PlotCanvas):
             drawn = any(ax.has_data() for ax in plot.figure.axes)
             if plot.isVisible() and not drawn and not (plot.hint.isVisible() and plot.hint.text().strip()):
