@@ -533,6 +533,8 @@ class PhotometryPage(Undoable, QWidget):
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
         self.plot = PlotCanvas(bottom)
+        for name in ("button_press_event", "key_press_event"):  # a click in delete mode, or the Delete key
+            self.plot.canvas.mpl_connect(name, self._plot_clicked)
         left = QVBoxLayout()  # the plot and, under it, what was measured (scatter, warnings)
         left.addWidget(self.plot, 1)
         b_lay.addLayout(left, 1)
@@ -2506,9 +2508,6 @@ class PhotometryPage(Undoable, QWidget):
         sat = self._saturated_frames(lc)
         self.plot.figure.clear()
         self._plotted = None
-        if not getattr(self, "_click_hooked", False):
-            self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
-            self._click_hooked = True
         ax = self.plot.figure.add_subplot()
         if what == "diff":
             label = self._plot_differential(ax, lc, x, sat)
@@ -2801,8 +2800,11 @@ class PhotometryPage(Undoable, QWidget):
         return self.tr("Δm (mag)")
 
     def _plot_clicked(self, event):
-        """With "Click a point to delete it": the point nearest the click (within 10 screen pixels) is left out."""
-        if not (self.delete_mode.isChecked() and self._plotted and event.inaxes is self._plotted[0]):
+        """In delete mode a click, or the Delete key at any time: the point nearest (within 10 px) is left out."""
+        keyed = getattr(event, "name", "") == "key_press_event"
+        if not (event.key == "delete" if keyed else self.delete_mode.isChecked()):
+            return
+        if not (self._plotted and event.inaxes is self._plotted[0]):
             return
         ax, x, y = self._plotted
         pix = ax.transData.transform(np.column_stack([x, y]))

@@ -143,6 +143,7 @@ class PlotView(QWidget):
         self.figure, self.plots, self.items, self.offsets = None, [], [], {}
         self.cursor_x = None
         self._measure_from = None
+        self.hit = None  # (series, id, x, y) nearest the cursor, for keys like Delete
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
         # said over the empty plot (UI-6: no blank rectangle without words), as PlotCanvas does
         self._empty_text = translate("PlotCanvas", "Nothing to show yet: the plot appears here once there are results")
@@ -524,7 +525,7 @@ class PlotView(QWidget):
         self.cursor_moved.emit(translate("PlotCanvas", "Δx = {dx:.6g}   Δy = {dy:.6g}").format(dx=dx, dy=dy))
 
     def _mouse_moved(self, pos):
-        self.cursor_x = None
+        self.cursor_x = self.hit = None
         for plot in self.plots:
             vb = plot.getViewBox()
             if vb.sceneBoundingRect().contains(pos):
@@ -532,7 +533,7 @@ class PlotView(QWidget):
                 off = self.offsets.get(id(vb), 0.0)
                 self.cursor_x = p.x() + off
                 text = f"x = {p.x() + off:.6g}   y = {p.y():.6g}"
-                hit = self.nearest(vb, p.x(), p.y())
+                hit = self.hit = self.nearest(vb, p.x(), p.y())
                 if hit is not None:
                     text += f"   {hit[0]} #{hit[1]}"
                 self.cursor_moved.emit(text)

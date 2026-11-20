@@ -26,6 +26,7 @@ from .undo import Undoable
 
 
 class PeriodPage(Undoable, QWidget):
+    _selection = []  # indices a lasso enclosed; replaced (never changed in place) by _lassoed and delete_points
     """Period search on a light curve (from the Photometry window or a CSV file) and phase folding."""
 
     search_requested = Signal(list, list, dict)  # time, flux, params
@@ -321,6 +322,8 @@ class PeriodPage(Undoable, QWidget):
         lay.setContentsMargins(0, 0, 0, 0)
         self.plot = PlotView(parent=self)
         self.plot.point_clicked.connect(self._picked)
+        self.plot.points_selected.connect(self._lassoed)
+        self.plot.key_pressed.connect(self._plot_key)
         self.plot.installEventFilter(self)  # ← → step to the neighbouring peaks
         lay.addWidget(PlotToolbar(self.plot, self))
         lay.addWidget(self.plot, 1)
@@ -333,11 +336,32 @@ class PeriodPage(Undoable, QWidget):
             if not self.delete_mode.isChecked():
                 self.fold_at(self.periodogram["periods"][i])
         elif self.delete_mode.isChecked() and self.time:
-            t, y = np.asarray(self.time), np.asarray(self.flux)
-            e = None if self.err is None else np.delete(np.asarray(self.err), i)
-            self.edit(
-                self.tr("delete a point"), self._edited, np.delete(t, i), np.delete(y, i), self.tr("points deleted"), e
-            )
+            self.delete_points([i])
+
+    def _lassoed(self, name, ids):
+        """The points of the data a lasso (L + drag) enclosed: what Delete then leaves out."""
+        if name != self._data_name():
+            return
+        self._selection = list(ids)
+
+    def _data_name(self):
+        return self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux")
+
+    def _plot_key(self, key, _x):
+        """Delete over the plot leaves out the lassoed points, else the data point under the cursor (undoable)."""
+        hit = self.plot.hit
+        ids = self._selection or ([hit[1]] if hit and hit[0] == self._data_name() else [])
+        if key == "delete" and self.time and ids:
+            self.delete_points(ids)
+
+    def delete_points(self, ids):
+        """Leave out the data points with these indices: one undo step, the page's own edit path."""
+        self._selection = []
+        t, y = np.asarray(self.time), np.asarray(self.flux)
+        e = None if self.err is None else np.delete(np.asarray(self.err), ids)
+        self.edit(
+            self.tr("delete a point"), self._edited, np.delete(t, ids), np.delete(y, ids), self.tr("points deleted"), e
+        )
 
     def fold_at(self, period):
         """Fold at the highest peak within 3 % of the period clicked on."""
@@ -381,7 +405,7 @@ class PeriodPage(Undoable, QWidget):
     def _data_series(self, x, alpha, size):
         """The light curve's points against x, with error bars when there are errors; clickable (delete mode)."""
         return SeriesSpec(
-            self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux"),
+            self._data_name(),
             x,
             self.flux,
             yerr=self.err,

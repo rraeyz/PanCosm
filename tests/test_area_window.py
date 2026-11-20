@@ -6,6 +6,7 @@ from PySide6.QtGui import QAction, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import QLabel, QWidget
 
 from astrowb.settings import Settings
+from astrowb.ui.kit.banners import InfoBanner
 from astrowb.ui.kit.window import AreaWindow
 
 
@@ -362,6 +363,7 @@ def test_keyboard_shortcuts_sheet_and_no_key_twice(qtbot, tmp_path):
     sheet = win.show_shortcuts()
     rows = [sheet.table.item(i, 0).text() for i in range(sheet.table.rowCount())]
     assert any("Find an action" in r for r in rows) and any("Keyboard shortcuts" in r for r in rows)
+    assert {"Plot: show all", "Plot: leave out the points under the cursor"} <= set(rows)  # a plot's keys, not actions
     sheet.search.setText("find action")
     shown = [i for i in range(sheet.table.rowCount()) if not sheet.table.isRowHidden(i)]
     assert shown and all("Find" in sheet.table.item(i, 0).text() for i in shown)
@@ -533,7 +535,7 @@ def test_shift_f1_then_a_click_opens_that_controls_topic(qtbot, tmp_path):
 
 
 def test_the_main_button_waits_while_its_work_runs(qtbot, tmp_path):
-    """UI-9: the stage's main button that started a task is disabled and shows the progress until the task ends."""
+    """UI-9: the stage's main button that started a task becomes Stop with the progress until the task ends."""
     from types import SimpleNamespace
 
     from PySide6.QtWidgets import QPushButton
@@ -553,7 +555,79 @@ def test_the_main_button_waits_while_its_work_runs(qtbot, tmp_path):
     win.track(task)
     task.progress = 0.4
     win.task_update(task)
-    assert not run.isEnabled() and run.text() == "Measure — 40 %"
+    assert run.text() == "Stop — 40 %"
+    pressed, stopped = [], []
+    run.clicked.connect(lambda: pressed.append(1))
+    win._held[7].cancel = lambda: stopped.append(1)
+    qtbot.mouseClick(run, Qt.LeftButton)
+    assert stopped == [1] and not pressed  # a click stops the work, it does not start it again
     task.state, task.finished = "done", True
     win.task_update(task)
-    assert run.isEnabled() and run.text() == "Measure"
+    assert run.text() == "Measure"
+    qtbot.mouseClick(run, Qt.LeftButton)
+    assert pressed == [1]
+
+
+def test_two_windows_two_tasks_one_cancelled(qtbot, tmp_path, monkeypatch):
+    """UI-9 accept: two tasks from two windows, one cancelled: each chip, popover and toast is its own window's;
+    each 90 s task that ends behind another window gives one system notification."""
+    import time
+    from types import SimpleNamespace
+
+    from astrowb.ui.kit import notify as notify_mod
+
+    sent = []
+    monkeypatch.setattr(notify_mod, "notify", lambda *a: sent.append(a) or True)
+    a = AreaWindow("a", "A", Settings(tmp_path), QLabel("a"))
+    b = AreaWindow("b", "B", Settings(tmp_path), QLabel("b"))
+    for w in (a, b):
+        qtbot.addWidget(w)
+        w.show()
+    cancelled = []
+    ta = SimpleNamespace(id=1, name="photometry.measure", state="running", progress=0.5, message="", finished=False,
+                         cancel=lambda: cancelled.append("a"), _started=time.monotonic() - 90)  # fmt: skip
+    tb = SimpleNamespace(id=2, name="photometry.measure", state="running", progress=0.1, message="", finished=False,
+                         cancel=lambda: cancelled.append("b"), _started=time.monotonic() - 90)  # fmt: skip
+    a.track(ta)
+    b.track(tb)
+    assert len(a.task_chip.running()) == 1 and len(b.task_chip.running()) == 1
+    b.task_chip.menu().aboutToShow.emit()
+    sub = [x for x in b.task_chip.menu().actions() if x.menu()][0].menu()
+    [x for x in sub.actions() if x.text() == "Cancel"][0].trigger()
+    assert cancelled == ["b"]
+    tb.state, tb.finished = "cancelled", True
+    b.task_update(tb)
+    assert not b.task_chip.running() and len(a.task_chip.running()) == 1
+    ta.state, ta.progress, ta.finished = "done", 1.0, True
+    ta.timeline = []
+    a.task_update(ta)
+    assert not a.task_chip.running()
+    assert [m[1] for m in sent] == ["B", "A"]  # one message per ended long task, each from its own window
+
+
+def test_a_stage_hint_shows_the_first_time_only_and_can_be_turned_off(qtbot, tmp_path):
+    """UI-7 item 5: a dismissible coach mark on a stage's first opening; "Hints" off in Settings shows none."""
+    from astrowb.ui.kit.anatomy import Stage
+
+    settings = Settings(tmp_path)
+    win = AreaWindow("demo", "Demo", settings, QLabel("view"))
+    qtbot.addWidget(win)
+    win.set_stages([Stage("images", "Images", QLabel("i")), Stage("stars", "Stars", QLabel("s"), hint="Click a star")])
+    win.show_stage("stars")
+    banners = win.stage_panels["stars"].findChildren(InfoBanner)
+    assert [b.text() for b in banners] == ["Click a star"]
+    banners[0].dismiss()
+    assert settings.get("ui.hints_seen") == ["demo.stars"]
+    win.show_stage("images")
+    win.show_stage("stars")
+    assert len(win.stage_panels["stars"].findChildren(InfoBanner)) == 1  # not made twice
+    again = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("view"))
+    qtbot.addWidget(again)
+    again.set_stages([Stage("stars", "Stars", QLabel("s"), hint="Click a star")])
+    assert not again.stage_panels["stars"].findChildren(InfoBanner)  # seen in an earlier session
+    settings.set("ui.hints_seen", [])
+    settings.set("ui.hints", False)
+    off = AreaWindow("demo", "Demo", Settings(tmp_path), QLabel("view"))
+    qtbot.addWidget(off)
+    off.set_stages([Stage("stars", "Stars", QLabel("s"), hint="Click a star")])
+    assert not off.stage_panels["stars"].findChildren(InfoBanner)

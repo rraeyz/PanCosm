@@ -70,6 +70,37 @@ def status_strip(win):
     show()
     win.statusBar().addPermanentWidget(win.compute_chip)
     win.statusBar().addPermanentWidget(online)
+    time_chip_and_tasks(win)
+
+
+def time_chip_and_tasks(win):
+    """The rest of the strip (UI-5 item 5): whether the Earth-rotation tables are up to date (a click updates them)
+    and the tasks chip, whose popover is the task list; the tasks dock stays until the owner says it may go."""
+    from PySide6.QtWidgets import QToolButton
+
+    from ..core import earth_orientation
+    from .kit.tasks import TaskChip
+    from .names import step_name
+
+    translate = QCoreApplication.translate
+    chip = win.time_chip = QToolButton(win)
+    chip.setAutoRaise(True)
+    chip.clicked.connect(lambda: win.update_time_tables())
+
+    def refresh():
+        old = earth_orientation.due()
+        chip.setText(
+            translate("MainWindow", "● Time tables out of date")
+            if old
+            else translate("MainWindow", "● Time tables up to date")
+        )
+        chip.setToolTip(translate("MainWindow", "Click to update the Earth-rotation tables now"))
+
+    win.refresh_strip = refresh
+    refresh()
+    win.task_chip = TaskChip(win, step_name, win.report_problem)
+    win.statusBar().addPermanentWidget(chip)
+    win.statusBar().addPermanentWidget(win.task_chip)
 
 
 def show_compute(win):

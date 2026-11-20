@@ -54,6 +54,9 @@ class WelcomeDialog(QDialog):
             "the predictions in the installed tables slowly lose accuracy, but nothing stops working."
         )
         lay.addWidget(self.time_tables)
+        self.setup_now = QCheckBox("Set up my site and equipment now (Settings → Profiles opens after the start)", self)
+        self.setup_now.setToolTip("Later: Settings → All settings… → Profiles, or the link in the start window")
+        lay.addWidget(self.setup_now)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok, self)
         ok = buttons.button(QDialogButtonBox.Ok)
         ok.setText("Start")
@@ -82,6 +85,7 @@ class WelcomeDialog(QDialog):
             "compute.device": self.device.currentData(),
             "ui.theme": self.look.currentData(),
             "time.auto_refresh": self.time_tables.isChecked(),
+            "_setup_now": self.setup_now.isChecked(),  # not a setting: the start-up opens Profiles
         }
 
 
@@ -93,6 +97,7 @@ def first_run(app, settings, dialog_factory=WelcomeDialog):
     dlg.exec()  # closing the window keeps the defaults shown
     choices = dlg.choices()
     for key, value in choices.items():
-        settings.set(key, value)
+        if not key.startswith("_"):
+            settings.set(key, value)
     settings.set("ui.first_run_done", True)
     return choices

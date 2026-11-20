@@ -48,6 +48,9 @@ class TaskActions:
             self.tasks_list.addItem(text)
             self._task_items[task.id] = (task, self.tasks_list.count() - 1)
         self.tasks_list.item(self._task_items[task.id][1]).setText(text)
+        self.task_chip.update_task(task)
+        if task.finished:
+            self.refresh_strip()
         self.progress.setVisible(any(not t.finished for t, _ in self._task_items.values()))
         self.progress.setValue(int(task.progress * 100))
         from .kit.window import AreaWindow
@@ -89,8 +92,12 @@ class TaskActions:
             "open_project": self.open_project_dialog,
             "open_fits": self.open_fits_dialog,
             "profiles": lambda: self.show_settings().show_profiles(),
+            "practice_data": self.practice_data,
         }
-        actions[key]() if key in actions else self.open_area(key)
+        if key.startswith("guide:"):  # an area card's menu: the guide chapter of the area
+            self._help_for(key[6:])
+        else:
+            actions[key]() if key in actions else self.open_area(key)
 
     def _dock(self, name, title, widget, area):
         dock = QDockWidget(title, self)

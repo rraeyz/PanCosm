@@ -6,10 +6,12 @@ from datetime import UTC
 from pathlib import Path
 
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication, QEvent, QSize, Qt, Signal
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QListWidget,
     QListWidgetItem,
     QPushButton,
@@ -66,12 +68,16 @@ class StartPage(QWidget):
     action = Signal(str)  # "new_project" | "open_project" | "open_fits" | area key
     resume = Signal(str, str)  # (kind, path): "project" or an area key, and the file to open
     mode_chosen = Signal(str)  # "basic" | "expert"
+    search_requested = Signal(str)  # text typed in "Find anything" (Ctrl+K): the main window opens the palette
     tonight_ready = Signal(str)  # the Tonight line, computed off the GUI thread
 
     def __init__(self, parent=None, mode="basic", recent=()):
         super().__init__(parent)
         lay = QVBoxLayout(self)
-        lay.addWidget(_title(self.tr("Welcome to {app}").format(app=BRAND.display_name), self))
+        head = QHBoxLayout()  # the title and "Find anything" on one row: the page must fit a short window
+        head.addWidget(_title(self.tr("Welcome to {app}").format(app=BRAND.display_name), self), 1)
+        self._find_field(head)
+        lay.addLayout(head)
         # one row: the project on the left, Basic / Expert on the right (the blocks need the height)
         self.top = top = QHBoxLayout()
         self.project_row, self.mode_row = QHBoxLayout(), QHBoxLayout()
@@ -80,6 +86,11 @@ class StartPage(QWidget):
             (self.tr("New project"), self.tr("Keep frames, settings and results together"), "new_project"),
             (self.tr("Open project…"), self.tr("Continue earlier work"), "open_project"),
             (self.tr("Open a FITS image"), self.tr("Look at an image and its header"), "open_fits"),
+            (
+                self.tr("Practice data…"),
+                self.tr("Simulated nights with known answers, to try every step"),
+                "practice_data",
+            ),  # one folder with every set; the Guide then says where to begin (ARC-21)
         ):
             button = QPushButton(title, self)
             button.setObjectName(f"start_{key}")
@@ -116,35 +127,61 @@ class StartPage(QWidget):
         lay.addWidget(self.choose)
         self.grid = QGridLayout()
         self.grid.setSpacing(6)
-        self.blocks, self.columns = [], 0
-        for key, _symbol, name, what in areas():
-            block = QToolButton(self)
-            block.setObjectName(f"start_{key}")
-            block.setText(f"{name}\n{what}")  # kept for the accessibility name and the tests; drawn by the labels
-            block.setToolTip(what)
-            block.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            block.setToolButtonStyle(Qt.ToolButtonIconOnly)
-            block.setIcon(area_icon(f"area_{key}", self, 48))
-            block.setIconSize(QSize(0, 0))  # the icon is drawn by the label beside the name
-            inner = QHBoxLayout(block)
-            inner.setContentsMargins(8, 2, 8, 2)
-            icon = QLabel(block)
-            icon.setPixmap(area_icon(f"area_{key}", self, 28).pixmap(28, 28))
-            # the description smaller and muted: ten blocks fit a laptop window at 125 % on Windows too
-            text = QLabel(f"<b>{name}</b><br><span style='color:gray; font-size:small'>{what}</span>", block)
-            text.setTextFormat(Qt.RichText)
-            text.setWordWrap(True)
-            for label in (icon, text):
-                label.setAttribute(Qt.WA_TransparentForMouseEvents)  # the click goes to the block
-            inner.addWidget(icon)
-            inner.addWidget(text, 1)
-            block.setMinimumHeight(2 * text.fontMetrics().lineSpacing() + 6)  # the name and one line of text
-            block.label = text
-            block.clicked.connect(lambda _=False, k=key: self.action.emit(k))
-            self.blocks.append(block)
+        self.columns = 0
+        self.blocks = [self._area_block(key, name, what) for key, _symbol, name, what in areas()]
         self._arrange(1)
         lay.addLayout(self.grid)
         lay.addStretch(1)
+
+    def _area_block(self, key, name, what):
+        block = QToolButton(self)
+        block.setObjectName(f"start_{key}")
+        block.setText(f"{name}\n{what}")  # kept for the accessibility name and the tests; drawn by the labels
+        block.setToolTip(what)
+        block.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        block.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        block.setIcon(area_icon(f"area_{key}", self, 48))
+        block.setIconSize(QSize(0, 0))  # the icon is drawn by the label beside the name
+        inner = QHBoxLayout(block)
+        inner.setContentsMargins(8, 2, 8, 2)
+        icon = QLabel(block)
+        icon.setPixmap(area_icon(f"area_{key}", self, 28).pixmap(28, 28))
+        # the description smaller and muted: ten blocks fit a laptop window at 125 % on Windows too
+        text = QLabel(f"<b>{name}</b><br><span style='color:gray; font-size:small'>{what}</span>", block)
+        text.setTextFormat(Qt.RichText)
+        text.setWordWrap(True)
+        for label in (icon, text):
+            label.setAttribute(Qt.WA_TransparentForMouseEvents)  # the click goes to the block
+        inner.addWidget(icon)
+        inner.addWidget(text, 1)
+        block.setMinimumHeight(2 * text.fontMetrics().lineSpacing() + 6)  # the name and one line of text
+        block.label = text
+        block.clicked.connect(lambda _=False, k=key: self.action.emit(k))
+        block.setContextMenuPolicy(Qt.CustomContextMenu)
+        block.customContextMenuRequested.connect(lambda pos, k=key, b=block: self._card_menu(k, b, pos))
+        return block
+
+    def _find_field(self, lay):
+        """ "Find anything" over areas, files, the guide and settings (start_search); Ctrl+K opens it too."""
+        self.find = QLineEdit(self)
+        self.find.setPlaceholderText(self.tr("Find anything… (Ctrl+K)"))
+        self.find.setClearButtonEnabled(True)
+        self.find.setMaximumWidth(300)
+        self.find.setToolTip(self.tr("Areas, recent files, guide topics, menu actions and settings: type a few words"))
+        self.find.textEdited.connect(lambda text: (self.find.clear(), self.search_requested.emit(text)))
+        QShortcut(QKeySequence("Ctrl+K"), self, lambda: self.search_requested.emit(""))
+        lay.addWidget(self.find)
+
+    def _card_menu(self, key, block, pos):
+        """Right-click on an area card: open it, or read its chapter of the guide. (No "open in a new window": an
+        area has one window, raised again, never a second one.)"""
+        from PySide6.QtWidgets import QMenu
+
+        menu = QMenu(block)
+        menu.addAction(self.tr("Open"), lambda: self.action.emit(key))
+        menu.addAction(self.tr("Open the guide chapter"), lambda: self.action.emit("guide:" + key))
+        menu.popup(block.mapToGlobal(pos))
+        return menu
 
     def _continue_cards(self, lay):
         self.continue_label = QLabel(self.tr("Continue where you left off:"), self)
@@ -156,8 +193,33 @@ class StartPage(QWidget):
         self.continue_list.setGridSize(QSize(260, 52))
         self.continue_list.itemClicked.connect(lambda item: self.resume.emit(*item.data(Qt.UserRole)))
         self.continue_list.itemActivated.connect(lambda item: self.resume.emit(*item.data(Qt.UserRole)))
-        lay.addWidget(self.continue_label)
-        lay.addWidget(self.continue_list)
+        self.all_sessions = QPushButton(self.tr("All sessions…"), self)  # the cards hold the latest six
+        self.all_sessions.setFlat(True)
+        self.all_sessions.setToolTip(self.tr("Every saved piece of work, not only the latest six"))
+        self.all_sessions.clicked.connect(self._show_all)
+        # no work yet: one line of what to do first (a larger empty state made the page taller than a short window)
+        self.empty = QWidget(self)
+        row = QHBoxLayout(self.empty)
+        row.setContentsMargins(0, 0, 0, 0)
+        row.addWidget(QLabel(self.tr("Nothing to continue yet."), self.empty))
+        for text, key in ((self.tr("Open images…"), "open_fits"), (self.tr("Try the practice data"), "practice_data")):
+            b = QPushButton(text, self.empty)
+            b.setToolTip(text)
+            b.clicked.connect(lambda _=False, k=key: self.action.emit(k))
+            row.addWidget(b)
+        row.addStretch(1)
+        for w in (self.continue_label, self.continue_list, self.all_sessions, self.empty):
+            lay.addWidget(w)
+
+    def _show_all(self):
+        """Every saved piece of work, not only the cards: a menu under the button."""
+        from PySide6.QtWidgets import QMenu
+
+        menu = QMenu(self)
+        for kind, path in self._all:
+            menu.addAction(f"{Path(path).name} — {self._names[kind]}",
+                           lambda k=kind, p=path: self.resume.emit(k, str(p)))  # fmt: skip
+        menu.exec(self.all_sessions.mapToGlobal(self.all_sessions.rect().bottomLeft()))
 
     def _tonight_label(self):
         self.tonight = QLabel(self)
@@ -222,8 +284,9 @@ class StartPage(QWidget):
     def set_recent(self, recent):
         """recent: [(kind, path)] — "project" or an area key — newest first; missing files are left out."""
         self.continue_list.clear()
-        names = {key: name for key, _, name, _ in areas()}
+        names = self._names = {key: name for key, _, name, _ in areas()}
         names["project"] = self.tr("Project")
+        self._all = [(k, p) for k, p in recent if Path(p).exists()]
         from PySide6.QtCore import QDateTime, QLocale
 
         from .kit.icons import ICONS
@@ -242,6 +305,8 @@ class StartPage(QWidget):
         empty = n == 0
         self.continue_label.setHidden(empty)
         self.continue_list.setHidden(empty)
+        self.empty.setVisible(empty)  # no work yet: what to do first
+        self.all_sessions.setVisible(len(self._all) > self.CARDS)
 
     MIN_COLUMN = 300
     CARDS = 6  # the most recent work shown

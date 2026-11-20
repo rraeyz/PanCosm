@@ -1007,3 +1007,28 @@ def test_aavso_extended_validator_rereads_its_file():
     row = report.splitlines()[7].split(",")
     assert ax.validate(report.replace(row[2], "x", 1)) == ["line 8: x is not a number"]
     assert ax.validate(report + "a,b\n") == [f"line {len(report.splitlines()) + 1}: 15 columns expected"]
+
+
+def test_delete_key_over_the_photometry_plot_leaves_out_the_point_under_the_cursor(qtbot):
+    """UI-12: Delete over the light curve leaves out the nearest point through the same undoable path as a click."""
+    from matplotlib.backend_bases import KeyEvent
+
+    from astrowb.ui.photometry_page import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.viewer.set_image(field(4.0))
+    page.images = ["x.fits"]
+    for xy in ((60.3, 70.6), (140.2, 60.1), (100.7, 150.4)):
+        page._clicked(*xy)
+    page.show_light_curve(synthetic_lc(40))
+    page.resize(1200, 800)
+    page.show()
+    page.plot.canvas.draw()
+    ax, x, y = page._plotted
+    px, py = ax.transData.transform((x[5], y[5]))
+    canvas = page.plot.canvas
+    canvas.callbacks.process("key_press_event", KeyEvent("key_press_event", canvas, "delete", px, py))
+    assert len(page.light_curve["time"]) == 39
+    page.undo_stack.undo()
+    assert len(page.light_curve["time"]) == 40

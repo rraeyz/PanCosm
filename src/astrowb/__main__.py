@@ -402,6 +402,8 @@ def _app(argv) -> int:
 
     if not settings.get("ui.tour_done"):
         QTimer.singleShot(600, win.start_tour)  # once, after the first start
+    if chosen and chosen.get("_setup_now"):
+        QTimer.singleShot(0, lambda: win.show_settings().show_profiles())  # the welcome dialog's "set up now"
     QTimer.singleShot(1500, _warm_imports)
     if settings.get("time.auto_refresh", True) and earth_orientation.due():  # weekly, quietly, when allowed
         QTimer.singleShot(8000, lambda: win.update_time_tables(quiet=True))
