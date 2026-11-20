@@ -187,6 +187,24 @@ def test_suggestion_says_what_it_chose(qtbot):
     assert table.horizontalHeaderItem(1).text() == "Magnitude (instrumental)" and table.item(0, 2).text() == "—"
 
 
+def test_suggested_rings_are_dotted_until_accepted(qtbot):
+    from astrowb.ui.photometry_page import PhotometryPage
+
+    page = PhotometryPage()
+    qtbot.addWidget(page)
+    page.viewer.set_image(field(4.0))
+    page.images = ["x.fits"]
+    page._clicked(60.3, 70.6)
+    page.set_comparisons([(140.2, 60.1), (100.7, 150.4)])
+    marks = lambda: [m for m in page.viewer.marker_list if (m[0], m[1]) == (140.2, 60.1)]  # noqa: E731
+    assert page.accept_button.isEnabled() and all("dot" in m[5:] for m in marks())
+    page._clicked(30.0, 30.0)  # an edit: the stars are the user's now
+    assert not page.accept_button.isEnabled() and all("dot" not in m[5:] for m in marks())
+    page.set_comparisons([(140.2, 60.1)])
+    page.accept_button.click()
+    assert not page.accept_button.isEnabled() and all("dot" not in m[5:] for m in marks())
+
+
 def test_a_neighbour_in_the_target_wings_is_pointed_out(qtbot):
     # a faint neighbour in the target's wings: radii that follow the seeing take a varying share of its light
     stars = [(100.0, 100.0, 2e5), (300.0, 120.0, 2e5), (140.0, 300.0, 2e5), (320.0, 310.0, 2e5)]

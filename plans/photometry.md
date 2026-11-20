@@ -151,8 +151,12 @@ row centres its star (`ui/photometry_stars.py`; the page asks with the default r
 that table adds the chosen star as a comparison star (undoable; 2026-11-13). The rules section: "Rules for
 comparison stars…" (`ui/comparison_rules.py`: brightness and colour window, distance, catalogue error, variables,
 noisy Gaia stars, S/N, count; kept in the settings, the defaults one press away) goes with every Suggest. Without a plate solution (2026-11-14): `aperture.judge_pixels` gives every star found on the image its verdict (chosen, not needed, edge, too bright / faint, saturated, neighbour), the step returns them and "Why these stars?" shows them with instrumental magnitudes. GCVS (VizieR B/gcvs, beside VSX, in the field's
-"gcvs" list and the `variable_gcvs` verdict; 2026-11-14). Left:
-suggested rings,  the guide, the Qatar-1 check, the 4k timing. NY Vir check done (2026-11-20, the owner's T100
+"gcvs" list and the `variable_gcvs` verdict; 2026-11-14). Suggested rings (2026-11-20): the chosen stars are drawn
+with dotted rings (viewer style "dot") while the marked comparison stars are exactly the suggested ones
+(`PhotometryPage.suggestion_pending`); "Use these" (`_accept_suggestion`) or any edit makes them the usual rings; test
+`test_suggested_rings_are_dotted_until_accepted`. Guide 06 "Rules for comparison stars and the reason for every star
+left out" in four languages (2026-11-20). Left: the Qatar-1 check (needs the owner's night), the 4k timing (needs a
+real run). NY Vir check done (2026-11-20, the owner's T100
 frame in data/owner, default rules): of 40 Gaia stars 4 chosen (G 12.2-14.2), 1 not needed, 31 too faint (> target
 + 3 mag), 2 too bright (peaks 64 804 and 59 740 counts, near saturation), 2 at the edge (one 29 px from the
 shadowed border); the sdB target's colour (BP−RP −0.40) has no match and the result says so (same_colour false).
