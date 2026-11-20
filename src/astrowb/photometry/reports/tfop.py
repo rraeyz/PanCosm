@@ -58,11 +58,11 @@ def tfop_files(folder, lc, fit, stars, neb, image):
     if neb:
         (folder / "NEB").mkdir(parents=True, exist_ok=True)
         path = folder / "NEB" / "NEB_check.csv"  # beside its plots (PHO-23)
-        cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y")
+        cols = ("disposition", "gmag", "separation", "dmag", "required_ppt", "rms_ppt", "ratio", "x", "y", "r_ap")
         with open(path, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)
             w.writerow(cols)
-            w.writerows([r[c] for c in cols] for r in neb)
+            w.writerows([r.get(c, "") for c in cols] for r in neb)  # r_ap: the aperture that gave the disposition
         out.append(path)
         from .neb_plots import write as neb_plots
 

@@ -422,7 +422,7 @@ boundary lines, drawn with `neb.required_depth_ppt` from the target depth the ro
 the field plot's label turns red when the nearest neighbour is within 3 aperture radii, the star plots' subtitle names the
 10″ neighbours; `neb.run_apertures` runs several (r_ap, r_in, r_out) and keeps each star's best disposition (`neb.best`)
 with an "apertures" list. Tests: `test_neighbours_of_a_star`, `test_run_rows_carry_neighbours_and_crowded_label_is_red`,
-`test_best_aperture_wins`.) Left: ExoFOP / Exoplanet Archive fetch of the TESS depth and ephemeris (no such service in
+`test_best_aperture_wins`.) (2026-11-20: several apertures through the step and the window: step param `apertures` ([r_ap, r_in, r_out] triples; empty = `neb.run` as before, given = `neb.run_apertures`), the window passes the radii of a light curve measured with several apertures (`photometry_neb._apertures`) and its table gets an "Aperture (px)" column; NEB_check.csv has `r_ap`, the star plots' title names it. Tests: `test_step_apertures_param`, `test_nearby_eclipsing_binary_check_in_the_window`.) Left: ExoFOP / Exoplanet Archive fetch of the TESS depth and ephemeris (no such service in
 `services/` yet), the step/UI taking several apertures (only `run_apertures` takes them), the public TFOP night (no
 stored reference table).
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the

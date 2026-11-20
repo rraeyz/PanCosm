@@ -173,3 +173,19 @@ def test_best_aperture_wins(monkeypatch):
     out = neb.run_apertures([], (0, 0), [], {}, 5.0, [(3.0, 5.0, 8.0), (6.0, 9.0, 12.0)])
     assert len(out) == 1 and out[0]["disposition"] == "Cleared" and out[0]["r_ap"] == 6.0
     assert [a["disposition"] for a in out[0]["apertures"]] == ["Not cleared", "Cleared"]
+
+
+def test_step_apertures_param(monkeypatch):
+    """The step: no apertures = neb.run as before; given = neb.run_apertures with the triples."""
+    from astrowb.engine.steps import REGISTRY
+    from astrowb.photometry import fit_steps  # noqa: F401  registers the step
+
+    seen, run = {}, REGISTRY["photometry.neb_check"].func
+    monkeypatch.setattr(neb, "run", lambda *a, **k: seen.setdefault("run", a) and [])
+    monkeypatch.setattr(neb, "run_apertures", lambda *a, **k: seen.setdefault("many", a) and [])
+    inputs = {"images": ["a"], "target_xy": [1, 2], "comps_xy": [[3, 4]], "field": {}}
+    params = {"depth_ppt": 5.0, "radius_arcsec": 100.0, "r_ap": 5.0, "r_in": 8.0, "r_out": 12.0}
+    run(inputs, params, None)
+    assert "many" not in seen and seen["run"][5:8] == (5.0, 8.0, 12.0)
+    run(inputs, params | {"apertures": [[3, 5, 8], [6, 9, 12]]}, None)
+    assert seen["many"][5] == [(3, 5, 8), (6, 9, 12)]

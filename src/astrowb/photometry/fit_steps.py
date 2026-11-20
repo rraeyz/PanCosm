@@ -101,6 +101,9 @@ def transit_fit_step(inputs, params, ctx):
           help=QT_TRANSLATE_NOOP("Steps", "JD (UTC); 0: no box fit")),
         P("duration_h", "float", 0.0, unit="h", min=0.0, label=QT_TRANSLATE_NOOP("Steps", "Transit duration"),
           help=QT_TRANSLATE_NOOP("Steps", "T14; with the mid-transit time, a box is fitted there on every star")),
+        P("apertures", "table", (), advanced=True, label=QT_TRANSLATE_NOOP("Steps", "Several apertures"),
+          help=QT_TRANSLATE_NOOP("Steps", "[radius, sky inner, sky outer] triples; each star keeps its best "
+                                 "disposition. Empty: the one aperture above")),
     ],
 )  # fmt: skip
 def neb_check_step(inputs, params, ctx):
@@ -109,7 +112,10 @@ def neb_check_step(inputs, params, ctx):
     from . import neb
 
     tc, half = params.get("tc") or 0.0, (params.get("duration_h") or 0.0) / 48
-    rows = neb.run(inputs["images"], inputs["target_xy"], inputs["comps_xy"], inputs["field"], params["depth_ppt"],
-                   params["r_ap"], params["r_in"], params["r_out"], params["radius_arcsec"], ctx,
-                   (tc - half, tc + half) if tc and half else None)  # fmt: skip
+    args = (inputs["images"], inputs["target_xy"], inputs["comps_xy"], inputs["field"], params["depth_ppt"])
+    tail = (params["radius_arcsec"], ctx, (tc - half, tc + half) if tc and half else None)
+    if params.get("apertures"):
+        rows = neb.run_apertures(*args, [tuple(a) for a in params["apertures"]], *tail)
+    else:
+        rows = neb.run(*args, params["r_ap"], params["r_in"], params["r_out"], *tail)
     return {"neb": rows}

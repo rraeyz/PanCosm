@@ -36,7 +36,10 @@ def write(folder, rows, image=None, target=None):
             ax.axvspan(min(r["window"]) - t.min(), max(r["window"]) - t.min(), color="gray", alpha=0.2)
         close = r.get("close")
         ax.set_title(
-            f"{r['name']}: {r['disposition']}" + (f"\nwithin 10″: {', '.join(close)}" if close else ""), fontsize=9
+            f"{r['name']}: {r['disposition']}"
+            + (f" ({r['r_ap']:g} px)" if "apertures" in r else "")
+            + (f"\nwithin 10″: {', '.join(close)}" if close else ""),
+            fontsize=9,
         )
         ax.set_xlabel(f"Days from {t.min():.5f}")
         ax.set_ylabel("Relative flux")

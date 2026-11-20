@@ -46,6 +46,14 @@ def _window(page):
     return {"tc": float(tc - (t[k] - float(lc["jd_utc"][k]))), "duration_h": float(fit[1]["derived"]["t14_h"])}
 
 
+def _apertures(page):
+    """The radii of a light curve measured with several apertures (item 10), with the sky ring chosen; else none."""
+    by = (page.light_curve or {}).get("by_aperture")
+    if not by or len(by["radii"]) < 2:
+        return []
+    return [[float(r), page.r_in.value(), page.r_out.value()] for r in by["radii"]]
+
+
 def run(main, page, depth=None):
     if not (page.images and page.target is not None and page.comps):
         page.transit_result.setText(translate("PhotometryNeb", "Mark the target and the comparison stars first."))
@@ -62,6 +70,8 @@ def run(main, page, depth=None):
               "field": page.field}  # fmt: skip
     params = {"depth_ppt": depth, "r_ap": page.r_ap.value(), "r_in": page.r_in.value(), "r_out": page.r_out.value()}
     params |= _window(page)
+    if _apertures(page):
+        params["apertures"] = _apertures(page)
     page.transit_result.setText(translate("PhotometryNeb", "Measuring the neighbours on every frame…"))
     from .messages import translate as message
 
@@ -93,15 +103,17 @@ def show(page, rows, depth):
             c=cleared, n=len(rows), d=depth
         )
     )
+    several = any("apertures" in r for r in rows)
     d = page.neb_dialog = Dialog(translate("PhotometryNeb", "Nearby-eclipsing-binary check"), page, None, "neb")
     view = DataTable(d)
     header = [translate("PhotometryNeb", "Disposition"), "G", translate("PhotometryNeb", "Distance (″)"),
               "Δmag", translate("PhotometryNeb", "Depth needed (ppt)"), translate("PhotometryNeb", "RMS (ppt)"),
               translate("PhotometryNeb", "Depth / RMS"), translate("PhotometryNeb", "Box at the transit (ppt)"),
-              "x", "y"]  # fmt: skip
+              "x", "y"] + ([translate("PhotometryNeb", "Aperture (px)")] if several else [])  # fmt: skip
     data = [[words.get(r["disposition"], r["disposition"]), round(r["gmag"], 2), round(r["separation"]),
              round(r["dmag"], 2), round(r["required_ppt"], 1), round(r["rms_ppt"], 1), round(r["ratio"], 1),
-             _box(r), round(r["x"], 1), round(r["y"], 1)] for r in rows]  # fmt: skip
+             _box(r), round(r["x"], 1), round(r["y"], 1), *([round(r["r_ap"], 2)] if several else [])]
+            for r in rows]  # fmt: skip
     view.set_data(header, data, keys=[(r["x"], r["y"]) for r in rows])
     view.row_chosen.connect(lambda key: key is not None and page.viewer.centerOn(*key))
     d.body.addWidget(view)

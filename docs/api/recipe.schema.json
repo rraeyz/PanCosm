@@ -1058,6 +1058,9 @@
             "null"
            ],
            "minimum": 0.0
+          },
+          "apertures": {
+           "description": "Several apertures: [radius, sky inner, sky outer] triples; each star keeps its best disposition. Empty: the one aperture above"
           }
          },
          "additionalProperties": false

@@ -11998,7 +11998,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/photometry_neb.py" line="30"/>
-        <location filename="../../ui/photometry_neb.py" line="96"/>
+        <location filename="../../ui/photometry_neb.py" line="107"/>
         <source>Nearby-eclipsing-binary check</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12008,87 +12008,92 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="51"/>
+        <location filename="../../ui/photometry_neb.py" line="59"/>
         <source>Mark the target and the comparison stars first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="55"/>
+        <location filename="../../ui/photometry_neb.py" line="63"/>
         <source>Identify the field first, with the stars marked on the first frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="65"/>
+        <location filename="../../ui/photometry_neb.py" line="75"/>
         <source>Measuring the neighbours on every frame…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="82"/>
+        <location filename="../../ui/photometry_neb.py" line="92"/>
         <source>No star near enough and bright enough to make a {d:g} ppt dip.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="85"/>
+        <location filename="../../ui/photometry_neb.py" line="95"/>
         <source>Cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="86"/>
+        <location filename="../../ui/photometry_neb.py" line="96"/>
         <source>Likely cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="87"/>
+        <location filename="../../ui/photometry_neb.py" line="97"/>
         <source>Cleared - too faint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="88"/>
+        <location filename="../../ui/photometry_neb.py" line="98"/>
         <source>Not cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="89"/>
+        <location filename="../../ui/photometry_neb.py" line="99"/>
         <source>Not cleared - flux too low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="92"/>
+        <location filename="../../ui/photometry_neb.py" line="102"/>
         <source>{c} of {n} neighbours cleared for a {d:g} ppt dip.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="98"/>
+        <location filename="../../ui/photometry_neb.py" line="109"/>
         <source>Disposition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="98"/>
+        <location filename="../../ui/photometry_neb.py" line="109"/>
         <source>Distance (″)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="99"/>
+        <location filename="../../ui/photometry_neb.py" line="110"/>
         <source>Depth needed (ppt)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="99"/>
+        <location filename="../../ui/photometry_neb.py" line="110"/>
         <source>RMS (ppt)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="100"/>
+        <location filename="../../ui/photometry_neb.py" line="111"/>
         <source>Depth / RMS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="100"/>
+        <location filename="../../ui/photometry_neb.py" line="111"/>
         <source>Box at the transit (ppt)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_neb.py" line="108"/>
+        <location filename="../../ui/photometry_neb.py" line="112"/>
+        <source>Aperture (px)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_neb.py" line="120"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15019,179 +15024,179 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>PlanTables</name>
     <message>
-        <location filename="../../ui/plan_tables.py" line="22"/>
+        <location filename="../../ui/plan_tables.py" line="23"/>
         <source>Sunset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="22"/>
+        <location filename="../../ui/plan_tables.py" line="23"/>
         <source>Sunrise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="23"/>
+        <location filename="../../ui/plan_tables.py" line="24"/>
         <source>Civil dusk (−6°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="23"/>
+        <location filename="../../ui/plan_tables.py" line="24"/>
         <source>Civil dawn (−6°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="24"/>
+        <location filename="../../ui/plan_tables.py" line="25"/>
         <source>Nautical dusk (−12°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="24"/>
+        <location filename="../../ui/plan_tables.py" line="25"/>
         <source>Nautical dawn (−12°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="26"/>
+        <location filename="../../ui/plan_tables.py" line="27"/>
         <source>Astronomical dusk (−18°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="27"/>
+        <location filename="../../ui/plan_tables.py" line="28"/>
         <source>Astronomical dawn (−18°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="43"/>
+        <location filename="../../ui/plan_tables.py" line="44"/>
         <source>Moonrise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="44"/>
+        <location filename="../../ui/plan_tables.py" line="45"/>
         <source>Moonset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="46"/>
+        <location filename="../../ui/plan_tables.py" line="47"/>
         <source>Highest ({alt:.0f}°)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="49"/>
+        <location filename="../../ui/plan_tables.py" line="50"/>
         <source>Illuminated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="124"/>
+        <location filename="../../ui/plan_tables.py" line="120"/>
         <source>Local (UTC{off})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="126"/>
+        <location filename="../../ui/plan_tables.py" line="122"/>
         <source>Sun</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="127"/>
+        <location filename="../../ui/plan_tables.py" line="123"/>
         <source>Moon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="128"/>
+        <location filename="../../ui/plan_tables.py" line="124"/>
         <source>Targets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="129"/>
+        <location filename="../../ui/plan_tables.py" line="125"/>
         <source>local time; above {alt:g}°</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="132"/>
-        <location filename="../../ui/plan_tables.py" line="135"/>
+        <location filename="../../ui/plan_tables.py" line="128"/>
+        <location filename="../../ui/plan_tables.py" line="131"/>
         <source>Event</source>
         <translation>Evento</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="141"/>
-        <location filename="../../ui/plan_tables.py" line="153"/>
+        <location filename="../../ui/plan_tables.py" line="137"/>
+        <location filename="../../ui/plan_tables.py" line="149"/>
         <source>Target</source>
         <translation>Objeto</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="142"/>
+        <location filename="../../ui/plan_tables.py" line="138"/>
         <source>Rises</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="143"/>
+        <location filename="../../ui/plan_tables.py" line="139"/>
         <source>Sets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="144"/>
+        <location filename="../../ui/plan_tables.py" line="140"/>
         <source>Highest at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="145"/>
+        <location filename="../../ui/plan_tables.py" line="141"/>
         <source>Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="146"/>
+        <location filename="../../ui/plan_tables.py" line="142"/>
         <source>Airmass</source>
         <translation>Masa de aire</translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="147"/>
+        <location filename="../../ui/plan_tables.py" line="143"/>
         <source>Moon closest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="157"/>
+        <location filename="../../ui/plan_tables.py" line="153"/>
         <source>Telluric standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="160"/>
+        <location filename="../../ui/plan_tables.py" line="156"/>
         <source>Photometric standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="161"/>
+        <location filename="../../ui/plan_tables.py" line="157"/>
         <source>Landolt (1992) UBVRI standard stars: the night&apos;s zero points and extinction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="152"/>
+        <location filename="../../ui/plan_tables.py" line="148"/>
         <source>nearest at the same airmass, at the target’s highest point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="153"/>
+        <location filename="../../ui/plan_tables.py" line="149"/>
         <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="153"/>
+        <location filename="../../ui/plan_tables.py" line="149"/>
         <source>At</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="154"/>
+        <location filename="../../ui/plan_tables.py" line="150"/>
         <source>Its airmass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="154"/>
+        <location filename="../../ui/plan_tables.py" line="150"/>
         <source>Target airmass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="155"/>
+        <location filename="../../ui/plan_tables.py" line="151"/>
         <source>Distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/plan_tables.py" line="158"/>
+        <location filename="../../ui/plan_tables.py" line="154"/>
         <source>Hot bright stars from Hipparcos (van Leeuwen 2007) to remove the atmosphere&apos;s lines from a spectrum</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18693,6 +18698,16 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../photometry/fit_steps.py" line="103"/>
         <source>T14; with the mid-transit time, a box is fitted there on every star</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="104"/>
+        <source>Several apertures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/fit_steps.py" line="105"/>
+        <source>[radius, sky inner, sky outer] triples; each star keeps its best disposition. Empty: the one aperture above</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
