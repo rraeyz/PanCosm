@@ -51,11 +51,13 @@ def figure(spec, style="aas", width="single"):
 def _panel(ax, panel, colours, st):
     xs = [s.x for s in panel.series if s.kind not in ("hline",)]
     offset = S.time_offset(np.concatenate(xs) if xs else None, panel.x)
+    seen = set()
     for s in panel.series:
         if not s.visible:
             continue
         c, x = colours[s.name], (s.x - offset if s.kind != "hline" else s.x)
-        kw = {"color": c, "alpha": s.alpha, "zorder": s.z + 2, "label": s.name}
+        kw = {"color": c, "alpha": s.alpha, "zorder": s.z + 2, "label": None if s.name in seen else s.name}
+        seen.add(s.name)  # pieces of one curve share a name: one legend entry
         many = s.y is not None and len(s.x) > RASTER_ABOVE
         if s.kind in ("points", "errorbars"):
             size = st["marker"] * s.size / 4
@@ -88,6 +90,11 @@ def _panel(ax, panel, colours, st):
         ax.invert_xaxis()
     if panel.y.invert:
         ax.invert_yaxis()
+    if panel.equal:
+        ax.set_aspect("equal", adjustable="datalim")
+    for axis_spec, shift, put in ((panel.x, offset, ax.set_xticks), (panel.y, 0.0, ax.set_yticks)):
+        if axis_spec.ticks:
+            put([v - shift for v, _ in axis_spec.ticks], [t for _, t in axis_spec.ticks])
     ax.tick_params(direction="in", top=True, right=True, which="both", width=st["line"] * 0.8)
     ax.minorticks_on()
     if panel.grid:

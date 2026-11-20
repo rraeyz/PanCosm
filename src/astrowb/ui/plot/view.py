@@ -226,6 +226,10 @@ class PlotView(QWidget):
             vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)
             vb.invertX(panel.x.invert)
             vb.invertY(panel.y.invert)
+            vb.setAspectLocked(panel.equal)
+            for side, axis_spec, shift in (("bottom", panel.x, offset), ("left", panel.y, 0.0)):
+                if axis_spec.ticks:
+                    plot.getAxis(side).setTicks([[(v - shift, t) for v, t in axis_spec.ticks]])
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
             legend = plot.addLegend() if len(panel.series) > 1 else None
             for s in panel.series:
@@ -303,7 +307,11 @@ class PlotView(QWidget):
                 plot.addItem(line)
         entry["item"].setZValue(s.z)
         plot.addItem(entry["item"])
-        if legend is not None and s.kind not in ("vline", "hline"):
+        if (
+            legend is not None
+            and s.kind not in ("vline", "hline")
+            and not any(e["spec"].name == s.name for e in self.items)
+        ):  # series sharing a name (pieces of one curve) get one legend entry
             legend.addItem(entry["item"], s.name)
         entry["item"].setVisible(s.visible)
         return entry

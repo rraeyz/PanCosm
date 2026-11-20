@@ -17,6 +17,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .kit import tokens
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
+
 
 class VisualOrbitTab(QWidget):
     fit_requested = Signal(dict, dict)
@@ -24,7 +27,8 @@ class VisualOrbitTab(QWidget):
     def __init__(self, parent=None):
         from PySide6.QtCore import Qt
 
-        from .kit.widgets import PlotCanvas
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
 
         super().__init__(parent)
         self.orbit = None
@@ -82,8 +86,13 @@ class VisualOrbitTab(QWidget):
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
         split.addWidget(left)
-        self.plot = PlotCanvas(self)
-        split.addWidget(self.plot)
+        right = QWidget(self)
+        rl = QVBoxLayout(right)
+        rl.setContentsMargins(0, 0, 0, 0)
+        self.plot = PlotView(parent=self)
+        rl.addWidget(PlotToolbar(self.plot, self))
+        rl.addWidget(self.plot, 1)
+        split.addWidget(right)
         split.setSizes([420, 780])
         QVBoxLayout(self).addWidget(split)
 
@@ -138,16 +147,15 @@ class VisualOrbitTab(QWidget):
         north, east = visual.xy_of(ts, o["P"], o["T"], o["e"], A, B, F, G)
         on, oe = visual.to_xy(o["theta"], o["rho"])
         cn, ce = visual.xy_of(np.asarray(o["epoch"]), o["P"], o["T"], o["e"], A, B, F, G)
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.plot(east, north, "-", lw=1, label=self.tr("orbit"))
-        ax.plot(oe, on, "o", ms=3, label=self.tr("measures"))
-        for a, b, c, d in zip(oe, on, ce, cn, strict=True):
-            ax.plot([a, c], [b, d], "-", color="#e5484d", lw=0.6)  # O - C
-        ax.plot([0], [0], "*", color="orange", ms=12, label=self.tr("primary"))
-        ax.set_aspect("equal", adjustable="datalim")
-        ax.invert_xaxis()  # east to the left, as on the sky
-        ax.set_xlabel(self.tr("East (″)"))
-        ax.set_ylabel(self.tr("North (″)"))
-        ax.legend(fontsize=7)
-        self.plot.draw()
+        name = self.tr("O−C")
+        series = [
+            SeriesSpec(self.tr("orbit"), east, north, kind="line"),
+            SeriesSpec(self.tr("measures"), oe, on, size=3),
+            *(  # a piece of line from each measure to its place on the orbit; one name: one colour, one legend entry
+                SeriesSpec(name, [a, c], [b, d], kind="line", width=0.6, colour=tokens.role("saturated"))
+                for a, b, c, d in zip(oe, on, ce, cn, strict=True)
+            ),
+            SeriesSpec(self.tr("primary"), [0], [0], symbol="*", size=12, colour=tokens.role("non_linear")),
+        ]
+        axes = AxisSpec(self.tr("East (″)"), invert=True), AxisSpec(self.tr("North (″)"))  # east to the left
+        self.plot.set_figure(FigureSpec([PanelSpec(*axes, series, equal=True)]))

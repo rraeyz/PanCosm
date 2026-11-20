@@ -20,8 +20,9 @@ from PySide6.QtWidgets import (
 )
 
 from ..remotesensing import analysis
-from .kit.widgets import PlotCanvas, _title
+from .kit.widgets import _title
 from .messages import translate
+from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .viewer import ImageViewer
 
 ROLES = ("BLUE", "GREEN", "RED", "NIR", "SWIR")
@@ -155,11 +156,18 @@ class RemoteSensingPage(QWidget):
         self.status.setWordWrap(True)
         self.status.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.status)
-        self.plot = PlotCanvas(self)
-        lay.addWidget(self.plot, 1)
+        self._add_plot(lay)
         split.addWidget(side)
         split.setSizes([720, 560])  # the side panel holds the plot and its toolbar: narrower cut it (macOS)
         QVBoxLayout(self).addWidget(split)
+
+    def _add_plot(self, lay):
+        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
+        from .plot.view import PlotView
+
+        self.plot = PlotView(parent=self)
+        lay.addWidget(PlotToolbar(self.plot, self))
+        lay.addWidget(self.plot, 1)
 
     # --- data ---------------------------------------------------------------
     def _open(self):
@@ -319,10 +327,9 @@ class RemoteSensingPage(QWidget):
         if not (0 <= y < r.shape[0] and 0 <= x < r.shape[1]):
             return
         spec = r.pixel(x, y).tolist() if hasattr(r, "pixel") else analysis.pixel_spectrum(r.bands, x, y)
-        self.plot.figure.clear()
-        ax = self.plot.figure.add_subplot()
-        ax.plot(range(1, len(spec) + 1), spec, "o-")
-        ax.set_xticks(range(1, len(spec) + 1), r.names if len(spec) <= 16 else None)
-        ax.set_xlabel(self.tr("Band"))
-        ax.set_ylabel(self.tr("Value at pixel {x:.0f}, {y:.0f}").format(x=x, y=y))
-        self.plot.draw()
+        n = len(spec)
+        name = self.tr("Value at pixel {x:.0f}, {y:.0f}").format(x=x, y=y)
+        bands = np.arange(1, n + 1)
+        ticks = list(zip(bands.tolist(), r.names, strict=True)) if n <= 16 else None
+        series = [SeriesSpec(name, bands, spec, size=5), SeriesSpec(name, bands, spec, kind="line")]  # "o-"
+        self.plot.set_figure(FigureSpec([PanelSpec(AxisSpec(self.tr("Band"), ticks=ticks), AxisSpec(name), series)]))
