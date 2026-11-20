@@ -71,7 +71,10 @@ Newest report first. Read this file before choosing the next work: these come be
 
 ### Photometry (UF-13 … UF-19)
 
-- **UF-13 — variable stars drawn on empty sky** — **partial** (2026-11-14: the likely cause — VSX lists variables
+- **UF-13 — variable stars drawn on empty sky** — **done** (2026-11-20, on the owner's NY Vir night in data/owner
+  (T100, 2018-07-10, files named NSVS07826147): solved with 72 stars, 0.35 px RMS, 0.618″/px; 42 Gaia stars of
+  G < 16.5 measured on the frame lie 0.28 px (centre) to 0.59 px (corners, r > 1200 px) from where the solution
+  puts them; the four VSX variables, NY Vir and three of G 15-18, each land on a star (0.3-0.6 px). 2026-11-14: the likely cause — VSX lists variables
   down to magnitude 20 and every one was ringed; now only those brighter than 16.5 are ringed, with their
   magnitude, the faint ones are in the list ("too faint to see") and ring when chosen; test. 2026-11-14, the second
   cause: the solution was a plain TAN fit from stars matched within 2.5 px of a first guess, i.e. near the centre;
@@ -86,7 +89,8 @@ Newest report first. Read this file before choosing the next work: these come be
 - **UF-14 — "Identify the field" again only reads the cache** — **done** (2026-11-13: pressed on an identified
   field it asks the catalogues again — step parameter `fresh`; tests)
   A second press (or Shift-click / a menu item "Identify again, ignore the saved answer") must solve again.
-- **UF-15 — AAVSO sequence labels in the wrong places** — **partial** (2026-11-14: same solution as UF-13 — the
+- **UF-15 — AAVSO sequence labels in the wrong places** — **done** (2026-11-20, owner's frames: the five AAVSO
+  sequence stars on the frame (labels 133-148, one 29 px from the edge) land 0.19-0.48 px from their stars. 2026-11-14: same solution as UF-13 — the
   labels are placed through the field's solution, which now carries the distortion; left: the owner's frames)
   Follows UF-13 (same solution); check the chart's stars land on stars.
 - **UF-16 — 2-D Gaussian centring crashes**: `ValueError: xpos, ypos values contain points outside the input
@@ -94,13 +98,25 @@ Newest report first. Read this file before choosing the next work: these come be
   prediction before the next pass; test_centring's edge test failed before the fix and passes after)
   Positions near or past the edge must be kept out of that call (the star is then "lost" on that frame, as with
   the other methods). Test: a star 2 px from the edge, and one off the frame, with centring "gauss".
-- **UF-17 — bad-frame flags are wrong on an eclipsing binary** — **partial** (2026-11-13: the jump test follows
+- **UF-17 — bad-frame flags are wrong on an eclipsing binary** — **done** (2026-11-20, owner's night: no frame is
+  flagged. One flag was left, "C" (cosmic ray) on a comparison star at the eclipse's bottom: the star's own
+  elongated core (58 % down on one side, 11 % on the other) against a round-star allowance; the spike test now
+  takes the star's shape from its second moments — 400 random elongated, rotated stars: 2 false spikes instead of
+  49, 2 of 400 cosmic rays missed instead of 1; test_elongated_core_is_not_a_spike. 2026-11-13: the jump test follows
   the comparison stars' median position and ignores the night's steady drift; the cloud test compares counts per
   second, so a frame of another exposure is no cloud; test with a synthetic eclipse. Left: the owner's night)
   "Behind cloud" with no cloud; "field jumped" where the target is in its eclipse minimum. The cloud test must use
   the comparison stars only (never the target), and the jump test the stars' positions, not their fluxes. Test on
   a synthetic eclipse plus the owner's NY Vir night: no flag.
-- **UF-18 — 40 frames, the plot shows about 20 points** — **partial** (2026-11-14: the summary says "N of the M frames in the list became points; the others are named below"; the cause on the owner's night is still unknown)
+- **UF-18 — 40 frames, the plot shows about 20 points** — **done** (2026-11-20, the cause found on the owner's
+  night: of 20 lights 5 became points, 15 were "not placed". The telescope's pointing moved 90-163 px during the
+  hour and the calibrated frames have a bright rim (the chip's shadowed border, 5-40 % in the flat,
+  divided up) that held 69 % of the signal the frame shift correlates: the
+  shift came out as 0 for every frame, the marked stars were carried to the first frame by that 0 and every frame
+  was predicted from wrong positions. The rim (2 % of the frame) is now left out of the correlation: all 20 frames
+  are points and the eclipse shows, 0.72 mag deep (tests/validation/test_owner_cases.py, which fails without the
+  fix; test_frame_shift_ignores_a_bright_rim). 2026-11-14: the summary says "N of the M frames in the list became
+  points; the others are named below")
   The text says 39 points. Find where the others went (frames left out? two filters in the folder? raw and
   calibrated frames mixed?) on the owner's data; the owner asks whether uncalibrated frames were included. The
   program must say which frames it used and why any was left out.

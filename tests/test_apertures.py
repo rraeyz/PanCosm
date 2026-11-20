@@ -238,6 +238,31 @@ def test_binned_frame_shift_is_close_enough_for_re_centring():
     assert abs(dx - 12.3) < 0.3 and abs(dy + 7.6) < 0.3  # recenter (max 2.5 px) does the rest
 
 
+def test_frame_shift_ignores_a_bright_rim():
+    """The owner's T100 frames have a bright rim (a shadowed border divided by the flat) holding most of the signal
+    above the sky: it is fixed on the chip, the correlation peaked at zero and shifts of 11-163 px came out as 0
+    (UF-18: 15 of 20 frames lost)."""
+    from astrowb.photometry.aperture import frame_shift
+
+    rng = np.random.default_rng(4)
+    yy, xx = np.mgrid[0:1024, 0:1024]
+    stars = rng.uniform(150, 870, (40, 2))
+
+    def frame(dx, dy):
+        img = rng.normal(500, 10, (1024, 1024))
+        for x, y in stars:
+            img += 4000 * np.exp(-((xx - x - dx) ** 2 + (yy - y - dy) ** 2) / (2 * 1.5**2))
+        img[:6] += 3000.0  # the rim, the same on every frame
+        img[-6:] += 3000.0
+        img[:, -8:] += 3000.0
+        return img
+
+    for shift in ((0.0, -11.0), (90.0, -3.5), (-35.5, 162.0)):
+        for binning in (1, 2):
+            dx, dy = frame_shift(frame(0, 0), frame(*shift), binning=binning)
+            assert abs(dx - shift[0]) < 0.6 and abs(dy - shift[1]) < 0.6, (shift, binning, dx, dy)
+
+
 def test_apertures_fit_a_small_tess_stamp():
     """A TESS target pixel file is 13 x 11 px: the profile had no sky 25 px away and the radii came out 200 px."""
     from astrowb.photometry.aperture import choose_apertures
