@@ -780,7 +780,7 @@ rail            stage panel (example: 2 Targets)            main                
 - **Files:** `ui/planning/` (see PLN-W)
 
 #### UI-16.9 Observing
-**open**
+**partial** — done (2026-11-20): the stages Connect (address, token, Connect / Set up / Start local, the cooler with the devices line, the safety label), Point, Focus, Sequence, Night (`stage_boxes.observing_stages`), the exposure rows as the main view; `test_the_observing_window_has_stages`. Left: the device chips, the inspector, the results dock, "Check the program", "Edit as a tree".
 ```
 ┌ devices: [● Mount tracking][● Camera −10.0 °C][● Focuser 12 034][● Filter V][● Guider 0.6″][● Dome][● Weather][● Clock +0.03 s][● Safe] ─ [■ Stop everything] ┐
 │ rail          stage panel (example: 4 Sequence)       main: the last frame (ImageView)            inspector          │

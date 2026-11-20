@@ -35,6 +35,7 @@ from PySide6.QtWidgets import (
 from ..devices.client import Client
 from .kit.widgets import _title
 from .messages import translate
+from .observe_buttons import quick_buttons
 from .undo import Undoable, track_typing
 
 KINDS = ("light", "dark", "bias", "flat")
@@ -73,6 +74,7 @@ def launch_observatory(config_path: Path):
 
 
 class ObservePage(Undoable, QWidget):
+    _shown_preview = None  # the preview frame last opened
     status_arrived = Signal(object)  # from the polling thread
     preview_ready = Signal(str)  # a preview frame that this computer can open (local observatory)
     sequence_finished = Signal(str)  # out_dir of a sequence that ended with frames written
@@ -141,6 +143,8 @@ class ObservePage(Undoable, QWidget):
         row.addWidget(wizard, 0, 1)
         row.addWidget(start, 1, 0, 1, 2)
         lay.addLayout(row)
+        cooler, preview, focus = self._device_controls()
+        lay.addLayout(cooler)
         self.safety = QLabel(self.tr("Not connected"), self)
         self.safety.setWordWrap(True)
         self.safety.setStyleSheet("font-weight: bold; padding: 6px;")
@@ -174,42 +178,21 @@ class ObservePage(Undoable, QWidget):
         row.addWidget(centre)
         row.addWidget(polar)
         lay.addLayout(row)
-        row = QGridLayout()
-        for i, (text, path, tip) in enumerate(
-            (
-                (self.tr("Park"), "/park", self.tr("Stops any slew and sends the mount to its park position")),
-                (
-                    self.tr("Abort"),
-                    "/abort",
-                    self.tr("Stops the running sequence, exposure or slew at once; the mount is not parked"),
-                ),
-                (
-                    self.tr("Resume"),
-                    "/resume",
-                    self.tr("After a safety stop: allows sequences again, refused while anything is still unsafe"),
-                ),
-                (
-                    self.tr("Autofocus"),
-                    "/autofocus",
-                    self.tr(
-                        "Frames at nine focuser positions around the present one; the star size (HFR) against "
-                        "position is fitted and the focuser moved to the best"
-                    ),
-                ),
-            )
-        ):
-            b = QPushButton(text, self)
-            b.setToolTip(tip)
-            b.clicked.connect(lambda _=False, p=path: self._post(p))
-            row.addWidget(b, i // 2, i % 2)
-            self.buttons[path.strip("/")] = b
+        quick_buttons(self)
+        lay.addWidget(self.buttons["park"])
+        lay.addLayout(preview)
+        lay.addLayout(focus)
+        lay.addWidget(self.buttons["autofocus"])
+        row = QHBoxLayout()
+        row.addWidget(self.buttons["abort"])
+        row.addWidget(self.buttons["resume"])
         lay.addLayout(row)
-        lay.addLayout(self._device_controls())
         lay.addWidget(QLabel(self.tr("Log"), self))
         self.log = QPlainTextEdit(self)
         self.log.setReadOnly(True)
         lay.addWidget(self.log, 1)
         split.addWidget(left)
+        self.left = left
 
         right = QWidget(self)
         rl = QVBoxLayout(right)
@@ -340,6 +323,7 @@ class ObservePage(Undoable, QWidget):
         self.job.setWordWrap(True)
         rl.addWidget(self.job)
         split.addWidget(right)
+        self.right = right
         split.setSizes([500, 700])
         QVBoxLayout(self).addWidget(split)
         self.add_exposure_row()
@@ -355,8 +339,7 @@ class ObservePage(Undoable, QWidget):
         self._timer.start(2000)
 
     def _device_controls(self):
-        """Preview frame, cooler, focuser and filter: the observatory API's single commands."""
-        grid = QGridLayout()
+        """Single commands in three grids: cooler (and devices line), preview, focuser and filter."""
         self.preview_exp = QDoubleSpinBox(self)
         self.preview_exp.setRange(0.001, 3600)
         self.preview_exp.setDecimals(3)
@@ -378,7 +361,6 @@ class ObservePage(Undoable, QWidget):
         self.filter_name = QComboBox(self)
         self.filter_name.setEditable(True)
         self.filter_name.setToolTip(self.tr("Filter of the filter wheel by its name"))
-        self._shown_preview = None
 
         def button(text, slot, tip, key):
             b = self.buttons[key] = QPushButton(text, self)
@@ -434,7 +416,9 @@ class ObservePage(Undoable, QWidget):
                 None,
             ),
         )
-        for r, (label, field, first, second) in enumerate(rows):
+        grids = cooler, preview, focus = QGridLayout(), QGridLayout(), QGridLayout()  # one per stage
+        for (label, field, first, second), grid in zip(rows, (preview, cooler, focus, focus), strict=True):
+            r = grid.rowCount() if grid.count() else 0  # an empty grid reports one row
             grid.addWidget(_wrapped(label, self), r, 0)
             grid.addWidget(field, r, 1)
             if second:  # both buttons in one cell: no fourth column to widen the page
@@ -447,8 +431,8 @@ class ObservePage(Undoable, QWidget):
                 grid.addWidget(first, r, 2)
         self.devices = QLabel(self)
         self.devices.setProperty("muted", True)
-        grid.addWidget(self.devices, len(rows), 0, 1, 3)
-        return grid
+        cooler.addWidget(self.devices, 1, 0, 1, 3)
+        return grids
 
     def _cool(self):
         return self._post("/cooler", {"temperature": self.cooler_temp.value(), "on": True})

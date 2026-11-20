@@ -2752,3 +2752,18 @@ def test_the_remote_sensing_window_has_stages(window):
     page.guide.set_state(2, "done")
     assert win.rail.states["indices"] == "done"
     win.close()
+
+
+def test_the_observing_window_has_stages(window):
+    """UI-16.9: Connect, Point, Focus, Sequence, Night as stages beside the exposure rows; the commands stay in
+    the page's buttons."""
+    win = window.open_area("observe")
+    page = window.observe_page
+    assert list(win.stage_panels) == ["connect", "point", "focus", "sequence", "night"]
+    panels = win.stage_panels
+    assert panels["connect"].isAncestorOf(page.url) and panels["connect"].isAncestorOf(page.safety)
+    assert panels["point"].isAncestorOf(page.target) and panels["point"].isAncestorOf(page.preview_exp)
+    assert panels["focus"].isAncestorOf(page.buttons["autofocus"]) and panels["focus"].isAncestorOf(page.filter_name)
+    assert panels["sequence"].isAncestorOf(page.start_button) and panels["night"].isAncestorOf(page.log)
+    assert not any(p.isAncestorOf(page.exposures) for p in panels.values())
+    win.close()
