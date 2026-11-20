@@ -87,14 +87,14 @@ def oc_stages(win, page):
 
 def exoplanets_stages(win, page):
     """The Exoplanets window (UI-16.7): Data, Star, Planets, Model, Fit, Uncertainty, Results beside the transit."""
+    from .exoplanets_page import STAGES
+
     titles = {"data": translate("ExoplanetsWindow", "Data"), "star": translate("ExoplanetsWindow", "Star"),
               "planets": translate("ExoplanetsWindow", "Planets"), "model": translate("ExoplanetsWindow", "Model"),
               "fit": translate("ExoplanetsWindow", "Fit"),
               "uncertainty": translate("ExoplanetsWindow", "Uncertainty"),
               "results": translate("ExoplanetsWindow", "Results")}  # fmt: skip
-    anchors = {"data": "photometry-exporting", "star": "photometry-time-minimum", "planets": "photometry-time-minimum",
-               "model": "photometry-detrending", "fit": "photometry-time-minimum",
-               "uncertainty": "photometry-time-minimum", "results": "photometry-exporting"}  # fmt: skip
+    anchors = {key: f"exoplanets-{key}" for key in STAGES}
     stages_from_boxes(win, page, titles, anchors, {}, keep_column=True)
     page.stage_done.connect(lambda key: win.set_stage_state(key, "done"))
 
@@ -268,7 +268,5 @@ def astrometry_stages(win, page):
     titles = {"images": translate("AstrometryWindow", "Images"), "solve": translate("AstrometryWindow", "Solve"),
               "find": translate("AstrometryWindow", "Find"), "measure": translate("AstrometryWindow", "Measure"),
               "report": translate("AstrometryWindow", "Report")}  # fmt: skip
-    anchors = {"images": "images-asteroids-comets", "solve": "images-plate-solving",
-               "find": "images-asteroids-comets", "measure": "images-asteroids-comets",
-               "report": "images-asteroids-comets"}  # fmt: skip
+    anchors = {key: f"astrometry-{key}" for key in ("images", "solve", "find", "measure", "report")}
     stages_from_boxes(win, page, titles, anchors, {})
