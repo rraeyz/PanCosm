@@ -1926,7 +1926,7 @@ def test_settings_in_one_window(window, qtbot):
     qtbot.addWidget(win)
     names = [win.categories.item(i).text() for i in range(win.categories.count())]
     assert names == ["General", "Profiles", "Processing", "Files", "Automatic steps", "Time", "Online services",
-                     "Shortcuts", "Plugins", "Advanced"]  # fmt: skip
+                     "Shortcuts", "Data", "Plugins", "Advanced"]  # fmt: skip
     assert win.filter("offline") == 1
     assert [i for i in range(win.categories.count()) if not win.categories.item(i).isHidden()] == [
         6

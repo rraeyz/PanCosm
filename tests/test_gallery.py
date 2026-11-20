@@ -88,3 +88,24 @@ def test_a_small_button_and_a_control_off_the_tab_chain_are_found(qtbot):
     gallery = _gallery()
     assert gallery.small_targets(page) == [("tiny", "small target")]
     assert gallery.unreachable(page) == []  # the field is on the chain
+
+
+def test_a_chain_that_goes_back_up_is_found_and_put_right(qtbot):
+    """ARC-19: Tab must follow the reading order; read_in_order puts a late-made toolbar first."""
+    from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
+
+    from astrowb.ui.kit.focus import read_in_order
+
+    page = QWidget()
+    qtbot.addWidget(page)
+    head, lower, upper = QLineEdit(page), QLineEdit(page), QLineEdit(page)  # lower is made first, drawn last
+    upper.setObjectName("upper")
+    lay = QVBoxLayout(page)
+    lay.addWidget(head)
+    lay.addWidget(upper)
+    lay.addWidget(lower)
+    page.show()
+    gallery = _gallery()
+    assert gallery.out_of_order(page) == [("upper", "Tab goes back up")]
+    read_in_order(upper, lower)
+    assert gallery.out_of_order(page) == []

@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
 
 from ..spectroscopy.frame_state import calibrated, extracted
 from . import spectro_figures
+from .kit.focus import read_in_order
 from .kit.help import help_line
 from .kit.widgets import PlotCanvas
 from .messages import translate
@@ -117,7 +118,7 @@ class _Orientation(QWidget):
         self.reverse.setChecked(bool(st.get("reverse", False)))
 
 
-def _frame_and_plot(tab, hint):
+def _frame_and_plot(tab, hint, left):
     """The 2-D frame above the plots, as PypeIt and IRAF apall show the trace on the frame itself
     (plans/spectroscopy.md 1.2): returns the splitter holding the frame viewer and tab.plot."""
     from .viewer import ImageViewer
@@ -128,6 +129,7 @@ def _frame_and_plot(tab, hint):
     right.addWidget(tab.frame_view)
     right.addWidget(getattr(tab, "plot_box", tab.plot))  # a PlotView comes with its toolbar
     right.setSizes([300, 500])
+    read_in_order(left, tab.frame_view, right.widget(1))  # the frame is read first, though made later
     return right
 
 
@@ -391,7 +393,7 @@ class ReduceTab(Undoable, QWidget):
         split.addWidget(left)
         self.plot_box, self.plot = plot_box(self)
         self._connect_plot()
-        split.addWidget(_frame_and_plot(self, self.tr("The science frame appears here once it is chosen")))
+        split.addWidget(_frame_and_plot(self, self.tr("The science frame appears here once it is chosen"), left))
         split.setSizes([380, 820])
         QVBoxLayout(self).addWidget(split)
 
@@ -888,7 +890,7 @@ class EchelleTab(Undoable, QWidget):
         split.addWidget(left)
         self.plot = PlotCanvas(self)
         self.plot.canvas.mpl_connect("button_press_event", self._plot_clicked)
-        split.addWidget(_frame_and_plot(self, self.tr("The flat appears here with its traced orders")))
+        split.addWidget(_frame_and_plot(self, self.tr("The flat appears here with its traced orders"), left))
         self.frame_view.clicked.connect(lambda x, y: self._order_clicked(x, y) if self._orders_shown else None)
         split.setSizes([400, 800])
         QVBoxLayout(self).addWidget(split)
