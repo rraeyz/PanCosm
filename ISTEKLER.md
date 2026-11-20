@@ -59,6 +59,13 @@ Yapılanları "Bitti" altına taşıyacağım.
 - **Neden:** Kurulum yapılamayan bilgisayarlar (okul, gözlemevi) için ekledim (ARC-20); CI yalnızca kurulumlu
   sürümü deniyor.
 
+### 11. NY Vir gecesi baştan sona, tıklama sayısı (bir sonraki sürümden sonra)
+- **Ne:** Kendi NY Vir verinle (internet açık) Fotometri penceresini aç: görüntüleri yükle → alan tanınsın →
+  hedef OBJECT'ten ya da Alan aşamasındaki "Hedefi bul" kutusuna adını yazarak bulunsun → Ölç → Minimum zamanı.
+  Kaç tıklama sürdü, hangi aşamada takıldın, otomatik seçimlerin gerekçeleri anlaşılır mı?
+- **Neden:** Plan bu akışı en çok 7 tıklama olarak istiyor (PHO-W). Örnek gecede 4 tıklama ölçtüm, ama Alan
+  aşaması internet ve gerçek veri istediği için testte sayılamadı.
+
 ## Bitti
 
 (henüz yok)
