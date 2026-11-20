@@ -38,10 +38,12 @@ class Inspector(QWidget):
         self.title.setText(f"<b>{title}</b>")
 
     def set_rows(self, rows):
-        """rows: [(name, value, unit or "")]; numbers in the monospace font."""
+        """rows: [(name, value, unit or "")]; numbers in the monospace font. A fourth item, [(name, share,
+        colour)], draws the shares as a stacked bar under the row."""
         while self.form.rowCount():
             self.form.removeRow(0)
         self.rows = [(row[0], row[1], row[2] if len(row) > 2 else "") for row in rows]
+        bars = {row[0]: row[3] for row in rows if len(row) > 3}
         from ..theme import MONO
 
         mono = QFont(MONO, self.font().pointSize())
@@ -53,6 +55,21 @@ class Inspector(QWidget):
             key = QLabel(name, self)
             key.setProperty("muted", True)
             self.form.addRow(key, label)
+            if name in bars:
+                self.form.addRow(self._bar(bars[name]))
+
+    def _bar(self, parts):
+        bar = QWidget(self)
+        bar.setFixedHeight(8)
+        lay = QHBoxLayout(bar)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.setSpacing(0)
+        for name, share, colour in parts:
+            seg = QLabel(bar)
+            seg.setStyleSheet(f"background: {colour};")
+            seg.setToolTip(f"{name} {100 * share:.0f} %")
+            lay.addWidget(seg, max(1, round(1000 * share)))
+        return bar
 
     def copy_text(self):
         return "\n".join(f"{name}\t{_text(value)}\t{unit}".rstrip() for name, value, unit in self.rows)
