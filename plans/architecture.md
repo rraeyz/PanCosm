@@ -671,7 +671,7 @@ the suite is green after each.
 - **Files:** `compute/check.py`, `compute/thresholds.json`, `compute/README.md`, `ui/shell/help.py`, CI.
 
 ### ARC-11. Provenance: every product knows how it was made  (P1)
-**open** — items 1 and 2 (FITS products) done by agent3
+**open** — items 1 and 2 (FITS products) done by agent3; (2026-11-20) item 4 begun: `core/methods.py` `methods(runs)` writes the methods paragraph from a project's done runs (one template per step in `resources/methods/`, now calibration.run and stacking.stack; the version from each run's environment), `test_methods_text`; left: templates for the other steps, the Project window's "Methods text…", items 3 (more `@cites` need BibTeX entries checked against the papers) and 5
 - **Progress (agent3):** `core/provenance.py`: `record`, `checksum` (BLAKE2b; first and last MiB for files over
   4 MiB), `digest` (PROCHASH, time left out), `to_fits` (SWCREATE, SWVERS, PROCSTEP, PROCHASH, readable HISTORY
   lines and the record as `PROV` HISTORY lines with spaces escaped, since FITS drops trailing spaces), `to_ecsv`,

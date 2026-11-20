@@ -1,0 +1,1 @@
+The frames were corrected for bias and dark current{flat_clause} with {software} version {version}; the master frames were combined with a {sigma:g} sigma rejection{cosmic_clause}.
