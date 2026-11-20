@@ -986,3 +986,24 @@ def test_photometry_page_exports_for_etd(qtbot, tmp_path):
     out = page.export_etd(tmp_path / "e.txt")
     assert len(open(out).read().splitlines()) == 60
     assert "time standard BJD_TDB and the unit delta mag" in page.result.text()
+
+
+def test_etd_validator_rereads_its_file():
+    from astrowb.photometry.reports.etd import etd_text, validate
+
+    text = etd_text(synthetic_lc())[0]
+    assert validate(text) == []
+    assert validate(text + "1 2\n") == [f"line {len(text.splitlines()) + 1}: 3 columns expected"]
+    assert validate(text.replace(text.split()[1], "abc", 1)) == ["line 1: abc is not a number"]
+
+
+def test_aavso_extended_validator_rereads_its_file():
+    from astrowb.photometry.reports import aavso_extended as ax
+
+    report = ax.aavso_extended(synthetic_lc(), "X", "ABC", "V", [12.0, 12.5])
+    assert ax.validate(report) == []
+    assert ax.validate(report.replace("#OBSCODE=ABC\n", "")) == ["the header needs #OBSCODE"]
+    assert ax.validate(report.replace("#NAME,", "#NOPE,")) == ["the header needs the column line"]
+    row = report.splitlines()[7].split(",")
+    assert ax.validate(report.replace(row[2], "x", 1)) == ["line 8: x is not a number"]
+    assert ax.validate(report + "a,b\n") == [f"line {len(report.splitlines()) + 1}: 15 columns expected"]

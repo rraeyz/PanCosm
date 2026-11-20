@@ -8,6 +8,8 @@ import numpy as np
 from ... import __version__
 from ..export import ensemble_magnitudes
 
+COLUMNS = "NAME,DATE,MAG,MERR,FILT,TRANS,MTYPE,CNAME,CMAG,KNAME,KMAG,AIRMASS,GROUP,CHART,NOTES"
+
 
 def aavso_extended(
     lc,
@@ -48,7 +50,7 @@ def aavso_extended(
         "#DELIM=,",
         "#DATE=JD",
         "#OBSTYPE=CCD",
-        "#NAME,DATE,MAG,MERR,FILT,TRANS,MTYPE,CNAME,CMAG,KNAME,KMAG,AIRMASS,GROUP,CHART,NOTES",
+        "#" + COLUMNS,
     ]
     for i, (jd, m, e, am) in enumerate(zip(lc["jd_utc"], mag, merr, airmass, strict=True)):
         if not (np.isfinite(m) and np.isfinite(e) and np.isfinite(jd)):
@@ -58,4 +60,32 @@ def aavso_extended(
         lines.append(
             f"{star_name},{jd:.5f},{m:.3f},{e:.3f},{filt},{trans},STD,ENSEMBLE,na,{k},{am_text},na,{chart},{notes}"
         )
-    return "\n".join(lines) + "\n"
+    text = "\n".join(lines) + "\n"
+    problems = validate(text)
+    if problems:
+        raise ValueError(problems[0])
+    return text
+
+
+def validate(text):
+    """The format's rules, re-read from the file: a list of problems (empty when it would be accepted): #TYPE=Extended
+    first, an #OBSCODE, the column line, and data rows of 15 fields whose DATE, MAG and MERR are numbers."""
+    lines = text.splitlines()
+    out = [] if lines and lines[0] == "#TYPE=Extended" else ["the first line must be #TYPE=Extended"]
+    if not any(x.startswith("#OBSCODE=") and len(x) > 9 for x in lines):
+        out.append("the header needs #OBSCODE")
+    if "#" + COLUMNS not in lines:
+        out.append("the header needs the column line")
+    for n, line in enumerate(lines, 1):
+        if line.startswith("#") or not line.strip():
+            continue
+        fields = line.split(",")
+        if len(fields) != 15:
+            out.append(f"line {n}: 15 columns expected")
+            continue
+        for x in fields[1:4]:
+            try:
+                float(x)
+            except ValueError:
+                out.append(f"line {n}: {x} is not a number")
+    return out

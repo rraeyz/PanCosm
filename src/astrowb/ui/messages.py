@@ -444,6 +444,10 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "line {n}: unknown header key {key}"),
     QT_TRANSLATE_NOOP("Messages", "the header needs #{key}"),
     QT_TRANSLATE_NOOP("Messages", "line {n}: {expected} columns expected"),
+    # photometry/reports/etd.py, aavso_extended.py (PHO-27)
+    QT_TRANSLATE_NOOP("Messages", "line {n}: {x} is not a number"),
+    QT_TRANSLATE_NOOP("Messages", "the first line must be #TYPE=Extended"),
+    QT_TRANSLATE_NOOP("Messages", "the header needs the column line"),
     # photometry/reports/exoclock.py (PHO-27)
     QT_TRANSLATE_NOOP("Messages", "ExoClock needs BJD_TDB times: give the target's position when measuring"),
     # photometry/moving.py
