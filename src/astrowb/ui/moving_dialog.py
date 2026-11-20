@@ -3,43 +3,84 @@ frame, write the MPC (ADES) report."""
 
 from pathlib import Path
 
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
     QFormLayout,
-    QHBoxLayout,
     QHeaderView,
     QLabel,
     QLineEdit,
     QPushButton,
+    QSplitter,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
+    QWidget,
 )
 
 from ..core import profiles
 from .viewer import ImageViewer
 
 
-class MovingObjectDialog(QDialog):
+class MovingObjectPage(QWidget):
+    """The Astrometry window's page (UI-16.11): controls in the left column (the window shows them as stages),
+    the frame and the positions on the right."""
+
     measure_requested = Signal(list, list, list)  # images, first_xy, last_xy
+    solve_requested = Signal(str)  # one frame to plate-solve
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
         self.settings = settings
-        self.setWindowTitle(self.tr("Asteroid and comet astrometry"))
-        self.resize(1100, 760)
         self.images, self.first, self.last, self.positions = [], None, None, []
         lay = QVBoxLayout(self)
-        row = QHBoxLayout()
-        choose = QPushButton(self.tr("Choose plate-solved frames…"), self)
-        choose.clicked.connect(self._choose)
-        choose.setToolTip(
+        lay.setContentsMargins(0, 0, 0, 0)
+        split = QSplitter(Qt.Horizontal, self)
+        lay.addWidget(split)
+        self.left = QWidget(split)
+        left = QVBoxLayout(self.left)
+        right = QWidget(split)
+        main = QVBoxLayout(right)
+        self._controls(left)
+        self.hint = QLabel(self.tr("Choose the frames (calibrated and plate-solved), in any order."), self)
+        self.hint.setWordWrap(True)
+        main.addWidget(self.hint)
+        self.viewer = ImageViewer(self)
+        self.viewer.clicked.connect(self._clicked)
+        self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
+        main.addWidget(self.viewer, 3)
+        self.table = QTableWidget(0, 4, self)
+        self.table.setHorizontalHeaderLabels(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
+        main.addWidget(self.table, 1)
+        split.setStretchFactor(1, 1)
+        from .stage_boxes import boxes_from_column
+
+        starts = [("images", self.choose_button), ("solve", self.solve_info), ("find", self.find_info),
+                  ("measure", self.measure_button), ("report", self.form_box)]  # fmt: skip
+        self.stage_boxes = boxes_from_column(left, starts)
+
+    def _controls(self, lay):
+        self.choose_button = QPushButton(self.tr("Choose plate-solved frames…"), self)
+        self.choose_button.clicked.connect(self._choose)
+        self.choose_button.setToolTip(
             self.tr(
                 "Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so"
                 " the object moves"
             )
+        )
+        self.frames_info = QLabel(self)
+        self.solve_info = QLabel(self.tr("Frames without a plate solution are solved first."), self)
+        self.solve_button = QPushButton(self.tr("Solve the frames"), self)
+        self.solve_button.setEnabled(False)
+        self.solve_button.clicked.connect(self._solve)
+        self.solve_button.setToolTip(
+            self.tr("Plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net)")
+        )
+        self.find_info = QLabel(
+            self.tr("Click the object on the first frame, then on the last frame; they are marked in the image."), self
         )
         self.measure_button = QPushButton(self.tr("Measure positions"), self)
         self.measure_button.setEnabled(False)
@@ -52,23 +93,18 @@ class MovingObjectDialog(QDialog):
                 "every frame and fitted with a straight motion; residuals show bad points"
             )
         )
-        row.addWidget(choose)
-        row.addWidget(self.measure_button)
-        lay.addLayout(row)
-        self.hint = QLabel(self.tr("Choose the frames (calibrated and plate-solved), in any order."), self)
-        self.hint.setWordWrap(True)
-        lay.addWidget(self.hint)
-        self.viewer = ImageViewer(self)
-        self.viewer.clicked.connect(self._clicked)
-        self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
-        lay.addWidget(self.viewer, 3)
-        self.table = QTableWidget(0, 4, self)
-        self.table.setHorizontalHeaderLabels(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
-        lay.addWidget(self.table, 1)
-        saved = profiles.section(settings, "observer")
-        form = QFormLayout()
+        for label in (self.frames_info, self.solve_info, self.find_info):
+            label.setWordWrap(True)
+        for w in (self.choose_button, self.frames_info, self.solve_info, self.solve_button, self.find_info,
+                  self.measure_button):  # fmt: skip
+            lay.addWidget(w)
+        self.form_box = self._report_form(lay)
+
+    def _report_form(self, lay):
+        saved = profiles.section(self.settings, "observer")
+        box = QWidget(self)
+        form = QFormLayout(box)
+        form.setContentsMargins(0, 0, 0, 0)
         self.designation = QLineEdit(self)
         self.designation.setPlaceholderText(self.tr("e.g. 2026 VA12, 433, or your own name for a new object"))
         self.designation.setToolTip(
@@ -100,7 +136,7 @@ class MovingObjectDialog(QDialog):
         form.addRow(self.tr("Observatory code"), self.code)
         form.addRow(self.tr("Observers"), self.observers)
         form.addRow(self.tr("Catalogue"), self.catalog)
-        lay.addLayout(form)
+        lay.addWidget(box)
         self.export_button = QPushButton(self.tr("Write MPC report (ADES)…"), self)
         self.export_button.setEnabled(False)
         self.export_button.clicked.connect(lambda: self.export())
@@ -108,6 +144,35 @@ class MovingObjectDialog(QDialog):
             self.tr("Writes the positions in the MPC's ADES format, ready to send to the Minor Planet Center")
         )
         lay.addWidget(self.export_button)
+        return box
+
+    def _unsolved(self):
+        from astropy.io import fits
+        from astropy.wcs import WCS
+
+        from ..io.fits import find_image_hdu
+
+        def solved(p):
+            with fits.open(p) as hdul:
+                return WCS(hdul[find_image_hdu(hdul)].header).has_celestial
+
+        return [p for p in self.images if not solved(p)]
+
+    def _solve(self):
+        for p in self._unsolved():
+            self.solve_requested.emit(str(p))
+
+    def solved(self, old, new):
+        """A frame's plate-solved copy replaces it (the original is untouched)."""
+        self.images = [str(new) if str(p) == str(old) else p for p in self.images]
+        self._frames_changed()
+
+    def _frames_changed(self):
+        todo = len(self._unsolved())
+        self.frames_info.setText(
+            self.tr("{n} frames, {k} without a plate solution.").format(n=len(self.images), k=todo)
+        )
+        self.solve_button.setEnabled(todo > 0)
 
     def set_images(self, paths):
         from .. import timing
@@ -120,6 +185,7 @@ class MovingObjectDialog(QDialog):
         self.first = self.last = None
         self.viewer.set_image(read_image(self.images[0])[0])
         self.hint.setText(self.tr("Click the object on the first frame."))
+        self._frames_changed()
 
     def _choose(self):
         from .files import images_filter
@@ -207,3 +273,21 @@ class MovingObjectDialog(QDialog):
                 )
             )
         return path
+
+
+class MovingObjectDialog(QDialog):
+    """The page in a dialog (the page itself is the Astrometry window's content)."""
+
+    def __init__(self, settings, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(self.tr("Asteroid and comet astrometry"))
+        self.resize(1100, 760)
+        self.page = MovingObjectPage(settings, self)
+        QVBoxLayout(self).addWidget(self.page)
+        self.measure_requested = self.page.measure_requested
+        self.solve_requested = self.page.solve_requested
+
+    def __getattr__(self, name):  # the page's widgets and methods, as when the dialog held them itself
+        if name == "page":
+            raise AttributeError(name)
+        return getattr(self.page, name)

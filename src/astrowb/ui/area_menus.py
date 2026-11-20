@@ -249,6 +249,25 @@ def oc(main, page, win):
     oc_stages(win, page)  # UI-16.5: the left column as stages
 
 
+def exoplanets(main, page, win):
+    """Exoplanets: Fit, File → Open… (Ctrl+O, or a drop) and Export (interface UI-16.7)."""
+    from PySide6.QtWidgets import QMenu
+
+    fit = _mirror(page.fit_button, page, QCoreApplication.translate("MainWindow", "Fit"))
+    exports = [_mirror(b, page, QCoreApplication.translate("MainWindow", "Export")) for b in
+               (page.exoclock_button, page.etd_button)]  # fmt: skip
+    win.add_menus(
+        [(QCoreApplication.translate("MainWindow", "F&it"), [fit])], toolbar=[win.file_menu.actions()[0], None, fit]
+    )
+    files = QMenu(QCoreApplication.translate("MainWindow", "&Export"), win)
+    win.file_menu.insertMenu(win.file_menu.actions()[-1], files)
+    files.addActions(exports)
+    win.set_icons({win.file_menu.actions()[0]: "open", fit: "fit_model"})
+    from .stage_boxes import exoplanets_stages
+
+    exoplanets_stages(win, page)  # UI-16.7: the controls as stages beside the transit
+
+
 def plan(main, page, win):
     """Planning: Targets and Night (interface I6c.9)."""
 
@@ -439,6 +458,19 @@ def remotesensing(main, page, win):
     from .stage_boxes import rs_stages
 
     rs_stages(win, page)  # UI-16.13: the controls as stages beside the map
+
+
+def astrometry(main, page, win):
+    """Astrometry: Solve, Measure, File → Write the MPC report (interface UI-16.11); the frames are chosen in the
+    page's first stage."""
+    t = QCoreApplication.translate
+    solve = _mirror(page.solve_button, page, t("MainWindow", "Solve"))
+    measure = _mirror(page.measure_button, page, t("MainWindow", "Measure"))
+    report = _mirror(page.export_button, page, t("MainWindow", "Report"))
+    win.add_menus([(t("MainWindow", "&Astrometry"), [solve, measure, None, report])], toolbar=[solve, measure, report])
+    from .stage_boxes import astrometry_stages
+
+    astrometry_stages(win, page)
 
 
 def orbits(main, page, win):

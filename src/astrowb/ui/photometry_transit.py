@@ -139,26 +139,14 @@ def add_mcmc_box(page, layout):
     layout.addWidget(page.transit_red)
 
 
-def details_dialog(page, lc, out):
-    """The fitted parameters with their errors, and the curve with the model and the residuals below it."""
+def transit_figure(lc, out):
+    """The curve with the fitted model, and the residuals below it."""
     from .kit import tokens
-    from .kit.dialogs import Dialog
-    from .kit.table_view import DataTable
     from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
-    from .plot.toolbar import plot_box
 
-    d = Dialog(translate("PhotometryTransit", "Transit fit"), page, getattr(page, "settings", None), "transit_fit")
-    table = DataTable(d)
-    v, e = out["values"], out["errors"]
-    rows = [[k, v[k], e[k] if k in e else translate("PhotometryTransit", "fixed")] for k in v]
-    rows += [[k, val, ""] for k, val in out["derived"].items()]
-    rows += [[k, out[k], ""] for k in ("chi2r", "bic", "rms_ppt", "beta")]
-    table.set_data([translate("PhotometryTransit", "Parameter"), translate("PhotometryTransit", "Value"),
-                    translate("PhotometryTransit", "Error")], rows)  # fmt: skip
-    box, plot = plot_box(d)
     t = np.asarray(lc["time"], float)
     f, m = np.asarray(lc["rel_flux"], float), np.asarray(out["model"], float)
-    base = v["baseline"]
+    base = out["values"]["baseline"]
     day = t - t[0]
     ctx = "PhotometryTransit"
     series = [
@@ -168,14 +156,34 @@ def details_dialog(page, lc, out):
     x = AxisSpec(translate(ctx, "Days from {t0:.5f}").format(t0=t[0]))
     residual = SeriesSpec(translate(ctx, "O − C (ppt)"), day, (f - m) / base * 1000, size=3)
     zero = SeriesSpec("0", [0.0], kind="hline", colour=tokens.role("rejected"))
-    plot.set_figure(
-        FigureSpec(
-            [
-                PanelSpec(x, AxisSpec(translate(ctx, "Relative flux")), series, height_ratio=3),
-                PanelSpec(x, AxisSpec(translate(ctx, "O − C (ppt)")), [residual, zero]),
-            ]
-        )
+    return FigureSpec(
+        [
+            PanelSpec(x, AxisSpec(translate(ctx, "Relative flux")), series, height_ratio=3),
+            PanelSpec(x, AxisSpec(translate(ctx, "O − C (ppt)")), [residual, zero]),
+        ]
     )
+
+
+def parameter_rows(out):
+    """[name, value, error or "fixed"] for the fitted and derived values and the fit's statistics."""
+    v, e = out["values"], out["errors"]
+    rows = [[k, v[k], e[k] if k in e else translate("PhotometryTransit", "fixed")] for k in v]
+    rows += [[k, val, ""] for k, val in out["derived"].items()]
+    return rows + [[k, out[k], ""] for k in ("chi2r", "bic", "rms_ppt", "beta")]
+
+
+def details_dialog(page, lc, out):
+    """The fitted parameters with their errors, and the curve with the model and the residuals below it."""
+    from .kit.dialogs import Dialog
+    from .kit.table_view import DataTable
+    from .plot.toolbar import plot_box
+
+    d = Dialog(translate("PhotometryTransit", "Transit fit"), page, getattr(page, "settings", None), "transit_fit")
+    table = DataTable(d)
+    table.set_data([translate("PhotometryTransit", "Parameter"), translate("PhotometryTransit", "Value"),
+                    translate("PhotometryTransit", "Error")], parameter_rows(out))  # fmt: skip
+    box, plot = plot_box(d)
+    plot.set_figure(transit_figure(lc, out))
     d.body.addWidget(box, 3)
     d.body.addWidget(table, 2)
     d.add_buttons(translate("PhotometryTransit", "Close")).setDefault(True)

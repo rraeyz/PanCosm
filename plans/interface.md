@@ -716,7 +716,7 @@ test_the_models_window_has_stages. Left: the System / Stars / Extras / Uncertain
 - **Files:** `ui/models/` (see MOD-W)
 
 #### UI-16.7 Exoplanets
-**open**
+**partial** — done (2026-11-20): a new area window on a saved light curve (`ui/exoplanets_page.py`; the Photometry window keeps its transit controls): Data (light-curve files or CSV with errors), Star (u1, u2), Planets (start values), Model (detrending), Fit (`photometry.transit_fit` through the engine), Uncertainty (β, MCMC steps), Results (values, the transit plot shared with Photometry, ExoClock and ETD files); `tests/test_exoplanets_window.py`. Left: stellar density, TFOP from a file, several nights at once, archive fill / SED, radial velocities, planet cards, per-filter limb darkening, convergence and the Chains / Corner / Report docks, the O−C of mid-times, the guide chapter.
 ```
 rail           stage panel (example: 3 Planets)             main                                   inspector
 1 Data         Planet b                            ?        ┌ transits: one row per night, data + ─┐ Parameter Rp/R★
@@ -838,7 +838,7 @@ rail            stage panel (example: 2 Targets)            main                
 - **Files:** `ui/images/` (see IMG-W)
 
 #### UI-16.11 Astrometry
-**open**
+**partial** — done (2026-11-20): an area window (`MovingObjectPage` in `ui/moving_dialog.py`, the dialog kept as a wrapper; the Image menu's entry opens the window): Images, Solve (`astrometry.solve` on frames without a WCS), Find (marking on the first and last frame), Measure, Report (ADES PSV); `test_the_astrometry_window_has_stages`. Left: blink, track and stack, search, known objects, per-frame errors and magnitudes, other report formats, the validator, the inspector.
 ```
 rail          stage panel (example: 3 Find)                 main: image with blink strip             inspector
 1 Images      Moving objects in this field       ?          ┌──────────────────────────────────────┐ (433) Eros

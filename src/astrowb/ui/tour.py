@@ -203,6 +203,12 @@ def _later_steps(main, rect_of, dock):
 
     return [
         (
+            item("astrometry"),
+            translate(
+                "MainWindow", "Astrometry: positions of an asteroid or comet on plate-solved frames, the MPC report."
+            ),
+        ),
+        (
             item("spectroscopy"),
             translate(
                 "MainWindow",

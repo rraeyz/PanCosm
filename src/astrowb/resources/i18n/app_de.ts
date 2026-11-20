@@ -974,73 +974,121 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/start_page.py" line="36"/>
+        <source>Astrometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="37"/>
+        <source>Asteroid and comet positions for the Minor Planet Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="38"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="37"/>
+        <location filename="../../ui/start_page.py" line="39"/>
         <source>Brightness of stars on a series of images: the light curve</source>
         <translation>Helligkeit von Sternen auf einer Bildserie: die Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="38"/>
+        <location filename="../../ui/start_page.py" line="40"/>
         <source>Light curves and period</source>
         <translation>Lichtkurven und Periode</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="39"/>
+        <location filename="../../ui/start_page.py" line="41"/>
         <source>Periods, frequencies, variable stars in a set of frames</source>
         <translation>Perioden, Frequenzen, Veränderliche in einer Bildserie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="40"/>
+        <location filename="../../ui/start_page.py" line="42"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="41"/>
+        <location filename="../../ui/start_page.py" line="43"/>
         <source>Times of minimum, ephemeris, O−C diagram, third body, apsidal motion</source>
         <translation>Minimumszeiten, Ephemeride, O−C-Diagramm, dritter Körper, Apsidendrehung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="42"/>
+        <location filename="../../ui/start_page.py" line="44"/>
+        <source>Exoplanets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="45"/>
+        <source>Fit a transit on a saved light curve: the planet&apos;s radius, mid-time and shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/start_page.py" line="46"/>
         <source>Spectroscopy</source>
         <translation>Spektroskopie</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="43"/>
+        <location filename="../../ui/start_page.py" line="47"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
         <translation>Spektren reduzieren, Wellenlängen, Radialgeschwindigkeiten, Bahnen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="44"/>
+        <location filename="../../ui/start_page.py" line="48"/>
         <source>Models</source>
         <translation>Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="45"/>
+        <location filename="../../ui/start_page.py" line="49"/>
         <source>Eclipsing binaries, visual orbits, light-curve models</source>
         <translation>Bedeckungsveränderliche, visuelle Bahnen, Lichtkurvenmodelle</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="46"/>
+        <location filename="../../ui/start_page.py" line="50"/>
         <source>Remote sensing</source>
         <translation>Fernerkundung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="47"/>
+        <location filename="../../ui/start_page.py" line="51"/>
         <source>Satellite images: bands, indices, classes</source>
         <translation>Satellitenbilder: Bänder, Indizes, Klassen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="48"/>
+        <location filename="../../ui/start_page.py" line="52"/>
         <source>Automation</source>
         <translation>Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="49"/>
+        <location filename="../../ui/start_page.py" line="53"/>
         <source>Chain steps into a pipeline and run it in one go</source>
         <translation>Schritte zu einer Pipeline verketten und in einem Zug ausführen</translation>
+    </message>
+</context>
+<context>
+    <name>AstrometryWindow</name>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <source>Images</source>
+        <translation type="unfinished">Bilder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <source>Solve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <source>Measure</source>
+        <translation type="unfinished">Messen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2135,17 +2183,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CalibrationWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="164"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Frames</source>
         <translation type="unfinished">Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="165"/>
+        <location filename="../../ui/stage_boxes.py" line="179"/>
         <source>Calibrate</source>
         <translation type="unfinished">Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="166"/>
+        <location filename="../../ui/stage_boxes.py" line="180"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3128,6 +3176,264 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/kit/dialogs.py" line="67"/>
         <source>Report…</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExoplanetsPage</name>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="162"/>
+        <source>auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="65"/>
+        <source>Open light curves…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="67"/>
+        <source>Light-curve files from Photometry (.lc.ecsv), or tables of time, flux, error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="71"/>
+        <source>Limb darkening u1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="72"/>
+        <source>Quadratic law of the star; fixed unless chosen to fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="74"/>
+        <source>Limb darkening u2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="76"/>
+        <source>Fit the limb darkening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="77"/>
+        <source>A single night rarely decides it: leave it fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="83"/>
+        <source>Period (d)</source>
+        <translation type="unfinished">Periode (d)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="84"/>
+        <source>Fixed for a single transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="85"/>
+        <source>Mid-transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="86"/>
+        <source>Start value; auto: the dip of the curve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="87"/>
+        <source>Rp/R★</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="88"/>
+        <source>Start value; auto: the square root of the depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="91"/>
+        <source>a/R★</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="93"/>
+        <location filename="../../ui/exoplanets_page.py" line="99"/>
+        <source>Start value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="97"/>
+        <source>Impact parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="105"/>
+        <source>Detrend against</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="107"/>
+        <source>Comma-separated: airmass, fwhm, sky, x, y (empty: none)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="109"/>
+        <source>Fit the transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="111"/>
+        <source>Fits the chosen light curve; Stop is in the status bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="118"/>
+        <source>Account for red noise (errors × β)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="119"/>
+        <source>The errors multiplied by β, the time-averaging factor of the residuals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="123"/>
+        <source>MCMC steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="125"/>
+        <source>Posterior errors after the fit (stops earlier once converged); 0: none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="132"/>
+        <source>Julian date, magnitude, error, for the ETD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="129"/>
+        <source>ExoClock file…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="130"/>
+        <source>ETD file…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="131"/>
+        <source>Time, normalised flux, error in BJD_TDB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="146"/>
+        <source>Open a light curve to begin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="171"/>
+        <source>Open light curves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="182"/>
+        <source>Cannot read {file}: {error}</source>
+        <translation type="unfinished">{file} kann nicht gelesen werden: {error}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="191"/>
+        <source>File</source>
+        <translation type="unfinished">Datei</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="192"/>
+        <source>Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="193"/>
+        <source>Time span (d)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="194"/>
+        <source>Time scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="211"/>
+        <location filename="../../ui/exoplanets_page.py" line="241"/>
+        <source>Open a light curve first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="219"/>
+        <source>Fitting the transit…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="227"/>
+        <source>Parameter</source>
+        <translation type="unfinished">Parameter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="228"/>
+        <source>Value</source>
+        <translation type="unfinished">Wert</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="229"/>
+        <source>Error</source>
+        <translation type="unfinished">Fehler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="245"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/exoplanets_page.py" line="256"/>
+        <source>Saved {name}</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExoplanetsWindow</name>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="90"/>
+        <source>Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="90"/>
+        <source>Star</source>
+        <translation type="unfinished">Stern</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="91"/>
+        <source>Planets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="91"/>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="92"/>
+        <source>Fit</source>
+        <translation type="unfinished">Anpassen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="93"/>
+        <source>Uncertainty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="94"/>
+        <source>Results</source>
+        <translation type="unfinished">Ergebnisse</translation>
     </message>
 </context>
 <context>
@@ -4443,17 +4749,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_window.py" line="99"/>
+        <location filename="../../ui/main_window.py" line="101"/>
         <source>Tasks</source>
         <translation>Aufgaben</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="162"/>
+        <location filename="../../ui/main_window.py" line="168"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="330"/>
+        <location filename="../../ui/main_window.py" line="337"/>
         <source>Tour of this window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4468,12 +4774,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Photometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="170"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="164"/>
+        <location filename="../../ui/main_window.py" line="170"/>
         <source>Guide</source>
         <translation>Anleitung</translation>
     </message>
@@ -5009,7 +5315,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="231"/>
-        <location filename="../../ui/area_menus.py" line="465"/>
+        <location filename="../../ui/area_menus.py" line="257"/>
+        <location filename="../../ui/area_menus.py" line="497"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
         <translation>Exportieren</translation>
@@ -5046,7 +5353,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="435"/>
+        <location filename="../../ui/area_menus.py" line="454"/>
         <location filename="../../ui/area_windows.py" line="539"/>
         <location filename="../../ui/area_windows.py" line="671"/>
         <source>&amp;Analyse</source>
@@ -5104,8 +5411,9 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="243"/>
-        <location filename="../../ui/area_menus.py" line="477"/>
-        <location filename="../../ui/area_menus.py" line="534"/>
+        <location filename="../../ui/area_menus.py" line="262"/>
+        <location filename="../../ui/area_menus.py" line="509"/>
+        <location filename="../../ui/area_menus.py" line="566"/>
         <location filename="../../ui/area_windows.py" line="99"/>
         <source>&amp;Export</source>
         <translation>&amp;Exportieren</translation>
@@ -5224,7 +5532,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="230"/>
-        <location filename="../../ui/area_menus.py" line="461"/>
+        <location filename="../../ui/area_menus.py" line="256"/>
+        <location filename="../../ui/area_menus.py" line="493"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
@@ -5234,287 +5543,288 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="261"/>
+        <location filename="../../ui/area_menus.py" line="280"/>
         <source>Add target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="264"/>
+        <location filename="../../ui/area_menus.py" line="283"/>
         <source>Add target with ephemeris</source>
         <translation>Ziel mit Ephemeride hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="265"/>
+        <location filename="../../ui/area_menus.py" line="284"/>
         <source>With ephemeris</source>
         <translation>Mit Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="269"/>
+        <location filename="../../ui/area_menus.py" line="288"/>
         <source>Send</source>
         <translation>Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="273"/>
+        <location filename="../../ui/area_menus.py" line="292"/>
         <source>Import targets from CSV…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="274"/>
+        <location filename="../../ui/area_menus.py" line="293"/>
         <source>Save the list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="275"/>
+        <location filename="../../ui/area_menus.py" line="294"/>
         <source>Open a saved list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="276"/>
+        <location filename="../../ui/area_menus.py" line="295"/>
         <source>What can I observe tonight?…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="277"/>
+        <location filename="../../ui/area_menus.py" line="296"/>
         <source>Gaia alerts tonight…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="284"/>
+        <location filename="../../ui/area_menus.py" line="303"/>
         <source>&amp;Targets</source>
         <translation>&amp;Ziele</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="287"/>
+        <location filename="../../ui/area_menus.py" line="306"/>
         <source>&amp;Night</source>
         <translation>&amp;Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="319"/>
+        <location filename="../../ui/area_menus.py" line="338"/>
         <source>Cooler off</source>
         <translation>Kühlung aus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="320"/>
+        <location filename="../../ui/area_menus.py" line="339"/>
         <source>Move the focuser</source>
         <translation>Fokussierer bewegen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="321"/>
+        <location filename="../../ui/area_menus.py" line="340"/>
         <source>Change the filter</source>
         <translation>Filter wechseln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="322"/>
+        <location filename="../../ui/area_menus.py" line="341"/>
         <source>Cool the camera</source>
         <translation>Kamera kühlen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="328"/>
+        <location filename="../../ui/area_menus.py" line="347"/>
         <source>&amp;Devices</source>
         <translation>&amp;Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="330"/>
+        <location filename="../../ui/area_menus.py" line="349"/>
         <source>&amp;Telescope</source>
         <translation>&amp;Teleskop</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="334"/>
+        <location filename="../../ui/area_menus.py" line="353"/>
         <source>&amp;Camera</source>
         <translation>&amp;Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="337"/>
+        <location filename="../../ui/area_menus.py" line="356"/>
         <source>F&amp;ocus</source>
         <translation>F&amp;okus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="338"/>
+        <location filename="../../ui/area_menus.py" line="357"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="340"/>
+        <location filename="../../ui/area_menus.py" line="359"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Sequenz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="386"/>
+        <location filename="../../ui/area_menus.py" line="405"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="387"/>
+        <location filename="../../ui/area_menus.py" line="406"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="391"/>
+        <location filename="../../ui/area_menus.py" line="410"/>
         <source>Save the automation as…</source>
         <translation>Automatisierung speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="392"/>
+        <location filename="../../ui/area_menus.py" line="411"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="400"/>
+        <location filename="../../ui/area_menus.py" line="419"/>
         <source>Remove the step</source>
         <translation>Schritt entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="401"/>
+        <location filename="../../ui/area_menus.py" line="420"/>
         <source>Move the step up</source>
         <translation>Schritt nach oben</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="402"/>
+        <location filename="../../ui/area_menus.py" line="421"/>
         <source>Move the step down</source>
         <translation>Schritt nach unten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="409"/>
+        <location filename="../../ui/area_menus.py" line="428"/>
         <source>Run the automation</source>
         <translation>Automatisierung ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="410"/>
+        <location filename="../../ui/area_menus.py" line="429"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="413"/>
+        <location filename="../../ui/area_menus.py" line="432"/>
         <source>To Observing</source>
         <translation>Zum Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="417"/>
+        <location filename="../../ui/area_menus.py" line="436"/>
         <source>&amp;Steps</source>
         <translation>&amp;Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="418"/>
+        <location filename="../../ui/area_menus.py" line="437"/>
         <source>&amp;Run</source>
         <translation>A&amp;usführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="430"/>
+        <location filename="../../ui/area_menus.py" line="449"/>
         <source>Compute</source>
         <translation>Berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="431"/>
+        <location filename="../../ui/area_menus.py" line="450"/>
         <source>Compute the band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="432"/>
+        <location filename="../../ui/area_menus.py" line="451"/>
         <source>Classify</source>
         <translation>Klassifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="433"/>
+        <location filename="../../ui/area_menus.py" line="452"/>
         <source>Components</source>
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="460"/>
+        <location filename="../../ui/area_menus.py" line="492"/>
         <source>Fit the eclipse or transit model</source>
         <translation>Das Bedeckungs- oder Transitmodell anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="463"/>
+        <location filename="../../ui/area_menus.py" line="495"/>
         <source>Posterior</source>
         <translation>Posterior</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="464"/>
+        <location filename="../../ui/area_menus.py" line="496"/>
         <source>Visual orbit</source>
         <translation>Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="469"/>
+        <location filename="../../ui/area_menus.py" line="260"/>
+        <location filename="../../ui/area_menus.py" line="501"/>
         <source>F&amp;it</source>
         <translation>An&amp;passen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="548"/>
+        <location filename="../../ui/area_menus.py" line="580"/>
         <source>&amp;Reduce</source>
         <translation>&amp;Reduzieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="551"/>
+        <location filename="../../ui/area_menus.py" line="583"/>
         <source>Extract the long-slit spectrum</source>
         <translation>Das Langspaltspektrum extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="557"/>
+        <location filename="../../ui/area_menus.py" line="589"/>
         <source>Find the échelle orders on the flat</source>
         <translation>Die Echelle-Ordnungen auf dem Flat finden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="559"/>
+        <location filename="../../ui/area_menus.py" line="591"/>
         <source>Extract the échelle orders</source>
         <translation>Die Echelle-Ordnungen extrahieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="564"/>
+        <location filename="../../ui/area_menus.py" line="596"/>
         <source>Save the cube region&apos;s spectrum…</source>
         <translation>Das Spektrum des Würfelbereichs speichern…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="569"/>
+        <location filename="../../ui/area_menus.py" line="601"/>
         <source>&amp;Lines</source>
         <translation>&amp;Linien</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="574"/>
+        <location filename="../../ui/area_menus.py" line="606"/>
         <source>Fit the wavelengths (long slit)</source>
         <translation>Die Wellenlängen anpassen (Langspalt)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="578"/>
+        <location filename="../../ui/area_menus.py" line="610"/>
         <source>Fit the wavelengths, merge the orders (échelle)</source>
         <translation>Die Wellenlängen anpassen, die Ordnungen zusammenfügen (Echelle)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="592"/>
+        <location filename="../../ui/area_menus.py" line="624"/>
         <source>S&amp;pectrum</source>
         <translation>S&amp;pektrum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="606"/>
+        <location filename="../../ui/area_menus.py" line="638"/>
         <source>Telluric correction</source>
         <translation>Tellurische Korrektur</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="608"/>
+        <location filename="../../ui/area_menus.py" line="640"/>
         <source>Arithmetic with spectrum B</source>
         <translation>Arithmetik mit Spektrum B</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="612"/>
+        <location filename="../../ui/area_menus.py" line="644"/>
         <source>Mea&amp;sure</source>
         <translation>&amp;Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="614"/>
+        <location filename="../../ui/area_menus.py" line="646"/>
         <source>Measure a line</source>
         <translation>Eine Linie messen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="638"/>
+        <location filename="../../ui/area_menus.py" line="670"/>
         <source>Open a velocity table…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="639"/>
+        <location filename="../../ui/area_menus.py" line="671"/>
         <source>Times and velocities (CSV or text) for an orbit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="538"/>
+        <location filename="../../ui/area_menus.py" line="570"/>
         <source>Save the spectrum as…</source>
         <translation>Das Spektrum speichern unter…</translation>
     </message>
@@ -5524,12 +5834,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Auf&amp;gabe</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="323"/>
+        <location filename="../../ui/main_window.py" line="330"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="324"/>
+        <location filename="../../ui/main_window.py" line="331"/>
         <source>Copies the selected cells or text</source>
         <translation>Kopiert die markierten Zellen oder den Text</translation>
     </message>
@@ -6020,47 +6330,52 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Photometrie, dann Lichtkurven und Periode und O−C: Sterne messen, Lichtkurven, Perioden, Minima und O−C-Diagramme erhalten.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="214"/>
+        <location filename="../../ui/tour.py" line="207"/>
+        <source>Astrometry: positions of an asteroid or comet on plate-solved frames, the MPC report.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/tour.py" line="220"/>
         <source>Models: eclipsing-binary and transit light-curve models, absolute dimensions and visual orbits.</source>
         <translation>Modelle: Lichtkurvenmodelle für Bedeckungsveränderliche und Transits, absolute Dimensionen und visuelle Bahnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="235"/>
+        <location filename="../../ui/tour.py" line="241"/>
         <source>Guide: every window explained step by step, by category, with search. Help → Training guide opens it; F1 in a window opens its own page.</source>
         <translation>Anleitung: jedes Fenster Schritt für Schritt erklärt, nach Kategorien, mit Suche. Hilfe → Schulungsanleitung öffnet ihn; F1 in einem Fenster öffnet dessen Seite.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="255"/>
+        <location filename="../../ui/tour.py" line="261"/>
         <source>In every area window: the stages on the left (Ctrl+1…9), F5 runs the stage&apos;s main action, F1 or Shift+F1 opens help, Ctrl+K finds any action, Ctrl+/ lists every key. To try it all, Help → Practice data for a first night gives data with known answers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="273"/>
+        <location filename="../../ui/tour.py" line="279"/>
         <source>The stages of the work, in order. A stage done gets ✓ and the next opens by itself; Ctrl+1…9 jumps to one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="275"/>
+        <location filename="../../ui/tour.py" line="281"/>
         <source>The chosen stage&apos;s controls. Its ? opens the guide&apos;s page for it; F5 runs its main action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="277"/>
+        <location filename="../../ui/tour.py" line="283"/>
         <source>The main view: the image, the chart or the table you work on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="279"/>
+        <location filename="../../ui/tour.py" line="285"/>
         <source>Results: what the work produced, in tabs; a row or point shows its frame or star.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="281"/>
+        <location filename="../../ui/tour.py" line="287"/>
         <source>The toolbar: the window&apos;s main actions. View → Toolbar text writes their names beside the icons.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="283"/>
+        <location filename="../../ui/tour.py" line="289"/>
         <source>Every action is also in the menus; Ctrl+K finds any of them by name and Ctrl+/ lists every key.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6178,12 +6493,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="472"/>
+        <location filename="../../ui/area_menus.py" line="504"/>
         <source>Visual &amp;orbit</source>
         <translation>&amp;Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="623"/>
+        <location filename="../../ui/area_menus.py" line="655"/>
         <source>Velo&amp;city</source>
         <translation>Ges&amp;chwindigkeit</translation>
     </message>
@@ -6340,27 +6655,27 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Willkommen! Diese einminütige Tour zeigt, wo sich was befindet. Drücken Sie Weiter oder jederzeit Überspringen.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="207"/>
+        <location filename="../../ui/tour.py" line="213"/>
         <source>Spectroscopy: long-slit and echelle reduction, telluric correction, radial velocities, IFU cubes.</source>
         <translation>Spektroskopie: Langspalt- und Echelle-Reduktion, tellurische Korrektur, Radialgeschwindigkeiten, IFU-Würfel.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="221"/>
+        <location filename="../../ui/tour.py" line="227"/>
         <source>Remote sensing: satellite and aerial images — band math, vegetation and water indices, classes.</source>
         <translation>Fernerkundung: Satelliten- und Luftbilder — Bandrechnung, Vegetations- und Wasserindizes, Klassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="228"/>
+        <location filename="../../ui/tour.py" line="234"/>
         <source>Automation: chain steps into your own pipeline or start from a ready template (eclipsing binary night, transit, calibration, spectra to RV) and run it in one go.</source>
         <translation>Automatisierung: Schritte zu einer eigenen Kette verbinden oder mit einer fertigen Vorlage beginnen (Bedeckungsveränderlichen-Nacht, Transit, Kalibrierung, Spektren zu RV) und in einem Durchgang ausführen.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="242"/>
+        <location filename="../../ui/tour.py" line="248"/>
         <source>Tasks: long jobs run here in the background with their progress; you can keep working.</source>
         <translation>Aufgaben: lange Arbeiten laufen hier im Hintergrund mit ihrem Fortschritt; Sie können weiterarbeiten.</translation>
     </message>
     <message>
-        <location filename="../../ui/tour.py" line="248"/>
+        <location filename="../../ui/tour.py" line="254"/>
         <source>Menus: Plugins for your own tools, Settings for language, look and CPU/GPU, Help for this tour and the guide; each area&apos;s window has its own menus and toolbar.</source>
         <translation>Menüs: Plugins für Ihre eigenen Werkzeuge, Einstellungen für Sprache, Aussehen und CPU/GPU, Hilfe für diese Tour und die Anleitung; das Fenster jedes Bereichs hat eigene Menüs und eine eigene Werkzeugleiste.</translation>
     </message>
@@ -8748,17 +9063,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ModelsWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="182"/>
+        <location filename="../../ui/stage_boxes.py" line="196"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="182"/>
+        <location filename="../../ui/stage_boxes.py" line="196"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="183"/>
+        <location filename="../../ui/stage_boxes.py" line="197"/>
         <source>Fit</source>
         <translation type="unfinished">Anpassen</translation>
     </message>
@@ -8824,154 +9139,182 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>MovingObjectDialog</name>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="31"/>
+        <location filename="../../ui/moving_dialog.py" line="283"/>
         <source>Asteroid and comet astrometry</source>
         <translation>Astrometrie von Asteroiden und Kometen</translation>
     </message>
+</context>
+<context>
+    <name>MovingObjectPage</name>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="36"/>
-        <source>Choose plate-solved frames…</source>
-        <translation>Astrometrisch gelöste Bilder wählen…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="40"/>
-        <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
-        <translation>Kalibrierte Bilder mit Astrometrie (WCS) im Header, über eine Stunde oder länger aufgenommen, damit sich das Objekt bewegt</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="44"/>
-        <source>Measure positions</source>
-        <translation>Positionen messen</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="51"/>
-        <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
-        <translation>Nachdem Sie das Objekt im ersten und letzten Bild angeklickt haben: seine Position wird in jedem Bild gemessen und mit einer gleichförmigen Bewegung angepasst; die Residuen zeigen schlechte Punkte</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="58"/>
+        <location filename="../../ui/moving_dialog.py" line="46"/>
         <source>Choose the frames (calibrated and plate-solved), in any order.</source>
-        <translation>Wählen Sie die Bilder (kalibriert und astrometrisch gelöst), in beliebiger Reihenfolge.</translation>
+        <translation type="unfinished">Wählen Sie die Bilder (kalibriert und astrometrisch gelöst), in beliebiger Reihenfolge.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="54"/>
+        <source>Residual (″)</source>
+        <translation type="unfinished">Residuum (″)</translation>
     </message>
     <message>
         <location filename="../../ui/moving_dialog.py" line="66"/>
-        <source>Residual (″)</source>
-        <translation>Residuum (″)</translation>
+        <source>Choose plate-solved frames…</source>
+        <translation type="unfinished">Astrometrisch gelöste Bilder wählen…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="73"/>
-        <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
-        <translation>z. B. 2026 VA12, 433 oder Ihr eigener Name für ein neues Objekt</translation>
+        <location filename="../../ui/moving_dialog.py" line="70"/>
+        <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
+        <translation type="unfinished">Kalibrierte Bilder mit Astrometrie (WCS) im Header, über eine Stunde oder länger aufgenommen, damit sich das Objekt bewegt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="75"/>
+        <source>Frames without a plate solution are solved first.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/moving_dialog.py" line="76"/>
+        <source>Solve the frames</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="80"/>
+        <source>Plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="83"/>
+        <source>Click the object on the first frame, then on the last frame; they are marked in the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="85"/>
+        <source>Measure positions</source>
+        <translation type="unfinished">Positionen messen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="92"/>
+        <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
+        <translation type="unfinished">Nachdem Sie das Objekt im ersten und letzten Bild angeklickt haben: seine Position wird in jedem Bild gemessen und mit einer gleichförmigen Bewegung angepasst; die Residuen zeigen schlechte Punkte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="109"/>
+        <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
+        <translation type="unfinished">z. B. 2026 VA12, 433 oder Ihr eigener Name für ein neues Objekt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="112"/>
         <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
-        <translation>Die Bezeichnung des Objekts beim Minor Planet Center oder ein eigener vorläufiger Name für ein neues Objekt</translation>
+        <translation type="unfinished">Die Bezeichnung des Objekts beim Minor Planet Center oder ein eigener vorläufiger Name für ein neues Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="81"/>
+        <location filename="../../ui/moving_dialog.py" line="117"/>
         <source>MPC observatory code, e.g. A84</source>
-        <translation>MPC-Sternwartencode, z. B. A84</translation>
+        <translation type="unfinished">MPC-Sternwartencode, z. B. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="84"/>
+        <location filename="../../ui/moving_dialog.py" line="120"/>
         <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
-        <translation>Der dreistellige Code Ihrer Sternwarte vom Minor Planet Center (vor dem ersten Bericht beantragen)</translation>
+        <translation type="unfinished">Der dreistellige Code Ihrer Sternwarte vom Minor Planet Center (vor dem ersten Bericht beantragen)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="89"/>
+        <location filename="../../ui/moving_dialog.py" line="125"/>
         <source>names, separated by commas</source>
-        <translation>Namen, durch Kommas getrennt</translation>
+        <translation type="unfinished">Namen, durch Kommas getrennt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="90"/>
+        <location filename="../../ui/moving_dialog.py" line="126"/>
         <source>Names of the observers, written into the report</source>
-        <translation>Namen der Beobachter, werden in den Bericht geschrieben</translation>
+        <translation type="unfinished">Namen der Beobachter, werden in den Bericht geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="130"/>
         <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
-        <translation>Sternkatalog, auf dem die Astrometrielösungen beruhen (ADES astCat). Aus den Aufnahmen übernommen, wenn der Löser ihn vermerkt hat: die 4100-Indizes von astrometry.net sind Tycho-2 (Tyc2), 4200 sind 2MASS, 5200 sind Gaia DR2 (Gaia2); die Sterndatenbanken von ASTAP stammen aus Gaia (prüfen Sie, welche Version Ihre ist)</translation>
+        <translation type="unfinished">Sternkatalog, auf dem die Astrometrielösungen beruhen (ADES astCat). Aus den Aufnahmen übernommen, wenn der Löser ihn vermerkt hat: die 4100-Indizes von astrometry.net sind Tycho-2 (Tyc2), 4200 sind 2MASS, 5200 sind Gaia DR2 (Gaia2); die Sterndatenbanken von ASTAP stammen aus Gaia (prüfen Sie, welche Version Ihre ist)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="99"/>
+        <location filename="../../ui/moving_dialog.py" line="135"/>
         <source>Object</source>
-        <translation>Objekt</translation>
+        <translation type="unfinished">Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="100"/>
+        <location filename="../../ui/moving_dialog.py" line="136"/>
         <source>Observatory code</source>
-        <translation>Sternwartencode</translation>
+        <translation type="unfinished">Sternwartencode</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="137"/>
         <source>Observers</source>
-        <translation>Beobachter</translation>
+        <translation type="unfinished">Beobachter</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="102"/>
+        <location filename="../../ui/moving_dialog.py" line="138"/>
         <source>Catalogue</source>
-        <translation>Katalog</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="104"/>
-        <source>Write MPC report (ADES)…</source>
-        <translation>MPC-Bericht schreiben (ADES)…</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="108"/>
-        <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
-        <translation>Schreibt die Positionen im ADES-Format des MPC, bereit zum Senden an das Minor Planet Center</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="122"/>
-        <source>Click the object on the first frame.</source>
-        <translation>Klicken Sie im ersten Bild auf das Objekt.</translation>
-    </message>
-    <message>
-        <location filename="../../ui/moving_dialog.py" line="127"/>
-        <source>Choose frames</source>
-        <translation>Bilder wählen</translation>
+        <translation type="unfinished">Katalog</translation>
     </message>
     <message>
         <location filename="../../ui/moving_dialog.py" line="140"/>
-        <source>Now click the object on the last frame (the first position is marked).</source>
-        <translation>Klicken Sie jetzt im letzten Bild auf das Objekt (die erste Position ist markiert).</translation>
+        <source>Write MPC report (ADES)…</source>
+        <translation type="unfinished">MPC-Bericht schreiben (ADES)…</translation>
     </message>
     <message>
         <location filename="../../ui/moving_dialog.py" line="144"/>
+        <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
+        <translation type="unfinished">Schreibt die Positionen im ADES-Format des MPC, bereit zum Senden an das Minor Planet Center</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="173"/>
+        <source>{n} frames, {k} without a plate solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="187"/>
+        <source>Click the object on the first frame.</source>
+        <translation type="unfinished">Klicken Sie im ersten Bild auf das Objekt.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="193"/>
+        <source>Choose frames</source>
+        <translation type="unfinished">Bilder wählen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="206"/>
+        <source>Now click the object on the last frame (the first position is marked).</source>
+        <translation type="unfinished">Klicken Sie jetzt im letzten Bild auf das Objekt (die erste Position ist markiert).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/moving_dialog.py" line="210"/>
         <source>Press Measure positions.</source>
-        <translation>Drücken Sie „Positionen messen“.</translation>
+        <translation type="unfinished">Drücken Sie „Positionen messen“.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="219"/>
         <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
-        <translation>Katalog auf {c} gesetzt: Die Astrometrielösungen der Aufnahmen beruhen darauf.</translation>
+        <translation type="unfinished">Katalog auf {c} gesetzt: Die Astrometrielösungen der Aufnahmen beruhen darauf.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="155"/>
+        <location filename="../../ui/moving_dialog.py" line="221"/>
         <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
-        <translation>Die Aufnahmen wurden mit verschiedenen Katalogen gelöst ({c}): lösen Sie sie gleich.</translation>
+        <translation type="unfinished">Die Aufnahmen wurden mit verschiedenen Katalogen gelöst ({c}): lösen Sie sie gleich.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="165"/>
+        <location filename="../../ui/moving_dialog.py" line="231"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
-        <translation>{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
+        <translation type="unfinished">{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="169"/>
+        <location filename="../../ui/moving_dialog.py" line="235"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
-        <translation>{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
+        <translation type="unfinished">{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="201"/>
+        <location filename="../../ui/moving_dialog.py" line="267"/>
         <source>MPC report</source>
-        <translation>MPC-Bericht</translation>
+        <translation type="unfinished">MPC-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="205"/>
+        <location filename="../../ui/moving_dialog.py" line="271"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
-        <translation>Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
+        <translation type="unfinished">Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
     </message>
 </context>
 <context>
@@ -9680,7 +10023,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="126"/>
-        <location filename="../../ui/stage_boxes.py" line="243"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -9801,7 +10144,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="199"/>
-        <location filename="../../ui/stage_boxes.py" line="244"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Sequence</source>
         <translation>Sequenz</translation>
     </message>
@@ -10308,17 +10651,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Folge laden</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="243"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="244"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="245"/>
+        <location filename="../../ui/stage_boxes.py" line="259"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11052,17 +11395,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="207"/>
+        <location filename="../../ui/stage_boxes.py" line="221"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="207"/>
+        <location filename="../../ui/stage_boxes.py" line="221"/>
         <source>Clean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="208"/>
+        <location filename="../../ui/stage_boxes.py" line="222"/>
         <source>Search</source>
         <translation type="unfinished">Suchen</translation>
     </message>
@@ -11241,87 +11584,92 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/photometry_checks.py" line="221"/>
+        <source>Ellipticity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_checks.py" line="222"/>
         <source>Airmass</source>
         <translation type="unfinished">Luftmasse</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="227"/>
+        <location filename="../../ui/photometry_checks.py" line="228"/>
         <source>Target peak / limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="232"/>
+        <location filename="../../ui/photometry_checks.py" line="233"/>
         <source>Comparison − check (mag)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="242"/>
+        <location filename="../../ui/photometry_checks.py" line="243"/>
         <source>Flagged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="272"/>
+        <location filename="../../ui/photometry_checks.py" line="273"/>
         <source>measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="274"/>
+        <location filename="../../ui/photometry_checks.py" line="275"/>
         <source>white noise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="268"/>
+        <location filename="../../ui/photometry_checks.py" line="269"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="270"/>
+        <location filename="../../ui/photometry_checks.py" line="271"/>
         <source>T1 (no check star)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="275"/>
+        <location filename="../../ui/photometry_checks.py" line="276"/>
         <source>RMS against bin size, {who}: β = {beta:.2f}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="276"/>
+        <location filename="../../ui/photometry_checks.py" line="277"/>
         <source>Points per bin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="330"/>
+        <location filename="../../ui/photometry_checks.py" line="331"/>
         <source>leave out the flagged points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="344"/>
+        <location filename="../../ui/photometry_checks.py" line="345"/>
         <source>{kind} ({n})</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="349"/>
+        <location filename="../../ui/photometry_checks.py" line="350"/>
         <source>Flagged frames: {list}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="351"/>
+        <location filename="../../ui/photometry_checks.py" line="352"/>
         <source>No frame flagged: no cloud, seeing jump, field jump or saturation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="244"/>
-        <location filename="../../ui/photometry_checks.py" line="362"/>
+        <location filename="../../ui/photometry_checks.py" line="245"/>
+        <location filename="../../ui/photometry_checks.py" line="363"/>
         <source>Frame</source>
         <translation type="unfinished">Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="362"/>
+        <location filename="../../ui/photometry_checks.py" line="363"/>
         <source>File</source>
         <translation type="unfinished">Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_checks.py" line="363"/>
+        <location filename="../../ui/photometry_checks.py" line="364"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13882,67 +14230,67 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="150"/>
+        <location filename="../../ui/photometry_transit.py" line="181"/>
         <source>Transit fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="153"/>
+        <location filename="../../ui/photometry_transit.py" line="170"/>
         <source>fixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="156"/>
+        <location filename="../../ui/photometry_transit.py" line="183"/>
         <source>Parameter</source>
         <translation type="unfinished">Parameter</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="156"/>
+        <location filename="../../ui/photometry_transit.py" line="183"/>
         <source>Value</source>
         <translation type="unfinished">Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="157"/>
+        <location filename="../../ui/photometry_transit.py" line="184"/>
         <source>Error</source>
         <translation type="unfinished">Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="181"/>
+        <location filename="../../ui/photometry_transit.py" line="189"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="188"/>
+        <location filename="../../ui/photometry_transit.py" line="196"/>
         <source>Exact transit model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="190"/>
+        <location filename="../../ui/photometry_transit.py" line="198"/>
         <source>Fit the transit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="192"/>
+        <location filename="../../ui/photometry_transit.py" line="200"/>
         <source>Limb-darkened transit with a trend in airmass, fitted to the measured curve; needs the period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="200"/>
+        <location filename="../../ui/photometry_transit.py" line="208"/>
         <source>Parameters and plot…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="224"/>
+        <location filename="../../ui/photometry_transit.py" line="232"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="229"/>
+        <location filename="../../ui/photometry_transit.py" line="237"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="237"/>
+        <location filename="../../ui/photometry_transit.py" line="245"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15674,22 +16022,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="223"/>
+        <location filename="../../ui/stage_boxes.py" line="237"/>
         <source>Scene</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="224"/>
+        <location filename="../../ui/stage_boxes.py" line="238"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="225"/>
+        <location filename="../../ui/stage_boxes.py" line="239"/>
         <source>Indices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="226"/>
+        <location filename="../../ui/stage_boxes.py" line="240"/>
         <source>Classes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -15706,17 +16054,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>Sequence</name>
     <message>
-        <location filename="../../ui/image/sequence.py" line="51"/>
+        <location filename="../../ui/image/sequence.py" line="56"/>
         <source>Play</source>
         <translation type="unfinished">Abspielen</translation>
     </message>
     <message>
-        <location filename="../../ui/image/sequence.py" line="56"/>
+        <location filename="../../ui/image/sequence.py" line="61"/>
         <source> frames/s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image/sequence.py" line="57"/>
+        <location filename="../../ui/image/sequence.py" line="62"/>
         <source>Same levels for all frames</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17059,97 +17407,97 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/start_page.py" line="70"/>
+        <location filename="../../ui/start_page.py" line="74"/>
         <source>Welcome to {app}</source>
         <translation>Willkommen bei {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="87"/>
+        <location filename="../../ui/start_page.py" line="91"/>
         <source>Interface:</source>
         <translation>Oberfläche:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="88"/>
+        <location filename="../../ui/start_page.py" line="92"/>
         <source>Basic — the main steps; the rarely changed options folded</source>
         <translation>Einfach — die Hauptschritte; selten geänderte Optionen eingeklappt</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="89"/>
+        <location filename="../../ui/start_page.py" line="93"/>
         <source>Expert — every option open</source>
         <translation>Experte — jede Option offen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="91"/>
+        <location filename="../../ui/start_page.py" line="95"/>
         <source>Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the Settings menu at any time.</source>
         <translation>Im einfachen Modus wird nichts entfernt: eingeklappte Abschnitte öffnen sich mit einem Klick. Jederzeit hier oder im Menü Einstellungen änderbar.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="146"/>
+        <location filename="../../ui/start_page.py" line="150"/>
         <source>Continue where you left off:</source>
         <translation>Dort weitermachen, wo Sie aufgehört haben:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="80"/>
         <source>New project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="76"/>
+        <location filename="../../ui/start_page.py" line="80"/>
         <source>Keep frames, settings and results together</source>
         <translation>Bilder, Einstellungen und Ergebnisse zusammenhalten</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="77"/>
+        <location filename="../../ui/start_page.py" line="81"/>
         <source>Open project…</source>
         <translation>Projekt öffnen…</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="77"/>
+        <location filename="../../ui/start_page.py" line="81"/>
         <source>Continue earlier work</source>
         <translation>Frühere Arbeit fortsetzen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="78"/>
+        <location filename="../../ui/start_page.py" line="82"/>
         <source>Open a FITS image</source>
         <translation>Ein FITS-Bild öffnen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="78"/>
+        <location filename="../../ui/start_page.py" line="82"/>
         <source>Look at an image and its header</source>
         <translation>Ein Bild und seinen Header ansehen</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="110"/>
+        <location filename="../../ui/start_page.py" line="114"/>
         <source>Choose what you want to do:</source>
         <translation>Wählen Sie, was Sie tun möchten:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="148"/>
+        <location filename="../../ui/start_page.py" line="152"/>
         <source>Click to open it again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="172"/>
+        <location filename="../../ui/start_page.py" line="176"/>
         <source>Working offline: catalogues, archives and look-ups answer only from what was fetched before (Settings → Work offline).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="188"/>
+        <location filename="../../ui/start_page.py" line="192"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="214"/>
+        <location filename="../../ui/start_page.py" line="218"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="215"/>
+        <location filename="../../ui/start_page.py" line="219"/>
         <source>your site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="222"/>
+        <location filename="../../ui/start_page.py" line="226"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>

@@ -67,9 +67,11 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
     photometry_page = _Lazy()
     lightcurve_page = _Lazy()
     oc_page = _Lazy()
+    exoplanets_page = _Lazy()
     spectro_page = _Lazy()
     models_page = _Lazy()
     rs_page = _Lazy()
+    astrometry_page = _Lazy()
     automation_page = _Lazy()
     project_page = _Lazy()
     guide_page = _Lazy()
@@ -127,9 +129,11 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         "photometry": "photometry_page",
         "timeseries": "lightcurve_page",
         "oc": "oc_page",
+        "exoplanets": "exoplanets_page",
         "spectroscopy": "spectro_page",
         "orbits": "models_page",
         "remotesensing": "rs_page",
+        "astrometry": "astrometry_page",
         "automation": "automation_page",
         "project": "project_page",
         "guide": "guide_page",
@@ -141,12 +145,14 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         "calibrate",
         "timeseries",
         "oc",
+        "exoplanets",
         "spectroscopy",
         "orbits",
         "plan",
         "observe",
         "automation",
         "remotesensing",
+        "astrometry",
         "image",
     )
 
@@ -297,6 +303,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
             "calibrate": (calibrate, images_filter()),
             "timeseries": (light_curve, "CSV (*.csv *.txt *.dat);;*"),
             "oc": (lambda paths: page._load(paths[0]), "Text (*.txt *.csv *.dat);;*"),
+            "exoplanets": (lambda paths: page.add_files(paths), "Light curves (*.lc.ecsv *.ecsv *.csv *.txt *.dat);;*"),
             "orbits": (lambda paths: page.file.edit.setText(paths[0]), "Tables (*.csv *.txt *.dat);;*"),
             "spectroscopy": (spectrum, images_filter()),
             "remotesensing": (lambda paths: page.open(";".join(paths)), ""),
@@ -472,6 +479,31 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
                 params,
                 on_done=lambda out: page.show_product(out["product"]),
                 on_fail=page.status.setText,
+            )
+        )
+        return page
+
+    def _make_astrometry_page(self):
+        from .moving_dialog import MovingObjectPage  # imported with its page: start-up stays fast
+
+        page = MovingObjectPage(self.settings, self)
+        page.measure_requested.connect(
+            lambda images, first, last: self.run_step_for(
+                "astrometry",
+                "astrometry.moving",
+                {"images": images, "first_xy": first, "last_xy": last},
+                {},
+                on_done=lambda out: page.show_positions(out["positions"], out.get("unsolved", ())),
+                on_fail=page.hint.setText,
+            )
+        )
+        page.solve_requested.connect(
+            lambda path: self.run_step_for(
+                "astrometry",
+                "astrometry.solve",
+                {"image": path},
+                on_done=lambda out: page.solved(path, out["solved"]),
+                on_fail=page.hint.setText,
             )
         )
         return page

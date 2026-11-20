@@ -85,6 +85,20 @@ def oc_stages(win, page):
     stages_from_boxes(win, page, titles, anchors, {0: "minima", 1: "ephemeris", 3: "model", 4: "report"})
 
 
+def exoplanets_stages(win, page):
+    """The Exoplanets window (UI-16.7): Data, Star, Planets, Model, Fit, Uncertainty, Results beside the transit."""
+    titles = {"data": translate("ExoplanetsWindow", "Data"), "star": translate("ExoplanetsWindow", "Star"),
+              "planets": translate("ExoplanetsWindow", "Planets"), "model": translate("ExoplanetsWindow", "Model"),
+              "fit": translate("ExoplanetsWindow", "Fit"),
+              "uncertainty": translate("ExoplanetsWindow", "Uncertainty"),
+              "results": translate("ExoplanetsWindow", "Results")}  # fmt: skip
+    anchors = {"data": "photometry-exporting", "star": "photometry-time-minimum", "planets": "photometry-time-minimum",
+               "model": "photometry-detrending", "fit": "photometry-time-minimum",
+               "uncertainty": "photometry-time-minimum", "results": "photometry-exporting"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {}, keep_column=True)
+    page.stage_done.connect(lambda key: win.set_stage_state(key, "done"))
+
+
 def _index(layout, widget):
     """The place in layout of the item holding widget (the widget itself or a row layout with it)."""
     for i in range(layout.count()):
@@ -246,4 +260,15 @@ def observing_stages(win, page):
     anchors = {"connect": "observing-starting-connecting", "point": "observing-moving-telescope",
                "focus": "observing-autofocus", "sequence": "observing-sequences",
                "night": "observing-safety-supervisor"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {})
+
+
+def astrometry_stages(win, page):
+    """The Astrometry window (UI-16.11): Images, Solve, Find, Measure, Report beside the frame and the positions."""
+    titles = {"images": translate("AstrometryWindow", "Images"), "solve": translate("AstrometryWindow", "Solve"),
+              "find": translate("AstrometryWindow", "Find"), "measure": translate("AstrometryWindow", "Measure"),
+              "report": translate("AstrometryWindow", "Report")}  # fmt: skip
+    anchors = {"images": "images-asteroids-comets", "solve": "images-plate-solving",
+               "find": "images-asteroids-comets", "measure": "images-asteroids-comets",
+               "report": "images-asteroids-comets"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {})

@@ -118,7 +118,7 @@ def _image(main):
         im, translate("MainWindow", "&Colour image from three filters…"), main.colour_dialog
     )
     main.moving_action = main._action(
-        im, translate("MainWindow", "&Asteroid and comet astrometry…"), main.moving_dialog
+        im, translate("MainWindow", "&Asteroid and comet astrometry…"), lambda: main.open_area("astrometry")
     )
     main.coefficients_action = main._action(
         im, translate("MainWindow", "Photometric &coefficients (extinction, transformation)…"), main.coefficients_dialog
