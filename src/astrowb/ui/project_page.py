@@ -1,17 +1,20 @@
 """The Project page."""
 
-from PySide6.QtCore import Qt, Signal
+from astropy.table import Table
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
+    QAbstractItemView,
     QHBoxLayout,
     QHeaderView,
     QLabel,
     QListWidget,
     QPlainTextEdit,
     QPushButton,
-    QTableWidget,
     QVBoxLayout,
     QWidget,
 )
+
+from .kit.table import TableView
 
 
 class ProjectPage(QWidget):
@@ -29,15 +32,15 @@ class ProjectPage(QWidget):
         self.files_list = QListWidget(self)
         lay.addWidget(self.files_list, 1)
         lay.addWidget(QLabel(self.tr("History"), self))
-        self.runs_table = QTableWidget(0, 4, self)
-        self.runs_table.setHorizontalHeaderLabels(
-            [self.tr("Step"), self.tr("Status"), self.tr("Started"), self.tr("Settings")]
-        )
-        self.runs_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.runs_table.horizontalHeader().setStretchLastSection(True)
-        self.runs_table.setEditTriggers(QTableWidget.NoEditTriggers)
-        self.runs_table.setSelectionBehavior(QTableWidget.SelectRows)
-        self.runs_table.itemSelectionChanged.connect(self._selected)
+        self.run_ids = []  # the run id of each table row, same order
+        self._run_id = None
+        self.run_names = (self.tr("Step"), self.tr("Status"), self.tr("Started"), self.tr("Settings"))
+        self.runs_table = TableView(self)
+        self.runs_table.set_table(Table(names=self.run_names, dtype=(str,) * 4))
+        self.runs_table.view.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.runs_table.view.horizontalHeader().setStretchLastSection(True)
+        self.runs_table.view.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.runs_table.row_chosen.connect(self._selected)
         lay.addWidget(self.runs_table, 1)
         row = QHBoxLayout()
         self.rerun_button = QPushButton(self.tr("Run again with the same inputs and settings"), self)
@@ -67,14 +70,21 @@ class ProjectPage(QWidget):
         lay.addWidget(self.details, 1)
 
     def selected_run(self):
-        item = self.runs_table.item(self.runs_table.currentRow(), 0)
-        return item.data(Qt.UserRole) if item else None
+        return self._run_id
 
-    def _selected(self):
-        run_id = self.selected_run()
-        self.rerun_button.setEnabled(run_id is not None)
-        if run_id is not None:
-            self.run_selected.emit(run_id)
+    def set_runs(self, runs):
+        """Show the project's runs (dicts with id, step, status, started, params); nothing is selected after."""
+        import json
+
+        self.run_ids, self._run_id = [r["id"] for r in runs], None
+        self.rerun_button.setEnabled(False)  # the selection is gone with the old rows
+        rows = [(r["step"], r["status"], r["started"], json.dumps(r["params"])) for r in runs]
+        self.runs_table.set_table(Table(rows=rows, names=self.run_names, dtype=(str,) * 4))
+
+    def _selected(self, row):
+        self._run_id = run_id = self.run_ids[row]
+        self.rerun_button.setEnabled(True)
+        self.run_selected.emit(run_id)
 
     def show_run(self, run):
         """Everything recorded about a run, as text (long results are cut)."""

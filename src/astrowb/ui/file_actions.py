@@ -1,7 +1,6 @@
 """Files and projects of the main window (open, close, save) and its plugins: a mixin of MainWindow moved out of
 main_window.py (plans/architecture.md ARC-4.4); texts keep the main window's translation context."""
 
-import json
 from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication, Qt
@@ -57,15 +56,7 @@ class FileActions:
         if not self.engine.project:
             return
         runs = self.engine.project.runs(full=False)  # results stay in the file until a run is selected
-        table = self.project_page.runs_table
-        table.blockSignals(True)
-        table.setRowCount(len(runs))
-        for row, r in enumerate(runs):
-            for col, val in enumerate((r["step"], r["status"], r["started"], json.dumps(r["params"]))):
-                item = QTableWidgetItem(val)
-                item.setData(Qt.UserRole, r["id"])
-                table.setItem(row, col, item)
-        table.blockSignals(False)
+        self.project_page.set_runs(runs)
         for f in self.engine.project.files():
             self.files_list.addItem(f"{Path(f['path']).name}  [{f['kind']}]")
             self.files_list.item(self.files_list.count() - 1).setData(Qt.UserRole, f["path"])
