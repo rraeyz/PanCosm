@@ -201,6 +201,9 @@ def timeseries(main, page, win):
             var: "variable_search",
         }
     )
+    from .stage_boxes import period_stages
+
+    period_stages(win, page)  # UI-16.4: the Period search tab's column as stages
 
 
 def oc(main, page, win):
