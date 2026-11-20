@@ -262,7 +262,7 @@ def test_toolbar_modes_show_all_exports_and_pop_out(view, tmp_path):
     bar.modes.buttons()[0].click()
     assert view.mode == "pan"
     view.plots[0].getViewBox().setRange(xRange=(0.1, 0.2))
-    bar.findChildren(type(zoom))[3].click()  # Show all
+    bar.findChildren(type(zoom))[4].click()  # Show all
     assert view.plots[0].getViewBox().viewRange()[0][1] > 0.25
     assert bar.export_data(tmp_path / "d.ecsv") and (tmp_path / "d.ecsv").exists()
     assert bar.export_publication(str(tmp_path / "f.pdf")).endswith("f.pdf") and (tmp_path / "f.pdf").exists()
@@ -412,3 +412,25 @@ def test_text_span_dash_clicks_and_keys_in_both_outputs(view, tmp_path):
     QTest.mouseMove(view.graphics.viewport(), screen_of(view, 0, 7.0, 0.5))
     QTest.keyClick(view, Qt.Key_W)
     assert keys == [("w", pytest.approx(7.0, abs=0.2))]
+
+
+def test_measure_two_clicks_and_the_delete_key(view):
+    """UI-10 / UI-12: in measure mode (X held, or the toolbar) two clicks report Δx and Δy; Delete is told to the
+    page as a key with the cursor's x."""
+    view.set_figure(
+        FigureSpec([PanelSpec(AxisSpec("x"), AxisSpec("y"), [SeriesSpec("a", [0, 10], [0, 10], kind="line")])])
+    )
+    got, keys = [], []
+    view.measured.connect(lambda dx, dy: got.append((dx, dy)))
+    view.key_pressed.connect(lambda k, x: keys.append(k))
+    port = view.graphics.viewport()
+    QTest.keyPress(view, Qt.Key_X)
+    assert view.mode == "measure"
+    QTest.mouseClick(port, Qt.LeftButton, Qt.NoModifier, screen_of(view, 0, 2.0, 3.0))
+    assert not got  # the first click only sets the start
+    QTest.mouseClick(port, Qt.LeftButton, Qt.NoModifier, screen_of(view, 0, 6.0, 5.0))
+    assert got and got[0][0] == pytest.approx(4.0, abs=0.2) and got[0][1] == pytest.approx(2.0, abs=0.2)
+    QTest.keyRelease(view, Qt.Key_X)
+    assert view.mode == view.base_mode
+    QTest.keyClick(view, Qt.Key_Delete)
+    assert keys == ["delete"]

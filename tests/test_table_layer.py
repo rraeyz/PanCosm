@@ -234,3 +234,27 @@ def test_numbers_are_shown_to_the_digits_their_error_allows(qtbot):
     shown = [[view.model.data(view.model.index(r, c)) for c in range(3)] for r in range(2)]
     assert shown == [["12346", "12", "10.123456"], ["1.2346", "0.0046", "9.5"]]
     assert "12345.678" in view.copy_text(rows=[0])
+
+
+def test_row_actions_use_one_wording_and_act_on_the_selected_rows_and_time_standard_shows(qtbot):
+    """UI-11: the right-click menu offers the program's row actions (disabled with nothing selected), and a time
+    column's header names its standard."""
+    from astropy.table import Table
+    from PySide6.QtCore import Qt
+
+    from astrowb.ui.kit.table import TableView, row_word
+
+    t = Table({"bjd": [1.0, 2.0, 3.0], "flux": [4.0, 5.0, 6.0]})
+    t["bjd"].unit, t["bjd"].meta["time_standard"] = "d", "BJD_TDB"
+    view = TableView()
+    qtbot.addWidget(view)
+    view.set_table(t)
+    got = []
+    view.set_row_actions([(row_word("leave_out"), got.append), (row_word("show_plot"), lambda rows: None)])
+    assert [a.text() for a in view.row_menu().actions()][:3] == ["Leave out", "Show in the plot", ""]
+    assert not view.row_menu().actions()[0].isEnabled()
+    view.view.selectRow(1)
+    view.row_menu().actions()[0].trigger()
+    assert got == [[1]] and row_word("bring_back") == "Bring back"
+    assert view.model.headerData(0, Qt.Horizontal) == "bjd [d] · BJD_TDB"
+    assert view.model.headerData(1, Qt.Horizontal) == "flux"

@@ -4,10 +4,13 @@ coloured with their reason in a tooltip, copy and Export… in every core/table 
 
     view = TableView(); view.set_table(table, marks={(row, "flux"): (tokens.ROLES["saturated"], "saturated")})
     view.row_chosen.connect(...)            # the row's index in the table, whatever the sort and filter
+    view.set_row_actions([(row_word("leave_out"), lambda rows: ...)])   # right-click menu, on the selected rows
+
+A column whose meta has "time_standard" ("BJD_TDB", "UTC") shows it in its header: "time [d] · BJD_TDB".
 """
 
 import numpy as np
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Signal
+from PySide6.QtCore import QAbstractTableModel, QCoreApplication, QModelIndex, Qt, Signal
 from PySide6.QtGui import QColor, QFont
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -24,6 +27,16 @@ from PySide6.QtWidgets import (
 
 from ...core import table as T
 from . import tokens
+
+
+def row_word(kind):
+    """The one wording of a row action in every table (UI-11): leave_out, bring_back, show_image, show_plot."""
+    return {
+        "leave_out": QCoreApplication.translate("RowActions", "Leave out"),
+        "bring_back": QCoreApplication.translate("RowActions", "Bring back"),
+        "show_image": QCoreApplication.translate("RowActions", "Show in the image"),
+        "show_plot": QCoreApplication.translate("RowActions", "Show in the plot"),
+    }[kind]
 
 
 class _Model(QAbstractTableModel):
@@ -86,7 +99,9 @@ class _Model(QAbstractTableModel):
         col = self.table.columns[section]
         if role == Qt.ToolTipRole:
             return col.description or None
-        return f"{col.name} [{col.unit}]" if col.unit else col.name
+        text = f"{col.name} [{col.unit}]" if col.unit else col.name
+        standard = col.meta.get("time_standard")
+        return f"{text} · {standard}" if standard else text
 
     def data(self, index, role=Qt.DisplayRole):
         row, name = int(self.rows[index.row()]), self.table.colnames[index.column()]
@@ -184,6 +199,11 @@ class TableView(QWidget):
         lay.addWidget(self.view)
         lay.addWidget(self.count)
         self.sort = None  # (column name, ascending)
+        self.row_actions = []  # (text, callback(table rows)) in the right-click menu
+
+    def set_row_actions(self, actions):
+        """Row actions for the right-click menu, each called with the selected rows (their table indices)."""
+        self.row_actions = list(actions)
 
     def set_table(self, table, marks=None, editable=()):
         """Show a table (kept, not copied); marks: {(row index, column name): (colour, reason)}; editable: the
@@ -297,10 +317,18 @@ class TableView(QWidget):
         return T.write(t, path)
 
     def _menu(self, pos):
+        self.row_menu().exec(self.view.viewport().mapToGlobal(pos))
+
+    def row_menu(self):
         menu = QMenu(self)
+        chosen = self.selected_rows()
+        for text, callback in self.row_actions:
+            menu.addAction(text, lambda cb=callback: cb(self.selected_rows())).setEnabled(bool(chosen))
+        if self.row_actions:
+            menu.addSeparator()
         menu.addAction(self.tr("Copy"), lambda: QApplication.clipboard().setText(self.copy_text()))
         menu.addAction(self.tr("Export…"), self._export_dialog)
-        menu.exec(self.view.viewport().mapToGlobal(pos))
+        return menu
 
     def _export_dialog(self):
         kinds = self.tr("CSV (*.csv);;ECSV (*.ecsv);;VOTable (*.vot);;LaTeX (*.tex);;Markdown (*.md);;HTML (*.html)")
