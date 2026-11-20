@@ -4593,13 +4593,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Bild speichern (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="561"/>
+        <location filename="../../ui/area_windows.py" line="564"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Viele Bilder umwandeln (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="557"/>
+        <location filename="../../ui/area_windows.py" line="560"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Bild &amp;schließen</translation>
@@ -4715,7 +4715,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_windows.py" line="292"/>
-        <source>Timing</source>
+        <source>Timing and fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4739,97 +4739,97 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="370"/>
+        <location filename="../../ui/area_windows.py" line="373"/>
         <source>target</source>
         <translation type="unfinished">Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="370"/>
+        <location filename="../../ui/area_windows.py" line="373"/>
         <source>comparison</source>
         <translation type="unfinished">Vergleich</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="371"/>
+        <location filename="../../ui/area_windows.py" line="374"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="373"/>
+        <location filename="../../ui/area_windows.py" line="376"/>
         <source>not marked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="374"/>
+        <location filename="../../ui/area_windows.py" line="377"/>
         <source>saturated</source>
         <translation type="unfinished">gesättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="376"/>
+        <location filename="../../ui/area_windows.py" line="379"/>
         <source>Role</source>
         <translation type="unfinished">Rolle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="377"/>
+        <location filename="../../ui/area_windows.py" line="380"/>
         <source>x, y (FITS pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="378"/>
+        <location filename="../../ui/area_windows.py" line="381"/>
         <source>Peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="379"/>
+        <location filename="../../ui/area_windows.py" line="382"/>
         <source>Sky per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="380"/>
+        <location filename="../../ui/area_windows.py" line="383"/>
         <source>Net counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="381"/>
+        <location filename="../../ui/area_windows.py" line="384"/>
         <source>Signal-to-noise</source>
         <translation type="unfinished">Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="413"/>
+        <location filename="../../ui/area_windows.py" line="416"/>
         <source>star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="413"/>
+        <location filename="../../ui/area_windows.py" line="416"/>
         <source>sky</source>
         <translation type="unfinished">Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="414"/>
+        <location filename="../../ui/area_windows.py" line="417"/>
         <source>dark</source>
         <translation type="unfinished">Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="414"/>
+        <location filename="../../ui/area_windows.py" line="417"/>
         <source>read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="420"/>
+        <location filename="../../ui/area_windows.py" line="423"/>
         <source>Noise from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="420"/>
+        <location filename="../../ui/area_windows.py" line="423"/>
         <source>Predicted error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="428"/>
+        <location filename="../../ui/area_windows.py" line="431"/>
         <source>Star</source>
         <translation type="unfinished">Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="559"/>
+        <location filename="../../ui/area_windows.py" line="562"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Alle Bilder schließen</translation>
@@ -5015,7 +5015,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="650"/>
+        <location filename="../../ui/area_windows.py" line="653"/>
         <source>&amp;Measure</source>
         <translation>&amp;Messen</translation>
     </message>
@@ -5036,69 +5036,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="110"/>
-        <location filename="../../ui/area_windows.py" line="622"/>
+        <location filename="../../ui/area_windows.py" line="625"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="636"/>
+        <location filename="../../ui/area_windows.py" line="639"/>
         <source>&amp;Stars</source>
         <translation>&amp;Sterne</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="435"/>
-        <location filename="../../ui/area_windows.py" line="531"/>
-        <location filename="../../ui/area_windows.py" line="663"/>
+        <location filename="../../ui/area_windows.py" line="534"/>
+        <location filename="../../ui/area_windows.py" line="666"/>
         <source>&amp;Analyse</source>
         <translation>Anal&amp;yse</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="509"/>
+        <location filename="../../ui/area_windows.py" line="512"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>In Farbkanäle zerlegen (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="511"/>
+        <location filename="../../ui/area_windows.py" line="514"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Das Rohbild einer Farbkamera als drei Bilder halber Größe, eines je Farbe (ohne Interpolation)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="517"/>
+        <location filename="../../ui/area_windows.py" line="520"/>
         <source>Stack the open images…</source>
         <translation>Geöffnete Bilder stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="519"/>
+        <location filename="../../ui/area_windows.py" line="522"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Die geöffneten Bilder an ihren Sternen ausgerichtet und unter Verwerfen von Ausreißern gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="522"/>
+        <location filename="../../ui/area_windows.py" line="525"/>
         <source>Drizzle the open images…</source>
         <translation>Geöffnete Bilder drizzeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="524"/>
+        <location filename="../../ui/area_windows.py" line="527"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Versetzt aufgenommene Bilder auf ein doppelt so feines Raster (schärfer bei unterabgetasteten Sternen)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="535"/>
+        <location filename="../../ui/area_windows.py" line="538"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="536"/>
+        <location filename="../../ui/area_windows.py" line="539"/>
         <source>&amp;Colour</source>
         <translation>Fa&amp;rbe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="537"/>
+        <location filename="../../ui/area_windows.py" line="540"/>
         <source>S&amp;tack</source>
         <translation>S&amp;tapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="547"/>
+        <location filename="../../ui/area_windows.py" line="550"/>
         <source>Copy the header</source>
         <translation>Header kopieren</translation>
     </message>
@@ -5519,7 +5519,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Das Spektrum speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="470"/>
+        <location filename="../../ui/area_windows.py" line="473"/>
         <source>&amp;Job</source>
         <translation>Auf&amp;gabe</translation>
     </message>
@@ -10467,122 +10467,127 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="44"/>
+        <location filename="../../ui/overlay_actions.py" line="45"/>
+        <source>&amp;Navigator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/overlay_actions.py" line="48"/>
         <source>&amp;Layers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="55"/>
+        <location filename="../../ui/overlay_actions.py" line="59"/>
         <source>No overlays on this image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="65"/>
+        <location filename="../../ui/overlay_actions.py" line="69"/>
         <source>Orien&amp;tation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="72"/>
+        <location filename="../../ui/overlay_actions.py" line="76"/>
         <source>North up needs sky coordinates: plate-solve the image first (Image menu)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="81"/>
+        <location filename="../../ui/overlay_actions.py" line="85"/>
         <source>&amp;North up, East left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="82"/>
+        <location filename="../../ui/overlay_actions.py" line="86"/>
         <source>Turn 90° &amp;clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="83"/>
+        <location filename="../../ui/overlay_actions.py" line="87"/>
         <source>&amp;Mirror left–right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="84"/>
+        <location filename="../../ui/overlay_actions.py" line="88"/>
         <source>&amp;Original orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="87"/>
+        <location filename="../../ui/overlay_actions.py" line="91"/>
         <source>&amp;Compass and scale bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="114"/>
+        <location filename="../../ui/overlay_actions.py" line="123"/>
         <source>Contours</source>
         <translation>Konturen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="115"/>
+        <location filename="../../ui/overlay_actions.py" line="124"/>
         <source>Number of levels:</source>
         <translation>Anzahl der Stufen:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="134"/>
-        <location filename="../../ui/overlay_actions.py" line="151"/>
-        <location filename="../../ui/overlay_actions.py" line="219"/>
+        <location filename="../../ui/overlay_actions.py" line="143"/>
+        <location filename="../../ui/overlay_actions.py" line="160"/>
+        <location filename="../../ui/overlay_actions.py" line="228"/>
         <source>The image has no sky coordinates: plate-solve it first (Image menu).</source>
         <translation>Das Bild hat keine Himmelskoordinaten: zuerst astrometrisch lösen (Menü Bild).</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="159"/>
+        <location filename="../../ui/overlay_actions.py" line="168"/>
         <source>Catalogue stars</source>
         <translation>Katalogsterne</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="160"/>
+        <location filename="../../ui/overlay_actions.py" line="169"/>
         <source>Faintest magnitude:</source>
         <translation>Schwächste Helligkeit:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="168"/>
-        <location filename="../../ui/overlay_actions.py" line="224"/>
+        <location filename="../../ui/overlay_actions.py" line="177"/>
+        <location filename="../../ui/overlay_actions.py" line="233"/>
         <source>Querying the catalogue…</source>
         <translation>Katalog wird abgefragt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="189"/>
-        <location filename="../../ui/overlay_actions.py" line="203"/>
+        <location filename="../../ui/overlay_actions.py" line="198"/>
+        <location filename="../../ui/overlay_actions.py" line="212"/>
         <source>Finder chart</source>
         <translation>Aufsuchkarte</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="190"/>
+        <location filename="../../ui/overlay_actions.py" line="199"/>
         <source>Target coordinates (RA Dec), e.g. 02:04:10 +46:41:16:</source>
         <translation>Zielkoordinaten (RA Dec), z. B. 02:04:10 +46:41:16:</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="196"/>
+        <location filename="../../ui/overlay_actions.py" line="205"/>
         <source>Coordinates not understood.</source>
         <translation>Koordinaten nicht verstanden.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="208"/>
+        <location filename="../../ui/overlay_actions.py" line="217"/>
         <source>Making the finder chart…</source>
         <translation>Aufsuchkarte wird erstellt…</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="244"/>
+        <location filename="../../ui/overlay_actions.py" line="253"/>
         <source>{n} catalogue stars shown: point at a ring for its label.</source>
         <translation>{n} Katalogsterne angezeigt: den Mauszeiger auf einen Ring halten, um seine Beschriftung zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="249"/>
+        <location filename="../../ui/overlay_actions.py" line="258"/>
         <source>{n} catalogue stars shown.</source>
         <translation>{n} Katalogsterne angezeigt.</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="258"/>
-        <location filename="../../ui/overlay_actions.py" line="292"/>
+        <location filename="../../ui/overlay_actions.py" line="267"/>
+        <location filename="../../ui/overlay_actions.py" line="301"/>
         <source>DS9 regions</source>
         <translation>DS9-Regionen</translation>
     </message>
     <message>
-        <location filename="../../ui/overlay_actions.py" line="284"/>
+        <location filename="../../ui/overlay_actions.py" line="293"/>
         <source>No markers on the image (stars picked in the Photometry window are markers).</source>
         <translation>Keine Markierungen im Bild (im Fenster Photometrie gewählte Sterne sind Markierungen).</translation>
     </message>
@@ -11318,6 +11323,19 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/photometry_checks.py" line="363"/>
         <source>Flags</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhotometryChoices</name>
+    <message>
+        <location filename="../../ui/photometry_choices.py" line="23"/>
+        <source>Chosen automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_choices.py" line="30"/>
+        <source>Target: {name}, the star the files&apos; OBJECT names; its catalogue position gives the barycentric times.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

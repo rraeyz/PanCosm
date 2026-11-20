@@ -176,3 +176,58 @@ def test_invert_key_keeps_the_levels(qtbot):
     assert v.invert and v.limits == (10.0, 50.0)
     qtbot.keyClicks(v, "n")  # no WCS: North up does nothing, without an error
     assert not v.north_up()
+
+
+def test_layer_specs_become_items(qapp):
+    from astrowb.ui.image import layers as L
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    v.resize(300, 200)
+    v.set_image(np.zeros((40, 50), np.float32))
+    v.set_items(
+        "marks",
+        [
+            L.Circle(x=10, y=10, r=4, label="c", id="s1", pickable=True),
+            L.Annulus(x=10, y=10, r_in=5, r_out=8),
+            L.Ellipse(x=20, y=20, a=6, b=3, angle=30),
+            L.Box(x0=1, y0=1, x1=9, y1=5),
+            L.Polyline(points=((0, 0), (5, 5), (9, 2))),
+            L.Text(x=3, y=3, text="t"),
+            L.Cross(x=30, y=30, fixed=True),
+        ],
+    )
+    items = v._overlays["marks"]
+    assert len(items) == 7 and items[0].data(1) == "s1" and items[0].data(2) is True
+    assert items[0].toolTip() == "c" and items[0].pos().x() == 10.5 and items[0].pos().y() == 29.5
+    assert not items[0].flags() & items[0].GraphicsItemFlag.ItemIgnoresTransformations
+    assert items[6].flags() & items[6].GraphicsItemFlag.ItemIgnoresTransformations  # fixed screen size
+    v.set_layer("marks", visible=False)
+    assert not v.layer_visible("marks")
+    v.set_items("marks", [])
+    assert v.overlay_names() == []
+    v.close()
+
+
+def test_navigator_moves_the_view_and_values_print(qapp):
+    from PySide6.QtCore import QPointF
+
+    from astrowb.ui.image import navigator
+    from astrowb.ui.viewer import ImageViewer
+
+    v = ImageViewer()
+    v.resize(400, 300)
+    v.show_navigator = True
+    data = np.arange(200 * 100, dtype=np.float32).reshape(100, 200)
+    v.set_image(data)
+    v.zoom(8)
+    box = navigator.rect(v)
+    assert navigator.hit(v, box.center()) and not navigator.hit(v, QPointF(390, 5))
+    navigator.go_to(v, QPointF(box.x() + 0.25 * box.width(), box.y() + 0.5 * box.height()))
+    centre = v.mapToScene(v.viewport().rect().center())
+    assert abs(centre.x() - 50) < 1 and abs(centre.y() - 50) < 1
+    v.grab()  # thumbnail and rectangle draw
+    v.resetTransform()
+    v.scale(45, 45)  # past 40 screen pixels per pixel: the values are printed
+    v.grab()
+    v.close()
