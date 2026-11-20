@@ -111,5 +111,32 @@ def run(images, target_xy, comps_xy, field, depth_ppt, r_ap, r_in, r_out, radius
     t, flux = np.asarray(lc["jd_utc"], float)[ok], fluxes[ok]  # for the plots (reports/neb_plots); lists: the
     # project log stores a step's outputs as JSON
     return [r | {"x": xy[k][0], "y": xy[k][1], "gmag": float(g[i]), "separation": float(sep[i]), "time": t.tolist(),
-                 "flux": (flux[:, k] / np.median(flux[:, k])).tolist(), "window": window}
+                 "flux": (flux[:, k] / np.median(flux[:, k])).tolist(), "window": window, "r_ap": float(r_ap)}
+            | _neighbours(x, y, g, float(field["scale"]), i, i_t)
             for k, (r, i) in enumerate(zip(rows, near, strict=True))]  # fmt: skip
+
+
+def _neighbours(x, y, g, scale, i, i_t):
+    """Star i's surroundings among all the field's stars (the target included): the distance to its nearest
+    neighbour in px (the plot's label turns red within 3 aperture radii) and the neighbours within 10″, named."""
+    d = np.hypot(x - x[i], y - y[i])
+    d[i] = np.inf
+    return {"nearest_px": float(d.min()) if len(d) > 1 else float("inf"),
+            "close": [("target" if j == i_t else f"G{g[j]:.1f}") + f" @ {d[j] * scale:.1f}″"
+                      for j in np.flatnonzero(d * scale <= 10)]}  # fmt: skip
+
+
+def run_apertures(images, target_xy, comps_xy, field, depth_ppt, apertures, *args, **kw):
+    """run for several apertures [(r_ap, r_in, r_out), …]: each star keeps the row of its best disposition (best), with
+    "apertures" listing every aperture's radius and disposition."""
+    runs = [run(images, target_xy, comps_xy, field, depth_ppt, *a, *args, **kw) for a in apertures]
+    stars = {}
+    for rows in runs:
+        for r in rows:
+            stars.setdefault((round(r["x"], 3), round(r["y"], 3)), []).append(r)
+    out = []
+    for got in stars.values():
+        top = best([r["disposition"] for r in got])
+        out.append(next(r for r in got if r["disposition"] == top)
+                   | {"apertures": [{"r_ap": r["r_ap"], "disposition": r["disposition"]} for r in got]})  # fmt: skip
+    return sorted(out, key=lambda r: r["separation"])

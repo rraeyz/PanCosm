@@ -416,8 +416,15 @@ judged (a synthetic night: the dimming neighbour not cleared, the quiet one clea
 neighbour's 30 % found, the quiet one's box zero within its error). (2026-11-20: the plots and folder: `neb.run` rows carry
 their time, normalised flux and window; `reports/neb_plots.write` puts `NEB/star_NN.png` (curve, depth needed
 dashed, predicted window shaded), `NEB/dmag_vs_rms.png` and `NEB/field_neb.png` (candidates numbered, coloured by
-disposition) with NEB_check.csv in the same NEB/ folder, called from `tfop_files`. Test: `test_neb_plots_and_folder`.) Left: ExoFOP, the
-public TFOP night.
+disposition) with NEB_check.csv in the same NEB/ folder, called from `tfop_files`. Test: `test_neb_plots_and_folder`.) (2026-11-20: `dmag_vs_rms.png` carries the "cleared" (≥ 5) and "likely cleared" (≥ 3)
+boundary lines, drawn with `neb.required_depth_ppt` from the target depth the rows imply; test:
+`test_dmag_vs_rms_boundary_lines`.) (2026-11-20: `neb.run` rows carry `r_ap`, `nearest_px` and `close` (neighbours within 10″, named; `neb._neighbours`);
+the field plot's label turns red when the nearest neighbour is within 3 aperture radii, the star plots' subtitle names the
+10″ neighbours; `neb.run_apertures` runs several (r_ap, r_in, r_out) and keeps each star's best disposition (`neb.best`)
+with an "apertures" list. Tests: `test_neighbours_of_a_star`, `test_run_rows_carry_neighbours_and_crowded_label_is_red`,
+`test_best_aperture_wins`.) Left: ExoFOP / Exoplanet Archive fetch of the TESS depth and ephemeris (no such service in
+`services/` yet), the step/UI taking several apertures (only `run_apertures` takes them), the public TFOP night (no
+stored reference table).
 - **Why:** TESS pixels are 21″; ground follow-up must show which star has the dip. AstroImageJ's NEB reports are the
   community standard for TFOP.
 - **Reference:** AstroImageJ's NEB analysis ("Create NEB search reports and plots": the menu item is in

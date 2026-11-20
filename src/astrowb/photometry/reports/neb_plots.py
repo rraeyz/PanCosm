@@ -4,6 +4,8 @@ coloured by disposition. Rows are neb.run's."""
 
 import numpy as np
 
+from ..neb import BUFFER, required_depth_ppt
+
 COLOURS = {"Cleared": "tab:green", "Likely cleared": "yellowgreen", "Cleared - too faint": "tab:gray",
            "Not cleared": "tab:red", "Not cleared - flux too low": "tab:orange"}  # fmt: skip
 
@@ -32,7 +34,10 @@ def write(folder, rows, image=None, target=None):
         ax.axhline(1 - r["required_ppt"] / 1000, color="tab:red", ls="--", label="depth needed")
         if r.get("window"):
             ax.axvspan(min(r["window"]) - t.min(), max(r["window"]) - t.min(), color="gray", alpha=0.2)
-        ax.set_title(f"{r['name']}: {r['disposition']}", fontsize=9)
+        close = r.get("close")
+        ax.set_title(
+            f"{r['name']}: {r['disposition']}" + (f"\nwithin 10″: {', '.join(close)}" if close else ""), fontsize=9
+        )
         ax.set_xlabel(f"Days from {t.min():.5f}")
         ax.set_ylabel("Relative flux")
         ax.legend(fontsize=8)
@@ -42,6 +47,15 @@ def write(folder, rows, image=None, target=None):
     for d, c in COLOURS.items():
         sel = [r for r in rows if r["disposition"] == d]
         ax.plot([r["dmag"] for r in sel], [r["rms_ppt"] for r in sel], "o", color=c, label=d)
+    if rows:  # the boundaries: RMS at which required depth / RMS is 5 (cleared) and 3 (likely cleared); the target's
+        # depth comes back from any row (required = depth / 10^(−(Δmag − 0.5) / 2.5))
+        r0 = rows[0]
+        depth = r0["required_ppt"] * 10 ** (-(r0["dmag"] - BUFFER) / 2.5)
+        dm = np.linspace(min(r["dmag"] for r in rows) - 0.5, max(r["dmag"] for r in rows) + 0.5, 50)
+        for ratio, style in ((5, "-"), (3, ":")):
+            ax.plot(
+                dm, required_depth_ppt(depth, dm) / ratio, style, color="gray", label=f"depth needed / RMS = {ratio}"
+            )
     ax.set_yscale("log")
     ax.set_xlabel("Δmag to the target")
     ax.set_ylabel("RMS (ppt)")
@@ -66,8 +80,11 @@ def _field(path, rows, image, target):
     ax.plot(*target, "+", color="tab:blue", ms=12)
     for k, r in enumerate(rows, 1):
         ax.plot(r["x"], r["y"], "o", mfc="none", color=COLOURS[r["disposition"]], ms=12)
+        crowded = r.get("nearest_px", np.inf) <= 3 * r.get(
+            "r_ap", 0
+        )  # the macro's red label: a neighbour within 3 radii
         ax.annotate(str(k), (r["x"], r["y"]), xytext=(8, 8), textcoords="offset points", fontsize=8,
-                    color=COLOURS[r["disposition"]])  # fmt: skip
+                    color="red" if crowded else COLOURS[r["disposition"]])  # fmt: skip
     ax.set_xlabel("x (px)")
     ax.set_ylabel("y (px)")
     return _save(fig, path)
