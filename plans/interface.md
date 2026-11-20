@@ -624,7 +624,10 @@ rail            stage panel (example: 3 Stars)          main: image             
 - **Files:** `ui/photometry/` (see PHO-W)
 
 #### UI-16.2 Calibration
-**open**
+**partial** (2026-11-20: the window has the stages Frames (folders, Scan, the frames' summary), Calibrate
+(where to write, rejection, options, the result) and Continue (Photometry, stacking with its options one per row)
+beside the list of frames and its problems; the step guide moves the rail; test_the_calibration_window_has_stages.
+Left: the Check / Masters / Review stages of the sketch, the Plan tab, the preview beside the groups)
 ```
 1 Frames        Frames of the night            ?       ┌ groups ─────────────────────┬ preview ─────────┐
 2 Check  ●      [ Add folders… ] (drop here)           │ ▾ Bias  20  1×1  −10 °C     │  selected frame  │
