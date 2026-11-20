@@ -9,7 +9,6 @@ from PySide6.QtWidgets import QButtonGroup, QFileDialog, QHBoxLayout, QMessageBo
 
 from ..kit.buttons import ToolButton
 from ..kit.focus import read_in_order
-from . import publish
 
 translate = QCoreApplication.translate
 _FILES = "PDF (*.pdf);;PNG (*.png);;SVG (*.svg);;EPS (*.eps)"
@@ -58,6 +57,8 @@ class PlotToolbar(QWidget):
             path, _ = QFileDialog.getSaveFileName(
                 self, translate("PlotToolbar", "Export data"), "plot.ecsv", "ECSV (*.ecsv)"
             )
+        from . import publish  # matplotlib: loaded on the first export, not at start-up
+
         return self._write(publish.data_behind, path)
 
     def export_publication(self, path=None):
@@ -68,6 +69,8 @@ class PlotToolbar(QWidget):
             )
         if path and Path(path).suffix.lower() not in (".pdf", ".png", ".svg", ".eps"):
             path += ".pdf"
+        from . import publish
+
         return self._write(publish.publish, path)
 
     def _write(self, writer, path):

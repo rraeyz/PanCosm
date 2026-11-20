@@ -24,9 +24,10 @@ from PySide6.QtWidgets import (
 from ..core import profiles
 from .converter_dialog import converter_button
 from .kit.help import help_line
-from .kit.widgets import PlotCanvas, _title
+from .kit.widgets import _title
 from .messages import translate
 from .plan_almanac import almanac_label
+from .plot.toolbar import plot_box
 from .undo import Undoable, track_typing
 
 AUTO = -13.0  # the UTC offset box's lowest value, shown as "Auto": this computer's time zone
@@ -244,8 +245,8 @@ class PlanPage(Undoable, QWidget):
         split.addWidget(scroll)
 
         right = QSplitter(Qt.Vertical, self)
-        self.plot = PlotCanvas(self)
-        right.addWidget(self.plot)
+        box, self.plot = plot_box(self)
+        right.addWidget(box)
         self.events = QTableWidget(0, 7, self)
         self.events.setHorizontalHeaderLabels(
             [
@@ -628,11 +629,10 @@ class PlanPage(Undoable, QWidget):
         jd = np.asarray(n["jd"])
         midnight = np.floor(jd[0] + 0.5) - 0.5  # 00:00 UTC of the first date (JD days start at noon)
         hours = (jd - midnight) * 24
-        from .plan_chart import draw_night
+        from .plan_figures import night_figure
 
         off = self.local_offset(jd[len(jd) // 2])
-        draw_night(self.plot.figure, n, hours, off, self.min_alt.value(), self.plot.width())
-        self.plot.draw()
+        self.plot.set_figure(night_figure(n, hours, off, self.min_alt.value()))
 
         rows = [(t["name"], e) for t in n["targets"] for e in t["events"]]
         self.events.setRowCount(len(rows))

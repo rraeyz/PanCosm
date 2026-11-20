@@ -154,7 +154,11 @@ def _save_all(win, page, folder=None):
     aavso = _aavso_header(win, page)
     neb = getattr(page, "neb_rows", None)
     image = page.viewer.data if page.shown == (page.ref or 0) else None  # the frame the stars are marked on
-    files = save_all(folder, page.light_curve, stars, fit, page.plot.figure, _provenance(page), aavso, neb, image)
+    from .plot import publish
+
+    shown = page.plot.figure
+    figure = publish.figure(shown) if shown and shown.panels and not page.plot.is_empty() else None
+    files = save_all(folder, page.light_curve, stars, fit, figure, _provenance(page), aavso, neb, image)
     if getattr(page, "last_measure", None) is not None:  # the session: the run again with astrowb-cli recipe
         files.append(Path(_save_recipe(win, page, str(Path(folder) / "recipe.json"))))
     text = translate("MainWindow", "Saved {n} files in {folder}").format(n=len(files), folder=folder)

@@ -4,11 +4,15 @@ star found and down-weighted, detrending; simulated series with known answers.""
 import numpy as np
 import pytest
 from astropy.io import fits
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QPointF, Qt
+from PySide6.QtTest import QTest
 from test_apertures import STARS, field
 
 from astrowb.photometry import differential as d
 from astrowb.photometry.lightcurve import light_curve
+from astrowb.ui.plot.spec import NO_LEGEND
+from astrowb.ui.plot.toolbar import PlotToolbar
+from astrowb.ui.plot.view import PlotView
 
 RNG = np.random.default_rng(4)
 N = 300
@@ -180,7 +184,7 @@ def test_photometry_page_differential_workflow(qtbot, tmp_path):
     assert "airmass" in page.light_curve["detrend"]["coefficients"]
     for i in range(page.show_what.count()):  # every view draws
         page.show_what.setCurrentIndex(i)
-        assert page.plot.figure.axes
+        assert page.plot.figure.panels[0].series
     out = tmp_path / "lc.csv"
     export_csv(page.light_curve, out)
     header = out.read_text(encoding="utf-8").splitlines()[0]
@@ -200,10 +204,35 @@ def test_photometry_page_differential_workflow(qtbot, tmp_path):
     assert row[9] == "123" and float(row[10]) == pytest.approx(lc["extra"][0]["mag"][-1], abs=0.02)
 
 
-def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
-    from types import SimpleNamespace
+def _picked(page):
+    """The series of the light curve whose points a click can leave out."""
+    return next(s for s in page.plot.figure.panels[0].series if s.name == page._plotted)
 
-    from astrowb.ui.kit.widgets import PlotCanvas
+
+def _pixel(view, x, y):
+    vb = view.plots[0].getViewBox()
+    return view.graphics.mapFromScene(vb.mapViewToScene(QPointF(x, y)))
+
+
+def _click_data(view, x, y):
+    QTest.mouseClick(view.graphics.viewport(), Qt.LeftButton, pos=_pixel(view, x, y))
+
+
+def _empty_spot(view, s):
+    """A data position at least 40 px from every point of series `s` (and inside the view)."""
+    vb = view.plots[0].getViewBox()
+    (x0, x1), (y0, y1) = vb.viewRange()
+    pts = np.array([(_pixel(view, a, b).x(), _pixel(view, a, b).y()) for a, b in zip(s.x, s.y, strict=True)])
+    for fx in np.linspace(0.05, 0.95, 19):
+        for fy in np.linspace(0.05, 0.95, 19):
+            x, y = x0 + fx * (x1 - x0), y0 + fy * (y1 - y0)
+            p = _pixel(view, x, y)
+            if np.hypot(pts[:, 0] - p.x(), pts[:, 1] - p.y()).min() > 40:
+                return x, y
+    raise AssertionError("no empty spot")
+
+
+def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
     from astrowb.ui.photometry_page import PhotometryPage, export_csv
 
     page = PhotometryPage()
@@ -218,14 +247,13 @@ def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
     page.show_light_curve(lc)
     page.resize(1200, 800)
     page.show()
-    page.plot.canvas.draw()
     t5 = lc["time"][5]
     page.delete_mode.setChecked(True)  # a click on point 5 deletes it
-    ax, x, y = page._plotted
-    px, py = ax.transData.transform((x[5], y[5]))
-    page._plot_clicked(SimpleNamespace(inaxes=ax, x=px, y=py))  # on it: neighbours can be 2 px away (Windows dpi)
+    s = _picked(page)
+    _click_data(page.plot, s.x[5], s.y[5])  # on it: neighbours can be 2 px away (Windows dpi)
     assert len(page.light_curve["time"]) == 39 and t5 not in page.light_curve["time"]
-    page._plot_clicked(SimpleNamespace(inaxes=ax, x=px + 500, y=py + 500))  # far from every point: nothing
+    s = _picked(page)
+    _click_data(page.plot, *_empty_spot(page.plot, s))  # far from every point: nothing
     assert len(page.light_curve["time"]) == 39
     page.delete_point(0)
     assert len(page.light_curve["extra"][0]["rel_flux"]) == 38 and "deleted by hand" in page.result.text()
@@ -235,16 +263,13 @@ def test_deleting_points_and_curve_spacing(qtbot, tmp_path):
     assert len(page.light_curve["time"]) == 40
     page.show_what.setCurrentIndex(page.show_what.findData("all"))
     page.spacing.setValue(0.0)  # curves on top of each other
-    lines = page.plot.figure.axes[0].get_lines()
-    assert [round(float(np.nanmedian(line.get_ydata())), 2) for line in lines] == [1.0, 1.0]
+    lines = page.plot.figure.panels[0].series
+    assert [round(float(np.nanmedian(line.y)), 2) for line in lines] == [1.0, 1.0]
     page.spacing.setValue(0.2)
-    lines = page.plot.figure.axes[0].get_lines()
-    assert round(float(np.nanmedian(lines[1].get_ydata())), 2) == 0.8
-    window = page.plot.open_window()  # a copy of the plot in its own window
-    assert (
-        window.findChild(PlotCanvas).figure.axes[0].get_lines()
-        and window.findChild(PlotCanvas).figure is not page.plot.figure
-    )
+    lines = page.plot.figure.panels[0].series
+    assert round(float(np.nanmedian(lines[1].y)), 2) == 0.8
+    window = page.plot_box.findChild(PlotToolbar).pop_out()  # a copy of the plot in its own window
+    assert window.findChild(PlotView).figure.panels[0].series and window.findChild(PlotView) is not page.plot
     window.close()
 
 
@@ -319,10 +344,10 @@ def test_differential_view_first_and_the_way_on_to_the_fits(qtbot, tmp_path):
         page.target, page.comps = (10.0, 10.0), [(20.0, 20.0), (30.0, 30.0)]
         page.show_light_curve(synthetic_lc())
         assert page.show_what.currentData() == "diff" and not page.next_box.isHidden()
-        ax = page.plot.figure.axes[0]
-        labels = [t.get_text() for t in ax.get_legend().get_texts()]
+        panel = page.plot.figure.panels[0]
+        labels = [s.name for s in panel.series]
         assert "T1 − comparison" in labels and any(t.startswith("C1 − C2") and "mmag" in t for t in labels)
-        assert ax.yaxis_inverted()
+        assert panel.y.invert
         page._to_models(str(tmp_path / "lc.csv"))
         assert win.current_workspace() == "orbits" and win.models_page.file.text().endswith("lc.csv")
         assert (tmp_path / "lc.csv").read_text().count("\n") > 50
@@ -394,7 +419,7 @@ def test_photometry_page_draws_a_light_curve_with_frames_that_lost_the_target(qt
         lc["target_flux"][i] = -500.0
         lc["rel_flux"][i] = -0.01
     page.show_light_curve(lc)  # raised ValueError
-    texts = [t.get_text() for ax in page.plot.figure.axes for t in ax.texts]
+    texts = [t for p in page.plot.figure.panels for s in p.series if s.kind == "text" for t in s.labels]
     assert any("2 frame(s)" in t and "frame_007.fits, frame_031.fits" in t for t in texts), texts
 
 
@@ -516,12 +541,12 @@ def test_multi_plot_series_binning_and_template(qtbot, tmp_path):
     assert not page.multi_box.isHidden()
     ticked = [r["key"] for r in page._multi_rows()]
     assert ticked == ["rel_flux_T1", "rel_flux_T4", "airmass"]  # T1, the check star (T4 in AIJ's numbering), airmass
-    ax = page.plot.figure.axes[0]
-    assert len(ax.get_legend().get_texts()) == 3 and page._plotted is not None
+    series = page.plot.figure.panels[0].series
+    assert len([s for s in series if s.kind not in NO_LEGEND]) == 3 and page._plotted is not None
     page.bin_n.setValue(6)
     assert page._plotted is None  # binned points are not frames: no clicking away
-    lines = [ln for ln in page.plot.figure.axes[0].get_lines() if ln.get_label() == "airmass"]
-    assert len(lines[0].get_xdata()) == 10
+    lines = [s for s in page.plot.figure.panels[0].series if s.name == "airmass"]
+    assert len(lines[0].x) == 10
     page.bin_n.setValue(0)
     from astrowb.photometry.multiplot import series
     from astrowb.ui.multiplot_rows import DETREND, detrend_menu, detrended
@@ -897,7 +922,7 @@ def test_photometry_page_shows_the_colour_index(qtbot):
               "standard": None, "filters": ["B", "V"], "pairs": len(t)}  # fmt: skip
     page.show_colour(colour, {"B": lc, "V": lc})
     assert page.show_what.currentData() == "colour" and "Δ(B − V) from +0.000 to +0.050" in page.result.text()
-    assert page.plot.figure.axes[0].get_ylabel() == "Δ(B − V) (mag)"
+    assert page.plot.figure.panels[0].y.label == "Δ(B − V) (mag)"
     page.show_light_curve(lc)  # a new measurement in one filter: no colour any more
     assert page.show_what.findData("colour") == -1
 
@@ -1011,8 +1036,6 @@ def test_aavso_extended_validator_rereads_its_file():
 
 def test_delete_key_over_the_photometry_plot_leaves_out_the_point_under_the_cursor(qtbot):
     """UI-12: Delete over the light curve leaves out the nearest point through the same undoable path as a click."""
-    from matplotlib.backend_bases import KeyEvent
-
     from astrowb.ui.photometry_page import PhotometryPage
 
     page = PhotometryPage()
@@ -1024,11 +1047,9 @@ def test_delete_key_over_the_photometry_plot_leaves_out_the_point_under_the_curs
     page.show_light_curve(synthetic_lc(40))
     page.resize(1200, 800)
     page.show()
-    page.plot.canvas.draw()
-    ax, x, y = page._plotted
-    px, py = ax.transData.transform((x[5], y[5]))
-    canvas = page.plot.canvas
-    canvas.callbacks.process("key_press_event", KeyEvent("key_press_event", canvas, "delete", px, py))
+    s = _picked(page)
+    page.plot.hit = (s.name, 5, s.x[5], s.y[5])  # the point under the cursor, as a mouse move leaves it
+    QTest.keyClick(page.plot, Qt.Key_Delete)
     assert len(page.light_curve["time"]) == 39
     page.undo_stack.undo()
     assert len(page.light_curve["time"]) == 40

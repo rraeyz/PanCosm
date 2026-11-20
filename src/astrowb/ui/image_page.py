@@ -29,8 +29,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from . import image_figures
 from .kit.table import TableView
-from .kit.widgets import PlotCanvas
 from .messages import translate
 from .undo import Undoable
 from .viewer import ImageViewer
@@ -465,14 +465,28 @@ class ImagePage(Undoable, QWidget):
         )
         self._show_tool("info")
 
-    def _canvas(self):
+    def _canvas(self, surface=False):
+        """The graph's widget: a PlotView, or for the 3-D surface a PlotCanvas (matplotlib only when it is first
+        drawn: the page is built at start-up); the other one is hidden."""
         self.graph_kind.setVisible(False)  # shown again by an area measurement, the only one it applies to
-        if self.graph is None:  # matplotlib only when a graph is first drawn: the page is built at start-up
-            self.graph = PlotCanvas(self.graph_tab)
-            self.graph_tab.layout().addWidget(self.graph, 1)
-        self.graph.figure.clear()
+        layout = self.graph_tab.layout()
+        if self.graph is None:
+            from .plot.toolbar import plot_box
+
+            self._graph_box, self.graph = plot_box(self.graph_tab)
+            layout.addWidget(self._graph_box, 1)
+        if surface and getattr(self, "_surface", None) is None:
+            from .kit.widgets import PlotCanvas
+
+            self._surface = PlotCanvas(self.graph_tab)
+            layout.addWidget(self._surface, 1)
+        self._graph_box.setVisible(not surface)
+        if getattr(self, "_surface", None) is not None:
+            self._surface.setVisible(surface)
+            if surface:
+                self._surface.figure.clear()
         self._show_tool("graph")
-        return self.graph
+        return self._surface if surface else self.graph
 
     # --- measurements -----------------------------------------------------
     def _clicked(self, x, y):
@@ -543,16 +557,9 @@ class ImagePage(Undoable, QWidget):
         self._show_rows(rows)
         prof = s["profile"]
         centres, binned = prof["bins"]
-        g = self._canvas()
-        ax = g.figure.subplots()
-        ax.plot(prof["r"], prof["v"], ",", alpha=0.4)
-        ax.plot(centres, binned, ".-", lw=0.8)
-        ax.axvspan(0, s["r_ap"], color="#46a758", alpha=0.18, lw=0)
-        ax.axvspan(s["r_in"], s["r_out"], color="#3e63dd", alpha=0.18, lw=0)
-        ax.set_xlabel(self.tr("Radius (px)"))
-        ax.set_ylabel(self.tr("Counts above background"))
-        g.draw()
-        self._graph_data = ((self.tr("Radius (px)"), self.tr("Counts above background")), centres, binned)
+        labels = (self.tr("Radius (px)"), self.tr("Counts above background"))
+        self._canvas().set_figure(image_figures.star_profile_figure(s, labels))
+        self._graph_data = (labels, centres, binned)
         return s
 
     def measure_area(self, x0, y0, x1, y1):
@@ -601,16 +608,14 @@ class ImagePage(Undoable, QWidget):
             return
         data = self.viewer.data
         kind = self.graph_kind.currentData()
-        g = self._canvas()
+        g = self._canvas(kind == "surface")
         self.graph_kind.setVisible(True)
         a = self._area_box
         if kind == "histogram":
             box = data[a["y0"] : a["y1"] + 1, a["x0"] : a["x1"] + 1]
             h = histogram(box, bins=200, clip=(0.1, 99.9))
-            ax = g.figure.subplots()
-            ax.stairs(h["counts"], h["edges"], fill=True, alpha=0.6)
-            ax.set_yscale("log")
             labels = (self.tr("Counts"), self.tr("Number of pixels"))
+            g.set_figure(image_figures.histogram_figure(h, labels))
             cols = ((np.array(h["edges"][:-1]) + np.array(h["edges"][1:])) / 2, h["counts"])
         elif kind == "surface":
             box = np.asarray(data[a["y0"] : a["y1"] + 1, a["x0"] : a["x1"] + 1], float)
@@ -625,17 +630,14 @@ class ImagePage(Undoable, QWidget):
             cols = (a["x0"] + 1 + xx * step, a["y0"] + 1 + yy * step, sub)
         else:
             prof = box_profile(data, *self._area, axis="x" if kind == "row" else "y")
-            ax = g.figure.subplots()
             cols = (np.array(prof["position"]) + 1, prof["values"])
-            ax.plot(*cols, "-", lw=0.9)
             labels = (
                 self.tr("x (FITS pixels)") if kind == "row" else self.tr("y (FITS pixels)"),
                 self.tr("Mean counts"),
             )
-        if kind != "surface":
-            ax.set_xlabel(labels[0])
-            ax.set_ylabel(labels[1])
-        g.draw()
+            g.set_figure(image_figures.profile_figure(*cols, labels))
+        if kind == "surface":
+            g.draw()
         self._graph_data = (labels, *cols)
 
     def measure_line(self, x0, y0, x1, y1):
@@ -670,13 +672,8 @@ class ImagePage(Undoable, QWidget):
 
         rows += pair_rows(data, x0, y0, x1, y1, self.wcs)  # both ends on stars: the pair measured (PHO-24)
         self._show_rows(rows)
-        g = self._canvas()
-        ax = g.figure.subplots()
-        ax.plot(p["distance"], vals, "-", lw=0.9)
         labels = (self.tr("Distance along the line (px)"), self.tr("Counts"))
-        ax.set_xlabel(labels[0])
-        ax.set_ylabel(labels[1])
-        g.draw()
+        self._canvas().set_figure(image_figures.profile_figure(p["distance"], vals, labels))
         self._graph_data = (labels, p["distance"], vals)
         return p
 
