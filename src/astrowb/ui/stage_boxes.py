@@ -54,6 +54,42 @@ def oc_stages(win, page):
     stages_from_boxes(win, page, titles, anchors, {0: "minima", 1: "ephemeris", 3: "model", 4: "report"})
 
 
+def _index(layout, widget):
+    """The place in layout of the item holding widget (the widget itself or a row layout with it)."""
+    for i in range(layout.count()):
+        item = layout.itemAt(i)
+        if item.widget() is widget or (item.layout() is not None and item.layout().indexOf(widget) >= 0):
+            return i
+    raise ValueError(widget)
+
+
+def boxes_from_column(layout, starts):
+    """starts: [(key, first widget)] in the column's order; each box holds the items from its first widget up to
+    the next box's (the last one: to the column's end)."""
+    from PySide6.QtWidgets import QVBoxLayout, QWidget
+
+    boxes, stop = {}, layout.count()
+    for key, widget in reversed(starts):
+        box = QWidget()
+        QVBoxLayout(box).setContentsMargins(0, 0, 0, 0)
+        start = _index(layout, widget)
+        _take(layout, start, stop, box.layout())
+        box.layout().addStretch(1)
+        boxes[key], stop = box, start
+    return dict(reversed(boxes.items()))
+
+
+def one_per_row(grid):
+    """A grid of buttons laid out again one per row: two per row are wider than a stage beside the main view."""
+    items = []
+    while grid.count():
+        r, c, *_ = grid.getItemPosition(0)
+        items.append(((r, c), grid.takeAt(0)))
+    for i, (_, item) in enumerate(sorted(items, key=lambda e: e[0])):
+        if item.widget() is not None:
+            grid.addWidget(item.widget(), i, 0)
+
+
 def _take(layout, start, stop, into):
     """Move the items start..stop-1 of layout (widgets and row layouts; stretches dropped) into the layout into."""
     for _ in range(start, stop):
@@ -84,13 +120,7 @@ def calibration_stages(win, page):
         boxes[key] = QWidget()
         QVBoxLayout(boxes[key]).setContentsMargins(0, 0, 0, 0)
 
-    def index(layout, widget):
-        for i in range(layout.count()):
-            item = layout.itemAt(i)
-            if item.widget() is widget or (item.layout() is not None and item.layout().indexOf(widget) >= 0):
-                return i
-        raise ValueError(widget)
-
+    index = _index
     start = index(lay_l, page.guide) + 1
     _take(lay_l, start, index(lay_l, page.table), boxes["frames"].layout())
     boxes["frames"].layout().addStretch(1)
@@ -106,3 +136,21 @@ def calibration_stages(win, page):
     anchors = {"frames": "calibration-1-scan-raw-frames", "calibrate": "calibration-3-calibrate",
                "continue": "calibration-4-align-stack"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "frames", 1: "frames", 2: "calibrate", 3: "continue"})
+
+
+def models_stages(win, page):
+    """The Models window (UI-16.6): Data, Parameters, Fit beside the light curve and its model; on the Visual binary
+    tab the stages do not apply and their dock is hidden."""
+    lay = page.guide.parentWidget().layout()
+    page.stage_boxes = boxes_from_column(lay, [("data", page.file), ("parameters", page.table),
+                                               ("fit", page.use_mcmc)])  # fmt: skip
+    from PySide6.QtWidgets import QGridLayout
+
+    for grid in page.stage_boxes["fit"].findChildren(QGridLayout):
+        one_per_row(grid)
+    titles = {"data": translate("ModelsWindow", "Data"), "parameters": translate("ModelsWindow", "Parameters"),
+              "fit": translate("ModelsWindow", "Fit")}  # fmt: skip
+    anchors = {"data": "orbits-models-fitting-light-curve", "parameters": "orbits-models-model",
+               "fit": "orbits-models-mcmc-uncertainties"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "parameters", 2: "fit", 3: "fit"})
+    page.tabs.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
