@@ -4,7 +4,7 @@ page's undoable edit. The report is the text the page already shows plus the tab
 
 import time
 
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication, QPlainTextEdit, QPushButton, QVBoxLayout, QWidget
 
 from .kit.table_view import DataTable
@@ -37,6 +37,8 @@ def add_history_tabs(win, page):
     rlay.addWidget(text)
     rlay.addWidget(copy)
     page.report_view, page.report_copy = text, copy
+    for w in (*box.findChildren(QWidget), *report.findChildren(QWidget), *page.parameters_view.findChildren(QWidget)):
+        w.setFocusPolicy(Qt.NoFocus)  # tabs behind the front one sit off-screen: Tab would jump back up to them
     win.add_result_tab("report", translate("ModelsWindow", "Report"), report)
 
     def restore_run():
