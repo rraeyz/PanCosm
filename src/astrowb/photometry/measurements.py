@@ -62,8 +62,7 @@ def measurements(lc):
         snr = flux / err
         amag = -2.5 * np.log10(flux)
         amag_err = 2.5 / np.log(10) * err / flux
-    n_src = np.pi * radii[:, 0] ** 2
-    n_sky = np.pi * (radii[:, 2] ** 2 - radii[:, 1] ** 2)
+    n_src, n_sky = np.pi * radii[:, 0] ** 2, np.pi * (radii[:, 2] ** 2 - radii[:, 1] ** 2)
     flags = {}
     level = lc.get("saturation")
     for k, name in enumerate(names):
@@ -93,6 +92,7 @@ def measurements(lc):
             for row in np.nonzero(peak[:, k] >= level)[0]:
                 flags[(int(row), f"Peak_{name}")] = f"saturated: peak {peak[row, k]:.0f} ≥ {level:.0f}"
     _spoiled(cols, flags, per_frame("flags", None), names)
+    _psf_columns(cols, lc, names)
     cols["rel_flux_T1"], cols["rel_flux_err_T1"] = list(lc["rel_flux"]), list(lc["rel_flux_err"])
     with np.errstate(divide="ignore", invalid="ignore"):
         cols["rel_flux_SNR_T1"] = (np.asarray(lc["rel_flux"]) / np.asarray(lc["rel_flux_err"])).tolist()
@@ -113,6 +113,16 @@ def _shape_columns(cols, shape, r_ap):
     cols["Ap_b"] = (r_ap * ratio).tolist() if shape["kind"] == "ellipse" else r_ap.tolist()
     cols["Ap_angle"] = [float(shape.get("angle", 0.0))] * len(r_ap)
     return cols
+
+
+def _psf_columns(cols, lc, names):
+    """PHO-18: PSF_chi2_<star> (reduced χ² of the fit) and PSF_flag_<star> (photutils' flags, 0 = good), after a PSF
+    run only."""
+    for key, label in (("psf_chi2", "PSF_chi2"), ("psf_flag", "PSF_flag")):
+        if lc.get(key) is not None:
+            fit = np.asarray(lc[key], float).reshape(len(lc["file"]), -1)
+            for k, name in enumerate(names[: fit.shape[1]]):
+                cols[f"{label}_{name}"] = fit[:, k].tolist()
 
 
 def _spoiled(cols, marks, flags, names):

@@ -27,7 +27,7 @@ from .aperture import (
     seeing_fwhm,
 )
 from .differential import ensemble
-from .psf import neighbours_setup
+from .psf import neighbours_setup, psf_series
 
 
 def target_coord(header, given: str | None = None) -> SkyCoord | None:
@@ -256,9 +256,9 @@ def light_curve(
     }
     if chosen:
         out["apertures"] = chosen
-    if (by := _by_aperture(opts, [r[9] if len(r) > 9 else None for r in rows], scint)) is not None:
+    if (by := _by_aperture(opts, [r[9] if len(r) > 9 and not psf else None for r in rows], scint)) is not None:
         out["by_aperture"] = by  # item 10: choose the radius later, no measuring
-    out |= _shape_series(fwhms, peaks) | {"shape": shape}  # None: circles (PHO-22)
+    out |= _shape_series(fwhms, peaks) | {"shape": shape} | (psf_series(rows, ref, saturation) if psf else {})
     if len(extra_xy):
         out["extra_flux"] = flux[:, 1 + n_comp :].tolist()
         out["extra_flux_err"] = err[:, 1 + n_comp :].tolist()
@@ -429,7 +429,8 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         from .fieldstars import psf_measure
 
         f_psf = f if f is not None else seeing_fwhm(data, xy[: 1 + n_comp])
-        flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g)
+        diag = {}
+        flux, err, skylev = psf_measure(data, xy, f_psf if np.isfinite(f_psf) else r_ap / 1.5, *radii[1:], g, diag)
     else:
         sky_mask = None
         if opts.get("neighbours") is not None:
@@ -446,7 +447,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
             cam = (float(camera.get("read_noise", 0.0)), float(camera.get("dark", 0.0)) * exptime)
         flux, err, skylev = measure(data, xy, *radii, g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
                                     shape=opts.get("shape"))  # fmt: skip
-    multi = None
+    multi = np.array([diag["chi2"], diag["flag"]]) if psf else None  # PSF fits: χ² and flag per star
     if opts.get("apertures") and not psf:  # item 10: every radius asked for, the same sky ring, kept to choose later
         rs = [r * k for r in opts["apertures"]]
         both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask,

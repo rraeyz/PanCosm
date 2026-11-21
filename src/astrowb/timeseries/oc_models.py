@@ -42,7 +42,7 @@ class LTTEFit:
     residuals: np.ndarray
     ref_t0: float
     ref_period: float
-    mcmc: dict | None = None  # {"params": {name: (median, minus, plus)}, "acceptance": a}
+    mcmc: dict | None = None  # {"params": {name: (median, minus, plus)}, "acceptance": a, "correlation": {...}}
 
     def tau(self, e_cycles):
         return _tau(
@@ -150,13 +150,16 @@ def _posterior(resid, x0, err, chi2r, physical, steps, seed=1, ctx=None):
                                                             replace=False)]  # fmt: skip
     best = physical(x0)
     values = {k: np.array([physical(x)[k] for x in chain]) for k in best}
+    from .oc_uncertainty import correlation_dict
+
+    corr = correlation_dict(list(values), samples=values)
     out = {}
     for k, v in values.items():
         if k.startswith("omega"):  # an angle: keep the samples on the best value's side of 0/360
             v = best[k] + (v - best[k] + 180) % 360 - 180
         p16, p50, p84 = np.percentile(v, [16, 50, 84])
         out[k] = (float(p50), float(p50 - p16), float(p84 - p50))
-    return {"params": out, "acceptance": post.acceptance, "converged": post.converged}
+    return {"params": out, "acceptance": post.acceptance, "converged": post.converged, "correlation": corr}
 
 
 def _use_posterior(fit, post):

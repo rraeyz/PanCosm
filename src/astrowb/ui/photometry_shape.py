@@ -11,11 +11,13 @@ def add_shape_controls(page, body):
     page.shape_kind = QComboBox(page)
     page.shape_kind.addItem(translate("PhotometryShape", "Circle"), "circle")
     page.shape_kind.addItem(translate("PhotometryShape", "Ellipse"), "ellipse")
+    page.shape_kind.addItem(translate("PhotometryShape", "Racetrack"), "racetrack")
     page.shape_kind.setToolTip(
         translate(
             "PhotometryShape",
             "The form of the aperture and of the sky ring: a circle, or an ellipse for stars stretched by tracking "
-            "or optics. Ring 1–3 are then the major semi-axes.",
+            "or optics, or a racetrack (a trail with rounded ends) for trailed stars. Ring 1–3 are then the major "
+            "semi-axes (the distances from the trail).",
         )
     )
     page.shape_ratio = QDoubleSpinBox(page)
@@ -25,6 +27,12 @@ def add_shape_controls(page, body):
     page.shape_angle = QDoubleSpinBox(page)
     page.shape_angle.setRange(-90.0, 90.0)
     page.shape_angle.setSuffix("°")
+    page.shape_length = QDoubleSpinBox(page)
+    page.shape_length.setRange(0.0, 500.0)
+    page.shape_length.setValue(10.0)
+    page.shape_trail_angle = QDoubleSpinBox(page)
+    page.shape_trail_angle.setRange(-90.0, 90.0)
+    page.shape_trail_angle.setSuffix("°")
     page.shape_read = QPushButton(translate("PhotometryShape", "Read from the star"), page)
     page.shape_read.setToolTip(
         translate(
@@ -47,19 +55,32 @@ def add_shape_controls(page, body):
         lay.addWidget(w)
     lay.addWidget(page.shape_read)
     body.addWidget(page.shape_ellipse)
+    # no "Read from the star" for the racetrack: shapes.py has no racetrack fit, the trail is typed
+    page.shape_trail = QWidget(page)
+    lay = QHBoxLayout(page.shape_trail)
+    lay.setContentsMargins(0, 0, 0, 0)
+    lay.addWidget(QLabel(translate("PhotometryShape", "Trail length (px)"), page))
+    lay.addWidget(page.shape_length)
+    lay.addWidget(QLabel(translate("PhotometryShape", "Angle"), page))
+    lay.addWidget(page.shape_trail_angle)
+    body.addWidget(page.shape_trail)
     page.shape_kind.currentIndexChanged.connect(lambda *_: _changed(page))
     _changed(page)
 
 
 def _changed(page):
     page.shape_ellipse.setVisible(page.shape_kind.currentData() == "ellipse")
+    page.shape_trail.setVisible(page.shape_kind.currentData() == "racetrack")
     if hasattr(page, "star_table"):
         page._fill_star_table()
 
 
 def shape_params(page):
     """The `aperture_shape` step parameter: None for circles."""
-    if page.shape_kind.currentData() != "ellipse":
+    kind = page.shape_kind.currentData()
+    if kind == "racetrack":
+        return {"kind": "racetrack", "length": page.shape_length.value(), "angle": page.shape_trail_angle.value()}
+    if kind != "ellipse":
         return None
     return {"kind": "ellipse", "ratio": page.shape_ratio.value(), "angle": page.shape_angle.value()}
 
@@ -68,6 +89,8 @@ def shape_text(page):
     s = shape_params(page)
     if s is None:
         return translate("PhotometryShape", "circle")
+    if s["kind"] == "racetrack":
+        return translate("PhotometryShape", "racetrack {length:.0f} px, {angle:.0f}°").format(**s)
     return translate("PhotometryShape", "ellipse {ratio:.2f}, {angle:.0f}°").format(**s)
 
 

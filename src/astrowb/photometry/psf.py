@@ -138,3 +138,25 @@ def remove_neighbours(data, xy, fwhm, neighbours, stars0):
     from .aperture import star_mask
 
     return subtract(data, model, table, range(n, len(table))), star_mask(data.shape, neighbours + shift, 2 * fwhm)
+
+
+def psf_series(rows, ref, saturation):
+    """What a PSF run adds to its light curve: the fit's reduced χ² and flag per frame and star (rows' last item,
+    from fieldstars.psf_measure) and the effective PSF."""
+    return {"psf_chi2": [r[9][0].tolist() for r in rows], "psf_flag": [r[9][1].tolist() for r in rows],
+            "psf": epsf_summary(ref, saturation)}  # fmt: skip
+
+
+def epsf_summary(ref, saturation=None, size=25, oversampling=2, min_stars=3):
+    """The effective PSF of a PSF run, built on its reference frame from the isolated unsaturated stars found there:
+    {"n_stars", "oversampling", "epsf": the oversampled picture as lists, or None with fewer than min_stars stars}.
+    shortcut: the run's own fits use the circular Gaussian of each frame's FWHM; this picture shows the shape the
+    stars really have, for the PSF tab."""
+    from .fieldstars import detect_stars
+
+    xy = detect_stars(ref, 100, 3.0, size, saturation)
+    keep = select_psf_stars(ref, xy, -np.arange(len(xy)), size, 25, saturation)  # detect_stars: brightest first
+    out = {"n_stars": len(keep), "oversampling": oversampling, "epsf": None}
+    if len(keep) >= min_stars:
+        out["epsf"] = build_epsf(ref, xy[keep], size, oversampling).data.tolist()
+    return out

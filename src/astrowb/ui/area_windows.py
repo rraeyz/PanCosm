@@ -9,6 +9,7 @@ from PySide6.QtGui import QAction, QActionGroup
 from . import area_menus
 from .area_menus import _mirror, _undo_source
 from .files import images_filter
+from .image_sources import find_action
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainWindow", "…") calls
 
@@ -357,8 +358,9 @@ def _photometry_stages(win, page):
     from .photometry_choices import attach as list_choices
 
     list_choices(win, page)  # every automatic choice with its reason, in its stage
-    from . import photometry_images, photometry_multi, photometry_name, photometry_results
+    from . import photometry_images, photometry_multi, photometry_name, photometry_psf, photometry_results
 
+    photometry_psf.attach(page)  # PHO-18: the ePSF of the last PSF run, a results tab
     photometry_images.attach(win, page)  # the Images stage's summary: frames, filters, calibrated?, bad frames
     photometry_multi.attach(page)  # Multi-plot as a results tab
     photometry_results.attach(win, page)  # the next-step buttons leave the results dock for the Report stage
@@ -546,7 +548,7 @@ def fill_image_menus(main, win):
             (main.process_menu.title(), []),
             (
                 translate("MainWindow", "&Analyse"),
-                [*tools, None, _mirror(page.whole_button, win), main.coefficients_action],
+                [*tools, None, _mirror(page.whole_button, win), find_action(win, page), main.coefficients_action],
             ),
             (main.overlay_menu.title(), []),
             (translate("MainWindow", "A&strometry"), [main.solve_action, main.moving_action]),

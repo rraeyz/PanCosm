@@ -99,6 +99,8 @@ def _pick_track(page):
 
 
 def method_params(page):
+    from .photometry_shape import shape_params
+
     """The method settings for the light-curve step and the live light curve alike."""
     return {
         "psf": page.psf.isChecked(),
@@ -107,6 +109,7 @@ def method_params(page):
         "centring": page.centring.currentData(),
         "track_stars": _track(page),
         "combine": page.combine.value(),
+        "aperture_shape": shape_params(page),
         "header_time": page.header_time.currentData(),
         "shutter_delay": page.shutter_delay.value(),
         # the camera's noise model, when ticked (PHO-19: the live light curve gets it too)

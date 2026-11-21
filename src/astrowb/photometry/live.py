@@ -72,6 +72,7 @@ class LiveLightCurve:
             "sky_method": method.get("sky_method", "median"),
             "fixed": (),
             "centring": method.get("centring", "auto"),
+            "shape": method.get("aperture_shape"),  # ellipse / racetrack, as the night run (PHO-22)
             "camera": method.get("camera"),  # read noise and dark current, as the night run (PHO-19)
         }
         self.time_rule = (method.get("header_time", "auto"), method.get("shutter_delay", 0.0))
@@ -85,6 +86,7 @@ class LiveLightCurve:
         self.sky = self.where = None
         self.points = []  # dicts, one per frame
         self.failed = {}  # file -> reason
+        self.order, self.jd = [], {}  # every file tried, in arrival order; name -> mid-exposure JD (UTC)
 
     def _frame(self, path):
         data, h = load(path)
@@ -103,6 +105,7 @@ class LiveLightCurve:
 
     def add(self, path):
         """Measure one new frame; returns its point (dict) or None when it could not be measured."""
+        self.order.append(str(path))
         try:
             data, h = self._frame(path)
             if self.prev is None:  # the first frame: positions are the clicked ones
@@ -161,12 +164,13 @@ class LiveLightCurve:
             "xy": xy.tolist(),
             "missing": [int(k) + 1 for k in np.flatnonzero(~seen)],  # 1-based, as the night run's "partial"
         }
+        self.jd[point["file"]] = point["jd_utc"]
         self.points.append(point)
         return point
 
     def light_curve(self):
         """The points so far in the format of light_curve() (for minima, export, AAVSO)."""
-        pts = self.points
+        pts = list(self.points)  # the worker thread may add one meanwhile
         out = {
             key: [p[key] for p in pts]
             for key in ("file", "time", "jd_utc", "rel_flux", "rel_flux_err", "target_flux", "comp_flux", "xy")
@@ -174,6 +178,7 @@ class LiveLightCurve:
         if pts:  # every point again against the shares of the whole night so far, as the night run computes them
             rel, rel_err = _ensemble(pts)
             out["rel_flux"], out["rel_flux_err"] = rel.tolist(), rel_err.tolist()
+        out["lost"] = {Path(f).name: why.split() for f, why in list(self.failed.items())}  # left out, with why
         out["partial"] = {p["file"]: p["missing"] for p in pts if p["missing"]}
         if len(self.xy) > 1 + self.n_comp:  # the check stars, as the night run gives them (the window computes theirs)
             out["extra_flux"] = [p["extra_flux"] for p in pts]

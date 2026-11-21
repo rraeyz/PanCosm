@@ -335,7 +335,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             self.tr("S/N"),
             self.tr("V/R"),
         )
-        self.lines = []  # one measure per row, the file's name first
+        self.lines, self.measures = [], []  # per row: the table cells (file first); (result, window data or None)
         self.table = TableView(self)
         self._show_lines()
         right.addWidget(self.table)
@@ -503,7 +503,10 @@ class SpectrumToolsTab(Undoable, QWidget):
             col.format = ".5g"
         self.table.set_table(table)
 
-    def _add_row(self, label, m):
+    def _add_row(self, label, m, spectrum=None):
+        from .spectro_tools_inspector import window_data
+
+        self.measures.append((m, window_data(*spectrum, m) if spectrum else None))
         self.lines.append([label if k == "file" else (np.nan if m.get(k) is None else m[k]) for k in LINE_COLUMNS])
         self._show_lines()
 
@@ -518,7 +521,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             self.status.setText(translate(e))
             return None
         self.last = m
-        self._add_row(Path(self.path).name, m)
+        self._add_row(Path(self.path).name, m, (self.wave, self.flux))
         self.guide.set_state(2, "done")
         text = self.tr(
             "Centre {c:.3f} ± {ce:.3f} Å, FWHM {f:.3f} Å, EW {ew:.4f} ± {ee:.4f} Å (fit {ef:.4f}), S/N {s:.0f}"
@@ -577,7 +580,7 @@ class SpectrumToolsTab(Undoable, QWidget):
             except ValueError:
                 pass
             date = str(h.get("DATE-OBS", "")) if h is not None else ""
-            self._add_row(f"{Path(path).name} {date}".strip(), m)
+            self._add_row(f"{Path(path).name} {date}".strip(), m, (w, f))
             rows.append((date, m))
         self.status.setText(self.tr("{n} spectra measured.").format(n=len(rows)))
         return rows
