@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..engine import automation, steps
+from .automation_run import connect_chain, run_state, show_badges
 from .kit.focus import read_in_order
 from .kit.table_view import DataTable
 from .kit.widgets import _title
@@ -53,6 +54,7 @@ def _summary(entry):
 class AutomationPage(QWidget):
     run_requested = Signal(object, dict)  # automation, inputs
     sequence_requested = Signal(dict)  # observing target spec for the Observe page
+    extra = ()  # names the steps from a chosen card on need that only the earlier steps would give
 
     def __init__(self, settings, parent=None):
         super().__init__(parent)
@@ -93,7 +95,7 @@ class AutomationPage(QWidget):
         ml.addWidget(self.description)
         ml.addWidget(QLabel(self.tr("Steps, in order"), self))
         self.steps = StepChain(self)
-        self.steps.currentRowChanged.connect(self._show_step)
+        connect_chain(self)
         ml.addWidget(self.steps, 1)
         self.step_choice = QComboBox(self)
         steps.get("fits.save_as")  # loads the built-in steps and plugins
@@ -192,7 +194,7 @@ class AutomationPage(QWidget):
         self.set_automation({"name": self.tr("New automation"), "steps": []})
 
     def set_automation(self, auto):
-        self.auto = auto
+        self.auto, self.extra = auto, ()
         self.description.setText(automation.text(auto.get("description"), self.lang))
         self.sequence_button.setVisible("sequence" in auto)
         self.after_night.setVisible("sequence" in auto)
@@ -328,7 +330,7 @@ class AutomationPage(QWidget):
     # --- inputs and running ---------------------------------------------------
     def input_names(self):
         declared = list(self.auto.get("inputs", {}))
-        return declared + [k for k in automation.needed(self.auto) if k not in declared]
+        return declared + [k for k in [*automation.needed(self.auto), *self.extra] if k not in declared]
 
     def _fill_inputs(self):
         while self.form.rowCount():
@@ -338,7 +340,7 @@ class AutomationPage(QWidget):
         for name in self.input_names():
             spec = specs.get(name, {})
             edit = QLineEdit(self.values.get(name, ""), self)
-            edit.textChanged.connect(lambda text, n=name: self.values.__setitem__(n, text))
+            edit.textChanged.connect(lambda text, n=name: self._typed(n, text))
             self.edits[name] = edit
             edit.setToolTip(self.tr("A value, a file or a folder for this input of the automation"))
             row = QHBoxLayout()
@@ -350,6 +352,11 @@ class AutomationPage(QWidget):
                 row.addWidget(b)
             self.form.addRow(automation.text(spec.get("label"), self.lang) or name, row)
             self.form.labelForField(row).setWordWrap(True)  # long labels wrap instead of widening the page
+        show_badges(self)
+
+    def _typed(self, name, text):
+        self.values[name] = text
+        show_badges(self)
 
     def _browse(self, edit, kind):
         if kind == "folder":
@@ -369,15 +376,33 @@ class AutomationPage(QWidget):
                 out[name] = automation.parse(kind, edit.text()) if kind else _json_or_text(edit.text().strip())
         return out
 
-    def _run(self):
+    def _run(self, row=0):
+        """Run the steps from card `row` on; while a run goes, the button is Stop."""
+        state = run_state(self)
+        if state.running:
+            return state.stop()
+        # shortcut: the outputs of earlier steps are not kept, so a later start asks for what they would give
+        auto = {**self.auto, "steps": self.auto["steps"][row:]} if row else self.auto
         try:
             inputs = self.inputs()
-            automation.check(self.auto, inputs)
+            if row and (lack := automation.needed(auto, automation.defaults(self.auto) | inputs)):
+                self.extra = lack
+                self._fill_inputs()
+                self.status.setText(
+                    self.tr("Fill in what the earlier steps would give: {names}").format(names=", ".join(lack))
+                )
+                return
+            automation.check(auto, inputs)
         except (ValueError, steps.MissingInput) as e:
             self.status.setText(self.tr("Cannot run: {e}").format(e=translate(e)))
             return
         self.result.clear()
-        self.run_requested.emit(self.auto, inputs)
+        state.begin()
+        self.run_requested.emit(auto, inputs)
+
+    def track(self, task):
+        """The task of the step now running (its progress shows on the Run button, Stop cancels it)."""
+        run_state(self).track(task)
 
     def step_started(self, n, step_id):
         from .names import step_name
@@ -385,8 +410,10 @@ class AutomationPage(QWidget):
         self.status.setText(self.tr("Running step {n}: {step}").format(n=n, step=step_name(step_id)))
 
     def finished(self, data, last_outputs):
+        run_state(self).end()
         self.status.setText(self.tr("Finished."))
         self.result.setPlainText(json.dumps(last_outputs, indent=1, default=str)[:20000])
 
     def failed(self, message):
+        run_state(self).end()
         self.status.setText(self.tr("Stopped: {e}").format(e=translate(message)))

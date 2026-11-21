@@ -241,7 +241,7 @@ class AreaActions:
                 call = next(gen) if out is None else gen.send(out)
                 n[0] += 1
                 page.step_started(n[0], call[0])
-                self.run_step(*call, on_done=advance, on_fail=page.failed)  # a failed step stops the chain
+                page.track(self.run_step(*call, on_done=advance, on_fail=page.failed))  # a failed step stops the chain
             except StopIteration as stop:
                 page.finished(stop.value, out)
             except Exception as e:  # a link to a missing field, a refused input: say where it stopped
