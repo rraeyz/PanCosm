@@ -572,6 +572,9 @@ def spectroscopy(main, page, win):
             job(tools, tools.bess_button),
         ]
     )
+    from .spectro_stages import spectroscopy_stages
+
+    spectroscopy_stages(win, page)  # UI-16.3: the jobs' columns as stages beside the chosen job's view
 
 
 def _reduce_and_lines(job, either, red, ech, tel, vel, cube, tools):

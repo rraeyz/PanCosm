@@ -2104,11 +2104,12 @@ class SpectroscopyPage(QWidget):
         self.tabs.addTab(self.tools_tab, self.tr("Spectrum tools"))
         self.tabs.setDocumentMode(True)
         self.profile_bar = QWidget(self)  # a widget of its own: the window puts it at the top of the steps panel
-        bar = QHBoxLayout(self.profile_bar)
-        bar.setContentsMargins(0, 0, 0, 0)
+        from .kit.fit import FlowLayout
+
+        bar = FlowLayout(self.profile_bar)  # the label, the list and two buttons flow onto a second line in a stage
         bar.addWidget(QLabel(self.tr("Instrument profile"), self))
         self.profile = QComboBox(self)
-        self.profile.setMinimumWidth(200)
+        self.profile.setMinimumWidth(120)
         self.profile.activated.connect(lambda _: self.apply_profile(self.profile.currentText()))
         self.profile.setToolTip(
             self.tr(
@@ -2129,7 +2130,6 @@ class SpectroscopyPage(QWidget):
         delete.setToolTip(self.tr("Deletes the chosen instrument profile"))
         for w in (self.profile, save, delete):
             bar.addWidget(w)
-        bar.addStretch(1)
         lay = QVBoxLayout(self)
         lay.addWidget(self.profile_bar)
         from .kit.widgets import Collapsible
@@ -2161,31 +2161,18 @@ class SpectroscopyPage(QWidget):
 
     def window_parts(self):
         """The Spectroscopy window's parts (plans/spectroscopy.md step 1.1): the chosen job's view (plot or image) in
-        the middle, its steps in the left panel under the instrument profile; the job is chosen in the window's
-        toolbar. The tabs stay as the hidden owner of the jobs' state and the current job."""
-        from PySide6.QtWidgets import QFrame, QScrollArea, QSplitter, QStackedWidget
+        the middle; the jobs' step columns are returned for the stages (ui/spectro_stages.py); the job is chosen in
+        the window's toolbar. The tabs stay as the hidden owner of the jobs' state and the current job."""
+        from PySide6.QtWidgets import QSplitter, QStackedWidget
 
-        views, panels = QStackedWidget(), QStackedWidget()
+        views, panels = QStackedWidget(), []
         for i in range(self.tabs.count()):
             tab = self.tabs.widget(i)
             split = tab.findChild(QSplitter, options=Qt.FindDirectChildrenOnly)
             side = 1 if tab is self.cube_tab else 0  # the cube's image is on the left of its own splitter
-            panel, view = split.widget(side), split.widget(1 - side)
-            if not isinstance(panel, QScrollArea):  # a long steps column scrolls instead of growing the window
-                box = QScrollArea()
-                box.setWidgetResizable(True)
-                box.setFrameShape(QFrame.NoFrame)
-                box.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-                box.setWidget(panel)
-                panel = box
-            views.addWidget(view)
-            panels.addWidget(panel)
-        steps = QWidget()
-        lay = QVBoxLayout(steps)
-        lay.setContentsMargins(4, 4, 4, 4)
-        lay.addWidget(self.profile_bar)
-        lay.addWidget(self.steps)
-        lay.addWidget(panels, 1)
+            panels.append(split.widget(side))
+            self.job_panels = panels
+            views.addWidget(split.widget(1 - side))
         # interface I4c: the order of the jobs is in the job buttons' tooltips; the box stays, folded (the owner
         # decides whether it goes)
         self.steps.mode = None
@@ -2193,21 +2180,12 @@ class SpectroscopyPage(QWidget):
 
         def follow(i):
             views.setCurrentIndex(i)
-            panels.setCurrentIndex(i)
             self.profile_bar.setVisible(self.tabs.widget(i) in (self.reduce_tab, self.echelle_tab))
 
         self.tabs.currentChanged.connect(follow)
         follow(self.tabs.currentIndex())
         self.tabs.hide()
-        holder = QScrollArea()  # a short window: the profile row and the folded box scroll with the steps
-        holder.setWidgetResizable(True)
-        holder.setFrameShape(QFrame.NoFrame)
-        holder.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        holder.setWidget(steps)
-        # as wide as the widest job's column needs (the panel opened at 280 px and cut every field)
-        need = max(panels.widget(i).widget().minimumSizeHint().width() for i in range(panels.count()))
-        holder.setMinimumWidth(max(need, self.profile_bar.minimumSizeHint().width()) + 32)
-        return {"view": views, "steps": holder, "jobs": [self.tabs.tabText(i) for i in range(self.tabs.count())]}
+        return {"view": views, "jobs": [self.tabs.tabText(i) for i in range(self.tabs.count())]}
 
     JOB_TIPS = (
         QT_TRANSLATE_NOOP("SpectroscopyPage", "Raw long-slit frames: arc lamp → trace → extraction → wavelengths"),
