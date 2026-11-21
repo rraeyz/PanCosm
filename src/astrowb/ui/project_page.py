@@ -1,7 +1,7 @@
 """The Project page."""
 
 from astropy.table import Table
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QHBoxLayout,
@@ -29,6 +29,9 @@ class ProjectPage(QWidget):
         top = QVBoxLayout(self)
         self.name_label = QLabel(self)
         top.addWidget(self.name_label)
+        self.methods_open = QPushButton(self.tr("Methods text…"), self)  # the window connects it (File → Methods text…)
+        self.methods_open.setEnabled(False)
+        top.addWidget(self.methods_open, 0, Qt.AlignLeft)
         self.tabs = QTabWidget(self)  # UI-16.14: Files, History, Methods text, Tasks (Products, Sessions: not yet)
         top.addWidget(self.tabs, 1)
         self.files_list = QListWidget(self)

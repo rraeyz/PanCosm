@@ -17,6 +17,8 @@ def build(main):
     m = bar_menu(main.menuBar(), translate("MainWindow", "&File"))
     main._action(m, translate("MainWindow", "&New project…"), main.new_project_dialog, QKeySequence.New)
     main._action(m, translate("MainWindow", "Open &project…"), main.open_project_dialog)
+    main.methods_action = main._action(m, translate("MainWindow", "&Methods text…"), main.show_methods)
+    main._glyphs = [(main.methods_action, "publication"), (main.project_page.methods_open, "publication")]
     m.addSeparator()
     main.open_action = main._action(m, translate("MainWindow", "&Open FITS…"), main.open_fits_dialog, QKeySequence.Open)
     main.save_action = main._action(

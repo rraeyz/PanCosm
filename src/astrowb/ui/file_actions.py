@@ -53,6 +53,7 @@ class FileActions:
 
     def _refresh_files(self):
         self.files_list.clear()
+        self._update_methods(self.engine.project.runs(full=False) if self.engine.project else None)
         if not self.engine.project:
             return
         runs = self.engine.project.runs(full=False)  # results stay in the file until a run is selected
@@ -60,6 +61,28 @@ class FileActions:
         for f in self.engine.project.files():
             self.files_list.addItem(f"{Path(f['path']).name}  [{f['kind']}]")
             self.files_list.item(self.files_list.count() - 1).setData(Qt.UserRole, f["path"])
+
+    def _update_methods(self, runs):
+        """Methods text… (menu and the Project page's button) works only for a project with done runs."""
+        from .methods_dialog import usable
+
+        why = (
+            translate("MainWindow", "Open a project first: the methods text is written from its runs")
+            if runs is None
+            else translate("MainWindow", "No step has finished in this project yet")
+        )
+        ok = runs is not None and usable(runs)
+        tip = translate("MainWindow", "Writes the methods paragraph of the project's done runs, to copy into a paper")
+        for w in (self.methods_action, self.project_page.methods_open):
+            w.setEnabled(ok)
+            w.setToolTip(tip if ok else why)
+
+    def show_methods(self):
+        from .methods_dialog import MethodsDialog
+
+        if self.engine.project:
+            self.methods_dialog = MethodsDialog(self.engine.project.runs(), self, self.settings)
+            self.methods_dialog.show()
 
     def open_fits_dialog(self):
         paths, _ = QFileDialog.getOpenFileNames(self, translate("MainWindow", "Open FITS"), "", images_filter())
