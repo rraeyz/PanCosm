@@ -391,8 +391,12 @@ ring by distance from the segment; painted pixel masks; `moments_shape` reads b/
 `aperture.measure(shape=…)`. Tests (tests/test_aperture_shapes.py): a 3 : 1 trailed star gives its untrailed copy's
 flux within 1 % (ellipse) and 0.5 % (racetrack) with a smaller error than the circle holding the trail. The light-
 curve run takes it (`photometry.light_curve`'s `aperture_shape`): a night of trailed frames comes out flat to its
-errors and below the circles' scatter. Left: the shape in the star list, the Apertures stage's controls (the
-ellipse read from the star by `moments_shape`), the `Ap_*` columns, the lightkurve cross-check of a painted mask.
+errors and below the circles' scatter. (2026-11-21: the UI: `ui/photometry_shape.py` — the Apertures stage's Shape
+choice Circle / Ellipse with axis ratio and angle fields and "Read from the star" (`moments_shape` on the selected star
+or the target, first frame), passed as `aperture_shape`; the star list's "Aperture" column; the measurements table's
+`Ap_shape`, `Ap_a`, `Ap_b`, `Ap_angle` (`measurements._shape_columns`; the light curve carries `shape`). Tests:
+tests/ui/test_aperture_shape.py.) Left: racetrack and painted-pixel controls, the lightkurve cross-check of a painted
+mask.
 - **Reference:** AstroImageJ `ShapedApertureRoi` (ellipse; 5.5.1 added it to Multi-Aperture for non-circular PSFs),
   `FreeformPixelApertureRoi` (painted pixels, for TESS-like stamps and blends); lightkurve aperture masks.
 - **Build:** `aperture.measure(shape = circle | ellipse | pixels)`: ellipse with axis ratio and angle from the
@@ -481,8 +485,10 @@ stored reference table).
 **partial** — done (2026-11-14): `io/inspect.pair_measure` (both stars centred, apertures of star 1's radii,
 separation in px and ″, position angle N through E, f2/f1 and Δmag with errors) — the accept test passes
 (tests/test_pair_measure.py: ratio within 0.5 %, separation 0.02 px, PA 0.05°); the Images window's Line tool adds
-the pair's rows when both ends sit on stars (`ui/image_pair.py`). Left: "Add to table" with CSV / ECSV export, and
-the same in the Astrometry window.
+the pair's rows when both ends sit on stars (`ui/image_pair.py`). more done (2026-11-21, `ui/image_pair_table.py`):
+the Images window's "Pairs" tab (`PairTable`: Add to table, Delete, Export… as CSV / ECSV with units; columns are
+`pair_measure`'s own keys; `tests/ui/test_pair_table.py`). Left: the same in the Astrometry window (its image
+clicks pick the moving object, there is no two-star Line tool there).
 - **Ours now:** `io/inspect.star_info` (one star in an aperture) and the Images window's Line tool (distance only); nothing between two stars.
 - **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
   Information window (astrometric mode).

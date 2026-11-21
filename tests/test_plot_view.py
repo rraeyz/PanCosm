@@ -478,3 +478,14 @@ def test_a_series_coloured_by_values_has_a_colour_bar_in_both_outputs(qapp, tmp_
     assert brushes[0].color() != brushes[3].color() and brushes[0].color() == brushes[1].color()
     P.data_behind(spec, tmp_path / "d.ecsv")
     assert "values" in (tmp_path / "d.ecsv").read_text() and spec.to_dict()["panels"][0]["series"][0]["values"] == order
+
+
+def test_a_histogram_with_edges_is_drawn(qtbot, caplog):
+    from astrowb.ui.plot.view import PlotView
+
+    view = PlotView()
+    qtbot.addWidget(view)
+    counts, edges = np.histogram(np.random.default_rng(1).normal(size=500), bins=16)  # 17 edges, 16 counts
+    hist = SeriesSpec("h", edges, counts, kind="histogram")
+    view.set_figure(FigureSpec([PanelSpec(AxisSpec("x"), AxisSpec("n"), [hist])]))
+    assert "plot not drawn" not in caplog.text

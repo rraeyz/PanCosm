@@ -64,16 +64,21 @@ def exoplanets_docks(win, page):
     page.chains_plot, page.corner_canvas, page.report_view, page.report_copy = chains_plot, corner, text, copy
     for w in (*chains_box.findChildren(QWidget), *corner.findChildren(QWidget), *report.findChildren(QWidget)):
         w.setFocusPolicy(Qt.NoFocus)  # tabs behind the front one sit off-screen: Tab would jump back up to them
-    for key, title, widget in (("chains", translate("ExoplanetsWindow", "Chains"), chains_box),
-                               ("corner", translate("ExoplanetsWindow", "Corner"), corner),
-                               ("report", translate("ExoplanetsWindow", "Report"), report)):  # fmt: skip
-        win.add_result_tab(key, title, widget)
+    tabs = [("chains", translate("ExoplanetsWindow", "Chains"), chains_box),
+            ("corner", translate("ExoplanetsWindow", "Corner"), corner),
+            ("report", translate("ExoplanetsWindow", "Report"), report)]  # fmt: skip
+    for *_, widget in tabs:
+        widget.hide()  # docked at the first fit: empty docks squeezed the main view, hidden ones left a stray tab bar
     show = page.show_fit
 
     def show_fit(out):
         show(out)
         out = out.get("transit", out)
         m = out.get("mcmc") if "chains" in (out.get("mcmc") or {}) else None
+        while tabs:
+            key, title, widget = tabs.pop(0)
+            win.add_result_tab(key, title, widget)
+            widget.show()  # hidden by hand above, so docking alone would not show it
         if m:
             chains_plot.set_figure(chains_figure(m))
         draw_corner(corner.figure, m)

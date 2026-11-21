@@ -92,6 +92,10 @@ def test_dialog_marks_measures_and_writes_the_report(qtbot, tmp_path):
         assert text.count("|2026 VA12||CCD|A84|") == 6 and "! name B. Yardımcı" in text
         assert dlg.catalog.text() == "Tyc2" and text.count("|Tyc2") == 6 and "Gaia3" not in text
         assert win.settings.get("profile")["observer"]["mpc_code"] == "A84"  # remembered for the next object
+        dlg.format.setCurrentIndex(dlg.format.findData("mpc80"))
+        dlg.export(str(tmp_path / "r80.txt"))
+        lines = (tmp_path / "r80.txt").read_text().splitlines()
+        assert len(lines) == 6 and all(len(x) == 80 and x[77:] == "A84" for x in lines)
     finally:
         win.engine.shutdown()
 

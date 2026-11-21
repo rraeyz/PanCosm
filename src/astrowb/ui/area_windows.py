@@ -461,7 +461,7 @@ def spectroscopy_window(main, page):
     from PySide6.QtGui import QAction, QActionGroup
 
     from .kit.window import AreaWindow
-    from .spectro_stages import job_switch
+    from .spectro_stages import job_switch, profile_switch
     from .start_page import areas
 
     parts = page.window_parts()
@@ -491,6 +491,7 @@ def spectroscopy_window(main, page):
     )
     jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
     win.set_icons(dict(zip(actions, jobs, strict=True)))
+    profile_switch(win, page)
     job_switch(win, page)  # UI-16.3: the toolbar's job switch is a Segmented; the Job menu keeps the actions
     area_menus.spectroscopy(main, page, win)
     page.setParent(win)  # the page keeps the state and the logic, unseen

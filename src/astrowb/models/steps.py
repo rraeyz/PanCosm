@@ -19,6 +19,7 @@ from . import data, fit
     mcmc_steps=0,
     export_format="phoebe",
     exposure=0.0,
+    bounds=None,
 )
 def eb_fit_step(inputs, params, ctx):
     """Fit the detached-binary / transit model to a light-curve file; absolute dimensions when a
@@ -26,7 +27,7 @@ def eb_fit_step(inputs, params, ctx):
     t, flux, err, info = data.read_light_curve(inputs["light_curve"])
     ctx.progress(0.2, "fit")
     start = inputs["start"] | {"exposure": params["exposure"]}  # seconds; 0: the flux at each time
-    r = fit.fit_light_curve(t, flux, err, start, params["free"], params["ld1"], params["ld2"])
+    r = fit.fit_light_curve(t, flux, err, start, params["free"], params["ld1"], params["ld2"], params["bounds"])
     p = r["params"]
     phase = ((t - p["t0"]) / p["period"] + 0.25) % 1 - 0.25
     grid = np.linspace(-0.25, 0.75, 1500)
@@ -40,7 +41,18 @@ def eb_fit_step(inputs, params, ctx):
         "absolute": None,
     }
     if params["mcmc_steps"]:  # posterior uncertainties: slower, more honest for correlated parameters
-        out["mcmc"] = fit.mcmc(t, flux, err, r, params["free"], params["ld1"], params["ld2"], params["mcmc_steps"], ctx)
+        out["mcmc"] = fit.mcmc(
+            t,
+            flux,
+            err,
+            r,
+            params["free"],
+            params["ld1"],
+            params["ld2"],
+            params["mcmc_steps"],
+            ctx,
+            bounds=params["bounds"],
+        )
     if inputs.get("orbit"):
         out["absolute"] = fit.absolute_dimensions(r, inputs["orbit"])
     orbit, absolute = inputs.get("orbit") or {}, out["absolute"] or {}

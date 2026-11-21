@@ -213,6 +213,8 @@ class AreaActions:
             )
 
     def calibrate(self, frames, output_dir, params):
+        from . import calibration_report
+
         def done(out):
             if self.engine.project:
                 for p in out["masters"]:
@@ -220,13 +222,12 @@ class AreaActions:
                 for p in out["calibrated"]:
                     self.engine.project.add_file(Path(p), "calibrated")
             self.calibrate_page.show_result(out)
+            calibration_report.save_beside_frames(self.calibrate_page, output_dir)
             if out["calibrated"] and not self.photometry_page.images:  # next step of the workflow is ready
                 from .calibrate_page import by_filter
 
                 groups = by_filter(out["calibrated"])  # one filter only; a colour camera's green (TG) first
                 self.photometry_page.set_images(groups.get("TG") or max(groups.values(), key=len))
-
-        from . import calibration_report
 
         task = self.run_step(
             "calibration.run", {"frames": frames, "output_dir": output_dir}, params, on_done=done, area="calibrate"
@@ -239,6 +240,9 @@ class AreaActions:
                 calibration_report.log_update(page, t)
                 if t.finished:
                     self.taskUpdated.disconnect(logged)
+                    from . import calibration_history
+
+                    calibration_history.refresh(self, page)
 
         self.taskUpdated.connect(logged)
         return task
@@ -254,7 +258,8 @@ class AreaActions:
                 call = next(gen) if out is None else gen.send(out)
                 n[0] += 1
                 page.step_started(n[0], call[0])
-                page.track(self.run_step(*call, on_done=advance, on_fail=page.failed))  # a failed step stops the chain
+                failed = lambda m: advance(automation.Failed(m))  # noqa: E731  # the step's on_error decides
+                page.track(self.run_step(*call, on_done=advance, on_fail=failed))
             except StopIteration as stop:
                 page.finished(stop.value, out)
             except Exception as e:  # a link to a missing field, a refused input: say where it stopped

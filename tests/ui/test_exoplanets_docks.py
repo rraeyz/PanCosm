@@ -38,9 +38,10 @@ def test_the_chain_tabs_fill_after_an_mcmc_fit(qtbot, tmp_path):
     try:
         win = win_main.open_area("exoplanets")
         page = win_main.exoplanets_page
-        assert {"result_chains", "result_corner", "result_report"} <= set(win.docks)
+        assert not {"result_chains", "result_corner", "result_report"} & set(win.docks)  # docked at the first fit
         page.add_files([str(tmp_path / "n.lc.ecsv")])
         page.show_fit(out)
+        assert {"result_chains", "result_corner", "result_report"} <= set(win.docks)
         text = page.report_view.toPlainText()
         assert text.startswith("Mid-transit") and "R-hat" in text
         assert pytest.approx(out["mcmc"]["rhat"]["k"], abs=1e-3) == float(text.split("k: R-hat ")[1].split(",")[0])

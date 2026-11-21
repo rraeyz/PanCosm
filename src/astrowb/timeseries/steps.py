@@ -85,6 +85,10 @@ def frequencies_step(inputs, params, ctx):
             keys = ("freq", "freq_err", "amp", "amp_err", "phase", "phase_err")
             rows.append({key: float(fit[key][k]) for key in keys} | {"snr": float(snr[k])})
         maxima = [list(m) for m in fourier.times_of_maximum(t, y, fit, magnitudes=params["magnitudes"])]
+        from .significance import frequency_faps
+
+        for row, fap in zip(rows, frequency_faps(t, y, [r["freq"] for r in rows], params["f_max"]), strict=True):
+            row["fap"] = fap
     clean_spec = None
     if params["clean"]:  # aliases of the sampling removed (CLEAN), on the same grid as the other spectra
         ctx.progress(0.9, "fit")

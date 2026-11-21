@@ -25,6 +25,7 @@ parameters (default):
   mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none
   export_format = "phoebe"  (choice, one of phoebe, wd, transit)  Export for: PHOEBE, Wilson–Devinney or a transit-fitting program
   exposure = 0.0  (float, s, >= 0.0, <= 7200.0)  Exposure time: The model is averaged over each exposure; 0: short exposures
+  bounds = null  (object)  Limits: Lower and upper limit per parameter; empty: the engine's own limits
 ```
 
 ## models.visual_orbit

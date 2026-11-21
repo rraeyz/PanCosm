@@ -106,6 +106,7 @@ def make(page):
     from . import calibration_report
 
     calibration_report.make(page)
+    boxes["review"].layout().insertWidget(0, page.save_report_button)
     page.changed.connect(lambda: refresh_frames(page))
     page.result_shown.connect(lambda out: refresh_review(page, out))
     return boxes

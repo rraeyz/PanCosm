@@ -277,8 +277,9 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
 def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     """interface I6c.1: one icon per kind of action, never one icon for two kinds; area toolbars show icons, View →
     Toolbar text adds the names and is kept; the Photometry and Spectroscopy toolbars have an icon for every
-    action."""
+    action (the Spectroscopy toolbar holds only its job and profile switches, UI-16.3)."""
     from PySide6.QtCore import Qt
+    from PySide6.QtWidgets import QWidgetAction
 
     from astrowb.ui.kit.icons import ICONS, icon
     from astrowb.ui.main_window import MainWindow
@@ -297,8 +298,8 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     try:
         for key in ("photometry", "spectroscopy"):
             main.show_workspace(key)
-            acts = main.area_windows[key].area_tools()
-            assert acts and all(not a.icon().isNull() and a.toolTip() for a in acts), key
+            acts = [a for a in main.area_windows[key].area_tools() if not isinstance(a, QWidgetAction)]  # job switch
+            assert (acts or key == "spectroscopy") and all(not a.icon().isNull() and a.toolTip() for a in acts), key
     finally:
         main.engine.shutdown()
 

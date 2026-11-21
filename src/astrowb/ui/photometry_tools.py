@@ -13,7 +13,8 @@ def attach(win, page):
 
     tools = page.image_tools = ImagePage(win)
     tools.hide()
-    tools.viewer.deleteLater()  # the page built its own viewer; Photometry's is the one measured
+    # the page's own viewer is kept (unseen), not deleted: Python wrappers of its plot items outlive it and a later
+    # garbage collection could touch freed memory (gallery crashes); Photometry's viewer is the one measured
     tools.viewer = page.viewer
     tools.set_floating(False)  # the results in tabs (a dock), not small windows over the image
     tools.tabs.removeTab(0)  # the header is for editing keywords: not here

@@ -6,12 +6,15 @@
      "steps": [{"step": "calibration.run",
                 "inputs": {"images": "calibrated"},                 # step input <- data key (default: same name)
                 "params": {"sigma": 3.0},
-                "each": "science"}]}                                # optional: run once per item of that input
+                "each": "science",                                  # optional: run once per item of that input
+                "on_error": "stop"}]}                               # optional: stop (default) | skip | continue
 
 A link is a data key, "key.field" (that field of a result, or of every row of a list of results), or a
 format string such as "{output_dir}/{item}_1d.fits" (item: file stem of the current "each" element).
 Names, descriptions and labels may be {"en": ..., "tr": ...} so templates are translated.
 Outputs of an "each" step are lists, one value per item. Every step runs as a normal recorded task.
+When a step fails the driver sends `Failed` into `calls`: "stop" raises, "skip" drops the step's outputs (an "each"
+step stops at once, so later steps that need them fail as missing), "continue" goes on (the next item of an "each").
 """
 
 import json
@@ -20,9 +23,17 @@ from pathlib import Path
 
 from ..settings import config_dir
 from . import steps
+from .tasks import TaskFailed
 
 TEMPLATES = Path(__file__).resolve().parents[1] / "resources" / "automations"
 KINDS = ("folder", "file", "files", "xy", "pairs", "site", "number", "text", "object")
+
+
+class Failed:
+    """What the driver sends into `calls` instead of outputs when the step's task failed."""
+
+    def __init__(self, error):
+        self.error = error
 
 
 def user_dir() -> Path:
@@ -45,10 +56,18 @@ def save(auto, path) -> Path:
     return path
 
 
+def save_template(auto, name, lang="en") -> Path:
+    """Keep `auto` as a user template called `name`; a name that a template already has is refused."""
+    if any(text(a["name"], lang).casefold() == name.casefold() for a in available() if a["template"]):
+        raise ValueError(f"a template named {name} exists")
+    file = "".join(c if c.isalnum() or c in "-_" else "_" for c in name).strip("_") or "template"
+    return save({**auto, "name": name}, user_dir() / "templates" / f"{file}.json")
+
+
 def available() -> list[dict]:
-    """Ready templates, then the user's own automations (a broken file is skipped, never fatal)."""
+    """Ready templates (shipped, then the user's), then the user's automations (a broken file is skipped)."""
     found = []
-    for folder, template in ((TEMPLATES, True), (user_dir(), False)):
+    for folder, template in ((TEMPLATES, True), (user_dir() / "templates", True), (user_dir(), False)):
         for p in sorted(folder.glob("*.json")) if folder.is_dir() else ():
             try:
                 found.append(load(p) | {"template": template})
@@ -120,7 +139,7 @@ def calls(auto, inputs):
         s = steps.get(entry["step"])
         links, each = entry.get("inputs", {}), entry.get("each")
         items = _value(data, links.get(each, each), None) if each else [None]
-        collected = {}
+        collected, skipped = {}, False
         for item in items:
             stem = Path(str(item)).name.split(".")[0] if each else ""
             args = {}
@@ -131,11 +150,19 @@ def calls(auto, inputs):
                 elif "{" in link or link.split(".")[0] in data:
                     args[name] = _value(data, link, stem)
             out = yield entry["step"], args, entry.get("params", {})
+            if isinstance(out, Failed):
+                mode = entry.get("on_error", "stop")
+                if mode == "stop":
+                    raise out.error if isinstance(out.error, Exception) else ValueError(out.error)
+                skipped = mode == "skip"
+                if skipped:
+                    break
+                continue
             for key, value in out.items():
                 collected.setdefault(key, []).append(value)
             if not each:
                 collected = out
-        data.update(collected)
+        data.update({} if skipped else collected)
     return data
 
 
@@ -145,7 +172,11 @@ def run(engine, auto, inputs) -> dict:
     call = next(gen)
     try:
         while True:
-            call = gen.send(engine.run_step(*call).result())
+            try:
+                out = engine.run_step(*call).result()
+            except TaskFailed as e:
+                out = Failed(e)
+            call = gen.send(out)
     except StopIteration as stop:
         return stop.value
 

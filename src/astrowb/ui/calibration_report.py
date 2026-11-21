@@ -3,9 +3,10 @@
 the task sent them (the phases, with the time and the share done)."""
 
 import time
+from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication, Qt
-from PySide6.QtWidgets import QPlainTextEdit
+from PySide6.QtWidgets import QPlainTextEdit, QPushButton
 
 translate = QCoreApplication.translate
 
@@ -19,6 +20,15 @@ def _view():
 
 def make(page):
     page.report_view, page.log_view = _view(), _view()
+    page.save_report_button = QPushButton(translate("CalibrationWindow", "Save report…"))
+    page.save_report_button.setToolTip(
+        translate(
+            "CalibrationWindow",
+            "Writes the report as a text file. After each run the report is also written to "
+            "calibration_report.txt in the output folder, over the previous run's file.",
+        )
+    )
+    page.save_report_button.clicked.connect(lambda: save_dialog(page))
     page.result_shown.connect(lambda out: show_report(page, out))
     show_report(page, None)
 
@@ -66,3 +76,34 @@ def log_update(page, task):
     if line != getattr(page, "_log_last", None):
         page._log_last = line
         page.log_view.appendPlainText(f"{time.strftime('%H:%M:%S')}  {line}")
+
+
+FILE = "calibration_report.txt"
+
+
+def save_file(path, page):
+    """Write the report as shown to `path`; False when the place cannot be written."""
+    try:
+        Path(path).write_text(page.report_view.toPlainText() + "\n", encoding="utf-8")
+    except OSError:
+        return False
+    return True
+
+
+def save_dialog(page):
+    from PySide6.QtWidgets import QFileDialog
+
+    path, _ = QFileDialog.getSaveFileName(page, translate("CalibrationWindow", "Save report"), FILE, "Text (*.txt)")
+    if path and not save_file(path, page):
+        page.review_status.setText(
+            translate("CalibrationWindow", "The report could not be written to {path}.").format(path=path)
+        )
+
+
+def save_beside_frames(page, output_dir):
+    """After a run: the report goes into the output folder, over the previous run's file; the Review line says so."""
+    path = Path(output_dir) / FILE
+    if output_dir and save_file(path, page):
+        page.review_status.setText(translate("CalibrationWindow", "Report written to {path}.").format(path=path))
+        return path
+    return None

@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..engine import automation, steps
+from .automation_error import show_on_error
 from .automation_run import connect_chain, run_state, show_badges
 from .kit.focus import read_in_order
 from .kit.table_view import DataTable
@@ -248,9 +249,18 @@ class AutomationPage(QWidget):
                       *(f.widget() for f in fields),
                       self.run_button, self.sequence_button, self.after_night, self.result)  # fmt: skip
 
-    def add_step(self, step_id):
-        self.auto["steps"].append({"step": step_id})
-        self._fill_steps(len(self.auto["steps"]) - 1)
+    def add_step(self, step_id, at=None):
+        at = len(self.auto["steps"]) if at is None else at
+        self.auto["steps"].insert(at, {"step": step_id})
+        self._fill_steps(at)
+
+    def _reorder(self, row, at):
+        """The card `row` dropped before the card now at `at`."""
+        s = self.auto["steps"]
+        at -= at > row  # the card leaves its old place first
+        if 0 <= row < len(s) and at != row:
+            s.insert(at, s.pop(row))
+            self._fill_steps(at)
 
     def _remove(self):
         r = self.steps.currentRow()
@@ -286,6 +296,7 @@ class AutomationPage(QWidget):
                 t.setItem(r, 0, label)
                 t.setItem(r, 1, QTableWidgetItem(value))
         t.blockSignals(False)
+        show_on_error(self, self.auto["steps"][row] if 0 <= row < len(self.auto["steps"]) else None)
         self._show_form(row)
 
     def _show_form(self, row):
