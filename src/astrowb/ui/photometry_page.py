@@ -38,6 +38,7 @@ from . import automatic, comparison_rules, photometry_figures, photometry_standa
 from .aavso_dialog import AavsoDialog, from_sequence
 from .kit import tokens
 from .kit.help import help_line
+from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
 from .messages import translate
 from .multiplot_rows import detrended, multi_rows, restore_detrend, with_detrend_menu
@@ -209,8 +210,9 @@ class PhotometryPage(Undoable, QWidget):
         self.use_frame.toggled.connect(self._use_frame)
         self.sections[0].body.addWidget(self.use_frame)
         # every frame in a list, as MaxIm DL shows them: click one to see it, untick to leave it out
-        self.frame_table = QTableWidget(0, 4, self)
-        self.frame_table.setHorizontalHeaderLabels([self.tr("Frame"), self.tr("Time (UTC)"), "FWHM", self.tr("Sky")])
+        frames = DataTable(self)
+        frames.prepare([self.tr("Frame"), self.tr("Time (UTC)"), "FWHM", self.tr("Sky")])
+        self.frame_table = frames.table
         self.frame_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.frame_table.horizontalHeader().setStretchLastSection(True)
         self.frame_table.verticalHeader().setDefaultSectionSize(20)
@@ -229,7 +231,7 @@ class PhotometryPage(Undoable, QWidget):
             lambda row, *_: self.frame_slider.setValue(row) if row >= 0 else None
         )
         self.frame_table.itemChanged.connect(self._frame_checked)
-        self.sections[0].body.addWidget(self.frame_table)
+        self.sections[0].body.addWidget(frames)
         self.blink = QPushButton(self.tr("Blink"), self)
         self.blink.setCheckable(True)
         self.blink.setToolTip(
@@ -546,10 +548,11 @@ class PhotometryPage(Undoable, QWidget):
         # stars: roles, typed-in comparison magnitudes, weights
         stars_tab = QWidget(self)
         sl = QVBoxLayout(stars_tab)
-        self.star_table = QTableWidget(0, 6, self)
-        self.star_table.setHorizontalHeaderLabels(
+        stars = DataTable(self)
+        stars.prepare(
             [self.tr("Star"), self.tr("Role"), "x", "y", self.tr("Known magnitude"), self.tr("Scatter (mmag)")]
         )
+        self.star_table = stars.table
         self.star_table.horizontalHeader().setStretchLastSection(True)
         for col in (0, 1, 2, 3, 4, 5):  # every header readable; the table scrolls sideways if narrow
             self.star_table.horizontalHeader().setSectionResizeMode(col, QHeaderView.ResizeToContents)
@@ -563,7 +566,7 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         self.star_table.itemChanged.connect(self._star_item_changed)
-        sl.addWidget(self.star_table, 1)
+        sl.addWidget(stars, 1)
         self.weighted = QCheckBox(self.tr("Weight comparison stars by their scatter"), self)
         self.weighted.setToolTip(
             self.tr("Each comparison star is measured against the others; noisy or variable ones count less")
@@ -2287,13 +2290,16 @@ class PhotometryPage(Undoable, QWidget):
         self.meas_export.clicked.connect(lambda: self.export_measurements())
         row.addWidget(self.meas_export)
         lay.addLayout(row)
-        self.meas_table = QTableWidget(0, 0, self)
+        meas = DataTable(self)
+        meas.prepare([])
+        self.meas_table = meas.table
+        self.meas_table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.meas_table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.meas_table.setSelectionBehavior(QTableWidget.SelectRows)
         self.meas_table.setSortingEnabled(True)
         self.meas_table.setToolTip(self.tr("Click a row to show that frame; Ctrl+C copies the selected rows"))
         self.meas_table.cellClicked.connect(self._measurement_row)
-        lay.addWidget(self.meas_table, 1)
+        lay.addWidget(meas, 1)
         self.meas_note = QLabel(self)
         self.meas_note.setWordWrap(True)
         lay.addWidget(self.meas_note)

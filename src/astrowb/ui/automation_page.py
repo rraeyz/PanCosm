@@ -15,7 +15,6 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QFormLayout,
     QHBoxLayout,
-    QHeaderView,
     QInputDialog,
     QLabel,
     QLineEdit,
@@ -23,7 +22,6 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton,
     QSplitter,
-    QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
     QWidget,
@@ -31,6 +29,7 @@ from PySide6.QtWidgets import (
 
 from ..engine import automation, steps
 from .kit.focus import read_in_order
+from .kit.table_view import DataTable
 from .kit.widgets import _title
 from .messages import translate
 from .names import setting_name
@@ -133,12 +132,12 @@ class AutomationPage(QWidget):
         hint = QLabel(self.tr("Settings of the selected step (input ← data name, or a value)"), self)
         hint.setWordWrap(True)
         rl.addWidget(hint)
-        self.settings_table = QTableWidget(0, 2, self)
-        self.settings_table.setHorizontalHeaderLabels([self.tr("Setting"), self.tr("Value")])
-        self.settings_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        frame = DataTable(self)
+        frame.prepare([self.tr("Setting"), self.tr("Value")])
+        self.settings_table = frame.table
         self.settings_table.verticalHeader().hide()
         self.settings_table.itemChanged.connect(self._setting_changed)
-        rl.addWidget(self.settings_table, 1)
+        rl.addWidget(frame, 1)
         rl.addWidget(QLabel(self.tr("Inputs"), self))
         self.form = QFormLayout()
         self.form.setRowWrapPolicy(QFormLayout.WrapAllRows)  # long labels above their fields
@@ -242,8 +241,9 @@ class AutomationPage(QWidget):
         self._fill_inputs()
         fields = [w for i in range(self.form.rowCount())
                   for w in map(self.form.itemAt(i, QFormLayout.FieldRole).layout().itemAt, (0, 1)) if w]  # fmt: skip
-        read_in_order(self.steps, self.step_choice, self.add_button, *self.step_buttons, self.settings_table,
-                      *([self.step_form] if self.step_form else []), *(f.widget() for f in fields),
+        read_in_order(self.steps, self.step_choice, self.add_button, *self.step_buttons,
+                      self.settings_table.parentWidget(), *([self.step_form] if self.step_form else []),
+                      *(f.widget() for f in fields),
                       self.run_button, self.sequence_button, self.after_night, self.result)  # fmt: skip
 
     def add_step(self, step_id):
@@ -302,8 +302,9 @@ class AutomationPage(QWidget):
         self.step_form = StepForm(s, self)
         self.step_form.set_values(entry.get("params", {}))
         self.step_form.changed.connect(lambda: self._form_changed(entry, s))
-        lay = self.settings_table.parentWidget().layout()  # the form goes under the table
-        lay.insertWidget(lay.indexOf(self.settings_table) + 1, self.step_form)
+        frame = self.settings_table.parentWidget()  # the form goes under the table
+        lay = frame.parentWidget().layout()
+        lay.insertWidget(lay.indexOf(frame) + 1, self.step_form)
 
     def _form_changed(self, entry, s):
         """The form's values kept in the automation: those that differ from the step's defaults."""

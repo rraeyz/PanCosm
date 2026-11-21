@@ -345,7 +345,7 @@ def _photometry_stages(win, page):
         main.setProperty("primary", True)
         main.style().polish(main)  # fmt: skip
     # the frame list: a results tab beside the light curve, Stars and Measurements (UI-16.1), not in the Images stage
-    page.res_tabs.addTab(page.frame_table, translate("MainWindow", "Frames"))
+    page.res_tabs.addTab(page.frame_table.parent(), translate("MainWindow", "Frames"))
     from .photometry_checks import ChecksTab
 
     page.checks = ChecksTab(page)  # PHO-33: the night's flags, refreshed with every light curve
