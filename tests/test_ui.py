@@ -1382,9 +1382,10 @@ def test_photometry_lives_in_a_window_of_its_own(window, qtbot, fits_file):
     assert win.stage_panels["timing"].isAncestorOf(window.photometry_page.minimum_button)
     assert win.stage_panels["images"].isAncestorOf(window.photometry_page.load_button)  # the steps as stages
     assert window.pages.currentWidget() is not window._frames[window.photometry_page]  # not in the main window
+    before = [w for w in AreaWindow.shown() if w.key == "photometry"]  # an earlier test's window may linger (macOS)
     window._show_key("photometry")  # the sidebar
     window.open_area("photometry")  # a start block
-    assert [w for w in AreaWindow.shown() if w.key == "photometry"] == [win]
+    assert win in before and [w for w in AreaWindow.shown() if w.key == "photometry"] == before
     sent = window.send_to_photometry([str(fits_file)])
     assert sent and window.photometry_page.images == [str(fits_file)] and win.isVisible()
     assert win.undo_action.text().startswith("&Undo") or win.undo_stack is window.photometry_page.undo_stack
