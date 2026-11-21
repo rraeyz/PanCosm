@@ -633,9 +633,11 @@ a click shows a frame's median, noise, min, max, saturated share, "Leave out the
 Masters = the masters to make and "Choose the masters by hand…"; Review = the masters' quality table (CAL-6, amber
 where a check fails) and the frames left out with reasons; the Plan result tab: per filter and exposure of the lights
 the bias, dark and flat each gets (automatic shows the match, each cell a choice kept in `master_choices`, missing
-pieces in amber with what is done instead); test_the_calibration_check_masters_plan_and_review. Left: the image
-preview and histogram beside the groups, the before / after blink in Review, the Problems / Report / Log result
-tabs, threaded statistics, the Continue cards, the three-clicks walk on the practice night)
+pieces in amber with what is done instead); test_the_calibration_check_masters_plan_and_review. (2026-11-21) `ui/calibration_preview.py`: Check shows the clicked frame's image and histogram (`FramePreview`, read
+on click, on the UI thread, below the groups, errors by `messages.translate`); Review has the Raw / Calibrated / Blink
+pane (`BeforeAfter`, `pair_of`: a calibrated file is named after its light); the Problems result tab mirrors the frames
+list's note box; test_the_calibration_preview_and_blink. Left: the Report / Log result tabs (the run's result has no
+step log or report text to show), threaded statistics, the Continue cards, the three-clicks walk on the practice night)
 ```
 1 Frames        Frames of the night            ?       ┌ groups ─────────────────────┬ preview ─────────┐
 2 Check  ●      [ Add folders… ] (drop here)           │ ▾ Bias  20  1×1  −10 °C     │  selected frame  │
@@ -821,7 +823,7 @@ rail            stage panel (example: 2 Targets)            main                
 - **Files:** `ui/observing/` (see OBS-W)
 
 #### UI-16.10 Images
-**partial** — done (2026-11-21): the window on the anatomy, no rail (`ui/image_stages.py::image_anatomy`): the image with its tool rows is the main view, the open images are the file strip at the left (a dock, shown when more than one is open, F9-style hide), the header, Information and Graph tabs are the inspector at the right (F10), Tab follows the screen; every menu, toolbar button and option kept; `test_every_moved_area_opens_in_its_own_window`, `test_borders_drag_and_the_image_follows_the_window`, gallery clean in en/tr/de/es. Left: thumbnails-or-list switch, multi-selection, filter line and "Follow a folder" in the strip; the Levels, Layers and History inspector tabs (Levels, overlays and history are still their dialogs and menus); the table / Sources result tabs under the image; processing forms in the inspector (still dialogs); the empty state with "Open the practice night"; the guide chapter and screenshots.
+**partial** — done (2026-11-21): the window on the anatomy, no rail (`ui/image_stages.py::image_anatomy`): the image with its tool rows is the main view, the open images are the file strip at the left (a dock, shown when more than one is open, F9-style hide), the header, Information and Graph tabs are the inspector at the right (F10), Tab follows the screen; every menu, toolbar button and option kept; `test_every_moved_area_opens_in_its_own_window`, `test_borders_drag_and_the_image_follows_the_window`, gallery clean in en/tr/de/es. more done (2026-11-21, `ui/image_inspector.py`): the empty state (`empty_state`: Open images…, Open the practice night; shown while the viewer has no image), the Levels (the `LevelsDialog` class as a panel), Layers (`LayersList`, check box per overlay) and History (`QUndoView` on the page's undo stack) inspector tabs (dialogs and menus kept), the strip's filter line and multi-selection (`file_strip`; Stack uses two or more selected files); `test_every_moved_area_opens_in_its_own_window`. Left: thumbnails-or-list switch and "Follow a folder" in the strip; the other per-file actions on a selection; layer opacity; the table / Sources result tabs under the image; processing forms in the inspector (still dialogs); the guide chapter and screenshots.
 ```
 ┌ toolbar: [Open][Save] │ [◀][▶][Blink] │ [Fit][+][−][1:1] │ tools: [Pan][Star][Region ▾][Ruler][Cut] │ [Levels][Layers][N↑] ┐
 │ file strip        │ image (ImageView): tabs or 1–9 tiles, locked by pixel or sky     │ inspector tabs:              │

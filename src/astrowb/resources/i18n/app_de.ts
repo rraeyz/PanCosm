@@ -1071,27 +1071,27 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="282"/>
+        <location filename="../../ui/stage_boxes.py" line="283"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="282"/>
+        <location filename="../../ui/stage_boxes.py" line="283"/>
         <source>Solve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="283"/>
+        <location filename="../../ui/stage_boxes.py" line="284"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="283"/>
+        <location filename="../../ui/stage_boxes.py" line="284"/>
         <source>Measure</source>
         <translation>Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="284"/>
+        <location filename="../../ui/stage_boxes.py" line="285"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2193,171 +2193,171 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="53"/>
+        <location filename="../../ui/calibration_checks.py" line="54"/>
         <source>Check the frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="55"/>
+        <location filename="../../ui/calibration_checks.py" line="56"/>
         <source>Reads the middle of every frame and marks the ones that stand apart from their group: another level or noise, a flat outside 20–80 % of saturation. Nothing is changed until you leave them out.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="61"/>
+        <location filename="../../ui/calibration_checks.py" line="62"/>
         <source>Leave out the marked frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="63"/>
+        <location filename="../../ui/calibration_checks.py" line="64"/>
         <source>Removes the marked frames from the list (Ctrl+Z brings them back)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="67"/>
+        <location filename="../../ui/calibration_checks.py" line="68"/>
         <source>Groups of frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="75"/>
+        <location filename="../../ui/calibration_checks.py" line="83"/>
         <source>Calibrate to see how good the masters are.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="79"/>
-        <location filename="../../ui/calibration_checks.py" line="287"/>
+        <location filename="../../ui/calibration_checks.py" line="88"/>
+        <location filename="../../ui/calibration_checks.py" line="302"/>
         <source>Master</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="80"/>
-        <location filename="../../ui/calibration_checks.py" line="288"/>
+        <location filename="../../ui/calibration_checks.py" line="89"/>
+        <location filename="../../ui/calibration_checks.py" line="303"/>
         <location filename="../../ui/stage_boxes.py" line="187"/>
         <source>Check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="81"/>
-        <location filename="../../ui/calibration_checks.py" line="289"/>
+        <location filename="../../ui/calibration_checks.py" line="90"/>
+        <location filename="../../ui/calibration_checks.py" line="304"/>
         <source>Value</source>
         <translation type="unfinished">Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="95"/>
+        <location filename="../../ui/calibration_checks.py" line="108"/>
         <source>bias</source>
         <translation type="unfinished">Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="96"/>
+        <location filename="../../ui/calibration_checks.py" line="109"/>
         <source>dark</source>
         <translation type="unfinished">Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="97"/>
+        <location filename="../../ui/calibration_checks.py" line="110"/>
         <source>flat</source>
         <translation type="unfinished">Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="120"/>
+        <location filename="../../ui/calibration_checks.py" line="133"/>
         <source>{n} groups of frames.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="138"/>
+        <location filename="../../ui/calibration_checks.py" line="151"/>
         <source>Master {kind}: {n} to make from {m} frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="141"/>
+        <location filename="../../ui/calibration_checks.py" line="154"/>
         <source>Scan the frames to see the masters to make.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="171"/>
+        <location filename="../../ui/calibration_checks.py" line="184"/>
         <source>{n} frames stand apart from their group.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="188"/>
+        <location filename="../../ui/calibration_checks.py" line="203"/>
         <source>median {median:.1f}, noise {noise:.2f}, min {min:.0f}, max {max:.0f}, saturated {sat:.1%}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="200"/>
+        <location filename="../../ui/calibration_checks.py" line="215"/>
         <source>leave out the marked frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="204"/>
+        <location filename="../../ui/calibration_checks.py" line="219"/>
         <source>Left out:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="229"/>
+        <location filename="../../ui/calibration_checks.py" line="244"/>
         <source>Filter</source>
         <translation type="unfinished">Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="230"/>
+        <location filename="../../ui/calibration_checks.py" line="245"/>
         <source>Exposure (s)</source>
         <translation type="unfinished">Belichtung (s)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="231"/>
+        <location filename="../../ui/calibration_checks.py" line="246"/>
         <source>Lights</source>
         <translation type="unfinished">Lights</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="233"/>
+        <location filename="../../ui/calibration_checks.py" line="248"/>
         <source>Missing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="245"/>
+        <location filename="../../ui/calibration_checks.py" line="260"/>
         <source>automatic</source>
         <translation type="unfinished">automatisch</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="249"/>
+        <location filename="../../ui/calibration_checks.py" line="264"/>
         <source>none</source>
         <translation type="unfinished">keine</translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="273"/>
+        <location filename="../../ui/calibration_checks.py" line="288"/>
         <source>noise beyond averaging (ADU)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="274"/>
+        <location filename="../../ui/calibration_checks.py" line="289"/>
         <source>row or column banding (ADU)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="275"/>
+        <location filename="../../ui/calibration_checks.py" line="290"/>
         <source>hot pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="276"/>
+        <location filename="../../ui/calibration_checks.py" line="291"/>
         <source>input flat level (share of full well)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="277"/>
+        <location filename="../../ui/calibration_checks.py" line="292"/>
         <source>dust shadow depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="296"/>
+        <location filename="../../ui/calibration_checks.py" line="311"/>
         <source>not as good as it should be</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="299"/>
+        <location filename="../../ui/calibration_checks.py" line="317"/>
         <source>{n} checks, {m} in amber.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibration_checks.py" line="300"/>
+        <location filename="../../ui/calibration_checks.py" line="318"/>
         <source>No quality checks were made.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2384,6 +2384,56 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/stage_boxes.py" line="196"/>
         <source>Plan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/stage_boxes.py" line="197"/>
+        <source>Problems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="51"/>
+        <source>Counts</source>
+        <translation type="unfinished">Zählwerte</translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="51"/>
+        <source>Number of pixels</source>
+        <translation type="unfinished">Anzahl der Pixel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="68"/>
+        <source>Raw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="69"/>
+        <source>Calibrated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="70"/>
+        <source>Blink</source>
+        <translation type="unfinished">Blinken</translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="72"/>
+        <source>Shows the raw and the calibrated frame in turn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="97"/>
+        <source>Calibrate to blink a light before and after.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="114"/>
+        <source>Calibrated: {name}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/calibration_preview.py" line="116"/>
+        <source>Raw: {name}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4906,8 +4956,58 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>ImageWindow</name>
     <message>
-        <location filename="../../ui/image_stages.py" line="21"/>
+        <location filename="../../ui/image_stages.py" line="25"/>
         <source>Open images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="34"/>
+        <source>No overlays on this image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="48"/>
+        <source>Levels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="49"/>
+        <source>Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="50"/>
+        <source>History</source>
+        <translation type="unfinished">Verlauf</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="72"/>
+        <source>Filter by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="73"/>
+        <source>Shows only the open images whose name contains this text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="93"/>
+        <source>No images yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="94"/>
+        <source>Open FITS files to look at them, measure stars and read their headers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="95"/>
+        <source>Open images…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_inspector.py" line="96"/>
+        <source>Open the practice night</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5052,17 +5152,17 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="342"/>
+        <location filename="../../ui/main_window.py" line="338"/>
         <source>Tour of this window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="96"/>
+        <location filename="../../ui/area_menus.py" line="98"/>
         <source>Calibrate</source>
         <translation>Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="105"/>
+        <location filename="../../ui/area_menus.py" line="107"/>
         <source>Photometry</source>
         <translation>Photometrie</translation>
     </message>
@@ -5609,8 +5709,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="231"/>
-        <location filename="../../ui/area_menus.py" line="257"/>
+        <location filename="../../ui/area_menus.py" line="232"/>
+        <location filename="../../ui/area_menus.py" line="258"/>
         <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
         <source>Export</source>
@@ -5637,7 +5737,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Die nächsten Klicks ins Bild markieren Prüfsterne (K1, K2…)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="110"/>
+        <location filename="../../ui/area_menus.py" line="112"/>
         <location filename="../../ui/area_windows.py" line="633"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
@@ -5648,7 +5748,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Sterne</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="454"/>
+        <location filename="../../ui/area_menus.py" line="455"/>
         <location filename="../../ui/area_windows.py" line="542"/>
         <location filename="../../ui/area_windows.py" line="674"/>
         <source>&amp;Analyse</source>
@@ -5705,8 +5805,8 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Header kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="243"/>
-        <location filename="../../ui/area_menus.py" line="262"/>
+        <location filename="../../ui/area_menus.py" line="244"/>
+        <location filename="../../ui/area_menus.py" line="263"/>
         <location filename="../../ui/area_menus.py" line="510"/>
         <location filename="../../ui/area_menus.py" line="567"/>
         <location filename="../../ui/area_windows.py" line="99"/>
@@ -5714,311 +5814,311 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="91"/>
+        <location filename="../../ui/area_menus.py" line="93"/>
         <source>Lights folder…</source>
         <translation>Ordner der Lights…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="55"/>
+        <location filename="../../ui/area_menus.py" line="57"/>
         <source>Measure the camera…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="69"/>
+        <location filename="../../ui/area_menus.py" line="71"/>
         <source>Edit the headers of many files…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="92"/>
+        <location filename="../../ui/area_menus.py" line="94"/>
         <source>Lights</source>
         <translation>Lights</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="94"/>
+        <location filename="../../ui/area_menus.py" line="96"/>
         <source>Calibration frames folder…</source>
         <translation>Ordner der Kalibrierbilder…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="99"/>
+        <location filename="../../ui/area_menus.py" line="101"/>
         <source>Stack into one deep picture</source>
         <translation>Zu einem tiefen Bild stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="100"/>
+        <location filename="../../ui/area_menus.py" line="102"/>
         <source>Stack</source>
         <translation>Stapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="104"/>
+        <location filename="../../ui/area_menus.py" line="106"/>
         <source>Send to Photometry →</source>
         <translation>An die Photometrie senden →</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="123"/>
+        <location filename="../../ui/area_menus.py" line="125"/>
         <source>&amp;Masters</source>
         <translation>&amp;Master</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="133"/>
+        <location filename="../../ui/area_menus.py" line="135"/>
         <source>&amp;Process</source>
         <translation>&amp;Verarbeiten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="136"/>
-        <location filename="../../ui/area_menus.py" line="185"/>
+        <location filename="../../ui/area_menus.py" line="138"/>
+        <location filename="../../ui/area_menus.py" line="186"/>
         <source>Se&amp;nd</source>
         <translation>&amp;Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="160"/>
-        <location filename="../../ui/area_menus.py" line="223"/>
+        <location filename="../../ui/area_menus.py" line="161"/>
+        <location filename="../../ui/area_menus.py" line="224"/>
         <source>Load</source>
         <translation>Laden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="164"/>
+        <location filename="../../ui/area_menus.py" line="165"/>
         <source>Download a light curve (TESS, Kepler, ZTF, AAVSO)</source>
         <translation>Eine Lichtkurve herunterladen (TESS, Kepler, ZTF, AAVSO)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="165"/>
+        <location filename="../../ui/area_menus.py" line="166"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="167"/>
+        <location filename="../../ui/area_menus.py" line="168"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="168"/>
+        <location filename="../../ui/area_menus.py" line="169"/>
         <source>Period search</source>
         <translation>Periodensuche</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="174"/>
+        <location filename="../../ui/area_menus.py" line="175"/>
         <source>&amp;Data</source>
         <translation>Da&amp;ten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="184"/>
+        <location filename="../../ui/area_menus.py" line="185"/>
         <source>Se&amp;arch</source>
         <translation>Su&amp;che</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="190"/>
+        <location filename="../../ui/area_menus.py" line="191"/>
         <source>&amp;Light curve</source>
         <translation>&amp;Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="222"/>
+        <location filename="../../ui/area_menus.py" line="223"/>
         <source>Load minimum times…</source>
         <translation>Minimumszeiten laden…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="227"/>
+        <location filename="../../ui/area_menus.py" line="228"/>
         <source>Look up the ephemeris (VSX)</source>
         <translation>Die Ephemeride nachschlagen (VSX)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="228"/>
+        <location filename="../../ui/area_menus.py" line="229"/>
         <source>Look up</source>
         <translation>Nachschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="230"/>
-        <location filename="../../ui/area_menus.py" line="256"/>
+        <location filename="../../ui/area_menus.py" line="231"/>
+        <location filename="../../ui/area_menus.py" line="257"/>
         <location filename="../../ui/area_menus.py" line="494"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="239"/>
+        <location filename="../../ui/area_menus.py" line="240"/>
         <source>&amp;Models</source>
         <translation>&amp;Modelle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="280"/>
+        <location filename="../../ui/area_menus.py" line="281"/>
         <source>Add target</source>
         <translation>Ziel hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="283"/>
+        <location filename="../../ui/area_menus.py" line="284"/>
         <source>Add target with ephemeris</source>
         <translation>Ziel mit Ephemeride hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="284"/>
+        <location filename="../../ui/area_menus.py" line="285"/>
         <source>With ephemeris</source>
         <translation>Mit Ephemeride</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="288"/>
+        <location filename="../../ui/area_menus.py" line="289"/>
         <source>Send</source>
         <translation>Senden</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="292"/>
+        <location filename="../../ui/area_menus.py" line="293"/>
         <source>Import targets from CSV…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="293"/>
+        <location filename="../../ui/area_menus.py" line="294"/>
         <source>Save the list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="294"/>
+        <location filename="../../ui/area_menus.py" line="295"/>
         <source>Open a saved list…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="295"/>
+        <location filename="../../ui/area_menus.py" line="296"/>
         <source>What can I observe tonight?…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="296"/>
+        <location filename="../../ui/area_menus.py" line="297"/>
         <source>Gaia alerts tonight…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="303"/>
+        <location filename="../../ui/area_menus.py" line="304"/>
         <source>&amp;Targets</source>
         <translation>&amp;Ziele</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="306"/>
+        <location filename="../../ui/area_menus.py" line="307"/>
         <source>&amp;Night</source>
         <translation>&amp;Nacht</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="338"/>
+        <location filename="../../ui/area_menus.py" line="339"/>
         <source>Cooler off</source>
         <translation>Kühlung aus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="339"/>
+        <location filename="../../ui/area_menus.py" line="340"/>
         <source>Move the focuser</source>
         <translation>Fokussierer bewegen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="340"/>
+        <location filename="../../ui/area_menus.py" line="341"/>
         <source>Change the filter</source>
         <translation>Filter wechseln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="341"/>
+        <location filename="../../ui/area_menus.py" line="342"/>
         <source>Cool the camera</source>
         <translation>Kamera kühlen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="347"/>
+        <location filename="../../ui/area_menus.py" line="348"/>
         <source>&amp;Devices</source>
         <translation>&amp;Geräte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="349"/>
+        <location filename="../../ui/area_menus.py" line="350"/>
         <source>&amp;Telescope</source>
         <translation>&amp;Teleskop</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="353"/>
+        <location filename="../../ui/area_menus.py" line="354"/>
         <source>&amp;Camera</source>
         <translation>&amp;Kamera</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="356"/>
+        <location filename="../../ui/area_menus.py" line="357"/>
         <source>F&amp;ocus</source>
         <translation>F&amp;okus</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="357"/>
+        <location filename="../../ui/area_menus.py" line="358"/>
         <source>F&amp;lats</source>
         <translation>F&amp;lats</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="359"/>
+        <location filename="../../ui/area_menus.py" line="360"/>
         <source>&amp;Sequence</source>
         <translation>&amp;Sequenz</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="405"/>
+        <location filename="../../ui/area_menus.py" line="406"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="406"/>
+        <location filename="../../ui/area_menus.py" line="407"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="410"/>
+        <location filename="../../ui/area_menus.py" line="411"/>
         <source>Save the automation as…</source>
         <translation>Automatisierung speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="411"/>
+        <location filename="../../ui/area_menus.py" line="412"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="419"/>
+        <location filename="../../ui/area_menus.py" line="420"/>
         <source>Remove the step</source>
         <translation>Schritt entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="420"/>
+        <location filename="../../ui/area_menus.py" line="421"/>
         <source>Move the step up</source>
         <translation>Schritt nach oben</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="421"/>
+        <location filename="../../ui/area_menus.py" line="422"/>
         <source>Move the step down</source>
         <translation>Schritt nach unten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="428"/>
+        <location filename="../../ui/area_menus.py" line="429"/>
         <source>Run the automation</source>
         <translation>Automatisierung ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="429"/>
+        <location filename="../../ui/area_menus.py" line="430"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="432"/>
+        <location filename="../../ui/area_menus.py" line="433"/>
         <source>To Observing</source>
         <translation>Zum Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="436"/>
+        <location filename="../../ui/area_menus.py" line="437"/>
         <source>&amp;Steps</source>
         <translation>&amp;Schritte</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="437"/>
+        <location filename="../../ui/area_menus.py" line="438"/>
         <source>&amp;Run</source>
         <translation>A&amp;usführen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="449"/>
+        <location filename="../../ui/area_menus.py" line="450"/>
         <source>Compute</source>
         <translation>Berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="450"/>
+        <location filename="../../ui/area_menus.py" line="451"/>
         <source>Compute the band formula</source>
         <translation>Bandformel berechnen</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="451"/>
+        <location filename="../../ui/area_menus.py" line="452"/>
         <source>Classify</source>
         <translation>Klassifizieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="452"/>
+        <location filename="../../ui/area_menus.py" line="453"/>
         <source>Components</source>
         <translation>Komponenten</translation>
     </message>
@@ -6048,7 +6148,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Visuelle Bahn</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="260"/>
+        <location filename="../../ui/area_menus.py" line="261"/>
         <location filename="../../ui/area_menus.py" line="502"/>
         <source>F&amp;it</source>
         <translation>An&amp;passen</translation>
@@ -6139,12 +6239,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Auf&amp;gabe</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="334"/>
+        <location filename="../../ui/main_window.py" line="330"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="335"/>
+        <location filename="../../ui/main_window.py" line="331"/>
         <source>Copies the selected cells or text</source>
         <translation>Kopiert die markierten Zellen oder den Text</translation>
     </message>
@@ -6470,7 +6570,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="23"/>
-        <location filename="../../ui/main_window.py" line="341"/>
+        <location filename="../../ui/main_window.py" line="337"/>
         <source>&amp;Full tour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6616,7 +6716,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="436"/>
+        <location filename="../../ui/image_actions.py" line="437"/>
         <source>Open two or more images to stack them.</source>
         <translation>Zum Stapeln zwei oder mehr Bilder öffnen.</translation>
     </message>
@@ -6794,12 +6894,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     <message>
         <location filename="../../ui/file_actions.py" line="171"/>
         <location filename="../../ui/image_actions.py" line="91"/>
-        <location filename="../../ui/image_actions.py" line="442"/>
+        <location filename="../../ui/image_actions.py" line="443"/>
         <source>Save FITS as</source>
         <translation>FITS speichern unter</translation>
     </message>
     <message>
-        <location filename="../../ui/area_menus.py" line="238"/>
+        <location filename="../../ui/area_menus.py" line="239"/>
         <source>E&amp;phemeris</source>
         <translation>&amp;Ephemeride</translation>
     </message>
@@ -6941,12 +7041,12 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Installieren Sie ASTAP und eine seiner Sterndatenbanken (hnsky.org/astap.htm) oder astrometry.net und versuchen Sie es erneut. Nichts wird über das Internet gesendet.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="466"/>
+        <location filename="../../ui/image_actions.py" line="467"/>
         <source>Stack written: {path}</source>
         <translation>Stapel geschrieben: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="474"/>
+        <location filename="../../ui/image_actions.py" line="475"/>
         <source>value</source>
         <translation>Wert</translation>
     </message>
@@ -9439,17 +9539,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>ModelsWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="210"/>
+        <location filename="../../ui/stage_boxes.py" line="211"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="210"/>
+        <location filename="../../ui/stage_boxes.py" line="211"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="211"/>
+        <location filename="../../ui/stage_boxes.py" line="212"/>
         <source>Fit</source>
         <translation>Anpassen</translation>
     </message>
@@ -10404,7 +10504,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="127"/>
-        <location filename="../../ui/stage_boxes.py" line="271"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -10525,7 +10625,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="200"/>
-        <location filename="../../ui/stage_boxes.py" line="272"/>
+        <location filename="../../ui/stage_boxes.py" line="273"/>
         <source>Sequence</source>
         <translation>Sequenz</translation>
     </message>
@@ -11032,17 +11132,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Folge laden</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="271"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="272"/>
+        <location filename="../../ui/stage_boxes.py" line="273"/>
         <source>Focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="273"/>
+        <location filename="../../ui/stage_boxes.py" line="274"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11776,17 +11876,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="235"/>
+        <location filename="../../ui/stage_boxes.py" line="236"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="235"/>
+        <location filename="../../ui/stage_boxes.py" line="236"/>
         <source>Clean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="236"/>
+        <location filename="../../ui/stage_boxes.py" line="237"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
@@ -16534,22 +16634,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="251"/>
+        <location filename="../../ui/stage_boxes.py" line="252"/>
         <source>Scene</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="252"/>
+        <location filename="../../ui/stage_boxes.py" line="253"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="253"/>
+        <location filename="../../ui/stage_boxes.py" line="254"/>
         <source>Indices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="254"/>
+        <location filename="../../ui/stage_boxes.py" line="255"/>
         <source>Classes</source>
         <translation type="unfinished"></translation>
     </message>

@@ -946,7 +946,9 @@ def test_image_panel_in_its_own_window_and_photometry_other_tools(window, fits_f
     page = window.image_page
     window.show()
     window.open_fits(fits_file)
-    assert page.floating and page.tabs.count() == 1  # results go to small tool windows; the header stays in its tab
+    assert (
+        page.floating and page.tabs.count() == 4
+    )  # results go to small tool windows; Header, Levels, Layers, History stay
     page.measure_star(41.5, 31.5)  # the "star" of the test frame: as clicking it with the Star tool
     info, graph = page.tool_windows["info"], page.tool_windows["graph"]
     assert info.isVisible() and graph.isVisible() and page.info.model.rowCount() > 5
@@ -955,7 +957,7 @@ def test_image_panel_in_its_own_window_and_photometry_other_tools(window, fits_f
     page.measure_line(5, 5, 60, 40)
     assert info.isVisible()
     page.float_button.setChecked(False)  # back to the tabs beside the image
-    assert page.tabs.count() == 3 and not page.tool_windows and page.info.parent() is not None
+    assert page.tabs.count() == 6 and not page.tool_windows and page.info.parent() is not None
     page.measure_star(41.5, 31.5)
     assert page.tabs.currentWidget() is page.info
     page.float_button.setChecked(True)
@@ -1094,7 +1096,7 @@ def test_settings_naming_old_side_panels_still_open(window, qtbot):
     qtbot.addWidget(again)
     again.show()
     docks = [d.objectName() for d in again.findChildren(QDockWidget)]  # the background-tasks dock stays
-    anatomy = ("panel_stages", "panel_inspector", "panel_files", "panel_result_plan")
+    anatomy = ("panel_stages", "panel_inspector", "panel_files", "panel_result_plan", "panel_result_problems")
     old = [n for n in docks if n.startswith("panel_") and n not in anatomy]
     assert not hasattr(again, "dock_page") and not old
     assert "Panels beside the image" not in [a.text() for a in again.view_menu.actions()]
@@ -1418,7 +1420,18 @@ def test_every_moved_area_opens_in_its_own_window(window):
             continue
         if key == "image":  # the viewer in the middle, the header tabs as the inspector (UI-16.10)
             assert not page.isVisible() and win.isVisible() and win.docks["inspector"].widget() is page.tabs
+            assert win.centralWidget().currentWidget() is win._empty  # no image yet: what to do (UI-16.10)
+            assert [b.text() for b in win._empty.buttons] == ["Open images…", "Open the practice night"]
+            assert [page.tabs.tabText(i) for i in range(page.tabs.count())][-3:] == ["Levels", "Layers", "History"]
+            window.viewer.set_image(np.zeros((8, 8)))
+            page.add_open(["/x/a.fits", "/x/b.fits"], current="/x/a.fits")
             assert win.centralWidget().currentWidget().isAncestorOf(window.viewer)
+            page.tabs.setCurrentWidget(page.layers_panel)
+            page.tabs.setCurrentWidget(page.levels_panel)
+            page.filter_line.setText("b.f")
+            assert [page.open_list.item(i).isHidden() for i in range(2)] == [True, False]
+            page.open_list.selectAll()
+            assert len(page.selected_paths()) == 1  # the hidden row is not selected
             win.close()
             continue
         shown = win.centralWidget() if key == "photometry" else win.centralWidget().widget()
@@ -3024,4 +3037,32 @@ def test_the_calibration_check_masters_plan_and_review(window, tmp_path):
     assert len(page.frames) == 8 and "flat3" in page.left_out_text.text()
     page.show_result({"calibrated": [], "masters": [], "quality": {"mbias": {"banding": {"value": 2.0, "ok": False}}}})
     assert page.review_table.table.rowCount() == 1 and "1 in amber" in page.review_status.text()
+    win.close()
+
+
+def test_the_calibration_preview_and_blink(window, tmp_path):
+    """UI-16.2: a clicked frame shows its image and histogram; Review blinks a light raw and calibrated."""
+    from astropy.io import fits
+
+    from astrowb.ui.calibration_preview import pair_of
+
+    raw, cal = tmp_path / "l0.fits", tmp_path / "out" / "l0.fits"
+    cal.parent.mkdir()
+    for path, level in ((raw, 500.0), (cal, 5.0)):
+        fits.PrimaryHDU(np.random.default_rng(1).normal(level, 3, (30, 30)).astype(np.float32)).writeto(path)
+    frame = {"path": str(raw), "kind": "light", "exptime": 10.0, "filter": "V", "temperature": None,
+             "binning": [1, 1], "shape": [30, 30], "readout": "", "date_obs": None, "object": None}  # fmt: skip
+    assert pair_of([frame], [str(cal)]) == (str(raw), str(cal))
+    win = window.open_area("calibrate")
+    page = window.calibrate_page
+    page.show_frames([frame], [])
+    page.groups_tree.setCurrentItem(page.groups_tree.topLevelItem(0).child(0))
+    assert page.frame_preview.viewer.data is not None and "median" in page.frame_stats.text()
+    page.show_result({"calibrated": [str(cal)], "masters": []})
+    ba = page.before_after
+    assert ba.pair == (str(raw), str(cal)) and ba.shown == 1
+    ba.raw_button.click()
+    assert ba.shown == 0 and float(np.median(ba.preview.viewer.data)) > 400
+    page.warnings.setPlainText("x")
+    assert page.problems_view.toPlainText() == "x"
     win.close()

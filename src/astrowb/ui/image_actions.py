@@ -430,7 +430,8 @@ class ImageActions:
     def stack_open_images(self, drizzle=False, output=None):
         """The images open in the Images window stacked (or drizzled) into one, which then opens (MaxIm DL's
         Combine); the stacking settings are the step's defaults, the Calibration window has them all."""
-        images, params = self.image_page.open_paths(), {}
+        picked = getattr(self.image_page, "selected_paths", list)()  # two or more selected in the strip: those
+        images, params = picked if len(picked) > 1 else self.image_page.open_paths(), {}
         if len(images) < 2:
             win = self.area_windows.get("image", self)
             win.statusBar().showMessage(translate("MainWindow", "Open two or more images to stack them."), 8000)
