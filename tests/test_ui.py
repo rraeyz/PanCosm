@@ -1099,7 +1099,15 @@ def test_settings_naming_old_side_panels_still_open(window, qtbot):
     qtbot.addWidget(again)
     again.show()
     docks = [d.objectName() for d in again.findChildren(QDockWidget)]  # the background-tasks dock stays
-    anatomy = ("panel_stages", "panel_inspector", "panel_files", "panel_result_plan", "panel_result_problems")
+    anatomy = (
+        "panel_stages",
+        "panel_inspector",
+        "panel_files",
+        "panel_result_plan",
+        "panel_result_problems",
+        "panel_result_report",
+        "panel_result_log",
+    )
     old = [n for n in docks if n.startswith("panel_") and n not in anatomy]
     assert not hasattr(again, "dock_page") and not old
     assert "Panels beside the image" not in [a.text() for a in again.view_menu.actions()]
