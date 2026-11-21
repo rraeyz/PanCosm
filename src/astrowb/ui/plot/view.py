@@ -12,11 +12,13 @@ Series with more than spec.MAX_POINTS points in view are decimated on every view
 million points pan smoothly without OpenGL. Times are drawn minus a round offset written in the axis title.
 """
 
+import weakref
+
 import numpy as np
 import pyqtgraph as pg
 from PySide6.QtCore import QCoreApplication, QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QPainterPath, QPen
-from PySide6.QtWidgets import QApplication, QGraphicsItem, QGraphicsPathItem, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QGraphicsPathItem, QLabel, QVBoxLayout, QWidget
 
 from ..kit import tokens
 from . import spec as S
@@ -32,9 +34,21 @@ class _ViewBox(pg.ViewBox):
 
     def __init__(self, view):
         super().__init__()
-        self.view = view
+        self._view = weakref.ref(view)  # weak: nothing of pyqtgraph's keeps the view alive (it is freed by refcount)
         self._region = None
         self._lasso = None
+
+    @property
+    def view(self):
+        return self._view()
+
+    def redraw_slot(self, *_):
+        if self.view is not None:
+            self.view._redraw(self)
+
+    def picked(self, _item, _points, ev):  # a click on a dot of a scatter item
+        if self.view is not None:
+            self.view._pick(self, ev.scenePos())
 
     def wheelEvent(self, ev, axis=None):
         mods = ev.modifiers()
@@ -280,6 +294,8 @@ class PlotView(QWidget):
             plot.showGrid(x=panel.grid, y=panel.grid, alpha=0.3)
             self._add_colourbar(row, panel)
             legend = plot.addLegend() if sum(s.kind not in S.NO_LEGEND for s in panel.series) > 1 else None
+            if legend is not None:
+                legend.show()
             for s in panel.series:
                 self.items.append(self._add_series(plot, vb, s, colours[s.name], offset, legend))
             vb.disableAutoRange()  # its items hold only the decimated points in view: show_all() uses all the data
@@ -295,7 +311,6 @@ class PlotView(QWidget):
         if row == len(self._pool):
             vb = _ViewBox(self)
             vb.redraw_connected = False
-            vb.redraw_slot = lambda *_, vb=vb: self._redraw(vb)
             plot = pg.PlotItem(viewBox=vb)
             for menu in (vb.menu, plot.ctrlMenu):  # pyqtgraph leaves them parentless: Qt, not Python's GC, frees them
                 menu.setParent(self, menu.windowFlags())
@@ -309,9 +324,9 @@ class PlotView(QWidget):
             vb.sigRangeChanged.disconnect(vb.redraw_slot)
             vb.redraw_connected = False
         plot.clear()
-        if plot.legend is not None:
-            QGraphicsItem.setParentItem(plot.legend, None)  # LegendItem's own override wants a parent
-            plot.legend = None
+        if plot.legend is not None:  # kept, emptied: a dropped legend stays anchored to the view box and its slot
+            plot.legend.clear()  # ran on the freed box when the view was destroyed
+            plot.legend.hide()
         plot.setXLink(None)
         plot.setLogMode(False, False)
         for side in ("left", "bottom", "top", "right"):
@@ -391,7 +406,7 @@ class PlotView(QWidget):
             entry["brushes"] = np.array([pg.mkBrush(c) for c in _colours(s.values)], dtype=object)
         if s.kind == "points" or s.kind == "errorbars":
             entry["item"] = pg.ScatterPlotItem(pen=None, brush=brush, size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"))
-            entry["item"].sigClicked.connect(lambda _i, _pts, ev, vb=vb: self._pick(vb, ev.scenePos()))  # on a dot
+            entry["item"].sigClicked.connect(vb.picked)
             if s.yerr is not None or s.xerr is not None:
                 entry["errors"] = pg.ErrorBarItem(pen=pen)
                 plot.addItem(entry["errors"])

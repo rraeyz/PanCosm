@@ -396,7 +396,8 @@ def test_text_span_dash_clicks_and_keys_in_both_outputs(view, tmp_path):
         ]
     )
     view.set_figure(spec)
-    assert view.failed is None and view.plots[0].legend is None  # one real series: no legend
+    legend = view.plots[0].legend  # pooled plots keep theirs, hidden
+    assert view.failed is None and (legend is None or not legend.isVisible())  # one real series: no legend
     kinds = {e["spec"].name: len(e["lines"]) for e in view.items if "lines" in e}
     assert kinds == {"night": 2, "names": 2, "ref": 1}
     assert view._full_range(view.plots[0].getViewBox(), spec.panels[0])[0] == (0, 10)  # spans count for the range
@@ -451,7 +452,8 @@ def test_a_second_x_axis_along_the_top_in_both_outputs(qapp):
     sec, sec_y = ax.child_axes
     assert [t.get_text() for t in sec.get_xticklabels()] == ["a", "b"] and sec.get_xlabel() == "Local time"
     assert [t.get_text() for t in sec_y.get_yticklabels()] == ["3", "2"] and sec_y.get_ylabel() == "Airmass"
-    plot = PlotView(spec).plots[0]
+    view = PlotView(spec)  # held: a view nothing refers to is freed at once, with its plots
+    plot = view.plots[0]
     assert plot.getAxis("top").isVisible() and plot.getAxis("top")._tickLevels[0] == [(1.5, "a"), (2.5, "b")]
     assert plot.getAxis("right").isVisible() and plot.getAxis("right")._tickLevels[0] == [(1.2, "3"), (1.8, "2")]
 
@@ -513,7 +515,7 @@ def _state(view):
         (
             p.getAxis("bottom").labelText,
             p.vb.state["logMode"],
-            p.legend is not None,
+            p.legend is not None and p.legend.isVisible(),
             p.getAxis("top").isVisible(),
             p.getAxis("right").isVisible(),
             len(p.items),
@@ -546,3 +548,28 @@ def test_qt_owns_the_menus_of_every_plot(qapp):
             assert plot.vb.menu.parent() is view and plot.ctrlMenu.parent() is view
         view.deleteLater()
         qapp.processEvents()
+
+
+def test_views_are_freed_with_no_teardown_errors(qapp, capfd):
+    import gc
+    import weakref
+
+    from PySide6.QtCore import QEvent
+
+    from astrowb.ui.plot.view import PlotView
+
+    refs = []
+    for i in range(30):
+        view = PlotView(_pool_figure(3, 1))
+        view.set_figure(_pool_figure(2, 0))
+        view.set_figure(_pool_figure(1 + i % 3, i % 3))
+        view.show()
+        qapp.processEvents()
+        refs.append(weakref.ref(view))
+        if i % 2:  # half deleted by Qt, half by dropping the last reference
+            view.deleteLater()
+        del view
+        qapp.sendPostedEvents(None, QEvent.DeferredDelete)
+    gc.collect()
+    err = capfd.readouterr().err
+    assert all(r() is None for r in refs) and "Traceback" not in err and "attribute" not in err
