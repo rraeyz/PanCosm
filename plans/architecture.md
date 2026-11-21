@@ -671,7 +671,7 @@ the suite is green after each.
 - **Files:** `compute/check.py`, `compute/thresholds.json`, `compute/README.md`, `ui/shell/help.py`, CI.
 
 ### ARC-11. Provenance: every product knows how it was made  (P1)
-**open** — items 1 and 2 (FITS products) done by agent3; (2026-11-20) item 4 begun: `core/methods.py` `methods(runs)` writes the methods paragraph from a project's done runs (one template per step in `resources/methods/`, now calibration.run and stacking.stack; the version from each run's environment), `test_methods_text`; left: templates for the other steps, the Project window's "Methods text…", items 3 (more `@cites` need BibTeX entries checked against the papers) and 5
+**open** — items 1 and 2 (FITS products) done by agent3; (2026-11-20) item 4 begun, (2026-11-21) templates for photometry.light_curve, timeseries.minimum, timeseries.period, photometry.transit_fit and models.eb_fit (`test_photometry_and_timing_templates`; the transit template cites only Winn et al. for β, as `transitfit` does): `core/methods.py` `methods(runs)` writes the methods paragraph from a project's done runs (one template per step in `resources/methods/`, calibration.run, stacking.stack; the version from each run's environment), `test_methods_text`; left: templates for the other areas' steps, the Project window's "Methods text…", items 3 (more `@cites` need BibTeX entries checked against the papers) and 5
 - **Progress (agent3):** `core/provenance.py`: `record`, `checksum` (BLAKE2b; first and last MiB for files over
   4 MiB), `digest` (PROCHASH, time left out), `to_fits` (SWCREATE, SWVERS, PROCSTEP, PROCHASH, readable HISTORY
   lines and the record as `PROV` HISTORY lines with spaces escaped, since FITS drops trailing spaces), `to_ecsv`,
@@ -761,7 +761,7 @@ the suite is green after each.
   do, all in Turkish; `advice(message)`, `for_trace(traceback)`; the Task failed dialog shows the advice under the
   error. `messages.error_line()` split out of `task_error()` (the English line, untranslated). Tests: every advice
   belongs to a real template; messages with and without a type find their advice. Reduced item 2 done with UI-3:
-  `kit/dialogs.ErrorDialog` (what happened, the advice, details, Copy, Report…) shows every failed task. Reduced item 3 done (2026-11-14): `core/errors.AppError(template, **values)`, a ValueError whose text is the filled template; test_messages checks every AppError raise names a template word for word; the first raise converted (transit fit's unknown detrending series), the rest when touched.
+  `kit/dialogs.ErrorDialog` (what happened, the advice, details, Copy, Report…) shows every failed task. Reduced item 3 done (2026-11-14): `core/errors.AppError(template, **values)`, a ValueError whose text is the filled template; test_messages checks every AppError raise names a template word for word; the first raise converted (transit fit's unknown detrending series), the rest when touched. Converted 2026-11-21: all user-facing raises of `calibration/` (16 raises (3 left as ValueError), existing templates; `astrometry.py` raises only SolveError, not ValueError).
 - **Why:** AD-7. `ui/messages.py` matches English engine messages against 400 templates with regular expressions.
 - **Build:**
   1. `core/errors.py`: `class AppError(Exception)` with `code` (dotted, e.g. `photometry.star_off_frame`), `values`

@@ -1057,13 +1057,9 @@ class PhotometryPage(Undoable, QWidget):
             **{k: v for k, v in method_params(self).items() if k != "combine"},
         )
         self.live_folder, self.live_seen = folder, set()
-        from .photometry_live import Throttled
+        from .photometry_live import start_timers
 
-        self._live_throttle = Throttled(self, self._live_show)  # a fast folder must not freeze the views
-        self.live_updated.connect(self._live_throttle.request)
-        self._live_timer = QTimer(self)
-        self._live_timer.timeout.connect(self.poll_live)
-        self._live_timer.start(3000)
+        start_timers(self)
         self.result.setText(self.tr("Live: waiting for frames in {f}").format(f=folder))
         self.poll_live()
         return True
@@ -1072,6 +1068,7 @@ class PhotometryPage(Undoable, QWidget):
         if getattr(self, "_live_timer", None):
             self._live_timer.stop()
             self._live_timer = None
+            self.stall.clear()
             try:
                 self.live_updated.disconnect(self._live_throttle.request)
             except RuntimeError:

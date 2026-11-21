@@ -1,0 +1,1 @@
+Differential aperture photometry was made with an aperture radius of {r_ap:g} px and a sky annulus from {r_in:g} to {r_out:g} px ({sky_method} sky level){psf_clause} with {software} version {version}.

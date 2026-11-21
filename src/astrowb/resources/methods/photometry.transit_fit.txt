@@ -1,0 +1,1 @@
+The {what} was fitted with a model with {ld_clause}, a period of {period:g} d held fixed{detrend_clause}{noise_clause}{mcmc_clause} ({software} version {version}).

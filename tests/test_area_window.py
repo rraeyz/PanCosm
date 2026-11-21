@@ -288,6 +288,9 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     settings = Settings(tmp_path)
     win = _area(qtbot, settings)
     assert all(not icon(kind, win).isNull() for kind in ICONS)
+    # UI-2.3: the menu-only actions every window has carry icons too
+    menu_only = [win.find_action, *win.file_menu.actions()[-1:]]  # Find an action, Close window
+    assert all(not a.icon().isNull() for a in menu_only)
     win.set_icons({win._keep: "measure"})
     assert not win._keep.icon().isNull() and win.toolbar.toolButtonStyle() == Qt.ToolButtonIconOnly
     win.toolbar_text_action.trigger()

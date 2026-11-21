@@ -1,0 +1,1 @@
+Times of minimum were measured {method_clause}{ephemeris_clause} ({software} version {version}).

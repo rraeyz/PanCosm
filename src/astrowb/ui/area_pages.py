@@ -287,6 +287,12 @@ def make_exoplanets_page(main):
             on_fail=lambda msg: page.result.setText(translate(msg)),
         )
     )
+    page.midtimes_to_oc.connect(  # the mid-times as times of minimum in O−C, opened so the user sees them arrive
+        lambda rows: (
+            [main.oc_page.add_minimum(t, e, "this work (transit fit)") for _, t, e in rows],
+            main.open_area("oc"),
+        )
+    )
     return page
 
 

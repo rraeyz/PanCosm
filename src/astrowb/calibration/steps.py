@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from ..core import provenance
+from ..core.errors import AppError
 from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
@@ -33,10 +34,11 @@ def scan_step(inputs, params, ctx):
     folders = [f.strip() for f in str(inputs.get("folder") or "").split(";") if f.strip()]
     light_dirs = [f.strip() for f in str(inputs.get("lights") or "").split(";") if f.strip()]
     if not folders and not light_dirs:
-        raise ValueError(f"folder not found: {inputs.get('folder') or ''}")  # nothing given: said like a wrong one
+        # nothing given: said like a wrong one
+        raise AppError("folder not found: {path}", path=inputs.get("folder") or "")
     for folder in folders + light_dirs:
         if not Path(folder).is_dir():
-            raise ValueError(f"folder not found: {folder}")
+            raise AppError("folder not found: {path}", path=folder)
     frames, problems, raw = {}, [], []
     every = [(f, "calibration") for f in folders] + [(f, "lights") for f in light_dirs]
     for i, (folder, role) in enumerate(every):
@@ -165,7 +167,7 @@ def _chosen(plan, frames, use):
     wrong = apply_choices(plan, frames, use)
     if wrong:
         kind, pick = wrong[0][1], Path(wrong[0][2]).name
-        raise ValueError(f"{pick} is not a {kind} frame of this night: choose another")
+        raise AppError("{pick} is not a {kind} frame of this night: choose another", pick=pick, kind=kind)
     return plan
 
 

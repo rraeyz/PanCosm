@@ -30,6 +30,7 @@ from scipy.ndimage import map_coordinates
 
 from ..compute.combine import clipped_mean
 from ..compute.stack import gpu_combine
+from ..core.errors import AppError
 from ..io.fits import find_image_hdu
 from ..io.lzw import readable
 from ..photometry.aperture import frame_shift
@@ -170,7 +171,7 @@ def picked_transforms(paths, stars, ctx=None, search=25.0):
 
     stars = np.asarray(stars, float).reshape(-1, 2)
     if not len(stars):
-        raise ValueError("pick at least one star on the first frame to align on")
+        raise AppError("pick at least one star on the first frame to align on")
     ref = snap_to_star(load(paths[0])[0], stars, radius=5.0)
     out = [(np.eye(2), np.zeros(2))]
     m, t = np.eye(2), np.zeros(2)

@@ -128,25 +128,26 @@ class AreaWindow(Anatomy, QMainWindow):
         bar = self.menuBar()
         file_menu = bar_menu(bar, self.tr("&File"))
         self.file_menu = file_menu
+        kinds = {}  # the menu-only actions' icons (UI-2.3)
         if self.open_files_handler is not None:
-            self._action(
+            kinds[self._action(
                 file_menu, self.tr("&Open…"), self.open_dialog, QKeySequence.Open,
                 self.tr("Choose files for this window (you can also drop them on it)"),
-            )  # fmt: skip
+            )] = "open"  # fmt: skip
             self.recent_menu = file_menu.addMenu(self.tr("Open &recent"))
             self.recent_menu.aboutToShow.connect(self._fill_recent)
             file_menu.addSeparator()
         if self.session is not None:
-            self._action(
+            kinds[self._action(
                 file_menu, self.tr("&Save session…"), self.save_session_dialog, QKeySequence.Save,
                 self.tr("Keep everything chosen in this window (data, stars, settings) in one file to go on later"),
-            )  # fmt: skip
-            self._action(
+            )] = "save"  # fmt: skip
+            kinds[self._action(
                 file_menu, self.tr("Open s&ession…"), self.open_session_dialog, None,
                 self.tr("Go on with work saved earlier with Save session"),
-            )  # fmt: skip
+            )] = "open"  # fmt: skip
             file_menu.addSeparator()
-        self._action(file_menu, self.tr("&Close window"), self.close, QKeySequence.Close)
+        kinds[self._action(file_menu, self.tr("&Close window"), self.close, QKeySequence.Close)] = "close"
         edit = bar_menu(bar, self.tr("&Edit"))
         self.edit_menu = edit
         if self.undo_stack is not None:
@@ -157,11 +158,14 @@ class AreaWindow(Anatomy, QMainWindow):
             redo.setShortcuts(list({k.toString(): k for k in keys}.values()))  # a key twice: ambiguous, does nothing
             edit.addActions([undo, redo])
             self.undo_action, self.redo_action = undo, redo
+            kinds.update({undo: "undo", redo: "redo"})
             edit.addSeparator()
         self.find_action = self._action(
             edit, self.tr("Find an action…"), self.find_command, "Ctrl+K",
             self.tr("Type a few letters of what you want to do: every menu and toolbar action of this window is found"),
         )  # fmt: skip
+        kinds[self.find_action] = "lookup"
+        self.set_icons(kinds)
         view = bar_menu(bar, self.tr("&View"))
         self.view_menu = view
         for dock in self.docks.values():

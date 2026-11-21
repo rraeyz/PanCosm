@@ -1,0 +1,1 @@
+The long-slit spectra were extracted by {extraction}; where an arc was given, their wavelengths were calibrated on {line_list} arc-lamp lines with a polynomial of degree up to {order}, the degree chosen by leave-one-out ({software} version {version}).

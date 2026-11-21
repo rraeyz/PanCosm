@@ -1,0 +1,1 @@
+Periods were searched with the {method} method from {p_min:g} d {upper_clause} ({software} version {version}){cite_clause}.

@@ -1,0 +1,1 @@
+Radial velocities were measured against a template between {v_min:g} and {v_max:g} km/s {method_clause}; they were corrected to the barycentre where the time, the sky position and the site were known ({software} version {version}).

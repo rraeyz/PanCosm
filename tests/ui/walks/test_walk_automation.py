@@ -6,6 +6,7 @@ import json
 import pytest
 
 from astrowb import sampledata
+from astrowb.ui.automation_plan import SKIP_KEY
 
 
 @pytest.mark.slow
@@ -20,8 +21,8 @@ def test_eclipsing_binary_template_on_the_practice_night(walk, tmp_path, lang):
     h.type("edits.folder", str(tmp_path / "night" / "raw"))
     h.type("edits.output_dir", str(tmp_path / "cal"))
     h.type("edits.target_xy", "{:.0f} {:.0f}".format(*truth["target_xy"]))
-    h.ok_next_dialog()  # the run plan
-    h.click("run_button", budget=10.0)  # the time includes the run plan dialog shown and answered
+    h.main.settings.set(SKIP_KEY, True)  # the run plan dialog has its own test; here the run is timed
+    h.click("run_button")
     h.wait(lambda: bool(page.result.toPlainText()), timeout=300)
     h.check()
     out = json.loads(page.result.toPlainText())

@@ -1,0 +1,1 @@
+Nearby eclipsing binaries were looked for among the Gaia stars within {radius_arcsec:g} arcsec of the target that could make the {depth_ppt:g} ppt depth, by the TFOP SG1 rules: {aperture_clause}, and the depth each star's eclipse would need was compared with the scatter of its light curve{box_clause} ({software} version {version}).

@@ -48,6 +48,7 @@ def read_light_curve(path):
 class ExoplanetsPage(QWidget):
     fit_requested = Signal(dict, dict)  # step inputs, params
     stage_done = Signal(str)  # a stage key: the rail gets its tick
+    midtimes_to_oc = Signal(list)  # [(file, Tc, σ)] for the O−C window
 
     def __init__(self, parent=None):
         super().__init__(parent)

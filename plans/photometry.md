@@ -246,8 +246,8 @@ Done (2026-11-21), catalogue neighbours and the banner: `photometry/neighbours.f
 measured star, brighter than target + 4 mag, the star's own match left out) and `ui/photometry_banner.neighbour_banner`
 (InfoBanner in the Measure stage after a measurement, from the Field stage's Gaia stars; the target's magnitude is the
 Gaia star on it, none: no banner; its button ticks "Remove neighbours"). Test: `tests/test_neighbours.py`.
-Left: the ePSF per frame in that path, the live path, the PSF tab's star list, quality number and residual image, the
-eclipse-of-the-fainter-star test, error codes.
+Left: the ePSF per frame in that path, the live path, the PSF tab's star list, quality number and residual image,
+error codes. Done (2026-11-21): the eclipse of the fainter star, `tests/test_psf.py::test_eclipse_of_the_fainter_star_of_a_pair` (30 % depth on the 1 : 3 pair: PSF 29.6 % within its error 0.4 %, aperture after removal 31.1 %, plain aperture 14 %).
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
@@ -312,8 +312,9 @@ measured live as the night run's extra stars (equal to 1e-9). The camera noise m
 rule reach it through `method_params` (errors and times equal to the night run's). The shared result table (2026-11-21): the live state feeds the page's own `show_light_curve`
 (plot, Measurements, Checks, Frames) after every frame, throttled to one refresh per 0.5 s
 (`ui/photometry_live.Throttled`); `LiveLightCurve.light_curve()` carries `lost` (file → reason), the Frames list follows
-`LiveLightCurve.order`. Test: `tests/ui/test_live_shared_table.py`. Left: Build items 3-5 (follow-a-folder
-stability check, from Observing, stall banner).
+`LiveLightCurve.order`. Test: `tests/ui/test_live_shared_table.py`. The stall banner (2026-11-21): no new frame for 3 × the cadence (median gap of the frames' times, from 3 frames) shows an
+attention InfoBanner under the result, gone when a frame arrives (`ui/photometry_live.StallWatch`, injectable clock;
+test: `tests/ui/test_live_stalled.py`). Left: Build items 3-4 (follow-a-folder stability check, from Observing).
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the
@@ -945,7 +946,13 @@ and "Leave out the flagged points" takes them.
 - **Files:** `tools/speed.py`, `native/src/aperture.rs`, `photometry/aperture.py`, `compute/aperture.py` (only for the many-star case)
 
 ### PHO-38. High-speed and video photometry, occultations  (P3)
-**open**
+**partial** — done (2026-11-21), the engine: `io/video.py` `read_cube` (FITS cube, 3-D primary or image HDU: frames,
+seconds to each frame start, start time from `timing.start_time`; the cadence is an explicit argument, no cadence
+keyword is handled in the repo); `photometry/occultation.py` `fit_occultation` (square-well, sub-frame edges as
+time-weighted mix, grid + refine least squares, bootstrap errors of D, R, duration with a seeded rng, magnitude drop).
+Tests: `tests/test_occultation.py` (`test_square_well_25fps`, `test_read_cube`). Left: SER reader (header layout not
+written in the repo), the IOTA report `reports/iota.py` (layout not written in the repo), the "Occultation" step
+(titles, io, api docs, UI), photometry on frame streams, AVI / ADV notice.
 - **Reference:** Tangra, PyOTE / PyMovie (IOTA), Limovie: SER / AVI / ADV / FITS-cube input, time stamps from GPS
   inserters, drop detection in a noisy light curve with a square-well model and confidence from Monte Carlo.
 - **Build:** readers for SER (documented header; UTC time stamps per frame) and FITS cubes with time keywords
@@ -957,7 +964,7 @@ and "Leave out the flagged points" takes them.
 - **Files:** `io/video.py`, `photometry/occultation.py`, `photometry/reports/iota.py`, `tests/test_occultation.py`
 
 ### PHO-39. Extended objects: comets and surface photometry  (P3)
-**open**
+**partial** (2026-11-21: engine only. `photometry/comet.py` `afrho`, `afrho_mag`, `aperture_px`, `comet_flux`; `compute/isophote.py` `fit_isophotes`, `surface_brightness` (no `images/` package exists, so it lives in `compute/`); test `tests/test_extended.py`. Left: the Images → Analyse UI tool, comet mode in moving-object photometry, engine steps/registry, sky brightness of a frame in the UI.)
 - **Reference:** A'Hearn et al. 1984 (Afρ); photutils `isophote` (ellipse fitting after Jedrzejewski 1987; IRAF
   `stsdas.ellipse`); surface brightness in mag arcsec⁻².
 - **Build:** comet mode in moving-object photometry: apertures of fixed physical radius (km at the comet, from Δ),

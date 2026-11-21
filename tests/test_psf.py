@@ -6,7 +6,7 @@ import pytest
 from astrowb.photometry import psf
 
 
-def frame(seed=0, pair_ratio=3.0, fwhm=3.0, shape=(200, 200)):
+def frame(seed=0, pair_ratio=3.0, fwhm=3.0, shape=(200, 200), target_flux=20000.0, noise_seed=None):
     rng = np.random.default_rng(seed)
     yy, xx = np.indices(shape)
     s = fwhm / 2.3548
@@ -15,11 +15,11 @@ def frame(seed=0, pair_ratio=3.0, fwhm=3.0, shape=(200, 200)):
     field = [(x + jitter[k, 0], y + jitter[k, 1], 30000.0)
              for k, (x, y) in enumerate((x, y) for x in range(25, 180, 38) for y in range(25, 180, 38))
              if (x, y) != (101, 101)]  # the pair stands there  # fmt: skip
-    target = (100.3, 99.6, 20000.0)
+    target = (100.3, 99.6, target_flux)
     neighbour = (100.3 + 1.5 * fwhm, 99.6, 20000.0 * pair_ratio)
     for x, y, f in [*field, target, neighbour]:
         img += f / (2 * np.pi * s * s) * np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * s * s))
-    img = rng.poisson(img).astype(float)
+    img = (rng if noise_seed is None else np.random.default_rng(noise_seed)).poisson(img).astype(float)
     return img, field, target, neighbour
 
 
@@ -47,6 +47,30 @@ def test_a_close_pair():
     assert aperture_flux(clean, *target[:2]) / aperture_flux(clean, *xy[0]) == pytest.approx(2 / 3, rel=0.015)
     g_flux, _e, _t = psf.measure(img, psf.gaussian(3.0), [target[:2], xy[0]], 3.0, neighbours=[neighbour[:2]])
     assert g_flux[0] / g_flux[1] == pytest.approx(2 / 3, rel=0.02)
+
+
+def test_eclipse_of_the_fainter_star_of_a_pair():
+    """Accept 2: the fainter star (1 : 3) of a blended pair loses 30 %; PSF and aperture-after-removal recover the
+    depth within its error, a plain aperture dilutes it to about half."""
+    out, field, target, neighbour = frame(seed=1)
+    inn = frame(seed=1, target_flux=14000.0, noise_seed=2)[0]
+    keep = [i for i, (x, y, _f) in enumerate(field) if abs(x - 100) > 20 or abs(y - 100) > 20]
+    xy = np.array([field[i][:2] for i in keep], float)
+    chosen = psf.select_psf_stars(out, xy, [field[i][2] for i in keep], others=[target[:2], neighbour[:2]])
+    epsf = psf.build_epsf(out, xy[chosen], oversampling=4)
+    ratio, plain, clean, err = [], [], [], []
+    for img in (out, inn):
+        flux, e, table = psf.measure(img, epsf, [target[:2], xy[0]], 3.0, neighbours=[neighbour[:2]])
+        ratio.append(flux[0] / flux[1])
+        err.append(e[0] / flux[1])
+        cl = psf.subtract(img, epsf, table, rows=[2])
+        clean.append(aperture_flux(cl, *target[:2]) / aperture_flux(cl, *xy[0]))
+        plain.append(aperture_flux(img, *target[:2]) / aperture_flux(img, *xy[0]))
+    depth = lambda r: 1 - r[1] / r[0]  # noqa: E731
+    sigma = float(np.hypot(*err) / ratio[0])
+    assert abs(depth(ratio) - 0.30) < max(sigma, 0.01)
+    assert abs(depth(clean) - 0.30) < 0.015
+    assert depth(plain) < 0.2  # diluted
 
 
 def test_light_curve_with_a_variable_neighbour_removed(tmp_path):

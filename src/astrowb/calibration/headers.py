@@ -15,6 +15,8 @@ from pathlib import Path
 
 import numpy as np
 
+from ..core.errors import AppError
+
 COMPUTED = ("DATE-AVG", "JD_UTC", "HJD_UTC", "BJD_TDB", "AIRMASS", "ALT", "AZ")
 
 
@@ -103,7 +105,7 @@ def apply(paths, rules, out_dir=None, in_place=False):
     from astropy.io import fits
 
     if not in_place and out_dir is None:
-        raise ValueError("give a folder for the copies, or allow writing into the files themselves")
+        raise AppError("give a folder for the copies, or allow writing into the files themselves")
     written = []
     for p in paths:
         target = Path(p) if in_place else Path(out_dir) / Path(p).name

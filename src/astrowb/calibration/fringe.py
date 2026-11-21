@@ -10,6 +10,8 @@ ccdproc's fringecor, Snodgrass & Carry 2013).
 import numpy as np
 from scipy import ndimage
 
+from ..core.errors import AppError
+
 
 def _stars(img, nsigma=2.0, grow=3):
     level = np.nanmedian(img[::4, ::4])
@@ -21,7 +23,7 @@ def make_fringe_frame(lights, smooth=61, sigma=1.5):
     """The fringe pattern (mean 0, units of the sky level) from five or more dithered frames of one filter."""
     lights = [np.asarray(f, float) for f in lights]
     if len(lights) < 5:
-        raise ValueError("at least five dithered frames of the filter are needed for a fringe frame")
+        raise AppError("at least five dithered frames of the filter are needed for a fringe frame")
     cube = []
     for f in lights:
         mask, level, _ = _stars(f)
