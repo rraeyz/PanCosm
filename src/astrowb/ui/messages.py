@@ -85,6 +85,7 @@ TEMPLATES = (
     # core/units.py
     QT_TRANSLATE_NOOP("Messages", "unknown aperture shape: {kind}"),
     QT_TRANSLATE_NOOP("Messages", "unknown repair: {mode}"),
+    QT_TRANSLATE_NOOP("Messages", "unknown prior of {n}: {kind}"),
     QT_TRANSLATE_NOOP("Messages", "unknown rejection {method}"),
     QT_TRANSLATE_NOOP("Messages", "too few matched stars for the transform"),
     QT_TRANSLATE_NOOP("Messages", "unknown weighting {by}"),
