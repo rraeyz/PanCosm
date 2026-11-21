@@ -765,8 +765,13 @@ not. (2026-11-21) The Light curve stage: `ui/photometry_systematics.py` (`add_co
 `PhotometryPage._recompute`): "Remove trends shared with the field stars", enabled with ≥ 30 measured comparison and
 check stars; SysRem (default terms of `sysrem`, the target kept out of the fit of the terms) or PCA with BIC terms;
 undoable (`field` in the undo state), unticking restores the curve; the note shows what an injected 1 % dip would
-become. Test: tests/ui/test_photometry_systematics.py. Left: the TFA method and a given model (`fixed`) from the
-Timing and fit stage.
+become. Test: tests/ui/test_photometry_systematics.py. (2026-11-21) The field is now the whole-field measurement of the
+variable star search (PHO-30) when its frames match the light curve's (`photometry_systematics._whole_field`: the
+target, candidate variables and stars on < 80 % of the frames left out; the page reads it through `field_source`, set
+in `area_pages.make_photometry_page`), else the comparison and check stars; the note names the set and the number.
+TFA (`sy.tfa`, the field stars as templates, engine defaults) is the third method. Tests:
+`test_whole_field_is_the_field_when_it_exists`, `test_tfa_keeps_the_sinusoid`. Left: a given model (`fixed`) from
+the Timing and fit stage; the controls refresh on the next recompute after a variable star search.
 - **Reference:** SysRem (Tamuz, Mazeh & Zucker 2005, MNRAS 356, 1466); TFA (Kovács, Bakos & Noyes 2005, MNRAS 356,
   557); cotrending basis vectors of Kepler / TESS (Smith et al. 2012); lightkurve `CBVCorrector`,
   `RegressionCorrector`, `PLDCorrector`.

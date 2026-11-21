@@ -15,18 +15,41 @@ from ..photometry import systematics as sy
 
 translate = QCoreApplication.translate
 MIN_STARS = 30  # fewer stars give trends that are mostly the target's own noise
+METHODS = ("sysrem", "pca", "tfa")
 DEFAULT_TERMS = inspect.signature(sy.sysrem).parameters["n_terms"].default
 
 
-def field_mags(raw):
-    """(stars, frames) magnitudes of the measured field stars (comparison and check stars), or None."""
+def _whole_field(whole, time, target):
+    """(stars, frames) magnitudes of the whole-field measurement (PHO-30) on the light curve's frames, without the
+    target, the candidate variables and the stars seen on fewer than 80 % of the frames; None when the frames differ."""
+    f, v = whole["field"], whole["variability"]
+    t = np.asarray(f["time"], float)
+    idx = np.searchsorted(t, np.asarray(time, float))
+    idx = np.minimum(idx, len(t) - 1)
+    if len(t) == 0 or not np.allclose(t[idx], time, rtol=0, atol=1e-5):  # a second
+        return None
+    mag = np.asarray(f["mag"], float)[idx]
+    keep = np.isfinite(mag).mean(0) > 0.8
+    keep &= ~np.asarray(v.get("candidate", np.zeros(mag.shape[1])), bool)
+    if target is not None:
+        keep &= np.hypot(*(np.asarray(f["xy"], float) - target).T) > 5.0  # pixels
+    return (mag - np.nanmedian(mag[:, keep], axis=1, keepdims=True)).T[keep]
+
+
+def field_mags(raw, whole=None, target=None):
+    """((stars, frames) magnitudes of the field, its name) or (None, ""): the whole-field measurement when there is
+    one that fits the light curve's frames, else the measured comparison and check stars."""
+    if whole:
+        mags = _whole_field(whole, raw["time"], target)
+        if mags is not None:
+            return mags, translate("PhotometryPage", "whole-field")
     cols = [np.asarray(raw[k], float).reshape(len(raw["time"]), -1) for k in ("comp_flux", "extra_flux") if raw.get(k)]
     if not cols:
-        return None
+        return None, ""
     flux = np.hstack(cols).T
     with np.errstate(all="ignore"):
         flux = flux / np.nanmedian(flux, axis=0, keepdims=True)
-        return -2.5 * np.log10(np.where(flux > 0, flux, np.nan))
+        return -2.5 * np.log10(np.where(flux > 0, flux, np.nan)), translate("PhotometryPage", "comparison and check")
 
 
 def remove_trends(rel, field, method, n_terms):
@@ -35,6 +58,8 @@ def remove_trends(rel, field, method, n_terms):
         y = -2.5 * np.log10(np.where(np.asarray(rel, float) > 0, rel, np.nan))
     if method == "pca":
         out, _ = sy.correct(y, field, max_terms=n_terms)
+    elif method == "tfa":  # the engine's defaults: the field stars themselves are the templates
+        out = sy.tfa(y, field)
     else:  # the target is not in the fit of the terms: it cannot lend them its own signal
         _, terms = sy.sysrem(field, n_terms=n_terms)
         out = sy.tfa(y, np.array([a for _, a in terms]))
@@ -54,7 +79,7 @@ def kept_share(time, rel, field, method, n_terms, depth=0.01):
 
 def apply(page, lc, raw):
     """Called by the page's _recompute: syncs the controls and, when ticked, replaces lc's relative flux."""
-    field = field_mags(raw)
+    field, which = field_mags(raw, page.field_source(), page.target)
     n = 0 if field is None else len(field)
     box = page.field_box
     cfg = page.field_cfg
@@ -63,7 +88,7 @@ def apply(page, lc, raw):
         if state is not None:
             w.setChecked(state)
     if cfg:
-        page.field_method.setCurrentIndex(0 if cfg[0] == "sysrem" else 1)
+        page.field_method.setCurrentIndex(METHODS.index(cfg[0]))
         page.field_terms.setValue(cfg[1])
     for w in (box, page.field_method, page.field_terms):
         w.blockSignals(False)
@@ -72,20 +97,21 @@ def apply(page, lc, raw):
     text = translate("PhotometryPage", "Needs at least {n} measured field stars ({have} now).").format(
         n=MIN_STARS, have=n
     )
+    page.field_terms.setEnabled(n >= MIN_STARS and (cfg or ("",))[0] != "tfa")
     if n >= MIN_STARS:
         text = ""
     if cfg and n >= MIN_STARS:
         share = kept_share(lc["time"], lc["rel_flux"], field, *cfg)
         lc["rel_flux"] = remove_trends(lc["rel_flux"], field, *cfg).tolist()
         lc["field_trends"] = {"method": cfg[0], "terms": cfg[1], "stars": n, "kept": share}
-        text = translate("PhotometryPage", "{n} field stars; a 1 % dip would be reduced to {d:.2f} %.").format(
-            n=n, d=100 * 0.01 * share
-        )
+        text = translate(
+            "PhotometryPage", "{n} field stars ({which}); a 1 % dip would be reduced to {d:.2f} %."
+        ).format(n=n, which=which, d=100 * 0.01 * share)
     page.field_note.setText(text)
 
 
 def _changed(page):
-    method = "sysrem" if page.field_method.currentIndex() == 0 else "pca"
+    method = METHODS[page.field_method.currentIndex()]
     cfg = (method, page.field_terms.value()) if page.field_box.isChecked() else None
     page.edit(translate("PhotometryPage", "trends of the field stars"), _set, page, cfg)
 
@@ -99,6 +125,7 @@ def _set(page, cfg):
 def add_controls(page, layout):
     """The tick box, method and number of terms, and the note, below the detrending buttons."""
     page.field_cfg = None
+    page.field_source = lambda: None  # the window sets it: the whole-field search result (PHO-30), if there is one
     page.field_box = QCheckBox(translate("PhotometryPage", "Remove trends shared with the field stars"), page)
     page.field_box.setToolTip(
         translate(
@@ -108,7 +135,7 @@ def add_controls(page, layout):
         )
     )
     page.field_method = QComboBox(page)
-    page.field_method.addItems(["SysRem", translate("PhotometryPage", "PCA (terms by BIC)")])
+    page.field_method.addItems(["SysRem", translate("PhotometryPage", "PCA (terms by BIC)"), "TFA"])
     page.field_terms = QSpinBox(page)
     page.field_terms.setRange(1, 10)
     page.field_terms.setValue(DEFAULT_TERMS)
