@@ -245,7 +245,7 @@ def oc(main, page, win):
     win.file_menu.insertMenu(win.file_menu.actions()[-1], files)  # loading minima is File → Open… (Ctrl+O)
     files.addAction(export)
     win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
-    from .stage_boxes import oc_stages
+    from .oc_stages import oc_stages
 
     oc_stages(win, page)  # UI-16.5: the left column as stages
 

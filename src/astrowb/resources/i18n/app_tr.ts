@@ -1071,27 +1071,27 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="268"/>
         <source>Solve</source>
         <translation>Çöz</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
         <source>Find</source>
         <translation>Bul</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="269"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="271"/>
+        <location filename="../../ui/stage_boxes.py" line="270"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
@@ -2188,7 +2188,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CalibrationWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="187"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Frames</source>
         <translation>Kareler</translation>
     </message>
@@ -2231,7 +2231,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/calibration_checks.py" line="89"/>
         <location filename="../../ui/calibration_checks.py" line="306"/>
-        <location filename="../../ui/stage_boxes.py" line="187"/>
+        <location filename="../../ui/stage_boxes.py" line="178"/>
         <source>Check</source>
         <translation>Denetim</translation>
     </message>
@@ -2362,32 +2362,32 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Kalite denetimi yapılmadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="188"/>
+        <location filename="../../ui/stage_boxes.py" line="179"/>
         <source>Masters</source>
         <translation>Ana kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="189"/>
+        <location filename="../../ui/stage_boxes.py" line="180"/>
         <source>Calibrate</source>
         <translation>Kalibre et</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="190"/>
+        <location filename="../../ui/stage_boxes.py" line="181"/>
         <source>Review</source>
         <translation>Gözden geçir</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="191"/>
+        <location filename="../../ui/stage_boxes.py" line="182"/>
         <source>Continue</source>
         <translation>Devam</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="197"/>
+        <location filename="../../ui/stage_boxes.py" line="188"/>
         <source>Plan</source>
         <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="196"/>
+        <location filename="../../ui/stage_boxes.py" line="187"/>
         <source>Problems</source>
         <translation>Sorunlar</translation>
     </message>
@@ -3696,37 +3696,37 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>ExoplanetsWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="92"/>
+        <location filename="../../ui/stage_boxes.py" line="83"/>
         <source>Data</source>
         <translation>Veri</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="92"/>
+        <location filename="../../ui/stage_boxes.py" line="83"/>
         <source>Star</source>
         <translation>Yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="93"/>
+        <location filename="../../ui/stage_boxes.py" line="84"/>
         <source>Planets</source>
         <translation>Gezegenler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="93"/>
+        <location filename="../../ui/stage_boxes.py" line="84"/>
         <source>Model</source>
         <translation>Model</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="94"/>
+        <location filename="../../ui/stage_boxes.py" line="85"/>
         <source>Fit</source>
         <translation>Uydur</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="95"/>
+        <location filename="../../ui/stage_boxes.py" line="86"/>
         <source>Uncertainty</source>
         <translation>Belirsizlik</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="96"/>
+        <location filename="../../ui/stage_boxes.py" line="87"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
@@ -5713,6 +5713,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/area_menus.py" line="258"/>
         <location filename="../../ui/area_menus.py" line="498"/>
         <location filename="../../ui/area_windows.py" line="48"/>
+        <location filename="../../ui/stage_boxes.py" line="236"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
     </message>
@@ -10551,7 +10552,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="127"/>
-        <location filename="../../ui/stage_boxes.py" line="258"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Connect</source>
         <translation>Bağlan</translation>
     </message>
@@ -10672,7 +10673,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="200"/>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Sequence</source>
         <translation>Çekim sırası</translation>
     </message>
@@ -11179,17 +11180,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>dizi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="258"/>
+        <location filename="../../ui/stage_boxes.py" line="257"/>
         <source>Point</source>
         <translation>Yönelt</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="259"/>
+        <location filename="../../ui/stage_boxes.py" line="258"/>
         <source>Focus</source>
         <translation>Odak</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="260"/>
+        <location filename="../../ui/stage_boxes.py" line="259"/>
         <source>Night</source>
         <translation>Gece</translation>
     </message>
@@ -11197,57 +11198,57 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>OcMinima</name>
     <message>
-        <location filename="../../ui/oc_minima.py" line="23"/>
+        <location filename="../../ui/oc_minima.py" line="29"/>
         <source>Times of minimum</source>
         <translation>Minimum zamanları</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Time</source>
         <translation>Zaman</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Error (d)</source>
         <translation>Hata (g)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="25"/>
+        <location filename="../../ui/oc_minima.py" line="22"/>
         <source>Kind</source>
         <translation>Tür</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>Source</source>
         <translation>Kaynak</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>Epoch</source>
         <translation>Epok</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="26"/>
+        <location filename="../../ui/oc_minima.py" line="23"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="27"/>
+        <location filename="../../ui/oc_minima.py" line="24"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="30"/>
+        <location filename="../../ui/oc_minima.py" line="33"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="39"/>
+        <location filename="../../ui/oc_minima.py" line="42"/>
         <source>Minima table…</source>
         <translation>Minimum tablosu…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_minima.py" line="41"/>
+        <location filename="../../ui/oc_minima.py" line="44"/>
         <source>Every minimum of the last fit with its epoch, O−C and residual</source>
         <translation>Son uyumdaki her minimum; epoğu, O−C&apos;si ve artığıyla</translation>
     </message>
@@ -11255,24 +11256,55 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="80"/>
+        <location filename="../../ui/oc_stages.py" line="16"/>
+        <location filename="../../ui/oc_stages.py" line="32"/>
         <source>Minima</source>
         <translation>Minimumlar</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="80"/>
+        <location filename="../../ui/oc_stages.py" line="16"/>
         <source>Ephemeris</source>
         <translation>Efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="81"/>
+        <location filename="../../ui/oc_stages.py" line="17"/>
         <source>Model</source>
         <translation>Model</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="81"/>
+        <location filename="../../ui/oc_stages.py" line="17"/>
+        <source>Uncertainty</source>
+        <translation>Belirsizlik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="18"/>
         <source>Fit and report</source>
         <translation>Uyum ve rapor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="33"/>
+        <source>Parameters</source>
+        <translation>Parametreler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="48"/>
+        <source>Parameter</source>
+        <translation>Parametre</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="48"/>
+        <source>Value</source>
+        <translation>Değer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="49"/>
+        <source>Error</source>
+        <translation>Hata</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="49"/>
+        <source>Unit</source>
+        <translation>Birim</translation>
     </message>
 </context>
 <context>
@@ -11923,17 +11955,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="219"/>
+        <location filename="../../ui/stage_boxes.py" line="210"/>
         <source>Data</source>
         <translation>Veri</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="219"/>
+        <location filename="../../ui/stage_boxes.py" line="210"/>
         <source>Clean</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="220"/>
+        <location filename="../../ui/stage_boxes.py" line="211"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
@@ -16691,24 +16723,100 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="238"/>
+        <location filename="../../ui/stage_boxes.py" line="232"/>
         <source>Scene</source>
         <translation>Sahne</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="239"/>
+        <location filename="../../ui/stage_boxes.py" line="233"/>
         <source>Display</source>
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="240"/>
+        <location filename="../../ui/stage_boxes.py" line="234"/>
         <source>Indices</source>
         <translation>İndisler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="241"/>
+        <location filename="../../ui/stage_boxes.py" line="235"/>
         <source>Classes</source>
         <translation>Sınıflar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="14"/>
+        <location filename="../../ui/rs_views.py" line="30"/>
+        <source>Pixels</source>
+        <translation>Piksel</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="15"/>
+        <source>Minimum</source>
+        <translation>Minimum</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="16"/>
+        <source>Median</source>
+        <translation>Ortanca</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="17"/>
+        <source>Maximum</source>
+        <translation>En büyük</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="18"/>
+        <source>Mean</source>
+        <translation>Ortalama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="19"/>
+        <source>Standard deviation</source>
+        <translation>Standart sapma</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="48"/>
+        <source>Products written (GeoTIFF, next to the image)</source>
+        <translation>Yazılan ürünler (GeoTIFF, görüntünün yanında)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="50"/>
+        <source>Every result is saved as a georeferenced GeoTIFF</source>
+        <translation>Her sonuç konumlandırılmış bir GeoTIFF olarak kaydedilir</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="52"/>
+        <source>Save the map as a picture…</source>
+        <translation>Haritayı resim olarak kaydet…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="53"/>
+        <source>The map as it is on screen, as a PNG file</source>
+        <translation>Haritanın ekrandaki hali, PNG dosyası olarak</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="62"/>
+        <source>Cannot write {path}</source>
+        <translation>{path} yazılamıyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="73"/>
+        <source>Histogram</source>
+        <translation>Histogram</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="74"/>
+        <source>Statistics</source>
+        <translation>İstatistikler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="86"/>
+        <source>Statistic</source>
+        <translation>İstatistik</translation>
+    </message>
+    <message>
+        <location filename="../../ui/rs_views.py" line="86"/>
+        <source>Value</source>
+        <translation>Değer</translation>
     </message>
 </context>
 <context>

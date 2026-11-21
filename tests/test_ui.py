@@ -2713,14 +2713,33 @@ def test_the_oc_window_has_stages(window):
     """UI-16.5: Minima, Ephemeris, Model, Fit and report as stages beside the O−C diagram."""
     win = window.open_area("oc")
     page = window.oc_page
-    assert list(win.stage_panels) == ["minima", "ephemeris", "model", "report"]
+    assert list(win.stage_panels) == ["minima", "ephemeris", "model", "uncertainty", "report"]
     assert win.stage_panels["minima"].isAncestorOf(page.text) and win.stage_panels["ephemeris"].isAncestorOf(page.t0)
-    assert win.stage_panels["model"].isAncestorOf(page.apsidal) and win.stage_panels["model"].isAncestorOf(
-        page.use_mcmc
-    )
+    assert win.stage_panels["model"].isAncestorOf(page.apsidal)
+    assert win.stage_panels["uncertainty"].isAncestorOf(page.use_mcmc)
     assert win.stage_panels["report"].isAncestorOf(page.fit_button)
     page.text.setPlainText("2455867.40274 0.00005 I")
     assert win.rail.states["minima"] == "done"
+    win.close()
+
+
+def test_the_oc_window_results_tabs_and_stale_mark(window):
+    """UI-16.5: a fit fills the Minima and Parameters tabs; changing an input afterwards marks them out of date."""
+    win = window.open_area("oc")
+    page = window.oc_page
+    assert page.minima_view.table.rowCount() == 0
+    page.text.setPlainText(
+        "\n".join(f"{2455000.0 + 0.5 * k + (0.0004 if k % 7 == 0 else 0):.6f} 0.0003 I" for k in range(0, 60, 2))
+    )
+    page.period.setText("1.0")
+    page.t0.setText("2455000.0")
+    assert page.run_fit() is not None
+    assert page.minima_view.table.rowCount() == 30 and page.parameters_view.table.rowCount() >= 3
+    assert "(out of date)" not in win.docks["result_parameters"].windowTitle()
+    page.period.setText("1.0001")
+    assert "(out of date)" in win.docks["result_minima"].windowTitle()
+    page.run_fit()
+    assert "(out of date)" not in win.docks["result_minima"].windowTitle()
     win.close()
 
 
@@ -2803,7 +2822,7 @@ def test_the_remote_sensing_window_has_stages(window):
     """UI-16.13: Scene, Display, Indices, Classes as stages beside the map; the read-out and the plot stay."""
     win = window.open_area("remotesensing")
     page = window.rs_page
-    assert list(win.stage_panels) == ["scene", "display", "indices", "classes"]
+    assert list(win.stage_panels) == ["scene", "display", "indices", "classes", "export"]
     assert win.stage_panels["scene"].isAncestorOf(page.open_button) and win.stage_panels["scene"].isAncestorOf(
         page.info
     )
@@ -2815,6 +2834,25 @@ def test_the_remote_sensing_window_has_stages(window):
     assert page.plot.isVisibleTo(page) and not page.guide.isVisibleTo(page)
     page.guide.set_state(2, "done")
     assert win.rail.states["indices"] == "done"
+    win.close()
+
+
+def test_the_remote_sensing_window_shows_histogram_statistics_and_products(window, tmp_path):
+    """UI-16.13: the Histogram and Statistics tabs follow the shown band; Export lists the products written."""
+    from test_remotesensing import scene
+
+    path, _, _ = scene(tmp_path)
+    win = window.open_area("remotesensing")
+    page = window.rs_page
+    page.open(str(path))
+    assert win.stage_panels["export"].isAncestorOf(page.products_list)
+    table = page.statistics_view.table
+    assert table.rowCount() == 10 and table.item(0, 1).text() == str(60 * 80)
+    page.show_product({"path": str(path), "explained": None})
+    assert page.products_list.count() == 1
+    from astrowb.ui.rs_views import histogram_figure
+
+    assert histogram_figure([[float("nan")]], "x") is None
     win.close()
 
 

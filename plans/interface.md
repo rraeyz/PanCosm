@@ -695,7 +695,7 @@ every language; test_the_light_curves_window_has_stages). 2026-11-14: a click on
 
 #### UI-16.5 O−C
 **partial** — the window has the stages Minima, Ephemeris, Model, Fit and report beside the O−C diagram
-(0.3.19, test_the_oc_window_has_stages). 2026-11-14: "Minima table…" after a fit (`ui/oc_minima.py`: time, error, kind, source, epoch, O−C, residual; sortable, copyable; test_oc_models). The editable table replacing the text box is left.
+(0.3.19, test_the_oc_window_has_stages). 2026-11-14: "Minima table…" after a fit (`ui/oc_minima.py`: time, error, kind, source, epoch, O−C, residual; sortable, copyable; test_oc_models). The editable table replacing the text box is left. (2026-11-21) Stages Minima, Ephemeris, Model, Uncertainty (the MCMC controls), Fit and report (`ui/oc_stages.py` `oc_stages`, moved from `stage_boxes`); the results tabs "Minima" (time, error, kind, source, epoch, O−C, residual) and "Parameters" (the fit table's values and errors) under the diagram, marked "(out of date)" when the minima, T0, period or model change after a fit (`test_the_oc_window_has_stages`, `test_the_oc_window_results_tabs_and_stale_mark`). Shortcut: the Minima tab and its table are kept out of the Tab chain (a tab behind the front one has a stale geometry; "Minima table…" has the full keyboard use). Left: the editable minima table (weight, use ☑, method, paste in any layout) replacing the text box; the Correlations tab (the engine gives no correlation matrix of the fit: needs the posterior samples kept in `oc_models`); the year axis over the epoch axis (needs a time-axis design); symbols by method; the time-standard row with its ⚠ (the standard is only said after Load); the guide chapter and screenshots; the owner's try-out.
 ```
 1 Minima  ●     Times of minimum               ?       ┌ O−C diagram (epoch and year axes; symbols by ───┐
 2 Ephemeris     [Open…] [Paste] [From databases…]      │ kind: primary ●, secondary ○; by method: colour)│
@@ -890,7 +890,12 @@ rail          stage panel (example: 3 Find)                 main: image with bli
 #### UI-16.13 Remote sensing
 **partial** (2026-11-20: the stages Scene, Display, Indices, Classes beside the map; the pixel read-out, the
 status and the plot stay in the column under them; band roles two per row; test_the_remote_sensing_window_has_stages.
-Left: the Layers list, Change and Export stages, the inspector)
+more done 2026-11-21: the Export stage (`rs_views.export_stage`: the products written, "Save the map as a picture…"),
+the Histogram and Statistics result tabs of the shown band or product (`rs_views.add_views`, `histogram_figure`,
+`statistics_rows`); test_the_remote_sensing_window_shows_histogram_statistics_and_products.
+Left: the Layers list with visibility and opacity, the Change stage (needs an engine step `rs.change` on two
+products, designed first), the Classes and Time series tabs, GeoTIFF export options and the map layout, the
+inspector (band values and spectrum at the pixel), the grid, scale bar and north arrow)
 ```
 rail           stage panel (example: 3 Indices)            main: the map                           inspector
 1 Scene        Index or formula               ?            ┌─────────────────────────────────────┐ Pixel 5120, 3311
