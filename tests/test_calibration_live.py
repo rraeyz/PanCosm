@@ -83,3 +83,57 @@ def test_live_var_plane_counts_the_masters_variance_like_the_batch(tmp_path):
 def test_masters_stay_single_image_when_planes_are_off(tmp_path):
     _, batch = _night(tmp_path, False)
     assert all(len(fits.open(m)) == 1 for m in batch["masters"])
+
+
+def _night_with(tmp_path, mark):
+    rng = np.random.default_rng(9)
+    raw, lights, shape = tmp_path / "raw", tmp_path / "lights", (160, 160)
+    raw.mkdir()
+    lights.mkdir()
+    for i in range(5):
+        for kind, level, t in (("BIAS", 300, 0.0), ("DARK", 310, 30.0), ("FLAT", 20300, 1.0)):
+            fits.PrimaryHDU((level + rng.normal(0, 3, shape)).astype(np.float32),
+                            fits.Header({"IMAGETYP": kind, "EXPTIME": t})).writeto(raw / f"{kind}{i}.fits")  # fmt: skip
+    img = (900 + rng.normal(0, 10, shape)).astype(np.float32)
+    mark(img)
+    fits.PrimaryHDU(img, fits.Header({"IMAGETYP": "LIGHT", "EXPTIME": 30.0, "EGAIN": 1.5,
+                                      "DATE-OBS": "2026-11-14T20:00:00"})).writeto(lights / "l0.fits")  # fmt: skip
+    scan = execute("calibration.scan", {"folder": str(raw), "lights": str(lights)}, {}, Ctx())
+    return lights, scan["frames"]
+
+
+def _same(tmp_path, mark, options, live_kw):
+    lights, frames = _night_with(tmp_path, mark)
+    batch = execute("calibration.run", {"frames": frames, "output_dir": str(tmp_path / "b")}, options, Ctx())
+    live = LiveCalibrator(batch["masters"], tmp_path / "live", **live_kw)
+    (path,) = live.poll(lights)
+    for ext in ("SCI", "VAR", "DQ"):
+        ours, theirs = (fits.getdata(p, extname=ext).astype(float) for p in (path, batch["calibrated"][0]))
+        np.testing.assert_allclose(ours, theirs, rtol=1e-9)
+    return live, batch, fits.getdata(path, extname="DQ")
+
+
+def test_live_cosmic_rays_equal_the_batch(tmp_path):
+    def spike(img):
+        img[80, 80] += 5000
+
+    _, _, dq = _same(tmp_path, spike, {"cosmic_rays": True}, {"cosmic_rays": True})
+    assert dq[80, 80] != 0
+
+
+def test_live_trails_equal_the_batch(tmp_path):
+    def line(img):
+        for x in range(160):
+            img[x, x] += 150
+
+    live, batch, dq = _same(tmp_path, line, {"find_trails": True}, {"params": {"find_trails": True}})
+    assert live.trails == batch["trails"] and len(live.trails) == 1 and dq.any()
+
+
+def test_live_options_off_do_no_extra_work(tmp_path, monkeypatch):
+    def boom(*a, **k):
+        raise AssertionError("searched")
+
+    monkeypatch.setattr("astrowb.calibration.trails.find", boom)
+    monkeypatch.setattr("astrowb.calibration.cosmics.detect_cosmics", boom)
+    _same(tmp_path, lambda img: None, {}, {})

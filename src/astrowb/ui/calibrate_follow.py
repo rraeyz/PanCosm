@@ -54,7 +54,13 @@ def _toggled(page, on):
     from ..calibration.live import LiveCalibrator
 
     try:
-        live = LiveCalibrator(masters, page.output.text(), params=page._camera_params(), library=library)
+        live = LiveCalibrator(
+            masters,
+            page.output.text(),
+            cosmic_rays=page.cosmics.isChecked(),
+            params=page._camera_params() | {"find_trails": page.find_trails.isChecked()},
+            library=library,
+        )
     except (OSError, ValueError) as e:
         page.result.setText(message(e))
         page.follow_button.setChecked(False)
@@ -105,4 +111,7 @@ def _show(page):
     wait = translate(
         "CalibrateFollow", "Photometry is not measuring yet: set the stars and start live photometry there"
     )
-    page.result.setText("\n".join(x for x in (line, s["error"], wait if s.get("waiting") else "") if x))
+    from .calibrate_light_checks import trail_lines
+
+    trails = trail_lines({"trails": s["live"].trails})
+    page.result.setText("\n".join(x for x in (line, *trails, s["error"], wait if s.get("waiting") else "") if x))

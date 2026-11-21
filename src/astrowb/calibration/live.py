@@ -12,7 +12,7 @@ from pathlib import Path
 
 from ..hdr import get
 from ..photometry.planes_use import read as read_planes
-from . import library_use, masters, planes_out
+from . import library_use, masters, planes_out, trails_run
 
 
 class LiveCalibrator:
@@ -37,6 +37,7 @@ class LiveCalibrator:
         self.cosmic_rays, self.read_noise, self.divide_flat = cosmic_rays, read_noise, divide_flat
         self.params = {"read_noise": read_noise} | (params or {})  # write_planes, gain, saturation: as the batch run
         self.seen, self.cache = set(), {}
+        self.trails = []  # the trail records found (params["find_trails"]), as the batch run's "trails"
 
     def _for(self, light, header):
         """(masters, names, variances) for this light: the run's, and the library's for the kinds it lacks."""
@@ -66,14 +67,18 @@ class LiveCalibrator:
         for kind in ("bias", "dark", "flat"):
             used = names.get(kind) if (kind != "flat" or f is not None) else None
             header[f"CAL{kind[0].upper()}"] = (used or "none", f"{kind} used for calibration")
+        cosmic = []
         if self.cosmic_rays:
-            data = _remove_cosmic_rays(data, header, self.read_noise)
+            data = _remove_cosmic_rays(data, header, self.read_noise, cosmic)
+        trail, band = trails_run.search(data, self.params, Path(path).name)
+        self.trails += [trail] if trail else []
         used = {
             k: (*have[k], var.get(k)) for k in ("bias", "dark", "flat") if k in have and (k != "flat" or f is not None)
         }
         stem = re.sub(r"\.(fits?|fts)(\.gz|\.fz)?$", "", Path(path).name, flags=re.I)
         self.seen.add(str(Path(path).resolve()))
-        return planes_out.save(self.out / f"{stem}.fits", data, header, self.params, light, exptime, used)
+        return planes_out.save(self.out / f"{stem}.fits", data, header, self.params, light, exptime, used, 1.0, None,
+                               cosmic[0] if cosmic else None, band)  # fmt: skip
 
     def poll(self, folder):
         """Calibrate every FITS file in folder not processed yet (by name, oldest first); [calibrated paths]."""

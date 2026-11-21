@@ -624,7 +624,13 @@ Done (2026-11-28): the library's masters: `LiveCalibrator(library=…)` supplies
 of from the library (`library_use.for_light`, each read once); a light that would get no master at all is skipped with
 the translated line "no master in the library fits this frame: no valid bias, dark, flat" and following goes on; the
 button is allowed without masters when a library exists. Test (tests/test_calibration_library_use.py
-`test_follow_with_an_empty_run_uses_the_library_and_skips_a_light_with_no_match`). Left: the live stack, the
+`test_follow_with_an_empty_run_uses_the_library_and_skips_a_light_with_no_match`).
+Done (2026-11-28): the batch's cosmic-ray and trail options in the live frame: `LiveCalibrator(cosmic_rays=…,
+params={"find_trails": …})` call `steps._remove_cosmic_rays` and `trails_run.search` like `steps._run` (DQ COSMIC / REPAIRED /
+TRAIL via `planes_out.save`); `live.trails` are the records, shown by `calibrate_follow._show` with the batch's trail
+line; `calibrate_follow` passes the ticked options. Tests (tests/test_calibration_live.py
+`test_live_cosmic_rays_equal_the_batch`, `test_live_trails_equal_the_batch`, `test_live_options_off_do_no_extra_work`).
+Left: the live stack, the
 Observing window's switch.
 - **Reference:** AstroImageJ Data Processor polling; MaxIm DL auto-calibrate on acquire.
 - **Build:** "Follow a folder" in the Calibrate stage with the night's masters (or the library's): each new light is
