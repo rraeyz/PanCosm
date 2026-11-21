@@ -15,6 +15,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ..core.atomic import write_fits
 from ..core.errors import AppError
 
 COMPUTED = ("DATE-AVG", "JD_UTC", "HJD_UTC", "BJD_TDB", "AIRMASS", "ALT", "AZ")
@@ -125,6 +126,6 @@ def apply(paths, rules, out_dir=None, in_place=False):
                 h[key] = value
         if changed:
             h.add_history(f"keywords edited: {', '.join(sorted(changed))[:60]}")
-        hdul.writeto(target, overwrite=True)
+        write_fits(hdul, target)
         written.append(str(target))
     return written

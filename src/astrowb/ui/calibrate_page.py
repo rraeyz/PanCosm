@@ -27,6 +27,8 @@ from ..calibration.frames import Frame
 from ..calibration.library_use import shown_plan
 from ..photometry.multifilter import by_filter  # noqa: F401  (imported from here by other pages)
 from . import automatic
+from .calibrate_estimate import add_estimate_label, refused
+from .calibrate_estimate import refresh as refresh_estimate
 from .calibrate_follow import add_follow_button
 from .calibrate_library import library_line, library_text
 from .kit.help import help_line
@@ -280,6 +282,7 @@ class CalibratePage(Undoable, QWidget):
         for w in (self.optimize_dark, self.fix_defects, self.split_colour, self.spectra, self.linearity):
             self.more_options.body.addWidget(w)
         lay.addWidget(self.more_options)
+        add_estimate_label(self, lay)  # CAL-14
         self.result = QLabel(self)
         self.result.setWordWrap(True)
         lay.addWidget(self.result)
@@ -564,6 +567,7 @@ class CalibratePage(Undoable, QWidget):
                 ),
             )
         self.warnings.setPlainText("\n".join(lines))
+        refresh_estimate(self)
         self.run_button.setEnabled(counts["light"] + counts["arc"] > 0)
         self.run_button.setToolTip("" if counts["light"] else self.tr("Needs at least one light frame"))
         self.changed.emit()
@@ -633,7 +637,8 @@ class CalibratePage(Undoable, QWidget):
         except ValueError:
             self.result.setText(self.tr("Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6"))
             return
-        self.run_requested.emit(self.frames, self.output.text(), params)
+        if not refused(self):  # CAL-14: the disk is too small
+            self.run_requested.emit(self.frames, self.output.text(), params)
 
     def show_result(self, out: dict):
         self.calibrated, self.masters = out["calibrated"], out["masters"]  # the masters Follow a folder uses

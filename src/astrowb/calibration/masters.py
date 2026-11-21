@@ -43,6 +43,7 @@ import numpy as np
 from astropy.io import fits
 
 from ..compute.combine import clipped_mean
+from ..core.atomic import write_fits
 from ..hdr import get, number
 from ..io.fits import find_image_hdu, inherited
 from ..io.lzw import readable
@@ -463,5 +464,5 @@ def calibrate(light, exptime, bias=None, dark=None, dark_header=None, flat=None,
 def save(path, data, header):
     # headers come from the camera files, and some capture programs break the FITS rules (lower-case keywords,
     # values like NaN or 1.0.0): astropy refuses to write those unless told to fix them
-    fits.PrimaryHDU(np.asarray(data, np.float32), header).writeto(path, overwrite=True, output_verify="silentfix")
+    write_fits(fits.PrimaryHDU(np.asarray(data, np.float32), header), path, output_verify="silentfix")
     return str(path)

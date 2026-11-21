@@ -1752,6 +1752,14 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
 </context>
 <context>
+    <name>CalibrateEstimate</name>
+    <message>
+        <location filename="../../ui/calibrate_estimate.py" line="33"/>
+        <source>This run writes about {n} files, {size} GB, to {folder}; free space {free} GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CalibrateFollow</name>
     <message>
         <location filename="../../ui/calibrate_follow.py" line="14"/>
@@ -1816,645 +1824,645 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>CalibratePage</name>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="63"/>
+        <location filename="../../ui/calibrate_page.py" line="65"/>
         <source>Choose the folders of the lights and of the bias, dark and flat frames, then Scan</source>
         <translation>Ordner der Lights und der Bias-, Dark- und Flat-Bilder wählen, dann Einlesen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="65"/>
+        <location filename="../../ui/calibrate_page.py" line="67"/>
         <source>Choose the light frames&apos; folder and the calibration frames&apos; folder (Browse…), then press Scan.</source>
         <translation>Wählen Sie den Ordner der Lights und den der Kalibrierbilder (Durchsuchen…) und drücken Sie dann Einlesen.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="69"/>
+        <location filename="../../ui/calibrate_page.py" line="71"/>
         <source>Check the frame types found (IRAF ccdlist)</source>
         <translation>Die gefundenen Bildtypen prüfen (IRAF ccdlist)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="71"/>
+        <location filename="../../ui/calibrate_page.py" line="73"/>
         <source>Check the table: each frame&apos;s type, exposure, filter and temperature. Double-click a wrong type to change it, and read the problems listed under the table.</source>
         <translation>Prüfen Sie die Tabelle: Typ, Belichtung, Filter und Temperatur jedes Bildes. Doppelklicken Sie auf einen falschen Typ, um ihn zu ändern, und lesen Sie die unter der Tabelle aufgeführten Probleme.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="77"/>
+        <location filename="../../ui/calibrate_page.py" line="79"/>
         <source>Combine the masters and calibrate the lights (zerocombine, darkcombine, flatcombine, ccdproc)</source>
         <translation>Master kombinieren und die Lights kalibrieren (zerocombine, darkcombine, flatcombine, ccdproc)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="80"/>
+        <location filename="../../ui/calibrate_page.py" line="82"/>
         <source>Choose where to write the results and press 3. Calibrate. For spectra tick Spectra: do not divide by the flat.</source>
         <translation>Wählen Sie, wohin die Ergebnisse geschrieben werden, und drücken Sie 3. Kalibrieren. Für Spektren haken Sie Spektren: nicht durch das Flat teilen an.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="85"/>
+        <location filename="../../ui/calibrate_page.py" line="87"/>
         <source>Measure them, or stack them (phot, imcombine)</source>
         <translation>Messen oder stapeln (phot, imcombine)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="92"/>
+        <location filename="../../ui/calibrate_page.py" line="94"/>
         <source>1. Choose your frames: the lights and the calibration frames (BDF).</source>
         <translation>1. Wählen Sie Ihre Bilder: die Lights und die Kalibrierbilder (BDF).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="97"/>
+        <location filename="../../ui/calibrate_page.py" line="99"/>
         <source>light frames (data) folder</source>
         <translation>Ordner der Lights (Daten)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="99"/>
+        <location filename="../../ui/calibrate_page.py" line="101"/>
         <source>Every frame here is a light, unless its header says bias, dark or flat. Sub-folders are read too.</source>
         <translation>Jedes Bild hier ist ein Light, außer sein Header sagt Bias, Dark oder Flat. Unterordner werden mitgelesen.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="101"/>
-        <location filename="../../ui/calibrate_page.py" line="117"/>
-        <location filename="../../ui/calibrate_page.py" line="197"/>
+        <location filename="../../ui/calibrate_page.py" line="103"/>
+        <location filename="../../ui/calibrate_page.py" line="119"/>
+        <location filename="../../ui/calibrate_page.py" line="199"/>
         <source>Browse…</source>
         <translation>Durchsuchen…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="103"/>
-        <location filename="../../ui/calibrate_page.py" line="119"/>
-        <location filename="../../ui/calibrate_page.py" line="205"/>
+        <location filename="../../ui/calibrate_page.py" line="105"/>
+        <location filename="../../ui/calibrate_page.py" line="121"/>
+        <location filename="../../ui/calibrate_page.py" line="207"/>
         <source>Choose the folder in a dialog</source>
         <translation>Den Ordner in einem Dialog wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="104"/>
+        <location filename="../../ui/calibrate_page.py" line="106"/>
         <source>Lights</source>
         <translation>Lights</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="110"/>
+        <location filename="../../ui/calibrate_page.py" line="112"/>
         <source>bias / dark / flat folder; another folder; …</source>
         <translation>Bias-/Dark-/Flat-Ordner; weiterer Ordner; …</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="113"/>
+        <location filename="../../ui/calibrate_page.py" line="115"/>
         <source>Calibration frames, sorted into bias, dark and flat. Several folders separated by &apos;;&apos; (e.g. a calibration library). Everything in one folder: give it here only.</source>
         <translation>Kalibrierbilder, eingeordnet als Bias, Dark und Flat. Mehrere Ordner durch &apos;;&apos; getrennt (z. B. eine Kalibrierbibliothek). Alles in einem Ordner: nur hier angeben.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="120"/>
+        <location filename="../../ui/calibrate_page.py" line="122"/>
         <source>Add folder…</source>
         <translation>Ordner hinzufügen…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="122"/>
+        <location filename="../../ui/calibrate_page.py" line="124"/>
         <source>Read frames from one more folder, e.g. master or calibration frames kept elsewhere</source>
         <translation>Bilder aus einem weiteren Ordner lesen, z. B. Master- oder Kalibrierbilder an anderer Stelle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="125"/>
+        <location filename="../../ui/calibrate_page.py" line="127"/>
         <source>BDF</source>
         <translation>BDF</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="130"/>
+        <location filename="../../ui/calibrate_page.py" line="132"/>
         <source>Scan</source>
         <translation>Einlesen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="134"/>
+        <location filename="../../ui/calibrate_page.py" line="136"/>
         <source>Reads every frame and sorts it by its header into bias, dark, flat, arc and light; nothing is changed yet, check the table</source>
         <translation>Liest jedes Bild und ordnet es nach seinem Header als Bias, Dark, Flat, Arc und Light ein; noch wird nichts verändert, prüfen Sie die Tabelle</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="141"/>
+        <location filename="../../ui/calibrate_page.py" line="143"/>
         <source>DSLR clock − UTC: </source>
         <translation>DSLR-Uhr − UTC: </translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="142"/>
+        <location filename="../../ui/calibrate_page.py" line="144"/>
         <source> h</source>
         <translation> h</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="145"/>
+        <location filename="../../ui/calibrate_page.py" line="147"/>
         <source>Camera raw files (CR2, NEF, ARW, DNG…) are converted to FITS in the folder fits_from_raw. Their time is the camera clock: give how many hours it is ahead of UTC (0 if the camera is set to UTC), and check the clock against a time signal — timing errors go straight into minima and O−C.</source>
         <translation>Kamera-Rohdateien (CR2, NEF, ARW, DNG…) werden im Ordner fits_from_raw in FITS umgewandelt. Ihre Zeit ist die Kamerauhr: Geben Sie an, wie viele Stunden sie UTC voraus ist (0, wenn die Kamera auf UTC steht), und prüfen Sie die Uhr mit einem Zeitsignal — Zeitfehler gehen direkt in Minima und O−C ein.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="157"/>
+        <location filename="../../ui/calibrate_page.py" line="159"/>
         <source>Remove from the list</source>
         <translation>Aus der Liste entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="160"/>
+        <location filename="../../ui/calibrate_page.py" line="162"/>
         <source>Leaves the selected frames out of the calibration (Delete key; Ctrl+Z brings them back). The files are not deleted.</source>
         <translation>Lässt die ausgewählten Bilder bei der Kalibrierung weg (Entf-Taste; Strg+Z holt sie zurück). Die Dateien werden nicht gelöscht.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="165"/>
+        <location filename="../../ui/calibrate_page.py" line="167"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="166"/>
+        <location filename="../../ui/calibrate_page.py" line="168"/>
         <source>Empties the folders and the frame list, to choose the folders again (Ctrl+Z undoes)</source>
         <translation>Leert die Ordner und die Bildliste, um die Ordner neu zu wählen (Strg+Z macht es rückgängig)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="174"/>
+        <location filename="../../ui/calibrate_page.py" line="176"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="174"/>
+        <location filename="../../ui/calibrate_page.py" line="176"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="174"/>
+        <location filename="../../ui/calibrate_page.py" line="176"/>
         <source>Exposure (s)</source>
         <translation>Belichtung (s)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="174"/>
+        <location filename="../../ui/calibrate_page.py" line="176"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="175"/>
+        <location filename="../../ui/calibrate_page.py" line="177"/>
         <source>Temp. (°C)</source>
         <translation>Temp. (°C)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="175"/>
+        <location filename="../../ui/calibrate_page.py" line="177"/>
         <source>Binning</source>
         <translation>Binning</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="184"/>
+        <location filename="../../ui/calibrate_page.py" line="186"/>
         <source>Double-click a frame&apos;s type to change it</source>
         <translation>Doppelklick auf den Typ eines Bildes ändert ihn</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="191"/>
+        <location filename="../../ui/calibrate_page.py" line="193"/>
         <source>Problems and missing calibration frames are listed here.</source>
         <translation>Probleme und fehlende Kalibrierbilder werden hier aufgelistet.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="194"/>
+        <location filename="../../ui/calibrate_page.py" line="196"/>
         <source>2. Choose where to write master frames and calibrated images.</source>
         <translation>2. Wählen Sie, wohin Masterbilder und kalibrierte Bilder geschrieben werden.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="201"/>
+        <location filename="../../ui/calibrate_page.py" line="203"/>
         <source>Folder for the master frames and the calibrated images; created if it does not exist. The raw frames are never changed.</source>
         <translation>Ordner für die Masterbilder und die kalibrierten Bilder; wird angelegt, falls er fehlt. Die Rohbilder werden nie verändert.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="210"/>
+        <location filename="../../ui/calibrate_page.py" line="212"/>
         <source>Rejection (sigma):</source>
         <translation>Verwerfung (Sigma):</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="217"/>
+        <location filename="../../ui/calibrate_page.py" line="219"/>
         <source>A pixel further than this many standard deviations from the other frames&apos; values is left out when the masters are combined and when images are stacked; 3 is the usual value</source>
         <translation>Ein Pixel, das um mehr als so viele Standardabweichungen von den anderen Bildern abweicht, wird beim Kombinieren der Master und beim Stacken weggelassen; 3 ist der übliche Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="222"/>
+        <location filename="../../ui/calibrate_page.py" line="224"/>
         <source>Remove cosmic rays from lights</source>
         <translation>Kosmische Strahlen aus Lights entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="225"/>
+        <location filename="../../ui/calibrate_page.py" line="227"/>
         <source>Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them. Useful for long exposures and spectra; not needed when many frames are stacked with rejection. The slowest part of calibrating the lights: switch it off for a quick pass.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="230"/>
+        <location filename="../../ui/calibrate_page.py" line="232"/>
         <source>Scale the dark to each light (dark optimisation)</source>
         <translation>Dark an jede Aufnahme anpassen (Dark-Optimierung)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="232"/>
+        <location filename="../../ui/calibrate_page.py" line="234"/>
         <source>Finds the dark scale that leaves the least noise; useful when the camera temperature drifted</source>
         <translation>Findet den Dark-Faktor, der das geringste Rauschen lässt; nützlich, wenn die Kameratemperatur geschwankt hat</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="234"/>
+        <location filename="../../ui/calibrate_page.py" line="236"/>
         <source>Repair hot and dead pixels (defect map from the masters)</source>
         <translation>Heiße und tote Pixel reparieren (Defektkarte aus den Mastern)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="237"/>
+        <location filename="../../ui/calibrate_page.py" line="239"/>
         <source>Hot pixels (from the master dark) and dead pixels (from the master flat) are replaced by the median of their neighbours in every light; the map is saved with the masters</source>
         <translation>Heiße Pixel (aus dem Master-Dark) und tote Pixel (aus dem Master-Flat) werden in jedem Light durch den Median ihrer Nachbarn ersetzt; die Karte wird bei den Mastern gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="241"/>
+        <location filename="../../ui/calibrate_page.py" line="243"/>
         <source>Spectra: do not divide by the flat</source>
         <translation>Spektren: nicht durch das Flat teilen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="248"/>
+        <location filename="../../ui/calibrate_page.py" line="250"/>
         <source>Colour camera: each colour as its own image</source>
         <translation>Farbkamera: jede Farbe als eigenes Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="252"/>
+        <location filename="../../ui/calibrate_page.py" line="254"/>
         <source>Frames with a Bayer pattern (BAYERPAT) are calibrated as a mosaic, then written as three half-size images R, G, B (filters TR, TG, TB) without interpolation; G is closest to V. Monochrome frames are not affected.</source>
         <translation>Aufnahmen mit Bayer-Muster (BAYERPAT) werden als Mosaik kalibriert und dann ohne Interpolation als drei Bilder halber Größe R, G, B (Filter TR, TG, TB) geschrieben; G liegt V am nächsten. Monochrome Aufnahmen sind nicht betroffen.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="258"/>
+        <location filename="../../ui/calibrate_page.py" line="260"/>
         <source>3. Calibrate</source>
         <translation>3. Kalibrieren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="263"/>
+        <location filename="../../ui/calibrate_page.py" line="265"/>
         <source>Makes the master bias, dark and flat and writes every light as (light − bias − dark) / flat into the output folder</source>
         <translation>Erstellt Master-Bias, -Dark und -Flat und schreibt jedes Light als (Light − Bias − Dark) / Flat in den Ausgabeordner</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="272"/>
+        <location filename="../../ui/calibrate_page.py" line="274"/>
         <source>linearity correction c0 c1 c2 … (empty: none)</source>
         <translation>Linearitätskorrektur c0 c1 c2 … (leer: keine)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="275"/>
+        <location filename="../../ui/calibrate_page.py" line="277"/>
         <source>The camera&apos;s non-linearity: every raw value v becomes c0 + c1·v + c2·v² + … before calibration (from the maker&apos;s sheet or a series of flats of rising exposure)</source>
         <translation>Die Nichtlinearität der Kamera: jeder Rohwert v wird vor der Kalibrierung zu c0 + c1·v + c2·v² + … (aus dem Datenblatt des Herstellers oder einer Flat-Serie mit steigender Belichtung)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="279"/>
+        <location filename="../../ui/calibrate_page.py" line="281"/>
         <source>More calibration options</source>
         <translation>Weitere Kalibrierungsoptionen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="86"/>
+        <location filename="../../ui/calibrate_page.py" line="88"/>
         <source>Press 4. Measure them in the Photometry window →, or stack them into one deep picture.</source>
         <translation>Drücken Sie 4. Im Fenster Photometrie messen → oder stapeln Sie sie zu einem tiefen Bild.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="59"/>
+        <location filename="../../ui/calibrate_page.py" line="61"/>
         <source>Calibration</source>
         <translation>Kalibrierung</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="93"/>
+        <location filename="../../ui/calibrate_page.py" line="95"/>
         <source>Lights in one folder, bias / dark / flat (BDF) in another — or everything as BDF.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="186"/>
+        <location filename="../../ui/calibrate_page.py" line="188"/>
         <source>The type comes from the header, else from the file name; double-click a type to change it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="244"/>
+        <location filename="../../ui/calibrate_page.py" line="246"/>
         <source>For echelle and long-slit frames: the flat between the orders is near zero, so dividing by it would blow up the noise. The master flat is still made; give it to the Spectroscopy window.</source>
         <translation>Für Echelle- und Langspalt-Aufnahmen: Das Flat ist zwischen den Ordnungen fast null, Teilen würde das Rauschen explodieren lassen. Das Master-Flat wird trotzdem erstellt; geben Sie es dem Fenster Spektroskopie.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="286"/>
+        <location filename="../../ui/calibrate_page.py" line="289"/>
         <source>4. Measure them in the Photometry window →</source>
         <translation>4. Im Fenster Photometrie messen →</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="290"/>
+        <location filename="../../ui/calibrate_page.py" line="293"/>
         <source>Sends the calibrated lights to the Photometry window and opens it (a light curve, a variable star)</source>
         <translation>Schickt die kalibrierten Lights an das Fenster Photometrie und öffnet es (eine Lichtkurve, ein Veränderlicher)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="296"/>
+        <location filename="../../ui/calibrate_page.py" line="299"/>
         <source>Or: stack them into one deep picture (not for a light curve)</source>
         <translation>Oder: zu einem tiefen Bild stapeln (nicht für eine Lichtkurve)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="301"/>
+        <location filename="../../ui/calibrate_page.py" line="304"/>
         <source>Aligns the calibrated images on their stars and adds them into one image per filter: fainter stars and nebulae show, for a picture, astrometry or a colour image. Not needed for photometry: a light curve measures every single image (a stack has one time only).</source>
         <translation>Richtet die kalibrierten Bilder an ihren Sternen aus und addiert sie zu einem Bild je Filter: schwächere Sterne und Nebel werden sichtbar, für ein Bild, Astrometrie oder ein Farbbild. Für die Photometrie nicht nötig: eine Lichtkurve misst jedes einzelne Bild (ein Stapel hat nur eine Zeit).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="311"/>
+        <location filename="../../ui/calibrate_page.py" line="314"/>
         <source>Combine</source>
         <translation>Kombinieren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="315"/>
         <source>mean</source>
         <translation>Mittelwert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="315"/>
         <source>median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="312"/>
+        <location filename="../../ui/calibrate_page.py" line="315"/>
         <source>sum</source>
         <translation>Summe</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="315"/>
+        <location filename="../../ui/calibrate_page.py" line="318"/>
         <source>Reject</source>
         <translation>Verwerfen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="317"/>
+        <location filename="../../ui/calibrate_page.py" line="320"/>
         <source>sigma clipping</source>
         <translation>Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="318"/>
+        <location filename="../../ui/calibrate_page.py" line="321"/>
         <source>sigma clipping, median / MAD spread</source>
         <translation>Sigma-Clipping, Median-/MAD-Streuung</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="319"/>
+        <location filename="../../ui/calibrate_page.py" line="322"/>
         <source>winsorized sigma clipping</source>
         <translation>winsorisiertes Sigma-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="320"/>
+        <location filename="../../ui/calibrate_page.py" line="323"/>
         <source>min / max (drop lowest and highest)</source>
         <translation>Min / Max (niedrigste und höchste verwerfen)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="321"/>
+        <location filename="../../ui/calibrate_page.py" line="324"/>
         <source>percentile clipping</source>
         <translation>Perzentil-Clipping</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="322"/>
-        <location filename="../../ui/calibrate_page.py" line="328"/>
+        <location filename="../../ui/calibrate_page.py" line="325"/>
+        <location filename="../../ui/calibrate_page.py" line="331"/>
         <source>none</source>
         <translation>keine</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="326"/>
+        <location filename="../../ui/calibrate_page.py" line="329"/>
         <source>Normalise</source>
         <translation>Normieren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="329"/>
+        <location filename="../../ui/calibrate_page.py" line="332"/>
         <source>multiplicative (scale to the first frame)</source>
         <translation>multiplikativ (auf das erste Bild skalieren)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="330"/>
+        <location filename="../../ui/calibrate_page.py" line="333"/>
         <source>additive (shift to the first frame)</source>
         <translation>additiv (auf das erste Bild verschieben)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="336"/>
         <source>Weights</source>
         <translation>Gewichte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="336"/>
         <source>equal</source>
         <translation>gleich</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="333"/>
+        <location filename="../../ui/calibrate_page.py" line="336"/>
         <source>by noise (1 / σ²)</source>
         <translation>nach Rauschen (1 / σ²)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="335"/>
+        <location filename="../../ui/calibrate_page.py" line="338"/>
         <source>Align</source>
         <translation>Ausrichten</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="337"/>
+        <location filename="../../ui/calibrate_page.py" line="340"/>
         <source>shift only</source>
         <translation>nur Verschiebung</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="338"/>
+        <location filename="../../ui/calibrate_page.py" line="341"/>
         <source>star patterns (rotation and scale too)</source>
         <translation>Sternmuster (auch Drehung und Maßstab)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="343"/>
+        <location filename="../../ui/calibrate_page.py" line="346"/>
         <source>mean: the least noise; median: robust without rejection; sum: keeps the counts</source>
         <translation>Mittelwert: am wenigsten Rauschen; Median: robust auch ohne Verwerfung; Summe: behält die Zählwerte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="345"/>
+        <location filename="../../ui/calibrate_page.py" line="348"/>
         <source>Pixels unlike the others (satellites, cosmic rays, hot pixels) are left out before combining; sigma clipping is IRAF imcombine&apos;s (median ± σ × rms) where ten or more frames cover a pixel and the median / MAD spread where fewer do; min / max and percentile also work with few frames</source>
         <translation>Pixel, die sich von den anderen unterscheiden (Satelliten, kosmische Strahlen, Hotpixel), werden vor dem Kombinieren weggelassen; das Sigma-Clipping ist das von IRAF imcombine (Median ± σ × rms), wo zehn oder mehr Aufnahmen ein Pixel abdecken, und die Median-/MAD-Streuung, wo es weniger sind; Min / Max und Perzentil funktionieren auch mit wenigen Aufnahmen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="350"/>
+        <location filename="../../ui/calibrate_page.py" line="353"/>
         <source>Brings the frames to the same level before rejection: multiplicative when the transparency changed, additive when the sky background changed</source>
         <translation>Bringt die Bilder vor der Verwerfung auf dasselbe Niveau: multiplikativ, wenn sich die Durchsicht änderte, additiv, wenn sich der Himmelshintergrund änderte</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="353"/>
+        <location filename="../../ui/calibrate_page.py" line="356"/>
         <source>By noise: noisier frames (thin cloud, twilight) count less</source>
         <translation>Nach Rauschen: verrauschtere Bilder (dünne Wolken, Dämmerung) zählen weniger</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="355"/>
+        <location filename="../../ui/calibrate_page.py" line="358"/>
         <source>Shift only: an equatorial mount without field rotation; star patterns: the field rotates or the scale differs (alt-az mount, meridian flip, another telescope)</source>
         <translation>Nur Verschiebung: parallaktische Montierung ohne Bildfelddrehung; Sternmuster: das Feld dreht sich oder der Maßstab weicht ab (Alt-Az-Montierung, Meridian-Flip, anderes Teleskop)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="372"/>
+        <location filename="../../ui/calibrate_page.py" line="375"/>
         <source>min / max: how many values to drop; percentile: the fraction of the median</source>
         <translation>Min / Max: wie viele Werte verworfen werden; Perzentil: Anteil des Medians</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="373"/>
+        <location filename="../../ui/calibrate_page.py" line="376"/>
         <source>Low / high</source>
         <translation>Unten / oben</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="378"/>
+        <location filename="../../ui/calibrate_page.py" line="381"/>
         <source>Stacking options</source>
         <translation>Stapeloptionen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="380"/>
+        <location filename="../../ui/calibrate_page.py" line="383"/>
         <source>Drizzle onto a 2× finer grid (undersampled, dithered frames)</source>
         <translation>Drizzle auf ein 2× feineres Raster (unterabgetastete, geditherte Bilder)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="383"/>
+        <location filename="../../ui/calibrate_page.py" line="386"/>
         <source>For stars only one or two pixels wide (FWHM under about 2 px) in frames shifted a little between exposures: recovers detail on a grid twice as fine (Fruchter &amp; Hook 2002). Needs many frames; otherwise leave it off.</source>
         <translation>Für Sterne, die nur ein bis zwei Pixel breit sind (FWHM unter etwa 2 px), in leicht gegeneinander versetzten Bildern: gewinnt Details auf einem doppelt so feinen Raster zurück (Fruchter &amp; Hook 2002). Braucht viele Bilder; sonst ausgeschaltet lassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="422"/>
+        <location filename="../../ui/calibrate_page.py" line="425"/>
         <source>Stacking…</source>
         <translation>Ausrichten und stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="424"/>
+        <location filename="../../ui/calibrate_page.py" line="427"/>
         <source>Only one frame through {f}: nothing to stack.</source>
         <translation>Nur eine Aufnahme mit {f}: nichts zu stapeln.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="437"/>
+        <location filename="../../ui/calibrate_page.py" line="440"/>
         <source>Choose folder</source>
         <translation>Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="452"/>
+        <location filename="../../ui/calibrate_page.py" line="455"/>
         <source>Add folder</source>
         <translation>Ordner hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="476"/>
+        <location filename="../../ui/calibrate_page.py" line="479"/>
         <source>change a frame&apos;s type</source>
         <translation>Bildtyp ändern</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="484"/>
-        <location filename="../../ui/calibrate_page.py" line="677"/>
+        <location filename="../../ui/calibrate_page.py" line="487"/>
+        <location filename="../../ui/calibrate_page.py" line="682"/>
         <source>bias</source>
         <translation>Bias</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="485"/>
-        <location filename="../../ui/calibrate_page.py" line="677"/>
+        <location filename="../../ui/calibrate_page.py" line="488"/>
+        <location filename="../../ui/calibrate_page.py" line="682"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="486"/>
-        <location filename="../../ui/calibrate_page.py" line="677"/>
+        <location filename="../../ui/calibrate_page.py" line="489"/>
+        <location filename="../../ui/calibrate_page.py" line="682"/>
         <source>flat</source>
         <translation>Flat</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="487"/>
+        <location filename="../../ui/calibrate_page.py" line="490"/>
         <source>light</source>
         <translation>Light</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="488"/>
+        <location filename="../../ui/calibrate_page.py" line="491"/>
         <source>arc lamp</source>
         <translation>Bogenlampe</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="489"/>
+        <location filename="../../ui/calibrate_page.py" line="492"/>
         <source>unknown</source>
         <translation>unbekannt</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="512"/>
+        <location filename="../../ui/calibrate_page.py" line="515"/>
         <source>remove frames from the list</source>
         <translation>Bilder aus der Liste entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="521"/>
+        <location filename="../../ui/calibrate_page.py" line="524"/>
         <source>clear the frame list</source>
         <translation>Bildliste leeren</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="548"/>
+        <location filename="../../ui/calibrate_page.py" line="551"/>
         <source>({n} camera raw files read; times: camera clock − {h} h)</source>
         <translation>({n} Kamera-Rohdateien gelesen; Zeiten: Kamerauhr − {h} h)</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="553"/>
+        <location filename="../../ui/calibrate_page.py" line="556"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="555"/>
+        <location filename="../../ui/calibrate_page.py" line="558"/>
         <source>Type unknown, ignored: {file}</source>
         <translation>Typ unbekannt, ignoriert: {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="562"/>
+        <location filename="../../ui/calibrate_page.py" line="565"/>
         <source>No light frames found, so there is nothing to calibrate yet. If the lights are in another folder, choose the folder that holds both (sub-folders are read) or add it with “Add folder…”.</source>
         <translation>Keine Light-Bilder gefunden, es gibt also noch nichts zu kalibrieren. Liegen die Lights in einem anderen Ordner, wählen Sie den Ordner, der beide enthält (Unterordner werden gelesen), oder fügen Sie ihn mit „Ordner hinzufügen…“ hinzu.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="568"/>
+        <location filename="../../ui/calibrate_page.py" line="572"/>
         <source>Needs at least one light frame</source>
         <translation>Braucht mindestens ein Light-Bild</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="574"/>
+        <location filename="../../ui/calibrate_page.py" line="578"/>
         <source>no flat for filter &apos;{filter}&apos; ({size}); will be calibrated without flat</source>
         <translation>kein Flat für Filter &apos;{filter}&apos; ({size}); wird ohne Flat kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="579"/>
+        <location filename="../../ui/calibrate_page.py" line="583"/>
         <source>no dark for {t} s within {tol} °C of {temp} °C (darks of another exposure need bias frames to be scaled); will be calibrated without dark</source>
         <translation>kein Dark für {t} s innerhalb {tol} °C von {temp} °C (Darks anderer Belichtung brauchen Bias zum Skalieren); wird ohne Dark kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="584"/>
+        <location filename="../../ui/calibrate_page.py" line="588"/>
         <source>no bias ({size}); will be calibrated without bias</source>
         <translation>kein Bias ({size}); wird ohne Bias kalibriert</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="588"/>
+        <location filename="../../ui/calibrate_page.py" line="592"/>
         <source>noise beyond what averaging leaves ({v:.2f} ADU)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="589"/>
+        <location filename="../../ui/calibrate_page.py" line="593"/>
         <source>row or column banding ({v:.2f} ADU)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="590"/>
+        <location filename="../../ui/calibrate_page.py" line="594"/>
         <source>{v:.0f} hot pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="591"/>
+        <location filename="../../ui/calibrate_page.py" line="595"/>
         <source>an input flat at {v:.0%} of full well (20–80 % advised)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="592"/>
+        <location filename="../../ui/calibrate_page.py" line="596"/>
         <source>a dust shadow {v:.1%} deep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="597"/>
+        <location filename="../../ui/calibrate_page.py" line="601"/>
         <source>{master}: {what}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="604"/>
+        <location filename="../../ui/calibrate_page.py" line="608"/>
         <source>{dark} has amplifier glow: scaling it from {t:g} s to {others} s leaves the glow wrong; take darks of the lights&apos; exposure or accept the residual.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="624"/>
+        <location filename="../../ui/calibrate_page.py" line="628"/>
         <source>Calibrating…</source>
         <translation>Kalibriere…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="634"/>
+        <location filename="../../ui/calibrate_page.py" line="638"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Linearitätskorrektur: Zahlen c0 c1 c2 … schreiben, z. B. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="645"/>
+        <location filename="../../ui/calibrate_page.py" line="650"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Fertig: {n} Bilder kalibriert, {m} Masterbilder nach {folder} geschrieben.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="649"/>
+        <location filename="../../ui/calibrate_page.py" line="654"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} Bogenlampen-Aufnahmen kalibriert (nur Bias und Dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="655"/>
+        <location filename="../../ui/calibrate_page.py" line="660"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark mit {lo:.3f}–{hi:.3f} skaliert (DARKSCAL im Header jeder Datei).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="669"/>
+        <location filename="../../ui/calibrate_page.py" line="674"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} Gruppen von Kalibrationsbildern passen zu keinem Bild und wurden nicht kombiniert (z. B. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="679"/>
+        <location filename="../../ui/calibrate_page.py" line="684"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>Master-{kind} aus {n} Bildern (z. B. {file}) nicht erstellt, ohne ihn kalibriert: {why}</translation>
     </message>

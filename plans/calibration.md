@@ -480,8 +480,14 @@ their files, inverse-variance weights, overscan errors, the check tool. Photomet
 split colours, one master per group, FITS headers and blocks; `check_space`: refuses with both numbers when the disk
 cannot hold it with 10 % spare); `calibration.run` checks before writing anything and returns its estimate. Tests
 (tests/test_calibration_output.py): the estimate equals the written size within 10 % (exactly on the test night),
-a disk too small refuses. Left: the naming pattern, compression and 16-bit choices, the IRAF keywords with
-checksums, atomic writes and resuming, the estimate shown before the run.
+a disk too small refuses. Done (2026-11-28): atomic writes: `core/atomic.py` `write_fits` (writes `<name>.part`
+beside the file, `os.replace` when complete, a leftover `.part` removed first and on failure) at every calibration
+FITS write (`masters.save`, `core/planes.write`, `badpix.write`, `headers`, `stacking.save_stack`, drizzle); the
+estimate shown before Run: `ui/calibrate_estimate.py` ("This run writes about N files, X GB, to <folder>; free space
+Y GB", refreshed with frames, folder and colour split; `refused` stops the run with the disk message), with
+`output.count_files` / `free_bytes`. Tests: tests/test_atomic_write.py (interrupted write leaves nothing, a failed
+overwrite keeps the old file, bytes equal a plain write), tests/ui/test_calibration_estimate.py (line, refusal).
+Left: the naming pattern, compression and 16-bit choices, the IRAF keywords with checksums, resuming.
 - **Ours now:** `masters.save`, calibrated files written next to a chosen output folder as float32 FITS with HISTORY lines.
 - **Build:** output naming pattern (Settings → Files; default `<output>/<night>/<type>/<original name>_cal.fits`
   with tokens for object, filter, date, sequence number); data type choices: float32 (default), float32 RICE /

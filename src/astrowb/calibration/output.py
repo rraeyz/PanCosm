@@ -38,13 +38,25 @@ def estimate(frames, split_colour=False, planes=False):
     return total
 
 
-def check_space(folder, need, spare=0.1):
-    """Raise ValueError when folder's disk has less free space than need (+ spare); the free bytes otherwise."""
-    folder = Path(folder)
-    probe = folder
+def count_files(frames, split_colour=False):
+    """How many files the run writes: a light (four colours when split) and one master per group."""
+    lights = [f for f in frames if f.get("kind") in ("light", "arc")]
+    groups = {(f["kind"], tuple(f.get("shape") or ()), f.get("exptime"), f.get("filter")) for f in frames
+              if f.get("kind") in ("bias", "dark", "flat") and len(f.get("shape") or ()) == 2}  # fmt: skip
+    return len(lights) * (4 if split_colour else 1) + len(groups)
+
+
+def free_bytes(folder):
+    """Free bytes on the disk that holds folder (its nearest existing parent when it is not made yet)."""
+    probe = Path(folder)
     while not probe.exists() and probe.parent != probe:
         probe = probe.parent
-    free = shutil.disk_usage(probe).free
+    return shutil.disk_usage(probe).free
+
+
+def check_space(folder, need, spare=0.1):
+    """Raise AppError when folder's disk has less free space than need (+ spare); the free bytes otherwise."""
+    free = free_bytes(folder)
     if free < need * (1 + spare):
         raise AppError(
             "the calibrated frames need {a} GB and the disk has {b} GB free",

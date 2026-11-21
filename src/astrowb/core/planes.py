@@ -13,6 +13,8 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
+from .atomic import write_fits
+
 BAD, SATURATED, NONLINEAR, COSMIC, TRAIL, NODATA, REPAIRED, USER = 1, 2, 4, 8, 16, 32, 64, 128
 
 
@@ -100,7 +102,7 @@ def write(path, frame):
         hdus.append(fits.ImageHDU(np.asarray(frame.var, np.float32), name="VAR"))
     if frame.dq is not None:
         hdus.append(fits.ImageHDU(np.asarray(frame.dq, np.uint8), name="DQ"))
-    fits.HDUList(hdus).writeto(path, overwrite=True, output_verify="silentfix")
+    write_fits(hdus, path, output_verify="silentfix")
     return path
 
 

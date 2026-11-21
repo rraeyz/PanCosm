@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from ..core import provenance
+from ..core.atomic import write_fits
 from ..core.errors import AppError
 from ..engine.steps import step
 from ..hdr import get
@@ -364,8 +365,10 @@ def drizzle_step(inputs, params, ctx):
     header["NCOMBINE"] = (len(paths), "frames drizzled")
     header["DRIZSCAL"], header["DRIZPIXF"] = (params["scale"], "output pixels per input pixel"), params["pixfrac"]
     provenance.to_fits(header, provenance.record("stacking.drizzle", params, {"images": paths}))
-    fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(weight, name="WEIGHT")]).writeto(
-        inputs["output"], overwrite=True, output_verify="silentfix"
+    write_fits(
+        [fits.PrimaryHDU(image, header), fits.ImageHDU(weight, name="WEIGHT")],
+        inputs["output"],
+        output_verify="silentfix",
     )
     return {"stack": str(inputs["output"])}
 

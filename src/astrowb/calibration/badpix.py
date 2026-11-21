@@ -12,6 +12,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ..core.atomic import write_fits
 from ..core.errors import AppError
 from . import masters
 
@@ -87,9 +88,7 @@ def write(path, mask):
     if path.suffix.lower() in (".fits", ".fit", ".fts"):
         from astropy.io import fits
 
-        fits.PrimaryHDU(np.asarray(mask, np.uint8), fits.Header({"NBAD": int(np.sum(mask))})).writeto(
-            path, overwrite=True
-        )
+        write_fits(fits.PrimaryHDU(np.asarray(mask, np.uint8), fits.Header({"NBAD": int(np.sum(mask))})), path)
     else:
         text = "# bad pixels: x1 x2 y1 y2 (1-based, inclusive)\n" + "".join(
             f"{a} {b} {c} {d}\n" for a, b, c, d in _runs(mask)

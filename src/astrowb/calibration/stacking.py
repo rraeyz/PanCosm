@@ -30,6 +30,7 @@ from scipy.ndimage import map_coordinates
 
 from ..compute.combine import clipped_mean
 from ..compute.stack import gpu_combine
+from ..core.atomic import write_fits
 from ..core.errors import AppError
 from ..io.fits import find_image_hdu
 from ..io.lzw import readable
@@ -519,7 +520,9 @@ def _stack_times(header, paths, weights):
 
 
 def save_stack(path, image, count, header):
-    fits.HDUList([fits.PrimaryHDU(image, header), fits.ImageHDU(count.astype(np.int16), name="COVERAGE")]).writeto(
-        path, overwrite=True, output_verify="silentfix"
+    write_fits(
+        [fits.PrimaryHDU(image, header), fits.ImageHDU(count.astype(np.int16), name="COVERAGE")],
+        path,
+        output_verify="silentfix",
     )
     return str(path)
