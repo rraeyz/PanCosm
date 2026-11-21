@@ -5,6 +5,7 @@ chosen job's view. The job is still chosen in the toolbar; choosing a stage of a
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QScrollArea, QVBoxLayout, QWidget
 
+from .kit.fields import Segmented
 from .kit.focus import read_in_order
 from .stage_boxes import _index, boxes_from_column, stages_from_boxes
 
@@ -85,7 +86,24 @@ def _follow_guide(tab, win, prefix, steps):
     tab.guide.set_state = follow
 
 
+def job_switch(win, page):
+    """The toolbar's job switch: a Segmented over the same jobs as the tabs (they stay the owner of the current job)."""
+    tabs = page.tabs
+    names = [tabs.tabText(i) for i in range(tabs.count())]
+    switch = Segmented(list(zip(map(str, range(len(names))), names, strict=True)), str(tabs.currentIndex()))
+    for button, tip in zip(switch.buttons.values(), page.JOB_TIPS, strict=True):
+        button.setToolTip(translate("SpectroscopyPage", tip))
+    switch.changed.connect(lambda key: tabs.setCurrentIndex(int(key)))
+    tabs.currentChanged.connect(lambda i: switch.setValue(str(i)))
+    win.job_switch = switch
+    win.toolbar.insertWidget(win._end, switch)
+    win.toolbar.setVisible(True)
+
+
 def spectroscopy_stages(win, page):
+    from .spectro_inspector import line_inspector
+
+    line_inspector(win, page)
     red, ech = page.reduce_tab, page.echelle_tab
     for grid in page.tools_tab.findChildren(QGridLayout):
         if grid.columnCount() > 2:
