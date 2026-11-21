@@ -1,7 +1,8 @@
 """Pixels that spoil an aperture, found on the frame itself (plans/photometry.md PHO-36, the part that needs no mask
 plane): "C" a one-pixel spike inside the aperture (cosmic ray, hot pixel): above its 3x3 median by 5 sigma (sky and
 the star's photons) and by FINE times the fine structure a star has there (L.A.Cosmic's test, van Dokkum 2001), so
-a sharp star's core is not one; "E" the aperture runs off the frame."""
+a sharp star's core is not one; "E" the aperture runs off the frame; "T" a satellite or aircraft trail
+(calibration/trails.py, CAL-12) crosses the aperture."""
 
 import numpy as np
 
@@ -63,6 +64,31 @@ def aperture_flags(data, xy, r_ap):
                 if _spike(stamp - sky, inside, sigma):
                     flags += "C"
         out.append(flags)
+    return out
+
+
+def trail_flags(data, xy, r_ap):
+    """One bool per star: the frame's strongest trail (calibration.trails.find) crosses its aperture."""
+    from ..calibration import trails
+
+    t = trails.find(data)
+    if t is None:
+        return [False] * len(np.asarray(xy, float).reshape(-1, 2))
+    band = trails.band(np.shape(data), t)
+    ny, nx = band.shape
+    out = []
+    for x, y in np.asarray(xy, float).reshape(-1, 2):
+        if not (np.isfinite(x) and np.isfinite(y)):
+            out.append(False)
+            continue
+        y0, y1, x0, x1 = (
+            max(int(y - r_ap), 0),
+            min(int(y + r_ap) + 2, ny),
+            max(int(x - r_ap), 0),
+            min(int(x + r_ap) + 2, nx),
+        )
+        yy, xx = np.mgrid[y0:y1, x0:x1]
+        out.append(bool(np.any(band[y0:y1, x0:x1] & ((xx - x) ** 2 + (yy - y) ** 2 <= r_ap * r_ap))))
     return out
 
 

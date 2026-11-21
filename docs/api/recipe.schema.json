@@ -770,6 +770,13 @@
           "aperture_shape": {
            "description": "Aperture shape: Empty: circles; {\"kind\": \"ellipse\", \"ratio\", \"angle\"} or {\"kind\": \"racetrack\", \"length\", \"angle\"} for stretched or trailed stars"
           },
+          "trails": {
+           "description": "Look for trails: Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "remove_neighbours": {
            "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",
            "type": [
@@ -918,6 +925,13 @@
           },
           "aperture_shape": {
            "description": "Aperture shape: Empty: circles; {\"kind\": \"ellipse\", \"ratio\", \"angle\"} or {\"kind\": \"racetrack\", \"length\", \"angle\"} for stretched or trailed stars"
+          },
+          "trails": {
+           "description": "Look for trails: Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)",
+           "type": [
+            "boolean",
+            "null"
+           ]
           },
           "remove_neighbours": {
            "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",

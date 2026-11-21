@@ -20,6 +20,7 @@ def kinds():
         "jump": translate("PhotometryChecks", "the field jumped"),
         "near_saturation": translate("PhotometryChecks", "near saturation"),
         "spike": translate("PhotometryChecks", "cosmic ray or hot pixel in an aperture"),
+        "trail": translate("PhotometryChecks", "satellite or aircraft trail across an aperture"),
     }
 
 

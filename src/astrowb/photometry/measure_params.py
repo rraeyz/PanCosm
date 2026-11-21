@@ -100,6 +100,16 @@ MEASURE = (  # the light-curve settings shared by the single- and multi-filter m
         advanced=True,
     ),
     P(
+        "trails",
+        "bool",
+        False,
+        label=QT_TRANSLATE_NOOP("Steps", "Look for trails"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps", "Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)"
+        ),
+        advanced=True,
+    ),
+    P(
         "remove_neighbours",
         "bool",
         False,

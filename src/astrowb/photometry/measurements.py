@@ -105,8 +105,8 @@ def measurements(lc):
 
 
 def _spoiled(cols, marks, flags, names):
-    """PHO-36: the Flags_<star> columns (C a spike in the aperture, E off the edge), each flagged cell explained."""
-    words = {"C": "cosmic ray or hot pixel", "E": "off the edge"}
+    """PHO-36: the Flags_<star> columns (C spike, T trail, E off the edge), each flagged cell explained."""
+    words = {"C": "cosmic ray or hot pixel", "T": "satellite or aircraft trail", "E": "off the edge"}
     for k, name in enumerate(names):
         if flags is None or not all(k < len(r) for r in flags):
             continue
