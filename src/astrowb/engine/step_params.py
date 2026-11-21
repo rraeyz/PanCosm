@@ -90,6 +90,14 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "Lower and upper limit per parameter; empty: the engine's own limits"),
     ),
     P(
+        "priors",
+        "object",
+        None,
+        label=QT_TRANSLATE_NOOP("Steps", "Priors"),
+        advanced=True,
+        help=QT_TRANSLATE_NOOP("Steps", "Prior per parameter for the MCMC: uniform or log-uniform; empty: uniform"),
+    ),
+    P(
         "ld1",
         "table",
         (0.0, 0.0),

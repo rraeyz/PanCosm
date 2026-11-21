@@ -20,11 +20,13 @@ from . import data, fit
     export_format="phoebe",
     exposure=0.0,
     bounds=None,
+    priors=None,
 )
 def eb_fit_step(inputs, params, ctx):
     """Fit the detached-binary / transit model to a light-curve file; absolute dimensions when a
     double-lined orbit is given; PHOEBE start files when export_dir is given."""
     t, flux, err, info = data.read_light_curve(inputs["light_curve"])
+    fit.log_uniform_names(params["priors"], params["bounds"])  # refuse before the (slow) fit
     ctx.progress(0.2, "fit")
     start = inputs["start"] | {"exposure": params["exposure"]}  # seconds; 0: the flux at each time
     r = fit.fit_light_curve(t, flux, err, start, params["free"], params["ld1"], params["ld2"], params["bounds"])
@@ -52,6 +54,7 @@ def eb_fit_step(inputs, params, ctx):
             params["mcmc_steps"],
             ctx,
             bounds=params["bounds"],
+            priors=params["priors"],
         )
     if inputs.get("orbit"):
         out["absolute"] = fit.absolute_dimensions(r, inputs["orbit"])

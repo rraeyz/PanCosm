@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..models.fit import DEFAULT_FREE, NAMES
-from . import models_bounds
+from . import models_bounds, models_priors
 from .kit import tokens
 from .kit.help import help_line
 from .kit.table_view import DataTable
@@ -119,7 +119,7 @@ class ModelsPage(Undoable, QWidget):
             box.setToolTip(self.tr("Ticked: fitted; empty: kept at the value in the table"))
             self.table.setCellWidget(r, 2, box)
             self.checks[name] = box
-            models_bounds.add_items(self.table, r)
+            models_bounds.add_items(self, r)
         lay.addWidget(frame, 1)
         grid = QGridLayout()
         self.ld = []
@@ -313,6 +313,7 @@ class ModelsPage(Undoable, QWidget):
         try:
             bounds = models_bounds.read(self.table, NAMES)
             models_bounds.check(self.table, NAMES, start, bounds)
+            priors = models_priors.read(self.table, NAMES, bounds)
         except ValueError as e:
             self.status.setText(translate(e))
             return
@@ -329,6 +330,7 @@ class ModelsPage(Undoable, QWidget):
             "export_format": getattr(self, "export_format", "phoebe"),
             "exposure": self.exposure.value(),
             "bounds": bounds,
+            "priors": priors,
         }
         self.status.setText(self.tr("Fitting…"))
         self.fit_requested.emit(inputs, params)
@@ -370,16 +372,18 @@ class ModelsPage(Undoable, QWidget):
     def undo_state(self):
         values = tuple(self.table.item(r, 1).text() for r in range(len(NAMES)))
         free = tuple(self.checks[n].isChecked() for n in NAMES)
-        return values, free, tuple(s.value() for pair in self.ld for s in pair), models_bounds.texts(self.table, NAMES)
+        limits = models_bounds.texts(self.table, NAMES), models_priors.kinds(self.table, NAMES)
+        return values, free, tuple(s.value() for pair in self.ld for s in pair), *limits
 
     def set_undo_state(self, state):
-        values, free, ld, limits = state
+        values, free, ld, limits, priors = state
         widgets = [*self.checks.values(), *(s for pair in self.ld for s in pair)]
         for w in (self.table, *widgets):
             w.blockSignals(True)
         for r, text in enumerate(values):
             self.table.item(r, 1).setText(text)
         models_bounds.set_texts(self.table, limits)
+        models_priors.set_kinds(self.table, priors)
         for n, on in zip(NAMES, free, strict=True):
             self.checks[n].setChecked(on)
         for s, v in zip((s for pair in self.ld for s in pair), ld, strict=True):

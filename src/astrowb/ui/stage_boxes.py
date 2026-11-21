@@ -169,6 +169,9 @@ def calibration_stages(win, page):
     _take(lay_r, 0, index(lay_r, page.photometry_button), boxes["calibrate"].layout())
     boxes["calibrate"].layout().addStretch(1)
     _take(lay_r, 0, lay_r.count(), boxes["continue"].layout())
+    from .calibration_cards import make as continue_cards
+
+    boxes["continue"].layout().insertWidget(0, continue_cards(page))  # first: what to do next; the rest follows
     boxes["continue"].layout().addStretch(1)
     # the list of frames and its problems: the view
     _take(lay_l, index(lay_l, page.table.parent()), lay_l.count(), lay_r)

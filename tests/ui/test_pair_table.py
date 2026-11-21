@@ -1,10 +1,15 @@
 """PHO-24: the Images window's Pairs tab — Add to table, Delete, CSV / ECSV export."""
 
+import sys
+from pathlib import Path
+
 import numpy as np
 from astropy.table import Table
 
 from astrowb.ui.image_page import ImagePage
-from tests.test_pair_measure import pair_image
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from test_pair_measure import pair_image  # noqa: E402
 
 
 def test_add_to_table_twice_and_export(qapp, tmp_path):

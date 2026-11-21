@@ -294,6 +294,36 @@ def test_path_field(qtbot, tmp_path):
     assert one.paths() == [str(files[0])] and one.kit_binding()[1]() == str(files[0])
 
 
+def test_object_field_resolves_and_says_failures(qtbot):
+    from astrowb.ui.kit.object_field import ObjectField
+
+    calls = []
+
+    def run_step(step, params, on_done, on_fail):  # stands for the engine: no network
+        calls.append((step, params["name"]))
+        if params["name"] == "Gone":
+            on_fail("cannot reach SIMBAD and 'Gone' is not in the local cache (URLError)")
+        else:
+            on_done({"target": {"name": "NY Vir", "ra": 31.0, "dec": -4.5, "vmag": None, "source": "cache"}})
+
+    field = ObjectField(run_step, lambda: "targets.json")
+    qtbot.addWidget(field)
+    got = []
+    field.resolved.connect(lambda name, target: got.append((name, target["ra"])))
+    field.button.click()  # empty name: nothing happens
+    assert not calls
+    field.edit.setText("ny vir")
+    field.button.click()
+    assert calls == [("planning.resolve", "ny vir")] and got == [("ny vir", 31.0)]
+    assert "NY Vir" in field.answer.text() and "Dec -4.5000" in field.answer.text()
+    field.edit.setText("Gone")  # offline and not cached: a sentence, no signal
+    field.button.click()
+    assert "SIMBAD" in field.answer.text() and len(got) == 1
+    field.precheck = lambda: "Identify the field first."
+    field.button.click()
+    assert field.answer.text() == "Identify the field first." and len(calls) == 2
+
+
 def test_kit_gallery_builds(qtbot):
     import importlib.util
     from pathlib import Path

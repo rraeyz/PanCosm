@@ -89,6 +89,10 @@ def frequencies_step(inputs, params, ctx):
 
         for row, fap in zip(rows, frequency_faps(t, y, [r["freq"] for r in rows], params["f_max"]), strict=True):
             row["fap"] = fap
+        from .combinations import combination_notes
+
+        for row, notes in zip(rows, combination_notes([r["freq"] for r in rows], float(np.ptp(t))), strict=True):
+            row["note"] = notes
     clean_spec = None
     if params["clean"]:  # aliases of the sampling removed (CLEAN), on the same grid as the other spectra
         ctx.progress(0.9, "fit")

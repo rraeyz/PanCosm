@@ -218,15 +218,21 @@ def run(problem, n_chains=None, seed=1, max_steps=20000, check_every=200, rhat_l
                      chains=state.chain[: state.step], log_probs=state.lps[: state.step])  # fmt: skip
 
 
-def around(log_prob, x0, scale, names, lo=None, hi=None, steps=2000, seed=1, ctx=None, progress=(0.0, 1.0)):
-    """Sample log_prob(x) (flat priors between lo and hi) around a least-squares x0 with scales: the callers'
-    MCMC after a fit. steps: the most generations; the run stops earlier when it has converged."""
-    from .priors import Flat
+def around(
+    log_prob, x0, scale, names, lo=None, hi=None, steps=2000, seed=1, ctx=None, progress=(0.0, 1.0), log_uniform=()
+):
+    """Sample log_prob(x) (flat priors between lo and hi, log-uniform for the names in log_uniform) around a
+    least-squares x0 with scales: the callers' MCMC after a fit.
+    steps: the most generations; the run stops earlier when it has converged."""
+    from .priors import Flat, LogUniform
     from .problem import Problem
 
     n = len(x0)
     lo = np.full(n, -np.inf) if lo is None else np.asarray(lo, float)
     hi = np.full(n, np.inf) if hi is None else np.asarray(hi, float)
-    params = {k: (Flat(a, b), float(x), float(s)) for k, a, b, x, s in zip(names, lo, hi, x0, scale, strict=True)}
+    params = {
+        k: ((LogUniform if k in log_uniform else Flat)(a, b), float(x), float(s))
+        for k, a, b, x, s in zip(names, lo, hi, x0, scale, strict=True)
+    }
     problem = Problem(params, lambda v: log_prob(np.array([v[k] for k in names])))
     return run(problem, seed=seed, max_steps=steps, check_every=100, ctx=ctx, progress=progress)

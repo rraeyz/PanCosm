@@ -7,6 +7,7 @@ from PySide6.QtGui import QBrush, QColor
 from PySide6.QtWidgets import QTableWidgetItem
 
 from ..models import fit
+from . import models_priors
 from .kit import tokens
 from .messages import translate as translate_message
 
@@ -15,12 +16,13 @@ LOWER, UPPER = 3, 4
 
 
 def header():
-    return [translate("ModelsWindow", "Lower"), translate("ModelsWindow", "Upper")]
+    return [translate("ModelsWindow", "Lower"), translate("ModelsWindow", "Upper"), *models_priors.header()]
 
 
-def add_items(table, row):
+def add_items(page, row):
     for c in (LOWER, UPPER):
-        table.setItem(row, c, QTableWidgetItem(""))
+        page.table.setItem(row, c, QTableWidgetItem(""))
+    models_priors.add_combo(page, row)
 
 
 def texts(table, names):

@@ -20,9 +20,9 @@ text.en = "Calibrate: the masters are made and every light frame is corrected."
 text.tr = "3. Kalibre et: ana kareler yapılır ve her bilim karesi düzeltilir."
 
 [[step]]
-widget = "photometry_button"
+widget = "photometry_card"
 text.en = "Send the calibrated frames to the Photometry window."
-text.tr = "4. Fotometri penceresinde ölç → ile kalibre edilmiş kareleri Fotometri penceresine gönderin."
+text.tr = "Fotometride ölç ile kalibre edilmiş kareleri Fotometri penceresine gönderin."
 
 [[step]]
 area = "photometry"

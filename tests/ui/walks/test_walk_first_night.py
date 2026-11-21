@@ -19,7 +19,7 @@ def test_practice_night_from_raw_frames_to_the_time_of_minimum(walk, tmp_path, l
     h.wait(lambda: page.table.rowCount() > 0 and page.run_button.isEnabled())
     h.click("run_button")
     h.wait(lambda: page.photometry_button.isEnabled())
-    h.click("photometry_button")
+    h.click("photometry_card")
     h.area("photometry")
     phot = h.main.photometry_page
     h.wait(lambda: phot.viewer.data is not None)
@@ -50,7 +50,7 @@ def test_practice_transit_from_raw_frames_to_the_etd_file(walk, tmp_path, lang):
     h.wait(lambda: page.table.rowCount() > 0 and page.run_button.isEnabled())
     h.click("run_button")
     h.wait(lambda: page.photometry_button.isEnabled())
-    h.click("photometry_button")
+    h.click("photometry_card")
     h.area("photometry")
     phot = h.main.photometry_page
     h.wait(lambda: phot.viewer.data is not None)

@@ -56,6 +56,15 @@ def gallery(light=False):
     missing = PathField("files")
     missing.set_paths(["/no/such/light_V_000.fits", "/no/such/light_V_001.fits"])
     section.body.addWidget(FormRow("Frames", missing, reset=False))
+    from astrowb.ui.kit.object_field import ObjectField
+
+    def demo_resolve(step, params, on_done, on_fail):  # no network in the gallery
+        on_done({"target": {"name": "NY Vir", "ra": 197.5, "dec": -3.2, "vmag": None, "source": "cache"}})
+
+    objects = ObjectField(demo_resolve, lambda: "targets.json", "Target by name, e.g. NY Vir")
+    objects.edit.setText("NY Vir")
+    objects.start()
+    section.body.addWidget(FormRow("Target", objects, reset=False))
     left.addWidget(section)
     folded = Section("Advanced", folded=True, advanced=True)
     left.addWidget(folded)

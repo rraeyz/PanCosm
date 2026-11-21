@@ -1,7 +1,6 @@
 """The Light curves window's Fold and Report stages and the peak table in its inspector (plans/interface.md UI-16.4).
 The page keeps the logic (`fold_at`, `step_peak`, `save_button`); the stages only host its controls."""
 
-import numpy as np
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QFormLayout, QPushButton, QVBoxLayout, QWidget
 
@@ -10,18 +9,30 @@ translate = QCoreApplication.translate  # pyside6-lupdate reads translate("Perio
 PEAKS = 10  # rows of the peak table: the highest local maxima of the periodogram
 
 
+def fap_text(fap):
+    """A false-alarm probability for the table: scientific below 0.001, "—" when there is none."""
+    return "—" if fap is None else f"{fap:.2e}" if fap < 0.001 else f"{fap:.3f}"
+
+
 def peak_table(periodogram, n=PEAKS):
-    """The n highest local maxima of the periodogram as a table (period, power), highest first; the search result
-    holds no false-alarm probability or S/N, so there are no such columns."""
+    """The n highest local maxima of the periodogram as a table (period, power, FAP), highest first. The FAP comes
+    from the search step and exists for Lomb–Scargle periodograms only; other methods show "—"."""
     from astropy.table import Table
 
-    p, power = np.asarray(periodogram["periods"], float), np.asarray(periodogram["power"], float)
-    order = np.argsort(p)
-    p, power = p[order], power[order]
-    k = np.flatnonzero((power[1:-1] > power[:-2]) & (power[1:-1] >= power[2:])) + 1
-    k = k[np.argsort(power[k])[::-1][:n]]
-    table = Table({"period": p[k], "power": power[k]})
+    from ..timeseries.significance import period_maxima
+
+    p, power = period_maxima(periodogram["periods"], periodogram["power"], n)
+    faps = periodogram.get("peak_faps")
+    faps = faps if faps is not None and len(faps) == len(p) else [None] * len(p)
+    table = Table({"period": p, "power": power, "fap": [fap_text(f) for f in faps]})
     table["period"].unit = "d"
+    table["fap"].description = (
+        translate("PeriodWindow", "False-alarm probability of the peak (Baluev 2008), Lomb–Scargle periodograms only")
+        if any(f is not None for f in faps)
+        else translate(
+            "PeriodWindow", "A false-alarm probability exists only for Lomb–Scargle periodograms; not for this method"
+        )
+    )
     return table
 
 

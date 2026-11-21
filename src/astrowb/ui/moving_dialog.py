@@ -84,6 +84,9 @@ class MovingObjectPage(QWidget):
         self.find_info = QLabel(
             self.tr("Click the object on the first frame, then on the last frame; they are marked in the image."), self
         )
+        from .astrometry_blink import blink_button
+
+        self.blink_button = blink_button(self)
         self.measure_button = QPushButton(self.tr("Measure positions"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(
@@ -98,7 +101,7 @@ class MovingObjectPage(QWidget):
         for label in (self.frames_info, self.solve_info, self.find_info):
             label.setWordWrap(True)
         for w in (self.choose_button, self.frames_info, self.solve_info, self.solve_button, self.find_info,
-                  self.measure_button):  # fmt: skip
+                  self.blink_button, self.measure_button):  # fmt: skip
             lay.addWidget(w)
         self.form_box = self._report_form(lay)
 
@@ -182,6 +185,7 @@ class MovingObjectPage(QWidget):
             self.tr("{n} frames, {k} without a plate solution.").format(n=len(self.images), k=todo)
         )
         self.solve_button.setEnabled(todo > 0)
+        self.blink_button.setEnabled(len(self.images) >= 2)
 
     def set_images(self, paths):
         from .. import timing

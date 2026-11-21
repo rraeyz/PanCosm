@@ -14,6 +14,13 @@ translate = QCoreApplication.translate  # pyside6-lupdate reads translate("MainW
 class AreaActions:
     """Methods of MainWindow (self is the main window)."""
 
+    def send_to_images(self, paths):
+        """Calibrated images to the Images window: the first one shown, all in its list of open images."""
+        paths = [str(p) for p in paths if p]
+        if paths and self.open_fits(Path(paths[0])):
+            self.image_page.add_open(paths, current=paths[0])
+            self.show_workspace("image")
+
     def send_to_photometry(self, paths, ask=True):
         """Images to the Photometry window, which is then shown. Several filters: one light curve per filter, so the
         user picks the filter (the largest group first)."""

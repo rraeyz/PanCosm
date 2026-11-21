@@ -53,3 +53,16 @@ def test_the_engine_refuses_a_start_outside_its_limits():
     t = np.linspace(2459500, 2459502, 50)
     with pytest.raises(ValueError, match="incl = 80 is outside its limits 82 to 90"):
         fit.fit_light_curve(t, fit.model(t, TRUTH), None, TRUTH | {"incl": 80.0}, ["incl"], bounds={"incl": (82, None)})
+
+
+def test_a_log_uniform_prior_with_a_non_positive_limit_is_refused_and_undoable(page):
+    from astrowb.ui import models_priors
+
+    box = page.table.cellWidget(5, models_priors.PRIOR)  # j: the engine's lower limit is 0
+    box.setCurrentIndex(1)
+    assert models_priors.kinds(page.table, ("period", "t0", "r_sum", "k", "incl", "j"))[5] == "log-uniform"
+    page.undo_stack.undo()
+    assert box.currentIndex() == 0
+    page.undo_stack.redo()
+    page.fit_button.click()
+    assert page.result is None and "j needs finite limits above zero" in page.status.text()

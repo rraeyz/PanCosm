@@ -242,8 +242,12 @@ curve stays within 1.5 %. Done (2026-11-21): the measurements-table columns `PSF
 `measurements.measurements` after a PSF run only), and the PSF results tab (`ui/photometry_psf.PsfTab`: the ePSF picture
 and the stars count; `psf.epsf_summary` builds it on the reference frame from its isolated unsaturated stars and the PSF
 run returns it as "psf" — the fits themselves still use the Gaussian). Tests: `tests/ui/test_psf_tab.py`.
-Left: the ePSF per frame in that path, the live path, catalogue neighbours, the banner (its wording is not written
-down), the PSF tab's star list, quality number and residual image, the eclipse-of-the-fainter-star test, error codes.
+Done (2026-11-21), catalogue neighbours and the banner: `photometry/neighbours.find` (catalogue stars within r_out of a
+measured star, brighter than target + 4 mag, the star's own match left out) and `ui/photometry_banner.neighbour_banner`
+(InfoBanner in the Measure stage after a measurement, from the Field stage's Gaia stars; the target's magnitude is the
+Gaia star on it, none: no banner; its button ticks "Remove neighbours"). Test: `tests/test_neighbours.py`.
+Left: the ePSF per frame in that path, the live path, the PSF tab's star list, quality number and residual image, the
+eclipse-of-the-fainter-star test, error codes.
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of

@@ -44,6 +44,7 @@ class CalibratePage(Undoable, QWidget):
     run_requested = Signal(list, str, dict)  # frames, output folder, params
     stack_requested = Signal(list, str, dict)  # calibrated images, output file, params
     photometry_requested = Signal(list)  # calibrated lights to measure
+    images_requested = Signal(list)  # calibrated images to look at in the Images window
     changed = Signal()  # the frame list was shown again (the Check, Masters stages and the Plan tab follow)
     result_shown = Signal(dict)  # a run's result (the Review stage follows)
 

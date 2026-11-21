@@ -22,7 +22,7 @@ from .kit.table import TableView
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
 
-FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr", "fap")
+FREQ_COLUMNS = ("freq", "freq_err", "period", "amp", "amp_err", "phase", "phase_err", "snr", "fap", "note")
 
 
 class FrequencyPage(QWidget):
@@ -118,17 +118,7 @@ class FrequencyPage(QWidget):
         self.status.setWordWrap(True)
         self.status.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.status)
-        self.names = (
-            self.tr("Frequency (c/d)"),
-            self.tr("σ frequency"),
-            self.tr("Period (d)"),
-            self.tr("Amplitude"),
-            self.tr("σ amplitude"),
-            self.tr("Phase"),
-            self.tr("σ phase"),
-            self.tr("S/N"),
-            self.tr("FAP"),
-        )
+        self.names = self._column_names()
         self.table = TableView(self)
         self._set_frequencies([])
         lay.addWidget(self.table, 2)
@@ -150,13 +140,40 @@ class FrequencyPage(QWidget):
         QVBoxLayout(self).addWidget(split)
 
     def _set_frequencies(self, rows):
-        table = Table(list(np.asarray(rows, float).reshape(-1, len(FREQ_COLUMNS)).T), names=self.names)
-        for col in table.columns.values():
+        cols = list(zip(*rows, strict=True)) if rows else [()] * len(FREQ_COLUMNS)
+        table = Table([np.asarray(c, float) for c in cols[:-1]] + [np.asarray(cols[-1], str)], names=self.names)
+        for col in list(table.columns.values())[:-1]:
             col.format = ".6g"
         weak = tokens.role("saturated")
         reason = self.tr("S/N below 4: not significant (Breger et al. 1993)")
         marks = {(i, self.names[7]): (weak, reason) for i, v in enumerate(table[self.names[7]]) if v < 4}
         self.table.set_table(table, marks=marks)
+
+    def _column_names(self):
+        return (
+            self.tr("Frequency (c/d)"),
+            self.tr("σ frequency"),
+            self.tr("Period (d)"),
+            self.tr("Amplitude"),
+            self.tr("σ amplitude"),
+            self.tr("Phase"),
+            self.tr("σ phase"),
+            self.tr("S/N"),
+            self.tr("FAP"),
+            self.tr("Note"),
+        )
+
+    def _note(self, row):
+        """The harmonic / combination / alias notes of a row in words (UI-16.4)."""
+        words = []
+        for n in row.get("note", []):
+            if n["kind"] == "harmonic":
+                words.append(f"{n['n']}·f{n['i']}")
+            elif n["kind"] == "combination":
+                words.append(f"f{n['i']} {'+' if n['sign'] > 0 else '−'} f{n['j']}")
+            else:
+                words.append(self.tr("alias of f{i} ({k:+d} c/d)").format(i=n["i"], k=n["k"]))
+        return self.tr("possible: ") + ", ".join(words) if words else ""
 
     def _set_maxima(self, maxima):
         table = Table(list(np.asarray(maxima, float).reshape(-1, 2).T), names=(self.tr("Time"), self.tr("σ (d)")))
@@ -186,7 +203,10 @@ class FrequencyPage(QWidget):
         rows = out["frequencies"]
         self._set_frequencies(
             [
-                [dict(row, period=1 / row["freq"], fap=row.get("fap", np.nan))[key] for key in FREQ_COLUMNS]
+                [
+                    dict(row, period=1 / row["freq"], fap=row.get("fap", np.nan), note=self._note(row))[key]
+                    for key in FREQ_COLUMNS
+                ]
                 for row in rows
             ]
         )
