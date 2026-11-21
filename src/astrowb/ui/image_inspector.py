@@ -12,6 +12,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from .image_follow import strip_buttons
+
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("ImageWindow", "…") calls
 
 
@@ -80,6 +82,7 @@ def file_strip(page):
     line.textChanged.connect(apply)
     page.filter_line = line
     lay.addWidget(line)
+    lay.addWidget(strip_buttons(page, box))
     lay.addWidget(page.open_list, 1)
     page.selected_paths = lambda: [i.data(Qt.UserRole) for i in page.open_list.selectedItems()]
     return box
