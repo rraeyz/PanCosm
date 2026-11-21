@@ -2869,6 +2869,24 @@
       "if": {
        "properties": {
         "step": {
+         "const": "timeseries.read_light_curve"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "timeseries.survey_lc"
         }
        }
@@ -2961,6 +2979,7 @@
        "timeseries.oc_fit",
        "timeseries.occultation",
        "timeseries.period",
+       "timeseries.read_light_curve",
        "timeseries.survey_lc"
       ]
      },

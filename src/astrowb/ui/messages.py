@@ -467,6 +467,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "unknown weighting: {kind}"),
     # photometry/lcfile.py (PHO-48)
     QT_TRANSLATE_NOOP("Messages", "not a light-curve file of this version: {version}"),
+    QT_TRANSLATE_NOOP("Messages", "light-curve file not found: {path}"),
+    QT_TRANSLATE_NOOP("Messages", "not a light-curve file of this program: {path}"),
     # photometry/reports/aavso_exoplanet.py (PHO-27)
     QT_TRANSLATE_NOOP("Messages", "the AAVSO exoplanet file takes at most four detrending columns"),
     QT_TRANSLATE_NOOP("Messages", "the first line must be #TYPE=EXOPLANET"),

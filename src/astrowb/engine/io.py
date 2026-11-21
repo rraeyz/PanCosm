@@ -50,6 +50,7 @@ INPUTS = {
     "images": IO("files", QT_TRANSLATE_NOOP("Steps", "Images")),
     "last_xy": IO("xy", QT_TRANSLATE_NOOP("Steps", "Position in the last frame (x y)")),
     "library": IO("new_folder", QT_TRANSLATE_NOOP("Steps", "Library of standard spectra")),
+    "lc_file": IO("file", QT_TRANSLATE_NOOP("Steps", "Light-curve file (.lc.ecsv)")),
     "light_curve": IO("file", QT_TRANSLATE_NOOP("Steps", "Light curve")),
     "light_ratio": IO("number", QT_TRANSLATE_NOOP("Steps", "Light ratio of the two stars")),
     "lights": IO("folder", QT_TRANSLATE_NOOP("Steps", "Folder of the lights")),

@@ -169,3 +169,34 @@ def test_oc_page_times_the_minima_of_a_light_curve_file(qtbot, tmp_path):
     assert len(found) == 2 and all(m.source == "night.lc.ecsv" for m in found)
     for m, c in zip(found, (t0, t0 + period), strict=True):
         assert abs(m.time - c - shift) < 3 * m.error
+
+
+def test_recipe_reads_a_light_curve_file_and_finds_its_period(tmp_path):
+    import io
+    import json
+
+    from astrowb import cli
+
+    t = np.arange(0, 10, 0.01)
+    flux = 1 + 0.05 * np.sin(2 * np.pi * t / 1.7) + np.random.default_rng(1).normal(0, 0.002, len(t))
+    lc = {"time": (2460000 + t).tolist(), "time_scale": "BJD_TDB", "rel_flux": flux.tolist(),
+          "rel_flux_err": [0.002] * len(t), "fwhm": [3.0] * len(t)}  # fmt: skip
+    path = lcfile.write(lc, tmp_path / "n.lc.ecsv")
+    from astrowb.engine import steps
+
+    out = steps.get("timeseries.read_light_curve").func({"lc_file": str(path)}, {}, None)["light_curve"]
+    assert out == lcfile.read(path) and np.allclose(out["rel_flux"], lc["rel_flux"], rtol=1e-12)
+    assert out["time_scale"] == "BJD_TDB" and out["time"] == lc["time"]
+    auto = {"name": "lc", "steps": [
+        {"step": "timeseries.read_light_curve"},
+        {"step": "timeseries.period", "inputs": {"time": "light_curve.time", "flux": "light_curve.rel_flux"},
+         "params": {"p_min": 0.5, "p_max": 5}}]}  # fmt: skip
+    recipe = tmp_path / "r.json"
+    recipe.write_text(json.dumps(auto))
+    o, e = io.StringIO(), io.StringIO()
+    code = cli.main(["recipe", str(recipe), "--set", f"lc_file={path}", "--json", "--quiet"], o, e)
+    assert code == 0, e.getvalue()
+    assert abs(json.loads(o.getvalue())["best"] - 1.7) < 0.02
+    for bad in (tmp_path / "none.lc.ecsv", recipe):
+        with pytest.raises(ValueError, match="light-curve file"):
+            steps.get("timeseries.read_light_curve").func({"lc_file": str(bad)}, {}, None)

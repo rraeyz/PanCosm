@@ -62,6 +62,7 @@ TITLES = {
     "timeseries.mission_lc": QT_TRANSLATE_NOOP("Steps", "Download a mission light curve"),
     "timeseries.oc_fit": QT_TRANSLATE_NOOP("Steps", "Fit the O−C diagram"),
     "timeseries.occultation": QT_TRANSLATE_NOOP("Steps", "Occultation timing"),
+    "timeseries.read_light_curve": QT_TRANSLATE_NOOP("Steps", "Read a light-curve file"),
     "timeseries.period": QT_TRANSLATE_NOOP("Steps", "Period search"),
     "timeseries.survey_lc": QT_TRANSLATE_NOOP("Steps", "Download a survey light curve"),
 }

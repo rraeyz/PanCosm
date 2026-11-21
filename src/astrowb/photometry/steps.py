@@ -36,6 +36,27 @@ def save_light_curve_step(inputs, params, ctx):
     return {"file": str(write(inputs["light_curve"], inputs["output"]))}
 
 
+@step("timeseries.read_light_curve", inputs=("lc_file",), outputs=("light_curve",))
+def read_light_curve_step(inputs, params, ctx):
+    """A saved .lc.ecsv light curve as the dict the photometry steps output, so a recipe can start from it (PHO-48)."""
+    from pathlib import Path
+
+    from .lcfile import read
+
+    path = inputs["lc_file"]
+    if not Path(path).is_file():
+        raise ValueError(f"light-curve file not found: {path}")
+    try:
+        return {"light_curve": read(path)}
+    except (
+        KeyError,
+        TypeError,
+        OSError,
+        ValueError,
+    ):  # Astropy's own messages say nothing to the user
+        raise ValueError(f"not a light-curve file of this program: {path}") from None
+
+
 @step(
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),

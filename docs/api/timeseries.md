@@ -131,6 +131,19 @@ parameters (default):
   p_max = null  (float, d, >= 0.0)  Longest period: Empty: half the time span
 ```
 
+## timeseries.read_light_curve
+
+```text
+timeseries.read_light_curve  (Read a light-curve file)
+
+A saved .lc.ecsv light curve as the dict the photometry steps output, so a recipe can start from it (PHO-48).
+
+inputs:      lc_file
+outputs:     light_curve
+  lc_file  (file)  Light-curve file (.lc.ecsv)
+  light_curve  (file)  Light curve
+```
+
 ## timeseries.survey_lc
 
 ```text
