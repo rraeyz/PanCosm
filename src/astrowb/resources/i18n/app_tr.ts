@@ -4409,7 +4409,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>HeldButton</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="126"/>
+        <location filename="../../ui/kit/tasks.py" line="136"/>
         <source>Stop</source>
         <translation>Durdur</translation>
     </message>
@@ -11970,14 +11970,59 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_stages.py" line="27"/>
+        <location filename="../../ui/lightcurve_stages.py" line="28"/>
         <source>Frequencies</source>
         <translation>Frekanslar</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_stages.py" line="27"/>
+        <location filename="../../ui/lightcurve_stages.py" line="28"/>
         <source>Variables</source>
         <translation>Değişenler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_stages.py" line="31"/>
+        <source>Fold</source>
+        <translation>Katla</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_stages.py" line="35"/>
+        <source>Report</source>
+        <translation>Rapor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="44"/>
+        <source>Folds at the next peak towards longer periods (→)</source>
+        <translation>Daha uzun periyotlara doğru bir sonraki tepede katlar (→)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="45"/>
+        <source>Folds at the next peak towards shorter periods (←)</source>
+        <translation>Daha kısa periyotlara doğru bir sonraki tepede katlar (←)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="48"/>
+        <source>Next peak</source>
+        <translation>Sonraki tepe</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="49"/>
+        <source>Previous peak</source>
+        <translation>Önceki tepe</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="65"/>
+        <source>Copy the peak table</source>
+        <translation>Tepe tablosunu kopyala</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="66"/>
+        <source>The peaks of the periodogram, as shown, as tab-separated text</source>
+        <translation>Periyodogramın tepeleri, gösterildiği gibi, sekmeyle ayrılmış metin olarak</translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="82"/>
+        <source>Peaks</source>
+        <translation>Tepeler</translation>
     </message>
 </context>
 <context>
@@ -16011,103 +16056,108 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Geçmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="43"/>
+        <source>Tasks</source>
+        <translation>Görevler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Step</source>
         <translation>Adım</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Started</source>
         <translation>Başlangıç zamanı</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
-        <location filename="../../ui/project_page.py" line="128"/>
+        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="132"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="51"/>
+        <location filename="../../ui/project_page.py" line="55"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Aynı girdi ve ayarlarla yeniden çalıştır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="54"/>
+        <location filename="../../ui/project_page.py" line="58"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Seçilen adımı tam önceki gibi yeniden çalıştırır, örneğin girdi dosyaları değiştikten sonra</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="62"/>
         <source>Copy as Python</source>
         <translation>Python olarak kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="60"/>
+        <location filename="../../ui/project_page.py" line="64"/>
         <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation>Seçili adım, bir Python betiğinin satırı olarak (astrowb.api), kopyalanmak üzere</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="63"/>
+        <location filename="../../ui/project_page.py" line="67"/>
         <source>Save as recipe…</source>
         <translation>Tarif olarak kaydet…</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="66"/>
+        <location filename="../../ui/project_page.py" line="70"/>
         <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation>Seçili adım ayarlarıyla bir otomasyon olarak: Otomasyon onu başka dosyalarda çalıştırır</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="74"/>
+        <location filename="../../ui/project_page.py" line="78"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Girdilerini, ayarlarını, sonuçlarını ve sürümleri görmek için bir çalıştırma seçin.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="83"/>
+        <location filename="../../ui/project_page.py" line="87"/>
         <source>Run steps and the methods paragraph appears here.</source>
         <translation>Adımları çalıştırın; yöntem paragrafı burada görünür.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="85"/>
+        <location filename="../../ui/project_page.py" line="89"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="86"/>
+        <location filename="../../ui/project_page.py" line="90"/>
         <source>Copies the methods text to the clipboard</source>
         <translation>Yöntem metnini panoya kopyalar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="90"/>
+        <location filename="../../ui/project_page.py" line="94"/>
         <source>Methods text</source>
         <translation>Yöntem metni</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="127"/>
+        <location filename="../../ui/project_page.py" line="131"/>
         <source>Inputs</source>
         <translation>Girdiler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="129"/>
+        <location filename="../../ui/project_page.py" line="133"/>
         <source>Results</source>
         <translation>Sonuçlar</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="130"/>
+        <location filename="../../ui/project_page.py" line="134"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="131"/>
+        <location filename="../../ui/project_page.py" line="135"/>
         <source>Versions</source>
         <translation>Sürümler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="149"/>
+        <location filename="../../ui/project_page.py" line="153"/>
         <source>Save as recipe</source>
         <translation>Tarif olarak kaydet</translation>
     </message>
@@ -21221,50 +21271,88 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>TaskChip</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>waiting</source>
         <translation>sırada</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>finished</source>
         <translation>bitti</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>failed</source>
         <translation>başarısız</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="61"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
         <source>cancelled</source>
         <translation>iptal edildi</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="69"/>
+        <location filename="../../ui/kit/tasks.py" line="79"/>
         <source> · about {left} left</source>
         <translation> · yaklaşık {left} kaldı</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="74"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
         <source>{n} tasks running</source>
         <translation>{n} görev çalışıyor</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="74"/>
-        <location filename="../../ui/kit/tasks.py" line="96"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <location filename="../../ui/kit/tasks.py" line="106"/>
         <source>No task running</source>
         <translation>Çalışan görev yok</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="85"/>
+        <location filename="../../ui/kit/tasks.py" line="95"/>
         <source>Report a problem…</source>
         <translation>Sorun bildir…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="94"/>
+        <location filename="../../ui/kit/tasks.py" line="104"/>
         <source>Cancel</source>
         <translation>İptal</translation>
+    </message>
+</context>
+<context>
+    <name>TasksTab</name>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="23"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="56"/>
+        <source>running</source>
+        <translation>çalışıyor</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="63"/>
+        <source>Window</source>
+        <translation>Pencere</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="64"/>
+        <source>Task</source>
+        <translation>Görev</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="65"/>
+        <source>State</source>
+        <translation>Durum</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="66"/>
+        <source>Started</source>
+        <translation>Başlangıç zamanı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="67"/>
+        <source>Elapsed</source>
+        <translation>Geçen süre</translation>
     </message>
 </context>
 <context>

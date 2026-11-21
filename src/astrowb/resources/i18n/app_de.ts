@@ -4409,7 +4409,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>HeldButton</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="126"/>
+        <location filename="../../ui/kit/tasks.py" line="136"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11968,13 +11968,58 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_stages.py" line="27"/>
+        <location filename="../../ui/lightcurve_stages.py" line="28"/>
         <source>Frequencies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/lightcurve_stages.py" line="27"/>
+        <location filename="../../ui/lightcurve_stages.py" line="28"/>
         <source>Variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_stages.py" line="31"/>
+        <source>Fold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_stages.py" line="35"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="44"/>
+        <source>Folds at the next peak towards longer periods (→)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="45"/>
+        <source>Folds at the next peak towards shorter periods (←)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="48"/>
+        <source>Next peak</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="49"/>
+        <source>Previous peak</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="65"/>
+        <source>Copy the peak table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="66"/>
+        <source>The peaks of the periodogram, as shown, as tab-separated text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/lightcurve_fold.py" line="82"/>
+        <source>Peaks</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16009,103 +16054,108 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Verlauf</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="43"/>
+        <source>Tasks</source>
+        <translation type="unfinished">Aufgaben</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Step</source>
         <translation>Schritt</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
+        <location filename="../../ui/project_page.py" line="46"/>
         <source>Started</source>
         <translation>Gestartet</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="42"/>
-        <location filename="../../ui/project_page.py" line="128"/>
+        <location filename="../../ui/project_page.py" line="46"/>
+        <location filename="../../ui/project_page.py" line="132"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="51"/>
+        <location filename="../../ui/project_page.py" line="55"/>
         <source>Run again with the same inputs and settings</source>
         <translation>Mit denselben Eingaben und Einstellungen erneut ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="54"/>
+        <location filename="../../ui/project_page.py" line="58"/>
         <source>Runs the selected step again exactly as before, e.g. after the input files changed</source>
         <translation>Führt den gewählten Schritt genau wie zuvor erneut aus, z. B. nachdem sich die Eingabedateien geändert haben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="58"/>
+        <location filename="../../ui/project_page.py" line="62"/>
         <source>Copy as Python</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="60"/>
+        <location filename="../../ui/project_page.py" line="64"/>
         <source>The selected step as a line of a Python script (astrowb.api), to copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="63"/>
+        <location filename="../../ui/project_page.py" line="67"/>
         <source>Save as recipe…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="66"/>
+        <location filename="../../ui/project_page.py" line="70"/>
         <source>The selected step with its settings as an automation: Automation runs it on other files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="74"/>
+        <location filename="../../ui/project_page.py" line="78"/>
         <source>Select a run to see its inputs, settings, results and versions.</source>
         <translation>Einen Lauf wählen, um Eingaben, Einstellungen, Ergebnisse und Versionen zu sehen.</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="83"/>
+        <location filename="../../ui/project_page.py" line="87"/>
         <source>Run steps and the methods paragraph appears here.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="85"/>
+        <location filename="../../ui/project_page.py" line="89"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="86"/>
+        <location filename="../../ui/project_page.py" line="90"/>
         <source>Copies the methods text to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="90"/>
+        <location filename="../../ui/project_page.py" line="94"/>
         <source>Methods text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="127"/>
+        <location filename="../../ui/project_page.py" line="131"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="129"/>
+        <location filename="../../ui/project_page.py" line="133"/>
         <source>Results</source>
         <translation>Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="130"/>
+        <location filename="../../ui/project_page.py" line="134"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="131"/>
+        <location filename="../../ui/project_page.py" line="135"/>
         <source>Versions</source>
         <translation>Versionen</translation>
     </message>
     <message>
-        <location filename="../../ui/project_page.py" line="149"/>
+        <location filename="../../ui/project_page.py" line="153"/>
         <source>Save as recipe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21219,50 +21269,88 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>TaskChip</name>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="60"/>
+        <location filename="../../ui/kit/tasks.py" line="70"/>
         <source>failed</source>
         <translation>fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="61"/>
+        <location filename="../../ui/kit/tasks.py" line="71"/>
         <source>cancelled</source>
         <translation>abgebrochen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="69"/>
+        <location filename="../../ui/kit/tasks.py" line="79"/>
         <source> · about {left} left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="74"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
         <source>{n} tasks running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="74"/>
-        <location filename="../../ui/kit/tasks.py" line="96"/>
+        <location filename="../../ui/kit/tasks.py" line="84"/>
+        <location filename="../../ui/kit/tasks.py" line="106"/>
         <source>No task running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="85"/>
+        <location filename="../../ui/kit/tasks.py" line="95"/>
         <source>Report a problem…</source>
         <translation>Problem melden…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/tasks.py" line="94"/>
+        <location filename="../../ui/kit/tasks.py" line="104"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
+    </message>
+</context>
+<context>
+    <name>TasksTab</name>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="23"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="56"/>
+        <source>running</source>
+        <translation type="unfinished">läuft</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="63"/>
+        <source>Window</source>
+        <translation type="unfinished">Fenster</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="64"/>
+        <source>Task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="65"/>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="66"/>
+        <source>Started</source>
+        <translation type="unfinished">Gestartet</translation>
+    </message>
+    <message>
+        <location filename="../../ui/project_tasks.py" line="67"/>
+        <source>Elapsed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
