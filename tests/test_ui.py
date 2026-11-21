@@ -1094,23 +1094,21 @@ def test_settings_naming_old_side_panels_still_open(window, qtbot):
     qtbot.addWidget(again)
     again.show()
     docks = [d.objectName() for d in again.findChildren(QDockWidget)]  # the background-tasks dock stays
-    old = [n for n in docks if n.startswith("panel_") and n != "panel_stages"]  # the stage rail is no page panel
+    anatomy = ("panel_stages", "panel_inspector", "panel_files", "panel_result_plan")
+    old = [n for n in docks if n.startswith("panel_") and n not in anatomy]
     assert not hasattr(again, "dock_page") and not old
     assert "Panels beside the image" not in [a.text() for a in again.view_menu.actions()]
     again.engine.shutdown()
 
 
 def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file):
-    """Every border can be dragged: the header tabs beside the image fold away when their edge is dragged to the
-    right, the sidebar's edge moves; the image stays fitted when its room or the window changes size."""
-    from PySide6.QtCore import QPoint
-    from PySide6.QtTest import QTest
-
+    """The inspector beside the image can be hidden (F10): the image gets more room and stays fitted; it stays fitted
+    when the window changes size."""
     window.show()
     window.open_fits(fits_file)
     area = window.area_windows["image"]  # Images has its own window (interface I4.6)
     area.resize(1366, 768)
-    page, viewer = window.image_page, window.viewer
+    viewer = window.viewer
     qtbot.waitUntil(lambda: viewer.width() > 100)
     before = viewer.width()
 
@@ -1120,12 +1118,9 @@ def test_borders_drag_and_the_image_follows_the_window(window, qtbot, fits_file)
         return inside and (rect.width() >= vp.width() - 3 or rect.height() >= vp.height() - 3)
 
     assert fitted()
-    handle = page.split.handle(1)
-    QTest.mousePress(handle, Qt.LeftButton, pos=QPoint(2, 10))
-    QTest.mouseMove(handle, QPoint(2 + page.width(), 10))  # drag the border to the right edge
-    QTest.mouseRelease(handle, Qt.LeftButton, pos=QPoint(2 + page.width(), 10))
-    qtbot.waitUntil(lambda: page.split.sizes()[1] == 0)  # the tabs folded away
-    assert viewer.width() > before + 200 and fitted()  # more room, the image still fitted to it
+    area.docks["inspector"].hide()  # the header tabs folded away
+    qtbot.waitUntil(lambda: viewer.width() > before + 200)
+    qtbot.waitUntil(fitted)  # more room, the image still fitted to it
     big = viewer.transform().m11()
     area.resize(900, 600)  # a smaller window: the image shrinks with it, still whole
     qtbot.waitUntil(lambda: viewer.transform().m11() < big)
@@ -1419,6 +1414,11 @@ def test_every_moved_area_opens_in_its_own_window(window):
             assert page.reduce_tab.plot.parent().parent() in shown and page.reduce_tab.frame_view.parent() in shown
             assert page.isHidden()
             assert isinstance(win, AreaWindow) and win.isVisible()
+            win.close()
+            continue
+        if key == "image":  # the viewer in the middle, the header tabs as the inspector (UI-16.10)
+            assert not page.isVisible() and win.isVisible() and win.docks["inspector"].widget() is page.tabs
+            assert win.centralWidget().currentWidget().isAncestorOf(window.viewer)
             win.close()
             continue
         shown = win.centralWidget() if key == "photometry" else win.centralWidget().widget()
@@ -2709,7 +2709,7 @@ def test_the_calibration_window_has_stages(window):
     its stage on the rail."""
     win = window.open_area("calibrate")
     page = window.calibrate_page
-    assert list(win.stage_panels) == ["frames", "calibrate", "continue"]
+    assert list(win.stage_panels) == ["frames", "check", "masters", "calibrate", "review", "continue"]
     assert win.stage_panels["frames"].isAncestorOf(page.lights) and win.stage_panels["frames"].isAncestorOf(page.folder)
     assert win.stage_panels["calibrate"].isAncestorOf(page.output) and win.stage_panels["calibrate"].isAncestorOf(
         page.run_button
@@ -2717,6 +2717,7 @@ def test_the_calibration_window_has_stages(window):
     assert win.stage_panels["calibrate"].isAncestorOf(page.result)
     assert win.stage_panels["continue"].isAncestorOf(page.photometry_button)
     assert win.stage_panels["continue"].isAncestorOf(page.stack_options)
+    assert win.stage_panels["masters"].isAncestorOf(page.masters_button)
     assert not any(p.isAncestorOf(page.table) for p in win.stage_panels.values())  # the list stays the view
     page.guide.set_state(2, "done")
     assert win.rail.states["calibrate"] == "done" and page.guide.states[2] == "done"
@@ -2980,3 +2981,47 @@ def test_transit_secondary_eclipse_choice_and_its_text(window):
     text = result_text(out)
     assert text.startswith("Mid-eclipse") and "depth 3.98 ppt (4.3 mmag)" in text
     assert "occ" in [r[0] for r in parameter_rows(out)]
+
+
+def test_the_calibration_check_masters_plan_and_review(window, tmp_path):
+    """UI-16.2: groups with the frames that stand apart marked and left out, the masters to make, the Plan tab's
+    choices (kept for the run), the quality table after a run."""
+    rng = np.random.default_rng(2)
+    frames = []
+    for i in range(4):
+        for kind, level in (("bias", 300.0), ("flat", 30000.0 if i < 3 else 62000.0)):
+            h = fits.Header({"IMAGETYP": kind.upper(), "EXPTIME": 1.0, "FILTER": "V", "XBINNING": 1, "YBINNING": 1})
+            path = tmp_path / f"{kind}{i}.fits"
+            fits.PrimaryHDU(rng.normal(level, 3, (40, 40)).astype(np.float32), h).writeto(path)
+            frames.append(
+                {
+                    "path": str(path),
+                    "kind": kind,
+                    "exptime": 1.0,
+                    "filter": "V",
+                    "temperature": None,
+                    "binning": [1, 1],
+                    "shape": [40, 40],
+                    "readout": "",
+                    "date_obs": None,
+                    "object": None,
+                }
+            )
+    light = dict(frames[0], path=str(tmp_path / "l0.fits"), kind="light", exptime=10.0)
+    frames.append(light)
+    win = window.open_area("calibrate")
+    page = window.calibrate_page
+    page.show_frames(frames, [])
+    assert page.groups_tree.topLevelItemCount() == 3  # bias, flat, light
+    assert "bias" in page.masters_text.text()
+    page.check_button.click()
+    assert list(page.marks) == [str(tmp_path / "flat3.fits")] and page.leave_button.isEnabled()
+    assert page.plan_table.table.rowCount() == 1 and "dark" in page.plan_table.table.item(0, 6).text()
+    page.plan_table.table.cellWidget(0, 5).setCurrentIndex(page.plan_table.table.cellWidget(0, 5).count() - 1)
+    page.plan_table.table.cellWidget(0, 5).activated.emit(page.plan_table.table.cellWidget(0, 5).currentIndex())
+    assert page.master_choices == {"V": {"flat": "none"}}
+    page.leave_button.click()
+    assert len(page.frames) == 8 and "flat3" in page.left_out_text.text()
+    page.show_result({"calibrated": [], "masters": [], "quality": {"mbias": {"banding": {"value": 2.0, "ok": False}}}})
+    assert page.review_table.table.rowCount() == 1 and "1 in amber" in page.review_status.text()
+    win.close()
