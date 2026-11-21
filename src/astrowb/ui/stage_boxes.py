@@ -161,6 +161,9 @@ def calibration_stages(win, page):
     )
     lay_l, lay_r = left.layout(), right.layout()
     boxes = {}
+    from .calibration_checks import make, refresh_frames
+
+    extra = make(page)  # Check, Masters, Review: new boxes, refreshed by the page's signals
     for key in ("frames", "calibrate", "continue"):
         boxes[key] = QWidget()
         QVBoxLayout(boxes[key]).setContentsMargins(0, 0, 0, 0)
@@ -175,13 +178,23 @@ def calibration_stages(win, page):
     boxes["continue"].layout().addStretch(1)
     # the list of frames and its problems: the view
     _take(lay_l, index(lay_l, page.table.parent()), lay_l.count(), lay_r)
-    page.stage_boxes = boxes
-    titles = {"frames": translate("CalibrationWindow", "Frames"),
+    extra["masters"].layout().addWidget(page.masters_button)  # the hand choice, with the masters to make
+    extra["masters"].layout().addStretch(1)
+    for box in (extra["check"], extra["review"]):
+        box.layout().addStretch(0)
+    order = ("frames", "check", "masters", "calibrate", "review", "continue")
+    page.stage_boxes = {k: (boxes | extra)[k] for k in order}
+    titles = {"frames": translate("CalibrationWindow", "Frames"), "check": translate("CalibrationWindow", "Check"),
+              "masters": translate("CalibrationWindow", "Masters"),
               "calibrate": translate("CalibrationWindow", "Calibrate"),
+              "review": translate("CalibrationWindow", "Review"),
               "continue": translate("CalibrationWindow", "Continue")}  # fmt: skip
-    anchors = {"frames": "calibration-1-scan-raw-frames", "calibrate": "calibration-3-calibrate",
-               "continue": "calibration-4-align-stack"}  # fmt: skip
-    stages_from_boxes(win, page, titles, anchors, {0: "frames", 1: "frames", 2: "calibrate", 3: "continue"})
+    anchors = {"frames": "calibration-1-scan-raw-frames", "check": "calibration-1-scan-raw-frames",
+               "masters": "calibration-3-calibrate", "calibrate": "calibration-3-calibrate",
+               "review": "calibration-3-calibrate", "continue": "calibration-4-align-stack"}  # fmt: skip
+    stages_from_boxes(win, page, titles, anchors, {0: "frames", 1: "check", 2: "calibrate", 3: "continue"})
+    win.add_result_tab("plan", translate("CalibrationWindow", "Plan"), page.plan_table)
+    refresh_frames(page)  # fill the new stages from what is already scanned
 
 
 def models_stages(win, page):
