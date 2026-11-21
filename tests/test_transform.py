@@ -54,3 +54,11 @@ def test_a_typed_colour_and_the_aavso_report_says_transformed():
     text = aavso_extended(lc_v, "NY Vir", "XYZ", "V", V_c, transform=terms)
     row = text.splitlines()[-1].split(",")
     assert row[5] == "YES" and abs(float(row[2]) - v_true[-1]) < 0.005 and "Tv_bv=0.100" in row[-1]
+
+
+def test_second_order_term_shifts_by_k2_x_colour_distance():
+    lc_b, _, B_c, _, BV_c, _, _, bv_t = night()
+    lc_b["airmass"] = [1.5] * len(lc_b["jd_utc"])
+    base, _ = transform.transformed(lc_b, B_c, BV_c, bv_t, TB)
+    shifted, _ = transform.transformed(lc_b, B_c, BV_c, bv_t, TB, k2=-0.03)
+    assert np.allclose(shifted - base, 0.03 * 1.5 * (bv_t - BV_c.mean()))

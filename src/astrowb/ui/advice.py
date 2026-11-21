@@ -134,6 +134,9 @@ ADVICE = {
         "Advice",
         "Observe the field over a wider range of altitudes, or use a typical extinction coefficient for the site.",
     ),
+    "the stars' colours do not differ enough for the second-order extinction": QT_TRANSLATE_NOOP(
+        "Advice", "Use at least three stars of different colour (blue and red), or leave the second-order term off."
+    ),
     "fewer than 5 stars found on the first frame": QT_TRANSLATE_NOOP(
         "Advice", "Put a frame with more stars first, or check its focus and exposure."
     ),

@@ -94,3 +94,27 @@ def test_coefficients_dialog(qtbot):
     dlg.show_transformation(out | {"stars": stars})
     assert "Tbv = 1.05" in dlg.tr_result.text() and len(dlg.plot.figure.panels[0].series[0].x) == 20
     assert not CoefficientsDialog(None).ext_button.isEnabled()
+
+
+def _night(rng, k=0.25, k2=-0.03, colours=(0.2, 0.5, 0.8, 1.1, 1.4)):
+    x = np.linspace(1.1, 2.4, 80)
+    c = np.array(colours)
+    m = np.linspace(10, 12, len(c))[None] + k * x[:, None] + k2 * c[None] * x[:, None]
+    return x, c, 10 ** (-0.4 * (m + rng.normal(0, 0.004, m.shape)))
+
+
+def test_second_order_extinction_recovered():
+    x, c, f = _night(np.random.default_rng(5))
+    o = co.extinction(x, f, c, second_order=True)
+    assert o["k"] == pytest.approx(0.25, abs=3 * o["k_err"]) and o["k2"] == pytest.approx(-0.03, abs=3 * o["k2_err"])
+    assert o["k2_err"] > 0
+
+
+def test_second_order_off_is_the_old_fit_and_narrow_colour_span_raises():
+    x, c, f = _night(np.random.default_rng(6), k2=0.0)
+    o = co.extinction(x, f)
+    assert "k2" not in o and o["k"] == pytest.approx(0.25, abs=3 * o["k_err"])
+    with pytest.raises(ValueError, match="colours do not differ"):
+        co.extinction(x, f, np.full(5, 0.7), second_order=True)
+    with pytest.raises(ValueError, match="colours do not differ"):
+        co.extinction(x, f, None, second_order=True)

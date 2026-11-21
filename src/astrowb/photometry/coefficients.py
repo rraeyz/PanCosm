@@ -2,6 +2,8 @@
 
 - Extinction coefficient of the night, k (mag per airmass), from the comparison stars of a light curve:
   m_ij = c_j + k X_i (one constant per star, one k), least squares with outlier clipping (Bouguer line).
+  Optionally with the colour-dependent second-order term (Hardie 1962, Astronomical Techniques, ch. 8):
+  m_ij = c_j + k' X_i + k'' C_j X_i, C_j the standard colour index of star j (B-V for B and V).
 - Transformation coefficients from a standard field (two filters A, B, catalogue magnitudes known), the
   AAVSO convention for e.g. B and V:
       (A - B) = T_ab (a - b) + Z_ab        colour transformation  (e.g. Tbv)
@@ -33,8 +35,30 @@ def _clipped_line(x, y, clip=3.0, iterations=5):
     return float(a), float(b), float(np.sqrt(cov[0, 0])), float(np.sqrt(cov[1, 1])), rms, keep
 
 
-def extinction(airmass, flux):
-    """k (mag / airmass) and its error from the instrumental fluxes [frames x stars] of constant stars."""
+def _clipped_plane(x, c, y, clip=3.0, iterations=5):
+    """y = k x + k2 c x by least squares with clipping: (k, k2), their covariance, rms, mask."""
+    keep = np.isfinite(x) & np.isfinite(y) & np.isfinite(c)
+    A = np.column_stack([x, c * x])
+    for _ in range(iterations):
+        if keep.sum() < 4:
+            raise ValueError("fewer than 3 usable stars")
+        coef, *_ = np.linalg.lstsq(A[keep], y[keep], rcond=None)
+        r = y - A @ coef
+        sd = 1.4826 * np.median(np.abs(r[keep] - np.median(r[keep])))
+        new = keep & (np.abs(r) <= clip * max(sd, 1e-6))
+        if np.array_equal(new, keep):
+            break
+        keep = new
+    dof = max(keep.sum() - 2, 1)
+    cov = np.linalg.inv(A[keep].T @ A[keep]) * np.sum(r[keep] ** 2) / dof
+    return coef, cov, float(np.sqrt(np.sum(r[keep] ** 2) / dof)), keep
+
+
+def extinction(airmass, flux, colour=None, second_order=False):
+    """k (mag / airmass) and its error from the instrumental fluxes [frames x stars] of constant stars.
+    second_order (needs the stars' standard colour index, one per star): also k'' (mag per airmass per colour
+    index) with its error from the same least-squares covariance. The stars' colours must differ (the span
+    threshold, more than 0 with at least 3 stars, is ours, not a published one)."""
     x = np.asarray(airmass, float)
     f = np.asarray(flux, float)
     with np.errstate(divide="ignore", invalid="ignore"):
@@ -45,8 +69,16 @@ def extinction(airmass, flux):
     xm = np.repeat(x[:, None], m.shape[1], axis=1)
     centred = m - np.nanmean(m, axis=0)
     xc = xm - np.nanmean(np.where(np.isfinite(m), xm, np.nan), axis=0)
-    k, _, k_err, _, rms, keep = _clipped_line(xc.ravel(), centred.ravel())
-    return {"k": k, "k_err": k_err, "rms": rms, "n": int(keep.sum())}
+    if not second_order:
+        k, _, k_err, _, rms, keep = _clipped_line(xc.ravel(), centred.ravel())
+        return {"k": k, "k_err": k_err, "rms": rms, "n": int(keep.sum())}
+    c = np.asarray(colour if colour is not None else [], float)
+    if c.shape != (m.shape[1],) or m.shape[1] < 3 or not np.ptp(c[np.isfinite(c)]) > 0:
+        raise ValueError("the stars' colours do not differ enough for the second-order extinction")
+    cm = np.repeat(c[None, :], m.shape[0], axis=0)
+    (k, k2), cov, rms, keep = _clipped_plane(xc.ravel(), cm.ravel(), centred.ravel())
+    return {"k": float(k), "k_err": float(np.sqrt(cov[0, 0])), "k2": float(k2), "k2_err": float(np.sqrt(cov[1, 1])),
+            "rms": rms, "n": int(keep.sum())}  # fmt: skip
 
 
 def transformation(cat_a, cat_b, inst_a, inst_b, names=("A", "B")):

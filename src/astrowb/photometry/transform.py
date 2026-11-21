@@ -9,7 +9,8 @@ give the zero point, so
 i.e. the ensemble magnitude computed with each comparison star's catalogue magnitude moved off its colour term,
 plus the target's colour term. The target's colour comes from the night's other filter (interpolated in time and
 iterated, as the transformed magnitudes change it) or is typed. The error adds the coefficient's error times the
-target's colour distance from the comparison stars.
+target's colour distance from the comparison stars. The optional second-order extinction term k″ (Hardie 1962,
+Astronomical Techniques, ch. 8; m = M + k′X + k″ C X) shifts each frame by −k″ X (C_target − mean C_comparison).
 """
 
 import numpy as np
@@ -17,13 +18,18 @@ import numpy as np
 from .export import ensemble_magnitudes
 
 
-def transformed(lc, comp_mags, comp_colours, target_colour, coefficient, coefficient_error=0.0):
+def transformed(lc, comp_mags, comp_colours, target_colour, coefficient, coefficient_error=0.0, k2=0.0, k2_error=0.0):
     """(magnitudes, errors) per frame in the standard system. target_colour: one value or one per frame."""
     comp_mags, comp_colours = np.asarray(comp_mags, float), np.asarray(comp_colours, float)
     colour = np.asarray(target_colour, float)
     mag, err = ensemble_magnitudes(lc, comp_mags - coefficient * comp_colours)
+    dc = colour - np.nanmean(comp_colours)
     mag = mag + coefficient * colour
-    err = np.hypot(err, coefficient_error * np.abs(colour - np.nanmean(comp_colours)))
+    err = np.hypot(err, coefficient_error * np.abs(dc))
+    if k2:
+        x = np.asarray(lc["airmass"], float)
+        mag = mag - k2 * x * dc
+        err = np.hypot(err, k2_error * x * np.abs(dc))
     return mag, err
 
 

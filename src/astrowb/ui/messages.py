@@ -191,6 +191,7 @@ TEMPLATES = (
     # photometry/coefficients.py
     QT_TRANSLATE_NOOP("Messages", "fewer than 3 usable stars"),
     QT_TRANSLATE_NOOP("Messages", "the airmass hardly changed during the series: no extinction from it"),
+    QT_TRANSLATE_NOOP("Messages", "the stars' colours do not differ enough for the second-order extinction"),
     # photometry/fieldstars.py
     QT_TRANSLATE_NOOP("Messages", "fewer than 5 stars found on the first frame"),
     # calibration/steps.py (masters chosen by hand)
