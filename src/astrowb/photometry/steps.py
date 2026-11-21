@@ -61,7 +61,7 @@ def read_light_curve_step(inputs, params, ctx):
     "photometry.light_curve",
     inputs=("images", "target_xy", "comps_xy"),
     outputs=("light_curve",),
-    optional=("coord", "extra_xy", "ref_image", "stars_sky"),
+    optional=("coord", "extra_xy", "ref_image", "stars_sky", "catalogue_stars"),
     r_ap=4.0,
     r_in=10.0,
     r_out=16.0,
@@ -77,6 +77,7 @@ def read_light_curve_step(inputs, params, ctx):
     shutter_delay=0.0,
     apertures=(),
     remove_neighbours=False,
+    sky_mask_catalogue=False,
     centring="auto",
     box=11,
     max_move=2.5,
@@ -94,6 +95,8 @@ def light_curve_step(inputs, params, ctx):
     inputs = placed_by_sky(inputs, images, ref)  # a recipe on another night: by the sky (PHO-20)
     ref = inputs.get("ref_image") or images[0]
     _check_positions(ref, inputs["target_xy"], inputs["comps_xy"])
+    if params.get("sky_mask_catalogue") and not inputs.get("catalogue_stars"):  # said, not silently skipped
+        raise ValueError("the catalogue sky mask needs the field identified and the stars marked on the first frame")
     lc = light_curve(
         images,
         inputs["target_xy"],
@@ -123,6 +126,7 @@ def light_curve_step(inputs, params, ctx):
         track_stars=params.get("track_stars") or (),
         shape=params.get("aperture_shape"),
         trails=bool(params.get("trails")),
+        catalogue_sky=inputs.get("catalogue_stars") if params.get("sky_mask_catalogue") else None,
     )
     return {"light_curve": lc}
 

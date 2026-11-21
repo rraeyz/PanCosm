@@ -135,6 +135,17 @@ MEASURE = (  # the light-curve settings shared by the single- and multi-filter m
         help=QT_TRANSLATE_NOOP("Steps", "Stars near the measured ones are fitted and subtracted before the apertures"),
     ),
     P(
+        "sky_mask_catalogue",
+        "bool",
+        False,
+        label=QT_TRANSLATE_NOOP("Steps", "Mask catalogue stars in the sky"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps",
+            "The field's Gaia stars down to 7 mag fainter than the target are left out of every sky ring "
+            "(needs the identified field)",
+        ),
+    ),
+    P(
         "aperture_m",
         "float",
         None,

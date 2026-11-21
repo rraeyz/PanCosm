@@ -374,10 +374,12 @@ def _grouped_median(values):
     return med - 0.5 + (v.size / 2 - below) / inside
 
 
-def star_mask(shape, xy, radius):
-    """True within radius of each (x, y): the stars to leave out of the sky rings (measure's sky_mask)."""
+def star_mask(shape, xy, radii):
+    """True within radius (radii: one number, or one per star) of each (x, y): the stars to leave out of the sky rings
+    (measure's sky_mask)."""
     out = np.zeros(shape, bool)
-    for x, y in np.asarray(xy, float).reshape(-1, 2):
+    xy = np.asarray(xy, float).reshape(-1, 2)
+    for (x, y), radius in zip(xy, np.broadcast_to(radii, len(xy)), strict=True):
         y0, y1 = max(int(y - radius), 0), min(int(y + radius) + 2, shape[0])
         x0, x1 = max(int(x - radius), 0), min(int(x + radius) + 2, shape[1])
         yy, xx = np.mgrid[y0:y1, x0:x1]

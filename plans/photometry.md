@@ -1111,8 +1111,17 @@ neighbour's wing in 7 % of the pixels gives the sky within 0.2σ where the mean 
 mask (`aperture.star_mask`, `measure(sky_mask=…)`: pixels left out of every ring, for every sky method), used by
 "remove neighbours" (2 FWHM around each neighbour); test: over 20 noise draws a neighbour in the ring biases the
 clipped median by 0.08σ, masked 0.02σ. Note: the clipped median alone is already within 0.1σ for a compact
-neighbour, so the plan's "> 0.5σ" holds only for broad halos. Left: Gaia positions for the mask (with the solved
-field), radius scaled with brightness, the rejected-pixel counts in the table, the IRAF reference run.
+neighbour, so the plan's "> 0.5σ" holds only for broad halos. Done (2026-11-28): the catalogue mask — option
+`sky_mask_catalogue` (step `photometry.light_curve`, checkbox in the Measure stage; optional input `catalogue_stars`
+= the Field stage's Gaia stars, not fetched again; used only when the field is identified on the first frame and a
+Gaia star lies within 3 px of the target, whose G scales the rest). `photometry/skymask.py`: `setup` (Gaia down to
+G_target + 7, the measured stars themselves left out), `radii` (1.5 FWHM × max(1, 10^(−0.2 (G − G_target))), capped at
+the sky ring's outer radius — **the brightness law is ours, not from a source**), `mask` (the catalogue pixels moved by
+each frame's median shift of the measured stars, not each frame's own WCS: a rotating field is not followed),
+`rejected` (masked + 3 -clipped ring pixels per star) → `lc["sky_rejected"]` and the table's `Sky_Rejected_<star>`
+columns; test: `test_catalogue_star_in_the_ring_masked_and_counted` (a star 5 mag fainter than the target in the ring,
+30 noise draws: unmasked sky +0.091 , masked +0.019 ; the count equals the masked plus the clipped pixels). Left: the
+IRAF reference run.
 - **Build:** stars known from the catalogue (Gaia to G + 7 of the target) are masked in every sky ring by position
   (radius 1.5 FWHM scaled with brightness) before any statistic — better than rejection alone because faint wings
   are removed too; `sky_method = "centroid"` (IRAF's `salgorithm = centroid`: histogram of the ring within ± 3σ in bins of 0.1σ,

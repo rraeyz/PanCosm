@@ -141,7 +141,7 @@ Differential aperture photometry of the target against the comparison stars on e
 and its table.
 
 inputs:      images, target_xy, comps_xy
-optional:    coord, extra_xy, ref_image, stars_sky
+optional:    coord, extra_xy, ref_image, stars_sky, catalogue_stars
 outputs:     light_curve
   images  (files)  Images
   target_xy  (xy)  Target position in the first frame (x y)
@@ -150,6 +150,7 @@ outputs:     light_curve
   extra_xy  (positions)  Check stars and other targets (x y)
   ref_image  (file)  Frame the stars were marked on
   stars_sky  (object)  The stars by the sky (RA, Dec)
+  catalogue_stars  (object)  The field's Gaia stars (pixels, G)
   light_curve  (file)  Light curve
 parameters (default):
   r_ap = 4.0  (float, px, >= 0.0)  Aperture radius: Light inside it is the star's
@@ -167,6 +168,7 @@ parameters (default):
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
+  sky_mask_catalogue = false  (bool)  Mask catalogue stars in the sky: The field's Gaia stars down to 7 mag fainter than the target are left out of every sky ring (needs the identified field)
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
   box = 11  (int, px, >= 3)  Centring box: Width of the box a star is centred in
   max_move = 2.5  (float, px, >= 0.0)  Largest centring move: A centroid farther than this from the predicted place is not used
@@ -211,6 +213,7 @@ parameters (default):
   shutter_delay = 0.0  (float, s)  Shutter delay: Added to the header time
   apertures = []  (table)  Other radii: More aperture radii measured at the same time
   remove_neighbours = false  (bool)  Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures
+  sky_mask_catalogue = false  (bool)  Mask catalogue stars in the sky: The field's Gaia stars down to 7 mag fainter than the target are left out of every sky ring (needs the identified field)
   centring = "auto"  (choice, one of auto, moments, gauss, none)  Centring: How each star is centred on every frame
   box = 11  (int, px, >= 3)  Centring box: Width of the box a star is centred in
   max_move = 2.5  (float, px, >= 0.0)  Largest centring move: A centroid farther than this from the predicted place is not used

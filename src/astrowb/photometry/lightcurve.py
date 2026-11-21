@@ -17,7 +17,7 @@ from ..calibration.masters import load
 from ..hdr import get, number
 from ..io import tpf
 from ..io.inspect import saturation_level
-from . import planes_use
+from . import planes_use, skymask
 from .aperture import (
     choose_apertures,
     frame_shift,
@@ -76,6 +76,7 @@ def light_curve(
     track_stars=(),
     shape=None,
     trails=False,
+    catalogue_sky=None,
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -116,7 +117,7 @@ def light_curve(
     stars0[fixed] = clicked[fixed]  # a star that follows the field keeps the place it was marked at
     opts = {"camera": camera, "sky_method": sky_method, "fixed": tuple(fixed), "time": (header_time, shutter_delay),
             "centring": centring, "max_move": max_move, "apertures": tuple(float(r) for r in apertures if 0 < r < r_in),
-            "shape": shape, "trails": trails}  # fmt: skip
+            "shape": shape, "trails": trails, "catalogue_sky": skymask.setup(catalogue_sky, stars0)}  # fmt: skip
     sky, where = target_coord(h0, coord), timing.location(h0)
     g = float(gain or get(h0, "EGAIN", "GAIN", default=1.0) or 1.0)
     rows, chosen, time_rules, radii, fwhms, peaks = [], None, {}, [], [], []  # time_rules: ARC-15, per frame
@@ -168,7 +169,7 @@ def light_curve(
         opts["planes"] = pl
         shift = np.zeros(2) if i == 0 or placed else np.asarray(frame_shift(ref, data, binning))
         pred = placed[i] if placed else stars0 + shift
-        xy, flux, err, skylev, r, f, multi, lost = _measure_frame(
+        xy, flux, err, skylev, r, f, multi, rej, lost = _measure_frame(
             data, h, pred, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts=opts
         )
         if fwhm0:
@@ -177,7 +178,7 @@ def light_curve(
         peaks.append(_peaks(data, xy, r[0], trails, pl))
         t = _mid_time(h, p, opts, time_rules)
         moved = np.hypot(*(xy - pred).T)  # how far centring moved each star from where the frame's placing put it
-        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi))
+        rows.append((p, t, flux, err, skylev, xy, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi, rej))
     reader.shutdown(wait=False)
     opts.pop("planes", None)
 
@@ -247,6 +248,7 @@ def light_curve(
         # how far centring moved each star from where the frame's shift put it (pixels; item 5)
         "centring_move": [r[8].tolist() if len(r) > 8 else [0.0] * len(r[5]) for r in rows],
         "fixed": list(opts["fixed"]) if src is None else [],
+        **skymask.series(rows),  # PHO-45: rejected sky pixels per frame and star, with catalogue_sky
         "scintillation": None if scint is None else scint.tolist(),  # relative, per frame
         "aperture_m": aperture_m,
         # frames left out, with why: {file: ["target"] / ["comparison", k] / ["aligned"]} (a dict: never taken for
@@ -261,10 +263,8 @@ def light_curve(
         out["by_aperture"] = by  # item 10: choose the radius later, no measuring
     out |= _shape_series(fwhms, peaks) | {"shape": shape} | (psf_series(rows, ref, saturation) if psf else {})
     if len(extra_xy):
-        out["extra_flux"] = flux[:, 1 + n_comp :].tolist()
-        out["extra_flux_err"] = err[:, 1 + n_comp :].tolist()
-    if airmass is not None:
-        out["airmass"] = airmass
+        out |= {"extra_flux": flux[:, 1 + n_comp :].tolist(), "extra_flux_err": err[:, 1 + n_comp :].tolist()}
+    out |= {"airmass": airmass} if airmass is not None else {}
     return out
 
 
@@ -301,13 +301,13 @@ def _frame(job):
         data, h = load(p)
         out = _measure_frame(data, h, pred + corner, stars0, radii0, g, box, fwhm0, psf, n_comp, ref_path, False, opts)
         corner = np.zeros(2)
-    xy, flux, err, skylev, radii, f, multi, lost = out
+    xy, flux, err, skylev, radii, f, multi, rej, lost = out
     try:
         t = timing.mid_time(h, *(opts or {}).get("time", ("auto", 0.0)))
     except timing.TimeError:
         t = None
     moved = np.hypot(*(xy + corner - asked).T)
-    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi)
+    row = (p, t, flux, err, skylev, xy + corner, get(h, "EXPTIME", "EXPOSURE", default=0.0), lost, moved, multi, rej)
     return row, _peaks(data, xy, radii[0], opts.get("trails"), pl), radii, f
 
 
@@ -384,7 +384,7 @@ def _field_offset(data, pred, box):
 
 def _lost(out, n_comp):
     """Why a measured frame cannot be used, () when it can (see _measure_frame)."""
-    xy, flux, err, skylev, radii, f, _, found = out
+    xy, flux, err, skylev, radii, f, _, _, found = out
     n_main = 1 + n_comp
     if found[:n_main].mean() < 0.5:  # most stars are not where they were looked for: the frame is not placed
         return ("aligned",)
@@ -443,7 +443,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         free = [k for k in range(len(xy)) if k not in fixed and found[k]]
         move = np.median(xy[free] - pred[free], axis=0) if free else np.zeros(2)
         xy[fixed], found[fixed] = pred[fixed] + move, True
-    k, f = 1.0, None
+    k, f, rej = 1.0, None, None
     if fwhm0:
         f = seeing_fwhm(data, xy)
         k = f / fwhm0 if np.isfinite(f) and 0.2 < f / fwhm0 < 5 else 1.0  # a failed measurement keeps the radii
@@ -469,6 +469,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
             xy[~np.isin(np.arange(len(xy)), fixed)] = recenter(data, pred, box)[~np.isin(np.arange(len(xy)), fixed)]
         if dq_mask is not None:
             sky_mask = dq_mask if sky_mask is None else sky_mask | dq_mask
+        sky_mask, rej = skymask.frame_mask(data, xy, sky_mask, opts.get("catalogue_sky"), f, radii, n_comp)
         cam = None
         if camera:  # dark current over this frame's exposure
             exptime = get(h, "EXPTIME", "EXPOSURE", default=0.0) or 0.0
@@ -481,7 +482,7 @@ def _measure_at(data, h, pred, radii0, g, box, fwhm0, psf, n_comp, opts=None):
         both = [measure(data, xy, r, *radii[1:], g, h.get("PIXNOISE"), cam, sky_method, sky_mask,
                         shape=opts.get("shape"), var=var)[:2] for r in rs]  # fmt: skip
         multi = np.array([[fl for fl, _ in both], [e for _, e in both]])  # (flux / error, radius, star)
-    return xy, flux, err, skylev, radii, f, multi, found
+    return xy, flux, err, skylev, radii, f, multi, rej, found
 
 
 def _pixel_file_rows(src, paths, stars0, radii, gain, box):

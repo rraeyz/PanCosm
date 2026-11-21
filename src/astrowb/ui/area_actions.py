@@ -104,6 +104,9 @@ class AreaActions:
         if params.get("ref_image"):  # the frame the stars were marked on
             inputs["ref_image"] = params.pop("ref_image")
         params.pop("ref_image", None)
+        field = self.photometry_page.field  # PHO-45: the Gaia stars the Field stage fetched, not fetched again
+        if params.get("sky_mask_catalogue") and field and self.photometry_page.ref in (None, 0):
+            inputs["catalogue_stars"] = {k: field["stars"][k] for k in ("x", "y", "gmag")}
 
         def done(out):
             lc = out["light_curve"]

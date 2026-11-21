@@ -25,6 +25,16 @@ def add_method_boxes(page, body):
             "before the apertures are summed: the target's own light is still an aperture sum.",
         )
     )
+    page.sky_mask_catalogue = QCheckBox(translate("PhotometryPage", "Mask catalogue stars in the sky ring"))
+    page.sky_mask_catalogue.setToolTip(
+        translate(
+            "PhotometryPage",
+            "The Gaia stars of the identified field, down to 7 mag fainter than the target, are left out of every "
+            "sky ring by position before the sky is taken (bright ones with a wider circle). Needs the field "
+            "identified on the first frame; the table then has Sky_Rejected columns.",
+        )
+    )
+    body.addWidget(page.sky_mask_catalogue)
     for box, other in ((page.psf, page.remove_neighbours), (page.remove_neighbours, page.psf)):
         box.toggled.connect(lambda on, other=other: on and other.setChecked(False))
         body.addWidget(box)
@@ -124,6 +134,7 @@ def method_params(page):
     return {
         "psf": page.psf.isChecked(),
         "remove_neighbours": page.remove_neighbours.isChecked(),
+        "sky_mask_catalogue": page.sky_mask_catalogue.isChecked(),
         "sky_method": page.sky_method.currentData(),
         "centring": page.centring.currentData(),
         "box": int(page.centring_box.value()),

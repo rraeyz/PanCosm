@@ -1028,6 +1028,13 @@
             "null"
            ]
           },
+          "sky_mask_catalogue": {
+           "description": "Mask catalogue stars in the sky: The field's Gaia stars down to 7 mag fainter than the target are left out of every sky ring (needs the identified field)",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "aperture_m": {
            "description": "Telescope aperture (m): For the scintillation noise (Young 1967); empty: left out",
            "type": [
@@ -1195,6 +1202,13 @@
           },
           "remove_neighbours": {
            "description": "Remove neighbours: Stars near the measured ones are fitted and subtracted before the apertures",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "sky_mask_catalogue": {
+           "description": "Mask catalogue stars in the sky: The field's Gaia stars down to 7 mag fainter than the target are left out of every sky ring (needs the identified field)",
            "type": [
             "boolean",
             "null"

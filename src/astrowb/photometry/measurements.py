@@ -115,6 +115,14 @@ def _shape_columns(cols, shape, r_ap):
     return cols
 
 
+def _rejected_columns(cols, lc, names):
+    """PHO-45: Sky_Rejected_<star>, the sky-ring pixels masked or clipped, after a run with the catalogue mask only."""
+    rej = lc.get("sky_rejected")
+    for k, name in enumerate(names):
+        if rej and all(k < len(r) for r in rej):
+            cols[f"Sky_Rejected_{name}"] = [int(r[k]) for r in rej]
+
+
 def _psf_columns(cols, lc, names):
     """PHO-18: PSF_chi2_<star> (reduced χ² of the fit) and PSF_flag_<star> (photutils' flags, 0 = good), after a PSF
     run only."""
@@ -123,6 +131,7 @@ def _psf_columns(cols, lc, names):
             fit = np.asarray(lc[key], float).reshape(len(lc["file"]), -1)
             for k, name in enumerate(names[: fit.shape[1]]):
                 cols[f"{label}_{name}"] = fit[:, k].tolist()
+    _rejected_columns(cols, lc, names)  # also an optional per-star column set, here to keep measurements() short
 
 
 def _spoiled(cols, marks, flags, names):

@@ -160,6 +160,10 @@ TEMPLATES = (
         "no comparison star has a catalogue magnitude: plate-solve the first image, choose stars in APASS / Gaia",
     ),
     QT_TRANSLATE_NOOP("Messages", "the first image has no sky coordinates: plate-solve it first (Image menu)"),
+    # photometry/steps.py (PHO-45)
+    QT_TRANSLATE_NOOP(
+        "Messages", "the catalogue sky mask needs the field identified and the stars marked on the first frame"
+    ),
     # timeseries/catalogue_check.py
     QT_TRANSLATE_NOOP("Messages", "no minima to compare with the catalogue ephemeris"),
     # engine/builtin.py
