@@ -112,7 +112,11 @@ def test_mcmc_posterior_brackets_the_least_squares_answer():
     post, v, s = got["mcmc"]["params"], got["values"], got["errors"]
     assert abs(post["tc"][0] - v["tc"]) < 0.5 * s["tc"] and 0.6 < (post["tc"][1] + post["tc"][2]) / (2 * s["tc"]) < 1.6
     assert abs(post["k"][0] - K) < 3 * max(post["k"][1:]) and set(post) >= {"tc", "k", "a_rs", "b", "airmass"}
-    assert 0.1 < got["mcmc"]["acceptance"] < 0.8 and took < 60
+    assert 0.1 < got["mcmc"]["acceptance"] < 0.8
+    import sys
+
+    if sys.gettrace() is None:  # coverage (the Linux CI job) traces every line and makes this much slower
+        assert took < 60
 
 
 def test_the_secondary_eclipse_is_fitted_for_its_mid_time_and_depth():

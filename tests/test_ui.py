@@ -1265,7 +1265,8 @@ def test_every_page_fits_a_short_window(window):
         window.show_workspace(key)
         QApplication.processEvents()
         frame = window._frames.get(page)
-        if frame is not None and page.minimumSizeHint().height() > frame.viewport().height():
+        shown = frame is not None and not frame.isHidden()  # Images keeps an unseen stand-in frame (image_stages)
+        if shown and page.minimumSizeHint().height() > frame.viewport().height():
             too_tall[key] = (page.minimumSizeHint().height(), frame.viewport().height())
     assert not too_tall, too_tall
 
