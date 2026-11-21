@@ -30,6 +30,7 @@ def test_dragging_a_line_sets_its_field(qtbot):
     line = _lines(page)[1]
     line.setValue(11.27)
     line.sigPositionChangeFinished.emit(line)
+    qtbot.wait(20)  # the redraw waits for the drop's own signal to end
     assert page.r_in.value() == 11.3
     assert [ln.value() for ln in _lines(page)] == [4.0, 11.3, 16.0]  # the line was redrawn from the fields
 
@@ -37,6 +38,7 @@ def test_dragging_a_line_sets_its_field(qtbot):
 def test_changing_a_field_moves_its_line(qtbot):
     page = _page(qtbot)
     page.r_ap.setValue(6.5)
+    qtbot.wait(20)
     assert [ln.value() for ln in _lines(page)] == [6.5, 10.0, 16.0]
 
 
@@ -46,7 +48,9 @@ def test_dragging_is_clamped_between_the_neighbours(qtbot):
         line = _lines(page)[i]
         line.setValue(to)
         line.sigPositionChangeFinished.emit(line)
+        qtbot.wait(20)
         spins = (page.r_ap, page.r_in, page.r_out)
         assert spins[i].value() == want
         assert _lines(page)[i].value() == want
         page.r_ap.setValue(4.0), page.r_in.setValue(10.0), page.r_out.setValue(16.0)
+        qtbot.wait(20)
