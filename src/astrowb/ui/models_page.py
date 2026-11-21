@@ -508,29 +508,14 @@ class ModelsPage(Undoable, QWidget):
             self.status.setText(self.tr("No posterior yet: tick MCMC uncertainties and press Fit."))
             return
         s = np.asarray(m["samples"])
-        n = s.shape[1]
         dlg = QDialog(self)
         dlg.setWindowTitle(self.tr("Posterior"))
         dlg.resize(760, 720)
         canvas = PlotCanvas(dlg)
         QVBoxLayout(dlg).addWidget(canvas)
-        axes = canvas.figure.subplots(n, n, squeeze=False)
-        for i in range(n):
-            for j in range(n):
-                ax = axes[i][j]
-                if j > i:
-                    ax.set_visible(False)
-                elif i == j:
-                    ax.hist(s[:, i], bins=40, histtype="step")
-                    for q in np.percentile(s[:, i], [16, 50, 84]):
-                        ax.axvline(q, ls="--" if q != np.median(s[:, i]) else "-", lw=0.8)
-                else:
-                    ax.plot(s[:, j], s[:, i], ",", alpha=0.4)
-                if i == n - 1:
-                    ax.set_xlabel(m["names"][j], fontsize="small")
-                if j == 0 and i > 0:
-                    ax.set_ylabel(m["names"][i], fontsize="small")
-                ax.tick_params(labelsize=6)
+        from .corner import draw_corner
+
+        draw_corner(canvas.figure, s, m["names"])
         canvas.draw()
         dlg.open()
         self.posterior_dialog = dlg
