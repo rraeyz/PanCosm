@@ -1225,6 +1225,8 @@ class PhotometryPage(Undoable, QWidget):
                 self._set_aperture(i)
 
     def _clicked(self, x, y):
+        if self.viewer.tool != "pan":  # an image tool is chosen: the click measures, it does not mark
+            return
         self.edit(self.tr("mark or unmark a star"), self._mark, *snap_click(self, x, y))
 
     def _mark(self, x, y):

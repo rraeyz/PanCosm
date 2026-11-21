@@ -365,6 +365,9 @@ def _photometry_stages(win, page):
     page._step_titles()
     win.restoreDockWidget(win.docks["stages"])
     _photometry_inspector(win, page)
+    from . import photometry_tools
+
+    photometry_tools.attach(win, page)  # Star, Area and Line, the Images window's tools
 
 
 def star_rows(page, x, y):
