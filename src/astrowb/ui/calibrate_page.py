@@ -31,6 +31,7 @@ from .calibrate_estimate import add_estimate_label, refused
 from .calibrate_estimate import refresh as refresh_estimate
 from .calibrate_follow import add_follow_button
 from .calibrate_library import library_line, library_text
+from .calibrate_light_checks import add_light_checks, trail_lines
 from .kit.help import help_line
 from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
@@ -221,14 +222,7 @@ class CalibratePage(Undoable, QWidget):
             )
         )
         row.addWidget(self.sigma)
-        self.cosmics = QCheckBox(self.tr("Remove cosmic rays from lights"), self)
-        self.cosmics.setToolTip(
-            self.tr(
-                "Finds cosmic-ray hits in each light by their sharp edges (L.A.Cosmic, astroscrappy) and replaces them."
-                " Useful for long exposures and spectra; not needed when many frames are stacked with rejection. "
-                "The slowest part of calibrating the lights: switch it off for a quick pass."
-            )
-        )
+        add_light_checks(self)  # the cosmic-ray and trail searches
         self.optimize_dark = QCheckBox(self.tr("Scale the dark to each light (dark optimisation)"), self)
         self.optimize_dark.setToolTip(
             self.tr("Finds the dark scale that leaves the least noise; useful when the camera temperature drifted")
@@ -269,7 +263,10 @@ class CalibratePage(Undoable, QWidget):
         add_masters_button(self, row, lay)  # "Choose the masters by hand…" on its line, then Calibrate
         add_follow_button(self, lay)  # CAL-22
         lay.addLayout(row)
-        lay.addWidget(self.cosmics)  # its own line: beside the button it kept the column wider than a small window
+        lay.addWidget(self.cosmics)
+        lay.addWidget(
+            self.find_trails
+        )  # their own line: beside the button it kept the column wider than a small window
         self.linearity = QLineEdit(self)
         self.linearity.setPlaceholderText(self.tr("linearity correction c0 c1 c2 … (empty: none)"))
         self.linearity.setToolTip(
@@ -626,7 +623,11 @@ class CalibratePage(Undoable, QWidget):
 
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))
-        params = {"sigma": self.sigma.value(), "cosmic_rays": self.cosmics.isChecked()}
+        params = {
+            "sigma": self.sigma.value(),
+            "cosmic_rays": self.cosmics.isChecked(),
+            "find_trails": self.find_trails.isChecked(),
+        }
         params |= {"optimize_dark": self.optimize_dark.isChecked(), "fix_defects": self.fix_defects.isChecked()}
         params["divide_flat"] = not self.spectra.isChecked()
         params["split_colour"] = self.split_colour.isChecked()
@@ -687,7 +688,11 @@ class CalibratePage(Undoable, QWidget):
                 for f in failed
             ]
             self.warnings.setPlainText("\n".join(lines + [self.warnings.toPlainText()]).strip())
-        amber = self._quality_lines(out.get("quality") or {}) + self._glow_lines(out.get("scaled_glow") or [])
+        amber = (
+            trail_lines(out)
+            + self._quality_lines(out.get("quality") or {})
+            + self._glow_lines(out.get("scaled_glow") or [])
+        )
         if amber:  # CAL-6: a master that works but is not as good as it should be
             self.warnings.setPlainText("\n".join([self.warnings.toPlainText(), *amber]).strip())
         self.result_shown.emit(out)

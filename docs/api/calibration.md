@@ -11,7 +11,7 @@ Build every master the plan needs, then calibrate every light. Missing correctio
 linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty.
 
 inputs:      frames, output_dir
-outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales
+outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales, trails
   frames  (object)  Frames
   output_dir  (new_folder)  Folder for masters and calibrated frames
   masters  (files)  Master frames
@@ -20,6 +20,7 @@ outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales
   failed_masters  (object)  Masters that could not be made
   arcs  (files)  Calibrated arc frames
   dark_scales  (object)  Dark scale factors
+  trails  (object)  Satellite trails found in the lights
 parameters (default):
   sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit of the masters in standard deviations
   temp_tol = 2.0  (float, °C, >= 0.0)  Temperature tolerance: A dark is used for a light within this sensor temperature
@@ -32,6 +33,7 @@ parameters (default):
   linearity = []  (table)  Linearity correction: Coefficients c0, c1, c2… of the camera's linearity curve; empty: none
   use = {}  (object)  Masters chosen by hand: {filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched
   write_planes = true  (bool)  Write variance and quality planes: Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images
+  find_trails = false  (bool)  Find satellite trails: Searched in every light (about 2-3 s per 2k frame), flagged in the DQ plane
   gain = 0.0  (float, e⁻/ADU, >= 0.0)  Gain: For the variance plane when the header does not give it (0: unknown)
   saturation = 0.0  (float, ADU, >= 0.0)  Saturation: Raw values from here on are flagged saturated when the header lacks it (0: none)
   library_folder = ""  (folder)  Library of masters: A light whose night has no master of a kind takes the library's within its validity; empty: none

@@ -62,6 +62,13 @@ describe(
         help=QT_TRANSLATE_NOOP("Steps", "L.A.Cosmic (astroscrappy) on every light"),
     ),
     P(
+        "find_trails",
+        "bool",
+        False,
+        label=QT_TRANSLATE_NOOP("Steps", "Find satellite trails"),
+        help=QT_TRANSLATE_NOOP("Steps", "Searched in every light (about 2-3 s per 2k frame), flagged in the DQ plane"),
+    ),
+    P(
         "read_noise",
         "float",
         10.0,

@@ -105,6 +105,7 @@ def calibrate(main, page, win):
                 QCoreApplication.translate("MainWindow", "&Masters"),
                 [
                     _mirror(page.cosmics),
+                    _mirror(page.find_trails),
                     _mirror(page.optimize_dark),
                     _mirror(page.fix_defects),
                     _mirror(page.split_colour),

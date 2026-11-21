@@ -28,6 +28,10 @@ def _save(path, data, gain=GAIN, **cards):
 
 
 def _night(folder, lights, gain=GAIN, **params):
+    return _run_night(folder, lights, gain, **params)["calibrated"]
+
+
+def _run_night(folder, lights, gain=GAIN, **params):
     """Bias, flat and the given lights (arrays) written to folder; calibrated into folder/cal."""
     rng = np.random.default_rng(1)
     shape = lights[0].shape
@@ -46,7 +50,7 @@ def _night(folder, lights, gain=GAIN, **params):
         )
     scan = execute("calibration.scan", {"folder": str(folder)}, {}, Ctx())
     out = execute("calibration.run", {"frames": scan["frames"], "output_dir": str(folder / "cal")}, params, Ctx())
-    return out["calibrated"]
+    return out
 
 
 def _sky(n):
@@ -102,3 +106,37 @@ def test_an_old_plain_calibrated_file_still_reads(tmp_path):
     data, header, index = fitsio.read_image(p)
     assert index == 0 and data.shape == (20, 30) and header["EXPTIME"] == 5.0
     assert planes.read(p).var is None and planes_use.read(p) is None
+
+
+def _trail_lights():
+    rng = np.random.default_rng(3)
+    lights = [BIAS + 700.0 + rng.normal(0, 8, (256, 256)) for _ in range(2)]
+    yy, xx = np.indices((256, 256))
+    d = -(xx - 127.5) * np.sin(np.radians(30)) + (yy - 127.5) * np.cos(np.radians(30)) - 20.0
+    lights[0] += 400.0 * np.exp(-(d**2) / 4.0)
+    return lights, d
+
+
+def test_trails_found_listed_and_flagged_in_dq(tmp_path):
+    lights, d = _trail_lights()
+    folder = tmp_path / "n"
+    folder.mkdir()
+    out = _run_night(folder, lights, find_trails=True)
+    assert [t["file"] for t in out["trails"]] == ["l00.fits"] and abs(out["trails"][0]["angle"] - 30) < 1
+    import json
+
+    json.dumps(out["trails"])
+    dq = planes.read(out["calibrated"][0]).dq
+    hit = (dq & planes.TRAIL) > 0
+    assert hit[np.abs(d) < 1.5].all() and not hit[np.abs(d) > 15].any()
+    assert not (planes.read(out["calibrated"][1]).dq & planes.TRAIL).any()
+
+
+def test_option_off_never_searches(tmp_path, monkeypatch):
+    from astrowb.calibration import trails
+
+    monkeypatch.setattr(trails, "find", lambda *a, **k: 1 / 0)
+    folder = tmp_path / "n"
+    folder.mkdir()
+    out = _run_night(folder, _trail_lights()[0])
+    assert out["trails"] == []

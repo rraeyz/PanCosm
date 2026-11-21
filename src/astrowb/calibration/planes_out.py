@@ -70,7 +70,7 @@ def used_masters(entry, built, variances, flat_used):
             if entry[k] and (k != "flat" or flat_used)}  # fmt: skip
 
 
-def save(path, data, header, params, light=None, exptime=0.0, used=None, k=1.0, defects=None, cosmic=None):
+def save(path, data, header, params, light=None, exptime=0.0, used=None, k=1.0, defects=None, cosmic=None, trail=None):
     """Write one calibrated light: SCI / VAR / DQ extensions, or a plain FITS when `light` is None (colour frames
     are split: the planes would need the same split) or Settings → Files turned the planes off."""
     if light is None or not params.get("write_planes", True):
@@ -79,6 +79,8 @@ def save(path, data, header, params, light=None, exptime=0.0, used=None, k=1.0, 
     fr = frame(data, light, header, exptime, params, used or {}, k, defects)
     if cosmic is not None:
         fr.dq[cosmic] |= planes.COSMIC | planes.REPAIRED
+    if trail is not None:
+        fr.dq[trail] |= planes.TRAIL
     return str(planes.write(path, fr))
 
 

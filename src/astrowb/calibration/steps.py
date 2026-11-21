@@ -10,7 +10,7 @@ from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
 from ..io.lzw import readable
-from . import library_use, masters, planes_out
+from . import library_use, masters, planes_out, trails_run
 from .frames import Frame, scan
 from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
 
@@ -117,7 +117,7 @@ def _unused_groups(plan, reps, temp_tol):
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
-    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs", "dark_scales"),
+    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs", "dark_scales", "trails"),
     sigma=3.0,
     temp_tol=2.0,
     cosmic_rays=False,
@@ -129,6 +129,7 @@ def _unused_groups(plan, reps, temp_tol):
     linearity=(),
     use={},
     write_planes=True,
+    find_trails=False,
     gain=0.0,
     saturation=0.0,
     library_folder="",
@@ -237,7 +238,7 @@ def _run(inputs, params, ctx):
         variances[key] = var
 
     built |= from_library
-    calibrated, arcs, defect_maps, dark_scales = [], [], {}, []
+    calibrated, arcs, defect_maps, dark_scales, found_trails = [], [], {}, [], []
     lamps = {f.path for f in frames if f.kind == "arc"}  # calibrated, but kept out of the stacks and photometry
     lights = plan.lights
     for n, entry in enumerate(lights):
@@ -274,10 +275,12 @@ def _run(inputs, params, ctx):
             cosmic = []
             if params["cosmic_rays"]:
                 plane = _remove_cosmic_rays(plane, h, params["read_noise"], cosmic)
+            trail, band = trails_run.search(plane, params, Path(entry["light"]).name)
+            found_trails += [trail] if trail else []
             used = planes_out.used_masters(entry, built, variances, f is not None)
             path = out / f"{stem}{'_' + colour if colour else ''}.fits"
             saved = planes_out.save(path, plane, h, params, None if pattern else light, exptime, used, k, defects,
-                                    cosmic[0] if cosmic else None)  # fmt: skip
+                                    cosmic[0] if cosmic else None, band)  # fmt: skip
             (arcs if entry["light"] in lamps else calibrated).append(saved)
     written = [v[2] for v in built.values()] + [str(v[1]) for v in defect_maps.values()]
     return {
@@ -291,6 +294,7 @@ def _run(inputs, params, ctx):
         "failed_masters": failed,
         "quality": qc,
         "arcs": arcs,
+        "trails": found_trails,
         "dark_scales": dark_scales,  # shown to the user: a scale far from 1 points to a wrong dark
     }
 

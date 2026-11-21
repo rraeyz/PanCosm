@@ -415,8 +415,12 @@ and the plan's column, twilight flats with star rejection, the check picture.
 within ±3σ, binned 4 × 4, projected on every direction with the angle refined to 0.05°; a second look at the map
 of bright pixels for bright trails; `band`: the trail's mask). Tests (tests/test_trails.py): a 2σ-per-pixel trail
 across a 2k frame found within 0.3° at two angles, a bright one too, none on a frame of 400 stars. Left: the
-presets and the preview, the DQ bits, running the trail search on the lights (2–3 s per 2k frame: an option) and
-listing them in the Problems, the real frame with a trail.
+presets and the preview, the real frame with a trail, the trail search in follow mode (`live.py` writes no CAL-12 flags yet).
+Done (2026-11-28): the run option `find_trails` (step parameter, default off; Calibrate checkbox with the 2–3 s per
+2k frame tooltip; `calibration/trails_run.search`, `planes_out.save(trail=)` sets the TRAIL bit on `trails.band`), output
+`trails` per light, listed in the Problems (`ui/calibrate_light_checks.trail_lines`). Tests (tests/test_calibration_planes.py):
+`test_trails_found_listed_and_flagged_in_dq` (file listed, TRAIL bits on the line and none far from it, clean light none),
+`test_option_off_never_searches`.
 - **Reference:** van Dokkum 2001 (PASP 113, 1420: L.A.Cosmic; `sigclip`, `sigfrac`, `objlim`, iterations; separate
   recipes for imaging and spectra); astroscrappy (BSD; in use); satellite trails: Hough / Radon detection (Nir,
   Zackay & Ofek 2018, AJ 156, 229; the ACS `satdet` approach; ASTRiDE, Kim 2016).

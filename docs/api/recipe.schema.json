@@ -175,6 +175,13 @@
             "null"
            ]
           },
+          "find_trails": {
+           "description": "Find satellite trails: Searched in every light (about 2-3 s per 2k frame), flagged in the DQ plane",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
           "read_noise": {
            "description": "Read noise (e⁻): For the cosmic-ray search when the header does not give it",
            "type": [

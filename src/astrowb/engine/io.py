@@ -110,6 +110,7 @@ OUTPUTS = {
     "components": IO("files", QT_TRANSLATE_NOOP("Steps", "Spectra of the components")),
     "curves": IO("object", QT_TRANSLATE_NOOP("Steps", "Light curves")),
     "dark_scales": IO("object", QT_TRANSLATE_NOOP("Steps", "Dark scale factors")),
+    "trails": IO("object", QT_TRANSLATE_NOOP("Steps", "Satellite trails found in the lights")),
     "echelle": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Merged échelle spectrum")),
     "failed_masters": IO("object", QT_TRANSLATE_NOOP("Steps", "Masters that could not be made")),
     "fit": IO("object", QT_TRANSLATE_NOOP("Steps", "O−C fit")),
