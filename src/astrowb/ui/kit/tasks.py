@@ -11,6 +11,8 @@ from PySide6.QtWidgets import QMenu, QToolButton
 
 from .icons import icon
 
+SEEN = []  # every task of this run, all windows: {area, task, wall, mono, ended} (Project → Tasks)
+SEEN_MAX = 200  # the oldest go first
 KEEP = 10  # finished tasks listed after the running ones
 ESTIMATE_FROM = 0.05  # no estimate before 5 % (a guess would be wrong)
 
@@ -47,6 +49,14 @@ class TaskChip(QToolButton):
     def update_task(self, task):
         self.tasks[task.id] = task
         self.started.setdefault(task.id, time.monotonic())
+        entry = next((e for e in SEEN if e["task"] is task), None)
+        if entry is None:
+            entry = {"area": self.window().windowTitle(), "task": task, "wall": time.time(), "mono": time.monotonic(),
+                     "ended": None}  # fmt: skip
+            SEEN.append(entry)
+            del SEEN[:-SEEN_MAX]
+        if task.finished and entry["ended"] is None:
+            entry["ended"] = time.monotonic()
         done = [i for i, t in self.tasks.items() if t.finished]
         for i in done[:-KEEP] if len(done) > KEEP else ():
             self.tasks.pop(i)

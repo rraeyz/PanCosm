@@ -29,7 +29,7 @@ class ProjectPage(QWidget):
         top = QVBoxLayout(self)
         self.name_label = QLabel(self)
         top.addWidget(self.name_label)
-        self.tabs = QTabWidget(self)  # UI-16.14: Files, History, Methods text (Products, Sessions, Tasks: not yet)
+        self.tabs = QTabWidget(self)  # UI-16.14: Files, History, Methods text, Tasks (Products, Sessions: not yet)
         top.addWidget(self.tabs, 1)
         self.files_list = QListWidget(self)
         self.tabs.addTab(self.files_list, self.tr("Files"))
@@ -37,6 +37,10 @@ class ProjectPage(QWidget):
         lay = QVBoxLayout(history)
         self.tabs.addTab(history, self.tr("History"))
         self._methods_tab()
+        from .project_tasks import TasksTab
+
+        self.tasks_tab = TasksTab(self)
+        self.tabs.addTab(self.tasks_tab, self.tr("Tasks"))
         self.run_ids = []  # the run id of each table row, same order
         self._run_id = None
         self.run_names = (self.tr("Step"), self.tr("Status"), self.tr("Started"), self.tr("Settings"))
