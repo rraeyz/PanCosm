@@ -193,6 +193,7 @@ def calibration_stages(win, page):
                "masters": "calibration-3-calibrate", "calibrate": "calibration-3-calibrate",
                "review": "calibration-3-calibrate", "continue": "calibration-4-align-stack"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {0: "frames", 1: "check", 2: "calibrate", 3: "continue"})
+    win.add_result_tab("problems", translate("CalibrationWindow", "Problems"), page.problems_view)
     win.add_result_tab("plan", translate("CalibrationWindow", "Plan"), page.plan_table)
     refresh_frames(page)  # fill the new stages from what is already scanned
 
