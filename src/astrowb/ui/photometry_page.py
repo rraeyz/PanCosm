@@ -51,6 +51,7 @@ from .photometry_paint import painting as paint_on
 from .photometry_shape import add_shape_controls, shape_text
 from .photometry_stars import add_star_buttons, identify_field, snap_click, suggestion_text
 from .photometry_summary import frames_lines
+from .plan_profile_save import save_box
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
 from .plot.toolbar import plot_box
 from .undo import Undoable
@@ -437,9 +438,9 @@ class PhotometryPage(Undoable, QWidget):
             self.tr("Dark current per pixel in electrons per second at the sensor's temperature (header DARKCUR)")
         )
         cam.addWidget(QLabel(self.tr("Read noise"), self))
-        cam.addWidget(self.read_noise)
+        cam.addWidget(save_box(self, self.read_noise, "read_noise", self.tr("read noise"), " e⁻"))
         cam.addWidget(QLabel(self.tr("Dark"), self))
-        cam.addWidget(self.dark_current)
+        cam.addWidget(save_box(self, self.dark_current, "dark_current", self.tr("dark current"), " e⁻/s"))
         for w in (self.read_noise, self.dark_current):
             w.setEnabled(False)
             self.camera_noise.toggled.connect(w.setEnabled)
@@ -650,7 +651,7 @@ class PhotometryPage(Undoable, QWidget):
             )
         )
         self.linearity.valueChanged.connect(lambda *_: (self._plot_current(), self._fill_measurements()))
-        flag_row.addWidget(self.linearity)
+        flag_row.addWidget(save_box(self, self.linearity, "linearity", self.tr("linearity limit"), " ADU"))
         self.drop_flagged = QPushButton(self.tr("Leave out saturated and non-linear points"), self)
         self.drop_flagged.setToolTip(
             self.tr("The frames where the target or a comparison star passes either level; Ctrl+Z brings them back")
@@ -1176,6 +1177,8 @@ class PhotometryPage(Undoable, QWidget):
             v = header_value(header, *keys)
             if v is not None:
                 w.setValue(float(v))  # the camera's numbers as the file states them (item 2)
+        for b in (self.read_noise_save, self.dark_current_save, self.linearity_save):
+            b.hide()  # what the profile or the header gave is not offered for saving
         self.viewer.set_image(data)
         self.frame_slider.blockSignals(True)
         self.frame_slider.setRange(0, len(self.images) - 1)

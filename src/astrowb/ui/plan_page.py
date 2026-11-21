@@ -131,7 +131,7 @@ class PlanPage(Undoable, QWidget):
                 "Targets below this altitude count as not observable (trees, buildings, thick air near the horizon)"
             )
         )
-        grid.addWidget(with_save_button(self, self.min_alt), 5, 1)
+        grid.addWidget(with_save_button(self, self.min_alt, "site", "horizon", self.tr("horizon"), "°"), 5, 1)
         self.utc_offset = self._spin(self.settings.get("plan.utc_offset", AUTO), AUTO, 14, 1)
         self.utc_offset.setSingleStep(0.5)
         self.utc_offset.setSpecialValueText(self.tr("Auto"))
