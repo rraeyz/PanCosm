@@ -1071,27 +1071,27 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <location filename="../../ui/stage_boxes.py" line="271"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="268"/>
+        <location filename="../../ui/stage_boxes.py" line="271"/>
         <source>Solve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="269"/>
+        <location filename="../../ui/stage_boxes.py" line="272"/>
         <source>Measure</source>
         <translation>Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="270"/>
+        <location filename="../../ui/stage_boxes.py" line="273"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1182,204 +1182,227 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AutomationPage</name>
     <message>
-        <location filename="../../ui/automation_page.py" line="69"/>
+        <location filename="../../ui/automation_page.py" line="71"/>
         <source>Automation</source>
         <translation>Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="77"/>
+        <location filename="../../ui/automation_page.py" line="79"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="79"/>
+        <location filename="../../ui/automation_page.py" line="81"/>
         <source>An empty automation to fill with steps</source>
         <translation>Eine leere Automatisierung, die mit Schritten gefüllt wird</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="80"/>
+        <location filename="../../ui/automation_page.py" line="82"/>
         <source>Save as…</source>
         <translation>Speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="82"/>
+        <location filename="../../ui/automation_page.py" line="84"/>
         <source>Saves the automation under a name, to run it again on other data</source>
         <translation>Speichert die Automatisierung unter einem Namen, um sie mit anderen Daten erneut auszuführen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="94"/>
+        <location filename="../../ui/automation_page.py" line="96"/>
         <source>Steps, in order</source>
         <translation>Schritte, der Reihe nach</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="108"/>
+        <location filename="../../ui/automation_page.py" line="110"/>
         <source>Every task of the application as a step (calibrate, stack, photometry, period search…)</source>
         <translation>Jede Aufgabe der Anwendung als Schritt (Kalibrieren, Stacken, Photometrie, Periodensuche…)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="110"/>
+        <location filename="../../ui/automation_page.py" line="112"/>
         <source>Add step</source>
         <translation>Schritt hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="112"/>
+        <location filename="../../ui/automation_page.py" line="114"/>
         <source>Adds the chosen step at the end; its settings appear below</source>
         <translation>Fügt den gewählten Schritt am Ende hinzu; seine Einstellungen erscheinen darunter</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="118"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="118"/>
+        <location filename="../../ui/automation_page.py" line="120"/>
         <source>Removes the selected step</source>
         <translation>Entfernt den gewählten Schritt</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="119"/>
+        <location filename="../../ui/automation_page.py" line="121"/>
         <source>Up</source>
         <translation>Auf</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="119"/>
+        <location filename="../../ui/automation_page.py" line="121"/>
         <source>Moves the selected step one place earlier</source>
         <translation>Verschiebt den gewählten Schritt um eine Stelle nach vorn</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="122"/>
         <source>Down</source>
         <translation>Ab</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="120"/>
+        <location filename="../../ui/automation_page.py" line="122"/>
         <source>Moves the selected step one place later</source>
         <translation>Verschiebt den gewählten Schritt um eine Stelle nach hinten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="132"/>
+        <location filename="../../ui/automation_page.py" line="134"/>
         <source>Settings of the selected step (input ← data name, or a value)</source>
         <translation>Einstellungen des gewählten Schritts (Eingabe ← Datenname oder ein Wert)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="136"/>
+        <location filename="../../ui/automation_page.py" line="138"/>
         <source>Setting</source>
         <translation>Einstellung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="136"/>
+        <location filename="../../ui/automation_page.py" line="138"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="141"/>
+        <location filename="../../ui/automation_page.py" line="143"/>
         <source>Inputs</source>
         <translation>Eingaben</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="145"/>
+        <location filename="../../ui/automation_page.py" line="147"/>
         <source>Run</source>
         <translation>Ausführen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="149"/>
+        <location filename="../../ui/automation_page.py" line="151"/>
         <source>Runs the steps one after the other with these inputs; each step&apos;s result is kept in the project</source>
         <translation>Führt die Schritte mit diesen Eingaben nacheinander aus; das Ergebnis jedes Schritts bleibt im Projekt</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="151"/>
+        <location filename="../../ui/automation_page.py" line="153"/>
         <source>To the Observing window</source>
         <translation>Zum Fenster Beobachten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="152"/>
+        <location filename="../../ui/automation_page.py" line="154"/>
         <source>Send sequence to the Observing window</source>
         <translation>Sequenz an das Fenster Beobachten senden</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="156"/>
+        <location filename="../../ui/automation_page.py" line="158"/>
         <source>Process after the sequence</source>
         <translation>Nach der Sequenz auswerten</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="158"/>
+        <location filename="../../ui/automation_page.py" line="160"/>
         <source>Run the processing when this sequence has finished.</source>
         <translation>Startet die Auswertung, wenn diese Sequenz beendet ist.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="160"/>
+        <location filename="../../ui/automation_page.py" line="162"/>
         <source>Frames of a remote observatory are copied to this computer first.</source>
         <translation>Bilder eines entfernten Observatoriums werden zuerst auf diesen Computer kopiert.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="181"/>
+        <location filename="../../ui/automation_page.py" line="183"/>
         <source>{name} (template)</source>
         <translation>{name} (Vorlage)</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="192"/>
+        <location filename="../../ui/automation_page.py" line="194"/>
         <source>New automation</source>
         <translation>Neue Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="217"/>
+        <location filename="../../ui/automation_page.py" line="219"/>
         <source>Save automation</source>
         <translation>Automatisierung speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="217"/>
+        <location filename="../../ui/automation_page.py" line="219"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="236"/>
+        <location filename="../../ui/automation_page.py" line="238"/>
         <source> — for each {name}</source>
         <translation> — für jedes {name}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="343"/>
+        <location filename="../../ui/automation_page.py" line="345"/>
         <source>A value, a file or a folder for this input of the automation</source>
         <translation>Ein Wert, eine Datei oder ein Ordner für diese Eingabe der Automatisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="348"/>
+        <location filename="../../ui/automation_page.py" line="350"/>
         <source>Choose in a dialog</source>
         <translation>In einem Dialog wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="356"/>
+        <location filename="../../ui/automation_page.py" line="363"/>
         <source>Choose a folder</source>
         <translation>Ordner wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="358"/>
+        <location filename="../../ui/automation_page.py" line="365"/>
         <source>Choose a file</source>
         <translation>Datei wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="360"/>
+        <location filename="../../ui/automation_page.py" line="367"/>
         <source>Choose files</source>
         <translation>Dateien wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="377"/>
+        <location filename="../../ui/automation_page.py" line="392"/>
+        <source>Fill in what the earlier steps would give: {names}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_page.py" line="397"/>
         <source>Cannot run: {e}</source>
         <translation>Ausführung nicht möglich: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="385"/>
+        <location filename="../../ui/automation_page.py" line="410"/>
         <source>Running step {n}: {step}</source>
         <translation>Schritt {n} läuft: {step}</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="388"/>
+        <location filename="../../ui/automation_page.py" line="414"/>
         <source>Finished.</source>
         <translation>Fertig.</translation>
     </message>
     <message>
-        <location filename="../../ui/automation_page.py" line="392"/>
+        <location filename="../../ui/automation_page.py" line="419"/>
         <source>Stopped: {e}</source>
         <translation>Gestoppt: {e}</translation>
+    </message>
+</context>
+<context>
+    <name>AutomationRun</name>
+    <message>
+        <location filename="../../ui/automation_run.py" line="30"/>
+        <source>needs {names}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_run.py" line="71"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/automation_run.py" line="81"/>
+        <source>Stopped.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5292,13 +5315,13 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>&amp;Bild speichern (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="575"/>
+        <location filename="../../ui/area_windows.py" line="576"/>
         <location filename="../../ui/main_menus.py" line="30"/>
         <source>&amp;Convert many images (PNG / JPEG / TIFF)…</source>
         <translation>&amp;Viele Bilder umwandeln (PNG / JPEG / TIFF)…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="571"/>
+        <location filename="../../ui/area_windows.py" line="572"/>
         <location filename="../../ui/main_menus.py" line="32"/>
         <source>&amp;Close image</source>
         <translation>Bild &amp;schließen</translation>
@@ -5439,97 +5462,97 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="385"/>
+        <location filename="../../ui/area_windows.py" line="386"/>
         <source>target</source>
         <translation>Ziel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="385"/>
+        <location filename="../../ui/area_windows.py" line="386"/>
         <source>comparison</source>
         <translation>Vergleich</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="386"/>
+        <location filename="../../ui/area_windows.py" line="387"/>
         <source>check star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="388"/>
+        <location filename="../../ui/area_windows.py" line="389"/>
         <source>not marked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="389"/>
+        <location filename="../../ui/area_windows.py" line="390"/>
         <source>saturated</source>
         <translation>gesättigt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="391"/>
+        <location filename="../../ui/area_windows.py" line="392"/>
         <source>Role</source>
         <translation>Rolle</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="392"/>
+        <location filename="../../ui/area_windows.py" line="393"/>
         <source>x, y (FITS pixels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="393"/>
+        <location filename="../../ui/area_windows.py" line="394"/>
         <source>Peak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="394"/>
+        <location filename="../../ui/area_windows.py" line="395"/>
         <source>Sky per pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="395"/>
+        <location filename="../../ui/area_windows.py" line="396"/>
         <source>Net counts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="396"/>
+        <location filename="../../ui/area_windows.py" line="397"/>
         <source>Signal-to-noise</source>
         <translation>Signal-Rausch-Verhältnis</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="428"/>
+        <location filename="../../ui/area_windows.py" line="429"/>
         <source>star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="428"/>
+        <location filename="../../ui/area_windows.py" line="429"/>
         <source>sky</source>
         <translation>Himmel</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="429"/>
+        <location filename="../../ui/area_windows.py" line="430"/>
         <source>dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="429"/>
+        <location filename="../../ui/area_windows.py" line="430"/>
         <source>read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="436"/>
         <source>Noise from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="435"/>
+        <location filename="../../ui/area_windows.py" line="436"/>
         <source>Predicted error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="443"/>
+        <location filename="../../ui/area_windows.py" line="444"/>
         <source>Star</source>
         <translation>Stern</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="573"/>
+        <location filename="../../ui/area_windows.py" line="574"/>
         <location filename="../../ui/main_menus.py" line="33"/>
         <source>Close &amp;all images</source>
         <translation>&amp;Alle Bilder schließen</translation>
@@ -5718,7 +5741,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Exportieren</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="664"/>
+        <location filename="../../ui/area_windows.py" line="665"/>
         <source>&amp;Measure</source>
         <translation>&amp;Messen</translation>
     </message>
@@ -5739,69 +5762,69 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="112"/>
-        <location filename="../../ui/area_windows.py" line="636"/>
+        <location filename="../../ui/area_windows.py" line="637"/>
         <source>F&amp;rames</source>
         <translation>Bi&amp;lder</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="650"/>
+        <location filename="../../ui/area_windows.py" line="651"/>
         <source>&amp;Stars</source>
         <translation>&amp;Sterne</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="455"/>
-        <location filename="../../ui/area_windows.py" line="545"/>
-        <location filename="../../ui/area_windows.py" line="677"/>
+        <location filename="../../ui/area_windows.py" line="546"/>
+        <location filename="../../ui/area_windows.py" line="678"/>
         <source>&amp;Analyse</source>
         <translation>Anal&amp;yse</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="523"/>
+        <location filename="../../ui/area_windows.py" line="524"/>
         <source>Split into colour channels (R, G, B)</source>
         <translation>In Farbkanäle zerlegen (R, G, B)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="525"/>
+        <location filename="../../ui/area_windows.py" line="526"/>
         <source>A colour camera&apos;s raw image as three half-size images, one per colour (no interpolation)</source>
         <translation>Das Rohbild einer Farbkamera als drei Bilder halber Größe, eines je Farbe (ohne Interpolation)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="531"/>
+        <location filename="../../ui/area_windows.py" line="532"/>
         <source>Stack the open images…</source>
         <translation>Geöffnete Bilder stapeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="533"/>
+        <location filename="../../ui/area_windows.py" line="534"/>
         <source>The open images aligned on their stars and averaged with outliers rejected</source>
         <translation>Die geöffneten Bilder an ihren Sternen ausgerichtet und unter Verwerfen von Ausreißern gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="536"/>
+        <location filename="../../ui/area_windows.py" line="537"/>
         <source>Drizzle the open images…</source>
         <translation>Geöffnete Bilder drizzeln…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="538"/>
+        <location filename="../../ui/area_windows.py" line="539"/>
         <source>Dithered images onto a grid twice as fine (sharper for undersampled stars)</source>
         <translation>Versetzt aufgenommene Bilder auf ein doppelt so feines Raster (schärfer bei unterabgetasteten Sternen)</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="549"/>
+        <location filename="../../ui/area_windows.py" line="550"/>
         <source>A&amp;strometry</source>
         <translation>A&amp;strometrie</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="550"/>
+        <location filename="../../ui/area_windows.py" line="551"/>
         <source>&amp;Colour</source>
         <translation>Fa&amp;rbe</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="551"/>
+        <location filename="../../ui/area_windows.py" line="552"/>
         <source>S&amp;tack</source>
         <translation>S&amp;tapeln</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="561"/>
+        <location filename="../../ui/area_windows.py" line="562"/>
         <source>Copy the header</source>
         <translation>Header kopieren</translation>
     </message>
@@ -6235,7 +6258,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Das Spektrum speichern unter…</translation>
     </message>
     <message>
-        <location filename="../../ui/area_windows.py" line="484"/>
+        <location filename="../../ui/area_windows.py" line="485"/>
         <source>&amp;Job</source>
         <translation>Auf&amp;gabe</translation>
     </message>
@@ -10509,6 +10532,94 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/observatory_dialog.py" line="291"/>
         <source>Saved: {p}</source>
         <translation>Gespeichert: {p}</translation>
+    </message>
+</context>
+<context>
+    <name>ObserveChips</name>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="24"/>
+        <source>Mount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="24"/>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="25"/>
+        <source>Focuser</source>
+        <translation type="unfinished">Fokussierer</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="25"/>
+        <source>Filter wheel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="26"/>
+        <source>Rotator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="27"/>
+        <source>Dome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="40"/>
+        <source>parked</source>
+        <translation type="unfinished">geparkt</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="43"/>
+        <source>tracking</source>
+        <translation type="unfinished">Nachführung an</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="45"/>
+        <source>not tracking</source>
+        <translation type="unfinished">keine Nachführung</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="55"/>
+        <source>Inspector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="88"/>
+        <source>Last answer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="97"/>
+        <source>Kind</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="98"/>
+        <source>Filter</source>
+        <translation type="unfinished">Filter</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="99"/>
+        <source>Exposure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="100"/>
+        <source>Count</source>
+        <translation type="unfinished">Anzahl</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="101"/>
+        <source>Binning</source>
+        <translation type="unfinished">Binning</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_chips.py" line="102"/>
+        <source>Exposure row {n}</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -18634,6 +18745,14 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <location filename="../../ui/kit/status.py" line="28"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
+    </message>
+</context>
+<context>
+    <name>StepChain</name>
+    <message>
+        <location filename="../../ui/step_chain.py" line="69"/>
+        <source>Run from here</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

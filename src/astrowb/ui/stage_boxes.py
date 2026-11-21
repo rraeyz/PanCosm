@@ -261,6 +261,9 @@ def observing_stages(win, page):
                "focus": "observing-autofocus", "sequence": "observing-sequences",
                "night": "observing-safety-supervisor"}  # fmt: skip
     stages_from_boxes(win, page, titles, anchors, {})
+    from .observe_chips import ObserveChips
+
+    win.observe_chips = ObserveChips(win, page)  # the device chips and the inspector
 
 
 def astrometry_stages(win, page):
