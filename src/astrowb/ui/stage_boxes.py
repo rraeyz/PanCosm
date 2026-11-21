@@ -198,31 +198,13 @@ def calibration_stages(win, page):
     refresh_frames(page)  # fill the new stages from what is already scanned
 
 
-def models_stages(win, page):
-    """The Models window (UI-16.6): Data, Parameters, Fit beside the light curve and its model; on the Visual binary
-    tab the stages do not apply and their dock is hidden."""
-    lay = page.guide.parentWidget().layout()
-    page.stage_boxes = boxes_from_column(lay, [("data", page.file), ("parameters", page.table.parent()),
-                                               ("fit", page.use_mcmc)])  # fmt: skip
-    from PySide6.QtWidgets import QGridLayout
-
-    for grid in page.stage_boxes["fit"].findChildren(QGridLayout):
-        one_per_row(grid)
-    titles = {"data": translate("ModelsWindow", "Data"), "parameters": translate("ModelsWindow", "Parameters"),
-              "fit": translate("ModelsWindow", "Fit")}  # fmt: skip
-    anchors = {"data": "orbits-models-fitting-light-curve", "parameters": "orbits-models-model",
-               "fit": "orbits-models-mcmc-uncertainties"}  # fmt: skip
-    stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "parameters", 2: "fit", 3: "fit"})
-    page.tabs.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
-    _current_tab_only(page.tabs)
-
-
-def period_stages(win, light_curves):
+def period_stages(win, light_curves, extra=None):
     """The Light curves window (UI-16.4), Period search tab: Data (the curve: Photometry, a file, an archive), Clean
     (outliers, binning, points, units), Search (method, range, Search, the result) beside the three plots; the stage
-    dock hides on the other tabs."""
+    dock hides on the other tabs unless `extra` ({key: (title, widget, guide anchor)}) adds stages for them."""
     from PySide6.QtWidgets import QVBoxLayout, QWidget
 
+    extra = extra or {}
     page = light_curves.period_page
     lay = page.guide.parentWidget().layout()
     parts = boxes_from_column(lay, [("data", page.source), ("settings", page.method), ("clean", page.clip_button),
@@ -232,13 +214,17 @@ def period_stages(win, light_curves):
     both.setContentsMargins(0, 0, 0, 0)
     both.addWidget(parts["settings"])
     both.addWidget(parts["run"], 1)
-    page.stage_boxes = {"data": parts["data"], "clean": parts["clean"], "search": search}
+    page.stage_boxes = {"data": parts["data"], "clean": parts["clean"], "search": search,
+                        **{k: w for k, (_, w, _) in extra.items()}}  # fmt: skip
     titles = {"data": translate("PeriodWindow", "Data"), "clean": translate("PeriodWindow", "Clean"),
               "search": translate("PeriodWindow", "Search")}  # fmt: skip
     anchors = {"data": "lightcurves-period-search", "clean": "lightcurves-period-search",
                "search": "methods-period-search"}  # fmt: skip
+    titles |= {k: t for k, (t, _, _) in extra.items()}
+    anchors |= {k: a for k, (_, _, a) in extra.items()}
     stages_from_boxes(win, page, titles, anchors, {0: "data", 1: "clean", 2: "search", 3: "search"})
-    light_curves.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
+    if not extra:
+        light_curves.currentChanged.connect(lambda i: win.docks["stages"].setVisible(i == 0))
     _current_tab_only(light_curves)
 
 

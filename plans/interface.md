@@ -680,7 +680,7 @@ Long slit:                                             ┌ 2-D frame: trace, ape
 #### UI-16.4 Light curves and period
 **partial** — 2026-11-20: the Period search tab's column as the stages Data, Clean, Search beside the three
 plots (the stage dock hides on the Frequency and Variable-search tabs; the load button's text shortened to fit in
-every language; test_the_light_curves_window_has_stages). 2026-11-14: a click on a periodogram peak folds at the highest peak there; the ×2 and ÷2 aliases are drawn dotted; ← → step to the neighbouring peaks (test_ui). The shared selections are left.
+every language; test_the_light_curves_window_has_stages). 2026-11-14: a click on a periodogram peak folds at the highest peak there; the ×2 and ÷2 aliases are drawn dotted; ← → step to the neighbouring peaks (test_ui). (2026-11-21) The rail now also has Frequencies and Variables (`ui/lightcurve_stages.py`: `light_curve_stages`, called from `area_menus.timeseries`; `stage_boxes.period_stages(extra=)`): the two tabs' whole columns are one stage each, a stage of another tab brings that tab forward, choosing a tab shows its first stage, the stage dock stays on every tab, their step guides are replaced by the rail (second step done ticks the stage); `test_the_light_curves_window_has_stages`. Left: the stages Fold and Report, the peak table (period, power, FAP, S/N) in the inspector, the shared selections.
 ```
 1 Data   ●      Light curves                   ?       ┌ light curve (time) ─────────────────────────────┐
 2 Clean         ☑ TESS s14  18 512 pts  120 s          ├ periodogram (frequency or period axis, window)──┤
@@ -710,7 +710,7 @@ every language; test_the_light_curves_window_has_stages). 2026-11-14: a click on
 #### UI-16.6 Models (binary stars)
 **partial** (2026-11-20: the eclipsing-binary tab's column as the stages Data, Parameters, Fit beside the
 curve and its model, the buttons one per row; the stage dock hides on the Visual binary tab;
-test_the_models_window_has_stages. Left: the System / Stars / Extras / Uncertainty split and the Parameters tab)
+test_the_models_window_has_stages. (2026-11-21) The column re-split into the stages Data, System (the one parameter table), Stars (limb darkening), Extras (exposure, absolute dimensions, compare with a model curve), Fit (Fit, the exports, Export results, the status), Uncertainty (MCMC, steps, Posterior…) and a "Parameters" results tab (name in words, value, error, unit; fixed ones marked) filled after each fit: `ui/models_stages.py` `models_stages`, `parameter_rows`; `test_the_models_window_has_stages`, `test_models_page_fits_a_light_curve`; the posterior corner plot stays on PlotCanvas (contours are not in the plot spec). Left: the 3-D system view, the Fit history and Report result tabs, the WD / PHOEBE symbol, limits and prior columns of the parameter table, per-band third light, spots and third body, several light curves with RVs)
 ```
 1 Data   ●      Light and velocity curves      ?       ┌ light curves + model, residuals below ──┬ view ─┐
 2 System        ☑ V   1 204 pts  σ 0.006               │ (phase or time; one colour per filter)  │ 3-D   │
