@@ -284,6 +284,8 @@ parameters (default):
   b = 0.3  (float, >= 0.0, <= 1.5)  Impact parameter (start): 0: across the centre of the star
   u1 = 0.4  (float)  Limb darkening u1: Quadratic law; fixed unless chosen to fit
   u2 = 0.2  (float)  Limb darkening u2: Quadratic law; fixed unless chosen to fit
+  eclipse = false  (bool)  Fit the eclipse: The secondary eclipse (circular orbit, half a period after the transit) instead of the transit; the shape stays as given
+  occ = 0.001  (float, >= 0.0, <= 5.0)  Eclipse depth (start): The companion's light as a fraction of the star's
   detrend = "airmass"  (text)  Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)
   fit_ld = false  (bool)  Fit the limb darkening: A single night rarely decides it: leave it fixed
   red_noise = false  (bool)  Account for red noise: The errors multiplied by β, the time-averaging factor of the residuals

@@ -1341,6 +1341,22 @@
             "null"
            ]
           },
+          "eclipse": {
+           "description": "Fit the eclipse: The secondary eclipse (circular orbit, half a period after the transit) instead of the transit; the shape stays as given",
+           "type": [
+            "boolean",
+            "null"
+           ]
+          },
+          "occ": {
+           "description": "Eclipse depth (start): The companion's light as a fraction of the star's",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0,
+           "maximum": 5.0
+          },
           "detrend": {
            "description": "Detrend against: Comma-separated: airmass, fwhm, sky, x, y (empty: none)",
            "type": [

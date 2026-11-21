@@ -560,8 +560,12 @@ the transit group's "MCMC uncertainties" box, the intervals in the result; test:
 (14 → 9 s for 600 generations), and the quadratic law's occulted fraction is compiled (native `occulted_quadratic`,
 the same quadrature, within 1e-15 of its NumPy twin, 8.5× faster): 600 generations 4.5 s. The archive fill (2026-11-13): "Fill from the
 NASA Exoplanet Archive…" puts the period and T0 in the Timing fields and starts the fit from the archive's Rp/R★,
-a/R★, b (planning.ephemerides.exoplanet now returns them). Left: limb darkening from tables (VizieR), the rest of the 20 000-step accept (the Python around the model now), the
-eclipse variant, the AstroImageJ comparison (needs the owner's table, PHO-41). Qatar-1 (LCO, 265 frames,
+a/R★, b (planning.ephemerides.exoplanet now returns them). Done (2026-11-21): the eclipse variant of the engine and the step — `transitfit.fit(…, eclipse=True)` fits the secondary
+eclipse (circular orbit, at tc + P/2, the companion's light `occ` via occult.model's occultation; depth = occ/(1+occ)),
+step parameters `eclipse`, `occ`; test `test_the_secondary_eclipse_is_fitted_for_its_mid_time_and_depth`. The window (2026-11-21): the
+"Secondary eclipse" box in the Fit the transit group (`ui/photometry_transit.py`) passes `eclipse` and the archive's shape; the
+result says "Mid-eclipse" with the depth, the details table shows `occ`, the O−C list gets it as type II (test
+`test_transit_secondary_eclipse_choice_and_its_text`). Left: the sphere-model (models/eb.py) variant for large radius ratios and "Open in Models"; limb darkening from tables (EXO-3 has no tables yet: MOD-6), the rest of the 20 000-step accept (the Python around the model now), the AstroImageJ comparison (needs the owner's table, PHO-41). Qatar-1 (LCO, 265 frames,
 2026-11-02, the scaled errors): Tc 2461347.61121 ± 41 s, O−C +73 s on the NASA Exoplanet Archive's ephemeris
 (epoch 3601, whose own error there is about 30 s), depth 21.9 ppt, Rp/R★ 0.148 ± 0.004, T14 1.64 h against the
 archive's 1.66 h. Done: the fitted mid-time goes to the O − C window's list, as the
