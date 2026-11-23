@@ -547,9 +547,15 @@ table shared with Photometry, a meridian-flipped night, wiring it into the stack
 **partial** — done (2026-11-14): `calibration/mosaic.py` (`select`: the frames worth stacking by FWHM, background,
 star count — thresholds and the best share; `weights` by noise, FWHM or stars; `join`: tiles at their offsets with
 each one's background solved from the overlaps, then averaged). Tests (tests/test_stack_choices.py): selection and
-weights; a 2 × 2 mosaic whose skies differ by up to 111 ADU joins with seams below 0.3σ. Left: the selection table
-in the window, WCS mosaics (reproject), comet two-pass stacks, live stack preview, VAR / DQ in the output, the
-Qatar-1 1/√N and satellite-trail checks.
+weights; a 2 × 2 mosaic whose skies differ by up to 111 ADU joins with seams below 0.3σ. Done (2026-11-28): VAR / DQ in the output — `calibration/stack_planes.py`
+(`available`, `warp`, `combine`), `stack(with_planes=True)`, `save_stack(planes=)` writing SCI / VAR / DQ / COVERAGE
+through `core/planes.write`, the stack step's `write_planes`. VAR of the mean exact (Σw²Var/(Σw)² over the kept
+frames, squared kernel weights for shifts); approximate for rotation / scale (variance interpolated with the data's
+kernel) and for the median ((π/2)·Var of the mean), both said in the VARMTH card and the status line; DQ = NODATA
+where no frame was kept, else the bits common to every kept frame. Tests (tests/test_stack_planes.py): Var/5, Var/4
+with a rejected cosmic, NODATA, common bits, squared weights, plain frames keep the single-HDU file. Left: the
+selection table in the window, WCS mosaics (reproject), comet two-pass stacks, live stack preview, the Qatar-1
+1/√N and satellite-trail checks.
 - **Ours now:** `calibration/stacking.py` (rejections, normalisation, weights, coverage), `calibration/drizzle.py`, `compute/stack.py`.
 - **Build:** on CAL-5 and CAL-15: frame selection by quality (FWHM, roundness, background, star count: best x % or
   thresholds, with the table of values); normalisation options; weights by noise / FWHM / star count; rejection

@@ -25,7 +25,7 @@ parameters (default):
 stacking.stack  (Stack the frames)
 
 Calibrated frames aligned and combined into one image (mean or median, with rejection); the coverage as a
-second extension.
+second extension; frames with VAR / DQ extensions give a stack with them (write_planes).
 
 inputs:      images, output
 outputs:     stack
@@ -42,4 +42,5 @@ parameters (default):
   weighting = "none"  (choice, one of none, noise)  Weights: noise: 1/σ² weights
   align = "translation"  (choice, one of translation, stars, none, picked)  Align: Shift only, star patterns, none (aligned already) or on the stars picked
   align_stars = []  (positions)  Stars to align on: Positions on the first frame (x y) for the picked alignment
+  write_planes = true
 ```

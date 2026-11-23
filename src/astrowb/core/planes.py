@@ -87,7 +87,7 @@ def shift(frame, dx, dy):
     return Frame(sci, var, dq, header)
 
 
-def write(path, frame):
+def write(path, frame, extra=()):
     """SCI / VAR / DQ extensions; the header goes into the primary HDU and into SCI too, so a reader that looks
     only at the image's header (every reader of the program) sees the target, time, WCS and filter."""
     from astropy.io import fits
@@ -102,7 +102,7 @@ def write(path, frame):
         hdus.append(fits.ImageHDU(np.asarray(frame.var, np.float32), name="VAR"))
     if frame.dq is not None:
         hdus.append(fits.ImageHDU(np.asarray(frame.dq, np.uint8), name="DQ"))
-    write_fits(hdus, path, output_verify="silentfix")
+    write_fits(hdus + list(extra), path, output_verify="silentfix")
     return path
 
 

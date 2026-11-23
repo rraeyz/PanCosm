@@ -401,17 +401,25 @@ def drizzle_step(inputs, params, ctx):
     weighting="none",
     align="translation",
     align_stars=(),
+    write_planes=True,
 )
 def stack_step(inputs, params, ctx):
     """Calibrated frames aligned and combined into one image (mean or median, with rejection); the coverage as a
-    second extension."""
+    second extension; frames with VAR / DQ extensions give a stack with them (write_planes)."""
     from .. import timing
     from .stacking import save_stack, stack
 
     keys = ("sigma", "method", "rejection", "low", "high", "normalize", "weighting", "align", "align_stars")
-    image, coverage, header = stack(timing.chronological(inputs["images"]), ctx=ctx, **{k: params[k] for k in keys})
+    image, coverage, header, planes = stack(
+        timing.chronological(inputs["images"]),
+        ctx=ctx,
+        with_planes=params["write_planes"],
+        **{k: params[k] for k in keys},
+    )
+    if planes and ctx:
+        ctx.progress(0.95, header["VARMTH"])
     provenance.to_fits(header, provenance.record("stacking.stack", params, {"images": list(inputs["images"])}))
-    return {"stack": save_stack(inputs["output"], image, coverage, header)}
+    return {"stack": save_stack(inputs["output"], image, coverage, header, planes)}
 
 
 from . import step_params  # noqa: E402, F401  (the settings described, AUT-1.2; after the steps exist)

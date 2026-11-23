@@ -327,15 +327,18 @@ def combine(block, method="mean", rejection="sigma", sigma=3.0, low=1, high=1, w
 
 def _stack_band(job):
     """Rows r0..r1 of a stack: (image, coverage) of that band, block by block within its memory budget."""
-    paths, transforms, (fast, method, rejection, sigma, low, high, scale, shift, weights, budget, on_gpu), r0, r1 = job
+    paths, transforms, how, r0, r1 = job
+    fast, method, rejection, sigma, low, high, scale, shift, weights, budget, on_gpu, planes = how
     hduls = [fits.open(readable(p)) for p in paths]
     try:
         hdus = [h[find_image_hdu(h)] for h in hduls]
+        pl = {k: [h[k] for h in hduls] if planes and planes[i] else None for i, k in enumerate(("VAR", "DQ"))}
         ny, nx = hdus[0].shape[-2:]
         # masks and sorts need more; IRAF's clipping also a sorted copy and two float64 running sums
-        factor = 1 if fast or on_gpu else 8 if rejection == "sigma" else 4
+        factor = (1 if fast or on_gpu else 8 if rejection == "sigma" else 4) * (2 if planes else 1)
         rows = max(1, budget // (len(paths) * nx * 4 * factor))
         out, cnt = np.empty((r1 - r0, nx), np.float32), np.empty((r1 - r0, nx), np.int32)
+        pout = [np.empty((r1 - r0, nx), np.float32), np.empty((r1 - r0, nx), np.uint8)] if planes else None
         xs = np.arange(nx, dtype=np.float64)
         for b0 in range(r0, r1, rows):
             b1 = min(r1, b0 + rows)
@@ -370,16 +373,39 @@ def _stack_band(job):
                     )
                 out[b0 - r0 : b1 - r0] = done
             cnt[b0 - r0 : b1 - r0] = np.isfinite(block).sum(axis=0)  # coverage: frames that cover the pixel
+            if planes:
+                _plane_rows(pout, pl, transforms, how, block, (b0 - r0, b1 - r0), (b0, b1, ny, nx))
     finally:
         for h in hduls:
             h.close()
-    return out, cnt
+    return (out, cnt, *pout) if planes else (out, cnt)
 
 
-def _shifted_rows(hdu, b0, b1, t, ny, nx):
+def _plane_rows(pout, pl, transforms, how, block, rows, geometry):
+    """VAR and DQ of the rows of a block that `block` (normalised, as combined) holds."""
+    from . import stack_planes
+
+    method, rejection, sigma, low, high, scale, weights = how[1], how[2], how[3], how[4], how[5], how[6], how[8]
+    keep = reject(block, rejection, sigma, low, high)
+    got = [
+        None
+        if pl[k] is None
+        else np.stack(
+            [stack_planes.warp(h, m, t, *geometry, k.lower()) for h, (m, t) in zip(pl[k], transforms, strict=True)]
+        )  # fmt: skip
+        for k in ("VAR", "DQ")
+    ]
+    if got[0] is not None:
+        got[0] = got[0] * (scale**2)[:, None, None].astype(np.float32)
+    v, d = stack_planes.combine(keep, got[0], got[1], weights, method)
+    a, b = rows
+    pout[0][a:b], pout[1][a:b] = (np.full(d.shape, np.nan, np.float32) if v is None else v), d
+
+
+def _shifted_rows(hdu, b0, b1, t, ny, nx, power=1):
     """Rows b0..b1 of the frame shifted by t = (dx, dy): value at (x + dx, y + dy), bilinear, NaN outside the frame -
     map_coordinates(order=1, cval=nan) for a translation, from four shifted slices (it took a third of a stack's
-    time computing the same weights for every pixel)."""
+    time computing the same weights for every pixel). power=2: the squared weights, for a variance plane."""
     dx, dy = float(t[0]), float(t[1])
     ix, iy = int(np.floor(dx)), int(np.floor(dy))
     fx, fy = dx - ix, dy - iy
@@ -397,13 +423,13 @@ def _shifted_rows(hdu, b0, b1, t, ny, nx):
         return np.where(ok, v, np.nan)
 
     # a point exactly on the last row / column takes no weight from beyond it (map_coordinates' rule)
-    out = take(ys, xs) * ((1 - fy) * (1 - fx))
+    out = take(ys, xs) * ((1 - fy) * (1 - fx)) ** power
     if fx:
-        out += take(ys, xs + 1) * ((1 - fy) * fx)
+        out += take(ys, xs + 1) * ((1 - fy) * fx) ** power
     if fy:
-        out += take(ys + 1, xs) * (fy * (1 - fx))
+        out += take(ys + 1, xs) * (fy * (1 - fx)) ** power
     if fx and fy:
-        out += take(ys + 1, xs + 1) * (fy * fx)
+        out += take(ys + 1, xs + 1) * (fy * fx) ** power
     return out.astype(np.float32)
 
 
@@ -428,15 +454,22 @@ def stack(
     high=1,
     normalize="none",
     weighting="none",
+    with_planes=False,
 ):
-    """Return (image, coverage = number of frames covering each pixel, header of the first frame)."""
+    """Return (image, coverage = number of frames covering each pixel, header of the first frame). with_planes:
+    a fourth value (var or None, dq) from calibration/stack_planes.py when the frames carry VAR and / or DQ
+    extensions, else None."""
     paths = [str(p) for p in paths]
     if offsets:
         transforms = [(np.eye(2), np.asarray(o, float)) for o in offsets]
     else:
         transforms = align_transforms(paths, align, ctx, align_stars)
     # the masters' clipped mean (median / MAD, GPU-ready): the old default, now "mad"
-    fast = (method, rejection, normalize, weighting) == ("mean", "mad", "none", "none")
+    from . import stack_planes
+
+    planes = stack_planes.available(paths) if with_planes else None
+    planes = planes if planes and any(planes) else None
+    fast = planes is None and (method, rejection, normalize, weighting) == ("mean", "mad", "none", "none")
     stats = frame_stats(paths) if normalize != "none" or weighting != "none" else None
     scale, shift, weights = np.ones(len(paths)), np.zeros(len(paths)), None
     if stats:
@@ -461,11 +494,11 @@ def stack(
     edges = np.linspace(0, ny, 2 * n + 1).round().astype(int)
     # decided here once: the bands do not each look for a GPU (0.4 s per process without one)
     on_gpu = _gpu_combine_wanted(len(paths), (edges[1] - edges[0]) * nx)
-    how = (fast, method, rejection, sigma, low, high, scale, shift, weights, STACK_BUDGET // n, on_gpu)
+    how = (fast, method, rejection, sigma, low, high, scale, shift, weights, STACK_BUDGET // n, on_gpu, planes)
     jobs = [(paths, transforms, how, a, b) for a, b in zip(edges[:-1], edges[1:], strict=True) if b > a]
     parts = pmap(_stack_band, jobs, ctx, "stacking", min_items=2)
-    out = np.concatenate([o for o, _ in parts])
-    cnt = np.concatenate([c for _, c in parts])
+    out = np.concatenate([p[0] for p in parts])
+    cnt = np.concatenate([p[1] for p in parts])
     header["NCOMBINE"] = (len(paths), "frames stacked")
     _stack_times(header, paths, weights)
     how = {"sigma": "IRAF sigclip, MAD below 10 frames", "mad": "median / MAD"}.get(rejection, rejection)
@@ -479,7 +512,11 @@ def stack(
         angle, scale = describe(m)
         turn = f" rot={angle:+.2f} scale={scale:.4f}" if abs(angle) > 1e-6 or abs(scale - 1) > 1e-9 else ""
         header.add_history(f"stacked {Path(p).name} dx={t[0]:+.2f} dy={t[1]:+.2f}{turn}{w}")
-    return out, cnt, header
+    if not planes:
+        return (out, cnt, header, None) if with_planes else (out, cnt, header)
+    header["VARMTH"] = stack_planes.NOTE
+    var = np.concatenate([p[2] for p in parts]) if planes[0] else None
+    return out, cnt, header, (var, np.concatenate([p[3] for p in parts]))
 
 
 def _stack_times(header, paths, weights):
@@ -519,7 +556,15 @@ def _stack_times(header, paths, weights):
         header.remove(key, ignore_missing=True)
 
 
-def save_stack(path, image, count, header):
+def save_stack(path, image, count, header, planes=None):
+    """Primary image + COVERAGE; with planes = (var or None, dq) from stack(with_planes=True): SCI / VAR / DQ
+    extensions (core.planes.write) and COVERAGE after them."""
+    if planes is not None:
+        from ..core import planes as core_planes
+
+        coverage = fits.ImageHDU(count.astype(np.int16), name="COVERAGE")
+        core_planes.write(path, core_planes.Frame(image, planes[0], planes[1], header), extra=[coverage])
+        return str(path)
     write_fits(
         [fits.PrimaryHDU(image, header), fits.ImageHDU(count.astype(np.int16), name="COVERAGE")],
         path,
