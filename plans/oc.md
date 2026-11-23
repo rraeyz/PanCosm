@@ -225,7 +225,61 @@ odd/even averaging, KIC 6525196 against the stored solution, the Light curves wi
 - **Depends on:** OC-2.
 
 ### OC-4. Literature minima from the services  (P2)
-**open**
+**partial** — (2026-11-28: the services read, see below). Left: the importers, the dialog, the merge.
+- **Services (read 2026-11-28):**
+  - *VarAstro* (`https://var.astro.cz`; the O−C Gateway's old URLs `var2.astro.cz/ocgate/…` now redirect to a 404).
+    Star page `/en/Stars/<id>` (AI Dra = 13702); its "Minima times" table is filled by the page's script from
+    `/api/OcGate/Stars/<id>?ocDataPageId=&ocDataPageSize=`, which answers 401 without the session token the page sets
+    as a cookie, and `robots.txt` disallows `/api/` — so **not by program**; the table's own Copy / Excel buttons
+    give the file the user imports. Columns shown: ID, HJD, Error (+/−), UTC, Epoch, O−C (d), P/S, Phot. band,
+    Observer, Publication, Note, Instrument (HJD by default; the site has a user time-standard setting with BJD_TDB).
+    Terms (`/en/Home/DataUsage`): free for scientific use with credit; no licence named. Cite: Hykel J., Brát L.,
+    Dub M., Přibík V., *VarAstro portal*, Variable Star and Exoplanet Section of the Czech Astronomical Society,
+    https://var.astro.cz; plus each minimum's "Publication" reference; minima from VarAstro's own observations
+    (code "C"): the observer by name. No file saved (no minima reachable).
+  - *Kreiner, Kraków* (`https://www.as.up.krakow.pl/ephem/`): **elements only, by program**: plain files
+    `ephem/ephem.txt` (436 kB, one line per star: `DRA AI    PRI 2452500.935 (2)    1.1988196    (4)    16 …`, i.e.
+    constellation, name, ALL/PRI/SEC, M0 (HJD) (error in last digits), P (error), number of minima all / pri / sec /
+    e / ccd / v / pg / p, years, date) and `ephem/allstars-cat.txt` (two lines per star, "up-to-date: 2020-iii");
+    per-star `minicalc/<CON><NAME>.HTM` pages are predictions only. No minima lists here. The page asks: "Please
+    include a citation" — Kreiner J. M., 2004, Acta Astron. 54, 207. The 2001 atlas pages (`/o-c/`) are kept "for
+    historical reference only". Nothing saved (whole-catalogue files, no single-star response).
+  - *TIDAK* — the Kraków **Timing Database at Kraków** (Mt. Suhora; not a Turkish service), the successor of the
+    above: `https://www.as.up.krakow.pl/tidak/` answered **503** on 2026-11-28 (no archived copy found). Per Ogloza
+    W., Stachowski G., Zakrzewski B., Żejmo M., 2022, PTA Proc. 12, 216 (cite it): 8054 stars, 254 000 minima, search
+    by name / coordinates (SIMBAD) or constellation, users "download lists of minima and O−C values". Format, URL
+    pattern and terms **not read** — to be read when the site answers.
+  - *BAV LkDB* (`https://www.bav-astro.eu/index.php/veroeffentlichungen/service-for-scientists/lkdb-engl`, the
+    app is `https://bav-astro.eu/LkDB/index_joomla.php`): **by program**: POST to `index_joomla.php` with
+    `kenn=liste_min_text, stern=<name>, lang=en, sprache_dial=de, quelle=GCVS|Kreiner|user, e0_user, p_user,
+    ccd=NEIN|JA, quali=NEIN|JA, date_first, date_last, user_data` answers 302 to the **one shared file**
+    `LkDB/liste_min.lst` (overwritten by every user's request: check its header names the star). Format: `#`
+    header (star, GCVS no., elements used, options), then tab-separated, CRLF, Latin-1: Minimum [HJD], Minimum [UT],
+    Epoch, (O−C) [d], Photom. (C = CCD, E = photoelectric, F = series of exposures, P = photoplate, V = visual,
+    K = wedge photometer, ? = unknown), Filt. (legend in the footer), Observer, Source (e.g. `BAVM 244 (=IBVS
+    6196)`). No error column, no I/II column: the epoch's .5 (from the chosen elements, not the source) marks a
+    secondary. AI Dra: 927 minima, 64 kB. Terms (LkDB-Doku-en.pdf, Rev. 5.2, 2015): rights stay with the observers
+    and authors; "commercial use and/or the passing of the database to any third party are expressively
+    prohibited" — so fetched on the user's request only, nothing stored in the repo. Cite: "Lichtenknecker-Database
+    of the BAV".
+  - *AAVSO, B. Nelson's O−C files*: `www.aavso.org/bob-nelsons-o-c-files` answers 403 (a JavaScript challenge) to
+    a plain client; the same page on `mintaka.aavso.org` reads (last update July 31, 2026; 5800+ files; admin
+    R. Jenkins). The files are on Google Drive (folder `15iZPgqY-2Ct6YP61c-s4ahY1RjL-VUui`, names
+    `<Con>_<Star>.xlsx`, e.g. `And_AB.xlsx`; one file by `drive.google.com/uc?export=download&id=<file id>`; the
+    folder page lists only its first 50 files without JavaScript, so finding a star's id needs the Drive API or a
+    hand download) — **by program only partly**; treat as "import the file". Format (And_AB.xlsx, 12 MB, 20 sheets,
+    the first `Active VSX`): rows 1–19 elements and fits, row 20 the header `Source | Typ (I / II) | ToM
+    (HJD − 2 400 000) | error (days, or the method text when none: pg, vis) | n' | n | O−C`, then the O−C again
+    under one of the method columns pg, vis, PE, CCD. No terms and no citation asked on the page. Nothing saved
+    (12 MB).
+  - *Villanova Kepler EB catalogue* (`https://keplerebs.villanova.edu`): **by program**:
+    `/data/?k=<KIC>.00&cadence=lc&data=etv` gives a tab-separated file (`<KIC>.00.lc.etv.data`): `# BJD | O-C (days) | Error
+    (days) | Eclipse`, where BJD (− 2 400 000) is the *computed* time from the linear ephemeris (observed =
+    BJD + O−C) and Eclipse is 1 primary, 2 secondary, 0 whole-phase fit (the site's About page). ETVs exist for
+    the short-period catalogue only (Conroy et al. 2014); long-period stars (KIC 12644769, 8572936) answer 500.
+    No licence stated; the site lists the papers: Kirk et al. 2016, AJ 151, 68 (catalogue) and Conroy et al. 2014,
+    AJ 147, 45 (ETVs). Saved: `tests/data/minima_services/villanova_kic7938468.etv.data` (15 kB, 460 rows,
+    fetched 2026-11-28; `SOURCE.md` beside it).
 - **Read first:** each service's current way to get one star's minima (VarAstro portal — successor of the O−C
   Gateway — "Minimas" pages and exports; Kreiner's atlas pages; TIDAK; BAV LkDB download; AAVSO's O−C files by B.
   Nelson; the Villanova Kepler EB catalogue ETV files) and its terms of use; write under this step what is
