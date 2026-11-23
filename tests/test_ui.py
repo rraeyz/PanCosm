@@ -1285,6 +1285,10 @@ def test_a_click_on_a_periodogram_peak_folds_at_once(qtbot):
     assert abs(page.best - 2.3) < 0.01 and "clicked peak" in page.result.text() and pick
     QTest.keyClick(page.plot, Qt.Key_Left)  # ← folds at the next shorter peak
     assert abs(page.best - 0.7) < 0.01 and page.step_peak(-1) is None
+    QTest.keyClick(page.plot, Qt.Key_2)  # 2 folds at twice the period, H at half
+    assert abs(page.best - 1.4) < 0.02
+    QTest.keyClick(page.plot, Qt.Key_H)
+    assert abs(page.best - 0.7) < 0.01
 
 
 def test_every_page_fits_a_short_window(window):

@@ -376,11 +376,21 @@ class PeriodPage(Undoable, QWidget):
 
     def eventFilter(self, obj, event):
         keys = (Qt.Key_Left, Qt.Key_Right)
-        if obj is self.plot and event.type() == QEvent.KeyPress and event.key() in keys and self.best:
-            if getattr(self, "periodogram", None):
+        if obj is self.plot and event.type() == QEvent.KeyPress and self.best:
+            if event.key() in (Qt.Key_2, Qt.Key_H):
+                self.fold_times(2.0 if event.key() == Qt.Key_2 else 0.5)
+                return True
+            if event.key() in keys and getattr(self, "periodogram", None):
                 self.step_peak(1 if event.key() == Qt.Key_Right else -1)
                 return True
         return super().eventFilter(obj, event)
+
+    def fold_times(self, factor):
+        """Fold at twice or half the current period (the commonest alias of an eclipsing binary)."""
+        self.best *= factor
+        self.result.setText(self.tr("Folded at {p:.6f} d.").format(p=self.best))
+        self._plot_phase()
+        return self.best
 
     def step_peak(self, direction):
         """Fold at the next peak of the periodogram towards longer (+1) or shorter (−1) periods."""
