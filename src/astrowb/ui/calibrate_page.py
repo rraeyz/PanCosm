@@ -616,10 +616,11 @@ class CalibratePage(Undoable, QWidget):
         settings = Settings()
         camera = profiles.section(settings, "camera")
         from ..calibration.library_use import library_folder
+        from ..calibration.master_method import from_settings
 
         return {"write_planes": bool(settings.get("calibration.write_planes", True)),
                 "gain": float(camera["gain"] or 0.0), "saturation": float(camera["saturation"] or 0.0),
-                "library_folder": library_folder(settings)}  # fmt: skip
+                "library_folder": library_folder(settings)} | from_settings(settings, camera)  # fmt: skip
 
     def _run(self):
         self.result.setText(self.tr("Calibrating…"))

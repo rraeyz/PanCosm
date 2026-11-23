@@ -11,7 +11,7 @@ Build every master the plan needs, then calibrate every light. Missing correctio
 linearity: coefficients c0, c1, c2... of the camera's linearity correction (masters.linearity), or empty.
 
 inputs:      frames, output_dir
-outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales, trails
+outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales, trails, master_methods
   frames  (object)  Frames
   output_dir  (new_folder)  Folder for masters and calibrated frames
   masters  (files)  Master frames
@@ -21,8 +21,11 @@ outputs:     masters, calibrated, missing, failed_masters, arcs, dark_scales, tr
   arcs  (files)  Calibrated arc frames
   dark_scales  (object)  Dark scale factors
   trails  (object)  Satellite trails found in the lights
+  master_methods  (object)  How each master was combined
 parameters (default):
   sigma = 3.0  (float, >= 0.0)  Sigma: Rejection limit of the masters in standard deviations
+  master_combine = "auto"  (choice, one of auto, as before, sigclip, avsigclip, ccdclip, crreject, minmax, pclip, linear_fit, gesd, none)  Combine the masters by: auto: the rejection each kind needs (bias avsigclip or sigclip, dark high-side sigclip or ccdclip, flat minmax or sigclip); as before: clipped mean about the median; or one rejection for all
+  camera_read_noise = 0.0  (float, e⁻, >= 0.0)  Camera read noise: For combining the darks by the noise model, with the gain (0: unknown)
   temp_tol = 2.0  (float, °C, >= 0.0)  Temperature tolerance: A dark is used for a light within this sensor temperature
   cosmic_rays = false  (bool)  Remove cosmic rays: L.A.Cosmic (astroscrappy) on every light
   read_noise = 10.0  (float, e⁻, >= 0.0)  Read noise: For the cosmic-ray search when the header does not give it

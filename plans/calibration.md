@@ -231,7 +231,16 @@ median / mean / exposure / per-frame header values; `scale_and_zero`, statistics
 3 median - 2 mean; factors normalised to the first frame: our choice, the repo does not state IRAF's) and `weights`
 (none / exposure / noise 1/sigma^2 from the MAD / header values; mean only). Tests (tests/test_combine_methods.py):
 `test_grow_rejects_the_neighbours_within_the_radius_in_the_same_frame`, `test_scale_zero_and_exposure`,
-`test_noise_weights_equal_the_direct_formula`. Left: the per-type defaults (item 2) wired into the masters and stacks, the
+`test_noise_weights_equal_the_direct_formula`. Done (2026-11-28), item 2 for the masters: `calibration/master_method.py` (`choose`, `pick`, `combine_block`;
+`combine.sigclip`, MAD scale with per-side limits) and the run param `master_combine` (auto | as before | one
+rejection for all; Settings `calibration.master_combine`; default auto): bias avsigclip (< 10 frames) else sigclip,
+dark sigclip high side only, ccdclip high side only when the gain (EGAIN, not the often-meant-as-setting GAIN) and
+read noise are known, flat (each frame scaled by its median) minmax (< 5) else sigclip; fewer than 3 frames: none;
+"as before" is the old clipped mean bit for bit; the method is in each master's COMBINE and the run's
+`master_methods`. Tests (tests/test_master_method.py): `test_the_chooser_follows_the_rule`,
+`test_a_cosmic_ray_in_a_dark_stack_is_removed_on_the_high_side_only`,
+`test_flats_of_different_levels_are_scaled_and_a_star_is_rejected`,
+`test_as_before_equals_the_old_clipped_mean_and_the_header_says_so`. Left: the stacks' defaults (item 2), the
 rejection maps, GPU twins, the IRAF imcombine reference images, the Masters stage's choice.
 - **Reference:** IRAF `imcombine` help (the definitive description; its parameter file: `combine = average |
   median | lmedian | sum | quadrature | nmodel`, `reject = none | minmax | ccdclip | crreject | sigclip | avsigclip |

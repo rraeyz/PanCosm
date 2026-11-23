@@ -2330,19 +2330,19 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="484"/>
-        <location filename="../../ui/calibrate_page.py" line="683"/>
+        <location filename="../../ui/calibrate_page.py" line="684"/>
         <source>bias</source>
         <translation>bias</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="485"/>
-        <location filename="../../ui/calibrate_page.py" line="683"/>
+        <location filename="../../ui/calibrate_page.py" line="684"/>
         <source>dark</source>
         <translation>dark</translation>
     </message>
     <message>
         <location filename="../../ui/calibrate_page.py" line="486"/>
-        <location filename="../../ui/calibrate_page.py" line="683"/>
+        <location filename="../../ui/calibrate_page.py" line="684"/>
         <source>flat</source>
         <translation>flat</translation>
     </message>
@@ -2447,37 +2447,37 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>{dark} karesinde yükselteç parlaması var: onu {t:g} s&apos;den {others} s&apos;ye ölçeklemek parlamayı yanlış bırakır; ışık karelerinin pozunda dark çekin ya da kalıntıyı kabul edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="625"/>
+        <location filename="../../ui/calibrate_page.py" line="626"/>
         <source>Calibrating…</source>
         <translation>Kalibre ediliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="639"/>
+        <location filename="../../ui/calibrate_page.py" line="640"/>
         <source>Linearity correction: write numbers c0 c1 c2 …, e.g. 0 1 4e-6</source>
         <translation>Doğrusallık düzeltmesi: c0 c1 c2 … sayılarını yazın, ör. 0 1 4e-6</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="651"/>
+        <location filename="../../ui/calibrate_page.py" line="652"/>
         <source>Done: {n} images calibrated, {m} master frames written to {folder}.</source>
         <translation>Bitti: {n} görüntü kalibre edildi, {m} master kare {folder} klasörüne yazıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="655"/>
+        <location filename="../../ui/calibrate_page.py" line="656"/>
         <source>{n} arc lamp frames calibrated (bias and dark only).</source>
         <translation>{n} ark lambası karesi kalibre edildi (yalnızca bias ve dark).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="661"/>
+        <location filename="../../ui/calibrate_page.py" line="662"/>
         <source>Dark scaled by {lo:.3f}–{hi:.3f} (DARKSCAL in each file&apos;s header).</source>
         <translation>Dark {lo:.3f}–{hi:.3f} ile ölçeklendi (her dosyanın başlığında DARKSCAL).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="675"/>
+        <location filename="../../ui/calibrate_page.py" line="676"/>
         <source>{n} groups of calibration frames fit no light and were not combined (e.g. {file}).</source>
         <translation>{n} kalibrasyon karesi grubu hiçbir bilim karesine uymadığı için birleştirilmedi (örn. {file}).</translation>
     </message>
     <message>
-        <location filename="../../ui/calibrate_page.py" line="685"/>
+        <location filename="../../ui/calibrate_page.py" line="686"/>
         <source>Master {kind} not made from {n} frames (e.g. {file}), calibrated without it: {why}</source>
         <translation>{n} kareden (örn. {file}) master {kind} yapılamadı, onsuz kalibre edildi: {why}</translation>
     </message>
@@ -19786,137 +19786,147 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Varyans ve kalite düzlemlerini yaz (çok eklentili FITS)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="401"/>
+        <location filename="../../ui/settings_window.py" line="400"/>
+        <source>auto: bias avsigclip (under 10 frames) or sigclip; dark sigclip on the high side, ccdclip when gain and read noise are known; flat minmax (under 5 frames) or sigclip. as before: clipped mean about the median</source>
+        <translation>auto: bias avsigclip (10 kareden az) ya da sigclip; dark yüksek taraf sigclip, kazanç ve okuma gürültüsü biliniyorsa ccdclip; flat minmax (5 kareden az) ya da sigclip. as before: ortancaya göre kırpılmış ortalama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="403"/>
+        <source>Combine the masters by</source>
+        <translation>Ana kareleri birleştirme yöntemi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/settings_window.py" line="410"/>
         <source>Where the masters of past nights are kept; a night without its own darks, bias or flats uses them</source>
         <translation>Geçmiş gecelerin ana karelerinin tutulduğu yer; kendi dark, bias veya flat kareleri olmayan gece bunları kullanır</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="403"/>
+        <location filename="../../ui/settings_window.py" line="412"/>
         <source>Library of masters</source>
         <translation>Ana kare kütüphanesi</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="406"/>
+        <location filename="../../ui/settings_window.py" line="415"/>
         <source>After a calibration run the masters it made are filed in the library of masters</source>
         <translation>Kalibrasyon çalıştırmasından sonra ürettiği ana kareler ana kare kütüphanesine eklenir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="407"/>
+        <location filename="../../ui/settings_window.py" line="416"/>
         <source>Add the masters of each run to the library</source>
         <translation>Her çalıştırmanın ana karelerini kütüphaneye ekle</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="413"/>
+        <location filename="../../ui/settings_window.py" line="422"/>
         <source>Automatic steps</source>
         <translation>Otomatik adımlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="422"/>
+        <location filename="../../ui/settings_window.py" line="431"/>
         <source>Time</source>
         <translation>Zaman</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="428"/>
+        <location filename="../../ui/settings_window.py" line="437"/>
         <source>The camera&apos;s clock minus UTC, for camera raw files and pictures without a UTC time (DSLR)</source>
         <translation>Kamera saatinin UTC&apos;den farkı; UTC zamanı olmayan ham kamera dosyaları ve resimler için (DSLR)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="429"/>
+        <location filename="../../ui/settings_window.py" line="438"/>
         <source>Camera clock − UTC</source>
         <translation>Kamera saati − UTC</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="432"/>
+        <location filename="../../ui/settings_window.py" line="441"/>
         <source>Online services</source>
         <translation>Çevrimiçi hizmetler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="434"/>
+        <location filename="../../ui/settings_window.py" line="443"/>
         <source>Catalogues, archives and name look-ups answer only from what was fetched before</source>
         <translation>Kataloglar, arşivler ve ad sorguları yalnızca daha önce indirilenlerden yanıt verir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="435"/>
+        <location filename="../../ui/settings_window.py" line="444"/>
         <source>Work offline</source>
         <translation>Çevrimdışı çalış</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="436"/>
+        <location filename="../../ui/settings_window.py" line="445"/>
         <source>Kept up to date once a week when online (about 3 MB from the IERS)</source>
         <translation>Çevrimiçiyken haftada bir güncellenir (IERS&apos;ten yaklaşık 3 MB)</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="437"/>
+        <location filename="../../ui/settings_window.py" line="446"/>
         <source>Earth-rotation tables</source>
         <translation>Dünya dönme tabloları</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="446"/>
+        <location filename="../../ui/settings_window.py" line="455"/>
         <source>Shortcuts</source>
         <translation>Kısayollar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="454"/>
+        <location filename="../../ui/settings_window.py" line="463"/>
         <source>Click the field and press the keys; the dot puts the program&apos;s keys back</source>
         <translation>Alana tıklayıp tuşlara basın; nokta programın kendi tuşlarını geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="469"/>
+        <location filename="../../ui/settings_window.py" line="478"/>
         <source>Data</source>
         <translation>Veri</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="474"/>
+        <location filename="../../ui/settings_window.py" line="483"/>
         <source>Plugins</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="476"/>
+        <location filename="../../ui/settings_window.py" line="485"/>
         <source>Plugins folder</source>
         <translation>Eklenti klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="476"/>
+        <location filename="../../ui/settings_window.py" line="485"/>
         <source>Python files put here add steps and menu entries</source>
         <translation>Buraya konan Python dosyaları adım ve menü girdisi ekler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="480"/>
+        <location filename="../../ui/settings_window.py" line="489"/>
         <source>New or changed plugins run only once you allow them: they run with your rights</source>
         <translation>Yeni ya da değişmiş eklentiler ancak siz izin verince çalışır: sizin yetkilerinizle çalışırlar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="481"/>
+        <location filename="../../ui/settings_window.py" line="490"/>
         <source>Waiting to be allowed</source>
         <translation>İzin bekleyenler</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="487"/>
+        <location filename="../../ui/settings_window.py" line="496"/>
         <source>Allow…</source>
         <translation>İzin ver…</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="487"/>
+        <location filename="../../ui/settings_window.py" line="496"/>
         <source>None</source>
         <translation>Yok</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="501"/>
+        <location filename="../../ui/settings_window.py" line="510"/>
         <source>Advanced</source>
         <translation>Gelişmiş</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="502"/>
+        <location filename="../../ui/settings_window.py" line="511"/>
         <source>The settings, app.log and error.log: what a problem report is made from</source>
         <translation>Ayarlar, app.log ve error.log: sorun raporunun yapıldığı dosyalar</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="503"/>
+        <location filename="../../ui/settings_window.py" line="512"/>
         <source>Settings and logs folder</source>
         <translation>Ayar ve günlük klasörü</translation>
     </message>
     <message>
-        <location filename="../../ui/settings_window.py" line="509"/>
+        <location filename="../../ui/settings_window.py" line="518"/>
         <source>Open the folder</source>
         <translation>Klasörü aç</translation>
     </message>
@@ -21418,67 +21428,67 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Işık eğrileri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="112"/>
+        <location filename="../../engine/io.py" line="113"/>
         <source>Dark scale factors</source>
         <translation>Dark ölçek çarpanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="114"/>
+        <location filename="../../engine/io.py" line="115"/>
         <source>Merged échelle spectrum</source>
         <translation>Birleştirilmiş eşel tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="115"/>
+        <location filename="../../engine/io.py" line="116"/>
         <source>Masters that could not be made</source>
         <translation>Yapılamayan master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="116"/>
+        <location filename="../../engine/io.py" line="117"/>
         <source>O−C fit</source>
         <translation>O−C uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="117"/>
+        <location filename="../../engine/io.py" line="118"/>
         <source>Frequencies</source>
         <translation>Frekanslar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="118"/>
+        <location filename="../../engine/io.py" line="119"/>
         <source>Good frames</source>
         <translation>İyi kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="122"/>
+        <location filename="../../engine/io.py" line="123"/>
         <source>Labelled objects</source>
         <translation>Etiketlenmiş cisimler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="123"/>
+        <location filename="../../engine/io.py" line="124"/>
         <source>Master frames</source>
         <translation>Master kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="124"/>
+        <location filename="../../engine/io.py" line="125"/>
         <source>Times of maximum</source>
         <translation>Maksimum zamanları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="126"/>
+        <location filename="../../engine/io.py" line="127"/>
         <source>Missing calibration frames</source>
         <translation>Eksik kalibrasyon kareleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="127"/>
+        <location filename="../../engine/io.py" line="128"/>
         <source>Model fit</source>
         <translation>Model uyumu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="128"/>
+        <location filename="../../engine/io.py" line="129"/>
         <source>The night&apos;s plan</source>
         <translation>Gecenin planı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="129"/>
+        <location filename="../../engine/io.py" line="130"/>
         <location filename="../../engine/titles.py" line="19"/>
         <source>Minor planets in the field</source>
         <translation>Alandaki küçük gezegenler</translation>
@@ -21559,7 +21569,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Karşılaştırma yıldızı öner</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="161"/>
+        <location filename="../../engine/io.py" line="162"/>
         <location filename="../../engine/titles.py" line="39"/>
         <source>Transformation coefficients</source>
         <translation>Dönüşüm katsayıları</translation>
@@ -21685,7 +21695,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Frekans analizi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="125"/>
+        <location filename="../../engine/io.py" line="126"/>
         <location filename="../../engine/titles.py" line="61"/>
         <source>Time of minimum</source>
         <translation>Minimum zamanı</translation>
@@ -22440,7 +22450,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../engine/io.py" line="71"/>
-        <location filename="../../engine/io.py" line="152"/>
+        <location filename="../../engine/io.py" line="153"/>
         <source>Radial velocities</source>
         <translation>Dikine hızlar</translation>
     </message>
@@ -22581,198 +22591,203 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Katalog yıldızları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="113"/>
+        <location filename="../../engine/io.py" line="112"/>
+        <source>How each master was combined</source>
+        <translation>Her ana karenin birleştirilme yöntemi</translation>
+    </message>
+    <message>
+        <location filename="../../engine/io.py" line="114"/>
         <source>Satellite trails found in the lights</source>
         <translation>Işık karelerinde bulunan uydu izleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="119"/>
+        <location filename="../../engine/io.py" line="120"/>
         <source>Afρ of the comet</source>
         <translation>Kuyruklu yıldızın Afρ değeri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="120"/>
+        <location filename="../../engine/io.py" line="121"/>
         <source>Timing methods compared</source>
         <translation>Karşılaştırılan zamanlama yöntemleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="121"/>
+        <location filename="../../engine/io.py" line="122"/>
         <source>Isophote profile</source>
         <translation>İzofot profili</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="130"/>
+        <location filename="../../engine/io.py" line="131"/>
         <source>Occultation fit</source>
         <translation>Örtülme uydurması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="131"/>
+        <location filename="../../engine/io.py" line="132"/>
         <source>Échelle orders</source>
         <translation>Eşel düzenleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="132"/>
+        <location filename="../../engine/io.py" line="133"/>
         <source>Passed</source>
         <translation>Geçti</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="133"/>
+        <location filename="../../engine/io.py" line="134"/>
         <source>Path</source>
         <translation>Yol</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="134"/>
+        <location filename="../../engine/io.py" line="135"/>
         <source>Highest peaks and their aliases</source>
         <translation>En yüksek tepeler ve örtüşmeleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="135"/>
+        <location filename="../../engine/io.py" line="136"/>
         <source>False-alarm probability</source>
         <translation>Yanlış alarm olasılığı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="137"/>
+        <location filename="../../engine/io.py" line="138"/>
         <source>Signal-to-noise ratio of each listed peak (Breger et al. 1993)</source>
         <translation>Listelenen her tepenin sinyal/gürültü oranı (Breger ve ark. 1993)</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="139"/>
+        <location filename="../../engine/io.py" line="140"/>
         <source>False-alarm probability of each listed peak</source>
         <translation>Listelenen her tepenin yanlış alarm olasılığı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="140"/>
+        <location filename="../../engine/io.py" line="141"/>
         <source>Periods</source>
         <translation>Periyotlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="141"/>
+        <location filename="../../engine/io.py" line="142"/>
         <source>Polarisation</source>
         <translation>Kutuplanma</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="142"/>
+        <location filename="../../engine/io.py" line="143"/>
         <source>Positions</source>
         <translation>Konumlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="143"/>
+        <location filename="../../engine/io.py" line="144"/>
         <source>Periodogram</source>
         <translation>Periyodogram</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="144"/>
+        <location filename="../../engine/io.py" line="145"/>
         <source>Problems found</source>
         <translation>Bulunan sorunlar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="145"/>
+        <location filename="../../engine/io.py" line="146"/>
         <source>Product image</source>
         <translation>Ürün görüntüsü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="146"/>
+        <location filename="../../engine/io.py" line="147"/>
         <source>Frame quality</source>
         <translation>Kare kalitesi</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="147"/>
+        <location filename="../../engine/io.py" line="148"/>
         <source>Camera raw files converted to FITS</source>
         <translation>FITS&apos;e çevrilen kamera ham dosyaları</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="148"/>
+        <location filename="../../engine/io.py" line="149"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="149"/>
+        <location filename="../../engine/io.py" line="150"/>
         <source>Residual frequency spectrum</source>
         <translation>Artık frekans tayfı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="150"/>
+        <location filename="../../engine/io.py" line="151"/>
         <source>Colour image</source>
         <translation>Renkli görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="151"/>
+        <location filename="../../engine/io.py" line="152"/>
         <source>Scatter of the residuals</source>
         <translation>Artıkların saçılması</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="153"/>
+        <location filename="../../engine/io.py" line="154"/>
         <source>Spectra left out</source>
         <translation>Dışarıda bırakılan tayflar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="154"/>
+        <location filename="../../engine/io.py" line="155"/>
         <source>Plate-solved image</source>
         <translation>Plaka çözümü yapılmış görüntü</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="155"/>
+        <location filename="../../engine/io.py" line="156"/>
         <source>Stacked image</source>
         <translation>Yığılmış görüntü</translation>
     </message>
     <message>
         <location filename="../../engine/io.py" line="54"/>
-        <location filename="../../engine/io.py" line="156"/>
+        <location filename="../../engine/io.py" line="157"/>
         <source>Light-curve file (.lc.ecsv)</source>
         <translation>Işık eğrisi dosyası (.lc.ecsv)</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="158"/>
+        <location filename="../../engine/io.py" line="159"/>
         <source>Status</source>
         <translation>Durum</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="159"/>
+        <location filename="../../engine/io.py" line="160"/>
         <source>Reference time</source>
         <translation>Referans zamanı</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="160"/>
+        <location filename="../../engine/io.py" line="161"/>
         <source>Telluric-corrected spectrum</source>
         <translation>Tellürik düzeltmesi yapılmış tayf</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="162"/>
+        <location filename="../../engine/io.py" line="163"/>
         <source>True values of the practice data</source>
         <translation>Alıştırma verisinin gerçek değerleri</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="163"/>
+        <location filename="../../engine/io.py" line="164"/>
         <source>Frames without a solution</source>
         <translation>Çözümü olmayan kareler</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="164"/>
+        <location filename="../../engine/io.py" line="165"/>
         <source>Variability of the stars</source>
         <translation>Yıldızların değişkenliği</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="165"/>
+        <location filename="../../engine/io.py" line="166"/>
         <source>Quick period of each candidate</source>
         <translation>Her adayın hızlı periyodu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="166"/>
+        <location filename="../../engine/io.py" line="167"/>
         <source>Warnings</source>
         <translation>Uyarılar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="167"/>
+        <location filename="../../engine/io.py" line="168"/>
         <source>Spectral window</source>
         <translation>Tayfsal pencere</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="168"/>
+        <location filename="../../engine/io.py" line="169"/>
         <source>Files written</source>
         <translation>Yazılan dosyalar</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="169"/>
+        <location filename="../../engine/io.py" line="170"/>
         <location filename="../../photometry/comet_step.py" line="72"/>
         <location filename="../../photometry/isophote_step.py" line="44"/>
         <source>Zero point</source>
@@ -22835,7 +22850,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Gök halkası burada biter</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="121"/>
+        <location filename="../../calibration/step_params.py" line="134"/>
         <location filename="../../photometry/measure_params.py" line="40"/>
         <location filename="../../spectroscopy/step_params.py" line="231"/>
         <source>Gain</source>
@@ -23453,271 +23468,291 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Tayfın dalga boyları havada değil boşlukta</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="16"/>
+        <location filename="../../calibration/step_params.py" line="17"/>
         <source>Camera clock − UTC</source>
         <translation>Kamera saati − UTC</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="17"/>
+        <location filename="../../calibration/step_params.py" line="18"/>
         <source>For camera raw files and pictures without a UTC time (DSLR)</source>
         <translation>UTC zamanı olmayan kamera ham dosyaları ve resimler için (DSLR)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="23"/>
+        <location filename="../../calibration/step_params.py" line="24"/>
         <source>Header rules</source>
         <translation>Başlık kuralları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="24"/>
+        <location filename="../../calibration/step_params.py" line="25"/>
         <source>Your own rules over the usual names, e.g. [{&quot;key&quot;: &quot;OBSTYPE&quot;, &quot;value&quot;: &quot;SKY&quot;, &quot;kind&quot;: &quot;flat&quot;}]</source>
         <translation>Alışılmış adların üstünde kendi kurallarınız, ör. [{&quot;key&quot;: &quot;OBSTYPE&quot;, &quot;value&quot;: &quot;SKY&quot;, &quot;kind&quot;: &quot;flat&quot;}]</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="33"/>
+        <location filename="../../calibration/step_params.py" line="34"/>
         <source>Filter names alike</source>
         <translation>Aynı süzgecin adları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="34"/>
+        <location filename="../../calibration/step_params.py" line="35"/>
         <source>Names that mean one filter, e.g. {&quot;Clear&quot;: &quot;L&quot;, &quot;Lum&quot;: &quot;L&quot;}</source>
         <translation>Tek bir süzgeci anlatan adlar, ör. {&quot;Clear&quot;: &quot;L&quot;, &quot;Lum&quot;: &quot;L&quot;}</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="46"/>
+        <location filename="../../calibration/step_params.py" line="47"/>
         <source>Rejection limit of the masters in standard deviations</source>
         <translation>Ana karelerin standart sapma cinsinden ayıklama sınırı</translation>
     </message>
     <message>
         <location filename="../../calibration/step_params.py" line="54"/>
+        <source>Combine the masters by</source>
+        <translation>Ana kareleri birleştirme yöntemi</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="55"/>
+        <source>auto: the rejection each kind needs (bias avsigclip or sigclip, dark high-side sigclip or ccdclip, flat minmax or sigclip); as before: clipped mean about the median; or one rejection for all</source>
+        <translation>auto: her türün gerektirdiği reddetme (bias avsigclip ya da sigclip, dark yüksek taraf sigclip ya da ccdclip, flat minmax ya da sigclip); as before: ortancaya göre kırpılmış ortalama; ya da hepsi için tek bir reddetme</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="67"/>
         <source>Temperature tolerance</source>
         <translation>Sıcaklık toleransı</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="55"/>
+        <location filename="../../calibration/step_params.py" line="68"/>
         <source>A dark is used for a light within this sensor temperature</source>
         <translation>Bir dark, sensör sıcaklığı bu kadar yakın olan bilim karesi için kullanılır</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="61"/>
+        <location filename="../../calibration/step_params.py" line="74"/>
         <source>Remove cosmic rays</source>
         <translation>Kozmik ışınları temizle</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="62"/>
+        <location filename="../../calibration/step_params.py" line="75"/>
         <source>L.A.Cosmic (astroscrappy) on every light</source>
         <translation>Her bilim karesinde L.A.Cosmic (astroscrappy)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="68"/>
+        <location filename="../../calibration/step_params.py" line="81"/>
         <source>Find satellite trails</source>
         <translation>Uydu izlerini bul</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="69"/>
+        <location filename="../../calibration/step_params.py" line="82"/>
         <source>Searched in every light (about 2-3 s per 2k frame), flagged in the DQ plane</source>
         <translation>Her ışık karesinde aranır (2k kare başına yaklaşık 2-3 sn), DQ düzleminde işaretlenir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="77"/>
+        <location filename="../../calibration/step_params.py" line="90"/>
         <location filename="../../spectroscopy/step_params.py" line="240"/>
         <source>Read noise</source>
         <translation>Okuma gürültüsü</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="78"/>
+        <location filename="../../calibration/step_params.py" line="91"/>
         <source>For the cosmic-ray search when the header does not give it</source>
         <translation>Başlık vermediğinde kozmik ışın araması için</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="84"/>
+        <location filename="../../calibration/step_params.py" line="97"/>
         <source>Scale the dark</source>
         <translation>Darkı ölçekle</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="85"/>
+        <location filename="../../calibration/step_params.py" line="98"/>
         <source>The dark is scaled to remove the most noise (as PixInsight&apos;s optimisation)</source>
         <translation>Dark, en çok gürültüyü giderecek şekilde ölçeklenir (PixInsight&apos;ın eniyilemesi gibi)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="91"/>
+        <location filename="../../calibration/step_params.py" line="104"/>
         <source>Mend bad pixels</source>
         <translation>Kötü pikselleri onar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="92"/>
+        <location filename="../../calibration/step_params.py" line="105"/>
         <source>Hot and cold pixels found in the masters are replaced by their neighbours</source>
         <translation>Ana karelerde bulunan sıcak ve soğuk pikseller komşularıyla değiştirilir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="98"/>
+        <location filename="../../calibration/step_params.py" line="111"/>
         <source>Divide by the flat</source>
         <translation>Flat&apos;e böl</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="99"/>
+        <location filename="../../calibration/step_params.py" line="112"/>
         <source>Off: bias and dark only</source>
         <translation>Kapalı: yalnızca bias ve dark</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="105"/>
+        <location filename="../../calibration/step_params.py" line="118"/>
         <source>Split colour frames</source>
         <translation>Renkli kareleri ayır</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="106"/>
+        <location filename="../../calibration/step_params.py" line="119"/>
         <source>A colour camera&apos;s frames become one file per colour</source>
         <translation>Renkli kameranın kareleri her renk için bir dosya olur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="112"/>
+        <location filename="../../calibration/step_params.py" line="125"/>
         <source>Write variance and quality planes</source>
         <translation>Varyans ve kalite düzlemlerini yaz</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="113"/>
+        <location filename="../../calibration/step_params.py" line="126"/>
         <source>Calibrated images as SCI / VAR / DQ extensions; off: plain FITS images</source>
         <translation>Kalibre görüntüler SCI / VAR / DQ eklentileri olarak; kapalı: düz FITS görüntüler</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="122"/>
+        <location filename="../../calibration/step_params.py" line="135"/>
         <source>For the variance plane when the header does not give it (0: unknown)</source>
         <translation>Başlık vermiyorsa varyans düzlemi için (0: bilinmiyor)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="131"/>
+        <location filename="../../calibration/step_params.py" line="144"/>
+        <source>Camera read noise</source>
+        <translation>Kamera okuma gürültüsü</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="145"/>
+        <source>For combining the darks by the noise model, with the gain (0: unknown)</source>
+        <translation>Dark karelerini gürültü modeliyle birleştirmek için, kazançla birlikte (0: bilinmiyor)</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="154"/>
         <source>Saturation</source>
         <translation>Doygunluk</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="132"/>
+        <location filename="../../calibration/step_params.py" line="155"/>
         <source>Raw values from here on are flagged saturated when the header lacks it (0: none)</source>
         <translation>Başlıkta yoksa bu değerden itibaren ham değerler doygun işaretlenir (0: yok)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="141"/>
+        <location filename="../../calibration/step_params.py" line="164"/>
         <source>Library of masters</source>
         <translation>Ana kare kütüphanesi</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="142"/>
+        <location filename="../../calibration/step_params.py" line="165"/>
         <source>A light whose night has no master of a kind takes the library&apos;s within its validity; empty: none</source>
         <translation>Gecesinde bir türün ana karesi olmayan light kütüphanedekini geçerlilik süresi içindeyse kullanır; boş: kullanma</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="151"/>
+        <location filename="../../calibration/step_params.py" line="174"/>
         <source>Linearity correction</source>
         <translation>Doğrusallık düzeltmesi</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="152"/>
+        <location filename="../../calibration/step_params.py" line="175"/>
         <source>Coefficients c0, c1, c2… of the camera&apos;s linearity curve; empty: none</source>
         <translation>Kameranın doğrusallık eğrisinin c0, c1, c2… katsayıları; boş: yok</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="159"/>
+        <location filename="../../calibration/step_params.py" line="182"/>
         <source>Masters chosen by hand</source>
         <translation>Elle seçilen masterlar</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="160"/>
+        <location filename="../../calibration/step_params.py" line="183"/>
         <source>{filter or *: {bias / dark / flat: a file of the group, or none}}; empty: matched</source>
         <translation>{filtre ya da *: {bias / dark / flat: grubun bir dosyası ya da yok}}; boş: eşleştirilen</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="181"/>
+        <location filename="../../calibration/step_params.py" line="204"/>
         <source>Combine</source>
         <translation>Birleştir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="182"/>
+        <location filename="../../calibration/step_params.py" line="205"/>
         <location filename="../../spectroscopy/step_params.py" line="76"/>
         <source>mean: the least noise; median: robust; sum: keeps the counts</source>
         <translation>ortalama: en az gürültü; ortanca: dayanıklı; toplam: sayımları korur</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="189"/>
+        <location filename="../../calibration/step_params.py" line="212"/>
         <location filename="../../spectroscopy/step_params.py" line="83"/>
         <source>Rejection</source>
         <translation>Ayıklama</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="190"/>
+        <location filename="../../calibration/step_params.py" line="213"/>
         <source>Pixels left out before combining (satellites, cosmic rays)</source>
         <translation>Birleştirmeden önce dışarıda bırakılan pikseller (uydular, kozmik ışınlar)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="197"/>
+        <location filename="../../calibration/step_params.py" line="220"/>
         <source>Low</source>
         <translation>Alt</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="199"/>
+        <location filename="../../calibration/step_params.py" line="222"/>
         <source>Frames or percent dropped at the low end (min / max, percentile)</source>
         <translation>Alt uçta atılan kare ya da yüzde (min / maks, yüzdelik)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="206"/>
+        <location filename="../../calibration/step_params.py" line="229"/>
         <source>High</source>
         <translation>Üst</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="208"/>
+        <location filename="../../calibration/step_params.py" line="231"/>
         <source>Frames or percent dropped at the high end (min / max, percentile)</source>
         <translation>Üst uçta atılan kare ya da yüzde (min / maks, yüzdelik)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="215"/>
+        <location filename="../../calibration/step_params.py" line="238"/>
         <source>Normalise</source>
         <translation>Normalleştir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="216"/>
+        <location filename="../../calibration/step_params.py" line="239"/>
         <source>Each frame shifted or scaled to the first before combining</source>
         <translation>Birleştirmeden önce her kare ilkine kaydırılır ya da ölçeklenir</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="224"/>
+        <location filename="../../calibration/step_params.py" line="247"/>
         <source>noise: 1/σ² weights</source>
         <translation>gürültü: 1/σ² ağırlıkları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="231"/>
+        <location filename="../../calibration/step_params.py" line="254"/>
         <location filename="../../engine/step_params.py" line="276"/>
         <source>Align</source>
         <translation>Hizala</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="232"/>
+        <location filename="../../calibration/step_params.py" line="255"/>
         <source>Shift only, star patterns, none (aligned already) or on the stars picked</source>
         <translation>Yalnızca kayma, yıldız desenleri, yok (zaten hizalı) ya da seçilen yıldızlara göre</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="238"/>
+        <location filename="../../calibration/step_params.py" line="261"/>
         <source>Stars to align on</source>
         <translation>Hizalama yıldızları</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="239"/>
+        <location filename="../../calibration/step_params.py" line="262"/>
         <source>Positions on the first frame (x y) for the picked alignment</source>
         <translation>Seçilen hizalama için ilk karedeki konumlar (x y)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="250"/>
+        <location filename="../../calibration/step_params.py" line="273"/>
         <source>Scale</source>
         <translation>Ölçek</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="251"/>
+        <location filename="../../calibration/step_params.py" line="274"/>
         <source>The output pixels are this many times finer</source>
         <translation>Çıktı pikselleri bu kadar kat daha ince</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="259"/>
+        <location filename="../../calibration/step_params.py" line="282"/>
         <source>Drop size</source>
         <translation>Damla boyu</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="260"/>
+        <location filename="../../calibration/step_params.py" line="283"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation>Her girdi pikselinin bırakılan payı (pixfrac)</translation>
     </message>
@@ -23727,14 +23762,14 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Birleştirmeden önce dışarıda bırakılan pikseller (kozmik ışınlar, kötü pikseller)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="45"/>
-        <location filename="../../calibration/step_params.py" line="173"/>
+        <location filename="../../calibration/step_params.py" line="46"/>
+        <location filename="../../calibration/step_params.py" line="196"/>
         <location filename="../../spectroscopy/step_params.py" line="91"/>
         <source>Sigma</source>
         <translation>Sigma</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="174"/>
+        <location filename="../../calibration/step_params.py" line="197"/>
         <location filename="../../spectroscopy/step_params.py" line="92"/>
         <source>Rejection limit in standard deviations</source>
         <translation>Standart sapma cinsinden ayıklama sınırı</translation>
@@ -23750,7 +23785,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Her tayf ortak düzeye (ortanca) ya da ortak biçime de</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="223"/>
+        <location filename="../../calibration/step_params.py" line="246"/>
         <location filename="../../spectroscopy/step_params.py" line="107"/>
         <source>Weights</source>
         <translation>Ağırlıklar</translation>
@@ -23798,7 +23833,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Çapraz ilişki (ikinci şablonla TODCOR) ya da genişleme fonksiyonu</translation>
     </message>
     <message>
-        <location filename="../../engine/io.py" line="157"/>
+        <location filename="../../engine/io.py" line="158"/>
         <location filename="../../spectroscopy/step_params.py" line="161"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>

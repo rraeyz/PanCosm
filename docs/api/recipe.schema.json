@@ -160,6 +160,23 @@
            ],
            "minimum": 0.0
           },
+          "master_combine": {
+           "description": "Combine the masters by: auto: the rejection each kind needs (bias avsigclip or sigclip, dark high-side sigclip or ccdclip, flat minmax or sigclip); as before: clipped mean about the median; or one rejection for all",
+           "enum": [
+            "auto",
+            "as before",
+            "sigclip",
+            "avsigclip",
+            "ccdclip",
+            "crreject",
+            "minmax",
+            "pclip",
+            "linear_fit",
+            "gesd",
+            "none",
+            null
+           ]
+          },
           "temp_tol": {
            "description": "Temperature tolerance (°C): A dark is used for a light within this sensor temperature",
            "type": [
@@ -227,6 +244,14 @@
           },
           "gain": {
            "description": "Gain (e⁻/ADU): For the variance plane when the header does not give it (0: unknown)",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "camera_read_noise": {
+           "description": "Camera read noise (e⁻): For combining the darks by the noise model, with the gain (0: unknown)",
            "type": [
             "number",
             "null"

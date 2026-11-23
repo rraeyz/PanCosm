@@ -2,6 +2,7 @@
 
 from ..engine.params import QT_TRANSLATE_NOOP, P
 from ..engine.steps import describe
+from . import master_method
 from . import steps as _steps  # noqa: F401  (the steps first, whichever module is imported first)
 
 describe(
@@ -44,6 +45,18 @@ describe(
         min=0.0,
         label=QT_TRANSLATE_NOOP("Steps", "Sigma"),
         help=QT_TRANSLATE_NOOP("Steps", "Rejection limit of the masters in standard deviations"),
+    ),
+    P(
+        "master_combine",
+        "choice",
+        master_method.DEFAULT,
+        choices=master_method.CHOICES,
+        label=QT_TRANSLATE_NOOP("Steps", "Combine the masters by"),
+        help=QT_TRANSLATE_NOOP(
+            "Steps",
+            "auto: the rejection each kind needs (bias avsigclip or sigclip, dark high-side sigclip or ccdclip, "
+            "flat minmax or sigclip); as before: clipped mean about the median; or one rejection for all",
+        ),
     ),
     P(
         "temp_tol",
@@ -120,6 +133,16 @@ describe(
         min=0.0,
         label=QT_TRANSLATE_NOOP("Steps", "Gain"),
         help=QT_TRANSLATE_NOOP("Steps", "For the variance plane when the header does not give it (0: unknown)"),
+        advanced=True,
+    ),
+    P(
+        "camera_read_noise",
+        "float",
+        0.0,
+        unit="e⁻",
+        min=0.0,
+        label=QT_TRANSLATE_NOOP("Steps", "Camera read noise"),
+        help=QT_TRANSLATE_NOOP("Steps", "For combining the darks by the noise model, with the gain (0: unknown)"),
         advanced=True,
     ),
     P(

@@ -10,7 +10,7 @@ from ..engine.steps import step
 from ..hdr import get
 from ..io import bayer
 from ..io.lzw import readable
-from . import library_use, masters, planes_out, trails_run
+from . import library_use, master_method, masters, planes_out, trails_run
 from .frames import Frame, scan
 from .matching import apply_choices, best_bias, best_dark, group_key, make_plan
 
@@ -117,8 +117,10 @@ def _unused_groups(plan, reps, temp_tol):
 @step(
     "calibration.run",
     inputs=("frames", "output_dir"),
-    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs", "dark_scales", "trails"),
+    outputs=("masters", "calibrated", "missing", "failed_masters", "arcs", "dark_scales", "trails", "master_methods"),
     sigma=3.0,
+    master_combine=master_method.DEFAULT,
+    camera_read_noise=0.0,
     temp_tol=2.0,
     cosmic_rays=False,
     read_noise=10.0,
@@ -192,6 +194,16 @@ def _record_masters(header, entry, built, flat_used, params):
     provenance.to_fits(header, provenance.record("calibration.run", params, {"light": entry["light"], **used}))
 
 
+def _master(kind, paths, bias, dark, params, var):
+    """One master of `kind` made the way the run's master_combine says; dark: (data, header) for a flat."""
+    how, sigma = master_method.pick(kind, paths, params), params["sigma"]
+    if kind == "bias":
+        return masters.master_bias(paths, sigma, var_out=var, how=how)
+    if kind == "dark":
+        return masters.master_dark(paths, bias, sigma, var_out=var, how=how)
+    return masters.master_flat(paths, bias, *dark, sigma, var_out=var, how=how)
+
+
 def _run(inputs, params, ctx):
     frames = _frames(inputs["frames"])
     plan = _chosen(make_plan(frames, params["temp_tol"]), frames, params.get("use") or {})
@@ -214,19 +226,16 @@ def _run(inputs, params, ctx):
     from_library = library_use.fill(plan, frames, params.get("library_folder"))  # what the night lacks (CAL-7)
     failed, qc = [], {}  # masters not made (their frames left out, lights calibrated without); the reports (CAL-6)
     variances = {}  # group key -> the master's variance plane (CAL-13)
+    methods = {}  # master file name -> how it was combined
     for n, key in enumerate(order):
         ctx.check()
         ctx.progress(0.5 * n / max(1, len(order)), f"master {kinds[key]}")
         paths, rep = plan.groups[key], reps[key]
         bias, v = best("bias", rep)[0], {}  # v: the master's variance, σ² / N (CAL-13)
         try:
-            if kinds[key] == "bias":
-                data, h = masters.master_bias(paths, params["sigma"], var_out=v)
-            elif kinds[key] == "dark":
-                data, h = masters.master_dark(paths, bias, params["sigma"], var_out=v)
-            else:  # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
-                dark, dh, _ = best("dark", rep)
-                data, h = masters.master_flat(paths, bias, dark, dh, params["sigma"], var_out=v)
+            # no matching dark is fine for flats: they are bright, dark current is < 0.1 % of them
+            dark = best("dark", rep) if kinds[key] == "flat" else (None, None, None)
+            data, h = _master(kinds[key], paths, bias, dark[:2], params, v)
         except masters.CalibrationError as e:  # one bad group (e.g. flats that are not flats) must not stop the night
             failed.append({"kind": kinds[key], "frames": len(paths), "file": Path(paths[0]).name, "reason": str(e)})
             continue
@@ -235,6 +244,7 @@ def _run(inputs, params, ctx):
             var = var.astype("float32").astype("float64")  # as a master file keeps it: a live run reads the same
         keep = var if params.get("write_planes", True) else None
         built[key] = (data, h, _save_master(out, kinds[key], n, data, h, qc, paths, bias, keep))
+        methods[Path(built[key][2]).name] = h["COMBINE"]
         variances[key] = var
 
     built |= from_library
@@ -292,6 +302,7 @@ def _run(inputs, params, ctx):
         "calibrated": calibrated,
         "missing": plan.missing,
         "failed_masters": failed,
+        "master_methods": methods,
         "quality": qc,
         "arcs": arcs,
         "trails": found_trails,

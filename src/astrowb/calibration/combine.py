@@ -54,6 +54,23 @@ def _noise_clip(stack, sigma_of, lsigma, hsigma, iterations=10):
     return keep
 
 
+def sigclip(stack, lsigma=3.0, hsigma=3.0, iterations=10):
+    """Iterative clipping about the median of the kept values with σ = 1.4826 MAD of them (an rms scale cannot
+    reject one hit among fewer than 10 frames: it never lies more than √(n−1) σ away). np.inf: that side is kept."""
+    keep = np.ones(stack.shape, bool)
+    for _ in range(iterations):
+        vals = np.where(keep, stack, np.nan)
+        centre = np.nanmedian(vals, axis=0)
+        s = 1.4826 * np.nanmedian(np.abs(vals - centre), axis=0)
+        lo = -np.inf if np.isinf(lsigma) else centre - lsigma * s
+        hi = np.inf if np.isinf(hsigma) else centre + hsigma * s
+        new = (stack >= lo) & (stack <= hi)
+        if np.array_equal(new, keep):
+            break
+        keep = new
+    return keep
+
+
 def ccdclip(stack, gain=1.0, read_noise=0.0, snoise=0.0, lsigma=3.0, hsigma=3.0):
     """σ from the CCD noise model (ADU): √((rn/g)² + max(c, 0)/g + (snoise·c)²) about the centre c."""
 
@@ -146,8 +163,9 @@ def gesd(stack, max_outliers=None, alpha=0.05):
     return keep
 
 
-METHODS = {"minmax": minmax, "ccdclip": ccdclip, "crreject": crreject, "avsigclip": avsigclip, "pclip": pclip,
-           "linear_fit": linear_fit, "gesd": gesd, "none": lambda stack: np.ones(stack.shape, bool)}  # fmt: skip
+METHODS = {"sigclip": sigclip, "minmax": minmax, "ccdclip": ccdclip, "crreject": crreject, "avsigclip": avsigclip,
+           "pclip": pclip, "linear_fit": linear_fit, "gesd": gesd,
+           "none": lambda stack: np.ones(stack.shape, bool)}  # fmt: skip
 
 
 def _stat(frames, how):

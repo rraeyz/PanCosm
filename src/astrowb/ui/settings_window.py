@@ -182,7 +182,7 @@ SHOWN = (
     "shortcuts", "ui.language", "ui.theme", "ui.font_pt", "ui.mode", "ui.toolbar_text", "ui.notify", "ui.hints",
     "profile", "compute.device", "observatory.download_dir", "services.offline", "time.auto_refresh",
     "camera.clock_utc_offset", "areas.show_experimental", "calibration.write_planes",
-    "calibration.library_folder", "calibration.add_to_library",
+    "calibration.master_combine", "calibration.library_folder", "calibration.add_to_library",
 )  # fmt: skip
 
 
@@ -391,7 +391,16 @@ class SettingsWindow(Dialog):
         )
         self._row(c, self.tr("Write variance and quality planes (multi-extension FITS)"), planes, note, default=True)
         from ..calibration.library_use import library_folder
+        from ..calibration.master_method import CHOICES, DEFAULT
 
+        current = self.settings.get("calibration.master_combine", DEFAULT)
+        combine = ChoiceField([(k, k) for k in CHOICES], current if current in CHOICES else DEFAULT, self)
+        combine.currentIndexChanged.connect(lambda _i: self.settings.set("calibration.master_combine", combine.value()))
+        note = self.tr(
+            "auto: bias avsigclip (under 10 frames) or sigclip; dark sigclip on the high side, ccdclip when gain and "
+            "read noise are known; flat minmax (under 5 frames) or sigclip. as before: clipped mean about the median"
+        )
+        self._row(c, self.tr("Combine the masters by"), combine, note, default=DEFAULT)
         library = PathField("folder", parent=self)
         library.set_paths([library_folder(self.settings)])
         library.changed.connect(

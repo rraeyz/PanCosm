@@ -109,6 +109,7 @@ OUTPUTS = {
     "combined": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Combined spectrum")),
     "components": IO("files", QT_TRANSLATE_NOOP("Steps", "Spectra of the components")),
     "curves": IO("object", QT_TRANSLATE_NOOP("Steps", "Light curves")),
+    "master_methods": IO("object", QT_TRANSLATE_NOOP("Steps", "How each master was combined")),
     "dark_scales": IO("object", QT_TRANSLATE_NOOP("Steps", "Dark scale factors")),
     "trails": IO("object", QT_TRANSLATE_NOOP("Steps", "Satellite trails found in the lights")),
     "echelle": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Merged échelle spectrum")),
