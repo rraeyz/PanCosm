@@ -285,12 +285,11 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         """What a window does with files opened from its File menu or dropped on it (interface I6b (8)):
         (handler([paths]), file filter), or (None, "") for an area that opens no file."""
 
-        def folder(paths):
+        def calibrate(paths):  # the night's frames: their folder is what Calibration reads
             first = Path(paths[0])
-            return str(first if first.is_dir() else first.parent)
-
-        def calibrate(paths):
-            page.lights.setText(folder(paths))  # the night's frames: their folder is what Calibration reads
+            page.lights.setText(str(first if first.is_dir() else first.parent))
+            if automatic.on("calibration.scan_on_folder"):  # as a folder chosen with Browse…: no Scan press needed
+                page.scan_button.click()
 
         def light_curve(paths):
             page.setCurrentWidget(page.period_page)

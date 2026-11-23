@@ -239,6 +239,17 @@ class Harness:
             else:
                 yield act
 
+    def drop(self, paths, budget=BUDGET_S):
+        """Files or folders dragged from the file manager and dropped on the window."""
+        from PySide6.QtCore import QMimeData, QUrl
+        from PySide6.QtGui import QDropEvent
+
+        mime = QMimeData()
+        mime.setUrls([QUrl.fromLocalFile(str(p)) for p in paths])
+        event = QDropEvent(QPointF(10, 10), Qt.CopyAction, mime, Qt.LeftButton, Qt.NoModifier)
+        # the window's own handler: Qt does not deliver a drop event sent while no drag is under way
+        self._act(f"drop {len(paths)} paths", lambda: self.window.dropEvent(event), budget)
+
     def click_image(self, viewer, x, y, budget=BUDGET_S):
         """A click at array pixel (x, y) of an ImageViewer, through its viewport as the mouse gives it."""
         h = viewer.data.shape[0]

@@ -104,7 +104,12 @@ Order of work: CAL-W, then P1: 1, 2, 3, 13, 8, 5, 6, 12, 4, 14, 23; P2: 7, 9, 10
 P3: 18, 20.
 
 ### CAL-W. The Calibration window on the new anatomy  (P1)
-**open**
+**partial** — done (2026-11-28), the extra accept's clicks: a folder dropped on the window is scanned at once
+(`main_window._opener` → `calibrate`, Settings → Automatic steps "calibration.scan_on_folder"), the run moves the
+rail to Review when it calibrated anything (`stage_boxes.calibration_stages`); drop → Plan rows → toolbar Calibrate
+→ Review's before / after in two actions (`tests/ui/walks/test_walk_calibration_three_clicks.py`, en and tr; the
+harness's `drop`). Open: the two grey `help_line` paragraphs of the Frames stage (`calibrate_page.py`) still in the
+panel, not yet moved to the Help panel.
 - `plans/interface.md` UI-16.2: stages Frames, Check, Masters, Calibrate, Review, Continue; groups tree with a
   preview; result tabs Plan, Problems, Report, Log.
 - **Extra accept:** on the practice night: drop the folder → the plan is shown → one click calibrates → Review
