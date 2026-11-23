@@ -99,7 +99,7 @@ of current practice: automatic frequency extraction with S/N stops, chunked time
 Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13, 17; P3: 14, 15, 18.
 
 ### PER-W. The window on the new anatomy  (P1)
-**partial** — (2026-11-28) `2` and `H` fold at twice and half the period (`PeriodPage.fold_times`, next to ← → between peaks); test_a_click_on_a_periodogram_peak_folds_at_once. Left: the four-click walk, the jobs switch, 30 fps with 10^6 points.
+**partial** — (2026-11-28) `2` and `H` fold at twice and half the period (`PeriodPage.fold_times`, next to ← → between peaks); test_a_click_on_a_periodogram_peak_folds_at_once. (2026-11-28) The walk: name + Enter downloads, Search, a click on the peak's row in the Peaks inspector folds there — three actions (tests/ui/walks/test_walk_period_four_clicks.py, the archive answered in the test). Seen there: at the walk's 800 px width the plots are squeezed to a sliver beside the stage panel and the inspector. Left: plots that keep their width, the jobs switch, 30 fps with 10^6 points.
 - `plans/interface.md` UI-16.4: stages Data, Clean, Search, Fold, Frequencies, Report; three linked plots (light
   curve, periodogram, folded curve); Inspector with the peak table. Jobs in the toolbar switch: **Period ·
   Frequencies · Minima of the series (OC-3) · Variable search (PHO-30)**.
