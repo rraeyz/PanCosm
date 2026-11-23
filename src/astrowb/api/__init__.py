@@ -60,6 +60,24 @@ class Result(dict):
                 return t
         raise TypeError(f"no output is a table (outputs: {', '.join(self)})")
 
+    def save(self, path, key=None):
+        """to_table(key) written to path; the format from the extension (.csv, .ecsv, .fits, …)."""
+        self.to_table(key).write(str(path), overwrite=True)
+        return path
+
+    def plot(self, x=None, y=None, key=None, ax=None):
+        """Column y against column x of to_table(key) (the first two columns by default) on a matplotlib axis."""
+        t = self.to_table(key)
+        x, y = x or t.colnames[0], y or t.colnames[1]
+        if ax is None:
+            import matplotlib.pyplot as plt
+
+            ax = plt.figure().add_subplot()
+        ax.plot(t[x], t[y], ".", markersize=3)
+        ax.set_xlabel(x)
+        ax.set_ylabel(y)
+        return ax
+
 
 def _is_column(v):
     import numpy as np

@@ -90,3 +90,17 @@ def test_period_search_helper_takes_a_light_curve():
     assert abs(out["best"] - 1.7) < 0.02 if np.isscalar(out["best"]) else abs(out["best"][0] - 1.7) < 0.02
     with pytest.raises(ValueError, match="rel_flux"):
         api.period_search({"time": [1, 2, 3]})
+
+
+def test_results_save_and_plot(tmp_path):
+    """ARC-12 item 1: a result's table written to a file by its extension and drawn on a matplotlib axis."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    from astropy.table import Table
+
+    out = api.Result({"time": [1.0, 2.0, 3.0], "flux": [1.0, 0.9, 1.0]})
+    path = out.save(tmp_path / "lc.ecsv")
+    assert list(Table.read(str(path))["flux"]) == [1.0, 0.9, 1.0]
+    ax = out.plot()
+    assert ax.get_xlabel() == "time" and ax.get_ylabel() == "flux" and len(ax.lines) == 1
