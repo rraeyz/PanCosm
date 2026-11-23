@@ -98,3 +98,60 @@ def test_linear_fit_on_a_larger_stack_with_a_gradient():
     s = stack(n=25, cosmic=True) + np.arange(25)[:, None, None] * 4.0  # the sky brightens through the night
     keep = combine.linear_fit(s)
     assert not keep[2, 3, 4] and keep[:, 5, 5].sum() >= 23  # the cosmic ray out, the drifting sky kept
+
+
+def test_grow_rejects_the_neighbours_within_the_radius_in_the_same_frame():
+    s = stack()
+    base, _ = combine_keep(s, 0)
+    for grow in (1, 1.5):
+        _, kept = combine_keep(s, grow)
+        rej = np.zeros(s.shape, bool)
+        for k in range(len(s)):
+            for y in range(s.shape[1]):
+                for x in range(s.shape[2]):
+                    near = [
+                        (y + dy, x + dx) for dy in range(-2, 3) for dx in range(-2, 3) if dy * dy + dx * dx <= grow**2
+                    ]
+                    rej[k, y, x] = any(
+                        0 <= a < s.shape[1] and 0 <= b < s.shape[2] and not base[k, a, b] for a, b in near
+                    )
+        assert (kept == (~rej).sum(axis=0)).all()
+    assert kept.sum() < base.sum()
+    # nkeep still honoured after growing
+    assert (combine_keep(s, 3, nkeep=4)[1] >= 4).all()
+
+
+def combine_keep(s, grow, nkeep=1):
+    base = combine.ccdclip(s, gain=GAIN, read_noise=RN)
+    image, kept = combine.combine(s, "ccdclip", nkeep=nkeep, grow=grow, gain=GAIN, read_noise=RN)
+    return (base, kept) if nkeep == 1 else (image, kept)
+
+
+def test_scale_zero_and_exposure():
+    rng = np.random.default_rng(1)
+    flat = rng.normal(100, 1, (3, 8, 8))
+    s = flat * np.array([1.0, 2.0, 0.5])[:, None, None]
+    out, _ = combine.combine(s, scale="median")
+    assert abs(out.mean() - np.median(s[0])) < 0.5
+    out, _ = combine.combine(s, scale="exposure", exposure=[10, 20, 5])
+    assert abs(out.mean() - s[0].mean()) < 0.5
+    off = flat + np.array([0.0, 50.0, -20.0])[:, None, None]
+    out, _ = combine.combine(off, zero="mean", region=(0, 4, 0, 4))
+    assert abs(out.mean() - flat[:, :4, :4].mean(axis=(1, 2)).mean() - (flat[0].mean() - flat[:, :4, :4].mean())) < 3
+    z = combine.scale_and_zero(off, zero="mean")
+    d = z.mean(axis=(1, 2))
+    assert np.allclose(d, d[0])
+    with pytest.raises(combine.AppError):
+        combine.combine(s, scale="bogus")
+
+
+def test_noise_weights_equal_the_direct_formula():
+    rng = np.random.default_rng(2)
+    s = 50 + rng.normal(0, 1, (3, 6, 6)) * np.array([1.0, 3.0, 0.5])[:, None, None]
+    out, _ = combine.combine(s, weights="noise")
+    w = np.array([1 / (1.4826 * np.median(np.abs(f - np.median(f)))) ** 2 for f in s])
+    assert np.allclose(out, (w[:, None, None] * s).sum(0) / w.sum(), rtol=1e-5)
+    out, _ = combine.combine(s, weights=[1, 2, 3])
+    assert np.allclose(out, (np.array([1, 2, 3])[:, None, None] * s).sum(0) / 6, rtol=1e-5)
+    plain, _ = combine.combine(s)
+    assert np.allclose(plain, s.mean(0), rtol=1e-5)

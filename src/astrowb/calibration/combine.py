@@ -7,12 +7,12 @@ per pixel). nkeep: at least that many frames stay in every pixel (the extreme on
 """
 
 import numpy as np
-from scipy import stats
+from scipy import ndimage, stats
 
 from ..core.errors import AppError
 
 
-def _finish(stack, keep, nkeep, centre="mean"):
+def _finish(stack, keep, nkeep, centre="mean", weights=None):
     """Combine the kept values; where fewer than nkeep stayed, the nkeep closest to the median are used."""
     keep = keep.copy()
     short = keep.sum(axis=0) < nkeep
@@ -23,7 +23,13 @@ def _finish(stack, keep, nkeep, centre="mean"):
         np.put_along_axis(give, order[:nkeep], True, axis=0)
         keep[:, short] = give[:, short]
     vals = np.where(keep, stack, np.nan)
-    image = np.nanmedian(vals, axis=0) if centre == "median" else np.nanmean(vals, axis=0)
+    if centre == "median":
+        image = np.nanmedian(vals, axis=0)
+    elif weights is None:
+        image = np.nanmean(vals, axis=0)
+    else:
+        w = np.asarray(weights, float)[:, None, None] * keep
+        image = (np.where(keep, stack, 0) * w).sum(axis=0) / w.sum(axis=0)
     return image.astype(np.float32), keep.sum(axis=0).astype(np.int16)
 
 
@@ -144,10 +150,79 @@ METHODS = {"minmax": minmax, "ccdclip": ccdclip, "crreject": crreject, "avsigcli
            "linear_fit": linear_fit, "gesd": gesd, "none": lambda stack: np.ones(stack.shape, bool)}  # fmt: skip
 
 
-def combine(stack, method="none", nkeep=1, centre="mean", **params):
-    """(image, frames kept per pixel) of the stack with the method's rejection."""
+def _stat(frames, how):
+    """One number per frame. "mode" is Pearson's 3·median − 2·mean (no histogram mode in the repo)."""
+    flat = frames.reshape(len(frames), -1)
+    if how == "median":
+        return np.median(flat, axis=1)
+    if how == "mean":
+        return flat.mean(axis=1)
+    if how == "mode":
+        return 3 * np.median(flat, axis=1) - 2 * flat.mean(axis=1)
+    raise AppError("unknown scaling {by}", by=how)
+
+
+def _values(how, frames, exposure):
+    """Per-frame numbers for a choice: a statistic over the region, the exposure times, or the values given
+    (a header keyword read by the caller)."""
+    if not isinstance(how, str):
+        return np.asarray(how, float)
+    if how == "exposure":
+        if exposure is None:
+            raise AppError("unknown scaling {by}", by=how)
+        return np.asarray(exposure, float)
+    return _stat(frames, how)
+
+
+def scale_and_zero(stack, scale="none", zero="none", region=None, exposure=None):
+    """IRAF imcombine's scale and zero. Multiplicative factors are normalised to the first frame (our choice: the
+    repo does not state IRAF's normalisation), then the zero offsets, also relative to the first frame, are
+    subtracted. scale, zero: none / mode / median / mean / exposure (scale only) / a sequence of per-frame
+    values; statistics over region = (y0, y1, x0, x1) or the whole frame."""
     stack = np.asarray(stack, float)
+    sl = np.s_[:, region[0] : region[1], region[2] : region[3]] if region else np.s_[:]
+    if not (isinstance(scale, str) and scale == "none"):
+        v = _values(scale, stack[sl], exposure)
+        stack = stack * (v[0] / v)[:, None, None]
+    if not (isinstance(zero, str) and zero == "none"):
+        if isinstance(zero, str) and zero == "exposure":
+            raise AppError("unknown scaling {by}", by=zero)
+        z = _values(zero, stack[sl], exposure)
+        stack = stack - (z - z[0])[:, None, None]
+    return stack
+
+
+def _noise_weights(stack, region):
+    sub = stack[:, region[0] : region[1], region[2] : region[3]] if region else stack
+    flat = sub.reshape(len(sub), -1)
+    mad = np.median(np.abs(flat - np.median(flat, axis=1, keepdims=True)), axis=1)
+    return 1.0 / (1.4826 * mad) ** 2
+
+
+def combine(stack, method="none", nkeep=1, centre="mean", grow=0, scale="none", zero="none", weights="none",
+            region=None, exposure=None, **params):  # fmt: skip
+    """(image, frames kept per pixel) of the stack with the method's rejection.
+
+    grow: a pixel within that many pixels (same frame) of a rejected one is rejected too (0 = off); nkeep is
+    honoured after growing. scale, zero, region, exposure: see scale_and_zero (done first). weights: none /
+    exposure / noise (1/σ², σ from the MAD of each frame over region, after scaling) / a sequence of per-frame
+    values; they weight the mean only, the median ignores them."""
+    stack = scale_and_zero(stack, scale, zero, region, exposure)
     if method not in METHODS:
         raise AppError("unknown rejection {method}", method=method)
     keep = METHODS[method](stack, **params)
-    return _finish(stack, keep, nkeep, centre)
+    if grow > 0:
+        r = int(np.ceil(grow))
+        yy, xx = np.mgrid[-r : r + 1, -r : r + 1]
+        disc = yy**2 + xx**2 <= grow**2
+        keep = ~np.array([ndimage.binary_dilation(~k, disc) for k in keep])
+    w = None
+    if not isinstance(weights, str):
+        w = np.asarray(weights, float)
+    elif weights == "exposure" and exposure is not None:
+        w = np.asarray(exposure, float)
+    elif weights == "noise":
+        w = _noise_weights(stack, region)
+    elif weights != "none":
+        raise AppError("unknown weighting {by}", by=weights)
+    return _finish(stack, keep, nkeep, centre, w)

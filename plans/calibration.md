@@ -225,8 +225,13 @@ the Palomar LFC reference, crosstalk.
 `crreject`, `avsigclip`, `pclip`, `linear_fit`, `gesd`, with `nkeep`, mean or median, and the frames kept per
 pixel). Tests (tests/test_combine_methods.py): minmax, ccdclip, crreject, pclip and the generalised ESD equal a slow
 per-pixel statement of their definitions exactly; a cosmic ray in one of five darks removed by ccdclip, crreject,
-avsigclip and gesd; linear fit keeps a sky drifting through 25 frames and drops the hit. Left: `grow`, scale and
-zero choices and weights in this module, the per-type defaults (item 2) wired into the masters and stacks, the
+avsigclip and gesd; linear fit keeps a sky drifting through 25 frames and drops the hit. Done (2026-11-28), the rest
+of item 1's engine: `combine()` keywords `grow` (disc radius, same frame, before nkeep), `scale` / `zero` (none / mode /
+median / mean / exposure / per-frame header values; `scale_and_zero`, statistics over `region`; mode is Pearson's
+3 median - 2 mean; factors normalised to the first frame: our choice, the repo does not state IRAF's) and `weights`
+(none / exposure / noise 1/sigma^2 from the MAD / header values; mean only). Tests (tests/test_combine_methods.py):
+`test_grow_rejects_the_neighbours_within_the_radius_in_the_same_frame`, `test_scale_zero_and_exposure`,
+`test_noise_weights_equal_the_direct_formula`. Left: the per-type defaults (item 2) wired into the masters and stacks, the
 rejection maps, GPU twins, the IRAF imcombine reference images, the Masters stage's choice.
 - **Reference:** IRAF `imcombine` help (the definitive description; its parameter file: `combine = average |
   median | lmedian | sum | quadrature | nmodel`, `reject = none | minmax | ccdclip | crreject | sigclip | avsigclip |
