@@ -39,7 +39,9 @@ def banding(master, smooth=31):
     out = {}
     for name, axis in (("rows", 1), ("columns", 0)):
         k = max(1, m.shape[axis] // 1024)  # a large master: every k-th pixel along, ~1000 per median
-        prof = np.nanmedian(m[:, ::k] if axis == 1 else m[::k, :], axis=axis)
+        part = m[:, ::k] if axis == 1 else m[::k, :]
+        # np.median when there is no NaN: the same profile, nanmedian loops over the rows in Python
+        prof = np.nanmedian(part, axis=axis) if np.isnan(part).any() else np.median(part, axis=axis)
         trend = ndimage.median_filter(prof, size=min(smooth, len(prof) // 2 * 2 + 1), mode="nearest")
         out[name] = _robust_sigma(prof - trend)
     return out

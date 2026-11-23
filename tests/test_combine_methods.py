@@ -155,3 +155,21 @@ def test_noise_weights_equal_the_direct_formula():
     assert np.allclose(out, (np.array([1, 2, 3])[:, None, None] * s).sum(0) / 6, rtol=1e-5)
     plain, _ = combine.combine(s)
     assert np.allclose(plain, s.mean(0), rtol=1e-5)
+
+
+def test_the_kept_median_equals_nanmedian_of_the_kept_values():
+    """The clipping's centre by one sort equals nanmedian over the kept values, NaN pixels and empty columns too."""
+    import warnings
+
+    from astrowb.calibration.combine import _kept_median
+
+    rng = np.random.default_rng(1)
+    for n in (1, 2, 5, 8):
+        v = rng.normal(100, 5, (n, 20, 30)).astype(np.float32)
+        v[0, 0, 0] = np.nan
+        keep = rng.random(v.shape) > 0.3
+        keep[:, 1, 1] = False
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            want = np.nanmedian(np.where(keep, v, np.nan), axis=0)
+        np.testing.assert_array_equal(_kept_median(v, keep), want)

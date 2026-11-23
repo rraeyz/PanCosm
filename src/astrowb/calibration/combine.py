@@ -41,40 +41,66 @@ def minmax(stack, nlow=1, nhigh=1):
     return keep
 
 
+def _kept_median(values, keep):
+    """np.nanmedian(np.where(keep, values, nan), axis=0) by one sort with the left-out values last (nanmedian along
+    the frame axis is tens of times slower: the masters' clipping was 4x the old run)."""
+    keep = keep & ~np.isnan(values)
+    srt = np.sort(np.where(keep, values, np.inf), axis=0)
+    n = keep.sum(axis=0)
+    lo = np.take_along_axis(srt, np.maximum((n - 1) // 2, 0)[None], axis=0)[0]
+    hi = np.take_along_axis(srt, (n // 2)[None], axis=0)[0]
+    with np.errstate(invalid="ignore"):
+        return np.where(n > 0, (lo + hi) / 2, np.nan)
+
+
 def _noise_clip(stack, sigma_of, lsigma, hsigma, iterations=10):
     """Iterative clipping about the median of the kept values with σ from a model of the centre (mclip yes)."""
-    keep = np.ones(stack.shape, bool)
-    for _ in range(iterations):
-        centre = np.nanmedian(np.where(keep, stack, np.nan), axis=0)
-        s = sigma_of(centre)
-        new = (stack >= centre - lsigma * s) & (stack <= centre + hsigma * s)
-        if np.array_equal(new, keep):
+
+    def bounds(values, keep, todo):
+        centre = _kept_median(values, keep)
+        s = sigma_of(centre, todo)
+        return centre - lsigma * s, centre + hsigma * s
+
+    return _iterate(stack, bounds, iterations)
+
+
+def _iterate(stack, bounds, iterations):
+    """keep = lo <= value <= hi with bounds(values, keep) from the kept values, repeated until nothing changes. A
+    pixel whose kept set did not change gets the same bounds again, so only the changed pixels are worked on: the
+    same result as iterating the whole frame, in a fraction of the time."""
+    flat = stack.reshape(len(stack), -1)
+    lo, hi = bounds(flat, np.ones(flat.shape, bool), slice(None))
+    keep = (flat >= lo) & (flat <= hi)
+    todo = np.flatnonzero(~keep.all(axis=0))
+    for _ in range(iterations - 1):
+        if not len(todo):
             break
-        keep = new
-    return keep
+        values, old = flat[:, todo], keep[:, todo]
+        lo, hi = bounds(values, old, todo)
+        new = (values >= lo) & (values <= hi)
+        moved = (new != old).any(axis=0)
+        keep[:, todo] = new
+        todo = todo[moved]
+    return keep.reshape(stack.shape)
 
 
 def sigclip(stack, lsigma=3.0, hsigma=3.0, iterations=10):
     """Iterative clipping about the median of the kept values with σ = 1.4826 MAD of them (an rms scale cannot
     reject one hit among fewer than 10 frames: it never lies more than √(n−1) σ away). np.inf: that side is kept."""
-    keep = np.ones(stack.shape, bool)
-    for _ in range(iterations):
-        vals = np.where(keep, stack, np.nan)
-        centre = np.nanmedian(vals, axis=0)
-        s = 1.4826 * np.nanmedian(np.abs(vals - centre), axis=0)
+
+    def bounds(values, keep, _todo):
+        centre = _kept_median(values, keep)
+        s = 1.4826 * _kept_median(np.abs(values - centre), keep)
         lo = -np.inf if np.isinf(lsigma) else centre - lsigma * s
-        hi = np.inf if np.isinf(hsigma) else centre + hsigma * s
-        new = (stack >= lo) & (stack <= hi)
-        if np.array_equal(new, keep):
-            break
-        keep = new
-    return keep
+        return lo, (np.inf if np.isinf(hsigma) else centre + hsigma * s)
+
+    return _iterate(stack, bounds, iterations)
 
 
 def ccdclip(stack, gain=1.0, read_noise=0.0, snoise=0.0, lsigma=3.0, hsigma=3.0):
     """σ from the CCD noise model (ADU): √((rn/g)² + max(c, 0)/g + (snoise·c)²) about the centre c."""
 
-    def sigma(c):
+    def sigma(c, _pixels):
         return np.sqrt((read_noise / gain) ** 2 + np.clip(c, 0, None) / gain + (snoise * c) ** 2)
 
     return _noise_clip(stack, sigma, lsigma, hsigma)
@@ -91,7 +117,8 @@ def avsigclip(stack, lsigma=3.0, hsigma=3.0):
     med = np.median(stack, axis=0)
     var = np.var(stack, axis=0, ddof=1)
     k = np.median(var / np.clip(med, 1e-9, None), axis=1, keepdims=True)  # per line (row)
-    return _noise_clip(stack, lambda c: np.sqrt(k * np.clip(c, 1e-9, None)), lsigma, hsigma)
+    k = np.broadcast_to(k, med.shape).ravel()  # per pixel of the flattened frame
+    return _noise_clip(stack, lambda c, pixels: np.sqrt(k[pixels] * np.clip(c, 1e-9, None)), lsigma, hsigma)
 
 
 def pclip(stack, pclip=-0.5, lsigma=3.0, hsigma=3.0):
