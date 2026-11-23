@@ -161,3 +161,17 @@ parameters (default):
   source = "ZTF"  (choice, one of ZTF, AAVSO)  Archive: Where the light curve comes from
   band = null  (band)  Band: One band of the archive; empty: the first
 ```
+
+## timeseries.villanova_minima
+
+```text
+timeseries.villanova_minima  (Kepler minima from the Villanova catalogue)
+
+Primary and secondary minima of a Kepler eclipsing binary from the Villanova catalogue's ETVs (needs the
+internet once; cached).
+
+inputs:      kic
+outputs:     minima
+  kic  (text)  Kepler Input Catalogue number (KIC)
+  minima  (object)  Times of minimum
+```

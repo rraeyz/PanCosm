@@ -56,6 +56,7 @@ INPUTS = {
     "light_ratio": IO("number", QT_TRANSLATE_NOOP("Steps", "Light ratio of the two stars")),
     "lights": IO("folder", QT_TRANSLATE_NOOP("Steps", "Folder of the lights")),
     "measures": IO("object", QT_TRANSLATE_NOOP("Steps", "Measures of the visual binary")),
+    "kic": IO("text", QT_TRANSLATE_NOOP("Steps", "Kepler Input Catalogue number (KIC)")),
     "minima": IO("object", QT_TRANSLATE_NOOP("Steps", "Times of minimum")),
     "name": IO("text", QT_TRANSLATE_NOOP("Steps", "Name")),
     "o_xy": IO("positions", QT_TRANSLATE_NOOP("Steps", "Ordinary images (x y)")),

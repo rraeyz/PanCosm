@@ -2969,6 +2969,24 @@
         }
        }
       }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
+         "const": "timeseries.villanova_minima"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
      }
     ],
     "properties": {
@@ -3033,7 +3051,8 @@
        "timeseries.occultation",
        "timeseries.period",
        "timeseries.read_light_curve",
-       "timeseries.survey_lc"
+       "timeseries.survey_lc",
+       "timeseries.villanova_minima"
       ]
      },
      "inputs": {

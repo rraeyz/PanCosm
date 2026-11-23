@@ -65,4 +65,5 @@ TITLES = {
     "timeseries.read_light_curve": QT_TRANSLATE_NOOP("Steps", "Read a light-curve file"),
     "timeseries.period": QT_TRANSLATE_NOOP("Steps", "Period search"),
     "timeseries.survey_lc": QT_TRANSLATE_NOOP("Steps", "Download a survey light curve"),
+    "timeseries.villanova_minima": QT_TRANSLATE_NOOP("Steps", "Kepler minima from the Villanova catalogue"),
 }

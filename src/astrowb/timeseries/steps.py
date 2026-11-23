@@ -236,3 +236,13 @@ def occultation_step(inputs, params, ctx):
 
     ctx.progress(0.05, "fit")
     return {"occultation": fit_occultation(inputs["time"], inputs["flux"], nboot=params["nboot"], rng=0)}
+
+
+@step("timeseries.villanova_minima", inputs=("kic",), outputs=("minima",))
+def villanova_minima_step(inputs, params, ctx):
+    """Primary and secondary minima of a Kepler eclipsing binary from the Villanova catalogue's ETVs (needs the
+    internet once; cached)."""
+    from ..services.minima_villanova import minima
+
+    ctx.progress(0.05, "catalogue")
+    return {"minima": minima(inputs["kic"])}
