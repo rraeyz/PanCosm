@@ -2633,6 +2633,13 @@
           },
           "align_stars": {
            "description": "Stars to align on: Positions on the first frame (x y) for the picked alignment"
+          },
+          "write_planes": {
+           "description": "Variance and mask planes: When the frames carry them, the stack gets VAR and DQ extensions too",
+           "type": [
+            "boolean",
+            "null"
+           ]
           }
          },
          "additionalProperties": false

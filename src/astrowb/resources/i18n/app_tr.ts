@@ -1086,32 +1086,32 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="297"/>
+        <location filename="../../ui/stage_boxes.py" line="298"/>
         <source>Images</source>
         <translation>Görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="297"/>
+        <location filename="../../ui/stage_boxes.py" line="298"/>
         <source>Solve</source>
         <translation>Çöz</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="298"/>
+        <location filename="../../ui/stage_boxes.py" line="299"/>
         <source>Find</source>
         <translation>Bul</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="298"/>
+        <location filename="../../ui/stage_boxes.py" line="299"/>
         <source>Measure</source>
         <translation>Ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="299"/>
+        <location filename="../../ui/stage_boxes.py" line="300"/>
         <source>Light curve</source>
         <translation>Işık eğrisi</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="300"/>
+        <location filename="../../ui/stage_boxes.py" line="301"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
@@ -2679,22 +2679,22 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Devam</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="200"/>
+        <location filename="../../ui/stage_boxes.py" line="201"/>
         <source>Plan</source>
         <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="201"/>
+        <location filename="../../ui/stage_boxes.py" line="202"/>
         <source>Report</source>
         <translation>Rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="202"/>
+        <location filename="../../ui/stage_boxes.py" line="203"/>
         <source>Log</source>
         <translation>Günlük</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="199"/>
+        <location filename="../../ui/stage_boxes.py" line="200"/>
         <source>Problems</source>
         <translation>Sorunlar</translation>
     </message>
@@ -5817,7 +5817,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Başlangıç</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="340"/>
+        <location filename="../../ui/main_window.py" line="339"/>
         <source>Tour of this window</source>
         <translation>Bu pencerenin turu</translation>
     </message>
@@ -6383,7 +6383,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <location filename="../../ui/area_menus.py" line="239"/>
         <location filename="../../ui/area_menus.py" line="479"/>
         <location filename="../../ui/area_windows.py" line="48"/>
-        <location filename="../../ui/stage_boxes.py" line="253"/>
+        <location filename="../../ui/stage_boxes.py" line="254"/>
         <source>Export</source>
         <translation>Dışa aktar</translation>
     </message>
@@ -6910,12 +6910,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>&amp;İş</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="332"/>
+        <location filename="../../ui/main_window.py" line="331"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopyala</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="333"/>
+        <location filename="../../ui/main_window.py" line="332"/>
         <source>Copies the selected cells or text</source>
         <translation>Seçili hücreleri ya da metni kopyalar</translation>
     </message>
@@ -7241,7 +7241,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="23"/>
-        <location filename="../../ui/main_window.py" line="339"/>
+        <location filename="../../ui/main_window.py" line="338"/>
         <source>&amp;Full tour</source>
         <translation>&amp;Tam tur</translation>
     </message>
@@ -11915,7 +11915,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="123"/>
-        <location filename="../../ui/stage_boxes.py" line="280"/>
+        <location filename="../../ui/stage_boxes.py" line="281"/>
         <source>Connect</source>
         <translation>Bağlan</translation>
     </message>
@@ -12036,7 +12036,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="196"/>
-        <location filename="../../ui/stage_boxes.py" line="281"/>
+        <location filename="../../ui/stage_boxes.py" line="282"/>
         <source>Sequence</source>
         <translation>Çekim sırası</translation>
     </message>
@@ -12543,17 +12543,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>dizi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="280"/>
+        <location filename="../../ui/stage_boxes.py" line="281"/>
         <source>Point</source>
         <translation>Yönelt</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="281"/>
+        <location filename="../../ui/stage_boxes.py" line="282"/>
         <source>Focus</source>
         <translation>Odak</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="282"/>
+        <location filename="../../ui/stage_boxes.py" line="283"/>
         <source>Night</source>
         <translation>Gece</translation>
     </message>
@@ -13666,17 +13666,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="227"/>
+        <location filename="../../ui/stage_boxes.py" line="228"/>
         <source>Data</source>
         <translation>Veri</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="227"/>
+        <location filename="../../ui/stage_boxes.py" line="228"/>
         <source>Clean</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="228"/>
+        <location filename="../../ui/stage_boxes.py" line="229"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
@@ -19115,22 +19115,22 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="249"/>
+        <location filename="../../ui/stage_boxes.py" line="250"/>
         <source>Scene</source>
         <translation>Sahne</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="250"/>
+        <location filename="../../ui/stage_boxes.py" line="251"/>
         <source>Display</source>
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="251"/>
+        <location filename="../../ui/stage_boxes.py" line="252"/>
         <source>Indices</source>
         <translation>İndisler</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="252"/>
+        <location filename="../../ui/stage_boxes.py" line="253"/>
         <source>Classes</source>
         <translation>Sınıflar</translation>
     </message>
@@ -23742,22 +23742,32 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Seçilen hizalama için ilk karedeki konumlar (x y)</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="273"/>
+        <location filename="../../calibration/step_params.py" line="268"/>
+        <source>Variance and mask planes</source>
+        <translation>Varyans ve maske katmanları</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="270"/>
+        <source>When the frames carry them, the stack gets VAR and DQ extensions too</source>
+        <translation>Karelerde varsa yığına da VAR ve DQ uzantıları yazılır</translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="281"/>
         <source>Scale</source>
         <translation>Ölçek</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="274"/>
+        <location filename="../../calibration/step_params.py" line="282"/>
         <source>The output pixels are this many times finer</source>
         <translation>Çıktı pikselleri bu kadar kat daha ince</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="282"/>
+        <location filename="../../calibration/step_params.py" line="290"/>
         <source>Drop size</source>
         <translation>Damla boyu</translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="283"/>
+        <location filename="../../calibration/step_params.py" line="291"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation>Her girdi pikselinin bırakılan payı (pixfrac)</translation>
     </message>

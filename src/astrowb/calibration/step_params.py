@@ -261,6 +261,14 @@ describe(
         label=QT_TRANSLATE_NOOP("Steps", "Stars to align on"),
         help=QT_TRANSLATE_NOOP("Steps", "Positions on the first frame (x y) for the picked alignment"),
     ),
+    P(
+        "write_planes",
+        "bool",
+        True,
+        label=QT_TRANSLATE_NOOP("Steps", "Variance and mask planes"),
+        advanced=True,
+        help=QT_TRANSLATE_NOOP("Steps", "When the frames carry them, the stack gets VAR and DQ extensions too"),
+    ),
 )
 describe(
     "stacking.drizzle",

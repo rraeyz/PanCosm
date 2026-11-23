@@ -42,5 +42,5 @@ parameters (default):
   weighting = "none"  (choice, one of none, noise)  Weights: noise: 1/σ² weights
   align = "translation"  (choice, one of translation, stars, none, picked)  Align: Shift only, star patterns, none (aligned already) or on the stars picked
   align_stars = []  (positions)  Stars to align on: Positions on the first frame (x y) for the picked alignment
-  write_planes = true
+  write_planes = true  (bool)  Variance and mask planes: When the frames carry them, the stack gets VAR and DQ extensions too
 ```

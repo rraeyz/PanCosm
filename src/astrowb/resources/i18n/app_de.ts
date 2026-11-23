@@ -1086,32 +1086,32 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
 <context>
     <name>AstrometryWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="297"/>
+        <location filename="../../ui/stage_boxes.py" line="298"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="297"/>
+        <location filename="../../ui/stage_boxes.py" line="298"/>
         <source>Solve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="298"/>
+        <location filename="../../ui/stage_boxes.py" line="299"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="298"/>
+        <location filename="../../ui/stage_boxes.py" line="299"/>
         <source>Measure</source>
         <translation>Messen</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="299"/>
+        <location filename="../../ui/stage_boxes.py" line="300"/>
         <source>Light curve</source>
         <translation type="unfinished">Lichtkurve</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="300"/>
+        <location filename="../../ui/stage_boxes.py" line="301"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2679,22 +2679,22 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="200"/>
+        <location filename="../../ui/stage_boxes.py" line="201"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="201"/>
+        <location filename="../../ui/stage_boxes.py" line="202"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="202"/>
+        <location filename="../../ui/stage_boxes.py" line="203"/>
         <source>Log</source>
         <translation type="unfinished">Protokoll</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="199"/>
+        <location filename="../../ui/stage_boxes.py" line="200"/>
         <source>Problems</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5817,7 +5817,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="340"/>
+        <location filename="../../ui/main_window.py" line="339"/>
         <source>Tour of this window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6383,7 +6383,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <location filename="../../ui/area_menus.py" line="239"/>
         <location filename="../../ui/area_menus.py" line="479"/>
         <location filename="../../ui/area_windows.py" line="48"/>
-        <location filename="../../ui/stage_boxes.py" line="253"/>
+        <location filename="../../ui/stage_boxes.py" line="254"/>
         <source>Export</source>
         <translation>Exportieren</translation>
     </message>
@@ -6910,12 +6910,12 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
         <translation>Auf&amp;gabe</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="332"/>
+        <location filename="../../ui/main_window.py" line="331"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window.py" line="333"/>
+        <location filename="../../ui/main_window.py" line="332"/>
         <source>Copies the selected cells or text</source>
         <translation>Kopiert die markierten Zellen oder den Text</translation>
     </message>
@@ -7241,7 +7241,7 @@ Senden Sie diese Datei mit ein paar Worten dazu, was Sie getan haben und was sch
     </message>
     <message>
         <location filename="../../ui/help_checks.py" line="23"/>
-        <location filename="../../ui/main_window.py" line="339"/>
+        <location filename="../../ui/main_window.py" line="338"/>
         <source>&amp;Full tour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11913,7 +11913,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="123"/>
-        <location filename="../../ui/stage_boxes.py" line="280"/>
+        <location filename="../../ui/stage_boxes.py" line="281"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -12034,7 +12034,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     </message>
     <message>
         <location filename="../../ui/observe_page.py" line="196"/>
-        <location filename="../../ui/stage_boxes.py" line="281"/>
+        <location filename="../../ui/stage_boxes.py" line="282"/>
         <source>Sequence</source>
         <translation>Sequenz</translation>
     </message>
@@ -12541,17 +12541,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>Folge laden</translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="280"/>
+        <location filename="../../ui/stage_boxes.py" line="281"/>
         <source>Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="281"/>
+        <location filename="../../ui/stage_boxes.py" line="282"/>
         <source>Focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="282"/>
+        <location filename="../../ui/stage_boxes.py" line="283"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13664,17 +13664,17 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>PeriodWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="227"/>
+        <location filename="../../ui/stage_boxes.py" line="228"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="227"/>
+        <location filename="../../ui/stage_boxes.py" line="228"/>
         <source>Clean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="228"/>
+        <location filename="../../ui/stage_boxes.py" line="229"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
@@ -19113,22 +19113,22 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>RemoteSensingWindow</name>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="249"/>
+        <location filename="../../ui/stage_boxes.py" line="250"/>
         <source>Scene</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="250"/>
+        <location filename="../../ui/stage_boxes.py" line="251"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="251"/>
+        <location filename="../../ui/stage_boxes.py" line="252"/>
         <source>Indices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/stage_boxes.py" line="252"/>
+        <location filename="../../ui/stage_boxes.py" line="253"/>
         <source>Classes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -23740,22 +23740,32 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="273"/>
+        <location filename="../../calibration/step_params.py" line="268"/>
+        <source>Variance and mask planes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="270"/>
+        <source>When the frames carry them, the stack gets VAR and DQ extensions too</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../calibration/step_params.py" line="281"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="274"/>
+        <location filename="../../calibration/step_params.py" line="282"/>
         <source>The output pixels are this many times finer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="282"/>
+        <location filename="../../calibration/step_params.py" line="290"/>
         <source>Drop size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../calibration/step_params.py" line="283"/>
+        <location filename="../../calibration/step_params.py" line="291"/>
         <source>The share of each input pixel that is dropped (pixfrac)</source>
         <translation type="unfinished"></translation>
     </message>
