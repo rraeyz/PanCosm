@@ -36,7 +36,9 @@ def install() -> Path:
         apps.mkdir(exist_ok=True)
         shutil.rmtree(apps / f"{NAME}.app", ignore_errors=True)
         subprocess.run(["cp", "-R", mount / f"{NAME}.app", apps], check=True)
-        subprocess.run(["hdiutil", "detach", mount], check=True)
+        # the app is copied by now; a disk image the system still holds ("Resource busy") is forced off, not fatal
+        if subprocess.run(["hdiutil", "detach", mount]).returncode:
+            subprocess.run(["hdiutil", "detach", "-force", mount])
         return apps / f"{NAME}.app" / "Contents" / "MacOS" / SHORT
     if os.environ.get("SMOKE_DEB"):  # Debian / Ubuntu (as root in CI's containers): the .deb, through apt
         subprocess.run(["apt-get", "install", "-y", str(one("*-linux-amd64.deb").resolve())], check=True)
