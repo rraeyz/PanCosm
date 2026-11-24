@@ -33,10 +33,13 @@ def transformed(lc, comp_mags, comp_colours, target_colour, coefficient, coeffic
     return mag, err
 
 
-def transformed_pair(lc_a, lc_b, mags_a, mags_b, t_a, t_b, errors=(0.0, 0.0), iterations=6):
+def transformed_pair(
+    lc_a, lc_b, mags_a, mags_b, t_a, t_b, errors=(0.0, 0.0), iterations=6, k2=(0.0, 0.0), k2_errors=(0.0, 0.0)
+):
     """Both filters of a night transformed together (e.g. A = B, B = V): each frame's target colour (A − B) from the
     other filter's transformed curve interpolated to its time, iterated. mags_a / mags_b: the comparison stars'
     catalogue magnitudes in A and B; t_a / t_b: the magnitude coefficients T_a, T_b (on A − B).
+    k2 / k2_errors: each filter's second-order extinction k″ (needs "airmass" per frame), as transformed() takes it.
     Returns {"a": (mag, err), "b": (mag, err), "colour_a": per A frame, "colour_b": per B frame}."""
     mags_a, mags_b = np.asarray(mags_a, float), np.asarray(mags_b, float)
     comp_colour = mags_a - mags_b
@@ -46,8 +49,8 @@ def transformed_pair(lc_a, lc_b, mags_a, mags_b, t_a, t_b, errors=(0.0, 0.0), it
     colour_a = a0 - _follow(time_a, time_b, b0)
     colour_b = _follow(time_b, time_a, a0) - b0
     for _ in range(iterations):
-        a = transformed(lc_a, mags_a, comp_colour, colour_a, t_a, errors[0])
-        b = transformed(lc_b, mags_b, comp_colour, colour_b, t_b, errors[1])
+        a = transformed(lc_a, mags_a, comp_colour, colour_a, t_a, errors[0], k2[0], k2_errors[0])
+        b = transformed(lc_b, mags_b, comp_colour, colour_b, t_b, errors[1], k2[1], k2_errors[1])
         colour_a = a[0] - _follow(time_a, time_b, b[0])
         colour_b = _follow(time_b, time_a, a[0]) - b[0]
     return {"a": a, "b": b, "colour_a": colour_a, "colour_b": colour_b}

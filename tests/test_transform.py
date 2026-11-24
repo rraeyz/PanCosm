@@ -62,3 +62,15 @@ def test_second_order_term_shifts_by_k2_x_colour_distance():
     base, _ = transform.transformed(lc_b, B_c, BV_c, bv_t, TB)
     shifted, _ = transform.transformed(lc_b, B_c, BV_c, bv_t, TB, k2=-0.03)
     assert np.allclose(shifted - base, 0.03 * 1.5 * (bv_t - BV_c.mean()))
+
+
+def test_the_pair_passes_k2_on():
+    """PHO-35: transformed_pair hands each filter's k″ to transformed(); zero k″ leaves the result as before."""
+    lc_b, lc_v, B_c, V_c, *_ = night()
+    for lc in (lc_b, lc_v):
+        lc["airmass"] = [1.5] * len(lc["jd_utc"])
+    base = transform.transformed_pair(lc_b, lc_v, B_c, V_c, TB, TV)
+    same = transform.transformed_pair(lc_b, lc_v, B_c, V_c, TB, TV, k2=(0.0, 0.0))
+    moved = transform.transformed_pair(lc_b, lc_v, B_c, V_c, TB, TV, k2=(-0.03, 0.0))
+    assert np.array_equal(base["a"][0], same["a"][0])
+    assert np.abs(moved["a"][0] - base["a"][0]).max() > 0.01
