@@ -43,7 +43,8 @@ class Anatomy:
                 panel = StagePanel(s.title, s.help, self)
                 panel.add(s.panel)
             if s.help:
-                panel.help_requested.connect(self.help_requested.emit)  # the stage's guide anchor
+                # the stage's guide topic in the Help panel, as Sections do; the full guide when it names none
+                panel.help_requested.connect(lambda a: self.show_help(a) or self.help_requested.emit(a))
             fit_width(panel, 360)  # a stage never pushes past its dock (user-feedback UF-9, UF-10)
             panel.width_changed.connect(lambda: self._fit_stage_dock())
             self.stage_panels[s.key] = panel

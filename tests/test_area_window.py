@@ -334,8 +334,10 @@ def test_area_window_anatomy(qtbot, tmp_path):
     assert all(d.isVisible() for d in win._results())
     asked = []
     win.help_requested.connect(asked.append)
-    win.stage_panels["stars"].help_requested.emit("photometry-apertures")
-    assert asked == ["photometry-apertures"]
+    win.stage_panels["stars"].help_requested.emit("calibration-1-scan-raw-frames")  # a guide topic: the Help panel
+    assert asked == [] and win.docks["help"].isVisible()
+    win.stage_panels["stars"].help_requested.emit("no-such-topic")  # none: the full guide
+    assert asked == ["no-such-topic"]
 
 
 def test_toolbar_right_end_finds_actions(qtbot, tmp_path):
