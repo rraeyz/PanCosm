@@ -150,7 +150,8 @@ parameters (default):
 ```text
 timeseries.read_light_curve  (Read a light-curve file)
 
-A saved .lc.ecsv light curve as the dict the photometry steps output, so a recipe can start from it (PHO-48).
+A saved light curve (.lc.ecsv, or the Photometry window's CSV export) as the dict the photometry steps output,
+so a recipe can start from it (PHO-48).
 
 inputs:      lc_file
 outputs:     light_curve

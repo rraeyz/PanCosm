@@ -200,3 +200,17 @@ def test_recipe_reads_a_light_curve_file_and_finds_its_period(tmp_path):
     for bad in (tmp_path / "none.lc.ecsv", recipe):
         with pytest.raises(ValueError, match="light-curve file"):
             steps.get("timeseries.read_light_curve").func({"lc_file": str(bad)}, {}, None)
+
+
+def test_the_read_step_takes_the_photometry_csv_export_too(tmp_path):
+    """PHO-48: the CSV the Photometry window exports is read by the same step (relative errors only, as written)."""
+    from astrowb.engine import steps
+
+    path = tmp_path / "night.csv"
+    path.write_text(
+        "BJD_TDB,target_flux,comp1_flux,rel_flux,rel_flux_err\n"
+        "2460000.1,1000,2000,0.5,0.005\n2460000.2,1100,2000,0.55,0.0055\n"
+    )
+    out = steps.get("timeseries.read_light_curve").func({"lc_file": str(path)}, {}, None)["light_curve"]
+    assert out["time"] == [2460000.1, 2460000.2] and out["time_scale"] == "BJD_TDB"
+    assert out["rel_flux"] == [0.5, 0.55] and out["rel_flux_err"] == [0.005, 0.0055]

@@ -1165,7 +1165,7 @@ is said in the window and nothing is loaded); test `test_oc_page_times_the_minim
 read it: step `timeseries.read_light_curve` (`photometry/steps.py`, input `lc_file`, output `light_curve`, wraps
 `lcfile.read`; a missing or foreign file raises `ValueError`); a recipe [read → `timeseries.period` with inputs
 `light_curve.time` / `light_curve.rel_flux`] runs through `astrowb-cli recipe`; test
-`test_recipe_reads_a_light_curve_file_and_finds_its_period` (tests/test_lcfile.py). Left: a photometry CSV input.
+`test_recipe_reads_a_light_curve_file_and_finds_its_period` (tests/test_lcfile.py). (2026-11-28) The step also reads the window's CSV export (through `nights.read_export`, relative errors only as written); `test_the_read_step_takes_the_photometry_csv_export_too`.
 - **Ours now:** the CSV export of the Photometry page and `photometry/nights.read_export` (reads it back, relative errors only).
 - **Why:** the exported CSV keeps relative errors only, so a night read back shares its error between target and
   comparison stars (item 12); other windows and other programs need the full table with units and provenance.

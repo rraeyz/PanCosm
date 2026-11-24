@@ -38,10 +38,11 @@ def save_light_curve_step(inputs, params, ctx):
 
 @step("timeseries.read_light_curve", inputs=("lc_file",), outputs=("light_curve",))
 def read_light_curve_step(inputs, params, ctx):
-    """A saved .lc.ecsv light curve as the dict the photometry steps output, so a recipe can start from it (PHO-48)."""
+    """A saved light curve (.lc.ecsv, or the Photometry window's CSV export) as the dict the photometry steps output,
+    so a recipe can start from it (PHO-48)."""
     from pathlib import Path
 
-    from .lcfile import read
+    from .nights import read_export as read
 
     path = inputs["lc_file"]
     if not Path(path).is_file():
