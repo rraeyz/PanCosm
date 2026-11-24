@@ -75,8 +75,9 @@ class Anatomy:
         def fit_frame(_pinned=None):  # the dock keeps the rail and the current stage's rows (not the widest stage's)
             panel = self.stage_stack.currentWidget()
             need = panel.minimumSizeHint().width() if panel is not None else 0
-            # 440: wrapped and elided rows keep their room (cut texts); a small screen gives the view that room
-            self.stage_stack.setMinimumWidth(max(need, 440 if self.width() >= 1000 else 0))
+            # a wide window: 440, the rows fit in it (fit_width) and the view keeps its share however long the texts;
+            # a small screen: the current stage's own width, the rest to the view
+            self.stage_stack.setMinimumWidth(440 if self.width() >= 1000 else need)
             frame.setMinimumWidth(self.rail.width() + self.stage_stack.minimumWidth() + 4)
 
         self._fit_stage_dock = fit_frame
