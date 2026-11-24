@@ -2815,6 +2815,21 @@ def test_the_calibration_window_has_stages(window):
     win.close()
 
 
+def test_the_calibration_window_has_no_grey_paragraph(window):
+    """CAL-W: no muted paragraph in the stages or the view; the folder layout and the type detection are in the
+    Help panel F1 opens on the Frames stage."""
+    from PySide6.QtWidgets import QLabel
+
+    win = window.open_area("calibrate")
+    page = window.calibrate_page
+    grey = [w.text() for w in win.findChildren(QLabel) if w.property("muted") and "More…" in w.text()]
+    assert not grey, grey
+    win.help_for_widget(page.lights)
+    text = win.help_panel.text.toPlainText()
+    assert win.docks["help"].isVisible() and "BDF" in text and "IMAGETYP" in text and "Double-click" in text
+    win.close()
+
+
 def test_the_models_window_has_stages(window):
     """UI-16.6: Data, System, Stars, Extras, Fit, Uncertainty as stages beside the light curve and its model; hidden
     on the visual-binary tab; the fitted values come as a Parameters results tab."""

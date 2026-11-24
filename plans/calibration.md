@@ -108,8 +108,10 @@ P3: 18, 20.
 (`main_window._opener` → `calibrate`, Settings → Automatic steps "calibration.scan_on_folder"), the run moves the
 rail to Review when it calibrated anything (`stage_boxes.calibration_stages`); drop → Plan rows → toolbar Calibrate
 → Review's before / after in two actions (`tests/ui/walks/test_walk_calibration_three_clicks.py`, en and tr; the
-harness's `drop`). Open: the two grey `help_line` paragraphs of the Frames stage (`calibrate_page.py`) still in the
-panel, not yet moved to the Help panel.
+harness's `drop`). Done (2026-11-28), the grey paragraphs: the Frames stage's two `help_line` lines (the folder
+layout, the type detection) left `calibrate_page.py`; their text is the guide topic `calibration-1-scan-raw-frames`
+(four languages) the Help panel shows on F1 in the stage; no other stage had one
+(`tests/test_ui.py::test_the_calibration_window_has_no_grey_paragraph`).
 - `plans/interface.md` UI-16.2: stages Frames, Check, Masters, Calibrate, Review, Continue; groups tree with a
   preview; result tabs Plan, Problems, Report, Log.
 - **Extra accept:** on the practice night: drop the folder → the plan is shown → one click calibrates → Review

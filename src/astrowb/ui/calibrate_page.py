@@ -32,7 +32,6 @@ from .calibrate_estimate import refresh as refresh_estimate
 from .calibrate_follow import add_follow_button
 from .calibrate_library import library_line, library_text
 from .calibrate_light_checks import add_light_checks, trail_lines
-from .kit.help import help_line
 from .kit.table_view import DataTable
 from .kit.widgets import Collapsible, StepGuide, _title
 from .master_choice import add_button as add_masters_button
@@ -93,8 +92,7 @@ class CalibratePage(Undoable, QWidget):
         )
         lay.addWidget(self.guide)
         lay.addWidget(QLabel(self.tr("1. Choose your frames: the lights and the calibration frames (BDF)."), self))
-        lay.addWidget(help_line(self.tr("Lights in one folder, bias / dark / flat (BDF) in another — or everything "
-                                        "as BDF."), "calibration-1-scan-raw-frames", self))  # fmt: skip
+        # the folder layout and the type detection are told in the guide topic the Frames stage's ? opens (CAL-W)
         row = QHBoxLayout()
         self.lights = QLineEdit(self)
         self.lights.setPlaceholderText(self.tr("light frames (data) folder"))
@@ -186,8 +184,6 @@ class CalibratePage(Undoable, QWidget):
         self.table.cellDoubleClicked.connect(self._edit_kind)
         self.table.setToolTip(self.tr("Double-click a frame's type to change it"))
         lay.addWidget(frame, 1)
-        lay.addWidget(help_line(self.tr("The type comes from the header, else from the file name; double-click a "
-                                        "type to change it."), "calibration-1-scan-raw-frames", self))  # fmt: skip
         self.warnings = QPlainTextEdit(self)
         self.warnings.setReadOnly(True)
         self.warnings.setMaximumHeight(90)
