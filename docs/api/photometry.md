@@ -176,6 +176,7 @@ parameters (default):
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
   aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
   trails = false  (bool)  Look for trails: Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)
+  psf_exclude = []  (table)  Stars left out of the PSF: Positions [x, y] on the reference frame; a PSF star within 2 px is not used
 ```
 
 ## photometry.multifilter
@@ -221,6 +222,7 @@ parameters (default):
   combine = 1  (int, >= 1, <= 100)  Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame
   aperture_shape = null  (object)  Aperture shape: Empty: circles; {"kind": "ellipse", "ratio", "angle"} or {"kind": "racetrack", "length", "angle"} for stretched or trailed stars
   trails = false  (bool)  Look for trails: Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)
+  psf_exclude = []  (table)  Stars left out of the PSF: Positions [x, y] on the reference frame; a PSF star within 2 px is not used
   t_ab = null  (float)  Colour coefficient: T_ab of the transformation; with the comparison colour, a standard colour
   comp_colour = null  (float, mag)  Comparison colour: The comparison ensemble's catalogue colour
 ```

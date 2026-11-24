@@ -86,6 +86,7 @@ def read_light_curve_step(inputs, params, ctx):
     combine=1,
     aperture_shape=None,
     trails=False,
+    psf_exclude=(),
 )
 def light_curve_step(inputs, params, ctx):
     """Differential aperture photometry of the target against the comparison stars on every frame: the light curve
@@ -128,6 +129,7 @@ def light_curve_step(inputs, params, ctx):
         shape=params.get("aperture_shape"),
         trails=bool(params.get("trails")),
         catalogue_sky=inputs.get("catalogue_stars") if params.get("sky_mask_catalogue") else None,
+        psf_exclude=params.get("psf_exclude") or (),
     )
     return {"light_curve": lc}
 

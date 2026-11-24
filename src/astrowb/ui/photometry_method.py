@@ -134,6 +134,7 @@ def method_params(page):
     return {
         "psf": page.psf.isChecked(),
         "remove_neighbours": page.remove_neighbours.isChecked(),
+        "psf_exclude": list(page.psf_tab.exclude) if getattr(page, "psf_tab", None) else [],  # PHO-18: PSF tab
         "sky_mask_catalogue": page.sky_mask_catalogue.isChecked(),
         "sky_method": page.sky_method.currentData(),
         "centring": page.centring.currentData(),

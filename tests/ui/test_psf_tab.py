@@ -33,11 +33,19 @@ def _night(tmp_path, n=4):
     return paths, x, y
 
 
-@pytest.fixture(scope="module")
-def run(tmp_path_factory):
-    paths, x, y = _night(tmp_path_factory.mktemp("crowded"))
+def _run(paths, x, y, **kw):
     comps = [(float(x[k]), float(y[k])) for k in (5, 12, 20)]
-    return light_curve(paths, (float(x[0]), float(y[0])), comps, 5.0, 12.0, 18.0, psf=True)
+    return light_curve(paths, (float(x[0]), float(y[0])), comps, 5.0, 12.0, 18.0, psf=True, **kw)
+
+
+@pytest.fixture(scope="module")
+def night(tmp_path_factory):
+    return _night(tmp_path_factory.mktemp("crowded"))
+
+
+@pytest.fixture(scope="module")
+def run(night):
+    return _run(*night)
 
 
 def test_psf_run_keeps_chi2_and_flag_per_star(run):
@@ -89,3 +97,33 @@ def test_psf_tab_lists_the_psf_stars_with_quality_and_residual(qtbot, run):
     assert np.allclose(tab.residual.data, info["residuals"][1])
     tab.show_psf({"rel_flux": []})
     assert tab.stars.model.rowCount() == 0 and tab.residual.data is None
+
+
+def test_a_psf_star_left_out_is_not_used(tmp_path):
+    from astrowb.photometry.psf import epsf_summary
+
+    ref = fits.getdata(_night(tmp_path, 1)[0][0]).astype(float)
+    full = epsf_summary(ref)
+    first = full["stars"][0][:2]
+    less = epsf_summary(ref, exclude=[[first[0] + 1.0, first[1]]])
+    assert less["n_stars"] == full["n_stars"] - 1
+    assert not [s for s in less["stars"] if np.hypot(s[0] - first[0], s[1] - first[1]) < 2]
+    assert np.allclose(less["excluded"], [first]) and full["excluded"] == []
+
+
+def test_psf_tab_leave_out_measures_again_without_the_star(qtbot, night, run):
+    tab = PsfTab()
+    qtbot.addWidget(tab)
+    tab.show_psf(run)
+    assert not tab.use_all.isEnabled()
+    tab.stars.row_chosen.emit(2)
+    with qtbot.waitSignal(tab.exclude_changed, timeout=1000):
+        tab.leave_out.click()
+    assert tab.exclude == [run["psf"]["stars"][2][:2]]
+    again = _run(*night, psf_exclude=tab.exclude)  # what the window's measure does with method_params
+    tab.show_psf(again)
+    assert tab.stars.model.rowCount() == run["psf"]["n_stars"] - 1 == again["psf"]["n_stars"]
+    assert again["psf"]["excluded"] == tab.exclude and tab.use_all.isEnabled()
+    with qtbot.waitSignal(tab.exclude_changed, timeout=1000):
+        tab.use_all.click()
+    assert tab.exclude == []

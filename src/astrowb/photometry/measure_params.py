@@ -62,6 +62,14 @@ MEASURE = (  # the light-curve settings shared by the single- and multi-filter m
         help=QT_TRANSLATE_NOOP("Steps", "Stars fitted with the frame's PSF (crowded fields)"),
     ),
     P(
+        "psf_exclude",
+        "table",
+        (),
+        label=QT_TRANSLATE_NOOP("Steps", "Stars left out of the PSF"),
+        advanced=True,
+        help=QT_TRANSLATE_NOOP("Steps", "Positions [x, y] on the reference frame; a PSF star within 2 px is not used"),
+    ),
+    P(
         "combine",
         "int",
         1,

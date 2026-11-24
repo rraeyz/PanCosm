@@ -1005,6 +1005,9 @@
             "null"
            ]
           },
+          "psf_exclude": {
+           "description": "Stars left out of the PSF: Positions [x, y] on the reference frame; a PSF star within 2 px is not used"
+          },
           "combine": {
            "description": "Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame",
            "type": [
@@ -1183,6 +1186,9 @@
             "boolean",
             "null"
            ]
+          },
+          "psf_exclude": {
+           "description": "Stars left out of the PSF: Positions [x, y] on the reference frame; a PSF star within 2 px is not used"
           },
           "combine": {
            "description": "Combine frames: Faint targets: groups of this many frames aligned and added before measuring; 1: each frame",

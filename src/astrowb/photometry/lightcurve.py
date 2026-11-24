@@ -77,6 +77,7 @@ def light_curve(
     shape=None,
     trails=False,
     catalogue_sky=None,
+    psf_exclude=(),
 ) -> dict:
     """Positions are 0-based (x, y) pixels in the first frame. Returns plain lists (JSON-friendly).
     auto: the three radii are chosen from the stars on the first frame (aperture.choose_apertures).
@@ -84,7 +85,8 @@ def light_curve(
     aperture holds the same part of the light when the seeing changes (a "variable aperture").
     extra_xy: further stars (other targets, check stars) measured against the same comparison ensemble.
     remove_neighbours: stars near the measured ones are fitted and subtracted before the apertures (psf.py).
-    psf: fluxes from PSF fits of each frame's FWHM (crowded fields, fieldstars.psf_measure) instead of apertures.
+    psf: fluxes from PSF fits of each frame's FWHM (crowded fields, fieldstars.psf_measure) instead of apertures;
+    psf_exclude: [x, y] positions of PSF stars left out of the PSF tab's ePSF (psf.epsf_summary).
     aperture_m: telescope aperture (m) for the scintillation noise added to every flux error (aperture.scintillation);
     by default from APTDIA (mm) in the header. Without an aperture, the site or the target position no
     scintillation is added and "scintillation" in the result is None.
@@ -198,16 +200,7 @@ def light_curve(
     missing = [missing.get(k, []) for k in keep]
     rows, peaks, radii = [rows[k] for k in keep], [peaks[k] for k in keep], [radii[k] for k in keep]
     fwhms = [fwhms[k] for k in keep] if fwhms else fwhms
-    if src is not None:  # the archive's BJD_TDB as it is, and its UTC from the file (no conversion per cadence)
-        times, tvals, scale = src_times[1], src_times[0], "BJD_TDB"
-    elif any(r[1] is None for r in rows):  # without times the light curve is against the frame number
-        times, tvals, scale = None, np.arange(len(rows), dtype=float), "frame number"
-    else:
-        times = timing.Time([r[1] for r in rows])
-        if sky is not None:
-            tvals, scale = timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
-        else:
-            tvals, scale = times.utc.jd, "JD_UTC"
+    times, tvals, scale = _times(rows, src_times if src is not None else None, sky, where)
     flux = np.array([r[2] for r in rows], float)
     err = np.array([r[3] for r in rows], float)
     for i, ks in enumerate(missing):  # not there: no flux, rather than the sky's noise
@@ -261,11 +254,25 @@ def light_curve(
         out["apertures"] = chosen
     if (by := _by_aperture(opts, [r[9] if len(r) > 9 and not psf else None for r in rows], scint)) is not None:
         out["by_aperture"] = by  # item 10: choose the radius later, no measuring
-    out |= _shape_series(fwhms, peaks) | {"shape": shape} | (psf_series(rows, ref, saturation) if psf else {})
+    out |= (
+        _shape_series(fwhms, peaks) | {"shape": shape} | (psf_series(rows, ref, saturation, psf_exclude) if psf else {})
+    )
     if len(extra_xy):
         out |= {"extra_flux": flux[:, 1 + n_comp :].tolist(), "extra_flux_err": err[:, 1 + n_comp :].tolist()}
     out |= {"airmass": airmass} if airmass is not None else {}
     return out
+
+
+def _times(rows, src_times, sky, where):
+    """(times, time values, their scale) of the kept frames."""
+    if src_times is not None:  # the archive's BJD_TDB as it is, and its UTC from the file (no conversion per cadence)
+        return src_times[1], src_times[0], "BJD_TDB"
+    if any(r[1] is None for r in rows):  # without times the light curve is against the frame number
+        return None, np.arange(len(rows), dtype=float), "frame number"
+    times = timing.Time([r[1] for r in rows])
+    if sky is not None:
+        return times, timing.bjd_tdb(times, sky, where).jd, "BJD_TDB"
+    return times, times.utc.jd, "JD_UTC"
 
 
 def _by_aperture(opts, multi, scint):
