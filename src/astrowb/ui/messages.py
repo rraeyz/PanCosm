@@ -204,6 +204,8 @@ TEMPLATES = (
     QT_TRANSLATE_NOOP("Messages", "the NASA Exoplanet Archive does not know '{planet}'"),
     # timeseries/archive.py
     QT_TRANSLATE_NOOP("Messages", "no {mission} light curves for {target}"),
+    # services/minima_bav.py
+    QT_TRANSLATE_NOOP("Messages", "the BAV answer was for another star; try again"),
     # services/minima_villanova.py
     QT_TRANSLATE_NOOP("Messages", "no eclipse timing variations for KIC {kic} in the Villanova catalogue"),
     # timeseries/surveys.py

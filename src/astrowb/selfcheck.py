@@ -272,6 +272,7 @@ SERVICE_CHECKS = {
     "github_releases": "GitHub releases (update check)",
     "iers": "IERS Earth orientation",
     "mast": "MAST (TESS / Kepler)",
+    "minima_bav": "BAV LkDB (eclipse times)",
     "minima_villanova": "Villanova Kepler EB catalogue (eclipse times)",
     "mirrors": "VizieR: Gaia DR3 (overlays)",
     "simbad": "SIMBAD (target names)",
@@ -287,7 +288,7 @@ def _checks(vega, mast, iers):
     from . import overlays, updates
     from .photometry import catalog
     from .planning import ephemerides, targets
-    from .services import aavso_vsp, feeds_gaia, forecast, gaia_tap, minima_villanova
+    from .services import aavso_vsp, feeds_gaia, forecast, gaia_tap, minima_bav, minima_villanova
     from .spectroscopy import atmosphere, templates
     from .timeseries import surveys
 
@@ -315,6 +316,7 @@ def _checks(vega, mast, iers):
             f"{len(gaia_tap.run('SELECT TOP 1 source_id FROM gaiadr3.gaia_source'))} row"
         ),
         "MAST (TESS / Kepler)": mast,
+        "BAV LkDB (eclipse times)": lambda: f"{len(minima_bav.minima('AI Dra'))} minima",
         "Villanova Kepler EB catalogue (eclipse times)": lambda: f"{len(minima_villanova.minima(7938468))} minima",
         "PHOENIX spectra (stellar parameters)": lambda: _head(atmosphere.PHOENIX),
         "Kurucz solar atlas": lambda: _head(atmosphere.KURUCZ_SUN),

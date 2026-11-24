@@ -2,6 +2,20 @@
 
 Python: `from astrowb import api; api.timeseries.<step>(…)`; command line: `astrowb-cli run timeseries.<step> key=value …`.
 
+## timeseries.bav_minima
+
+```text
+timeseries.bav_minima  (Minima from the BAV database (LkDB))
+
+Minima of a star from the BAV's Lichtenknecker-Database (needs the internet once; cached; the database's
+terms forbid passing its data on).
+
+inputs:      name
+outputs:     minima
+  name  (text)  Name
+  minima  (object)  Times of minimum
+```
+
 ## timeseries.frequencies
 
 ```text

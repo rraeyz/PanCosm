@@ -246,3 +246,13 @@ def villanova_minima_step(inputs, params, ctx):
 
     ctx.progress(0.05, "catalogue")
     return {"minima": minima(inputs["kic"])}
+
+
+@step("timeseries.bav_minima", inputs=("name",), outputs=("minima",))
+def bav_minima_step(inputs, params, ctx):
+    """Minima of a star from the BAV's Lichtenknecker-Database (needs the internet once; cached; the database's
+    terms forbid passing its data on)."""
+    from ..services.minima_bav import minima
+
+    ctx.progress(0.05, "catalogue")
+    return {"minima": minima(inputs["name"])}

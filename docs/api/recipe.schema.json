@@ -2651,6 +2651,24 @@
       "if": {
        "properties": {
         "step": {
+         "const": "timeseries.bav_minima"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {},
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "timeseries.frequencies"
         }
        }
@@ -3044,6 +3062,7 @@
        "spectroscopy.telluric",
        "stacking.drizzle",
        "stacking.stack",
+       "timeseries.bav_minima",
        "timeseries.frequencies",
        "timeseries.minimum",
        "timeseries.mission_lc",
