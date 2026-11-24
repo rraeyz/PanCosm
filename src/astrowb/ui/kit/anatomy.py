@@ -30,11 +30,17 @@ class Stage:
 
 
 class _WidthWatch(QObject):
-    """Calls the window's _fit_to_width on each resize (the window class keeps its own eventFilter)."""
+    """Calls the window's _fit_to_width on each resize (the window class keeps its own eventFilter); not again from
+    inside it: the re-layout resizes the window, which on Windows flipped the layout back within the same call (CI
+    hung in setStyleSheet, 2026-11-28)."""
 
     def eventFilter(self, obj, event):  # noqa: N802 (Qt's name)
-        if event.type() == QEvent.Resize:
-            obj._fit_to_width()
+        if event.type() == QEvent.Resize and not getattr(obj, "_fitting", False):
+            obj._fitting = True
+            try:
+                obj._fit_to_width()
+            finally:
+                obj._fitting = False
         return False
 
 
@@ -167,8 +173,9 @@ class Anatomy:
         was squeezed to a sliver); widened again, the window goes back. Followed on every resize: a window is built
         and first shown at a default size."""
         stages, inspector = self.docks.get("stages"), self.docks.get("inspector")
-        narrow = self.width() < 1000
-        if stages is None or narrow == getattr(self, "_narrow", False):
+        was = getattr(self, "_narrow", False)
+        narrow = self.width() < (1040 if was else 1000)  # a margin: a width near 1000 does not flip back and forth
+        if stages is None or narrow == was:
             return
         self._narrow = narrow
         self.rail.pin.setChecked(not narrow)
