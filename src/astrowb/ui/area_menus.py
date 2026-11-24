@@ -199,6 +199,9 @@ def oc(main, page, win):
             act.setText(text)
         return act
 
+    from .oc_databases import add_button
+
+    add_button(page, main)  # OC-4: "From databases…" beside Load file
     load = named(
         page.load_button,
         QCoreApplication.translate("MainWindow", "Load minimum times…"),
@@ -225,6 +228,7 @@ def oc(main, page, win):
     files = QMenu(QCoreApplication.translate("MainWindow", "&Export"), win)
     win.file_menu.insertMenu(win.file_menu.actions()[-1], files)  # loading minima is File → Open… (Ctrl+O)
     files.addAction(export)
+    win.file_menu.insertAction(files.menuAction(), named(page.databases_button))  # beside File → Open… (minima)
     win.set_icons({load: "open", look: "lookup", fit: "fit_model", export: "export"})
     from .oc_stages import oc_stages
 
