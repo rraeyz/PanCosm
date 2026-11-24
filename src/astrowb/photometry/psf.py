@@ -158,5 +158,31 @@ def epsf_summary(ref, saturation=None, size=25, oversampling=2, min_stars=3):
     keep = select_psf_stars(ref, xy, -np.arange(len(xy)), size, 25, saturation)  # detect_stars: brightest first
     out = {"n_stars": len(keep), "oversampling": oversampling, "epsf": None}
     if len(keep) >= min_stars:
-        out["epsf"] = build_epsf(ref, xy[keep], size, oversampling).data.tolist()
+        epsf = build_epsf(ref, xy[keep], size, oversampling)
+        out["epsf"] = epsf.data.tolist()
+        out |= psf_quality(ref, epsf, xy[keep], size)
     return out
+
+
+def psf_quality(data, epsf, xy, size=25):
+    """The PSF stars refitted with their ePSF (flux and position) and the size x size stamps around them minus the
+    fit: {"stars": [[x, y, peak, residual RMS in % of the peak], ...], "residuals": the stamps as lists,
+    "quality": the residual RMS of all stamps in % of their peaks (plans/photometry.md PHO-18 build 1)}."""
+    from .aperture import seeing_fwhm
+
+    fwhm = seeing_fwhm(data, xy)
+    _f, _e, table = measure(data, epsf, xy, fwhm if np.isfinite(fwhm) else 3.0, fit_positions=True, fit_size=size)
+    sky, _std = _sky(data)
+    half = size // 2
+    stars, stamps, norm = [], [], []
+    for r, (x, y) in enumerate(xy):
+        yi, xi = int(round(y)), int(round(x))
+        yy, xx = np.mgrid[yi - half : yi + half + 1, xi - half : xi + half + 1]
+        stamp = data[yy, xx] - sky
+        m = epsf.copy()
+        m.x_0, m.y_0, m.flux = table["x_fit"][r], table["y_fit"][r], table["flux_fit"][r]
+        res, peak = stamp - m(xx, yy), float(stamp.max())
+        stars.append([float(x), float(y), peak, float(100 * np.sqrt(np.mean(res**2)) / peak)])
+        stamps.append(res.tolist())
+        norm.append(res / peak)
+    return {"stars": stars, "residuals": stamps, "quality": float(100 * np.sqrt(np.mean(np.square(norm))))}

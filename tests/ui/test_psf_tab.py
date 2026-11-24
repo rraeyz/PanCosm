@@ -72,3 +72,20 @@ def test_psf_tab_is_empty_without_a_psf_run(qtbot, run):
     assert tab.view.data is None
     tab.show_psf({"psf": {"epsf": None, "n_stars": 2, "oversampling": 2}})
     assert tab.view.data is None and "2" in tab.note.text()
+
+
+def test_psf_tab_lists_the_psf_stars_with_quality_and_residual(qtbot, run):
+    info = run["psf"]
+    tab = PsfTab()
+    qtbot.addWidget(tab)
+    tab.show_psf(run)
+    assert tab.stars.model.rowCount() == info["n_stars"] == len(info["stars"])
+    assert np.isfinite(info["quality"]) and f"{info['quality']:.2f}" in tab.note.text()
+    res = tab.residual.data
+    assert res.shape == (25, 25)
+    peak = info["stars"][0][2]
+    assert np.sqrt(np.mean(res**2)) < 0.02 * peak
+    tab.stars.row_chosen.emit(1)
+    assert np.allclose(tab.residual.data, info["residuals"][1])
+    tab.show_psf({"rel_flux": []})
+    assert tab.stars.model.rowCount() == 0 and tab.residual.data is None
