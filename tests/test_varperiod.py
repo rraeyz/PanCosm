@@ -65,9 +65,18 @@ def test_window_buttons_save_both_and_a_bad_folder_says_so(qtbot, tmp_path, monk
     varfind_export.attach(page)
     assert not page.export_table.isEnabled()
     page.result = result  # what show_result stores; its table needs the full step output
-    varfind_export.save_table(page, str(tmp_path / "c.csv"))
+    page.export_table.setEnabled(True)  # what the wrapped show_result does
+    from PySide6.QtWidgets import QFileDialog
+
+    monkeypatch.setattr(QFileDialog, "getSaveFileName", lambda *a: (str(tmp_path / "c.csv"), ""))
+    page.export_table.click()
     assert Table.read(tmp_path / "c.csv", format="ascii.csv")["star"][0] == 7
+    assert "c.csv" in page.status.text()
     assert len(varfind_export.save_curves(page, str(tmp_path))) == 1
     shown = []
     monkeypatch.setattr(QMessageBox, "warning", lambda *a: shown.append(a))
     assert varfind_export.save_table(page, str(tmp_path / "gone" / "c.csv")) is None and shown
+    periods = result["candidate_periods"]
+    page.result = {**result, "candidate_periods": {**periods, "period": list(periods["period"]) + [1.0]}}
+    assert varfind_export.save_table(page, str(tmp_path / "d.csv")) is None  # astropy's ValueError: in the status
+    assert not (tmp_path / "d.csv").exists() and "Saved" not in page.status.text()

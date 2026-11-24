@@ -253,8 +253,13 @@ Done (2026-11-21), catalogue neighbours and the banner: `photometry/neighbours.f
 measured star, brighter than target + 4 mag, the star's own match left out) and `ui/photometry_banner.neighbour_banner`
 (InfoBanner in the Measure stage after a measurement, from the Field stage's Gaia stars; the target's magnitude is the
 Gaia star on it, none: no banner; its button ticks "Remove neighbours"). Test: `tests/test_neighbours.py`.
-Left: the ePSF per frame in that path, the live path, the PSF tab's star list, quality number and residual image,
-error codes. Done (2026-11-21): the eclipse of the fainter star, `tests/test_psf.py::test_eclipse_of_the_fainter_star_of_a_pair` (30 % depth on the 1 : 3 pair: PSF 29.6 % within its error 0.4 %, aperture after removal 31.1 %, plain aperture 14 %).
+Done (2026-11-28), the PSF tab's star list, quality number and residual image: `psf.psf_quality` (called by
+`epsf_summary`: the PSF stars refitted with their ePSF, "stars" [x, y, peak, residual RMS % of the peak], "residuals"
+their 25 x 25 stamps minus the fit, "quality" the RMS of all stamps in % of their peaks, build 1's measure),
+`PsfTab` shows them (a TableView of the stars, the quality in the note, the chosen star's residual beside the ePSF).
+Test: `tests/ui/test_psf_tab.py::test_psf_tab_lists_the_psf_stars_with_quality_and_residual` (20 stars, quality
+0.8 %, a bright star's residual RMS 0.2 % of its peak). Left: the ePSF per frame in that path, the live path, click a
+PSF star to exclude it, the residual of the whole current frame, error codes. Done (2026-11-21): the eclipse of the fainter star, `tests/test_psf.py::test_eclipse_of_the_fainter_star_of_a_pair` (30 % depth on the 1 : 3 pair: PSF 29.6 % within its error 0.4 %, aperture after removal 31.1 %, plain aperture 14 %).
 - **Why:** aperture photometry of a target with a neighbour inside the aperture or the ring gives a wrong depth; our
   PSF path is a circular Gaussian only.
 - **Reference:** DAOPHOT (Stetson 1987, PASP 99, 191): analytic function plus an empirical look-up table of
@@ -786,9 +791,11 @@ and the exports: `photometry/varperiod.py`: `periods` (the GLS of `timeseries.me
 candidate; NaN below 10 frames or a 0.1 d span), `write_candidates` (CSV: position, magnitude, indices, flags, period, power),
 `write_light_curves` (one ECSV per candidate); the step `photometry.varfind` outputs `candidate_periods` and the
 table shows Period and Power. Test: tests/test_varperiod.py (sinusoid recovered within 1 %, exports read back).
-Left: catalogue stars measured (not only those detected), the buttons that call the two export functions (the
-page's `__init__` is at its size limit), the VSX / GCVS / Gaia cross-match, the small-multiples page, and the real
-crowded-field check.
+(2026-11-28) The window's two export buttons: `ui/varfind_export.py` (`attach` from `LightCurvePage`, enabled with a
+result; `save_table` / `save_curves` ask for the file / folder, "Saved n candidates to …" in the page's status, an
+OSError in a box, a ValueError in the status). Test: `test_window_buttons_save_both_and_a_bad_folder_says_so`.
+Left: catalogue stars measured (not only those detected), the VSX / GCVS / Gaia cross-match, the small-multiples
+page, and the real crowded-field check.
 - **Reference:** Muniwin "find variables" (magnitude–deviation diagram); Honeycutt 1992 full inhomogeneous ensemble
   solution; Welch & Stetson 1993 / Stetson 1996 indices J, K, L; von Neumann ratio; Sokolovsky et al. 2017 (MNRAS
   464, 274: comparison of 18 variability indices; best: IQR, 1/η, MAD, weighted σ); VaST software (description).

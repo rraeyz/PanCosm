@@ -4,7 +4,8 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QPushButton
 
 from ..photometry.varperiod import write_candidates, write_light_curves
-from .messages import guarded
+from .messages import save_failed
+from .messages import translate as message
 
 translate = QCoreApplication.translate
 
@@ -35,7 +36,7 @@ def save_table(page, path=None):
     if path is None:
         path, _ = QFileDialog.getSaveFileName(page, translate("VarFind", "Save the candidates"), "candidates.csv",
                                               "CSV (*.csv)")  # fmt: skip
-    return guarded(page, write_candidates, path, page.result) if path else None
+    return _write(page, write_candidates, path) if path else None
 
 
 def save_curves(page, folder=None):
@@ -43,4 +44,19 @@ def save_curves(page, folder=None):
         return None
     if folder is None:
         folder = QFileDialog.getExistingDirectory(page, translate("VarFind", "Folder for the light curves"))
-    return guarded(page, write_light_curves, folder, page.result) if folder else None
+    return _write(page, write_light_curves, folder) if folder else None
+
+
+def _write(page, write, target):
+    """write(target, result): an OSError in a box (save_failed), a ValueError (a result without candidates' periods)
+    and the outcome in the page's status; True, or the writer's paths, else None."""
+    try:
+        out = write(target, page.result)
+    except OSError as e:
+        return save_failed(page, e)
+    except ValueError as e:
+        page.status.setText(message(e))
+        return None
+    n = len(page.result["candidate_periods"]["star"])
+    page.status.setText(translate("VarFind", "Saved {n} candidates to {path}").format(n=n, path=target))
+    return True if out is None else out
