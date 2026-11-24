@@ -8,7 +8,7 @@ makes a built panel narrow-friendly without touching how each page builds it:
 - a row of two or more widgets wider than the limit flows onto the next line instead.
 """
 
-from PySide6.QtCore import QEvent, QObject, QPoint, QRect, QSize, Qt
+from PySide6.QtCore import QCoreApplication, QEvent, QObject, QPoint, QRect, QSize, Qt
 from PySide6.QtWidgets import (
     QBoxLayout,
     QButtonGroup,
@@ -169,6 +169,8 @@ def fit_width(root, limit):
     for box in root.findChildren(QComboBox):
         box.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         box.setMinimumContentsLength(10)
+        # Qt keeps a minimum size computed before (from the longest choice); a style change drops it
+        QCoreApplication.sendEvent(box, QEvent(QEvent.StyleChange))
     for box in [*root.findChildren(QCheckBox), *root.findChildren(QRadioButton)]:
         if box.text() and box.sizeHint().width() > limit:
             _wrap_check(box)

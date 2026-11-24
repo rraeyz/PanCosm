@@ -31,6 +31,8 @@ def test_name_to_folded_curve_in_four_clicks(walk):
     h.click("period_page.search_button")  # 2
     h.wait(lambda: getattr(pp, "periodogram", None) is not None)
     assert pp.best == pytest.approx(0.7, rel=0.01)
+    # the plots keep their room beside the stage panel and the inspector at this small size (they were a sliver)
+    assert pp.plot.width() >= 0.45 * h.window.width(), (pp.plot.width(), h.window.width())
     peaks = next(
         v for v in h.window.findChildren(TableView) if v.model.table is not None and "period" in v.model.table.colnames
     )

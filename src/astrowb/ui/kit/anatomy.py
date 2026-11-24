@@ -45,6 +45,7 @@ class Anatomy:
             if s.help:
                 panel.help_requested.connect(self.help_requested.emit)  # the stage's guide anchor
             fit_width(panel, 360)  # a stage never pushes past its dock (user-feedback UF-9, UF-10)
+            panel.width_changed.connect(lambda: self._fit_stage_dock())
             self.stage_panels[s.key] = panel
             self.stage_stack.addWidget(panel)
         holder = QWidget(self)
@@ -53,7 +54,6 @@ class Anatomy:
         row.setSpacing(0)
         row.addWidget(self.rail)
         row.addWidget(self.stage_stack, 1)
-        self.stage_stack.setMinimumWidth(440)  # the rows fit (fit_width) without scrolling sideways
         self.rail.stage_chosen.connect(self.show_stage)
         frame = QScrollArea(self)  # the stage panels scroll themselves; a frame as the pages have (a viewport)
         frame.setWidget(holder)
@@ -62,10 +62,14 @@ class Anatomy:
         frame.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         frame.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-        def fit_frame(_pinned=None):  # the dock keeps the rail and the stage's width: the rows never go under it
+        def fit_frame(_pinned=None):  # the dock keeps the rail and the current stage's rows (not the widest stage's)
+            panel = self.stage_stack.currentWidget()
+            self.stage_stack.setMinimumWidth(panel.minimumSizeHint().width() if panel is not None else 0)
             frame.setMinimumWidth(self.rail.width() + self.stage_stack.minimumWidth() + 4)
 
-        fit_frame()
+        self._fit_stage_dock = fit_frame
+        if self.width() < 1000:  # a small screen: the rail shows its marks, the names' room goes to the view
+            self.rail.pin.setChecked(False)
         self.rail.pinned_changed.connect(fit_frame)
         dock = self._dock("stages", self.tr("Stages"), frame, Qt.LeftDockWidgetArea)
         self._key_action(self.tr("Show or hide the stage panel"), "F9", lambda: dock.setVisible(not dock.isVisible()))
@@ -84,6 +88,7 @@ class Anatomy:
     def show_stage(self, key):
         self.rail.set_current(key)
         self.stage_stack.setCurrentWidget(self.stage_panels[key])
+        self._fit_stage_dock()
         self.docks["stages"].show()
         from .help import coach_mark
 
@@ -137,10 +142,21 @@ class Anatomy:
     def _docks_added(self):
         """The docks made after the window was built are part of "Reset layout" and get the saved layout, once
         the area has made them all (the first layout is what Reset goes back to, so it is taken before)."""
+        self._narrow_docks()
         self._first_state = self.saveState()
         if not getattr(self, "_restore_due", False):
             self._restore_due = True
             QTimer.singleShot(0, self._restore_docks)
+
+    def _narrow_docks(self):
+        """A window under 1000 px wide (a small screen) keeps the view at half of it or more: the inspector goes under
+        the stage panel, the stage dock takes its rows' width (beside both, the view was squeezed to a sliver)."""
+        stages, inspector = self.docks.get("stages"), self.docks.get("inspector")
+        if self.width() >= 1000 or stages is None:
+            return
+        if inspector is not None and self.dockWidgetArea(inspector) == Qt.RightDockWidgetArea:
+            self.splitDockWidget(stages, inspector, Qt.Vertical)
+        self.resizeDocks([stages], [stages.widget().minimumWidth()], Qt.Horizontal)
 
     def _restore_docks(self):
         self._restore_due = False

@@ -11,7 +11,7 @@ stage with a quiet ✓ and one needing attention with "!" after its name, the cu
 The panel's content scrolls; its status line and primary action stay in sight at the bottom.
 """
 
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import QEvent, Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
@@ -95,6 +95,7 @@ class StageRail(QWidget):
 
 class StagePanel(QWidget):
     help_requested = Signal(str)
+    width_changed = Signal()  # its rows need another width: the window fits the stage dock to the current stage
 
     def __init__(self, title, help=None, parent=None):  # noqa: A002 (the plan's name)
         super().__init__(parent)
@@ -122,6 +123,8 @@ class StagePanel(QWidget):
         self.body.addStretch(1)
         scroll.setWidget(inner)
         lay.addWidget(scroll, 1)
+        self.scroll = scroll
+        inner.installEventFilter(self)  # the rows' width, with room for the scroll bar: they never go under the edge
         self.status = QLabel(self)
         self.status.setProperty("muted", True)
         self.status.setWordWrap(True)
@@ -129,6 +132,14 @@ class StagePanel(QWidget):
         self.bottom = QVBoxLayout()
         lay.addLayout(self.bottom)
         self.primary = None
+
+    def eventFilter(self, obj, event):  # noqa: N802 (Qt's name)
+        if event.type() == QEvent.LayoutRequest and obj is self.scroll.widget():
+            need = obj.minimumSizeHint().width() + self.scroll.verticalScrollBar().sizeHint().width()
+            if need != self.scroll.minimumWidth():
+                self.scroll.setMinimumWidth(need)
+                self.width_changed.emit()
+        return False
 
     def add(self, widget):
         """Add a widget to the scrolling content (above the stretch). A page that scrolls itself takes the whole
