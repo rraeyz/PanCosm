@@ -11,7 +11,7 @@ Keys: F9 the stage panel, F10 the inspector, F11 the results, Ctrl+1 … Ctrl+9 
 
 from dataclasses import dataclass
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import QEvent, QObject, Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QHBoxLayout, QScrollArea, QStackedWidget, QWidget
 
@@ -27,6 +27,15 @@ class Stage:
     panel: object  # a StagePanel, or any widget (wrapped in one)
     help: str | None = None
     hint: str | None = None  # a coach mark the first time the stage is opened (kit/help.coach_mark)
+
+
+class _WidthWatch(QObject):
+    """Calls the window's _fit_to_width on each resize (the window class keeps its own eventFilter)."""
+
+    def eventFilter(self, obj, event):  # noqa: N802 (Qt's name)
+        if event.type() == QEvent.Resize:
+            obj._fit_to_width()
+        return False
 
 
 class Anatomy:
@@ -65,12 +74,13 @@ class Anatomy:
 
         def fit_frame(_pinned=None):  # the dock keeps the rail and the current stage's rows (not the widest stage's)
             panel = self.stage_stack.currentWidget()
-            self.stage_stack.setMinimumWidth(panel.minimumSizeHint().width() if panel is not None else 0)
+            need = panel.minimumSizeHint().width() if panel is not None else 0
+            # 440: wrapped and elided rows keep their room (cut texts); a small screen gives the view that room
+            self.stage_stack.setMinimumWidth(max(need, 440 if self.width() >= 1000 else 0))
             frame.setMinimumWidth(self.rail.width() + self.stage_stack.minimumWidth() + 4)
 
         self._fit_stage_dock = fit_frame
-        if self.width() < 1000:  # a small screen: the rail shows its marks, the names' room goes to the view
-            self.rail.pin.setChecked(False)
+        self.installEventFilter(_WidthWatch(self))
         self.rail.pinned_changed.connect(fit_frame)
         dock = self._dock("stages", self.tr("Stages"), frame, Qt.LeftDockWidgetArea)
         self._key_action(self.tr("Show or hide the stage panel"), "F9", lambda: dock.setVisible(not dock.isVisible()))
@@ -143,21 +153,31 @@ class Anatomy:
     def _docks_added(self):
         """The docks made after the window was built are part of "Reset layout" and get the saved layout, once
         the area has made them all (the first layout is what Reset goes back to, so it is taken before)."""
-        self._narrow_docks()
+        self._narrow = False  # docks made just now: a small window places them too
+        self._fit_to_width()
         self._first_state = self.saveState()
         if not getattr(self, "_restore_due", False):
             self._restore_due = True
             QTimer.singleShot(0, self._restore_docks)
 
-    def _narrow_docks(self):
-        """A window under 1000 px wide (a small screen) keeps the view at half of it or more: the inspector goes under
-        the stage panel, the stage dock takes its rows' width (beside both, the view was squeezed to a sliver)."""
+    def _fit_to_width(self):
+        """A window under 1000 px wide (a small screen) keeps the view at half of it or more: the rail shows its
+        marks, the inspector goes under the stage panel, the stage dock takes its rows' width (beside both, the view
+        was squeezed to a sliver); widened again, the window goes back. Followed on every resize: a window is built
+        and first shown at a default size."""
         stages, inspector = self.docks.get("stages"), self.docks.get("inspector")
-        if self.width() >= 1000 or stages is None:
+        narrow = self.width() < 1000
+        if stages is None or narrow == getattr(self, "_narrow", False):
             return
-        if inspector is not None and self.dockWidgetArea(inspector) == Qt.RightDockWidgetArea:
+        self._narrow = narrow
+        self.rail.pin.setChecked(not narrow)
+        if inspector is not None and narrow and self.dockWidgetArea(inspector) == Qt.RightDockWidgetArea:
             self.splitDockWidget(stages, inspector, Qt.Vertical)
-        self.resizeDocks([stages], [stages.widget().minimumWidth()], Qt.Horizontal)
+        elif inspector is not None and not narrow and self.dockWidgetArea(inspector) == Qt.LeftDockWidgetArea:
+            self.addDockWidget(Qt.RightDockWidgetArea, inspector)
+        self._fit_stage_dock()
+        if narrow:
+            self.resizeDocks([stages], [stages.widget().minimumWidth()], Qt.Horizontal)
 
     def _restore_docks(self):
         self._restore_due = False
