@@ -864,7 +864,10 @@ pixels outside the mask, per cadence), `sap`, `pld` (principal components of the
 products, the signal's frames left out of the fit), `centroids`, `centroid_shift` (in − out of transit, with its
 error). Tests (tests/test_pixels.py): on a jittering 15 × 15 stamp the drifting sky is followed, PLD brings a tight
 aperture down to its photon noise and keeps a 1 % transit; a neighbour's eclipse moves the centroid at > 5σ, a quiet
-stamp does not. Left: MAST / TESScut look-up and download, the mask editor and Gaia overlay with contamination,
+stamp does not. (2026-11-28) TESScut: `services/mast.tess_sectors` (the sectors, camera, CCD covering a target,
+kept a day) and `tess_cutout` (size × size cut-outs, one pixel file per sector or the chosen one; kept, fetched again
+when the files are gone), step `photometry.tesscut` (images, sectors); tests/test_tesscut.py with the client answered
+in the test. Left: the Images-stage target field (UI), the SPOC pixel-file look-up, the mask editor and Gaia overlay with contamination,
 scattered-light flags, quality bitmasks, sector stitching, the real WASP-12 / AI Dra checks and the speed target.
 - **Reference:** lightkurve (MIT; may be read freely and its algorithms reimplemented or the ideas used):
   `TargetPixelFile.interact`, custom and threshold aperture masks, `estimate_background`, `PLDCorrector`, `flatten`

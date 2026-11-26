@@ -331,6 +331,24 @@ parameters (default):
   rules = null  (object)  Comparison-star rules: The rules' settings; each star left out is given its reason (with a field)
 ```
 
+## photometry.tesscut
+
+```text
+photometry.tesscut  (Download TESS full-frame cut-outs)
+
+TESScut cut-outs around a target (name or 'RA Dec'), one pixel file per sector (needs the internet).
+
+inputs:      target, cache
+outputs:     images, sectors
+  target  (text)  Target
+  cache  (new_folder)  Folder for downloaded files
+  images  (files)  Images
+  sectors  (object)  TESS sectors (camera, CCD)
+parameters (default):
+  size = 15  (int, px, >= 1)  Cut-out size: Side of the square cut out of the full-frame images, in TESS pixels
+  sector = 0  (int, >= 0)  Sector: 0: every sector that observed the target
+```
+
 ## photometry.transformation
 
 ```text

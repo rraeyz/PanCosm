@@ -152,6 +152,7 @@ OUTPUTS = {
     "rgb": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Colour image")),
     "rms": IO("object", QT_TRANSLATE_NOOP("Steps", "Scatter of the residuals")),
     "rvs": IO("object", QT_TRANSLATE_NOOP("Steps", "Radial velocities")),
+    "sectors": IO("object", QT_TRANSLATE_NOOP("Steps", "TESS sectors (camera, CCD)")),
     "skipped": IO("object", QT_TRANSLATE_NOOP("Steps", "Spectra left out")),
     "solved": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Plate-solved image")),
     "stack": IO("new_file", QT_TRANSLATE_NOOP("Steps", "Stacked image")),

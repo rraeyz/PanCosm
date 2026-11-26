@@ -27,6 +27,7 @@ TITLES = {
     "photometry.light_curve": QT_TRANSLATE_NOOP("Steps", "Measure the light curve"),
     "photometry.multifilter": QT_TRANSLATE_NOOP("Steps", "Measure every filter and the colour index"),
     "photometry.afrho": QT_TRANSLATE_NOOP("Steps", "Comet Afρ"),
+    "photometry.tesscut": QT_TRANSLATE_NOOP("Steps", "Download TESS full-frame cut-outs"),
     "photometry.isophotes": QT_TRANSLATE_NOOP("Steps", "Isophotes (surface brightness profile)"),
     "photometry.compare_minimum_methods": QT_TRANSLATE_NOOP("Steps", "Compare timing methods"),
     "photometry.polarimetry": QT_TRANSLATE_NOOP("Steps", "Polarimetry"),

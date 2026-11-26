@@ -1556,6 +1556,41 @@
       "if": {
        "properties": {
         "step": {
+         "const": "photometry.tesscut"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "params": {
+         "type": "object",
+         "properties": {
+          "size": {
+           "description": "Cut-out size (px): Side of the square cut out of the full-frame images, in TESS pixels",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 1
+          },
+          "sector": {
+           "description": "Sector: 0: every sector that observed the target",
+           "type": [
+            "integer",
+            "null"
+           ],
+           "minimum": 0
+          }
+         },
+         "additionalProperties": false
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "step": {
          "const": "photometry.transformation"
         }
        }
@@ -3046,6 +3081,7 @@
        "photometry.quality",
        "photometry.save_light_curve",
        "photometry.suggest_comparisons",
+       "photometry.tesscut",
        "photometry.transformation",
        "photometry.transit_fit",
        "photometry.varfind",

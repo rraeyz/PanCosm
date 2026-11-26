@@ -827,4 +827,5 @@ from . import (  # noqa: E402, F401  (register steps)
     fit_steps,
     isophote_step,
     polarimetry_step,
+    tesscut_step,
 )

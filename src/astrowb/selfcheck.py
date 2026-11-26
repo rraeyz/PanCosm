@@ -252,7 +252,8 @@ def online():
     def mast():
         from .services import mast
 
-        return f"{mast.count('HAT-P-32', 'TESS')} TESS observations"
+        sectors = len(mast.tess_sectors("HAT-P-32"))
+        return f"{mast.count('HAT-P-32', 'TESS')} TESS observations, {sectors} TESScut sectors"
 
     def iers():
         from .core import earth_orientation
