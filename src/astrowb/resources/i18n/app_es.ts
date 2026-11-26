@@ -553,52 +553,52 @@
 <context>
     <name>Anatomy</name>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="86"/>
+        <location filename="../../ui/kit/anatomy.py" line="89"/>
         <source>Stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="87"/>
+        <location filename="../../ui/kit/anatomy.py" line="90"/>
         <source>Show or hide the stage panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="93"/>
+        <location filename="../../ui/kit/anatomy.py" line="96"/>
         <source>Run the stage&apos;s main action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="119"/>
+        <location filename="../../ui/kit/anatomy.py" line="122"/>
         <source>This stage has no main action to run now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="130"/>
+        <location filename="../../ui/kit/anatomy.py" line="133"/>
         <source>Inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="131"/>
+        <location filename="../../ui/kit/anatomy.py" line="134"/>
         <source>Show or hide the inspector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="141"/>
+        <location filename="../../ui/kit/anatomy.py" line="144"/>
         <source>Show or hide the results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="142"/>
+        <location filename="../../ui/kit/anatomy.py" line="145"/>
         <source>Next result tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="152"/>
+        <location filename="../../ui/kit/anatomy.py" line="155"/>
         <source>{title} (out of date)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/anatomy.py" line="226"/>
+        <location filename="../../ui/kit/anatomy.py" line="231"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16722,47 +16722,62 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>PhotometryPsf</name>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="18"/>
+        <location filename="../../ui/photometry_psf.py" line="19"/>
         <source>PSF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="27"/>
+        <location filename="../../ui/photometry_psf.py" line="31"/>
         <source>Measure with PSF photometry to see the PSF.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="29"/>
+        <location filename="../../ui/photometry_psf.py" line="33"/>
         <source>Choose a PSF star to see its residual.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="30"/>
+        <location filename="../../ui/photometry_psf.py" line="34"/>
         <source>The chosen star&apos;s stamp minus the fitted PSF.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="67"/>
+        <location filename="../../ui/photometry_psf.py" line="38"/>
+        <source>Leave out this star</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_psf.py" line="39"/>
+        <source>Build the PSF again without the chosen star.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_psf.py" line="41"/>
+        <source>Use all stars again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_psf.py" line="93"/>
         <source>No PSF run yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="72"/>
+        <location filename="../../ui/photometry_psf.py" line="98"/>
         <source>Too few isolated stars for a PSF picture: {n} found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="78"/>
+        <location filename="../../ui/photometry_psf.py" line="104"/>
         <source>Effective PSF of {n} stars, oversampled {k} times.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="82"/>
+        <location filename="../../ui/photometry_psf.py" line="108"/>
         <source>Quality: residual {q:.2f} % of the peak.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_psf.py" line="86"/>
+        <location filename="../../ui/photometry_psf.py" line="112"/>
         <source>The RMS of the PSF stars&apos; stamps minus the fitted PSF, in per cent of each star&apos;s peak: smaller is a better PSF.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21948,7 +21963,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="767"/>
+        <location filename="../../photometry/steps.py" line="769"/>
         <location filename="../../timeseries/steps.py" line="133"/>
         <source>Band</source>
         <translation>Banda</translation>
@@ -21969,7 +21984,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="634"/>
+        <location filename="../../photometry/steps.py" line="636"/>
         <location filename="../../timeseries/steps.py" line="177"/>
         <source>Reference T0</source>
         <translation>T0 de referencia</translation>
@@ -21980,57 +21995,57 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="582"/>
+        <location filename="../../photometry/steps.py" line="584"/>
         <source>Most stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="583"/>
+        <location filename="../../photometry/steps.py" line="585"/>
         <source>The brightest stars of the field that are measured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="590"/>
-        <location filename="../../photometry/steps.py" line="622"/>
-        <location filename="../../photometry/steps.py" line="662"/>
+        <location filename="../../photometry/steps.py" line="592"/>
+        <location filename="../../photometry/steps.py" line="624"/>
+        <location filename="../../photometry/steps.py" line="664"/>
         <location filename="../../spectroscopy/step_params.py" line="75"/>
         <location filename="../../spectroscopy/step_params.py" line="152"/>
         <source>Method</source>
         <translation>Método</translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="591"/>
+        <location filename="../../photometry/steps.py" line="593"/>
         <source>Aperture photometry, or PSF fitting for crowded fields</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="598"/>
+        <location filename="../../photometry/steps.py" line="600"/>
         <source>Threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="599"/>
+        <location filename="../../photometry/steps.py" line="601"/>
         <source>How many times its expected scatter a star must vary to be listed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="609"/>
+        <location filename="../../photometry/steps.py" line="611"/>
         <source>Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="610"/>
+        <location filename="../../photometry/steps.py" line="612"/>
         <source>snr: the radius of the best signal-to-noise; aij: AstroImageJ&apos;s, from the FWHM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="635"/>
+        <location filename="../../photometry/steps.py" line="637"/>
         <source>With the period: every eclipse in the curve gets its own time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="27"/>
-        <location filename="../../photometry/steps.py" line="643"/>
+        <location filename="../../photometry/steps.py" line="645"/>
         <location filename="../../timeseries/steps.py" line="186"/>
         <source>Period</source>
         <translation type="unfinished"></translation>
@@ -22209,142 +22224,142 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="644"/>
+        <location filename="../../photometry/steps.py" line="646"/>
         <location filename="../../timeseries/steps.py" line="187"/>
         <source>Period of the ephemeris used to count the cycles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/fit_steps.py" line="46"/>
-        <location filename="../../photometry/steps.py" line="650"/>
+        <location filename="../../photometry/steps.py" line="652"/>
         <source>Detrend against</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="651"/>
+        <location filename="../../photometry/steps.py" line="653"/>
         <source>Airmass, sky, position… fitted with the transit (trapezoid only)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="52"/>
-        <location filename="../../photometry/steps.py" line="675"/>
+        <location filename="../../photometry/steps.py" line="677"/>
         <source>Shortest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="676"/>
+        <location filename="../../photometry/steps.py" line="678"/>
         <source>The search starts here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../engine/step_params.py" line="61"/>
-        <location filename="../../photometry/steps.py" line="684"/>
+        <location filename="../../photometry/steps.py" line="686"/>
         <source>Longest period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="685"/>
+        <location filename="../../photometry/steps.py" line="687"/>
         <source>Empty: half the time span</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../photometry/measure_params.py" line="31"/>
-        <location filename="../../photometry/steps.py" line="696"/>
+        <location filename="../../photometry/steps.py" line="698"/>
         <source>Outer sky radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="417"/>
+        <location filename="../../photometry/steps.py" line="419"/>
         <source>Ask the catalogues again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="418"/>
+        <location filename="../../photometry/steps.py" line="420"/>
         <source>Not the answers saved from an earlier look-up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="697"/>
+        <location filename="../../photometry/steps.py" line="699"/>
         <source>No other star may fall inside it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="705"/>
+        <location filename="../../photometry/steps.py" line="707"/>
         <source>Comparison stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="706"/>
+        <location filename="../../photometry/steps.py" line="708"/>
         <source>How many to suggest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="723"/>
+        <location filename="../../photometry/steps.py" line="725"/>
         <source>FWHM limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="724"/>
+        <location filename="../../photometry/steps.py" line="726"/>
         <source>A frame whose FWHM exceeds this times the median is bad (focus, trails)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="732"/>
+        <location filename="../../photometry/steps.py" line="734"/>
         <source>Star fraction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="733"/>
+        <location filename="../../photometry/steps.py" line="735"/>
         <source>A frame that finds fewer than this share of the stars is bad (clouds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="740"/>
+        <location filename="../../photometry/steps.py" line="742"/>
         <source>Sky limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="741"/>
+        <location filename="../../photometry/steps.py" line="743"/>
         <source>A frame whose sky exceeds this times the median is bad (Moon, twilight)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="750"/>
+        <location filename="../../photometry/steps.py" line="752"/>
         <source>First band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="751"/>
+        <location filename="../../photometry/steps.py" line="753"/>
         <source>The filter of the first image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="757"/>
+        <location filename="../../photometry/steps.py" line="759"/>
         <source>Second band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="758"/>
+        <location filename="../../photometry/steps.py" line="760"/>
         <source>The filter of the second image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="768"/>
+        <location filename="../../photometry/steps.py" line="770"/>
         <source>The band of the standard magnitudes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="776"/>
+        <location filename="../../photometry/steps.py" line="778"/>
         <source>auto: Gaia GSPC, APASS, Gaia colours; apass: APASS first; aavso: the field&apos;s AAVSO sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="788"/>
+        <location filename="../../photometry/steps.py" line="790"/>
         <source>Mission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="789"/>
+        <location filename="../../photometry/steps.py" line="791"/>
         <source>The space telescope whose light curves are fetched</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22461,7 +22476,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../engine/io.py" line="42"/>
-        <location filename="../../photometry/steps.py" line="795"/>
+        <location filename="../../photometry/steps.py" line="797"/>
         <source>Flux</source>
         <translation>Flujo</translation>
     </message>
@@ -22946,32 +22961,32 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="623"/>
+        <location filename="../../photometry/steps.py" line="625"/>
         <source>Kwee–van Woerden for eclipses, a trapezoid for transits; or Mikulášek&apos;s eclipse model, a Gaussian, a Lorentzian, the bisector or a polynomial (each with its three errors)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="663"/>
+        <location filename="../../photometry/steps.py" line="665"/>
         <source>Pulsators: Lomb–Scargle or the generalised one; transits: box least squares; eclipsing binaries: multi-harmonic AoV, phase dispersion or string length; sparse survey data: conditional entropy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="712"/>
+        <location filename="../../photometry/steps.py" line="714"/>
         <source>Comparison-star rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="713"/>
+        <location filename="../../photometry/steps.py" line="715"/>
         <source>The rules&apos; settings; each star left out is given its reason (with a field)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="775"/>
+        <location filename="../../photometry/steps.py" line="777"/>
         <source>Magnitudes from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="796"/>
+        <location filename="../../photometry/steps.py" line="798"/>
         <source>PDCSAP: corrected for the spacecraft; SAP: as measured</source>
         <translation type="unfinished"></translation>
     </message>
@@ -23045,182 +23060,192 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../photometry/measure_params.py" line="68"/>
+        <source>Stars left out of the PSF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../photometry/measure_params.py" line="70"/>
+        <source>Positions [x, y] on the reference frame; a PSF star within 2 px is not used</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../photometry/measure_params.py" line="78"/>
         <source>Combine frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="71"/>
+        <location filename="../../photometry/measure_params.py" line="79"/>
         <source>Faint targets: groups of this many frames aligned and added before measuring; 1: each frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="79"/>
+        <location filename="../../photometry/measure_params.py" line="87"/>
         <source>Stars that place the frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="80"/>
+        <location filename="../../photometry/measure_params.py" line="88"/>
         <source>Picked on the first frame; empty: the frames are placed automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="87"/>
+        <location filename="../../photometry/measure_params.py" line="95"/>
         <source>Centring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="88"/>
+        <location filename="../../photometry/measure_params.py" line="96"/>
         <source>How each star is centred on every frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="96"/>
+        <location filename="../../photometry/measure_params.py" line="104"/>
         <source>Centring box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="97"/>
+        <location filename="../../photometry/measure_params.py" line="105"/>
         <source>Width of the box a star is centred in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="105"/>
+        <location filename="../../photometry/measure_params.py" line="113"/>
         <source>Largest centring move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="106"/>
+        <location filename="../../photometry/measure_params.py" line="114"/>
         <source>A centroid farther than this from the predicted place is not used</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="112"/>
+        <location filename="../../photometry/measure_params.py" line="120"/>
         <source>Aperture shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="113"/>
+        <location filename="../../photometry/measure_params.py" line="121"/>
         <source>Empty: circles; {&quot;kind&quot;: &quot;ellipse&quot;, &quot;ratio&quot;, &quot;angle&quot;} or {&quot;kind&quot;: &quot;racetrack&quot;, &quot;length&quot;, &quot;angle&quot;} for stretched or trailed stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="124"/>
+        <location filename="../../photometry/measure_params.py" line="132"/>
         <source>Look for trails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="125"/>
+        <location filename="../../photometry/measure_params.py" line="133"/>
         <source>Flag the frames where a satellite or aircraft trail crosses an aperture (2-3 s more per 2k frame)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="134"/>
+        <location filename="../../photometry/measure_params.py" line="142"/>
         <source>Remove neighbours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="135"/>
+        <location filename="../../photometry/measure_params.py" line="143"/>
         <source>Stars near the measured ones are fitted and subtracted before the apertures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="141"/>
+        <location filename="../../photometry/measure_params.py" line="149"/>
         <source>Mask catalogue stars in the sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="142"/>
+        <location filename="../../photometry/measure_params.py" line="150"/>
         <source>The field&apos;s Gaia stars down to 7 mag fainter than the target are left out of every sky ring (needs the identified field)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="154"/>
+        <location filename="../../photometry/measure_params.py" line="162"/>
         <source>Telescope aperture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="155"/>
+        <location filename="../../photometry/measure_params.py" line="163"/>
         <source>For the scintillation noise (Young 1967); empty: left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="162"/>
+        <location filename="../../photometry/measure_params.py" line="170"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="164"/>
+        <location filename="../../photometry/measure_params.py" line="172"/>
         <source>Read noise, dark current and linearity when the header lacks them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="171"/>
+        <location filename="../../photometry/measure_params.py" line="179"/>
         <source>Sky</source>
         <translation>Cielo</translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="172"/>
+        <location filename="../../photometry/measure_params.py" line="180"/>
         <source>How the sky level is read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="178"/>
+        <location filename="../../photometry/measure_params.py" line="186"/>
         <source>Fixed positions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="180"/>
+        <location filename="../../photometry/measure_params.py" line="188"/>
         <source>Stars measured where marked, not re-centred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="187"/>
+        <location filename="../../photometry/measure_params.py" line="195"/>
         <source>Header time marks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="188"/>
+        <location filename="../../photometry/measure_params.py" line="196"/>
         <source>What the header&apos;s time marks: the start, middle or end of the exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="195"/>
+        <location filename="../../photometry/measure_params.py" line="203"/>
         <source>Shutter delay</source>
         <translation>Retardo del obturador</translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="197"/>
+        <location filename="../../photometry/measure_params.py" line="205"/>
         <source>Added to the header time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="203"/>
+        <location filename="../../photometry/measure_params.py" line="211"/>
         <source>Other radii</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/measure_params.py" line="205"/>
+        <location filename="../../photometry/measure_params.py" line="213"/>
         <source>More aperture radii measured at the same time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="808"/>
+        <location filename="../../photometry/steps.py" line="810"/>
         <source>Colour coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="809"/>
+        <location filename="../../photometry/steps.py" line="811"/>
         <source>T_ab of the transformation; with the comparison colour, a standard colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="816"/>
+        <location filename="../../photometry/steps.py" line="818"/>
         <source>Comparison colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../photometry/steps.py" line="817"/>
+        <location filename="../../photometry/steps.py" line="819"/>
         <source>The comparison ensemble&apos;s catalogue colour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -24675,27 +24700,47 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>VarFind</name>
     <message>
-        <location filename="../../ui/varfind_export.py" line="16"/>
+        <location filename="../../ui/varfind_export.py" line="18"/>
+        <source>Look up known variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="19"/>
+        <source>Solves the first frame and names the candidates found in VSX, GCVS and Gaia DR3 within 5″ (needs the network)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="24"/>
         <source>Save the candidates (.csv)…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_export.py" line="17"/>
+        <location filename="../../ui/varfind_export.py" line="25"/>
         <source>Save their light curves (.ecsv)…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_export.py" line="37"/>
+        <location filename="../../ui/varfind_export.py" line="44"/>
+        <source>Looking up known variables (Gaia, VSX, GCVS)…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="62"/>
+        <source>{n} of {m} candidates are known variables.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_export.py" line="70"/>
         <source>Save the candidates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_export.py" line="46"/>
+        <location filename="../../ui/varfind_export.py" line="79"/>
         <source>Folder for the light curves</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_export.py" line="61"/>
+        <location filename="../../ui/varfind_export.py" line="94"/>
         <source>Saved {n} candidates to {path}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -24703,226 +24748,251 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>VarFindPage</name>
     <message>
-        <location filename="../../ui/varfind_page.py" line="45"/>
+        <location filename="../../ui/varfind_page.py" line="47"/>
         <source>Choose calibrated frames of one field</source>
         <translation>Elija cuadros calibrados de un mismo campo</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="46"/>
+        <location filename="../../ui/varfind_page.py" line="48"/>
         <source>Press Choose frames…; the stars are found on the first frame.</source>
         <translation>Pulse Elegir cuadros…; las estrellas se buscan en el primer cuadro.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="49"/>
+        <location filename="../../ui/varfind_page.py" line="51"/>
         <source>Search for variables: each star&apos;s scatter against stars of its brightness</source>
         <translation>Busque variables: la dispersión de cada estrella frente a estrellas de su brillo</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="50"/>
+        <location filename="../../ui/varfind_page.py" line="52"/>
         <source>Press Search for variables.</source>
         <translation>Pulse Buscar variables.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="53"/>
+        <location filename="../../ui/varfind_page.py" line="55"/>
         <source>Check the candidates</source>
         <translation>Revise los candidatos</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="55"/>
+        <location filename="../../ui/varfind_page.py" line="57"/>
         <source>Click a candidate in the plot to see its light curve: a real variable changes smoothly; a star that jumps at one frame or lies at the edge is a measuring problem.</source>
         <translation>Haga clic en un candidato en el gráfico para ver su curva de luz: una variable real cambia suavemente; una estrella que salta en un cuadro o está en el borde es un problema de medida.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="59"/>
+        <location filename="../../ui/varfind_page.py" line="61"/>
         <source>Find its period</source>
         <translation>Halle su período</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="59"/>
+        <location filename="../../ui/varfind_page.py" line="61"/>
         <source>Press Send this star to Period search.</source>
         <translation>Pulse Enviar esta estrella a Búsqueda de periodo.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="64"/>
+        <location filename="../../ui/varfind_page.py" line="66"/>
         <source>Stars that scatter more than others of their brightness are candidates. Use calibrated frames.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="67"/>
+        <location filename="../../ui/varfind_page.py" line="69"/>
         <source>Choose frames…</source>
         <translation>Elegir cuadros…</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="69"/>
+        <location filename="../../ui/varfind_page.py" line="71"/>
         <source>Frames</source>
         <translation>Cuadros</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="71"/>
+        <location filename="../../ui/varfind_page.py" line="73"/>
         <source>The calibrated frames of one field, taken over a night or more</source>
         <translation>Los fotogramas calibrados de un campo, tomados durante una noche o más</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="73"/>
+        <location filename="../../ui/varfind_page.py" line="75"/>
         <source>No frames.</source>
         <translation>Ningún cuadro.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="77"/>
+        <location filename="../../ui/varfind_page.py" line="79"/>
         <source>Aperture photometry</source>
         <translation>Fotometría de apertura</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="78"/>
+        <location filename="../../ui/varfind_page.py" line="80"/>
         <source>PSF photometry (crowded fields)</source>
         <translation>Fotometría PSF (campos densos)</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="80"/>
+        <location filename="../../ui/varfind_page.py" line="82"/>
         <source>Aperture photometry for most fields; PSF photometry where the stars overlap (slower)</source>
         <translation>Fotometría de apertura para la mayoría de los campos; fotometría PSF donde las estrellas se solapan (más lenta)</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="86"/>
+        <location filename="../../ui/varfind_page.py" line="88"/>
         <source>How many of the brightest stars in the field are measured; more stars take longer</source>
         <translation>Cuántas de las estrellas más brillantes del campo se miden; más estrellas tardan más</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="91"/>
+        <location filename="../../ui/varfind_page.py" line="93"/>
         <source>How far above the typical scatter (in its own spread) a candidate must be</source>
         <translation>Cuánto por encima de la dispersión típica (en su propia dispersión) debe estar una candidata</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="92"/>
+        <location filename="../../ui/varfind_page.py" line="94"/>
         <source>Photometry</source>
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="93"/>
+        <location filename="../../ui/varfind_page.py" line="95"/>
         <source>Brightest stars to measure</source>
         <translation>Estrellas más brillantes a medir</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="94"/>
+        <location filename="../../ui/varfind_page.py" line="96"/>
         <source>Candidate threshold (σ)</source>
         <translation>Umbral de candidata (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="96"/>
+        <location filename="../../ui/varfind_page.py" line="98"/>
         <source>Search for variables</source>
         <translation>Buscar variables</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="101"/>
+        <location filename="../../ui/varfind_page.py" line="103"/>
         <source>Measures every star in every frame against all the others and lists those that vary more than stars of the same brightness</source>
         <translation>Mide cada estrella en cada fotograma frente a todas las demás y lista las que varían más que las estrellas del mismo brillo</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="128"/>
+        <location filename="../../ui/varfind_page.py" line="131"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="129"/>
+        <location filename="../../ui/varfind_page.py" line="132"/>
         <source>y</source>
         <translation>y</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="130"/>
-        <location filename="../../ui/varfind_page.py" line="204"/>
-        <location filename="../../ui/varfind_page.py" line="205"/>
+        <location filename="../../ui/varfind_page.py" line="133"/>
+        <location filename="../../ui/varfind_page.py" line="214"/>
+        <location filename="../../ui/varfind_page.py" line="215"/>
         <source>Magnitude</source>
         <translation>Magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="131"/>
-        <location filename="../../ui/varfind_page.py" line="206"/>
+        <location filename="../../ui/varfind_page.py" line="134"/>
+        <location filename="../../ui/varfind_page.py" line="216"/>
         <source>rms (mag)</source>
         <translation>rms (mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="132"/>
+        <location filename="../../ui/varfind_page.py" line="135"/>
         <source>Index</source>
         <translation>Índice</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="133"/>
+        <location filename="../../ui/varfind_page.py" line="136"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="134"/>
+        <location filename="../../ui/varfind_page.py" line="137"/>
         <source>Period (d)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="135"/>
+        <location filename="../../ui/varfind_page.py" line="138"/>
         <source>Power</source>
         <translation type="unfinished">Potencia</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="141"/>
+        <location filename="../../ui/varfind_page.py" line="144"/>
         <source>How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="114"/>
+        <location filename="../../ui/varfind_page.py" line="116"/>
         <source>Send this star to Period search</source>
         <translation>Enviar esta estrella a Búsqueda de periodo</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="117"/>
+        <location filename="../../ui/varfind_page.py" line="119"/>
         <source>The chosen star&apos;s light curve goes to the Period search tab</source>
         <translation>La curva de luz de la estrella elegida pasa a la pestaña Búsqueda de períodos</translation>
     </message>
     <message>
+        <location filename="../../ui/varfind_page.py" line="148"/>
+        <source>VSX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="148"/>
+        <source>Type</source>
+        <translation type="unfinished">Tipo</translation>
+    </message>
+    <message>
         <location filename="../../ui/varfind_page.py" line="149"/>
+        <source>VSX period (d)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="149"/>
+        <source>GCVS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="150"/>
+        <source>Gaia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/varfind_page.py" line="158"/>
         <source>{n} frames</source>
         <translation>{n} cuadros</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="156"/>
+        <location filename="../../ui/varfind_page.py" line="165"/>
         <source>Measuring every star…</source>
         <translation>Midiendo todas las estrellas…</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="182"/>
+        <location filename="../../ui/varfind_page.py" line="192"/>
         <source>{n} stars measured, {m} candidates.</source>
         <translation>{n} estrellas medidas, {m} candidatas.</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="194"/>
-        <location filename="../../ui/varfind_page.py" line="214"/>
+        <location filename="../../ui/varfind_page.py" line="204"/>
+        <location filename="../../ui/varfind_page.py" line="224"/>
         <source>stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="196"/>
+        <location filename="../../ui/varfind_page.py" line="206"/>
         <source>candidates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="197"/>
+        <location filename="../../ui/varfind_page.py" line="207"/>
         <source>typical rms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="201"/>
+        <location filename="../../ui/varfind_page.py" line="211"/>
         <source>chosen star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="206"/>
+        <location filename="../../ui/varfind_page.py" line="216"/>
         <source>Instrumental magnitude</source>
         <translation>Magnitud instrumental</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="205"/>
+        <location filename="../../ui/varfind_page.py" line="215"/>
         <source>JD − {d:.0f}</source>
         <translation>JD − {d:.0f}</translation>
     </message>
     <message>
-        <location filename="../../ui/varfind_page.py" line="228"/>
+        <location filename="../../ui/varfind_page.py" line="238"/>
         <source>star at x={x:.0f} y={y:.0f}</source>
         <translation>estrella en x={x:.0f} y={y:.0f}</translation>
     </message>

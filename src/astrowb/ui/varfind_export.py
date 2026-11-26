@@ -3,7 +3,8 @@
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QPushButton
 
-from ..photometry.varperiod import write_candidates, write_light_curves
+from .. import timing
+from ..photometry.varperiod import known_variables, write_candidates, write_light_curves
 from .messages import save_failed
 from .messages import translate as message
 
@@ -11,11 +12,18 @@ translate = QCoreApplication.translate
 
 
 def attach(page):
-    """Two buttons under the candidates table, enabled once a search has a result."""
+    """Three buttons under the candidates table, enabled once a search has a result: the known-variable look-up
+    (the only one that goes to the network, on request) and the two exports."""
     lay = page.send.parentWidget().layout()
+    look = page.look_up = QPushButton(translate("VarFind", "Look up known variables"), page)
+    look.setToolTip(translate("VarFind", "Solves the first frame and names the candidates found in VSX, GCVS and "
+                                         "Gaia DR3 within 5″ (needs the network)"))  # fmt: skip
+    look.clicked.connect(lambda: look_up(page))
+    page.show_known = lambda out: show_known(page, out)
+    page.known_failed = lambda msg: page.status.setText(message(msg))
     table = page.export_table = QPushButton(translate("VarFind", "Save the candidates (.csv)…"), page)
     curves = page.export_curves = QPushButton(translate("VarFind", "Save their light curves (.ecsv)…"), page)
-    for b in (table, curves):
+    for b in (look, table, curves):
         b.setEnabled(False)
         lay.addWidget(b)
     table.clicked.connect(lambda: save_table(page))
@@ -24,10 +32,35 @@ def attach(page):
 
     def show_result(out):
         shown(out)
-        for b in (table, curves):
+        for b in (look, table, curves):
             b.setEnabled(True)
 
     page.show_result = show_result
+
+
+def look_up(page):
+    """The frame the stars were found on (field_photometry's first, by time) to photometry.identify_field."""
+    if page.result is not None and page.images:
+        page.status.setText(translate("VarFind", "Looking up known variables (Gaia, VSX, GCVS)…"))
+        page.known_requested.emit(timing.chronological(page.images)[0])
+
+
+def show_known(page, out):
+    """The identified field's catalogues matched to the candidates; the table shown again with their names."""
+    r = page.result
+    if r is None:
+        return
+    try:
+        r["known_variables"] = known_variables(out["field"], [r["field"]["xy"][j] for j in page.stars], page.stars)
+    except ValueError as e:
+        page.status.setText(message(e))
+        return
+    page.show_result(r)
+    k = r["known_variables"]
+    n = sum(bool(a or b or c) for a, b, c in zip(k["vsx"], k["gcvs"], k["gaia_variable"], strict=True))
+    page.status.setText(
+        translate("VarFind", "{n} of {m} candidates are known variables.").format(n=n, m=len(k["star"]))
+    )
 
 
 def save_table(page, path=None):

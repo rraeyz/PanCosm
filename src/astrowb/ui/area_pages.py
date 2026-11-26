@@ -306,6 +306,16 @@ def make_lightcurve_page(main):
             "timeseries", "photometry.varfind", {"images": images}, params, on_done=vf.show_result
         )
     )
+    vf.known_requested.connect(
+        lambda image: main.run_step_for(
+            "timeseries",
+            "photometry.identify_field",
+            {"image": image},
+            None,
+            on_done=vf.show_known,
+            on_fail=vf.known_failed,
+        )
+    )
     vf.light_curve_chosen.connect(
         lambda t, f, label: (
             page.period_page.set_light_curve(t, f, label),

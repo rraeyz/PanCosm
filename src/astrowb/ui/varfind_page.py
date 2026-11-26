@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ..photometry.varperiod import KNOWN, known_columns
 from .files import images_filter
 from .kit import tokens
 from .kit.help import help_line
@@ -30,6 +31,7 @@ FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 class VarFindPage(QWidget):
     search_requested = Signal(list, dict)  # images, params
     light_curve_chosen = Signal(list, list, str)  # time, relative flux, label (to the Period search tab)
+    known_requested = Signal(str)  # the first frame, solved and its catalogues asked (varfind_export.look_up)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -123,7 +125,8 @@ class VarFindPage(QWidget):
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)
 
-    def _set_stars(self, rows):
+    def _set_stars(self, rows, known=None):
+        """The candidates' table; known: varperiod.known_columns for the same rows (empty columns without it)."""
         names = (
             self.tr("x"),
             self.tr("y"),
@@ -140,6 +143,12 @@ class VarFindPage(QWidget):
         table[names[5]].description = self.tr(
             "How many of six variability indices (σ, MAD, IQR, 1/η, Stetson J, χ²) set the star apart"
         )
+        k = known or {key: [empty] * len(table) for key, empty in KNOWN.items()}
+        period = [f"{p:.6g}" if np.isfinite(p) else "" for p in k["vsx_period_d"]]
+        for name, values in ((self.tr("VSX"), k["vsx"]), (self.tr("Type"), k["vsx_type"]),
+                             (self.tr("VSX period (d)"), period), (self.tr("GCVS"), k["gcvs"]),
+                             (self.tr("Gaia"), k["gaia_variable"])):  # fmt: skip
+            table[name] = np.asarray(values, str)
         self.table.set_table(table)
 
     def set_images(self, paths):
@@ -177,7 +186,8 @@ class VarFindPage(QWidget):
             [
                 (xy[j, 0], xy[j, 1], v["mean"][j], v["rms"][j], v["index"][j], flags[j], *at.get(int(j), nan))
                 for j in order
-            ]
+            ],
+            known_columns(out, self.stars),
         )
         self.status.setText(self.tr("{n} stars measured, {m} candidates.").format(n=len(xy), m=len(order)))
         self.show_star(int(order[0]) if len(order) else None)

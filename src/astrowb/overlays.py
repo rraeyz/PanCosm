@@ -121,6 +121,9 @@ def query_catalogue(ra, dec, radius_deg, catalogue="gaia", mag_limit=16.0, row_l
         mag = r[mag_col] if mag_col in r.colnames else None
         mag = None if mag is None or np.ma.is_masked(mag) else float(mag)
         star = {"name": str(r[name_col]), "ra": float(r["_RAJ2000"]), "dec": float(r["_DEJ2000"]), "mag": mag}
+        for key, col in (("type", "Type"), ("type", "VarType"), ("period", "Period")):  # VSX / GCVS columns
+            if catalogue != "gaia" and col in r.colnames and not np.ma.is_masked(r[col]) and str(r[col]).strip():
+                star[key] = float(r[col]) if key == "period" else str(r[col]).strip()
         if (
             mag is not None
             and "BPmag" in r.colnames
