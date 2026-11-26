@@ -2,6 +2,7 @@
 
 import numpy as np
 import pytest
+from PySide6.QtCore import Qt
 
 from astrowb.settings import Settings
 from astrowb.ui.lightcurve_fold import peak_table
@@ -78,3 +79,28 @@ def test_points_left_out_are_gone_from_every_plot_and_the_periodogram_is_marked_
     page.delete_points([5])
     page.undo_button.click()
     assert len(page.time) == 60
+
+
+def test_left_out_points_stay_as_hollow_markers_and_come_back(qtbot):
+    """UI-10: three points left out leave the data but stay on the plot as hollow markers (hidden by "Show left-out
+    points"); bringing one back and undo both restore the data."""
+    from astrowb.ui.period_page import PeriodPage
+
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    t = np.linspace(0, 10, 40)
+    page.set_light_curve(t, 1 + 0.01 * np.sin(t), "test", err=np.full(40, 0.002))
+    page.delete_points([3, 7, 11])
+    assert len(page.time) == 37 and len(page.err) == 37 and not {t[3], t[7], t[11]} & set(page.time)
+    hollow = [e for e in page.plot.items if e["spec"].left_out]
+    assert len(hollow) == 1 and len(hollow[0]["x"]) == 3 and hollow[0]["item"].isVisible()
+    assert hollow[0]["item"].opts["brush"] is None or hollow[0]["item"].opts["brush"].style() == Qt.NoBrush
+    page.plot.set_show_left_out(False)
+    assert not hollow[0]["item"].isVisible() and not page.plot._left_out_actions[0].isChecked()
+    page.plot.set_show_left_out(True)
+    page.bring_back([1])  # t[7]
+    assert len(page.time) == 38 and t[7] in page.time and np.all(np.diff(page.time) > 0) and len(page.left_out) == 2
+    page.undo_stack.undo()
+    page.undo_stack.undo()
+    assert len(page.time) == 40 and not page.left_out
+    assert not any(e["spec"].left_out for e in page.plot.items)

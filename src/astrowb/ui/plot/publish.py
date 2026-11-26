@@ -71,7 +71,8 @@ def _panel(ax, panel, colours, st):
                 if panel.colourbar:
                     ax.figure.colorbar(coloured, ax=ax, label=panel.colourbar)
             else:
-                ax.plot(x, s.y, ls="none", marker=_MARKERS.get(s.symbol, "o"), ms=size, mew=0, rasterized=many, **kw)
+                hollow = {"mfc": "none", "mew": st["line"] * 0.5} if s.left_out else {"mew": 0}  # left out: hollow
+                ax.plot(x, s.y, ls="none", marker=_MARKERS.get(s.symbol, "o"), ms=size, rasterized=many, **hollow, **kw)
         elif s.kind in ("line", "steps"):
             style = "steps-post" if s.kind == "steps" else "default"
             ax.plot(x, s.y, lw=st["line"] * s.width, ls=_DASH[s.dash], drawstyle=style, rasterized=many, **kw)

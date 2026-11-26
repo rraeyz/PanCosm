@@ -62,6 +62,7 @@ class SeriesSpec:
     labels: list | None = None  # kind "text": one label per (x, y), written at angle degrees (90 = reading upward)
     angle: float = 0.0
     values: np.ndarray | None = None  # kind "points": one number per point, coloured by the "viridis" map over min..max
+    left_out: bool = False  # points the user left out: drawn hollow, hidden while "Show left-out points" is off (UI-10)
     # kind "span": x = left edges, y = right edges of x ranges shaded over the panel's whole height (alpha = opacity)
 
     def __post_init__(self):

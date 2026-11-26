@@ -573,3 +573,12 @@ def test_views_are_freed_with_no_teardown_errors(qapp, capfd):
     gc.collect()
     err = capfd.readouterr().err
     assert all(r() is None for r in refs) and "Traceback" not in err and "attribute" not in err
+
+
+def test_left_out_points_are_hollow_in_the_publication_figure():
+    from astrowb.ui.plot import publish as P
+
+    s = [SeriesSpec("data", [1, 2, 3], [1, 2, 3]), SeriesSpec("out", [4, 5], [4, 5], left_out=True)]
+    fig = P.figure(FigureSpec([PanelSpec(AxisSpec("t"), AxisSpec("m"), s)]))
+    data, out = fig.axes[0].lines[:2]
+    assert out.get_markerfacecolor() == "none" and data.get_markerfacecolor() != "none"

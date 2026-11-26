@@ -27,6 +27,8 @@ from .undo import Undoable
 
 class PeriodPage(Undoable, QWidget):
     _selection = []  # indices a lasso enclosed; replaced (never changed in place) by _lassoed and delete_points
+    _back = []  # indices into left_out a lasso enclosed: what Delete brings back
+    left_out = []  # [(time, flux, err or None)] the user left out: hollow markers on the plot (UI-10)
     """Period search on a light curve (from the Photometry window or a CSV file) and phase folding."""
 
     search_requested = Signal(list, list, dict)  # time, flux, params
@@ -195,7 +197,9 @@ class PeriodPage(Undoable, QWidget):
         )
         self.delete_mode = QPushButton(self.tr("Delete points by clicking"), self)
         self.delete_mode.setCheckable(True)
-        self.delete_mode.setToolTip(self.tr("Click a point on the light-curve plot to remove it"))
+        self.delete_mode.setToolTip(
+            self.tr("Click a point on the light-curve plot to leave it out; click a hollow point to bring it back")
+        )
         units = self.units_button = QPushButton(self.tr("Flux ↔ magnitude"), self)
         units.clicked.connect(lambda: self.edit(self.tr("flux / magnitude"), self._convert))
         units.setToolTip(self.tr("Converts relative flux to magnitudes (−2.5 log) or back"))
@@ -244,11 +248,13 @@ class PeriodPage(Undoable, QWidget):
             "err": self.err,
             "mag": self.magnitudes,
             "source": self.source.text(),
+            "left_out": list(self.left_out),
         }
 
     def set_undo_state(self, st):
         self.time, self.flux, self.magnitudes = st["time"], st["flux"], st["mag"]
         self.err = st.get("err")
+        self.left_out = list(st.get("left_out", []))
         self.source.setText(st["source"])
         self.search_button.setEnabled(bool(self.time) and len(self.time) > 10)
         self._plot_light_curve()
@@ -261,6 +267,7 @@ class PeriodPage(Undoable, QWidget):
         self.err = [float(e) for e in err] if ok and np.all(np.asarray(err, float) > 0) else None
         if not keep_original:
             self.undo_stack.clear()  # another star: the edits of the last one do not apply
+            self.left_out = []
             self.original, self.magnitudes, self.label = (self.time, self.flux, self.err), False, label
             self.best = None  # a new star: the old period does not apply
             self.guide.reset()
@@ -290,6 +297,7 @@ class PeriodPage(Undoable, QWidget):
 
     def _bin(self):
         if self.time:
+            self.left_out = []  # single points do not belong in a binned curve (one undo step with the binning)
             binned = fourier_edit().bin_time(self.time, self.flux, self.bin_minutes.value() / 1440, self._errs())
             self._edited(*binned[:2], self.tr("binned"), binned[2] if len(binned) > 2 else None)
 
@@ -298,18 +306,22 @@ class PeriodPage(Undoable, QWidget):
             from ..core.units import flux_to_mag, mag_to_flux
 
             y = np.asarray(self.flux, float)
-            if not self.magnitudes and np.any(y <= 0):
+            out = np.asarray([p[1] for p in self.left_out], float)
+            if not self.magnitudes and (np.any(y <= 0) or np.any(out <= 0)):
                 self.source.setText(self.tr("Fluxes must be positive to convert to magnitudes."))
                 return
             e = self._errs()
             self.magnitudes = not self.magnitudes
             convert = flux_to_mag if self.magnitudes else mag_to_flux  # σm = 1.0857 σF / F, and back
             y, e = convert(y, e) if e is not None else (convert(y), None)
+            self.left_out = [  # the left-out points change units with the rest
+                (t, float(convert(f)), None if pe is None else float(convert(f, pe)[1])) for t, f, pe in self.left_out
+            ]
             self._edited(self.time, y, self.tr("magnitudes") if self.magnitudes else self.tr("flux"), e)
 
     def _undo(self):
         if self.original:
-            self.magnitudes = False
+            self.magnitudes, self.left_out = False, []
             t, y, e = self.original
             self.set_light_curve(t, y, self.label, True, e)
 
@@ -335,14 +347,17 @@ class PeriodPage(Undoable, QWidget):
         if name == self.tr("Power"):
             if not self.delete_mode.isChecked():
                 self.fold_at(self.periodogram["periods"][i])
+        elif name == self._out_name() and self.delete_mode.isChecked():
+            self.bring_back([i])
         elif self.delete_mode.isChecked() and self.time:
             self.delete_points([i])
 
     def _lassoed(self, name, ids):
         """The points of the data a lasso (L + drag) enclosed: what Delete then leaves out."""
-        if name != self._data_name():
-            return
-        self._selection = list(ids)
+        if name == self._out_name():
+            self._back = list(ids)
+        elif name == self._data_name():
+            self._selection = list(ids)
 
     def _data_name(self):
         return self.tr("Magnitude") if self.magnitudes else self.tr("Relative flux")
@@ -351,17 +366,49 @@ class PeriodPage(Undoable, QWidget):
         """Delete over the plot leaves out the lassoed points, else the data point under the cursor (undoable)."""
         hit = self.plot.hit
         ids = self._selection or ([hit[1]] if hit and hit[0] == self._data_name() else [])
+        back = self._back or ([hit[1]] if hit and hit[0] == self._out_name() else [])
         if key == "delete" and self.time and ids:
             self.delete_points(ids)
+        elif key == "delete" and back:
+            self.bring_back(back)
+
+    def _out_name(self):
+        return self.tr("Left out")
 
     def delete_points(self, ids):
-        """Leave out the data points with these indices: one undo step, the page's own edit path."""
+        """Leave out the data points with these indices: one undo step, the page's own edit path; they stay on the
+        plot as hollow markers (when "Show left-out points" is on) and bring_back puts them back."""
         self._selection = []
         t, y = np.asarray(self.time), np.asarray(self.flux)
-        e = None if self.err is None else np.delete(np.asarray(self.err), ids)
-        self.edit(
-            self.tr("delete a point"), self._edited, np.delete(t, ids), np.delete(y, ids), self.tr("points deleted"), e
-        )
+        e = None if self.err is None else np.asarray(self.err)
+        gone = [(float(t[i]), float(y[i]), None if e is None else float(e[i])) for i in ids]
+        e = None if e is None else np.delete(e, ids)
+        what = self.tr("points deleted")
+        self.edit(self.tr("delete a point"), self._leave, self.left_out + gone, np.delete(t, ids), np.delete(y, ids),
+                  what, e)  # fmt: skip
+
+    def _leave(self, left_out, *edited):
+        self.left_out = left_out
+        self._edited(*edited)
+
+    def bring_back(self, ids):
+        """Put the left-out points with these indices (into left_out) back into the data, in time order (undoable)."""
+        self._back, ids = [], set(ids)
+        back = [p for i, p in enumerate(self.left_out) if i in ids]
+        rest = [p for i, p in enumerate(self.left_out) if i not in ids]
+        t = np.concatenate([self.time, [p[0] for p in back]])
+        order = np.argsort(t, kind="stable")
+        y = np.concatenate([self.flux, [p[1] for p in back]])[order]
+        e = None if self.err is None else np.concatenate([self.err, [p[2] for p in back]])[order]
+        self.edit(self.tr("bring back points"), self._leave, rest, t[order], y, self.tr("points brought back"), e)
+
+    def _left_out_series(self, to_x):
+        """The left-out points, hollow and pickable (a click in delete mode, or Delete, brings them back)."""
+        if not self.left_out:
+            return []
+        t, y = np.array([p[0] for p in self.left_out]), [p[1] for p in self.left_out]
+        colour = tokens.role("rejected")
+        return [SeriesSpec(self._out_name(), to_x(t), y, colour=colour, size=5, pickable=True, left_out=True)]
 
     def fold_at(self, period):
         """Fold at the highest peak within 3 % of the period clicked on."""
@@ -438,7 +485,8 @@ class PeriodPage(Undoable, QWidget):
         t = np.asarray(self.time)
         ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
         label = self.tr("Time − {t:.0f} (d)").format(t=ref) if ref else self.tr("Time (d)")
-        self._draw([(AxisSpec(label), [self._data_series(t - ref, 0.8, 4)], None)])
+        lc = [self._data_series(t - ref, 0.8, 4), *self._left_out_series(lambda x: x - ref)]
+        self._draw([(AxisSpec(label), lc, None)])
 
     def _load(self, path=None):
         """path: a file opened from the window's File menu or dropped on it; otherwise (a button click) asked."""
@@ -561,6 +609,7 @@ class PeriodPage(Undoable, QWidget):
             SeriesSpec(self.tr("aliases"), [self.best * 0.5, self.best * 2.0], kind="vline", colour=red, alpha=0.6),
         ]
         folded = [self._data_series(ph, 0.5 if self.phase_bins.value() else 1, 4)]
+        folded += self._left_out_series(lambda x: fold_phase(x, self.best, self._t0()))
         if self.phase_bins.value():
             c, mean, err, _ = fourier_edit().bin_phase(ph, f, self.phase_bins.value())
             folded.append(

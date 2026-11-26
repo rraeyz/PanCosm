@@ -7,6 +7,7 @@
     Delete            key_pressed("delete", x): a page's "leave out" of what it selected
     click a point    point_clicked(series, id) (pickable series)       L + drag   lasso -> points_selected(series, ids)
     legend entry     shows / hides its series  mouse move               cursor_moved(text) for the status bar
+    right-click      "Show left-out points": series with left_out=True (hollow markers) shown or hidden
 
 Series with more than spec.MAX_POINTS points in view are decimated on every view change (spec.decimate_*), so a
 million points pan smoothly without OpenGL. Times are drawn minus a round offset written in the axis title.
@@ -169,6 +170,7 @@ class PlotView(QWidget):
         self.colourbars, self._pool = [], []
         self.cursor_x = None
         self._measure_from = None
+        self.show_left_out, self._left_out_actions = True, []
         self.hit = None  # (series, id, x, y) nearest the cursor, for keys like Delete
         self.graphics.scene().sigMouseMoved.connect(self._mouse_moved)
         # said over the empty plot (UI-6: no blank rectangle without words), as PlotCanvas does
@@ -317,6 +319,11 @@ class PlotView(QWidget):
             vb.menu.addSeparator()  # beside pyqtgraph's own entries: the same two as every PlotCanvas
             vb.menu.addAction(translate("PlotCanvas", "Copy picture"), self.copy_picture)
             vb.menu.addAction(translate("PlotCanvas", "Copy data"), self.copy_data)
+            shown = vb.menu.addAction(translate("PlotCanvas", "Show left-out points"))
+            shown.setCheckable(True)
+            shown.setChecked(self.show_left_out)
+            shown.toggled.connect(self.set_show_left_out)
+            self._left_out_actions.append(shown)
             self._pool.append(plot)
         plot = self._pool[row]
         vb = plot.vb
@@ -405,7 +412,8 @@ class PlotView(QWidget):
         if s.values is not None and s.kind == "points":
             entry["brushes"] = np.array([pg.mkBrush(c) for c in _colours(s.values)], dtype=object)
         if s.kind == "points" or s.kind == "errorbars":
-            entry["item"] = pg.ScatterPlotItem(pen=None, brush=brush, size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"))
+            fill = {"pen": pen, "brush": None} if s.left_out else {"pen": None, "brush": brush}  # left out: hollow
+            entry["item"] = pg.ScatterPlotItem(size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"), **fill)
             entry["item"].sigClicked.connect(vb.picked)
             if s.yerr is not None or s.xerr is not None:
                 entry["errors"] = pg.ErrorBarItem(pen=pen)
@@ -451,7 +459,7 @@ class PlotView(QWidget):
             legend is not None and s.kind not in S.NO_LEGEND and not any(e["spec"].name == s.name for e in self.items)
         ):  # series sharing a name (pieces of one curve) get one legend entry
             legend.addItem(entry["item"], s.name)
-        entry["item"].setVisible(s.visible)
+        entry["item"].setVisible(s.visible and (self.show_left_out or not s.left_out))
         return entry
 
     @staticmethod
@@ -532,6 +540,17 @@ class PlotView(QWidget):
                     line.setVisible(visible)
                 if e["errors"] is not None:
                     e["errors"].setVisible(visible)
+
+    def set_show_left_out(self, on):
+        """Show or hide the left-out points (series with left_out=True) of every panel; the menus follow."""
+        self.show_left_out = bool(on)
+        for action in self._left_out_actions:
+            action.blockSignals(True)
+            action.setChecked(self.show_left_out)
+            action.blockSignals(False)
+        for e in self.items:
+            if e["spec"].left_out:
+                self.set_visible(e["spec"].name, self.show_left_out and e["spec"].visible)
 
     # --- interaction ------------------------------------------------------------------
     def keyPressEvent(self, ev):
