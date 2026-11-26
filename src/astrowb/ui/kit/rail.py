@@ -136,7 +136,11 @@ class StagePanel(QWidget):
     def eventFilter(self, obj, event):  # noqa: N802 (Qt's name)
         if event.type() == QEvent.LayoutRequest and obj is self.scroll.widget():
             need = obj.minimumSizeHint().width() + self.scroll.verticalScrollBar().sizeHint().width()
-            if need != self.scroll.minimumWidth():
+            now = self.scroll.minimumWidth()
+            if need == getattr(self, "_width_before", None):  # wrapped rows going A, B, A: keep the wider, stop
+                need = max(need, now)
+            if need != now:
+                self._width_before = now
                 self.scroll.setMinimumWidth(need)
                 self.width_changed.emit()
         return False
