@@ -801,7 +801,10 @@ the suite is green after each.
   existing template test stays green.
 
 ### ARC-14. Services layer: catalogues and archives in one place  (P1)
-**open** — the cache and offline part (items 1 and 2) done by agent3 (2026-11-10)
+**partial** — the cache and offline part (items 1 and 2) done by agent3 (2026-11-10); (2026-11-28) the Accept's grep:
+the network only under `services/` (left outside: `selfcheck.py`'s list of module names, and `devices/` — the
+observatory's own device link on the local network, not an internet service). Left: the rest of item 3's modules,
+item 6 (recorded responses, `tools/record_services.py`).
 - **Progress (agent3):** `services/cache.py`: `cached(service, request, fetch)` keeps every answer on disk (SQLite
   index + pickled answers, atomic writes, shared safely by worker processes), ages per service (ephemerides 7 days,
   light-curve archives 1 day, catalogues never), 2 GB cap dropping the oldest, an older answer used when the
