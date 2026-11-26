@@ -69,6 +69,20 @@ def _light_time(t, target, how):
     return TimeDelta(np.interp(jd, nodes, seconds), format="sec")
 
 
+def _fast_tdb(t):
+    """Many times: TDB − TT set from a 0.02 d grid, interpolated (erfa's dtdb took 0.7 s per 10^5 times on each scale
+    change; the interpolation is 3 ns off). Returns t."""
+    from astropy.time import Time
+
+    if t.size > DIRECT_ABOVE:
+        jd = t.jd
+        nodes = np.arange(jd.min(), jd.max() + 0.02, 0.02)
+        grid = Time(nodes, format="jd", scale=t.scale, location=t.location)
+        grid = grid if t.scale in ("tt", "tdb") else grid.tt
+        t.delta_tdb_tt = np.interp(jd, nodes, grid.delta_tdb_tt)
+    return t
+
+
 def convert_times(values, standard, target, site=None):
     """{standard: array} for every STANDARDS entry, plus "alt", "az" (deg), "ha" (h), "airmass" (when a site is
     given). values: Julian dates (or MJD for MJD_UTC) in `standard`; target: SkyCoord; site: EarthLocation or None
@@ -91,7 +105,7 @@ def convert_times(values, standard, target, site=None):
         for _ in range(3):  # t + light time(t) = given: solve for t
             t = Time(base - _light_time(t, target, how), location=where)
         base = t
-    utc = base.utc
+    utc = _fast_tdb(_fast_tdb(base).utc)
     bary = _light_time(utc, target, "barycentric")
     helio = _light_time(utc, target, "heliocentric")
     out = {

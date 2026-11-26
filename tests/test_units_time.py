@@ -134,3 +134,18 @@ def test_velocity_frames():
     assert abs(lsr_side) < 0.01
     with pytest.raises(ValueError, match="velocity frame"):
         units.velocity_correction(t, apex, site, "galactocentric")
+
+
+def test_many_times_take_tdb_minus_tt_from_a_grid():
+    """ARC-15: 10^5 times no longer pay erfa's dtdb per time; the interpolated TDB − TT is nanoseconds off."""
+    from astropy import units as u
+    from astropy.coordinates import EarthLocation
+    from astropy.time import Time
+
+    from astrowb.core.units import _fast_tdb
+
+    site = EarthLocation.from_geodetic(30 * u.deg, 37 * u.deg, 1000 * u.m)
+    jd = 2460512.5 + np.linspace(0, 30, 20000)
+    direct = Time(jd, format="jd", scale="utc", location=site).tdb
+    fast = _fast_tdb(Time(jd, format="jd", scale="utc", location=site)).tdb
+    assert np.abs((fast.jd1 - direct.jd1) + (fast.jd2 - direct.jd2)).max() * 86400 < 1e-8
