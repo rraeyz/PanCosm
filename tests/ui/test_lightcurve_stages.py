@@ -56,7 +56,7 @@ def test_fold_and_report_stages_and_the_peak_table(window):
     win.close()
 
 
-def test_points_left_out_are_gone_from_every_plot_and_the_periodogram_is_marked_stale(qtbot):
+def test_points_left_out_leave_the_data_of_every_plot_and_the_periodogram_is_marked_stale(qtbot):
     """UI-16.4: one list of points in use feeds the time and the folded plot; the periodogram is marked until a new
     search; Undo edits restores the points."""
     from astrowb.ui.period_page import PeriodPage
