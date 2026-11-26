@@ -87,7 +87,7 @@ def convert_times(values, standard, target, site=None):
     """{standard: array} for every STANDARDS entry, plus "alt", "az" (deg), "ha" (h), "airmass" (when a site is
     given). values: Julian dates (or MJD for MJD_UTC) in `standard`; target: SkyCoord; site: EarthLocation or None
     (geocentre: no altitude). Heliocentric and barycentric dates are turned back into UTC iteratively (the light
-    travel time depends on the time itself; two passes reach microseconds)."""
+    travel time depends on the time itself; two passes leave 40 µs, three reach the nanosecond)."""
     import astropy.units as u
     from astropy.coordinates import AltAz, EarthLocation
     from astropy.time import Time
