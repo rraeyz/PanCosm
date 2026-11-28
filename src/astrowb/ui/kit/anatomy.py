@@ -165,7 +165,7 @@ class Anatomy:
         self._first_state = self.saveState()
         if not getattr(self, "_restore_due", False):
             self._restore_due = True
-            QTimer.singleShot(0, self._restore_docks)
+            QTimer.singleShot(0, self, self._restore_docks)  # tied to the window: none after it is deleted
 
     def _fit_to_width(self):
         """A window under 1000 px wide (a small screen) keeps the view at half of it or more: the rail shows its
