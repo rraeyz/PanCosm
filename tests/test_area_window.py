@@ -51,7 +51,7 @@ def test_menus_undo_view_window_and_screen(qtbot, tmp_path):
     stack = QUndoStack()
     win = _area(qtbot, Settings(tmp_path), stack)
     titles = [a.text() for a in win.menuBar().actions()]
-    assert titles == ["&File", "&Edit", "&View", "Measure", "&Window", "&Help"]
+    assert titles == ["&File", "&Edit", "&View", "Measure", "&Tools", "&Window", "&Help"]
     view = [a.text() for a in win.view_menu.actions() if a.text()]
     assert {"Steps", "Stars", "Plot", "Toolbar", "&Reset layout"} <= set(view)
     done = []

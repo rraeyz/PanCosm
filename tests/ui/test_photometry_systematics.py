@@ -3,6 +3,7 @@
 import numpy as np
 
 from astrowb.ui.photometry_page import PhotometryPage
+from astrowb.ui.photometry_systematics import fitted_signal
 
 
 def _lc(n_stars, n=200, seed=3):
@@ -101,3 +102,40 @@ def test_tfa_keeps_the_sinusoid(qtbot):
     d = sine - sine.mean()
     amp = np.dot(after - after.mean(), d) / np.dot(d, d)
     assert abs(amp - 1) < 0.1 and np.std(after - after.mean() - d) < 0.5 * np.std(before - before.mean() - d)
+
+
+def test_the_fitted_transit_model_is_kept_out_of_the_trends(qtbot):
+    """The Timing and fit stage's model (its airmass trend divided out) is TFA's `fixed`: the signal keeps its size
+    where the blind fit of 40 templates on 200 frames takes much of it."""
+    page, _, sine = _page(qtbot, 40)
+    page.field_method.setCurrentIndex(2)
+    page.field_box.setChecked(True)
+    d = sine - sine.mean()
+    amp = lambda: np.dot(_rel(page) - _rel(page).mean(), d) / np.dot(d, d)  # noqa: E731
+    blind = amp()
+    airmass = np.linspace(1.2, 1.6, len(sine))
+    z = (airmass - airmass.mean()) / airmass.std()
+    model = 1.3 * 10 ** (-0.4 * sine) * np.exp(0.02 * z)  # baseline × signal × the fit's own airmass trend
+    fit_lc = dict(page.light_curve) | {"airmass": airmass.tolist()}
+    page.transit_fit = (fit_lc, {"model": model, "values": {"baseline": 1.3, "airmass": 0.02}})
+    assert np.allclose(fitted_signal(page, page.light_curve), sine)
+    page._recompute()
+    assert abs(amp() - 1) < 0.05 < abs(blind - 1), (amp(), blind)
+    assert "fitted transit is kept out" in page.field_note.text()
+    page.transit_fit = (dict(fit_lc, time=[0.0] * len(sine)), page.transit_fit[1])  # another night's fit: unused
+    page._recompute()
+    assert "a 1 % dip would be reduced to" in page.field_note.text()
+
+
+def test_a_variable_star_search_refreshes_the_controls_at_once(qtbot):
+    from types import SimpleNamespace
+
+    from astrowb.ui.area_pages import _found
+
+    page, _, _ = _page(qtbot, 5)
+    vf = SimpleNamespace(result=None)
+    vf.show_result = lambda out: setattr(vf, "result", out)
+    page.field_source = lambda: vf.result
+    assert not page.field_box.isEnabled()
+    _found(SimpleNamespace(photometry_page=page), vf, _whole(page, 50))
+    assert page.field_box.isEnabled() and "49" not in page.field_note.text()  # enabled, nothing removed yet

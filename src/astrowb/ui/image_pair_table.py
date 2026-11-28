@@ -35,7 +35,7 @@ class PairTable(QWidget):
         self.add_button.setToolTip(self.tr("Keep the latest measured pair as a row of the table"))
         self.delete_button.setToolTip(self.tr("Take the selected pairs out of the table"))
         self.export_button.setToolTip(self.tr("Save the table as CSV or ECSV"))
-        row = QHBoxLayout()
+        row = self.buttons = QHBoxLayout()
         for b in (self.add_button, self.delete_button, self.export_button):
             row.addWidget(b)
         row.addStretch(1)
@@ -74,6 +74,27 @@ def show_pair(page, data, x0, y0, x1, y1):
     if p is not None and pairs is None:
         pairs = page.pair_table = PairTable(page)
         page.tabs.addTab(pairs, translate("ImagePage", "Pairs"))
+        if getattr(page, "owner", None) is not None:  # the main window: the Astrometry window is reachable
+            add_send(pairs, page.owner)
     if pairs is not None:
         pairs.set_last(p)
     return pair_rows_of(p)
+
+
+def add_send(pairs, main):
+    """The "Send to Astrometry" button: the table's pairs join the Astrometry window's pairs (its double-star
+    measures), and that window opens so the user sees them arrive (as "Send to O−C" does)."""
+    b = pairs.send_button = QPushButton(translate("ImagePage", "Send to Astrometry"), pairs)
+    b.setToolTip(translate("ImagePage", "Add the pairs of this table to the Astrometry window's pairs table"))
+    b.clicked.connect(lambda: send_pairs(pairs.pairs, main))
+    pairs.buttons.insertWidget(3, b)
+
+
+def send_pairs(pairs, main):
+    if not pairs:
+        return
+    target = main.astrometry_page.pair_table
+    target.pairs += [dict(p) for p in pairs]
+    target._show()
+    target.show()
+    main.open_area("astrometry")

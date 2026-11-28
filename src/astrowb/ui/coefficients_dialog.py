@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from . import coefficients_transform
 from .files import images_filter
 from .kit import tokens
 from .plot.spec import AxisSpec, FigureSpec, PanelSpec, SeriesSpec
@@ -25,7 +26,7 @@ FITS = "FITS (*.fits *.fit *.fts *.FITS *.FIT)"
 class CoefficientsDialog(QDialog):
     transform_requested = Signal(str, str, dict)  # image A, image B, params
 
-    def __init__(self, light_curve=None, parent=None, settings=None):
+    def __init__(self, light_curve=None, parent=None, settings=None, catalog=None):
         from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
         super().__init__(parent)
@@ -91,6 +92,7 @@ class CoefficientsDialog(QDialog):
         self.save_button.clicked.connect(self.save_to_profile)
         g.addWidget(self.save_button, 4, 0, 1, 4)
         lay.addWidget(box)
+        coefficients_transform.add(self, lay, catalog)  # catalog: the Photometry page's comparison magnitudes
         plot, self.plot = plot_box(self, "coefficients")
         lay.addWidget(plot, 1)
 

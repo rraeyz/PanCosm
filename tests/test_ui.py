@@ -1746,7 +1746,7 @@ def test_planning_and_observing_window_menus(window):
         window.show_workspace(key)
         win = window.area_windows[key]
         shown = [a.text() for a in win.menuBar().actions() if a.isVisible()]
-        assert shown[3:-2] == titles
+        assert shown[3:-3] == titles
         tools = win.area_tools()
         assert tools and all(not a.icon().isNull() for a in tools)
     page = window.observe_page
@@ -1769,7 +1769,7 @@ def test_automation_and_remote_sensing_window_menus(window):
     for key, titles in (("automation", ["&Steps", "&Run"]), ("remotesensing", ["&Analyse"])):
         window.show_workspace(key)
         win = window.area_windows[key]
-        assert [a.text() for a in win.menuBar().actions() if a.isVisible()][3:-2] == titles
+        assert [a.text() for a in win.menuBar().actions() if a.isVisible()][3:-3] == titles
         tools = win.area_tools()
         assert tools and all(not a.icon().isNull() for a in tools)
     page, win = window.automation_page, window.area_windows["automation"]

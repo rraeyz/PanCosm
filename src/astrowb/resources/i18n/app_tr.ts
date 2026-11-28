@@ -620,7 +620,7 @@
     </message>
     <message>
         <location filename="../../ui/kit/window.py" line="82"/>
-        <location filename="../../ui/kit/window.py" line="176"/>
+        <location filename="../../ui/kit/window.py" line="175"/>
         <source>Toolbar</source>
         <translation>Araç çubuğu</translation>
     </message>
@@ -685,72 +685,72 @@
         <translation>Dü&amp;zen</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="154"/>
+        <location filename="../../ui/kit/window.py" line="153"/>
         <source>&amp;Undo</source>
         <translation>&amp;Geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="156"/>
+        <location filename="../../ui/kit/window.py" line="155"/>
         <source>&amp;Redo</source>
         <translation>&amp;İleri al</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="164"/>
+        <location filename="../../ui/kit/window.py" line="163"/>
         <source>Find an action…</source>
         <translation>İşlem bul…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="165"/>
+        <location filename="../../ui/kit/window.py" line="164"/>
         <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
         <translation>Yapmak istediğiniz şeyin birkaç harfini yazın: bu pencerenin her menü ve araç çubuğu işlemi bulunur</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="169"/>
+        <location filename="../../ui/kit/window.py" line="168"/>
         <source>&amp;View</source>
         <translation>&amp;Görünüm</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="173"/>
+        <location filename="../../ui/kit/window.py" line="172"/>
         <source>Show or hide this panel</source>
         <translation>Bu paneli göster ya da gizle</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="179"/>
+        <location filename="../../ui/kit/window.py" line="178"/>
         <source>Toolbar &amp;text</source>
         <translation>Araç çubuğu &amp;yazıları</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="180"/>
+        <location filename="../../ui/kit/window.py" line="179"/>
         <source>The names beside the toolbar&apos;s icons (kept for next time)</source>
         <translation>Araç çubuğu simgelerinin yanında adları (bir dahaki sefere de)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="188"/>
+        <location filename="../../ui/kit/window.py" line="187"/>
         <source>&amp;Larger text</source>
         <translation>Yazıyı &amp;büyüt</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="189"/>
+        <location filename="../../ui/kit/window.py" line="188"/>
         <source>&amp;Smaller text</source>
         <translation>Yazıyı &amp;küçült</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="190"/>
+        <location filename="../../ui/kit/window.py" line="189"/>
         <source>&amp;Normal text size</source>
         <translation>&amp;Normal yazı boyutu</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="194"/>
+        <location filename="../../ui/kit/window.py" line="193"/>
         <source>The size of the text in every window (kept for next time)</source>
         <translation>Her penceredeki yazının boyutu (bir dahaki sefere de korunur)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="197"/>
+        <location filename="../../ui/kit/window.py" line="196"/>
         <source>&amp;Reset layout</source>
         <translation>Düzeni &amp;sıfırla</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="198"/>
+        <location filename="../../ui/kit/window.py" line="197"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Her paneli pencere ilk açıldığındaki yerine geri koyar</translation>
     </message>
@@ -918,17 +918,17 @@
         <translation>Ana pencere</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="553"/>
+        <location filename="../../ui/kit/window.py" line="554"/>
         <source>Find an action (Ctrl+K)</source>
         <translation>İşlem bul (Ctrl+K)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="695"/>
+        <location filename="../../ui/kit/window.py" line="696"/>
         <source>Tile side by side</source>
         <translation>Yan yana diz</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="696"/>
+        <location filename="../../ui/kit/window.py" line="697"/>
         <source>Bring all windows to this screen</source>
         <translation>Bütün pencereleri bu ekrana getir</translation>
     </message>
@@ -948,6 +948,31 @@ Send this file with a few words on what you did and what went wrong. It holds no
 {path}
 
 Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sözcükle gönderin. İçinde veri dosyası ve klasör adı yoktur.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="49"/>
+        <source>Tools</source>
+        <translation>Araçlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="52"/>
+        <source>Time and coordinate converter…</source>
+        <translation>Zaman ve koordinat dönüştürücü…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="53"/>
+        <source>A time in any standard (JD, HJD, BJD) into the others, with the altitude, airmass and barycentric correction of a target</source>
+        <translation>Herhangi bir standarttaki (JD, HJD, BJD) zamanı ötekilere çevirir; bir hedefin yüksekliği, hava kütlesi ve barisentrik düzeltmesiyle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="56"/>
+        <source>Gain and read noise from two flats and two biases</source>
+        <translation>İki düz alan ve iki bias karesinden kazanç ve okuma gürültüsü</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="58"/>
+        <source>Set, rename or delete header keywords over many files at once</source>
+        <translation>Çok dosyada başlık anahtar sözcüklerini bir kerede ayarla, yeniden adlandır ya da sil</translation>
     </message>
 </context>
 <context>
@@ -2885,120 +2910,178 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CoefficientsDialog</name>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="32"/>
+        <location filename="../../ui/coefficients_dialog.py" line="33"/>
         <source>Photometric coefficients</source>
         <translation>Fotometrik katsayılar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="36"/>
+        <location filename="../../ui/coefficients_dialog.py" line="37"/>
         <source>Extinction of the night</source>
         <translation>Gecenin sönümlemesi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="38"/>
+        <location filename="../../ui/coefficients_dialog.py" line="39"/>
         <source>From the comparison stars of the measured light curve</source>
         <translation>Ölçülen ışık eğrisinin karşılaştırma yıldızlarından</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="43"/>
+        <location filename="../../ui/coefficients_dialog.py" line="44"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
         <translation>Önce kareleri gök konumunu (airmass/hava kütlesi) veren bir ışık eğrisi ölçün</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="50"/>
+        <location filename="../../ui/coefficients_dialog.py" line="51"/>
         <source>Transformation coefficients from a standard field</source>
         <translation>Standart alandan dönüşüm katsayıları</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="53"/>
+        <location filename="../../ui/coefficients_dialog.py" line="54"/>
         <source>no image</source>
         <translation>görüntü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="57"/>
+        <location filename="../../ui/coefficients_dialog.py" line="58"/>
         <source>Filter of this image of the standard field</source>
         <translation>Standart alanın bu görüntüsünün filtresi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="58"/>
+        <location filename="../../ui/coefficients_dialog.py" line="59"/>
         <source>Plate-solved image…</source>
         <translation>Plaka çözülmüş görüntü…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="62"/>
+        <location filename="../../ui/coefficients_dialog.py" line="63"/>
         <source>Filter {n}</source>
         <translation>Filtre {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="67"/>
+        <location filename="../../ui/coefficients_dialog.py" line="68"/>
         <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
         <translation>Bu filtreden çekilmiş, başlığında plaka çözümü olan bir standart alan görüntüsü (örneğin Landolt)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="72"/>
+        <location filename="../../ui/coefficients_dialog.py" line="73"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Hesapla (katalog kadirleri VizieR&apos;den)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="77"/>
+        <location filename="../../ui/coefficients_dialog.py" line="78"/>
         <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
         <translation>İki görüntüdeki yıldızları ölçer, katalog kadirlerini bulur ve standart sisteme dönüşümün renk terimlerini fit eder (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="86"/>
+        <location filename="../../ui/coefficients_dialog.py" line="87"/>
         <source>Save to the profile</source>
         <translation>Profile kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="88"/>
+        <location filename="../../ui/coefficients_dialog.py" line="89"/>
         <source>Keep these coefficients, dated, for this filter set in the equipment profile</source>
         <translation>Bu katsayıları tarihleriyle, bu filtre takımı için donanım profiline sakla</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="109"/>
+        <location filename="../../ui/coefficients_dialog.py" line="111"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} kadir / hava kütlesi ({n} ölçüm, rms {r:.3f} kadir)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="119"/>
         <source>Comparison star {n}</source>
         <translation>Karşılaştırma yıldızı {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="121"/>
-        <location filename="../../ui/coefficients_dialog.py" line="181"/>
+        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="183"/>
         <source>Fit</source>
         <translation>Uyum</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="125"/>
         <source>Airmass</source>
         <translation>Hava kütlesi</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="125"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Aletsel kadir − ortalama</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="140"/>
+        <location filename="../../ui/coefficients_dialog.py" line="142"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Ölçülüyor ve katalog sorgulanıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="161"/>
+        <location filename="../../ui/coefficients_dialog.py" line="163"/>
         <source>{n} standard stars</source>
         <translation>{n} standart yıldız</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="169"/>
+        <location filename="../../ui/coefficients_dialog.py" line="171"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (sıfır noktası {z:.3f}, rms {r:.3f}, {u} yıldız)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="179"/>
+        <location filename="../../ui/coefficients_dialog.py" line="181"/>
         <source>Stars</source>
         <translation>Yıldızlar</translation>
+    </message>
+</context>
+<context>
+    <name>CoefficientsTransform</name>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="27"/>
+        <source>Measure a light curve first.</source>
+        <translation>Önce bir ışık eğrisi ölçün.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="30"/>
+        <source>The light curve has no B − V colours of its comparison stars: look them up with Standard magnitudes (Report stage; the catalogue or the AAVSO chart must have their B and V magnitudes).</source>
+        <translation>Işık eğrisinde karşılaştırma yıldızlarının B − V renkleri yok: onları Standart kadirler ile arayın (Rapor aşaması; katalogda ya da AAVSO haritasında B ve V kadirleri bulunmalı).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="53"/>
+        <source>Transformed magnitudes</source>
+        <translation>Dönüştürülmüş kadirler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="55"/>
+        <source>Transformed magnitudes on every frame</source>
+        <translation>Her karede dönüştürülmüş kadirler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="57"/>
+        <source>B − V of the variable, e.g. 0.65</source>
+        <translation>Değişenin B − V'si, ör. 0.65</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="58"/>
+        <source>The variable&apos;s colour (B − V) on this night</source>
+        <translation>Değişenin bu geceki rengi (B − V)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="76"/>
+        <source>The target&apos;s standard magnitude on each frame, with the filter&apos;s colour term</source>
+        <translation>Hedefin her karedeki standart kadiri, filtrenin renk terimiyle</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="102"/>
+        <source>No colour term for {band}: fit one from a standard field above or save one in the profile.</source>
+        <translation>{band} için renk terimi yok: yukarıda bir standart alandan uydurun ya da profile bir tane kaydedin.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="104"/>
+        <source>Type the variable&apos;s colour (B − V) first.</source>
+        <translation>Önce değişenin rengini (B − V) yazın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="112"/>
+        <source>{band} on {n} frames: mean {m:.3f} (colour term {t:.4f} ± {e:.4f}, B − V {c:.3f}).</source>
+        <translation>{n} karede {band}: ortalama {m:.3f} (renk terimi {t:.4f} ± {e:.4f}, B − V {c:.3f}).</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="126"/>
+        <source>Days from {t0:.5f}</source>
+        <translation>{t0:.5f} anından bu yana gün</translation>
     </message>
 </context>
 <context>
@@ -3012,12 +3095,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="648"/>
+        <location filename="../../ui/kit/window.py" line="649"/>
         <source>Type what you want to do…</source>
         <translation>Ne yapmak istediğinizi yazın…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="649"/>
+        <location filename="../../ui/kit/window.py" line="650"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Sözcükler herhangi bir sırayla; ↑ ↓ seçer, Enter çalıştırır, Esc kapatır</translation>
     </message>
@@ -5591,6 +5674,16 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <source>Pairs</source>
         <translation>Çiftler</translation>
     </message>
+    <message>
+        <location filename="../../ui/image_pair_table.py" line="87"/>
+        <source>Send to Astrometry</source>
+        <translation>Astrometriye gönder</translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair_table.py" line="88"/>
+        <source>Add the pairs of this table to the Astrometry window&apos;s pairs table</source>
+        <translation>Bu tablonun çiftlerini Astrometri penceresinin çiftler tablosuna ekle</translation>
+    </message>
 </context>
 <context>
     <name>ImageWindow</name>
@@ -6609,11 +6702,13 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="37"/>
+        <location filename="../../ui/kit/tools_menu.py" line="55"/>
         <source>Measure the camera…</source>
         <translation>Kamerayı ölç…</translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="51"/>
+        <location filename="../../ui/kit/tools_menu.py" line="57"/>
         <source>Edit the headers of many files…</source>
         <translation>Çok dosyanın başlığını düzenle…</translation>
     </message>
@@ -7510,12 +7605,12 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Üç kareden biri okunamadı.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="415"/>
+        <location filename="../../ui/image_actions.py" line="416"/>
         <source>The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel size in Settings → Profiles.</source>
         <translation>Çözüm {solved:.3f} ″/piksel veriyor, profil {mine:.3f} ″/piksel: Ayarlar → Profiller&apos;de odak uzunluğunu ve piksel boyutunu denetleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="450"/>
+        <location filename="../../ui/image_actions.py" line="451"/>
         <source>Open two or more images to stack them.</source>
         <translation>Üst üste eklemek için iki ya da daha çok görüntü açın.</translation>
     </message>
@@ -7708,7 +7803,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/file_actions.py" line="194"/>
         <location filename="../../ui/image_actions.py" line="91"/>
-        <location filename="../../ui/image_actions.py" line="456"/>
+        <location filename="../../ui/image_actions.py" line="457"/>
         <source>Save FITS as</source>
         <translation>FITS&apos;i farklı kaydet</translation>
     </message>
@@ -7782,37 +7877,37 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Bu dosyada birden çok görüntü var:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="333"/>
+        <location filename="../../ui/image_actions.py" line="334"/>
         <source>Save picture</source>
         <translation>Resmi kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="350"/>
+        <location filename="../../ui/image_actions.py" line="351"/>
         <source>Images to convert</source>
         <translation>Dönüştürülecek görüntüler</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="358"/>
+        <location filename="../../ui/image_actions.py" line="359"/>
         <source>TIFF, 32-bit data</source>
         <translation>TIFF, 32 bit veri</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="361"/>
+        <location filename="../../ui/image_actions.py" line="362"/>
         <source>Convert images</source>
         <translation>Görüntüleri dönüştür</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="362"/>
+        <location filename="../../ui/image_actions.py" line="363"/>
         <source>Format:</source>
         <translation>Biçim:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="371"/>
+        <location filename="../../ui/image_actions.py" line="372"/>
         <source>Folder for the pictures</source>
         <translation>Resimler için klasör</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="380"/>
+        <location filename="../../ui/image_actions.py" line="381"/>
         <source>{n} pictures written to {folder}.</source>
         <translation>{folder} klasörüne {n} resim yazıldı.</translation>
     </message>
@@ -7847,22 +7942,22 @@ Bu eklenti yeni ya da değişmiş. Bir eklenti, her program gibi sizin yetkileri
         <translation>Görev başarısız</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="393"/>
+        <location filename="../../ui/image_actions.py" line="394"/>
         <source>No plate solver</source>
         <translation>Plaka çözücü yok</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="394"/>
+        <location filename="../../ui/image_actions.py" line="395"/>
         <source>Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, then try again. Nothing is sent over the internet.</source>
         <translation>ASTAP&apos;ı ve yıldız veritabanlarından birini (hnsky.org/astap.htm) ya da astrometry.net&apos;i kurup tekrar deneyin. İnternete hiçbir şey gönderilmez.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="480"/>
+        <location filename="../../ui/image_actions.py" line="481"/>
         <source>Stack written: {path}</source>
         <translation>Birleştirilmiş görüntü yazıldı: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="488"/>
+        <location filename="../../ui/image_actions.py" line="489"/>
         <source>value</source>
         <translation>değer</translation>
     </message>
@@ -16836,7 +16931,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>{n} karede bazı karşılaştırma yıldızları yok, diğerlerine göre tutuldu (kare listesinde turuncu).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="97"/>
+        <location filename="../../ui/photometry_systematics.py" line="114"/>
         <source>Needs at least {n} measured field stars ({have} now).</source>
         <translation>En az {n} ölçülmüş alan yıldızı gerekir (şimdi {have}).</translation>
     </message>
@@ -16851,32 +16946,37 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>karşılaştırma ve kontrol</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="107"/>
+        <location filename="../../ui/photometry_systematics.py" line="126"/>
+        <source>{n} field stars ({which}); the fitted transit is kept out of the trends&apos; fit.</source>
+        <translation>{n} alan yıldızı ({which}); uydurulan geçiş, eğilimlerin uydurmasının dışında tutuluyor.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_systematics.py" line="130"/>
         <source>{n} field stars ({which}); a 1 % dip would be reduced to {d:.2f} %.</source>
         <translation>{n} alan yıldızı ({which}); % 1&apos;lik bir geçiş derinliği {d:.2f} %&apos;e inerdi.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="116"/>
+        <location filename="../../ui/photometry_systematics.py" line="139"/>
         <source>trends of the field stars</source>
         <translation>alan yıldızlarının eğilimleri</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="129"/>
+        <location filename="../../ui/photometry_systematics.py" line="152"/>
         <source>Remove trends shared with the field stars</source>
         <translation>Alan yıldızlarının ortak eğilimlerini çıkar</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="131"/>
+        <location filename="../../ui/photometry_systematics.py" line="154"/>
         <source>The trends that the measured comparison and check stars share (airmass, clouds, focus) are fitted and taken out of the target; untick to get the light curve back</source>
         <translation>Ölçülen karşılaştırma ve kontrol yıldızlarının ortak eğilimleri (hava kütlesi, bulutlar, odak) uyarlanır ve hedeften çıkarılır; ışık eğrisini geri almak için işareti kaldırın</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="138"/>
+        <location filename="../../ui/photometry_systematics.py" line="161"/>
         <source>PCA (terms by BIC)</source>
         <translation>PCA (terim sayısı BIC ile)</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="142"/>
+        <location filename="../../ui/photometry_systematics.py" line="165"/>
         <source>Number of trends removed (at most, for PCA)</source>
         <translation>Çıkarılan eğilim sayısı (PCA için en çok)</translation>
     </message>
@@ -17513,17 +17613,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Parametreler ve grafik…</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="255"/>
+        <location filename="../../ui/photometry_transit.py" line="257"/>
         <source>Measure the light curve first.</source>
         <translation>Önce ışık eğrisini ölçün.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="260"/>
+        <location filename="../../ui/photometry_transit.py" line="262"/>
         <source>Type the period (d) above first.</source>
         <translation>Önce yukarıya periyodu (gün) yazın.</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="269"/>
+        <location filename="../../ui/photometry_transit.py" line="271"/>
         <source>Fitting the transit…</source>
         <translation>Geçiş uyduruluyor…</translation>
     </message>

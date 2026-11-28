@@ -30,7 +30,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from . import layout_memory
+from . import layout_memory, tools_menu
 from .anatomy import Anatomy
 from .shortcuts import own_keys
 from .tasks import hold
@@ -148,8 +148,7 @@ class AreaWindow(Anatomy, QMainWindow):
             )] = "open"  # fmt: skip
             file_menu.addSeparator()
         kinds[self._action(file_menu, self.tr("&Close window"), self.close, QKeySequence.Close)] = "close"
-        edit = bar_menu(bar, self.tr("&Edit"))
-        self.edit_menu = edit
+        edit = self.edit_menu = bar_menu(bar, self.tr("&Edit"))
         if self.undo_stack is not None:
             undo = self.undo_stack.createUndoAction(self, self.tr("&Undo"))
             undo.setShortcut(QKeySequence.Undo)
@@ -201,6 +200,7 @@ class AreaWindow(Anatomy, QMainWindow):
             menu = bar_menu(bar, title)
             for act in actions:
                 menu.addSeparator() if act is None else menu.addAction(act)
+        tools_menu.build(self, bar)
         self.window_menu = bar_menu(bar, self.tr("&Window"))
         self.window_menu.aboutToShow.connect(self._fill_window_menu)
         self._build_help_menu(bar)
@@ -527,13 +527,14 @@ class AreaWindow(Anatomy, QMainWindow):
         layout_memory.save(self)
 
     def add_menus(self, menus, toolbar=()):
-        """The area's own menus [(title, [QAction or None])], placed before Window, and toolbar actions, for windows
+        """The area's own menus [(title, [QAction or None])], placed before Tools, and toolbar actions, for windows
         whose actions are known only after the window is built."""
         for title, actions in menus:
             menu = QMenu(title, self)
             for act in actions:
                 menu.addSeparator() if act is None else menu.addAction(act)
-            self.menuBar().insertMenu(self.window_menu.menuAction(), menu)
+            self.menuBar().insertMenu(self.tools_menu.menuAction(), menu)
+        tools_menu.retitle(self)
         for act in toolbar:  # before the toolbar's right end
             self.toolbar.insertSeparator(self._end) if act is None else self.toolbar.insertAction(self._end, act)
         if toolbar:

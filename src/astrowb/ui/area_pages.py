@@ -297,13 +297,21 @@ def make_exoplanets_page(main):
     return page
 
 
+def _found(main, vf, out):
+    """The search's result shown; the Photometry page's field-trend controls (PHO-31) follow it at once."""
+    vf.show_result(out)
+    pp = main.__dict__.get("photometry_page")
+    if pp is not None and pp.lc_raw is not None:
+        pp._recompute()
+
+
 def make_lightcurve_page(main):
     page = LightCurvePage(main)
     page.period_page.search_requested.connect(main.search_period)
     vf = page.varfind_page
     vf.search_requested.connect(
         lambda images, params: main.run_step_for(
-            "timeseries", "photometry.varfind", {"images": images}, params, on_done=vf.show_result
+            "timeseries", "photometry.varfind", {"images": images}, params, on_done=lambda out: _found(main, vf, out)
         )
     )
     vf.known_requested.connect(

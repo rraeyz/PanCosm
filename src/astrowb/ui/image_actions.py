@@ -260,8 +260,9 @@ class ImageActions:
     def coefficients_dialog(self):
         from .coefficients_dialog import CoefficientsDialog
 
-        lc = getattr(self.photometry_page, "lc_raw", None) if "photometry_page" in self.__dict__ else None
-        dlg = CoefficientsDialog(lc, self, settings=self.settings)
+        page = self.__dict__.get("photometry_page")
+        lc, catalog = (page.lc_raw, page.catalog) if page is not None else (None, None)
+        dlg = CoefficientsDialog(lc, self, settings=self.settings, catalog=catalog)
         dlg.transform_requested.connect(
             lambda a, b, params: self.run_step(
                 "photometry.transformation", {"image_a": a, "image_b": b}, params, on_done=dlg.show_transformation

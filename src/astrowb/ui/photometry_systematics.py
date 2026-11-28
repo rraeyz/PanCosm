@@ -52,17 +52,34 @@ def field_mags(raw, whole=None, target=None):
         return -2.5 * np.log10(np.where(flux > 0, flux, np.nan)), translate("PhotometryPage", "comparison and check")
 
 
-def remove_trends(rel, field, method, n_terms):
-    """The target's relative flux with the field's shared trends removed."""
+def fitted_signal(page, lc):
+    """The Timing and fit stage's transit model alone (no baseline, no airmass trend) as magnitudes on lc's frames,
+    or None when there is no fit of these frames: the trends are then fitted on the rest and keep the dip's depth."""
+    from ..photometry.transitfit import NAMES
+
+    fit_lc, out = getattr(page, "transit_fit", None) or (None, None)
+    t = np.asarray(lc["time"], float)
+    if out is None or len(out["model"]) != len(t) or not np.allclose(fit_lc["time"], t, rtol=0, atol=1e-6):
+        return None
+    v = out["values"]
+    shape = np.asarray(out["model"], float) / v["baseline"]
+    for k in set(v) - set(NAMES):  # the trend fitted with it, normalised as transitfit.fit does
+        z = np.asarray(fit_lc[k], float)
+        shape = shape / np.exp(v[k] * (z - z.mean()) / (z.std() or 1.0))
+    return -2.5 * np.log10(shape)
+
+
+def remove_trends(rel, field, method, n_terms, fixed=None):
+    """The target's relative flux with the field's shared trends removed; fixed: its known signal (magnitudes)."""
     with np.errstate(all="ignore"):
         y = -2.5 * np.log10(np.where(np.asarray(rel, float) > 0, rel, np.nan))
     if method == "pca":
-        out, _ = sy.correct(y, field, max_terms=n_terms)
+        out, _ = sy.correct(y, field, max_terms=n_terms, fixed=fixed)
     elif method == "tfa":  # the engine's defaults: the field stars themselves are the templates
-        out = sy.tfa(y, field)
+        out = sy.tfa(y, field, fixed=fixed)
     else:  # the target is not in the fit of the terms: it cannot lend them its own signal
         _, terms = sy.sysrem(field, n_terms=n_terms)
-        out = sy.tfa(y, np.array([a for _, a in terms]))
+        out = sy.tfa(y, np.array([a for _, a in terms]), fixed=fixed)
     return 10 ** (-0.4 * out)
 
 
@@ -101,12 +118,18 @@ def apply(page, lc, raw):
     if n >= MIN_STARS:
         text = ""
     if cfg and n >= MIN_STARS:
-        share = kept_share(lc["time"], lc["rel_flux"], field, *cfg)
-        lc["rel_flux"] = remove_trends(lc["rel_flux"], field, *cfg).tolist()
+        fixed = fitted_signal(page, lc)
+        share = None if fixed is not None else kept_share(lc["time"], lc["rel_flux"], field, *cfg)
+        lc["rel_flux"] = remove_trends(lc["rel_flux"], field, *cfg, fixed=fixed).tolist()
         lc["field_trends"] = {"method": cfg[0], "terms": cfg[1], "stars": n, "kept": share}
-        text = translate(
-            "PhotometryPage", "{n} field stars ({which}); a 1 % dip would be reduced to {d:.2f} %."
-        ).format(n=n, which=which, d=100 * 0.01 * share)
+        if fixed is not None:
+            text = translate(
+                "PhotometryPage", "{n} field stars ({which}); the fitted transit is kept out of the trends' fit."
+            ).format(n=n, which=which)
+        else:
+            text = translate(
+                "PhotometryPage", "{n} field stars ({which}); a 1 % dip would be reduced to {d:.2f} %."
+            ).format(n=n, which=which, d=100 * 0.01 * share)
     page.field_note.setText(text)
 
 

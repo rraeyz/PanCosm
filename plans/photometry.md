@@ -527,7 +527,7 @@ stored reference table).
     columns of our table.
 
 ### PHO-24. Measuring between two stars on the image  (P2)
-**partial** — done (2026-11-14): `io/inspect.pair_measure` (both stars centred, apertures of star 1's radii,
+**done** — done (2026-11-14): `io/inspect.pair_measure` (both stars centred, apertures of star 1's radii,
 separation in px and ″, position angle N through E, f2/f1 and Δmag with errors) — the accept test passes
 (tests/test_pair_measure.py: ratio within 0.5 %, separation 0.02 px, PA 0.05°); the Images window's Line tool adds
 the pair's rows when both ends sit on stars (`ui/image_pair.py`). more done (2026-11-21, `ui/image_pair_table.py`):
@@ -535,7 +535,10 @@ the Images window's "Pairs" tab (`PairTable`: Add to table, Delete, Export… as
 `pair_measure`'s own keys; `tests/ui/test_pair_table.py`). done (2026-11-28, `ui/astrometry_pairs.py`): the
 Astrometry window's Find stage "Measure a pair of stars" (a toggle: while on, a line drawn on the shown frame measures
 the pair with the frame's own WCS through `pair_of`; off, clicks pick the object again) and the same `PairTable`
-under the positions; `tests/ui/test_astrometry_pairs.py`. Left: feeding the pairs to AST (double-star measures).
+under the positions; `tests/ui/test_astrometry_pairs.py`. Done (2026-11-28, `image_pair_table.add_send / send_pairs`): the Images
+window's Pairs tab has "Send to Astrometry" (the table's pairs join the Astrometry window's Pairs table, which opens,
+as "Send to O−C" does); `test_send_to_astrometry_appends_the_pairs_and_opens_the_window`. The double-star
+measures themselves (θ, ρ per epoch, WDS, JDSO) are AST-8's; the pairs wait in that table for it.
 - **Ours now:** `io/inspect.star_info` (one star in an aperture) and the Images window's Line tool (distance only); nothing between two stars.
 - **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
   Information window (astrometric mode).
@@ -832,7 +835,7 @@ check.
   tests.
 
 ### PHO-31. Removing systematics common to many stars  (P2)
-**partial** — done (2026-11-14), the engine: `photometry/systematics.py`: `sysrem` (weighted rank-one terms, NaN
+**done** — done (2026-11-14), the engine: `photometry/systematics.py`: `sysrem` (weighted rank-one terms, NaN
 kept out), `pca_basis` + `bic_terms` + `correct` (the field's trends, as many as the BIC asks for, a constant beside
 them), `tfa` (templates; with `fixed` = the target's model the trends are fitted on the rest), `suppression` (the
 share of an injected dip's depth a blind correction keeps). Tests (tests/test_systematics.py): SysRem brings
@@ -848,8 +851,12 @@ variable star search (PHO-30) when its frames match the light curve's (`photomet
 target, candidate variables and stars on < 80 % of the frames left out; the page reads it through `field_source`, set
 in `area_pages.make_photometry_page`), else the comparison and check stars; the note names the set and the number.
 TFA (`sy.tfa`, the field stars as templates, engine defaults) is the third method. Tests:
-`test_whole_field_is_the_field_when_it_exists`, `test_tfa_keeps_the_sinusoid`. Left: a given model (`fixed`) from
-the Timing and fit stage; the controls refresh on the next recompute after a variable star search.
+`test_whole_field_is_the_field_when_it_exists`, `test_tfa_keeps_the_sinusoid`. Done (2026-11-28): the Timing and
+fit stage's transit model (`photometry_systematics.fitted_signal`: the fit's model over its baseline and its airmass
+trend, on the same frames) is `fixed` for SysRem, PCA and TFA (`remove_trends(fixed=)`), the note then says the fitted
+transit is kept out instead of the suppression; a fit with the box ticked recomputes (`photometry_transit.attach`); a
+variable star search refreshes the controls at once (`area_pages._found`). Tests
+`test_the_fitted_transit_model_is_kept_out_of_the_trends`, `test_a_variable_star_search_refreshes_the_controls_at_once`.
 - **Reference:** SysRem (Tamuz, Mazeh & Zucker 2005, MNRAS 356, 1466); TFA (Kovács, Bakos & Noyes 2005, MNRAS 356,
   557); cotrending basis vectors of Kepler / TESS (Smith et al. 2012); lightkurve `CBVCorrector`,
   `RegressionCorrector`, `PLDCorrector`.
@@ -952,7 +959,7 @@ predicted error; (2026-11-20) the shares are also drawn as a stacked bar under t
 - **Files:** `photometry/errors.py`, `aperture.scintillation`, UI, tests, guide 13.
 
 ### PHO-35. Transformed magnitudes on every frame  (P2)
-**partial** — done (2026-11-14), the engine: `photometry/transform.py`: `transformed` (the ensemble magnitude with
+**done** — done (2026-11-14), the engine: `photometry/transform.py`: `transformed` (the ensemble magnitude with
 each comparison star moved off its colour term plus the target's, the coefficient's error carried) and
 `transformed_pair` (both filters of a night, the target's colour per frame from the other filter interpolated in
 time and iterated); `export.aavso_extended(transform=…)` writes TRANS=YES and the coefficient in NOTES. Test
@@ -961,7 +968,7 @@ frame, untransformed 0.06 / 0.03 off. The AAVSO report dialog takes the colour t
 then says TRANS=YES; test_profiles). Done (2026-11-27): the coefficients in the profile, dated per filter set
 (`core/profile_coefficients.save / latest`, profile `filters["transformations"]`; the coefficients dialog's "Save to the profile"; the AAVSO dialog offers the
 newest colour term of its filter); the comparison colours from the sequence's B and V (`aavso_dialog.from_sequence`, test_aavso_vsp). Test
-`test_coefficients_saved_dated_and_offered_in_the_aavso_dialog`. Done (2026-11-28): the second-order extinction term k″ (Hardie 1962; m = M + k′X + k″ C X): `coefficients.extinction(colour=, second_order=True)` fits k′ and k″ with errors from one least-squares covariance (the stars' colours must differ: at least 3 stars and a span above 0 — that threshold is ours, no published one; else the ValueError template in `ui/messages.py`), `transform.transformed(k2=, k2_error=)` shifts each frame by −k″ X (C_target − mean C_comparison). Tests `test_second_order_extinction_recovered`, `test_second_order_off_is_the_old_fit_and_narrow_colour_span_raises`, `test_second_order_term_shifts_by_k2_x_colour_distance`. Left: the coefficients dialog has no checkbox yet (the light curve carries no comparison-star colours there) (2026-11-28: `transformed_pair(k2=, k2_errors=)` passes each filter's k″ on; test_the_pair_passes_k2_on).
+`test_coefficients_saved_dated_and_offered_in_the_aavso_dialog`. Done (2026-11-28): the second-order extinction term k″ (Hardie 1962; m = M + k′X + k″ C X): `coefficients.extinction(colour=, second_order=True)` fits k′ and k″ with errors from one least-squares covariance (the stars' colours must differ: at least 3 stars and a span above 0 — that threshold is ours, no published one; else the ValueError template in `ui/messages.py`), `transform.transformed(k2=, k2_error=)` shifts each frame by −k″ X (C_target − mean C_comparison). Tests `test_second_order_extinction_recovered`, `test_second_order_off_is_the_old_fit_and_narrow_colour_span_raises`, `test_second_order_term_shifts_by_k2_x_colour_distance`. (2026-11-28: `transformed_pair(k2=, k2_errors=)` passes each filter's k″ on; test_the_pair_passes_k2_on). Done (2026-11-28, `ui/coefficients_transform.py`): the coefficients dialog's "Transformed magnitudes on every frame" box, from the Photometry page's catalogue look-up (`page.catalog`: comparison magnitudes and B − V; Gaia-only colours may be BP − RP and are not taken), the dialog's fitted colour term else the profile's newest, the variable's colour typed (the catalogue's offered); disabled with the reason as its tooltip without the colours; `test_transformed_magnitudes_box_needs_the_comparison_colours`.
 - **Ours now:** `photometry/coefficients.py` (`transformation`, `extinction`), `photometry/catalog.calibrate` (zero point + colour term per frame), `ui/coefficients_dialog.py`; `multifilter.colour_curve` (done item 11).
 - **Reference:** AAVSO Guide to CCD Photometry (transformation); AAVSO Extended format `TRANS=YES`; VPhot; our
   `coefficients.transformation`.

@@ -232,7 +232,7 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         bar = win.menuBar()
         for menu in (self.view_menu, self.image_bar_menu):
             self.menuBar().removeAction(menu.menuAction())
-        bar.insertMenu(win.window_menu.menuAction(), self.view_menu)
+        bar.insertMenu(win.tools_menu.menuAction(), self.view_menu)
         win.view_menu.menuAction().setVisible(False)  # the frame's own View: its items join the moved one
         self.view_menu.addSeparator()
         for act in win.view_menu.actions():

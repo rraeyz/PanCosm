@@ -620,7 +620,7 @@
     </message>
     <message>
         <location filename="../../ui/kit/window.py" line="82"/>
-        <location filename="../../ui/kit/window.py" line="176"/>
+        <location filename="../../ui/kit/window.py" line="175"/>
         <source>Toolbar</source>
         <translation>Barra de herramientas</translation>
     </message>
@@ -685,72 +685,72 @@
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="154"/>
+        <location filename="../../ui/kit/window.py" line="153"/>
         <source>&amp;Undo</source>
         <translation>&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="156"/>
+        <location filename="../../ui/kit/window.py" line="155"/>
         <source>&amp;Redo</source>
         <translation>&amp;Rehacer</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="164"/>
+        <location filename="../../ui/kit/window.py" line="163"/>
         <source>Find an action…</source>
         <translation>Buscar una acción…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="165"/>
+        <location filename="../../ui/kit/window.py" line="164"/>
         <source>Type a few letters of what you want to do: every menu and toolbar action of this window is found</source>
         <translation>Escriba unas letras de lo que quiere hacer: se encuentra cada acción de los menús y la barra de herramientas de esta ventana</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="169"/>
+        <location filename="../../ui/kit/window.py" line="168"/>
         <source>&amp;View</source>
         <translation>&amp;Ver</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="173"/>
+        <location filename="../../ui/kit/window.py" line="172"/>
         <source>Show or hide this panel</source>
         <translation>Mostrar u ocultar este panel</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="179"/>
+        <location filename="../../ui/kit/window.py" line="178"/>
         <source>Toolbar &amp;text</source>
         <translation>&amp;Texto de la barra</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="180"/>
+        <location filename="../../ui/kit/window.py" line="179"/>
         <source>The names beside the toolbar&apos;s icons (kept for next time)</source>
         <translation>Los nombres junto a los iconos de la barra (se conserva para la próxima vez)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="188"/>
+        <location filename="../../ui/kit/window.py" line="187"/>
         <source>&amp;Larger text</source>
         <translation>Texto más &amp;grande</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="189"/>
+        <location filename="../../ui/kit/window.py" line="188"/>
         <source>&amp;Smaller text</source>
         <translation>Texto más &amp;pequeño</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="190"/>
+        <location filename="../../ui/kit/window.py" line="189"/>
         <source>&amp;Normal text size</source>
         <translation>Tamaño de texto &amp;normal</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="194"/>
+        <location filename="../../ui/kit/window.py" line="193"/>
         <source>The size of the text in every window (kept for next time)</source>
         <translation>El tamaño del texto en todas las ventanas (se guarda para la próxima vez)</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="197"/>
+        <location filename="../../ui/kit/window.py" line="196"/>
         <source>&amp;Reset layout</source>
         <translation>&amp;Restablecer disposición</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="198"/>
+        <location filename="../../ui/kit/window.py" line="197"/>
         <source>Put every panel back where it was when the window first opened</source>
         <translation>Devuelve cada panel a donde estaba cuando se abrió la ventana por primera vez</translation>
     </message>
@@ -918,17 +918,17 @@
         <translation>Ventana principal</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="553"/>
+        <location filename="../../ui/kit/window.py" line="554"/>
         <source>Find an action (Ctrl+K)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="695"/>
+        <location filename="../../ui/kit/window.py" line="696"/>
         <source>Tile side by side</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="696"/>
+        <location filename="../../ui/kit/window.py" line="697"/>
         <source>Bring all windows to this screen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -948,6 +948,31 @@ Send this file with a few words on what you did and what went wrong. It holds no
 {path}
 
 Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No contiene archivos de datos ni nombres de carpetas.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="49"/>
+        <source>Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="52"/>
+        <source>Time and coordinate converter…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="53"/>
+        <source>A time in any standard (JD, HJD, BJD) into the others, with the altitude, airmass and barycentric correction of a target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="56"/>
+        <source>Gain and read noise from two flats and two biases</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/kit/tools_menu.py" line="58"/>
+        <source>Set, rename or delete header keywords over many files at once</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2885,120 +2910,178 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>CoefficientsDialog</name>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="32"/>
+        <location filename="../../ui/coefficients_dialog.py" line="33"/>
         <source>Photometric coefficients</source>
         <translation>Coeficientes fotométricos</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="36"/>
+        <location filename="../../ui/coefficients_dialog.py" line="37"/>
         <source>Extinction of the night</source>
         <translation>Extinción de la noche</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="38"/>
+        <location filename="../../ui/coefficients_dialog.py" line="39"/>
         <source>From the comparison stars of the measured light curve</source>
         <translation>A partir de las estrellas de comparación de la curva medida</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="43"/>
+        <location filename="../../ui/coefficients_dialog.py" line="44"/>
         <source>Measure a light curve whose frames give the sky position (airmass) first</source>
         <translation>Mida primero una curva de luz cuyos cuadros den la posición en el cielo (masa de aire)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="50"/>
+        <location filename="../../ui/coefficients_dialog.py" line="51"/>
         <source>Transformation coefficients from a standard field</source>
         <translation>Coeficientes de transformación a partir de un campo estándar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="53"/>
+        <location filename="../../ui/coefficients_dialog.py" line="54"/>
         <source>no image</source>
         <translation>ninguna imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="57"/>
+        <location filename="../../ui/coefficients_dialog.py" line="58"/>
         <source>Filter of this image of the standard field</source>
         <translation>Filtro de esta imagen del campo estándar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="58"/>
+        <location filename="../../ui/coefficients_dialog.py" line="59"/>
         <source>Plate-solved image…</source>
         <translation>Imagen resuelta…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="62"/>
+        <location filename="../../ui/coefficients_dialog.py" line="63"/>
         <source>Filter {n}</source>
         <translation>Filtro {n}</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="67"/>
+        <location filename="../../ui/coefficients_dialog.py" line="68"/>
         <source>An image of a standard field (e.g. Landolt) through this filter, with a plate solution in its header</source>
         <translation>Una imagen de un campo estándar (p. ej. Landolt) con este filtro, con solución astrométrica en la cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="72"/>
+        <location filename="../../ui/coefficients_dialog.py" line="73"/>
         <source>Compute (catalogue magnitudes from VizieR)</source>
         <translation>Calcular (magnitudes de catálogo de VizieR)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="77"/>
+        <location filename="../../ui/coefficients_dialog.py" line="78"/>
         <source>Measures the stars of both images, looks up their catalogue magnitudes and fits the colour terms of the transformation to the standard system (needs the internet)</source>
         <translation>Mide las estrellas de ambas imágenes, busca sus magnitudes de catálogo y ajusta los términos de color de la transformación al sistema estándar (necesita internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="86"/>
+        <location filename="../../ui/coefficients_dialog.py" line="87"/>
         <source>Save to the profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="88"/>
+        <location filename="../../ui/coefficients_dialog.py" line="89"/>
         <source>Keep these coefficients, dated, for this filter set in the equipment profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="109"/>
+        <location filename="../../ui/coefficients_dialog.py" line="111"/>
         <source>k = {k:.3f} ± {e:.3f} mag per airmass ({n} measurements, rms {r:.3f} mag)</source>
         <translation>k = {k:.3f} ± {e:.3f} mag por masa de aire ({n} medidas, rms {r:.3f} mag)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="117"/>
+        <location filename="../../ui/coefficients_dialog.py" line="119"/>
         <source>Comparison star {n}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="121"/>
-        <location filename="../../ui/coefficients_dialog.py" line="181"/>
+        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="183"/>
         <source>Fit</source>
         <translation>Ajustar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="125"/>
         <source>Airmass</source>
         <translation>Masa de aire</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="123"/>
+        <location filename="../../ui/coefficients_dialog.py" line="125"/>
         <source>Instrumental magnitude − mean</source>
         <translation>Magnitud instrumental − media</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="140"/>
+        <location filename="../../ui/coefficients_dialog.py" line="142"/>
         <source>Measuring and querying the catalogue…</source>
         <translation>Midiendo y consultando el catálogo…</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="161"/>
+        <location filename="../../ui/coefficients_dialog.py" line="163"/>
         <source>{n} standard stars</source>
         <translation>{n} estrellas estándar</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="169"/>
+        <location filename="../../ui/coefficients_dialog.py" line="171"/>
         <source>{name} = {v:.4f} ± {e:.4f} (zero point {z:.3f}, rms {r:.3f}, {u} stars)</source>
         <translation>{name} = {v:.4f} ± {e:.4f} (punto cero {z:.3f}, rms {r:.3f}, {u} estrellas)</translation>
     </message>
     <message>
-        <location filename="../../ui/coefficients_dialog.py" line="179"/>
+        <location filename="../../ui/coefficients_dialog.py" line="181"/>
         <source>Stars</source>
         <translation>Estrellas</translation>
+    </message>
+</context>
+<context>
+    <name>CoefficientsTransform</name>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="27"/>
+        <source>Measure a light curve first.</source>
+        <translation type="unfinished">Mida primero una curva de luz.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="30"/>
+        <source>The light curve has no B − V colours of its comparison stars: look them up with Standard magnitudes (Report stage; the catalogue or the AAVSO chart must have their B and V magnitudes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="53"/>
+        <source>Transformed magnitudes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="55"/>
+        <source>Transformed magnitudes on every frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="57"/>
+        <source>B − V of the variable, e.g. 0.65</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="58"/>
+        <source>The variable&apos;s colour (B − V) on this night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="76"/>
+        <source>The target&apos;s standard magnitude on each frame, with the filter&apos;s colour term</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="102"/>
+        <source>No colour term for {band}: fit one from a standard field above or save one in the profile.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="104"/>
+        <source>Type the variable&apos;s colour (B − V) first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="112"/>
+        <source>{band} on {n} frames: mean {m:.3f} (colour term {t:.4f} ± {e:.4f}, B − V {c:.3f}).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/coefficients_transform.py" line="126"/>
+        <source>Days from {t0:.5f}</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3012,12 +3095,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>CommandSearch</name>
     <message>
-        <location filename="../../ui/kit/window.py" line="648"/>
+        <location filename="../../ui/kit/window.py" line="649"/>
         <source>Type what you want to do…</source>
         <translation>Escriba lo que quiere hacer…</translation>
     </message>
     <message>
-        <location filename="../../ui/kit/window.py" line="649"/>
+        <location filename="../../ui/kit/window.py" line="650"/>
         <source>Words in any order; ↑ ↓ choose, Enter runs, Esc closes</source>
         <translation>Palabras en cualquier orden; ↑ ↓ eligen, Intro ejecuta, Esc cierra</translation>
     </message>
@@ -5591,6 +5674,16 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <source>Pairs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../ui/image_pair_table.py" line="87"/>
+        <source>Send to Astrometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/image_pair_table.py" line="88"/>
+        <source>Add the pairs of this table to the Astrometry window&apos;s pairs table</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageWindow</name>
@@ -6609,11 +6702,13 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="37"/>
+        <location filename="../../ui/kit/tools_menu.py" line="55"/>
         <source>Measure the camera…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/area_menus.py" line="51"/>
+        <location filename="../../ui/kit/tools_menu.py" line="57"/>
         <source>Edit the headers of many files…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7510,12 +7605,12 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="415"/>
+        <location filename="../../ui/image_actions.py" line="416"/>
         <source>The solution gives {solved:.3f} ″/px, the profile {mine:.3f} ″/px: check the focal length and pixel size in Settings → Profiles.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="450"/>
+        <location filename="../../ui/image_actions.py" line="451"/>
         <source>Open two or more images to stack them.</source>
         <translation>Abra dos o más imágenes para apilarlas.</translation>
     </message>
@@ -7708,7 +7803,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     <message>
         <location filename="../../ui/file_actions.py" line="194"/>
         <location filename="../../ui/image_actions.py" line="91"/>
-        <location filename="../../ui/image_actions.py" line="456"/>
+        <location filename="../../ui/image_actions.py" line="457"/>
         <source>Save FITS as</source>
         <translation>Guardar FITS como</translation>
     </message>
@@ -7780,37 +7875,37 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>Este archivo contiene varias imágenes:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="333"/>
+        <location filename="../../ui/image_actions.py" line="334"/>
         <source>Save picture</source>
         <translation>Guardar imagen</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="350"/>
+        <location filename="../../ui/image_actions.py" line="351"/>
         <source>Images to convert</source>
         <translation>Imágenes a convertir</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="358"/>
+        <location filename="../../ui/image_actions.py" line="359"/>
         <source>TIFF, 32-bit data</source>
         <translation>TIFF, datos de 32 bits</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="361"/>
+        <location filename="../../ui/image_actions.py" line="362"/>
         <source>Convert images</source>
         <translation>Convertir imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="362"/>
+        <location filename="../../ui/image_actions.py" line="363"/>
         <source>Format:</source>
         <translation>Formato:</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="371"/>
+        <location filename="../../ui/image_actions.py" line="372"/>
         <source>Folder for the pictures</source>
         <translation>Carpeta para las imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="380"/>
+        <location filename="../../ui/image_actions.py" line="381"/>
         <source>{n} pictures written to {folder}.</source>
         <translation>{n} imágenes escritas en {folder}.</translation>
     </message>
@@ -7845,22 +7940,22 @@ This plugin is new or has changed. A plugin runs with your rights, like any prog
         <translation>La tarea falló</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="393"/>
+        <location filename="../../ui/image_actions.py" line="394"/>
         <source>No plate solver</source>
         <translation>Sin reductor astrométrico</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="394"/>
+        <location filename="../../ui/image_actions.py" line="395"/>
         <source>Install ASTAP and one of its star databases (hnsky.org/astap.htm), or astrometry.net, then try again. Nothing is sent over the internet.</source>
         <translation>Instale ASTAP y una de sus bases de estrellas (hnsky.org/astap.htm), o astrometry.net, y vuelva a intentarlo. No se envía nada por internet.</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="480"/>
+        <location filename="../../ui/image_actions.py" line="481"/>
         <source>Stack written: {path}</source>
         <translation>Apilado escrito: {path}</translation>
     </message>
     <message>
-        <location filename="../../ui/image_actions.py" line="488"/>
+        <location filename="../../ui/image_actions.py" line="489"/>
         <source>value</source>
         <translation>valor</translation>
     </message>
@@ -16834,7 +16929,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished">{n} toma(s) sin algunas estrellas de comparación, conservadas frente a las demás (en naranja en la lista de tomas).</translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="97"/>
+        <location filename="../../ui/photometry_systematics.py" line="114"/>
         <source>Needs at least {n} measured field stars ({have} now).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16849,32 +16944,37 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="107"/>
+        <location filename="../../ui/photometry_systematics.py" line="126"/>
+        <source>{n} field stars ({which}); the fitted transit is kept out of the trends&apos; fit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/photometry_systematics.py" line="130"/>
         <source>{n} field stars ({which}); a 1 % dip would be reduced to {d:.2f} %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="116"/>
+        <location filename="../../ui/photometry_systematics.py" line="139"/>
         <source>trends of the field stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="129"/>
+        <location filename="../../ui/photometry_systematics.py" line="152"/>
         <source>Remove trends shared with the field stars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="131"/>
+        <location filename="../../ui/photometry_systematics.py" line="154"/>
         <source>The trends that the measured comparison and check stars share (airmass, clouds, focus) are fitted and taken out of the target; untick to get the light curve back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="138"/>
+        <location filename="../../ui/photometry_systematics.py" line="161"/>
         <source>PCA (terms by BIC)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_systematics.py" line="142"/>
+        <location filename="../../ui/photometry_systematics.py" line="165"/>
         <source>Number of trends removed (at most, for PCA)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17511,17 +17611,17 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="255"/>
+        <location filename="../../ui/photometry_transit.py" line="257"/>
         <source>Measure the light curve first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="260"/>
+        <location filename="../../ui/photometry_transit.py" line="262"/>
         <source>Type the period (d) above first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/photometry_transit.py" line="269"/>
+        <location filename="../../ui/photometry_transit.py" line="271"/>
         <source>Fitting the transit…</source>
         <translation type="unfinished"></translation>
     </message>

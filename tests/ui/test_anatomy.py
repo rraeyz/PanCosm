@@ -86,3 +86,22 @@ def test_layout_is_kept_per_screen_arrangement(qtbot, tmp_path, monkeypatch):
     s.set("area.demo.layouts", "junk")
     s.set("area.demo.state", "not base64 state")
     _demo(qtbot, tmp_path).close()
+
+
+def test_the_shared_tools_menu_stays_before_window_and_takes_a_free_alt_key(qtbot, tmp_path):
+    """UI-4 item 3: Tools after the area's menus (also those added later) and before Window; its Alt key is a
+    letter no other menu of the bar has; each item opens its dialog."""
+    from PySide6.QtGui import QAction
+
+    from astrowb.ui.converter_dialog import ConverterDialog
+
+    win = _demo(qtbot, tmp_path)
+    win.add_menus([("&Targets", [QAction("x", win)]), ("F&ocus", [QAction("y", win)])])
+    titles = [a.text() for a in win.menuBar().actions()]
+    assert titles[-5:] == ["&Targets", "F&ocus", "Too&ls", "&Window", "&Help"], titles  # t and o are taken
+    items = [a for a in win.tools_menu.actions() if a.text()]
+    assert [a.text() for a in items][0] == "Time and coordinate converter…" and len(items) == 3
+    assert all(a.toolTip() for a in items)
+    items[0].trigger()
+    assert isinstance(win.tool_dialog, ConverterDialog) and win.tool_dialog.isVisible()
+    win.tool_dialog.close()

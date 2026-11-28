@@ -241,6 +241,8 @@ def attach(main, page):
             page.checks.show_checks(page.light_curve)
         page.transit_result.setText(result_text(out["transit"]))
         page.transit_details.setEnabled(True)
+        if getattr(page, "field_cfg", None):  # PHO-31: the trends are fitted again with the model kept out
+            page._recompute()
         from . import automatic
 
         oc = getattr(main, "oc_page", None)

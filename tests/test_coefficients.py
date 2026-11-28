@@ -118,3 +118,35 @@ def test_second_order_off_is_the_old_fit_and_narrow_colour_span_raises():
         co.extinction(x, f, np.full(5, 0.7), second_order=True)
     with pytest.raises(ValueError, match="colours do not differ"):
         co.extinction(x, f, None, second_order=True)
+
+
+def test_transformed_magnitudes_box_needs_the_comparison_colours(qtbot):
+    """PHO-35: with the comparison stars' B − V (the page's catalogue look-up) the box gives transform.transformed per
+    frame with the dialog's colour term; without them (or with Gaia-only colours) it is disabled and says why."""
+    from astrowb.photometry.transform import transformed
+    from astrowb.ui.coefficients_dialog import CoefficientsDialog
+
+    rng = np.random.default_rng(2)
+    comp = 10 ** (-0.4 * (np.array([11.0, 12.0])[None, :] + rng.normal(0, 0.003, (30, 2))))
+    rel = 10 ** (-0.4 * rng.normal(0.5, 0.01, 30))
+    lc = {"time": np.linspace(0.3, 0.5, 30).tolist(), "rel_flux": rel.tolist(), "rel_flux_err": [0.002] * 30,
+          "comp_flux": comp.tolist()}  # fmt: skip
+    cat = {"filter": "V", "target": {"mag": 11.5, "colour": 0.9, "source": "APASS DR9"},
+           "comps": [{"mag": 11.0, "colour": 0.4, "source": "APASS DR9"},
+                     {"mag": 12.0, "colour": 1.2, "source": "Gaia DR3 GSPC"}]}  # fmt: skip
+    dlg = CoefficientsDialog(lc, catalog=cat)
+    qtbot.addWidget(dlg)
+    assert dlg.transform_box.isEnabled() and dlg.target_colour.text() == "0.900"
+    dlg.transform_box.setChecked(True)  # no colour term yet: it says so and unticks
+    assert not dlg.transform_box.isChecked() and "No colour term for V" in dlg.transform_note.text()
+    dlg.result = {"transformation": {"tv": {"value": -0.08, "error": 0.01}}}
+    dlg.transform_box.setChecked(True)
+    want, _ = transformed(lc, [11.0, 12.0], [0.4, 1.2], 0.9, -0.08, 0.01)
+    assert np.allclose(dlg.transformed["mag"], want) and "V on 30 frames" in dlg.transform_note.text()
+    dlg.transform_box.setChecked(False)
+    assert dlg.transformed is None
+    for comps in ([cat["comps"][0], None], [cat["comps"][0], {"mag": 12.0, "colour": 0.7, "source": "Gaia DR3"}]):
+        other = CoefficientsDialog(lc, catalog=cat | {"comps": comps})
+        qtbot.addWidget(other)
+        assert not other.transform_box.isEnabled() and "B − V colours" in other.transform_box.toolTip()
+    assert not CoefficientsDialog(None).transform_box.isEnabled()

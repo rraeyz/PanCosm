@@ -32,3 +32,26 @@ def test_add_to_table_twice_and_export(qapp, tmp_path):
         assert np.allclose(csv[n], ecsv[n]) and np.allclose(ecsv[n], pairs.table.model.table[n])
     pairs.delete([0])
     assert len(pairs.table.model.table) == 1
+
+
+def test_send_to_astrometry_appends_the_pairs_and_opens_the_window(qapp):
+    """PHO-24: the Images window's pairs go to the Astrometry window's pairs table, which opens."""
+    from types import SimpleNamespace
+
+    from astrowb.ui.image_pair_table import PairTable
+
+    img, w, (x1, y1), (x2, y2), _ = pair_image()
+    opened, target = [], PairTable()
+    target.pairs = [{"separation_px": 1.0}]
+    main = SimpleNamespace(astrometry_page=SimpleNamespace(pair_table=target), open_area=opened.append)
+    page = ImagePage()
+    page.owner = main
+    page.viewer.data, page.wcs = img, w
+    page.measure_line(x1 + 1, y1, x2, y2 - 1)
+    pairs = page.pair_table
+    pairs.send_button.click()  # nothing added yet: nothing sent
+    assert opened == [] and len(target.pairs) == 1
+    pairs.add_button.click()
+    pairs.send_button.click()
+    assert opened == ["astrometry"] and len(target.pairs) == 2
+    assert target.pairs[1]["dmag"] == pairs.pairs[0]["dmag"] and len(target.table.model.table) == 2
