@@ -97,6 +97,9 @@ class Harness:
         for n, fn in self._dialogs.items():
             setattr(QFileDialog, n, fn)
         self.main.engine.shutdown()
+        from qt_cleanup import delete_window
+
+        delete_window(self.main)
         for t in self.translators:
             self.app.removeTranslator(t)
 

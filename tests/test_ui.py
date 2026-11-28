@@ -5,6 +5,7 @@ import numpy as np
 import pytest
 from astropy.io import fits
 from PySide6.QtCore import Qt
+from qt_cleanup import delete_window
 
 from astrowb.display import INTERVALS, STRETCHES, to_display
 from astrowb.settings import Settings
@@ -33,21 +34,7 @@ def window(qtbot, tmp_path):
     qtbot.addWidget(win)
     yield win
     win.engine.shutdown()
-    _delete_window(win)
-
-
-def _delete_window(win):
-    """The main window and the area windows it opened are deleted after each test: kept, they piled up (408 windows
-    after the every-button test) and every later style change re-polished them all (CI: one font test took 15 min)."""
-    from PySide6.QtCore import QEvent
-    from PySide6.QtWidgets import QApplication
-
-    for area in list(getattr(win, "area_windows", {}).values()):
-        area.close()
-        area.deleteLater()
-    win.close()
-    win.deleteLater()
-    QApplication.sendPostedEvents(None, QEvent.DeferredDelete)
+    delete_window(win)
 
 
 def test_open_and_save(window, fits_file, tmp_path):
