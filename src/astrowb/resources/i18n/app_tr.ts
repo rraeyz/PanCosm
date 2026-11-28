@@ -3051,7 +3051,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     <message>
         <location filename="../../ui/coefficients_transform.py" line="57"/>
         <source>B − V of the variable, e.g. 0.65</source>
-        <translation>Değişenin B − V'si, ör. 0.65</translation>
+        <translation>Değişenin B − V&apos;si, ör. 0.65</translation>
     </message>
     <message>
         <location filename="../../ui/coefficients_transform.py" line="58"/>
