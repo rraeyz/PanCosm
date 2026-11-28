@@ -170,5 +170,6 @@ def decimate_points(x, y, x0, x1, y0, y1, width, height):
         return inside
     cx = ((x[inside] - x0) / ((x1 - x0) or 1) * (width - 1)).astype(np.int64)
     cy = ((y[inside] - y0) / ((y1 - y0) or 1) * (height - 1)).astype(np.int64)
-    _, first = np.unique(cx * height + cy, return_index=True)
-    return inside[np.sort(first)]
+    cells = np.full(width * height, -1, np.int64)
+    cells[cx * height + cy] = np.arange(len(inside))  # one point per cell (the last; np.unique's sort cost 40 ms)
+    return inside[np.sort(cells[cells >= 0])]

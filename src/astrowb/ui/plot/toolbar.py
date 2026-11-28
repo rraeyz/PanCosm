@@ -71,7 +71,8 @@ class PlotToolbar(QWidget):
             path += ".pdf"
         from . import publish
 
-        return self._write(publish.publish, path)
+        shown = self.view.show_left_out  # hidden left-out points stay out of the figure too
+        return self._write(lambda spec, p: publish.publish(spec if shown else publish.without_left_out(spec), p), path)
 
     def _write(self, writer, path):
         if not path or self.view.figure is None or not self.view.figure.panels:  # cancelled, or nothing plotted yet

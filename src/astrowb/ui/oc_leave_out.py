@@ -1,7 +1,7 @@
 """Leaving O−C points out and bringing them back from the diagram (UI-16.5, OC-W). The points the user selected (a
 click, or a lasso: L + drag) are rows of the minima table, found by the minimum's time; Delete or "Leave out the
 selected" unticks their Use cells, "Bring back the selected" reticks them, each as one undoable step, and a fit already
-made is repeated. Left-out minima stay on the diagram as grey points."""
+made is repeated. Left-out minima stay on the diagram as hollow points ("Show left-out points", UI-10)."""
 
 import numpy as np
 from PySide6.QtCore import QCoreApplication, Qt
@@ -55,7 +55,7 @@ def set_use(page, use):
 
 
 def left_out_series(page, f):
-    """Grey, pickable points of the unticked minima on the fit's reference ephemeris."""
+    """Hollow, pickable points of the unticked minima on the fit's reference ephemeris."""
     t, minima = page.minima_input, []
     for r in range(t.rowCount()):
         if t.item(r, USE).checkState() != Qt.Checked and _time(t, r) is not None:
@@ -65,7 +65,7 @@ def left_out_series(page, f):
     times = np.array([m.time for m in minima])
     e = epochs(minima, f.ref_t0, f.ref_period)
     return [SeriesSpec(translate("OcLeaveOut", NAME), e, (times - (f.ref_t0 + f.ref_period * e)) * 1440,
-                       colour=tokens.role("rejected"), pickable=True, ids=times)]  # fmt: skip
+                       colour=tokens.role("rejected"), pickable=True, ids=times, left_out=True)]  # fmt: skip
 
 
 def connect(page):
@@ -84,7 +84,7 @@ def connect(page):
         (translate("OcLeaveOut", "Leave out the selected"), False,
          translate("OcLeaveOut", "Untick the selected minima (click or L + drag on the diagram; Delete too)")),
         (translate("OcLeaveOut", "Bring back the selected"), True,
-         translate("OcLeaveOut", "Tick the selected left-out minima again (grey points on the diagram)")),
+         translate("OcLeaveOut", "Tick the selected left-out minima again (hollow points on the diagram)")),
     ):  # fmt: skip
         b = QPushButton(text, page)
         b.setToolTip(tip)

@@ -582,3 +582,41 @@ def test_left_out_points_are_hollow_in_the_publication_figure():
     fig = P.figure(FigureSpec([PanelSpec(AxisSpec("t"), AxisSpec("m"), s)]))
     data, out = fig.axes[0].lines[:2]
     assert out.get_markerfacecolor() == "none" and data.get_markerfacecolor() != "none"
+
+
+def test_the_publication_figure_skips_left_out_points_while_they_are_hidden(qtbot, tmp_path, monkeypatch):
+    from astrowb.ui.plot import publish as P
+    from astrowb.ui.plot.toolbar import PlotToolbar
+    from astrowb.ui.plot.view import PlotView
+
+    s = [SeriesSpec("data", [1, 2, 3], [1, 2, 3]), SeriesSpec("out", [4, 5], [4, 5], left_out=True)]
+    view = PlotView(FigureSpec([PanelSpec(AxisSpec("t"), AxisSpec("m"), s)]))
+    toolbar = PlotToolbar(view)
+    qtbot.addWidget(view)
+    qtbot.addWidget(toolbar)
+    drawn = []
+    monkeypatch.setattr(P, "publish", lambda spec, path: drawn.append([x.name for x in spec.panels[0].series]) or path)
+    toolbar.export_publication(str(tmp_path / "a.pdf"))
+    view.set_show_left_out(False)
+    toolbar.export_publication(str(tmp_path / "b.pdf"))
+    assert drawn == [["data", "out"], ["data"]]
+    assert [x.name for x in view.figure.panels[0].series] == ["data", "out"]  # the screen's spec is untouched
+
+
+def test_a_dense_scatter_shares_one_atlas_place_and_keeps_one_point_per_dot(qtbot):
+    """PER-W speed: points of one style get their atlas place at once (pyqtgraph looked it up point by point), a point
+    with its own brush still gets its own; a 5 px dot keeps one point per 2 px cell."""
+    import pyqtgraph as pg
+
+    from astrowb.ui.plot.fast_scatter import FastScatter
+
+    item = FastScatter(size=5, symbol="o", pen=None, brush=pg.mkBrush("r"))
+    item.setData(np.arange(1000.0), np.arange(1000.0))
+    rects = item.data["sourceRect"]
+    assert (rects["w"] > 0).all() and len({tuple(r) for r in rects.tolist()}) == 1
+    item.setData([0.0, 1.0], [0.0, 1.0], brush=[pg.mkBrush("r"), pg.mkBrush("b")])
+    assert len({tuple(r) for r in item.data["sourceRect"].tolist()}) == 2
+    rng = np.random.default_rng(0)
+    x, y = rng.uniform(0, 1, 200_000), rng.uniform(0, 1, 200_000)
+    keep = S.decimate_points(x, y, 0, 1, 0, 1, 100, 100)  # the view passes the 2 px grid of a 200 px view
+    assert len(keep) == 99 * 99 and np.all(np.diff(keep) > 0)  # every cell of the grid is filled, in order

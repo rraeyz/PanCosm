@@ -26,6 +26,16 @@ _DASH = {"": "-", "dash": "--", "dot": ":"}
 _MARKERS = {"o": "o", "s": "s", "^": "^", "v": "v", "d": "D", "+": "+", "x": "x", "*": "*"}
 
 
+def without_left_out(spec):
+    """A copy of the spec without its left-out series (the figure while "Show left-out points" is off, UI-10)."""
+    from copy import deepcopy
+
+    out = deepcopy(spec)
+    for panel in out.panels:
+        panel.series = [s for s in panel.series if not s.left_out]
+    return out
+
+
 def figure(spec, style="aas", width="single"):
     """A Matplotlib Figure of the spec (not shown anywhere)."""
     st = STYLES[style]

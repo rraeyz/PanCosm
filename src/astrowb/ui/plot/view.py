@@ -23,6 +23,7 @@ from PySide6.QtWidgets import QApplication, QGraphicsPathItem, QLabel, QVBoxLayo
 
 from ..kit import tokens
 from . import spec as S
+from .fast_scatter import FastScatter
 
 translate = QCoreApplication.translate  # the texts of PlotCanvas ("PlotCanvas" context), so one translation serves both
 PICK_PX = 6  # a click this near a point of a pickable series picks it
@@ -413,7 +414,7 @@ class PlotView(QWidget):
             entry["brushes"] = np.array([pg.mkBrush(c) for c in _colours(s.values)], dtype=object)
         if s.kind == "points" or s.kind == "errorbars":
             fill = {"pen": pen, "brush": None} if s.left_out else {"pen": None, "brush": brush}  # left out: hollow
-            entry["item"] = pg.ScatterPlotItem(size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"), **fill)
+            entry["item"] = FastScatter(size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"), **fill)
             entry["item"].sigClicked.connect(vb.picked)
             if s.yerr is not None or s.xerr is not None:
                 entry["errors"] = pg.ErrorBarItem(pen=pen)
@@ -493,7 +494,9 @@ class PlotView(QWidget):
             if not np.isfinite([x0, x1, y0, y1]).all() or (x0 == x1):  # nothing laid out yet: everything
                 index = np.flatnonzero(ok)
             else:
-                index = np.flatnonzero(ok)[S.decimate_points(x[ok], y[ok], x0, x1, y0, y1, width, height)]
+                cell = max(1, int(s.size) // 2)  # a 5 px dot hides a point 1 px beside it: one per 2 px cell
+                grid = (max(width // cell, 1), max(height // cell, 1))
+                index = np.flatnonzero(ok)[S.decimate_points(x[ok], y[ok], x0, x1, y0, y1, *grid)]
             e["shown"] = index
             lx, ly = (
                 np.log10(np.clip(v, 1e-300, None)) if m else v
