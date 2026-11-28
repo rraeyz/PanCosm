@@ -71,6 +71,9 @@ def summary(page, facts):
 def attach(win, page):
     """The summary under the Images stage; it follows the frame list, which the page refills whenever the frames or
     their quality change."""
+    from . import photometry_tess
+
+    photometry_tess.attach(win, page)  # PHO-32: TESS cut-outs by name, beside the image-loading controls
     label = QLabel(win.stage_panels["images"])
     label.setObjectName("images_summary")
     label.setWordWrap(True)

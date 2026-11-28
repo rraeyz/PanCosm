@@ -108,3 +108,33 @@ def test_target_by_name_in_the_field_stage(window, monkeypatch, tmp_path):  # no
 
     fail(page, "cannot reach SIMBAD and 'X' is not in the local cache (URLError)")  # offline: a sentence, no crash
     assert "SIMBAD" in page.name_answer.text()
+
+
+def test_tess_cutouts_by_name_in_the_images_stage(window, monkeypatch, tmp_path):  # noqa: F811
+    from test_tpf import write_tpf
+
+    win, page = _open(window)
+    main, calls = win.parent(), []
+    path = tmp_path / "tess-s0024-2-1_15x15_astrocut.fits"
+    write_tpf(path, n=20)
+
+    def answer(area, step_id, inputs, params=None, on_done=None, on_fail=None):
+        calls.append((step_id, inputs["target"], params["size"]))
+        if inputs["target"] == "TIC 1":
+            on_fail("no TESS full-frame images of TIC 1")
+        else:
+            on_done({"images": [str(path)], "sectors": [{"sector": 24, "camera": 2, "ccd": 1}]})
+
+    monkeypatch.setattr(main, "run_step_for", answer)
+    page.tess_target.setText("AI Dra")
+    page.tess_size.setValue(11)
+    page.tess_button.click()
+    assert calls == [("photometry.tesscut", "AI Dra", 11)]
+    assert len(page.images) == 19 and "Target pixel file" in page.images_label.text()  # one frame per good cadence
+    page.tess_target.setText("1")  # a bare number is a TIC number; no sectors: said in the stage, no crash
+    page.tess_button.click()
+    assert calls[-1][1] == "TIC 1" and "no TESS full-frame images" in page.images_label.text()
+    assert page.tess_button.isEnabled() and len(page.images) == 19
+    from astrowb.io import tpf
+
+    tpf.finish(path)  # the frames after the first are written in the background
