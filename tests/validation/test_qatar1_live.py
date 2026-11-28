@@ -31,12 +31,15 @@ def test_the_night_replayed_live_equals_the_night_run(tmp_path, measured):
             seen.add(new)
             assert session.add(new) is not None, session.failed
     got = session.light_curve()
-    want = light_curve(sorted(str(p) for p in folder.iterdir()), TARGET, COMPS, *RADII)
+    from unittest import mock
+
+    with mock.patch("astrowb.engine.parallel.workers", return_value=1):  # the night run's serial path (see PHO-19)
+        want = light_curve(sorted(str(p) for p in folder.iterdir()), TARGET, COMPS, *RADII)
     assert got["time"] == want["time"]
-    # the same numbers up to the last bits: the night run reads only the part of a frame around the stars
+    # the same numbers: both place each frame against the first
     worst = max(float(np.max(np.abs(np.subtract(got[k], want[k])))) for k in ("rel_flux", "rel_flux_err"))
-    ok = worst < 1e-12
+    ok = worst == 0
     measured("photometry", "live against the night run, largest difference in rel_flux and its error",
-             "the night run", "< 1e-12", f"{worst:.1e}", ok, "photometry/qatar1-lco (24 frames)",
+             "the night run", "0", f"{worst:.1e}", ok, "photometry/qatar1-lco (24 frames)",
              "photometry.light_curve")  # fmt: skip
     assert ok, worst

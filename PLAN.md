@@ -313,6 +313,11 @@ The full checklist is in `plans/architecture.md`. In short, a step is done only 
   user can meet, a finished step the owner can try, a set of steps of one area; never for every small change: raise `__version__`, push, wait for
   green CI on all systems, run the `ci` workflow on `main` with `release` = true. Never push while a release run is
   going. Give the owner a short list of changes in Turkish. A release is not the end: go on.
+- **Science changes (VAL-5):** the release notes carry a "Science changes" section: the release run's validation
+  numbers against the newest version stored in `docs/validation/history/` (`tools/validation_report.py --notes`).
+  Every number listed there is explained in the Turkish list to the owner (what changed and why); a movement nobody
+  can explain stops the release. After the release, its asset `validation-<version>.json` is committed to
+  `docs/validation/history/<version>.json`.
 - Report to the owner honestly, in Turkish, briefly: what was done, what was **not** tested, what the owner must
   try. Never call something working that was not tried.
 

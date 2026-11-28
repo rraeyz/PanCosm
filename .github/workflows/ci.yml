@@ -194,6 +194,12 @@ jobs:
         with:
           name: validation-report
           path: validation-report.md
+      - name: This run's numbers under the version, for the release notes' science changes (VAL-5)
+        run: python tools/validation_report.py --save "$(python -c 'import astrowb; print(astrowb.__version__)')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validation-history
+          path: docs/validation/history/
 
   # Device control against the real INDI simulator drivers
   speed:  # ARC-23: not needed by the release; a case 1.5x slower than speed/baseline-ci.json turns it red
@@ -256,6 +262,14 @@ jobs:
           { echo "Changes since ${PREV:-the first commit}:"; echo
             git log --no-merges --pretty='- %s' ${PREV:+$PREV..}HEAD | grep -v -e '^- Version ' -e '^- Plan' ; } > notes.md
           cat notes.md
+      - uses: actions/download-artifact@v4
+        with:
+          name: validation-history
+          path: validation-history
+      - name: Science changes against the last stored validation run (VAL-5)
+        run: |  # the run's file goes up with the release; PLAN.md R12: it is then stored in docs/validation/history/
+          python tools/validation_report.py --notes "validation-history/${TAG#v}.json" | tee -a notes.md
+          cp "validation-history/${TAG#v}.json" "out/validation-${TAG#v}.json"
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}

@@ -1,0 +1,313 @@
+{
+ "version": "0.3.25",
+ "rows": [
+  {
+   "area": "photometry",
+   "quantity": "frames that became points",
+   "compared_with": "every light of the night",
+   "tolerance": "all",
+   "measured": 20,
+   "verdict": "pass",
+   "data": "owner: NY Vir, T100, 2018-07-10",
+   "step": "",
+   "test": "tests/validation/test_owner_cases.py::test_every_frame_of_the_night_is_a_point"
+  },
+  {
+   "area": "Photometry",
+   "quantity": "aperture flux error",
+   "compared_with": "IRAF phot",
+   "tolerance": "10 %",
+   "measured": "0.0 %",
+   "verdict": "pass",
+   "data": "HAT-P-32 (EXOTIC sample)",
+   "step": "photometry item 1",
+   "test": "tests/validation/test_iraf_phot.py::test_flux_errors_agree_with_iraf"
+  },
+  {
+   "area": "Photometry",
+   "quantity": "aperture flux (median per star)",
+   "compared_with": "IRAF phot",
+   "tolerance": "0.1 %",
+   "measured": "0.027 %",
+   "verdict": "pass",
+   "data": "HAT-P-32 (EXOTIC sample)",
+   "step": "photometry item 1",
+   "test": "tests/validation/test_iraf_phot.py::test_fluxes_and_relative_flux_agree_with_iraf"
+  },
+  {
+   "area": "photometry",
+   "quantity": "GSPC V \u2212 Landolt V, SA 98 (11 stars), mean (mag)",
+   "compared_with": "Landolt (1992)",
+   "tolerance": "0.02",
+   "measured": 0.0011579069657760112,
+   "verdict": "pass",
+   "data": "gspc_sa98.csv",
+   "step": "photometry.catalog",
+   "test": "tests/validation/test_gspc_landolt.py::test_gspc_v_against_landolt_sa98"
+  },
+  {
+   "area": "photometry",
+   "quantity": "GSPC V \u2212 Landolt V, SA 98, scatter (mag)",
+   "compared_with": "Landolt (1992)",
+   "tolerance": "0.03",
+   "measured": 0.007369698647561296,
+   "verdict": "pass",
+   "data": "gspc_sa98.csv",
+   "step": "photometry.catalog",
+   "test": "tests/validation/test_gspc_landolt.py::test_gspc_v_against_landolt_sa98"
+  },
+  {
+   "area": "photometry",
+   "quantity": "primary eclipse depth (mag, white light)",
+   "compared_with": "the night's own out-of-eclipse frames",
+   "tolerance": "0.65-0.78; scatter before it < 0.03",
+   "measured": 0.746,
+   "verdict": "pass",
+   "data": "owner: NY Vir, T100",
+   "step": "",
+   "test": "tests/validation/test_owner_cases.py::test_no_flags_and_the_eclipse_shows"
+  },
+  {
+   "area": "Photometry",
+   "quantity": "aperture centre",
+   "compared_with": "IRAF phot",
+   "tolerance": "0.05 px",
+   "measured": "0.0005 px",
+   "verdict": "pass",
+   "data": "HAT-P-32 (EXOTIC sample)",
+   "step": "photometry item 1",
+   "test": "tests/validation/test_iraf_phot.py::test_same_centres"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun altitude (deg), Ankara",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 2.5873835159728742e-05,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Ankara]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon altitude (deg), Ankara",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 0.0005289635297529571,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Ankara]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon azimuth above 5\u00b0 (deg), Ankara",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.02",
+   "measured": 0.0007255163080230886,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Ankara]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon illuminated fraction (%), Ankara",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.05",
+   "measured": 0.0020488076385660747,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Ankara]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun altitude (deg), La Palma",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 6.358746226453604e-05,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[La Palma]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon altitude (deg), La Palma",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 0.0005591104815323433,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[La Palma]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon azimuth above 5\u00b0 (deg), La Palma",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.02",
+   "measured": 0.0007641481974758335,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[La Palma]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon illuminated fraction (%), La Palma",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.05",
+   "measured": 0.0020261934511616175,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[La Palma]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun altitude (deg), Mauna Kea",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 1.5848281194053015e-05,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Mauna Kea]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon altitude (deg), Mauna Kea",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 0.0005495508108168679,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Mauna Kea]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon azimuth above 5\u00b0 (deg), Mauna Kea",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.02",
+   "measured": 0.0006383120195039282,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Mauna Kea]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon illuminated fraction (%), Mauna Kea",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.05",
+   "measured": 0.002008673695531371,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Mauna Kea]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun altitude (deg), Siding Spring",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 7.842770169474989e-05,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Siding Spring]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon altitude (deg), Siding Spring",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.005",
+   "measured": 0.0005791505993926194,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Siding Spring]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon azimuth above 5\u00b0 (deg), Siding Spring",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.02",
+   "measured": 0.00557613326924411,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Siding Spring]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Moon illuminated fraction (%), Siding Spring",
+   "compared_with": "JPL Horizons",
+   "tolerance": "0.05",
+   "measured": 0.0020352681364705916,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_sun_and_moon_against_horizons[Siding Spring]"
+  },
+  {
+   "area": "Photometry",
+   "quantity": "transit mid-time",
+   "compared_with": "the published ephemeris",
+   "tolerance": "3\u03c3 and 15 min",
+   "measured": "+1.6 min",
+   "verdict": "pass",
+   "data": "HAT-P-32 b (EXOTIC sample)",
+   "step": "PHO-26",
+   "test": "tests/validation/test_hatp32b.py::test_transit_time_depth_duration"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun crossing 0/\u22126/\u221212/\u221218\u00b0, Ankara (s)",
+   "compared_with": "JPL Horizons (10-min grid)",
+   "tolerance": "5",
+   "measured": 0.7771655671614752,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_twilight_times_against_horizons[Ankara]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun crossing 0/\u22126/\u221212/\u221218\u00b0, La Palma (s)",
+   "compared_with": "JPL Horizons (10-min grid)",
+   "tolerance": "5",
+   "measured": 0.5660332673805613,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_twilight_times_against_horizons[La Palma]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun crossing 0/\u22126/\u221212/\u221218\u00b0, Mauna Kea (s)",
+   "compared_with": "JPL Horizons (10-min grid)",
+   "tolerance": "5",
+   "measured": 0.37661826010157995,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_twilight_times_against_horizons[Mauna Kea]"
+  },
+  {
+   "area": "planning",
+   "quantity": "Sun crossing 0/\u22126/\u221212/\u221218\u00b0, Siding Spring (s)",
+   "compared_with": "JPL Horizons (10-min grid)",
+   "tolerance": "5",
+   "measured": 1.5480828333167551,
+   "verdict": "pass",
+   "data": "horizons_almanac.csv",
+   "step": "planning.night",
+   "test": "tests/validation/test_planning_almanac.py::test_twilight_times_against_horizons[Siding Spring]"
+  }
+ ]
+}

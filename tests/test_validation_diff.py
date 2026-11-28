@@ -19,3 +19,18 @@ def test_moves_beyond_a_third_of_the_tolerance():
     moved = report.diff(old, new)
     names = [m[1] for m in moved]
     assert names == ["added", "gone", "sky"]  # sky moved 0.0015 > 0.001; aperture 0.0008 stayed inside
+
+
+def test_the_release_notes_section_compares_with_the_newest_older_version(tmp_path):
+    import json
+
+    def save(version, rows):
+        (tmp_path / f"{version}.json").write_text(json.dumps({"version": version, "rows": rows}))
+        return tmp_path / f"{version}.json"
+
+    save("0.3.9", [row("sky", "0.0001 mag")])
+    save("0.3.10", [row("sky", "0.0010 mag")])  # newer than 0.3.9 as a version, older as text
+    new = save("0.3.11", [row("sky", "0.0025 mag")])
+    text = report.notes(new, tmp_path)
+    assert "## Science changes" in text and "against 0.3.10" in text and "sky: 0.0010 mag → 0.0025 mag" in text
+    assert "No stored" in report.notes(save("0.1.0", []), tmp_path)

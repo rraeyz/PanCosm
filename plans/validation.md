@@ -174,10 +174,15 @@ astrometry.net).
 - **Files:** `resources/recipes/gold/*.toml`, `tests/validation/test_gold_paths.py`, `.github/workflows/validation-weekly.yml`
 
 ### VAL-5. The science changelog  (P1)
-**partial** — done (2026-11-12): `tools/validation_report.py --save <version>` (the run's rows into
+**done** — done (2026-11-12): `tools/validation_report.py --save <version>` (the run's rows into
 docs/validation/history/) and `--diff old new` (rows whose measured number moved by more than a third of the
-tolerance, and rows only in one run); tested. Left: the release notes' "Science changes" section, the line in the
-release procedure, the first stored version.
+tolerance, and rows only in one run); tested. Done (2026-11-28): the release notes' "Science changes" section
+(`validation_report.notes`, `--notes`: the release run against the newest older version stored; the validation job
+saves its run under the version, the release job appends the section and attaches `validation-<version>.json`;
+`test_the_release_notes_section_compares_with_the_newest_older_version`), the line in PLAN.md R12 (explain every
+number listed; store the asset after the release), the first stored version `docs/validation/history/0.3.25.json`
+(main after 0.3.25, 2026-11-28: 28 rows, all passing). Accept: the sky estimator changed from median to mode moves the
+HAT-P-32 aperture-flux row and the diff lists it (`tests/validation/test_science_changes.py`).
 - **Build:** at every release the gold-path numbers and the tolerance tables' "measured" columns are stored in
   `docs/validation/history/<version>.json`; `tools/validation_report.py --diff A B` lists every number that moved
   by more than a third of its tolerance; the release notes get a "Science changes" section from it (in Turkish for
