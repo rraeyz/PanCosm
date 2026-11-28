@@ -10880,7 +10880,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>MovingObjectDialog</name>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="315"/>
+        <location filename="../../ui/moving_dialog.py" line="323"/>
         <source>Asteroid and comet astrometry</source>
         <translation>Asteroit ve kuyruklu yıldız astrometrisi</translation>
     </message>
@@ -10898,187 +10898,187 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Görüntüler seçilince ilk kare burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="56"/>
+        <location filename="../../ui/moving_dialog.py" line="59"/>
         <source>Residual (″)</source>
         <translation>Artık (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="72"/>
+        <location filename="../../ui/moving_dialog.py" line="76"/>
         <source>Choose plate-solved frames…</source>
         <translation>Plaka çözümlü kareleri seç…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="76"/>
+        <location filename="../../ui/moving_dialog.py" line="80"/>
         <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
         <translation>Başlığında plaka çözümü (WCS) olan, cismin hareket edebilmesi için bir saat ya da daha uzun sürede çekilmiş kalibre edilmiş kareler</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="81"/>
+        <location filename="../../ui/moving_dialog.py" line="85"/>
         <source>Frames without a plate solution are solved first.</source>
         <translation>Plaka çözümü olmayan kareler önce çözülür.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="82"/>
+        <location filename="../../ui/moving_dialog.py" line="86"/>
         <source>Solve the frames</source>
         <translation>Kareleri çöz</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="86"/>
+        <location filename="../../ui/moving_dialog.py" line="90"/>
         <source>Plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net)</source>
         <translation>Henüz çözümü olmayan her seçili kareyi plaka çözümüyle çözer (ASTAP veya astrometry.net)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="89"/>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
         <source>Click the object on the first frame, then on the last frame; they are marked in the image.</source>
         <translation>Nesneye önce ilk karede, sonra son karede tıklayın; görüntüde işaretlenir.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>Measure positions</source>
         <translation>Konumları ölç</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="108"/>
         <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
         <translation>Cisme ilk ve son karede tıkladıktan sonra: konumu her karede ölçülür ve düzgün bir hareketle fit edilir; artıklar kötü noktaları gösterir</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="122"/>
+        <location filename="../../ui/moving_dialog.py" line="129"/>
         <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
         <translation>ör. 2026 VA12, 433 ya da yeni bir cisim için kendi verdiğiniz ad</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="125"/>
+        <location filename="../../ui/moving_dialog.py" line="132"/>
         <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
         <translation>Cismin Küçük Gezegen Merkezi&apos;ndeki adı, ya da yeni bir cisim için kendi geçici adınız</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="130"/>
+        <location filename="../../ui/moving_dialog.py" line="137"/>
         <source>MPC observatory code, e.g. A84</source>
         <translation>MPC gözlemevi kodu, ör. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="133"/>
+        <location filename="../../ui/moving_dialog.py" line="140"/>
         <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
         <translation>Gözlemevinizin Küçük Gezegen Merkezi&apos;nden alınan üç karakterli kodu (ilk rapordan önce isteyin)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="138"/>
+        <location filename="../../ui/moving_dialog.py" line="145"/>
         <source>names, separated by commas</source>
         <translation>adlar, virgülle ayrılmış</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="139"/>
+        <location filename="../../ui/moving_dialog.py" line="146"/>
         <source>Names of the observers, written into the report</source>
         <translation>Gözlemcilerin adları, rapora yazılır</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="143"/>
+        <location filename="../../ui/moving_dialog.py" line="150"/>
         <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
         <translation>Plaka çözümlerinin dayandığı yıldız kataloğu (ADES astCat). Çözücü kaydetmişse karelerden doldurulur: astrometry.net&apos;in 4100 indeksleri Tycho-2 (Tyc2), 4200 indeksleri 2MASS, 5200 indeksleri Gaia DR2&apos;dir (Gaia2); ASTAP&apos;ın yıldız veritabanları Gaia&apos;dan gelir (sizinkinin hangi sürüm olduğuna bakın)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="148"/>
+        <location filename="../../ui/moving_dialog.py" line="155"/>
         <source>Object</source>
         <translation>Cisim</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="149"/>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>Observatory code</source>
         <translation>Gözlemevi kodu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="150"/>
+        <location filename="../../ui/moving_dialog.py" line="157"/>
         <source>Observers</source>
         <translation>Gözlemciler</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="151"/>
+        <location filename="../../ui/moving_dialog.py" line="158"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>ADES PSV</source>
         <translation>ADES PSV</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="154"/>
+        <location filename="../../ui/moving_dialog.py" line="161"/>
         <source>MPC 80-column</source>
         <translation>MPC 80 sütun</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="156"/>
+        <location filename="../../ui/moving_dialog.py" line="163"/>
         <source>File format of the report; the 80-column format is the older one for other tools</source>
         <translation>Raporun dosya biçimi; 80 sütunlu biçim, diğer araçlar için eski olandır</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="158"/>
+        <location filename="../../ui/moving_dialog.py" line="165"/>
         <source>Format</source>
         <translation>Biçim</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="160"/>
+        <location filename="../../ui/moving_dialog.py" line="167"/>
         <source>Write MPC report (ADES)…</source>
         <translation>MPC raporunu yaz (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="164"/>
+        <location filename="../../ui/moving_dialog.py" line="171"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation>Konumları MPC&apos;nin ADES biçiminde, Küçük Gezegen Merkezi&apos;ne gönderilmeye hazır olarak yazar</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="193"/>
+        <location filename="../../ui/moving_dialog.py" line="200"/>
         <source>{n} frames, {k} without a plate solution.</source>
         <translation>{n} kare, {k} tanesinin plaka çözümü yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="208"/>
+        <location filename="../../ui/moving_dialog.py" line="216"/>
         <source>Click the object on the first frame.</source>
         <translation>İlk karede cisme tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="214"/>
+        <location filename="../../ui/moving_dialog.py" line="222"/>
         <source>Choose frames</source>
         <translation>Kareleri seç</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="227"/>
+        <location filename="../../ui/moving_dialog.py" line="235"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation>Şimdi son karede cisme tıklayın (ilk konum işaretli).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="231"/>
+        <location filename="../../ui/moving_dialog.py" line="239"/>
         <source>Press Measure positions.</source>
         <translation>Konumları ölç&apos;e basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="240"/>
+        <location filename="../../ui/moving_dialog.py" line="248"/>
         <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
         <translation>Katalog {c} yapıldı: karelerin plaka çözümleri buna dayanıyor.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="242"/>
+        <location filename="../../ui/moving_dialog.py" line="250"/>
         <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
         <translation>Kareler farklı kataloglara göre çözülmüş ({c}): hepsini aynı biçimde çözün.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="252"/>
+        <location filename="../../ui/moving_dialog.py" line="260"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation>{n} konum. En büyük artık {w:.2f}″ (~1″&apos;den büyükse o kareyi kontrol edin).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="256"/>
+        <location filename="../../ui/moving_dialog.py" line="264"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation>{k} kare plaka çözümü yapılamadığı için dışarıda bırakıldı.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="295"/>
+        <location filename="../../ui/moving_dialog.py" line="303"/>
         <source>MPC report</source>
         <translation>MPC raporu</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="303"/>
+        <location filename="../../ui/moving_dialog.py" line="311"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation>Rapor yazıldı: {p}. MPC&apos;ye gönderin (obs@minorplanetcenter.net ya da web formu).</translation>
     </message>
@@ -11091,6 +11091,26 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/astrometry_blink.py" line="15"/>
         <source>Shows the frames one after the other, aligned on the stars: a mover jumps out</source>
         <translation>Kareleri yıldızlara hizalayıp art arda gösterir: hareket eden cisim göze çarpar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="15"/>
+        <source>Measure a pair of stars</source>
+        <translation>Bir yıldız çiftini ölç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="19"/>
+        <source>While on, drag a line from one star to another: separation, position angle, flux ratio and Δmag</source>
+        <translation>Açıkken bir yıldızdan ötekine çizgi çekin: ayrılık, konum açısı, akı oranı ve Δmag</translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="62"/>
+        <source>Both ends of the line must sit on stars.</source>
+        <translation>Çizginin iki ucu da yıldızların üzerinde olmalı.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="65"/>
+        <source>Pair: separation {s:.2f} px, Δmag {d:.3f} ± {e:.3f}. Add it to the table.</source>
+        <translation>Çift: ayrılık {s:.2f} px, Δmag {d:.3f} ± {e:.3f}. Tabloya ekleyin.</translation>
     </message>
 </context>
 <context>
@@ -13642,84 +13662,84 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>{n} nokta, kaynak: {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="294"/>
+        <location filename="../../ui/period_page.py" line="297"/>
         <source>upper limits</source>
         <translation>üst sınırlar</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="322"/>
+        <location filename="../../ui/period_page.py" line="325"/>
         <source>outliers removed</source>
         <translation>aykırılar atıldı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="328"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>binned</source>
         <translation>gruplandı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="337"/>
+        <location filename="../../ui/period_page.py" line="340"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Kadire çevirmek için akılar pozitif olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="346"/>
+        <location filename="../../ui/period_page.py" line="349"/>
         <source>magnitudes</source>
         <translation>kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="346"/>
+        <location filename="../../ui/period_page.py" line="349"/>
         <source>flux</source>
         <translation>akı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="402"/>
+        <location filename="../../ui/period_page.py" line="405"/>
         <source>Left out</source>
         <translation>Dışarıda bırakılan</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="412"/>
+        <location filename="../../ui/period_page.py" line="415"/>
         <source>points deleted</source>
         <translation>noktalar silindi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="413"/>
+        <location filename="../../ui/period_page.py" line="416"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="429"/>
+        <location filename="../../ui/period_page.py" line="432"/>
         <source>bring back points</source>
         <translation>noktaları geri getir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="429"/>
+        <location filename="../../ui/period_page.py" line="432"/>
         <source>points brought back</source>
         <translation>noktalar geri getirildi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="446"/>
-        <location filename="../../ui/period_page.py" line="480"/>
+        <location filename="../../ui/period_page.py" line="449"/>
+        <location filename="../../ui/period_page.py" line="483"/>
         <source>Folded at {p:.6f} d (clicked peak).</source>
         <translation>{p:.6f} günde katlandı (tıklanan tepe).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="464"/>
+        <location filename="../../ui/period_page.py" line="467"/>
         <source>Folded at {p:.6f} d.</source>
         <translation>{p:.6f} günde katlandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
+        <location filename="../../ui/period_page.py" line="516"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zaman − {t:.0f} (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
+        <location filename="../../ui/period_page.py" line="516"/>
         <source>Time (d)</source>
         <translation>Zaman (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="389"/>
-        <location filename="../../ui/period_page.py" line="503"/>
+        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="506"/>
         <source>Magnitude</source>
         <translation>Kadir</translation>
     </message>
@@ -13729,85 +13749,85 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Işık eğrisi grafiğinde bir noktaya tıklayarak onu dışarıda bırakın; içi boş bir noktaya tıklayarak geri getirin</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="522"/>
+        <location filename="../../ui/period_page.py" line="525"/>
         <source>Load light curve</source>
         <translation>Işık eğrisi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="534"/>
-        <location filename="../../ui/period_page.py" line="568"/>
+        <location filename="../../ui/period_page.py" line="537"/>
+        <location filename="../../ui/period_page.py" line="569"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="582"/>
+        <location filename="../../ui/period_page.py" line="583"/>
         <source>No light curve to save yet.</source>
         <translation>Henüz kaydedilecek ışık eğrisi yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="585"/>
+        <location filename="../../ui/period_page.py" line="586"/>
         <source>Save light curve</source>
         <translation>Işık eğrisini kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="591"/>
+        <location filename="../../ui/period_page.py" line="592"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} nokta {file} dosyasına kaydedildi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="594"/>
+        <location filename="../../ui/period_page.py" line="595"/>
         <source>Searching…</source>
         <translation>Aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="606"/>
+        <location filename="../../ui/period_page.py" line="607"/>
         <source>Best period: {p:.6f} d</source>
         <translation>En iyi periyot: {p:.6f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="616"/>
+        <location filename="../../ui/period_page.py" line="617"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Veri birbirinden {g:.0f} gün uzak parçalardan oluşuyor: boşluk boyunca bir döngü fazla ya da eksik sayan periyotlar ({p1:.6f} ya da {p2:.6f} gün) neredeyse aynı iyilikte uyar. Minimum zamanlarıyla (O−C) kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="629"/>
+        <location filename="../../ui/period_page.py" line="630"/>
         <source>(out of date: points were left out)</source>
         <translation>(güncel değil: bazı noktalar çıkarıldı)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="641"/>
+        <location filename="../../ui/period_page.py" line="642"/>
         <source>best period</source>
         <translation>en iyi periyot</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="643"/>
+        <location filename="../../ui/period_page.py" line="644"/>
         <source>aliases</source>
         <translation>takma ad periyotları</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="651"/>
+        <location filename="../../ui/period_page.py" line="652"/>
         <source>binned mean</source>
         <translation>bin ortalaması</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="627"/>
+        <location filename="../../ui/period_page.py" line="628"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="373"/>
-        <location filename="../../ui/period_page.py" line="636"/>
+        <location filename="../../ui/period_page.py" line="376"/>
+        <location filename="../../ui/period_page.py" line="637"/>
         <source>Power</source>
         <translation>Güç</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="656"/>
+        <location filename="../../ui/period_page.py" line="657"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="389"/>
-        <location filename="../../ui/period_page.py" line="503"/>
+        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="506"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>

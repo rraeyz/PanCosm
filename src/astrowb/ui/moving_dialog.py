@@ -52,11 +52,15 @@ class MovingObjectPage(QWidget):
         self.viewer.set_pick(True)  # clicks pick a point: a cross, not the hand; dragging still pans
         self.viewer.empty_hint = self.tr("The first frame appears here once the images are chosen")
         main.addWidget(self.viewer, 3)
+        from .astrometry_pairs import connect
+
+        connect(self)
         frame = DataTable(self)
         frame.prepare(["UTC", "RA (°)", "Dec (°)", self.tr("Residual (″)")])
         self.table = frame.table
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         main.addWidget(frame, 1)
+        main.addWidget(self.pair_table, 1)
         from . import moving_lightcurve
 
         for w, share in zip(moving_lightcurve.show_widgets(self), (2, 1), strict=True):
@@ -91,6 +95,9 @@ class MovingObjectPage(QWidget):
         from .astrometry_blink import blink_button
 
         self.blink_button = blink_button(self)
+        from .astrometry_pairs import pair_widgets
+
+        self.pair_button, _ = pair_widgets(self)  # PHO-24: the Pairs table goes under the positions
         self.measure_button = QPushButton(self.tr("Measure positions"), self)
         self.measure_button.setEnabled(False)
         self.measure_button.clicked.connect(
@@ -105,7 +112,7 @@ class MovingObjectPage(QWidget):
         for label in (self.frames_info, self.solve_info, self.find_info):
             label.setWordWrap(True)
         for w in (self.choose_button, self.frames_info, self.solve_info, self.solve_button, self.find_info,
-                  self.blink_button, self.measure_button):  # fmt: skip
+                  self.blink_button, self.pair_button, self.measure_button):  # fmt: skip
             lay.addWidget(w)
         from . import moving_lightcurve
 
@@ -194,6 +201,7 @@ class MovingObjectPage(QWidget):
         )
         self.solve_button.setEnabled(todo > 0)
         self.blink_button.setEnabled(len(self.images) >= 2)
+        self.pair_button.setEnabled(bool(self.images))
 
     def set_images(self, paths):
         from .. import timing

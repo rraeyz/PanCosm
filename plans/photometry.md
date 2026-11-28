@@ -530,8 +530,10 @@ separation in px and ″, position angle N through E, f2/f1 and Δmag with error
 (tests/test_pair_measure.py: ratio within 0.5 %, separation 0.02 px, PA 0.05°); the Images window's Line tool adds
 the pair's rows when both ends sit on stars (`ui/image_pair.py`). more done (2026-11-21, `ui/image_pair_table.py`):
 the Images window's "Pairs" tab (`PairTable`: Add to table, Delete, Export… as CSV / ECSV with units; columns are
-`pair_measure`'s own keys; `tests/ui/test_pair_table.py`). Left: the same in the Astrometry window (its image
-clicks pick the moving object, there is no two-star Line tool there).
+`pair_measure`'s own keys; `tests/ui/test_pair_table.py`). done (2026-11-28, `ui/astrometry_pairs.py`): the
+Astrometry window's Find stage "Measure a pair of stars" (a toggle: while on, a line drawn on the shown frame measures
+the pair with the frame's own WCS through `pair_of`; off, clicks pick the object again) and the same `PairTable`
+under the positions; `tests/ui/test_astrometry_pairs.py`. Left: feeding the pairs to AST (double-star measures).
 - **Ours now:** `io/inspect.star_info` (one star in an aperture) and the Images window's Line tool (distance only); nothing between two stars.
 - **Reference:** AstroImageJ Measure (separation, position angle, Δmag, flux ratio written to a table); MaxIm DL
   Information window (astrometric mode).

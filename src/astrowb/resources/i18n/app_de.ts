@@ -10878,7 +10878,7 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
 <context>
     <name>MovingObjectDialog</name>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="315"/>
+        <location filename="../../ui/moving_dialog.py" line="323"/>
         <source>Asteroid and comet astrometry</source>
         <translation>Astrometrie von Asteroiden und Kometen</translation>
     </message>
@@ -10896,187 +10896,187 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="56"/>
+        <location filename="../../ui/moving_dialog.py" line="59"/>
         <source>Residual (″)</source>
         <translation type="unfinished">Residuum (″)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="72"/>
+        <location filename="../../ui/moving_dialog.py" line="76"/>
         <source>Choose plate-solved frames…</source>
         <translation type="unfinished">Astrometrisch gelöste Bilder wählen…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="76"/>
+        <location filename="../../ui/moving_dialog.py" line="80"/>
         <source>Calibrated frames with a plate solution (WCS) in the header, taken over an hour or more so the object moves</source>
         <translation type="unfinished">Kalibrierte Bilder mit Astrometrie (WCS) im Header, über eine Stunde oder länger aufgenommen, damit sich das Objekt bewegt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="81"/>
+        <location filename="../../ui/moving_dialog.py" line="85"/>
         <source>Frames without a plate solution are solved first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="82"/>
+        <location filename="../../ui/moving_dialog.py" line="86"/>
         <source>Solve the frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="86"/>
+        <location filename="../../ui/moving_dialog.py" line="90"/>
         <source>Plate-solves every chosen frame that has no solution yet (ASTAP or astrometry.net)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="89"/>
+        <location filename="../../ui/moving_dialog.py" line="93"/>
         <source>Click the object on the first frame, then on the last frame; they are marked in the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="94"/>
+        <location filename="../../ui/moving_dialog.py" line="101"/>
         <source>Measure positions</source>
         <translation type="unfinished">Positionen messen</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="101"/>
+        <location filename="../../ui/moving_dialog.py" line="108"/>
         <source>After clicking the object on the first and the last frame: its position is measured on every frame and fitted with a straight motion; residuals show bad points</source>
         <translation type="unfinished">Nachdem Sie das Objekt im ersten und letzten Bild angeklickt haben: seine Position wird in jedem Bild gemessen und mit einer gleichförmigen Bewegung angepasst; die Residuen zeigen schlechte Punkte</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="122"/>
+        <location filename="../../ui/moving_dialog.py" line="129"/>
         <source>e.g. 2026 VA12, 433, or your own name for a new object</source>
         <translation type="unfinished">z. B. 2026 VA12, 433 oder Ihr eigener Name für ein neues Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="125"/>
+        <location filename="../../ui/moving_dialog.py" line="132"/>
         <source>The object&apos;s designation as the Minor Planet Center knows it, or a temporary name of your own for a new object</source>
         <translation type="unfinished">Die Bezeichnung des Objekts beim Minor Planet Center oder ein eigener vorläufiger Name für ein neues Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="130"/>
+        <location filename="../../ui/moving_dialog.py" line="137"/>
         <source>MPC observatory code, e.g. A84</source>
         <translation type="unfinished">MPC-Sternwartencode, z. B. A84</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="133"/>
+        <location filename="../../ui/moving_dialog.py" line="140"/>
         <source>Your observatory&apos;s three-character code from the Minor Planet Center (ask them for one before the first report)</source>
         <translation type="unfinished">Der dreistellige Code Ihrer Sternwarte vom Minor Planet Center (vor dem ersten Bericht beantragen)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="138"/>
+        <location filename="../../ui/moving_dialog.py" line="145"/>
         <source>names, separated by commas</source>
         <translation type="unfinished">Namen, durch Kommas getrennt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="139"/>
+        <location filename="../../ui/moving_dialog.py" line="146"/>
         <source>Names of the observers, written into the report</source>
         <translation type="unfinished">Namen der Beobachter, werden in den Bericht geschrieben</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="143"/>
+        <location filename="../../ui/moving_dialog.py" line="150"/>
         <source>Star catalogue the plate solutions rest on (ADES astCat). Filled in from the frames when the solver recorded it: astrometry.net&apos;s 4100 indexes are Tycho-2 (Tyc2), 4200 are 2MASS, 5200 are Gaia DR2 (Gaia2); ASTAP&apos;s star databases come from Gaia (check which release yours is)</source>
         <translation type="unfinished">Sternkatalog, auf dem die Astrometrielösungen beruhen (ADES astCat). Aus den Aufnahmen übernommen, wenn der Löser ihn vermerkt hat: die 4100-Indizes von astrometry.net sind Tycho-2 (Tyc2), 4200 sind 2MASS, 5200 sind Gaia DR2 (Gaia2); die Sterndatenbanken von ASTAP stammen aus Gaia (prüfen Sie, welche Version Ihre ist)</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="148"/>
+        <location filename="../../ui/moving_dialog.py" line="155"/>
         <source>Object</source>
         <translation type="unfinished">Objekt</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="149"/>
+        <location filename="../../ui/moving_dialog.py" line="156"/>
         <source>Observatory code</source>
         <translation type="unfinished">Sternwartencode</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="150"/>
+        <location filename="../../ui/moving_dialog.py" line="157"/>
         <source>Observers</source>
         <translation type="unfinished">Beobachter</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="151"/>
+        <location filename="../../ui/moving_dialog.py" line="158"/>
         <source>Catalogue</source>
         <translation>Katalog</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="153"/>
+        <location filename="../../ui/moving_dialog.py" line="160"/>
         <source>ADES PSV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="154"/>
+        <location filename="../../ui/moving_dialog.py" line="161"/>
         <source>MPC 80-column</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="156"/>
+        <location filename="../../ui/moving_dialog.py" line="163"/>
         <source>File format of the report; the 80-column format is the older one for other tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="158"/>
+        <location filename="../../ui/moving_dialog.py" line="165"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="160"/>
+        <location filename="../../ui/moving_dialog.py" line="167"/>
         <source>Write MPC report (ADES)…</source>
         <translation type="unfinished">MPC-Bericht schreiben (ADES)…</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="164"/>
+        <location filename="../../ui/moving_dialog.py" line="171"/>
         <source>Writes the positions in the MPC&apos;s ADES format, ready to send to the Minor Planet Center</source>
         <translation type="unfinished">Schreibt die Positionen im ADES-Format des MPC, bereit zum Senden an das Minor Planet Center</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="193"/>
+        <location filename="../../ui/moving_dialog.py" line="200"/>
         <source>{n} frames, {k} without a plate solution.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="208"/>
+        <location filename="../../ui/moving_dialog.py" line="216"/>
         <source>Click the object on the first frame.</source>
         <translation type="unfinished">Klicken Sie im ersten Bild auf das Objekt.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="214"/>
+        <location filename="../../ui/moving_dialog.py" line="222"/>
         <source>Choose frames</source>
         <translation type="unfinished">Bilder wählen</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="227"/>
+        <location filename="../../ui/moving_dialog.py" line="235"/>
         <source>Now click the object on the last frame (the first position is marked).</source>
         <translation type="unfinished">Klicken Sie jetzt im letzten Bild auf das Objekt (die erste Position ist markiert).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="231"/>
+        <location filename="../../ui/moving_dialog.py" line="239"/>
         <source>Press Measure positions.</source>
         <translation type="unfinished">Drücken Sie „Positionen messen“.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="240"/>
+        <location filename="../../ui/moving_dialog.py" line="248"/>
         <source>Catalogue set to {c}: the frames&apos; plate solutions rest on it.</source>
         <translation type="unfinished">Katalog auf {c} gesetzt: Die Astrometrielösungen der Aufnahmen beruhen darauf.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="242"/>
+        <location filename="../../ui/moving_dialog.py" line="250"/>
         <source>The frames were solved against different catalogues ({c}): solve them alike.</source>
         <translation type="unfinished">Die Aufnahmen wurden mit verschiedenen Katalogen gelöst ({c}): lösen Sie sie gleich.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="252"/>
+        <location filename="../../ui/moving_dialog.py" line="260"/>
         <source>{n} positions. Largest residual {w:.2f}″ (more than ~1″: check that frame).</source>
         <translation type="unfinished">{n} Positionen. Größtes Residuum {w:.2f}″ (mehr als ~1″: dieses Bild prüfen).</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="256"/>
+        <location filename="../../ui/moving_dialog.py" line="264"/>
         <source>{k} frames could not be plate-solved and were left out.</source>
         <translation type="unfinished">{k} Bilder ließen sich nicht astrometrisch lösen und wurden weggelassen.</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="295"/>
+        <location filename="../../ui/moving_dialog.py" line="303"/>
         <source>MPC report</source>
         <translation type="unfinished">MPC-Bericht</translation>
     </message>
     <message>
-        <location filename="../../ui/moving_dialog.py" line="303"/>
+        <location filename="../../ui/moving_dialog.py" line="311"/>
         <source>Report written: {p}. Send it to the MPC (obs@minorplanetcenter.net or the web form).</source>
         <translation type="unfinished">Bericht geschrieben: {p}. Senden Sie ihn an das MPC (obs@minorplanetcenter.net oder das Webformular).</translation>
     </message>
@@ -11088,6 +11088,26 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
     <message>
         <location filename="../../ui/astrometry_blink.py" line="15"/>
         <source>Shows the frames one after the other, aligned on the stars: a mover jumps out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="15"/>
+        <source>Measure a pair of stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="19"/>
+        <source>While on, drag a line from one star to another: separation, position angle, flux ratio and Δmag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="62"/>
+        <source>Both ends of the line must sit on stars.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/astrometry_pairs.py" line="65"/>
+        <source>Pair: separation {s:.2f} px, Δmag {d:.3f} ± {e:.3f}. Add it to the table.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13640,84 +13660,84 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation>{n} Punkte aus {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="294"/>
+        <location filename="../../ui/period_page.py" line="297"/>
         <source>upper limits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="322"/>
+        <location filename="../../ui/period_page.py" line="325"/>
         <source>outliers removed</source>
         <translation>Ausreißer entfernt</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="328"/>
+        <location filename="../../ui/period_page.py" line="331"/>
         <source>binned</source>
         <translation>gemittelt</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="337"/>
+        <location filename="../../ui/period_page.py" line="340"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Flüsse müssen positiv sein, um in Magnituden umzurechnen.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="346"/>
+        <location filename="../../ui/period_page.py" line="349"/>
         <source>magnitudes</source>
         <translation>Magnituden</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="346"/>
+        <location filename="../../ui/period_page.py" line="349"/>
         <source>flux</source>
         <translation>Fluss</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="402"/>
+        <location filename="../../ui/period_page.py" line="405"/>
         <source>Left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="412"/>
+        <location filename="../../ui/period_page.py" line="415"/>
         <source>points deleted</source>
         <translation>Punkte gelöscht</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="413"/>
+        <location filename="../../ui/period_page.py" line="416"/>
         <source>delete a point</source>
         <translation>Punkt löschen</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="429"/>
+        <location filename="../../ui/period_page.py" line="432"/>
         <source>bring back points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="429"/>
+        <location filename="../../ui/period_page.py" line="432"/>
         <source>points brought back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="446"/>
-        <location filename="../../ui/period_page.py" line="480"/>
+        <location filename="../../ui/period_page.py" line="449"/>
+        <location filename="../../ui/period_page.py" line="483"/>
         <source>Folded at {p:.6f} d (clicked peak).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="464"/>
+        <location filename="../../ui/period_page.py" line="467"/>
         <source>Folded at {p:.6f} d.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
+        <location filename="../../ui/period_page.py" line="516"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zeit − {t:.0f} (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
+        <location filename="../../ui/period_page.py" line="516"/>
         <source>Time (d)</source>
         <translation>Zeit (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="389"/>
-        <location filename="../../ui/period_page.py" line="503"/>
+        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="506"/>
         <source>Magnitude</source>
         <translation>Magnitude</translation>
     </message>
@@ -13727,85 +13747,85 @@ Die verwendeten Tabellen bleiben; nichts hört auf zu funktionieren. Versuchen S
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="522"/>
+        <location filename="../../ui/period_page.py" line="525"/>
         <source>Load light curve</source>
         <translation>Lichtkurve laden</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="534"/>
-        <location filename="../../ui/period_page.py" line="568"/>
+        <location filename="../../ui/period_page.py" line="537"/>
+        <location filename="../../ui/period_page.py" line="569"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} kann nicht gelesen werden: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="582"/>
+        <location filename="../../ui/period_page.py" line="583"/>
         <source>No light curve to save yet.</source>
         <translation>Noch keine Lichtkurve zum Speichern.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="585"/>
+        <location filename="../../ui/period_page.py" line="586"/>
         <source>Save light curve</source>
         <translation>Lichtkurve speichern</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="591"/>
+        <location filename="../../ui/period_page.py" line="592"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} Punkte in {file} gespeichert</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="594"/>
+        <location filename="../../ui/period_page.py" line="595"/>
         <source>Searching…</source>
         <translation>Suche…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="606"/>
+        <location filename="../../ui/period_page.py" line="607"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Beste Periode: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="616"/>
+        <location filename="../../ui/period_page.py" line="617"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Die Daten bestehen aus Abschnitten im Abstand von {g:.0f} d: ein Zyklus mehr oder weniger über die Lücke ({p1:.6f} oder {p2:.6f} d) passt fast ebenso gut. Prüfen Sie mit den Minimumszeiten (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="629"/>
+        <location filename="../../ui/period_page.py" line="630"/>
         <source>(out of date: points were left out)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="641"/>
+        <location filename="../../ui/period_page.py" line="642"/>
         <source>best period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="643"/>
+        <location filename="../../ui/period_page.py" line="644"/>
         <source>aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="651"/>
+        <location filename="../../ui/period_page.py" line="652"/>
         <source>binned mean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="627"/>
+        <location filename="../../ui/period_page.py" line="628"/>
         <source>Period (d)</source>
         <translation>Periode (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="373"/>
-        <location filename="../../ui/period_page.py" line="636"/>
+        <location filename="../../ui/period_page.py" line="376"/>
+        <location filename="../../ui/period_page.py" line="637"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="656"/>
+        <location filename="../../ui/period_page.py" line="657"/>
         <source>Phase</source>
         <translation>Phase</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="389"/>
-        <location filename="../../ui/period_page.py" line="503"/>
+        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="506"/>
         <source>Relative flux</source>
         <translation>Relativer Fluss</translation>
     </message>
