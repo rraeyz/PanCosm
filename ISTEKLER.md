@@ -83,6 +83,19 @@ Yapılanları "Bitti" altına taşıyacağım.
 - **Neden:** Paket yokken Windows'ta saat dilimi yok sayılıyor (program çökmüyor, eski davranış: UTC farkı elle ya
   da boylamdan). Linux ve macOS'ta sorun yok.
 
+### 15. Türkçede iki türlü çevrilmiş terimler
+- **Ne:** Sözlüğe (glossary.toml) yalnız her yerde aynı çevrilen terimler girdi (225 terim). Aşağıdakiler programda
+  iki ya da daha çok biçimde geçiyor; her biri için hangisi kalsın, yazman yeterli, gerisini ben düzeltirim:
+  gök halkası / gökyüzü halkası (6 metinde geri kaymış) · gök / gökyüzü parlaklığı · plaka / plak çözümü (yazım
+  hatası) · minör gezegen / küçük gezegen · filtre / süzgeç · medyan / ortanca · dizi / sekans · epok / çevrim /
+  sıfır anı · binning / binleme / birleştirme · kadans / kare aralığı · trend / eğilim (detrend) · tayfçeker /
+  spektrograf · çözünürlük / ayırma gücü · ilinti / korelasyon · döndürücü / rotator · genişleme fonksiyonu
+  (bazı yerlerde İngilizce kalmış) · kayma / ofset · kuadratik / ikinci derece · çevrim / döngü · birincil /
+  baş yıldız · paralaks / ıraklık açısı · periastron / enberi · alet / cihaz · doymuş / doygun · evrelenmiş /
+  katlanmış ışık eğrisi.
+- **Neden:** Hangisinin doğru olduğuna kendim karar verip uydurmak istemedim; seçimin sözlüğe girecek ve test bundan
+  sonra kaymayı yakalayacak.
+
 ## Bitti
 
 (henüz yok)
