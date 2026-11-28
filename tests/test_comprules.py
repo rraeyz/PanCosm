@@ -46,3 +46,21 @@ def test_every_reason():
     first_only = cr.judge(stars, 0, [early], None, cr.ComparisonRules(saturation=65000, min_snr=10, count=1))
     assert next(r for r in first_only if r["index"] == 10)["verdict"] != "saturated"  # the first frame misses it
     assert cr.most_common_reasons(rows)[0] == "neighbour"
+
+
+def test_suggest_on_a_4k_frame_with_5000_stars_is_fast():
+    """PHO-17 accept 5: the rules judged on a 4k × 4k frame (ten frames over the night) with 5000 stars, < 1.5 s."""
+    import time
+
+    rng = np.random.default_rng(1)
+    n = 5000
+    stars = {"x": rng.uniform(0, 4096, n), "y": rng.uniform(0, 4096, n), "gmag": rng.uniform(10, 17, n),
+             "bp_rp": rng.uniform(0.3, 1.5, n), "variable": np.zeros(n, bool)}  # fmt: skip
+    stars["gmag"][0] = 13
+    frame = rng.normal(1000, 10, (4096, 4096)).astype(np.float32)
+    took = []
+    for _ in range(2):  # the better of two: the first also pays for imports and caches
+        began = time.perf_counter()
+        rows = cr.judge(stars, 0, [frame] * 10, [(0, 0)] * 10, cr.ComparisonRules(saturation=65000, count=8))
+        took.append(time.perf_counter() - began)
+    assert len(rows) > 4000 and min(took) < 1.5, took  # every star within 3 mag of the target judged

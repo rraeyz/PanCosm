@@ -146,7 +146,7 @@ internet, skipped without it). Left: the calibration is not in the count (the Im
 - **Files:** `ui/photometry/{window,controller,state,menus}.py`, `ui/photometry/panels/{images,field,stars,apertures,measure,lightcurve,timing,report,frames,checks}.py`, `tests/ui/walks/photometry.py`, guide 06
 
 ### PHO-17. Comparison-star rules the user can set, with the reason for every star left out  (P1)
-**partial** — done (2026-11-12), the engine: `photometry/comprules.py`: `ComparisonRules` with the defaults of
+**done** — done (2026-11-12), the engine: `photometry/comprules.py`: `ComparisonRules` with the defaults of
 Build 1, `judge` (every star brighter than the target + 3 mag gets `chosen`, `not_needed` or the first failed rule
 in the order of REASONS; peaks checked on a sample of frames over the night with the drift; ranking by colour and
 brightness closeness scaled by their tolerances, then nearness), `most_common_reasons`; the step
@@ -164,8 +164,7 @@ with dotted rings (viewer style "dot") while the marked comparison stars are exa
 `test_suggested_rings_are_dotted_until_accepted`. Guide 06 "Rules for comparison stars and the reason for every star
 left out" in four languages (2026-11-20). Done (2026-11-28): the Qatar-1 check on the whole public LCO night (265 frames): the 8 suggested stars give a
 point-to-point scatter of 0.45 %, the hand set measured the same way 0.50 % (the 0.44 % quoted before was measured
-another way); `tests/validation/test_qatar1_night.py::test_suggested_stars_not_worse_than_the_hand_set`. Left: the 4k timing (needs a
-real run). NY Vir check done (2026-11-20, the owner's T100
+another way); `tests/validation/test_qatar1_night.py::test_suggested_stars_not_worse_than_the_hand_set`. Done (2026-11-28): the 4k accept: ten 4096 × 4096 frames with 5000 stars judged in 1.1 s (the S/N measured in a box around each star, not a whole-frame distance map; neighbours from a k-d tree); `tests/test_comprules.py::test_suggest_on_a_4k_frame_with_5000_stars_is_fast`. NY Vir check done (2026-11-20, the owner's T100
 frame in data/owner, default rules): of 40 Gaia stars 4 chosen (G 12.2-14.2), 1 not needed, 31 too faint (> target
 + 3 mag), 2 too bright (peaks 64 804 and 59 740 counts, near saturation), 2 at the edge (one 29 px from the
 shadowed border); the sdB target's colour (BP−RP −0.40) has no match and the result says so (same_colour false).
