@@ -118,9 +118,14 @@ Item 3 in part, BJD_TDB on load: `surveys.to_light_curve` converts JD / HJD (UTC
 when the star's coordinates are known (the survey step's look-up) and keeps the original as `time_scale_original`;
 without them the times stay and the Period page says so (`surveys.KEPT`, also for a light-curve file not in
 BJD_TDB); a file saying HJD with no scale gets ARC-15's rule (`surveys.hjd_notes`, `hjd_scale_unknown`);
-test_jd_utc_with_coordinates_becomes_timings_bjd_tdb, test_without_coordinates_times_are_kept_and_said. Left: the
-readers of every source (item 2), the CSV wizard, item 3's visual estimates and upper limits as their own sets and
-the plain-table load (no standard written), the overlap join and band scaling, the Data stage, the 5 × 10⁶-point
+test_jd_utc_with_coordinates_becomes_timings_bjd_tdb, test_without_coordinates_times_are_kept_and_said. (2026-11-28)
+Item 3's upper limits and visual estimates as their own sets: `surveys.parse` keeps limit rows with the UPPER flag
+(AAVSO "Fainter Than" or "<", ASAS-SN ">"; ZTF's IRSA rows have no limit marker), `surveys.to_light_curve` keeps
+them and AAVSO's "Vis." points out of the curve as `upper_limits` and `visual` on its flux scale, so no search or fit
+sees them; the Period page draws the limits as down triangles, never searched (`PeriodPage.set_survey_curve`,
+`_upper_series`); test_upper_limits_and_visual_estimates_are_their_own_sets_and_not_searched. Left: the
+readers of every source (item 2), the CSV wizard, the visual set on the Period page and visual off by default when it
+is the most numerous band, the plain-table load (no standard written), the overlap join and band scaling, the Data stage, the 5 × 10⁶-point
 plot check.
 - **Reference:** Period04's time strings with four attributes per point (date, observatory, observer, other),
   weights and zero-point adjustment per subset; lightkurve's `LightCurve` (time, flux, flux_err, quality, meta) and

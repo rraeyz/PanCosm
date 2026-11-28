@@ -8765,7 +8765,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     <message>
         <location filename="../../ui/messages.py" line="216"/>
         <source>times kept in {standard}: the star&apos;s coordinates are not known, so they are not converted to BJD_TDB</source>
-        <translation>zamanlar {standard} olarak bırakıldı: yıldızın koordinatları bilinmediği için BJD_TDB'ye çevrilmedi</translation>
+        <translation>zamanlar {standard} olarak bırakıldı: yıldızın koordinatları bilinmediği için BJD_TDB&apos;ye çevrilmedi</translation>
     </message>
     <message>
         <location filename="../../ui/messages.py" line="220"/>
@@ -13372,437 +13372,442 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/period_page.py" line="105"/>
+        <location filename="../../ui/period_page.py" line="106"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>yıldız adı, ör. AI Dra ya da TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="112"/>
+        <location filename="../../ui/period_page.py" line="113"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="55"/>
+        <location filename="../../ui/period_page.py" line="56"/>
         <source>Clean it if needed: outliers, bad points, binning</source>
         <translation>Gerekirse temizleyin: aykırı noktalar, kötü noktalar, gruplama</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="57"/>
+        <location filename="../../ui/period_page.py" line="58"/>
         <source>Remove outliers (σ) or Delete points by clicking; Bin in time for dense data. Skip this when the curve looks clean.</source>
         <translation>Aykırı noktaları at (σ) ya da Tıklayarak nokta sil; yoğun veride Zamanda grupla. Eğri temiz görünüyorsa bu adımı atlayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="62"/>
+        <location filename="../../ui/period_page.py" line="63"/>
         <source>Search for the period</source>
         <translation>Periyodu arayın</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="64"/>
+        <location filename="../../ui/period_page.py" line="65"/>
         <source>Choose the method (Lomb–Scargle for pulsating stars, BLS for transits and Algol-type eclipses, PDM or ANOVA for any shape) and the period range, then press Search.</source>
         <translation>Yöntemi (zonklayan yıldızlar için Lomb–Scargle, geçişler ve Algol türü örtülmeler için BLS, her biçim için PDM ya da ANOVA) ve periyot aralığını seçin, sonra Ara düğmesine basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="69"/>
+        <location filename="../../ui/period_page.py" line="70"/>
         <source>Check the periodogram and the folded light curve</source>
         <translation>Periyodogramı ve evrelenmiş ışık eğrisini denetleyin</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="71"/>
+        <location filename="../../ui/period_page.py" line="72"/>
         <source>A right period gives a clean fold. For an eclipsing binary the true period is often twice the strongest Lomb–Scargle peak; check the aliases too. Then go on to Frequency analysis or the O-C diagram.</source>
         <translation>Doğru periyot temiz bir evre eğrisi verir. Örten çift yıldızda gerçek periyot çoğu zaman en güçlü Lomb–Scargle tepesinin iki katıdır; yansımalara (alias) da bakın. Sonra Frekans analizi ya da O-C diyagramı ile devam edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="88"/>
+        <location filename="../../ui/period_page.py" line="89"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Zaman sütunu ve parlaklık sütunu olan herhangi bir tablo; AAVSO, ZTF ve ASAS-SN&apos;den indirilen dosyalar tanınır</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="93"/>
+        <location filename="../../ui/period_page.py" line="94"/>
         <source>Save light curve (CSV)…</source>
         <translation>Işık eğrisini kaydet (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="48"/>
+        <location filename="../../ui/period_page.py" line="49"/>
         <source>Get a light curve: from the Photometry window, a CSV file or an archive</source>
         <translation>Bir ışık eğrisi alın: Fotometri penceresinden, bir CSV dosyasından ya da bir arşivden</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="50"/>
+        <location filename="../../ui/period_page.py" line="51"/>
         <source>Load a CSV file, or type the star&apos;s name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) and press Download. A light curve measured in the Photometry window arrives here by itself.</source>
         <translation>Bir CSV dosyası yükleyin ya da yıldızın adını yazıp arşivi seçin (TESS, Kepler, K2, ZTF, AAVSO) ve İndir düğmesine basın. Fotometri penceresinde ölçülen ışık eğrisi buraya kendiliğinden gelir.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="81"/>
+        <location filename="../../ui/period_page.py" line="82"/>
         <source>No light curve yet: measure one in the Photometry window or load a CSV file.</source>
         <translation>Henüz ışık eğrisi yok: Fotometri penceresinde ölçün ya da bir CSV dosyası yükleyin.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="85"/>
+        <location filename="../../ui/period_page.py" line="86"/>
         <source>Load CSV / AAVSO / ZTF / ASAS-SN…</source>
         <translation>CSV / AAVSO / ZTF / ASAS-SN yükle…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="96"/>
+        <location filename="../../ui/period_page.py" line="97"/>
         <source>The light curve as shown (downloaded, edited) in a CSV file: open it in the Models window or in another program</source>
         <translation>Işık eğrisi gösterildiği haliyle (indirilmiş, düzenlenmiş) bir CSV dosyasına: Modeller penceresinde ya da başka bir programda açın</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="107"/>
+        <location filename="../../ui/period_page.py" line="108"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Yıldızın arşivdeki adı ya da katalog numarası; Enter indirmeyi başlatır</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="111"/>
+        <location filename="../../ui/period_page.py" line="112"/>
         <source>The archive to download the light curve from</source>
         <translation>Işık eğrisinin indirileceği arşiv</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="114"/>
+        <location filename="../../ui/period_page.py" line="115"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>MAST&apos;tan TESS / Kepler / K2, IRSA&apos;dan ZTF, AAVSO gözlemleri (internet gerekir)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="123"/>
+        <location filename="../../ui/period_page.py" line="124"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (zonklayan yıldızlar)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="124"/>
+        <location filename="../../ui/period_page.py" line="125"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (geçişler, Algol türü örtmeler)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="125"/>
+        <location filename="../../ui/period_page.py" line="126"/>
         <source>PDM (any shape)</source>
         <translation>PDM (her biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="126"/>
+        <location filename="../../ui/period_page.py" line="127"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (çok harmonikli, her düzgün biçim)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="129"/>
+        <location filename="../../ui/period_page.py" line="130"/>
         <source>Fits a sine wave at every trial period; the power is the share of the variance the sine explains (Lomb 1976, Scargle 1982).</source>
         <translation>Her deneme periyodunda bir sinüs dalgası uydurur; güç, sinüsün açıkladığı varyans payıdır (Lomb 1976, Scargle 1982).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="131"/>
+        <location filename="../../ui/period_page.py" line="132"/>
         <source>Fits a box-shaped dip (depth, duration, phase) at every trial period (Kovács, Zucker &amp; Mazeh 2002).</source>
         <translation>Her deneme periyodunda kutu biçimli bir düşüş (derinlik, süre, evre) uydurur (Kovács, Zucker &amp; Mazeh 2002).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="133"/>
+        <location filename="../../ui/period_page.py" line="134"/>
         <source>Folds the data on every trial period and compares the scatter inside phase bins with the total scatter (Stellingwerf 1978).</source>
         <translation>Veriyi her deneme periyoduyla katlar ve evre kutularının içindeki saçılımı toplam saçılımla karşılaştırır (Stellingwerf 1978).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="135"/>
+        <location filename="../../ui/period_page.py" line="136"/>
         <source>Fits a Fourier series of two harmonics at every trial period; the F statistic of that fit (Schwarzenberg-Czerny 1996).</source>
         <translation>Her deneme periyodunda iki harmonikli bir Fourier serisi uydurur; o fitin F istatistiği (Schwarzenberg-Czerny 1996).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="142"/>
+        <location filename="../../ui/period_page.py" line="143"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima. The formulas: Guide, Mathematics of the methods</source>
         <translation>Lomb–Scargle: sinüs benzeri eğriler (zonklamalar, lekeler); BLS: kısa, kutu biçimli düşüşler; PDM ve ANOVA: her biçimdeki eğriler, örneğin iki minimumlu örten çiftler. Formüller: Kılavuz, Yöntemlerin matematiği</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="152"/>
+        <location filename="../../ui/period_page.py" line="153"/>
         <source>Method</source>
         <translation>Yöntem</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="154"/>
+        <location filename="../../ui/period_page.py" line="155"/>
         <source>Shortest period (d)</source>
         <translation>En kısa periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="157"/>
+        <location filename="../../ui/period_page.py" line="158"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Aranan en kısa periyot; noktalar arası sürenin iki katından kısa periyotlar bulunamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="159"/>
+        <location filename="../../ui/period_page.py" line="160"/>
         <source>Longest period (d)</source>
         <translation>En uzun periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="161"/>
+        <location filename="../../ui/period_page.py" line="162"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Aranan en uzun periyot; veri bunun en az iki çevrimini kapsamalıdır</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="167"/>
+        <location filename="../../ui/period_page.py" line="168"/>
         <source>off</source>
         <translation>kapalı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="168"/>
+        <location filename="../../ui/period_page.py" line="169"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Katlanmış grafikte bu kadar evre aralığında ortalama eğri</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="170"/>
+        <location filename="../../ui/period_page.py" line="171"/>
         <source>Phase bins</source>
         <translation>Evre aralıkları</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="177"/>
+        <location filename="../../ui/period_page.py" line="178"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Aykırı noktaları at için standart sapma cinsinden sınır</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="178"/>
+        <location filename="../../ui/period_page.py" line="179"/>
         <source>Remove outliers (σ)</source>
         <translation>Aykırı noktaları at (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="179"/>
+        <location filename="../../ui/period_page.py" line="180"/>
         <source>remove outliers</source>
         <translation>aykırı noktaları atma</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="182"/>
+        <location filename="../../ui/period_page.py" line="183"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Zamandaki komşularının medyanından bu kadar standart sapmadan uzak noktaları siler (kozmik ışın, kötü kare); Ctrl+Z geri getirir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="189"/>
+        <location filename="../../ui/period_page.py" line="190"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Zamanda grupla için bir zaman aralığının dakika cinsinden uzunluğu</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="190"/>
+        <location filename="../../ui/period_page.py" line="191"/>
         <source>Bin in time (min)</source>
         <translation>Zamanda grupla (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="191"/>
+        <location filename="../../ui/period_page.py" line="192"/>
         <source>bin in time</source>
         <translation>zamanda gruplama</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="194"/>
+        <location filename="../../ui/period_page.py" line="195"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Noktaları bu uzunluktaki zaman aralıklarında ortalar: daha az gürültü, daha az nokta; aralıklar bir tutulmadan çok daha kısa olmalı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="198"/>
+        <location filename="../../ui/period_page.py" line="199"/>
         <source>Delete points by clicking</source>
         <translation>Tıklayarak nokta sil</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="203"/>
+        <location filename="../../ui/period_page.py" line="204"/>
         <source>Flux ↔ magnitude</source>
         <translation>Akı ↔ kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="204"/>
+        <location filename="../../ui/period_page.py" line="205"/>
         <source>flux / magnitude</source>
         <translation>akı / kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="205"/>
+        <location filename="../../ui/period_page.py" line="206"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Göreli akıyı kadire (−2,5 log) ya da tersine çevirir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="206"/>
+        <location filename="../../ui/period_page.py" line="207"/>
         <source>Undo edits</source>
         <translation>Düzenlemeleri geri al</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="207"/>
+        <location filename="../../ui/period_page.py" line="208"/>
         <source>undo edits</source>
         <translation>düzenlemeleri geri alma</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="208"/>
+        <location filename="../../ui/period_page.py" line="209"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Işık eğrisinin yüklendiği hâline döner (Ctrl+Z her seferinde bir adım geri alır)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="217"/>
+        <location filename="../../ui/period_page.py" line="218"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="222"/>
+        <location filename="../../ui/period_page.py" line="223"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>En kısa ve en uzun periyot arasında periyodogramı hesaplar ve eğriyi en iyi periyoda göre katlar; katlanmış grafiği gözle kontrol edin</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="241"/>
+        <location filename="../../ui/period_page.py" line="242"/>
         <source>Downloading from {source}…</source>
         <translation>{source} kaynağından indiriliyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="277"/>
+        <location filename="../../ui/period_page.py" line="278"/>
         <source>{n} points from {source}</source>
         <translation>{n} nokta, kaynak: {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="302"/>
+        <location filename="../../ui/period_page.py" line="294"/>
+        <source>upper limits</source>
+        <translation>üst sınırlar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="322"/>
         <source>outliers removed</source>
         <translation>aykırılar atıldı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="308"/>
+        <location filename="../../ui/period_page.py" line="328"/>
         <source>binned</source>
         <translation>gruplandı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="317"/>
+        <location filename="../../ui/period_page.py" line="337"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Kadire çevirmek için akılar pozitif olmalı.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="326"/>
+        <location filename="../../ui/period_page.py" line="346"/>
         <source>magnitudes</source>
         <translation>kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="326"/>
+        <location filename="../../ui/period_page.py" line="346"/>
         <source>flux</source>
         <translation>akı</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="382"/>
+        <location filename="../../ui/period_page.py" line="402"/>
         <source>Left out</source>
         <translation>Dışarıda bırakılan</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="412"/>
         <source>points deleted</source>
         <translation>noktalar silindi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="393"/>
+        <location filename="../../ui/period_page.py" line="413"/>
         <source>delete a point</source>
         <translation>nokta silme</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="409"/>
+        <location filename="../../ui/period_page.py" line="429"/>
         <source>bring back points</source>
         <translation>noktaları geri getir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="409"/>
+        <location filename="../../ui/period_page.py" line="429"/>
         <source>points brought back</source>
         <translation>noktalar geri getirildi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="426"/>
-        <location filename="../../ui/period_page.py" line="460"/>
+        <location filename="../../ui/period_page.py" line="446"/>
+        <location filename="../../ui/period_page.py" line="480"/>
         <source>Folded at {p:.6f} d (clicked peak).</source>
         <translation>{p:.6f} günde katlandı (tıklanan tepe).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="444"/>
+        <location filename="../../ui/period_page.py" line="464"/>
         <source>Folded at {p:.6f} d.</source>
         <translation>{p:.6f} günde katlandı.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="493"/>
+        <location filename="../../ui/period_page.py" line="513"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Zaman − {t:.0f} (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="493"/>
+        <location filename="../../ui/period_page.py" line="513"/>
         <source>Time (d)</source>
         <translation>Zaman (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="369"/>
-        <location filename="../../ui/period_page.py" line="483"/>
+        <location filename="../../ui/period_page.py" line="389"/>
+        <location filename="../../ui/period_page.py" line="503"/>
         <source>Magnitude</source>
         <translation>Kadir</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="201"/>
+        <location filename="../../ui/period_page.py" line="202"/>
         <source>Click a point on the light-curve plot to leave it out; click a hollow point to bring it back</source>
         <translation>Işık eğrisi grafiğinde bir noktaya tıklayarak onu dışarıda bırakın; içi boş bir noktaya tıklayarak geri getirin</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="501"/>
+        <location filename="../../ui/period_page.py" line="522"/>
         <source>Load light curve</source>
         <translation>Işık eğrisi yükle</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
-        <location filename="../../ui/period_page.py" line="546"/>
+        <location filename="../../ui/period_page.py" line="534"/>
+        <location filename="../../ui/period_page.py" line="568"/>
         <source>Cannot read {file}: {error}</source>
         <translation>{file} okunamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="560"/>
+        <location filename="../../ui/period_page.py" line="582"/>
         <source>No light curve to save yet.</source>
         <translation>Henüz kaydedilecek ışık eğrisi yok.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="563"/>
+        <location filename="../../ui/period_page.py" line="585"/>
         <source>Save light curve</source>
         <translation>Işık eğrisini kaydet</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="569"/>
+        <location filename="../../ui/period_page.py" line="591"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} nokta {file} dosyasına kaydedildi</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="572"/>
+        <location filename="../../ui/period_page.py" line="594"/>
         <source>Searching…</source>
         <translation>Aranıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="584"/>
+        <location filename="../../ui/period_page.py" line="606"/>
         <source>Best period: {p:.6f} d</source>
         <translation>En iyi periyot: {p:.6f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="594"/>
+        <location filename="../../ui/period_page.py" line="616"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Veri birbirinden {g:.0f} gün uzak parçalardan oluşuyor: boşluk boyunca bir döngü fazla ya da eksik sayan periyotlar ({p1:.6f} ya da {p2:.6f} gün) neredeyse aynı iyilikte uyar. Minimum zamanlarıyla (O−C) kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="607"/>
+        <location filename="../../ui/period_page.py" line="629"/>
         <source>(out of date: points were left out)</source>
         <translation>(güncel değil: bazı noktalar çıkarıldı)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="619"/>
+        <location filename="../../ui/period_page.py" line="641"/>
         <source>best period</source>
         <translation>en iyi periyot</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="621"/>
+        <location filename="../../ui/period_page.py" line="643"/>
         <source>aliases</source>
         <translation>takma ad periyotları</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="628"/>
+        <location filename="../../ui/period_page.py" line="651"/>
         <source>binned mean</source>
         <translation>bin ortalaması</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="605"/>
+        <location filename="../../ui/period_page.py" line="627"/>
         <source>Period (d)</source>
         <translation>Periyot (gün)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="353"/>
-        <location filename="../../ui/period_page.py" line="614"/>
+        <location filename="../../ui/period_page.py" line="373"/>
+        <location filename="../../ui/period_page.py" line="636"/>
         <source>Power</source>
         <translation>Güç</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="633"/>
+        <location filename="../../ui/period_page.py" line="656"/>
         <source>Phase</source>
         <translation>Evre</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="369"/>
-        <location filename="../../ui/period_page.py" line="483"/>
+        <location filename="../../ui/period_page.py" line="389"/>
+        <location filename="../../ui/period_page.py" line="503"/>
         <source>Relative flux</source>
         <translation>Göreli akı</translation>
     </message>

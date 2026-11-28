@@ -29,6 +29,7 @@ class PeriodPage(Undoable, QWidget):
     _selection = []  # indices a lasso enclosed; replaced (never changed in place) by _lassoed and delete_points
     _back = []  # indices into left_out a lasso enclosed: what Delete brings back
     left_out = []  # [(time, flux, err or None)] the user left out: hollow markers on the plot (UI-10)
+    upper = ([], [])  # a survey's upper limits (time, relative flux): drawn, never searched (PER-1 item 3)
     """Period search on a light curve (from the Photometry window or a CSV file) and phase folding."""
 
     search_requested = Signal(list, list, dict)  # time, flux, params
@@ -267,7 +268,7 @@ class PeriodPage(Undoable, QWidget):
         self.err = [float(e) for e in err] if ok and np.all(np.asarray(err, float) > 0) else None
         if not keep_original:
             self.undo_stack.clear()  # another star: the edits of the last one do not apply
-            self.left_out = []
+            self.left_out, self.upper = [], ([], [])
             self.original, self.magnitudes, self.label = (self.time, self.flux, self.err), False, label
             self.best = None  # a new star: the old period does not apply
             self.guide.reset()
@@ -277,6 +278,28 @@ class PeriodPage(Undoable, QWidget):
         self.source.setText(self.tr("{n} points from {source}").format(n=len(self.time), source=label))
         self.search_button.setEnabled(len(self.time) > 10)
         self._plot_light_curve()
+
+    def set_survey_curve(self, lc, label, notes=()):
+        """A survey light curve (surveys.to_light_curve); its upper limits are drawn beside the points, not searched."""
+        self.set_light_curve(lc["time"], lc["rel_flux"], label, err=lc.get("rel_flux_err"))
+        limits = lc.get("upper_limits")
+        self.upper = (list(limits["time"]), list(limits["rel_flux"])) if limits else ([], [])
+        self._plot_light_curve()
+        self.say_time_notes(lc.get("warnings", []) + list(notes))
+
+    def _upper_series(self, to_x):
+        """The upper limits as downward triangles, in the current unit; not part of the data, so not searched."""
+        if not self.upper[0]:
+            return []
+        from ..core.units import flux_to_mag
+
+        y = flux_to_mag(self.upper[1]) if self.magnitudes else np.asarray(self.upper[1], float)
+        name = self.tr("upper limits")
+        return [
+            SeriesSpec(
+                name, to_x(np.asarray(self.upper[0], float)), y, symbol="v", size=6, colour=tokens.role("rejected")
+            )
+        ]
 
     def say_time_notes(self, notes):
         """Engine notes on the times (kept in their standard, HJD taken as UTC) under the source line."""
@@ -492,6 +515,7 @@ class PeriodPage(Undoable, QWidget):
         ref = float(np.floor(t.min())) if t.size and t.min() > 1000 else 0.0  # JD: "+2.46e6" says nothing
         label = self.tr("Time − {t:.0f} (d)").format(t=ref) if ref else self.tr("Time (d)")
         lc = [self._data_series(t - ref, 0.8, 4), *self._left_out_series(lambda x: x - ref)]
+        lc += self._upper_series(lambda x: x - ref)
         self._draw([(AxisSpec(label), lc, None)])
 
     def _load(self, path=None):
@@ -526,11 +550,10 @@ class PeriodPage(Undoable, QWidget):
         if len(rows) >= 3:  # a survey or database export: one band, magnitudes as relative flux
             try:
                 lc = surveys.to_light_curve(rows)
-                self.set_light_curve(
-                    lc["time"], lc["rel_flux"], f"{Path(path).name} ({lc['band']})", err=lc.get("rel_flux_err")
-                )
                 text = Path(path).read_text(encoding="utf-8", errors="replace")
-                return self.say_time_notes(lc.get("warnings", []) + surveys.hjd_notes(text, lc["time"]))
+                return self.set_survey_curve(
+                    lc, f"{Path(path).name} ({lc['band']})", surveys.hjd_notes(text, lc["time"])
+                )
             except ValueError:
                 pass  # not enough points in one band: read it as a plain table
         try:
@@ -622,6 +645,7 @@ class PeriodPage(Undoable, QWidget):
         ]
         folded = [self._data_series(ph, 0.5 if self.phase_bins.value() else 1, 4)]
         folded += self._left_out_series(lambda x: fold_phase(x, self.best, self._t0()))
+        folded += self._upper_series(lambda x: fold_phase(x, self.best, self._t0()))
         if self.phase_bins.value():
             c, mean, err, _ = fourier_edit().bin_phase(ph, f, self.phase_bins.value())
             folded.append(

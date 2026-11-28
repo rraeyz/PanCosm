@@ -13370,437 +13370,442 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>PeriodPage</name>
     <message>
-        <location filename="../../ui/period_page.py" line="105"/>
+        <location filename="../../ui/period_page.py" line="106"/>
         <source>star name, e.g. AI Dra or TIC 12345678</source>
         <translation>nombre de la estrella, p. ej. AI Dra o TIC 12345678</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="112"/>
+        <location filename="../../ui/period_page.py" line="113"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="55"/>
+        <location filename="../../ui/period_page.py" line="56"/>
         <source>Clean it if needed: outliers, bad points, binning</source>
         <translation>Límpiela si hace falta: valores atípicos, puntos malos, agrupado</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="57"/>
+        <location filename="../../ui/period_page.py" line="58"/>
         <source>Remove outliers (σ) or Delete points by clicking; Bin in time for dense data. Skip this when the curve looks clean.</source>
         <translation>Quitar valores atípicos (σ) o Borrar puntos con un clic; Agrupar en tiempo para datos densos. Omítalo si la curva se ve limpia.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="62"/>
+        <location filename="../../ui/period_page.py" line="63"/>
         <source>Search for the period</source>
         <translation>Busque el período</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="64"/>
+        <location filename="../../ui/period_page.py" line="65"/>
         <source>Choose the method (Lomb–Scargle for pulsating stars, BLS for transits and Algol-type eclipses, PDM or ANOVA for any shape) and the period range, then press Search.</source>
         <translation>Elija el método (Lomb–Scargle para estrellas pulsantes, BLS para tránsitos y eclipses tipo Algol, PDM o ANOVA para cualquier forma) y el intervalo de períodos, y pulse Buscar.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="69"/>
+        <location filename="../../ui/period_page.py" line="70"/>
         <source>Check the periodogram and the folded light curve</source>
         <translation>Revise el periodograma y la curva de luz plegada</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="71"/>
+        <location filename="../../ui/period_page.py" line="72"/>
         <source>A right period gives a clean fold. For an eclipsing binary the true period is often twice the strongest Lomb–Scargle peak; check the aliases too. Then go on to Frequency analysis or the O-C diagram.</source>
         <translation>Un período correcto da un plegado limpio. En una binaria eclipsante el período real suele ser el doble del pico más fuerte de Lomb–Scargle; revise también los alias. Luego siga con Análisis de frecuencias o el diagrama O-C.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="88"/>
+        <location filename="../../ui/period_page.py" line="89"/>
         <source>Any table with a time column and a brightness column; files downloaded from AAVSO, ZTF and ASAS-SN are recognised</source>
         <translation>Cualquier tabla con una columna de tiempo y otra de brillo; se reconocen los archivos descargados de AAVSO, ZTF y ASAS-SN</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="93"/>
+        <location filename="../../ui/period_page.py" line="94"/>
         <source>Save light curve (CSV)…</source>
         <translation>Guardar curva de luz (CSV)…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="48"/>
+        <location filename="../../ui/period_page.py" line="49"/>
         <source>Get a light curve: from the Photometry window, a CSV file or an archive</source>
         <translation>Obtenga una curva de luz: de la ventana Fotometría, de un archivo CSV o de un archivo público</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="50"/>
+        <location filename="../../ui/period_page.py" line="51"/>
         <source>Load a CSV file, or type the star&apos;s name, choose the archive (TESS, Kepler, K2, ZTF, AAVSO) and press Download. A light curve measured in the Photometry window arrives here by itself.</source>
         <translation>Cargue un archivo CSV, o escriba el nombre de la estrella, elija el archivo (TESS, Kepler, K2, ZTF, AAVSO) y pulse Descargar. Una curva de luz medida en la ventana Fotometría llega aquí sola.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="81"/>
+        <location filename="../../ui/period_page.py" line="82"/>
         <source>No light curve yet: measure one in the Photometry window or load a CSV file.</source>
         <translation>Aún no hay curva de luz: mida una en la ventana Fotometría o cargue un archivo CSV.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="85"/>
+        <location filename="../../ui/period_page.py" line="86"/>
         <source>Load CSV / AAVSO / ZTF / ASAS-SN…</source>
         <translation>Cargar CSV / AAVSO / ZTF / ASAS-SN…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="96"/>
+        <location filename="../../ui/period_page.py" line="97"/>
         <source>The light curve as shown (downloaded, edited) in a CSV file: open it in the Models window or in another program</source>
         <translation>La curva de luz tal como se muestra (descargada, editada) en un fichero CSV: ábrala en la ventana Modelos o en otro programa</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="107"/>
+        <location filename="../../ui/period_page.py" line="108"/>
         <source>The star&apos;s name or catalogue number as the archive knows it; Enter starts the download</source>
         <translation>Nombre o número de catálogo de la estrella tal como lo conoce el archivo; Intro inicia la descarga</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="111"/>
+        <location filename="../../ui/period_page.py" line="112"/>
         <source>The archive to download the light curve from</source>
         <translation>El archivo del que se descarga la curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="114"/>
+        <location filename="../../ui/period_page.py" line="115"/>
         <source>TESS / Kepler / K2 from MAST, ZTF from IRSA, AAVSO observations (needs the internet)</source>
         <translation>TESS / Kepler / K2 de MAST, ZTF de IRSA, observaciones AAVSO (necesita internet)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="123"/>
+        <location filename="../../ui/period_page.py" line="124"/>
         <source>Lomb–Scargle (pulsating stars)</source>
         <translation>Lomb–Scargle (estrellas pulsantes)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="124"/>
+        <location filename="../../ui/period_page.py" line="125"/>
         <source>BLS (transits, Algol-type eclipses)</source>
         <translation>BLS (tránsitos, eclipses tipo Algol)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="125"/>
+        <location filename="../../ui/period_page.py" line="126"/>
         <source>PDM (any shape)</source>
         <translation>PDM (cualquier forma)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="126"/>
+        <location filename="../../ui/period_page.py" line="127"/>
         <source>ANOVA (multi-harmonic, any smooth shape)</source>
         <translation>ANOVA (multiarmónico, cualquier forma suave)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="129"/>
+        <location filename="../../ui/period_page.py" line="130"/>
         <source>Fits a sine wave at every trial period; the power is the share of the variance the sine explains (Lomb 1976, Scargle 1982).</source>
         <translation>Ajusta una onda sinusoidal en cada período de prueba; la potencia es la fracción de la varianza que explica la sinusoide (Lomb 1976, Scargle 1982).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="131"/>
+        <location filename="../../ui/period_page.py" line="132"/>
         <source>Fits a box-shaped dip (depth, duration, phase) at every trial period (Kovács, Zucker &amp; Mazeh 2002).</source>
         <translation>Ajusta una caída en forma de caja (profundidad, duración, fase) en cada período de prueba (Kovács, Zucker &amp; Mazeh 2002).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="133"/>
+        <location filename="../../ui/period_page.py" line="134"/>
         <source>Folds the data on every trial period and compares the scatter inside phase bins with the total scatter (Stellingwerf 1978).</source>
         <translation>Pliega los datos con cada período de prueba y compara la dispersión dentro de los intervalos de fase con la dispersión total (Stellingwerf 1978).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="135"/>
+        <location filename="../../ui/period_page.py" line="136"/>
         <source>Fits a Fourier series of two harmonics at every trial period; the F statistic of that fit (Schwarzenberg-Czerny 1996).</source>
         <translation>Ajusta una serie de Fourier de dos armónicos en cada período de prueba; el estadístico F de ese ajuste (Schwarzenberg-Czerny 1996).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="142"/>
+        <location filename="../../ui/period_page.py" line="143"/>
         <source>Lomb–Scargle: sine-like curves (pulsations, spots); BLS: short, box-shaped dips; PDM and ANOVA: curves of any shape, e.g. eclipsing binaries with two minima. The formulas: Guide, Mathematics of the methods</source>
         <translation>Lomb–Scargle: curvas sinusoidales (pulsaciones, manchas); BLS: caídas cortas en forma de caja; PDM y ANOVA: curvas de cualquier forma, p. ej. binarias eclipsantes con dos mínimos. Las fórmulas: Guía, Matemáticas de los métodos</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="152"/>
+        <location filename="../../ui/period_page.py" line="153"/>
         <source>Method</source>
         <translation>Método</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="154"/>
+        <location filename="../../ui/period_page.py" line="155"/>
         <source>Shortest period (d)</source>
         <translation>Período más corto (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="157"/>
+        <location filename="../../ui/period_page.py" line="158"/>
         <source>Shortest period searched; shorter than twice the time between points cannot be found</source>
         <translation>Período más corto buscado; no se pueden encontrar períodos menores que el doble del intervalo entre puntos</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="159"/>
+        <location filename="../../ui/period_page.py" line="160"/>
         <source>Longest period (d)</source>
         <translation>Período más largo (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="161"/>
+        <location filename="../../ui/period_page.py" line="162"/>
         <source>Longest period searched; the data should cover at least two cycles of it</source>
         <translation>Período más largo buscado; los datos deberían cubrir al menos dos ciclos</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="167"/>
+        <location filename="../../ui/period_page.py" line="168"/>
         <source>off</source>
         <translation>no</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="168"/>
+        <location filename="../../ui/period_page.py" line="169"/>
         <source>Mean curve in this many phase bins on the folded plot</source>
         <translation>Curva media en tantos intervalos de fase en la gráfica plegada</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="170"/>
+        <location filename="../../ui/period_page.py" line="171"/>
         <source>Phase bins</source>
         <translation>Intervalos de fase</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="177"/>
+        <location filename="../../ui/period_page.py" line="178"/>
         <source>Limit in standard deviations for Remove outliers</source>
         <translation>Límite en desviaciones estándar para Quitar valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="178"/>
+        <location filename="../../ui/period_page.py" line="179"/>
         <source>Remove outliers (σ)</source>
         <translation>Quitar valores atípicos (σ)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="179"/>
+        <location filename="../../ui/period_page.py" line="180"/>
         <source>remove outliers</source>
         <translation>quitar valores atípicos</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="182"/>
+        <location filename="../../ui/period_page.py" line="183"/>
         <source>Removes points further than this many standard deviations from the median of their neighbours in time (cosmic rays, bad frames); Ctrl+Z brings them back</source>
         <translation>Elimina los puntos más alejados de la mediana de sus vecinos en el tiempo que este número de desviaciones estándar (rayos cósmicos, fotogramas malos); Ctrl+Z los recupera</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="189"/>
+        <location filename="../../ui/period_page.py" line="190"/>
         <source>Length of a time bin in minutes for Bin in time</source>
         <translation>Longitud de un intervalo de tiempo en minutos para Agrupar en tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="190"/>
+        <location filename="../../ui/period_page.py" line="191"/>
         <source>Bin in time (min)</source>
         <translation>Agrupar en tiempo (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="191"/>
+        <location filename="../../ui/period_page.py" line="192"/>
         <source>bin in time</source>
         <translation>agrupar en tiempo</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="194"/>
+        <location filename="../../ui/period_page.py" line="195"/>
         <source>Averages the points in time bins of this length: less noise, fewer points; keep the bins much shorter than an eclipse</source>
         <translation>Promedia los puntos en intervalos de tiempo de esta longitud: menos ruido, menos puntos; mantenga los intervalos mucho más cortos que un eclipse</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="198"/>
+        <location filename="../../ui/period_page.py" line="199"/>
         <source>Delete points by clicking</source>
         <translation>Borrar puntos con un clic</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="203"/>
+        <location filename="../../ui/period_page.py" line="204"/>
         <source>Flux ↔ magnitude</source>
         <translation>Flujo ↔ magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="204"/>
+        <location filename="../../ui/period_page.py" line="205"/>
         <source>flux / magnitude</source>
         <translation>flujo / magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="205"/>
+        <location filename="../../ui/period_page.py" line="206"/>
         <source>Converts relative flux to magnitudes (−2.5 log) or back</source>
         <translation>Convierte el flujo relativo en magnitudes (−2,5 log) o al revés</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="206"/>
+        <location filename="../../ui/period_page.py" line="207"/>
         <source>Undo edits</source>
         <translation>Deshacer ediciones</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="207"/>
+        <location filename="../../ui/period_page.py" line="208"/>
         <source>undo edits</source>
         <translation>deshacer ediciones</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="208"/>
+        <location filename="../../ui/period_page.py" line="209"/>
         <source>Back to the light curve as it was loaded (Ctrl+Z takes back one step at a time)</source>
         <translation>Vuelve a la curva de luz tal como se cargó (Ctrl+Z deshace un paso cada vez)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="217"/>
+        <location filename="../../ui/period_page.py" line="218"/>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="222"/>
+        <location filename="../../ui/period_page.py" line="223"/>
         <source>Computes the periodogram between the shortest and longest period and folds the curve on the best period; check the folded plot by eye</source>
         <translation>Calcula el periodograma entre el período más corto y el más largo y pliega la curva con el mejor período; revise a ojo la curva plegada</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="241"/>
+        <location filename="../../ui/period_page.py" line="242"/>
         <source>Downloading from {source}…</source>
         <translation>Descargando de {source}…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="277"/>
+        <location filename="../../ui/period_page.py" line="278"/>
         <source>{n} points from {source}</source>
         <translation>{n} puntos de {source}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="302"/>
+        <location filename="../../ui/period_page.py" line="294"/>
+        <source>upper limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/period_page.py" line="322"/>
         <source>outliers removed</source>
         <translation>atípicos quitados</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="308"/>
+        <location filename="../../ui/period_page.py" line="328"/>
         <source>binned</source>
         <translation>agrupada</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="317"/>
+        <location filename="../../ui/period_page.py" line="337"/>
         <source>Fluxes must be positive to convert to magnitudes.</source>
         <translation>Los flujos deben ser positivos para pasar a magnitudes.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="326"/>
+        <location filename="../../ui/period_page.py" line="346"/>
         <source>magnitudes</source>
         <translation>magnitudes</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="326"/>
+        <location filename="../../ui/period_page.py" line="346"/>
         <source>flux</source>
         <translation>flujo</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="382"/>
+        <location filename="../../ui/period_page.py" line="402"/>
         <source>Left out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="392"/>
+        <location filename="../../ui/period_page.py" line="412"/>
         <source>points deleted</source>
         <translation>puntos borrados</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="393"/>
+        <location filename="../../ui/period_page.py" line="413"/>
         <source>delete a point</source>
         <translation>borrar un punto</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="409"/>
+        <location filename="../../ui/period_page.py" line="429"/>
         <source>bring back points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="409"/>
+        <location filename="../../ui/period_page.py" line="429"/>
         <source>points brought back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="426"/>
-        <location filename="../../ui/period_page.py" line="460"/>
+        <location filename="../../ui/period_page.py" line="446"/>
+        <location filename="../../ui/period_page.py" line="480"/>
         <source>Folded at {p:.6f} d (clicked peak).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="444"/>
+        <location filename="../../ui/period_page.py" line="464"/>
         <source>Folded at {p:.6f} d.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="493"/>
+        <location filename="../../ui/period_page.py" line="513"/>
         <source>Time − {t:.0f} (d)</source>
         <translation>Tiempo − {t:.0f} (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="493"/>
+        <location filename="../../ui/period_page.py" line="513"/>
         <source>Time (d)</source>
         <translation>Tiempo (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="369"/>
-        <location filename="../../ui/period_page.py" line="483"/>
+        <location filename="../../ui/period_page.py" line="389"/>
+        <location filename="../../ui/period_page.py" line="503"/>
         <source>Magnitude</source>
         <translation>Magnitud</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="201"/>
+        <location filename="../../ui/period_page.py" line="202"/>
         <source>Click a point on the light-curve plot to leave it out; click a hollow point to bring it back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="501"/>
+        <location filename="../../ui/period_page.py" line="522"/>
         <source>Load light curve</source>
         <translation>Cargar curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="513"/>
-        <location filename="../../ui/period_page.py" line="546"/>
+        <location filename="../../ui/period_page.py" line="534"/>
+        <location filename="../../ui/period_page.py" line="568"/>
         <source>Cannot read {file}: {error}</source>
         <translation>No se puede leer {file}: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="560"/>
+        <location filename="../../ui/period_page.py" line="582"/>
         <source>No light curve to save yet.</source>
         <translation>Todavía no hay curva de luz que guardar.</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="563"/>
+        <location filename="../../ui/period_page.py" line="585"/>
         <source>Save light curve</source>
         <translation>Guardar curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="569"/>
+        <location filename="../../ui/period_page.py" line="591"/>
         <source>Saved {n} points to {file}</source>
         <translation>{n} puntos guardados en {file}</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="572"/>
+        <location filename="../../ui/period_page.py" line="594"/>
         <source>Searching…</source>
         <translation>Buscando…</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="584"/>
+        <location filename="../../ui/period_page.py" line="606"/>
         <source>Best period: {p:.6f} d</source>
         <translation>Mejor período: {p:.6f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="594"/>
+        <location filename="../../ui/period_page.py" line="616"/>
         <source>The data come in stretches {g:.0f} d apart: one cycle more or less across the gap ({p1:.6f} or {p2:.6f} d) fits almost as well. Check with the times of minimum (O−C).</source>
         <translation>Los datos vienen en tramos separados {g:.0f} d: un ciclo más o menos a través del hueco ({p1:.6f} o {p2:.6f} d) ajusta casi igual de bien. Compruébelo con los tiempos de mínimo (O−C).</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="607"/>
+        <location filename="../../ui/period_page.py" line="629"/>
         <source>(out of date: points were left out)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="619"/>
+        <location filename="../../ui/period_page.py" line="641"/>
         <source>best period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="621"/>
+        <location filename="../../ui/period_page.py" line="643"/>
         <source>aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="628"/>
+        <location filename="../../ui/period_page.py" line="651"/>
         <source>binned mean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="605"/>
+        <location filename="../../ui/period_page.py" line="627"/>
         <source>Period (d)</source>
         <translation>Período (d)</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="353"/>
-        <location filename="../../ui/period_page.py" line="614"/>
+        <location filename="../../ui/period_page.py" line="373"/>
+        <location filename="../../ui/period_page.py" line="636"/>
         <source>Power</source>
         <translation>Potencia</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="633"/>
+        <location filename="../../ui/period_page.py" line="656"/>
         <source>Phase</source>
         <translation>Fase</translation>
     </message>
     <message>
-        <location filename="../../ui/period_page.py" line="369"/>
-        <location filename="../../ui/period_page.py" line="483"/>
+        <location filename="../../ui/period_page.py" line="389"/>
+        <location filename="../../ui/period_page.py" line="503"/>
         <source>Relative flux</source>
         <translation>Flujo relativo</translation>
     </message>

@@ -5,6 +5,7 @@ from astropy.coordinates import EarthLocation, SkyCoord
 from astropy.time import Time
 
 from astrowb.timeseries import surveys
+from astrowb.timeseries.lightcurve import UPPER
 
 STAR = SkyCoord(250.68375 * u.deg, 52.69028 * u.deg)
 GEO = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
@@ -30,14 +31,51 @@ def test_aavso_and_asassn_files():
     aavso = "JD,Magnitude,Uncertainty,Band,Fainter Than\n2460000.1,8.1,0.02,V,0\n2460001.1,<9.5,,V,1\n"
     aavso += "2460002.1,8.3,0.02,V,0\n2460003.1,8.2,0.02,V,0\n2460003.2,8.9,,Vis.,0\n"
     rows = surveys.parse(aavso)
-    assert len(rows) == 4 and {r[1] for r in rows} == {"jd"}
+    assert len(rows) == 5 and {r[1] for r in rows} == {"jd"} and [r[5] for r in rows] == [0, UPPER, 0, 0, 0]
     lc = surveys.to_light_curve(rows, None, "V")
     assert lc["time_scale"] == "JD_UTC" and lc["mag"] == [8.1, 8.3, 8.2]
+    assert lc["upper_limits"]["mag"] == [9.5] and lc["visual"]["mag"] == [8.9]
     asassn = "HJD,UT Date,Camera,FWHM,Limit,mag,mag_err,flux(mJy),flux_err,Filter\n"
     asassn += "\n".join(f"{2458000.5 + i},x,bb,1.5,17,{12 + 0.01 * i},0.02,1,0.1,V" for i in range(4))
     asassn += "\n2458010.5,x,bb,1.5,17,>17.1,99,0,0.1,V"
     lc = surveys.to_light_curve(surveys.parse(asassn), STAR)
-    assert len(lc["time"]) == 4 and lc["time_scale"] == "BJD_TDB"
+    assert len(lc["time"]) == 4 and lc["time_scale"] == "BJD_TDB" and "visual" not in lc
+    assert lc["upper_limits"]["mag"] == [17.1] and lc["upper_limits"]["time"][0] > lc["time"][-1]
+
+
+def test_upper_limits_and_visual_estimates_are_their_own_sets_and_not_searched(qtbot, tmp_path, monkeypatch):
+    from astrowb.timeseries import period
+    from astrowb.ui.period_page import PeriodPage
+
+    rng = np.random.default_rng(3)
+    t = 2460000.0 + np.sort(rng.uniform(0, 60, 150))
+    mag = 10 + 0.3 * np.sin(2 * np.pi * t / 3.7)
+    lines = ["JD,Magnitude,Uncertainty,Band,Fainter Than"]
+    lines += [f"{x:.5f},{m:.4f},0.01,V,0" for x, m in zip(t, mag, strict=True)]
+    lines += [f"{x + 0.3:.5f},{m + 0.1:.4f},,Vis.,0" for x, m in zip(t[:40], mag[:40], strict=True)]
+    # limits every 1.3 d, all at 13 mag: if searched, they would pull the periodogram to 1.3 d
+    lines += [f"{x:.5f},<13.0,,V,1" for x in 2460000.0 + np.arange(45) * 1.3]
+    lines += [f"{x:.5f},14.0,,Vis.,1" for x in 2460000.2 + np.arange(5) * 1.3]
+    text = "\n".join(lines)
+    rows = surveys.parse(text)
+    assert sum(r[5] == UPPER for r in rows) == 50
+    lc = surveys.to_light_curve(rows)
+    assert lc["band"] == "V" and len(lc["time"]) == 150 and max(lc["mag"]) < 11
+    assert len(lc["upper_limits"]["time"]) == 50 and len(lc["visual"]["time"]) == 40
+    best = period.lomb_scargle(lc["time"], lc["rel_flux"], p_min=0.5, p_max=20)[2]
+    assert best == pytest.approx(3.7, rel=0.02)
+    path = tmp_path / "mira.csv"
+    path.write_text(text)
+    page = PeriodPage()
+    qtbot.addWidget(page)
+    page._load(str(path))
+    assert len(page.time) == 150 and len(page.upper[0]) == 50
+    names = [s.name for s in page.plot.figure.panels[0].series]
+    assert "upper limits" in names
+    sent = []
+    page.search_requested.connect(lambda t, f, params: sent.append(t))
+    page._search()
+    assert len(sent[0]) == 150  # the limits are drawn, not searched
 
 
 def test_online_queries_use_the_right_services():
