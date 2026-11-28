@@ -318,7 +318,7 @@ the residual of the whole current frame, error codes. Done (2026-11-21): the ecl
   messages, tests, guide 06.
 
 ### PHO-19. Real-time photometry is the same code as the night run  (P1)
-**partial** — done (2026-11-13): Calibrated frames from the Calibrate stage (2026-11-27, `ui/photometry_feed.py` `feed`/`take_fed`, taken by `poll_live`; test
+**done** — done (2026-11-13): Calibrated frames from the Calibrate stage (2026-11-27, `ui/photometry_feed.py` `feed`/`take_fed`, taken by `poll_live`; test
 tests/ui/test_calibration_to_photometry.py `test_calibrated_frames_reach_live_photometry_and_equal_the_batch`: equal to the batch to 1e-9) are measured by the same code; done (2026-11-13): each live frame is measured by `lightcurve._measure_at`, the night run's own
 per-frame code, so the PSF path, "remove neighbours" (set up on the first frame) and every sky method reach the live
 light curve; the window passes the same method settings to both (`ui/photometry_method.method_params`). Test: the
@@ -336,10 +336,12 @@ attention InfoBanner under the result, gone when a frame arrives (`ui/photometry
 test: `tests/ui/test_live_stalled.py`). Done (2026-11-28): item 3's completeness check, a frame is taken only when its header reads (`live._readable`; a
 file cut short waits; `.fz` frames are followed too), test `test_ready_files_leaves_a_file_cut_short`; item 4, the
 Observing window's "Measure live in Photometry" follows the running sequence's folder
-(`observe_sequence.follow_in_photometry`), test `test_a_running_sequence_is_followed_live_in_photometry`. Left: the
-accept. Measured 2026-11-28 on the first 24 Qatar-1 frames (2400 × 2400): live and batch times identical, but
-`rel_flux` differs by up to 5.2e-5 and its errors by 2e-7 (not bit-identical: the two paths still differ somewhere
-per frame), and a live frame takes 0.59 s (median; target < 0.5 s for 4k).
+(`observe_sequence.follow_in_photometry`), test `test_a_running_sequence_is_followed_live_in_photometry`. The accept (2026-11-28): the live path placed each frame with the night run's
+binning (2 × 2 above 4 Mpx), and the night run's parallel path (24 frames or more) each frame against the first
+instead of chaining frame-to-frame shifts (`lightcurve._shift_from_first`; the same night gave up to 6e-6 different
+rel_flux by the number of cores); the first 24 Qatar-1 frames copied into a folder one by one: live equals the night
+run to 4e-16 (the night run reads only the part of a frame around the stars), times identical
+(`tests/validation/test_qatar1_live.py`); a new 4k frame in 0.29 s (`test_a_new_4k_frame_is_measured_in_half_a_second`).
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the

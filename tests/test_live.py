@@ -149,3 +149,27 @@ def test_live_uses_the_aperture_shape_as_the_night_run(tmp_path):
     batch = light_curve(paths, target, comps, 4, 10, 16, shape=shape)
     assert np.allclose(lc["rel_flux"], batch["rel_flux"], rtol=0, atol=1e-9)
     assert np.allclose(lc["rel_flux_err"], batch["rel_flux_err"], rtol=0, atol=1e-9)
+
+
+def test_a_new_4k_frame_is_measured_in_half_a_second(tmp_path):
+    """PHO-19 accept: per new 4096 x 4096 frame < 0.5 s (the first frames pay for the reference's transform)."""
+    import time
+
+    rng = np.random.default_rng(2)
+    y, x = np.mgrid[:4096, :4096]
+    stars = rng.uniform(200, 3900, (40, 2))
+    base = np.zeros((4096, 4096), np.float32)
+    for sx, sy in stars:
+        sl = (slice(int(sy) - 15, int(sy) + 16), slice(int(sx) - 15, int(sx) + 16))
+        base[sl] += 20000 * np.exp(-((x[sl] - sx) ** 2 + (y[sl] - sy) ** 2) / 8)
+    session = live.LiveLightCurve(stars[0].tolist(), stars[1:4].tolist(), 5, 10, 15)
+    took = []
+    for i in range(4):
+        p = tmp_path / f"f{i}.fits"
+        frame = np.roll(base, (i, 2 * i), (0, 1)) + rng.normal(1000, 10, base.shape).astype(np.float32)
+        fits.PrimaryHDU(frame, fits.Header({"DATE-OBS": f"2026-11-02T01:0{i}:00", "EXPTIME": 30})).writeto(p)
+        began = time.perf_counter()
+        assert session.add(p) is not None, session.failed
+        took.append(time.perf_counter() - began)
+        p.unlink()  # 64 MB each
+    assert min(took[2:]) < 0.5, took

@@ -135,7 +135,7 @@ class LiveLightCurve:
             elif len(self.track):  # placed by the stars the user picked, from where the last frame had them
                 self.place = follow_stars(data, self.track, *self.place)
             else:  # against the first frame, as light_curve does: one bad frame does not carry on to the rest
-                shift = frame_shift(self.ref, data)
+                shift = frame_shift(self.ref, data, 2 if self.ref.size > 4e6 else 1)  # the night run's binning
             pred = self.xy @ self.place[0].T + self.place[1] if len(self.track) else self.xy + shift
             xy, flux, err, *_, lost = _measure_frame(
                 data, h, pred, self.xy, self.r, self.gain, self.box, None, self.psf, self.n_comp, self.ref_path,

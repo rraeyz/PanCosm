@@ -139,12 +139,15 @@ def light_curve(
     from ..engine.parallel import pmap, workers
 
     parallel = src is None and workers() > 1 and len(paths) >= 24
-    from ..calibration.stacking import align_offsets, picked_transforms
+    from ..calibration.stacking import picked_transforms
 
     placed = [stars0 @ m.T + t for m, t in picked_transforms(paths, track_stars, ctx)] if len(track_stars) else None
     if parallel:  # every frame on its own core: the shifts first (between consecutive frames, also in parallel),
         # then each frame read, re-centred from the shifted positions and measured where it is read
-        placed = placed or [stars0 + off for off in np.asarray(align_offsets(paths, ctx, binning))]
+        # each frame against the first, as the serial path and the live path: the same night gives the same numbers
+        # whatever the number of cores (chained frame-to-frame shifts gave up to 6e-6 in rel_flux on Qatar-1)
+        offs = pmap(_shift_from_first, [(paths[0], p, binning) for p in paths[1:]], ctx, "aligning")
+        placed = placed or [stars0, *(stars0 + np.asarray(off) for off in offs)]
         jobs = [(p, pred, stars0, (r_ap, r_in, r_out), g, box, fwhm0, psf, n_comp, paths[0], opts)
                 for p, pred in zip(paths, placed, strict=True)]  # fmt: skip
         for row, peak, rad, f in pmap(_frame, jobs, ctx, "photometry"):
@@ -283,6 +286,12 @@ def _by_aperture(opts, multi, scint):
         multi = [np.array([m[0], np.sqrt(m[1] ** 2 + (s * m[0]) ** 2)]) for m, s in zip(multi, scint, strict=True)]
     return {"radii": list(opts["apertures"]), "flux": [m[0].tolist() for m in multi],
             "err": [m[1].tolist() for m in multi]}  # fmt: skip
+
+
+def _shift_from_first(job):
+    """The parallel path's frame_shift of one frame against the first (module level: run on another process)."""
+    ref_path, p, binning = job
+    return frame_shift(load(ref_path)[0], load(p)[0], binning)
 
 
 def _frame(job):
