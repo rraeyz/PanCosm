@@ -3230,3 +3230,19 @@ def test_velocity_table_time_header_follows_the_files_scale(window, tmp_path):
     mixed = load("e.csv", "hjd") + load("f.csv", "bjd")
     vel.show_rvs(mixed)
     assert "BJD_TDB, HJD" in vel.time_note.text() and not vel.time_note.isHidden()
+
+
+def test_a_running_sequence_is_followed_live_in_photometry(window, fits_file):
+    """PHO-19 item 4: the sequence's folder opens in Photometry's live follow; before stars are picked, its first
+    frame is shown to click them on."""
+    from astrowb.ui.observe_sequence import follow_in_photometry
+
+    obs = window.observe_page
+    assert not obs.follow_button.isEnabled()  # nothing running yet
+    obs._sequence_dir = str(fits_file.parent / "missing")
+    assert follow_in_photometry(obs, window) is False and "folder" in obs.job.text()
+    obs.seq_name.setText("NY Vir")
+    obs._sequence_dir = str(fits_file.parent)
+    assert follow_in_photometry(obs, window) is False  # no stars yet: the first frame is shown
+    phot = window.photometry_page
+    assert phot.coord.text() == "NY Vir" and phot.images == [str(fits_file)]

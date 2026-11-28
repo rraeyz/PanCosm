@@ -20,12 +20,23 @@ from .differential import ensemble
 from .lightcurve import SNR_FOUND, _measure_frame, target_coord
 from .psf import neighbours_setup
 
-FITS_SUFFIXES = (".fits", ".fit", ".fts")
+FITS_SUFFIXES = (".fits", ".fit", ".fts", ".fz")  # .fz: tile-compressed (LCO, ESO)
+
+
+def _readable(path):
+    """A whole FITS header: a file cut short by the camera is left for a later poll, not measured broken."""
+    from astropy.io import fits
+
+    try:
+        fits.getheader(path)
+        return True
+    except Exception:  # any reading error means "not ready yet"
+        return False
 
 
 def ready_files(folder, seen, min_age_s=2.0, now=None):
-    """New FITS files in folder, oldest first, skipping ones written less than min_age_s ago
-    (the camera may still be writing them)."""
+    """New FITS files in folder, oldest first, skipping ones written less than min_age_s ago (their size not yet
+    stable: the camera may still be writing them) and ones whose header does not read."""
     now = time.time() if now is None else now
     out = []
     for p in Path(folder).iterdir():
@@ -34,7 +45,7 @@ def ready_files(folder, seen, min_age_s=2.0, now=None):
                 mtime = p.stat().st_mtime
             except OSError:
                 continue
-            if now - mtime >= min_age_s:
+            if now - mtime >= min_age_s and _readable(p):
                 out.append((mtime, str(p)))
     return [p for _, p in sorted(out)]
 

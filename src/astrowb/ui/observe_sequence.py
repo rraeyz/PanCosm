@@ -1,6 +1,9 @@
 """Observe page: loading and starting sequences, night plans and flats."""
 
+from pathlib import Path
+
 from PySide6.QtCore import QCoreApplication
+from PySide6.QtWidgets import QPushButton
 
 from .messages import translate
 
@@ -65,6 +68,8 @@ class SequenceActions:
             return
         if self._post("/sequence", spec):
             self._sequence_dir = spec["out_dir"]
+            if hasattr(self, "follow_button"):
+                self.follow_button.setEnabled(True)
 
     def panel_flats(self):
         r = max(self.exposures.currentRow(), 0)
@@ -89,3 +94,30 @@ class SequenceActions:
                 "out_dir": self.out_dir.text().strip(),
             },
         )
+
+
+def add_follow_button(page, main):
+    """PHO-19 item 4: the running sequence's folder followed live in the Photometry window."""
+    b = page.follow_button = QPushButton(QCoreApplication.translate("ObservePage", "Measure live in Photometry"), page)
+    b.setToolTip(
+        QCoreApplication.translate(
+            "ObservePage", "Opens Photometry following the folder this sequence saves its frames in"
+        )
+    )
+    b.setEnabled(False)
+    b.clicked.connect(lambda: follow_in_photometry(page, main))
+    page.job.parentWidget().layout().addWidget(b)
+
+
+def follow_in_photometry(page, main):
+    folder = getattr(page, "_sequence_dir", None)
+    if not folder or not Path(folder).is_dir():
+        page.job.setText(
+            QCoreApplication.translate("ObservePage", "No frames yet: the sequence's folder does not exist")
+        )
+        return False
+    main.open_area("photometry")
+    photometry = main.photometry_page
+    if not photometry.coord.text().strip():
+        photometry.coord.setText(page.seq_name.text().strip())
+    return photometry.start_live(folder)

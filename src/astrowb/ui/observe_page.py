@@ -39,7 +39,7 @@ from .kit.widgets import _title
 from .messages import translate
 from .observe_buttons import quick_buttons
 from .observe_devices import DeviceControls, _wrapped
-from .observe_sequence import SequenceActions
+from .observe_sequence import SequenceActions, add_follow_button
 from .undo import Undoable, track_typing
 
 KINDS = ("light", "dark", "bias", "flat")
@@ -321,6 +321,7 @@ class ObservePage(DeviceControls, SequenceActions, Undoable, QWidget):
         self.job = QLabel(self)
         self.job.setWordWrap(True)
         rl.addWidget(self.job)
+        add_follow_button(self, parent)  # parent: the main window, which opens Photometry
         split.addWidget(right)
         self.right = right
         split.setSizes([500, 700])

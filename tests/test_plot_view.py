@@ -439,6 +439,22 @@ def test_measure_two_clicks_and_the_delete_key(view):
     assert keys == ["delete"]
 
 
+def test_delete_in_a_table_beside_the_plot_stays_the_tables(view):
+    """UI-12: the plot's keys are the focused plot's own; a table next to it keeps Delete."""
+    from PySide6.QtWidgets import QTableWidget
+
+    keys = []
+    view.key_pressed.connect(lambda k, x: keys.append(k))
+    table = QTableWidget()
+    table.setParent(view.parentWidget())
+    QTest.keyClick(table, Qt.Key_Delete)
+    QTest.keyClick(table, Qt.Key_R)
+    assert keys == [] and view.mode == view.base_mode
+    QTest.keyClick(view, Qt.Key_Delete)
+    assert keys == ["delete"]
+    table.deleteLater()
+
+
 def test_a_second_x_axis_along_the_top_in_both_outputs(qapp):
     from astrowb.ui.plot import publish as P
     from astrowb.ui.plot.view import PlotView

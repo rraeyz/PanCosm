@@ -333,7 +333,13 @@ rule reach it through `method_params` (errors and times equal to the night run's
 (`ui/photometry_live.Throttled`); `LiveLightCurve.light_curve()` carries `lost` (file → reason), the Frames list follows
 `LiveLightCurve.order`. Test: `tests/ui/test_live_shared_table.py`. The stall banner (2026-11-21): no new frame for 3 × the cadence (median gap of the frames' times, from 3 frames) shows an
 attention InfoBanner under the result, gone when a frame arrives (`ui/photometry_live.StallWatch`, injectable clock;
-test: `tests/ui/test_live_stalled.py`). Left: Build items 3-4 (follow-a-folder stability check, from Observing).
+test: `tests/ui/test_live_stalled.py`). Done (2026-11-28): item 3's completeness check, a frame is taken only when its header reads (`live._readable`; a
+file cut short waits; `.fz` frames are followed too), test `test_ready_files_leaves_a_file_cut_short`; item 4, the
+Observing window's "Measure live in Photometry" follows the running sequence's folder
+(`observe_sequence.follow_in_photometry`), test `test_a_running_sequence_is_followed_live_in_photometry`. Left: the
+accept. Measured 2026-11-28 on the first 24 Qatar-1 frames (2400 × 2400): live and batch times identical, but
+`rel_flux` differs by up to 5.2e-5 and its errors by 2e-7 (not bit-identical: the two paths still differ somewhere
+per frame), and a live frame takes 0.59 s (median; target < 0.5 s for 4k).
 - **Reference:** AstroImageJ Data Processor (`Data_Processor.java`): polls a folder, calibrates each new file, runs
   Multi-Aperture with the stored apertures, updates the table and the plot.
 - **Ours now:** `photometry/live.LiveLightCurve`: its own incremental copy of the per-frame method; does not know the

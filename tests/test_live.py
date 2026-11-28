@@ -37,6 +37,16 @@ def test_ready_files_waits_for_writing_and_skips_seen(tmp_path):
     assert live.ready_files(tmp_path, {paths[0]}, now=1010) == paths[1:]
 
 
+def test_ready_files_leaves_a_file_cut_short(tmp_path):
+    """PHO-19 item 3: a frame whose header does not read yet (the camera still writing) waits for a later poll."""
+    paths = write_frames(tmp_path, 1)
+    cut = tmp_path / "cut.fits"
+    with open(paths[0], "rb") as f:
+        cut.write_bytes(f.read()[:100])
+    os.utime(cut, (1000, 1000))
+    assert live.ready_files(tmp_path, set(), now=5000) == paths
+
+
 def test_live_matches_batch_and_uses_masters(tmp_path):
     y, x = np.mgrid[:60, :80]
     flat = (1 - 0.15 * ((x - 40) ** 2 + (y - 30) ** 2) / 2500).astype(np.float32)  # vignetting

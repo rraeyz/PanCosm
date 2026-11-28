@@ -978,132 +978,132 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
 <context>
     <name>Areas</name>
     <message>
-        <location filename="../../ui/start_page.py" line="30"/>
+        <location filename="../../ui/start_page.py" line="31"/>
         <source>Planning</source>
         <translation>Planificación</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="31"/>
+        <location filename="../../ui/start_page.py" line="32"/>
         <source>Visibility, airmass, the Moon, eclipses and transits of the night</source>
         <translation>Visibilidad, masa de aire, la Luna, eclipses y tránsitos de la noche</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="32"/>
+        <location filename="../../ui/start_page.py" line="33"/>
         <source>Observing</source>
         <translation>Observación</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="33"/>
+        <location filename="../../ui/start_page.py" line="34"/>
         <source>Telescope, camera, focuser and guider; sequences and whole nights</source>
         <translation>Telescopio, cámara, enfocador y guiado; secuencias y noches enteras</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="34"/>
+        <location filename="../../ui/start_page.py" line="35"/>
         <source>Calibration</source>
         <translation>Calibración</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="35"/>
+        <location filename="../../ui/start_page.py" line="36"/>
         <source>Bias, dark and flat frames: masters and calibrated images</source>
         <translation>Bias, darks y flats: maestros e imágenes calibradas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="36"/>
+        <location filename="../../ui/start_page.py" line="37"/>
         <source>Images</source>
         <translation>Imágenes</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="37"/>
+        <location filename="../../ui/start_page.py" line="38"/>
         <source>Look at images and headers, measure, process, stack</source>
         <translation>Ver imágenes y cabeceras, medir, procesar, apilar</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="38"/>
+        <location filename="../../ui/start_page.py" line="39"/>
         <source>Astrometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="39"/>
+        <location filename="../../ui/start_page.py" line="40"/>
         <source>Asteroid and comet positions for the Minor Planet Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="40"/>
+        <location filename="../../ui/start_page.py" line="41"/>
         <source>Photometry</source>
         <translation>Fotometría</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="41"/>
+        <location filename="../../ui/start_page.py" line="42"/>
         <source>Brightness of stars on a series of images: the light curve</source>
         <translation>Brillo de estrellas en una serie de imágenes: la curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="42"/>
+        <location filename="../../ui/start_page.py" line="43"/>
         <source>Light curves and period</source>
         <translation>Curvas de luz y período</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="43"/>
+        <location filename="../../ui/start_page.py" line="44"/>
         <source>Periods, frequencies, variable stars in a set of frames</source>
         <translation>Períodos, frecuencias, estrellas variables en una serie de tomas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="44"/>
+        <location filename="../../ui/start_page.py" line="45"/>
         <source>O−C</source>
         <translation>O−C</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="45"/>
+        <location filename="../../ui/start_page.py" line="46"/>
         <source>Times of minimum, ephemeris, O−C diagram, third body, apsidal motion</source>
         <translation>Tiempos de mínimo, efemérides, diagrama O−C, tercer cuerpo, movimiento apsidal</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="46"/>
+        <location filename="../../ui/start_page.py" line="47"/>
         <source>Exoplanets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="47"/>
+        <location filename="../../ui/start_page.py" line="48"/>
         <source>Fit a transit on a saved light curve: the planet&apos;s radius, mid-time and shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="48"/>
+        <location filename="../../ui/start_page.py" line="49"/>
         <source>Spectroscopy</source>
         <translation>Espectroscopía</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="49"/>
+        <location filename="../../ui/start_page.py" line="50"/>
         <source>Reduce spectra, wavelengths, radial velocities, orbits</source>
         <translation>Reducir espectros, longitudes de onda, velocidades radiales, órbitas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="50"/>
+        <location filename="../../ui/start_page.py" line="51"/>
         <source>Models</source>
         <translation>Modelos</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="51"/>
+        <location filename="../../ui/start_page.py" line="52"/>
         <source>Eclipsing binaries, visual orbits, light-curve models</source>
         <translation>Binarias eclipsantes, órbitas visuales, modelos de curva de luz</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="52"/>
+        <location filename="../../ui/start_page.py" line="53"/>
         <source>Remote sensing</source>
         <translation>Teledetección</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="53"/>
+        <location filename="../../ui/start_page.py" line="54"/>
         <source>Satellite images: bands, indices, classes</source>
         <translation>Imágenes de satélite: bandas, índices, clases</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="54"/>
+        <location filename="../../ui/start_page.py" line="55"/>
         <source>Automation</source>
         <translation>Automatización</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="55"/>
+        <location filename="../../ui/start_page.py" line="56"/>
         <source>Chain steps into a pipeline and run it in one go</source>
         <translation>Encadenar pasos en un flujo y ejecutarlo de una vez</translation>
     </message>
@@ -8030,6 +8030,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/main_settings.py" line="109"/>
+        <location filename="../../ui/practice_sets.py" line="37"/>
         <source>Folder for the practice data</source>
         <translation>Carpeta para los datos de práctica</translation>
     </message>
@@ -12528,12 +12529,12 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Flats con el panel (tapa cerrada, panel encendido, exposición ajustada al nivel objetivo) con el filtro y el número de la fila elegida; después se apaga el panel</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="329"/>
+        <location filename="../../ui/observe_page.py" line="330"/>
         <source>type a value</source>
         <translation>escribir un valor</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="334"/>
+        <location filename="../../ui/observe_page.py" line="335"/>
         <source>Copying the frames failed: {e}</source>
         <translation>Error al copiar las imágenes: {e}</translation>
     </message>
@@ -12643,165 +12644,180 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>filtro {f}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="354"/>
+        <location filename="../../ui/observe_page.py" line="355"/>
         <source>Copying {n} frames to {f}…</source>
         <translation>Copiando {n} imágenes a {f}…</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="386"/>
-        <location filename="../../ui/observe_page.py" line="397"/>
+        <location filename="../../ui/observe_page.py" line="387"/>
+        <location filename="../../ui/observe_page.py" line="398"/>
         <source>Observatory configuration</source>
         <translation>Configuración del observatorio</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="422"/>
+        <location filename="../../ui/observe_page.py" line="423"/>
         <source>No connection to the observatory: {e}</source>
         <translation>Sin conexión con el observatorio: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="427"/>
+        <location filename="../../ui/observe_page.py" line="428"/>
         <source>NOT SAFE: the safety supervisor has not checked for {s:.0f} s — restart the observatory</source>
         <translation>NO SEGURO: el supervisor de seguridad no ha comprobado desde hace {s:.0f} s — reinicie el observatorio</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="431"/>
+        <location filename="../../ui/observe_page.py" line="432"/>
         <source>Safe</source>
         <translation>Seguro</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="434"/>
+        <location filename="../../ui/observe_page.py" line="435"/>
         <source>aborted — press Resume when ready</source>
         <translation>abortado — pulse Reanudar cuando esté listo</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="435"/>
+        <location filename="../../ui/observe_page.py" line="436"/>
         <source>NOT SAFE: {r}</source>
         <translation>NO SEGURO: {r}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="440"/>
+        <location filename="../../ui/observe_page.py" line="441"/>
         <source>Mount: alt {alt:.1f}°, az {az:.1f}°, {state}</source>
         <translation>Montura: altura {alt:.1f}°, acimut {az:.1f}°, {state}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="443"/>
+        <location filename="../../ui/observe_page.py" line="444"/>
         <source>parked</source>
         <translation>aparcada</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="445"/>
+        <location filename="../../ui/observe_page.py" line="446"/>
         <source>tracking</source>
         <translation>en seguimiento</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="445"/>
+        <location filename="../../ui/observe_page.py" line="446"/>
         <source>not tracking</source>
         <translation>sin seguimiento</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="453"/>
+        <location filename="../../ui/observe_page.py" line="454"/>
         <source>Stopped: {e}</source>
         <translation>Detenido: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="458"/>
+        <location filename="../../ui/observe_page.py" line="459"/>
         <source>Finished, {n} frames.</source>
         <translation>Terminado, {n} imágenes.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="458"/>
+        <location filename="../../ui/observe_page.py" line="459"/>
         <source>Finished.</source>
         <translation>Terminado.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="465"/>
+        <location filename="../../ui/observe_page.py" line="466"/>
         <source>Connect first.</source>
         <translation>Conecte primero.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="472"/>
+        <location filename="../../ui/observe_page.py" line="473"/>
         <source>Refused: {e}</source>
         <translation>Rechazado: {e}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="480"/>
+        <location filename="../../ui/observe_page.py" line="481"/>
         <source>Coordinates not understood: {t}</source>
         <translation>Coordenadas no entendidas: {t}</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="499"/>
+        <location filename="../../ui/observe_page.py" line="500"/>
         <source>Centred to {e:.0f} arcsec after {n} frames.</source>
         <translation>Centrado a {e:.0f} segundos de arco tras {n} imágenes.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="501"/>
+        <location filename="../../ui/observe_page.py" line="502"/>
         <source>lower the axis by {v:.1f}′</source>
         <translation>bajar el eje {v:.1f}′</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="501"/>
+        <location filename="../../ui/observe_page.py" line="502"/>
         <source>raise the axis by {v:.1f}′</source>
         <translation>subir el eje {v:.1f}′</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="502"/>
+        <location filename="../../ui/observe_page.py" line="503"/>
         <source>turn it west by {v:.1f}′</source>
         <translation>girarlo {v:.1f}′ hacia el oeste</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="502"/>
+        <location filename="../../ui/observe_page.py" line="503"/>
         <source>turn it east by {v:.1f}′</source>
         <translation>girarlo {v:.1f}′ hacia el este</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="503"/>
+        <location filename="../../ui/observe_page.py" line="504"/>
         <source>Polar axis off by {t:.1f}′: {alt}, {az}.</source>
         <translation>Eje polar desviado {t:.1f}′: {alt}, {az}.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="523"/>
+        <location filename="../../ui/observe_page.py" line="524"/>
         <source>light: the sky; dark: shutter closed, as long as the lights; bias: the shortest exposure, shutter closed; flat: an evenly lit field</source>
         <translation>light: el cielo; dark: obturador cerrado, tan largo como los lights; bias: la exposición más corta, obturador cerrado; flat: un campo iluminado de forma uniforme</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="534"/>
+        <location filename="../../ui/observe_page.py" line="535"/>
         <source>Exposure time of each frame in seconds</source>
         <translation>Tiempo de exposición de cada fotograma en segundos</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="542"/>
+        <location filename="../../ui/observe_page.py" line="543"/>
         <source>How many frames</source>
         <translation>Cuántos fotogramas</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="542"/>
+        <location filename="../../ui/observe_page.py" line="543"/>
         <source>Binning: 1 is full resolution, 2 adds 2×2 pixels</source>
         <translation>Binning: 1 es la resolución completa, 2 suma 2×2 píxeles</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="578"/>
+        <location filename="../../ui/observe_page.py" line="579"/>
         <source>change an exposure row</source>
         <translation>cambiar una fila de exposición</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="588"/>
+        <location filename="../../ui/observe_page.py" line="589"/>
         <source>Row {row}: gain, offset and read-out mode are whole numbers</source>
         <translation>Fila {row}: ganancia, offset y modo de lectura son números enteros</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="595"/>
+        <location filename="../../ui/observe_page.py" line="596"/>
         <source>Row {row}: sub-frame is x, y, width, height in pixels</source>
         <translation>Fila {row}: el subencuadre es x, y, ancho, alto en píxeles</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_page.py" line="628"/>
+        <location filename="../../ui/observe_page.py" line="629"/>
         <source>The rotator angle must be a number of degrees.</source>
         <translation>El ángulo del rotador debe ser un número de grados.</translation>
     </message>
     <message>
-        <location filename="../../ui/observe_sequence.py" line="42"/>
+        <location filename="../../ui/observe_sequence.py" line="45"/>
         <source>load a sequence</source>
         <translation>cargar una secuencia</translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_sequence.py" line="101"/>
+        <source>Measure live in Photometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_sequence.py" line="103"/>
+        <source>Opens Photometry following the folder this sequence saves its frames in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/observe_sequence.py" line="116"/>
+        <source>No frames yet: the sequence&apos;s folder does not exist</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/stage_boxes.py" line="281"/>
@@ -19044,6 +19060,44 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>PracticeSets</name>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="12"/>
+        <source>An eclipsing binary&apos;s night (raw frames)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="13"/>
+        <source>A transit night (raw frames)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="14"/>
+        <source>A pulsating star&apos;s light curve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="15"/>
+        <source>Minima with a third body</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="16"/>
+        <source>A double-lined binary&apos;s velocities</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="17"/>
+        <source>A long-slit spectrum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/practice_sets.py" line="27"/>
+        <source>Every set, with the Guide&apos;s first night</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ProfileChooser</name>
     <message>
         <location filename="../../ui/profile_chooser.py" line="28"/>
@@ -21843,152 +21897,152 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../../ui/start_page.py" line="92"/>
+        <location filename="../../ui/start_page.py" line="93"/>
         <source>Welcome to {app}</source>
         <translation>Bienvenido a {app}</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="116"/>
+        <location filename="../../ui/start_page.py" line="122"/>
         <source>Interface:</source>
         <translation>Interfaz:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="117"/>
+        <location filename="../../ui/start_page.py" line="123"/>
         <source>Basic — the main steps; the rarely changed options folded</source>
         <translation>Básico — los pasos principales; las opciones poco usadas plegadas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="118"/>
+        <location filename="../../ui/start_page.py" line="124"/>
         <source>Expert — every option open</source>
         <translation>Experto — todas las opciones abiertas</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="120"/>
+        <location filename="../../ui/start_page.py" line="126"/>
         <source>Nothing is removed in Basic mode: the folded sections open with one click. Change it here or in the Settings menu at any time.</source>
         <translation>En el modo básico no se quita nada: las secciones plegadas se abren con un clic. Cámbielo aquí o en el menú Ajustes cuando quiera.</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="201"/>
+        <location filename="../../ui/start_page.py" line="207"/>
         <source>Continue where you left off:</source>
         <translation>Seguir donde lo dejó:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="100"/>
+        <location filename="../../ui/start_page.py" line="101"/>
         <source>New project</source>
         <translation>Nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="100"/>
+        <location filename="../../ui/start_page.py" line="101"/>
         <source>Keep frames, settings and results together</source>
         <translation>Mantener juntas imágenes, ajustes y resultados</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="101"/>
+        <location filename="../../ui/start_page.py" line="102"/>
         <source>Open project…</source>
         <translation>Abrir proyecto…</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="101"/>
+        <location filename="../../ui/start_page.py" line="102"/>
         <source>Continue earlier work</source>
         <translation>Continuar un trabajo anterior</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="102"/>
+        <location filename="../../ui/start_page.py" line="103"/>
         <source>Open a FITS image</source>
         <translation>Abrir una imagen FITS</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="102"/>
+        <location filename="../../ui/start_page.py" line="103"/>
         <source>Look at an image and its header</source>
         <translation>Ver una imagen y su cabecera</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="104"/>
+        <location filename="../../ui/start_page.py" line="105"/>
         <source>Practice data…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="105"/>
+        <location filename="../../ui/start_page.py" line="106"/>
         <source>Simulated nights with known answers, to try every step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="181"/>
+        <location filename="../../ui/start_page.py" line="187"/>
         <source>Find anything… (Ctrl+K)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="218"/>
+        <location filename="../../ui/start_page.py" line="224"/>
         <source>Nothing to continue yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="139"/>
+        <location filename="../../ui/start_page.py" line="145"/>
         <source>Choose what you want to do:</source>
         <translation>Elija lo que quiere hacer:</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="184"/>
+        <location filename="../../ui/start_page.py" line="190"/>
         <source>Areas, recent files, guide topics, menu actions and settings: type a few words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="195"/>
+        <location filename="../../ui/start_page.py" line="201"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="196"/>
+        <location filename="../../ui/start_page.py" line="202"/>
         <source>Open the guide chapter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="203"/>
+        <location filename="../../ui/start_page.py" line="209"/>
         <source>Click to open it again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="210"/>
+        <location filename="../../ui/start_page.py" line="216"/>
         <source>All sessions…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="212"/>
+        <location filename="../../ui/start_page.py" line="218"/>
         <source>Every saved piece of work, not only the latest six</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="219"/>
+        <location filename="../../ui/start_page.py" line="225"/>
         <source>Open images…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="219"/>
+        <location filename="../../ui/start_page.py" line="225"/>
         <source>Try the practice data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="252"/>
+        <location filename="../../ui/start_page.py" line="258"/>
         <source>Working offline: catalogues, archives and look-ups answer only from what was fetched before (Settings → Work offline).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="268"/>
+        <location filename="../../ui/start_page.py" line="274"/>
         <source>Set up your site to see tonight&apos;s sky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="292"/>
+        <location filename="../../ui/start_page.py" line="298"/>
         <source>Tonight at {site}: dark {dusk}–{dawn} · Moon {moon} %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="293"/>
+        <location filename="../../ui/start_page.py" line="299"/>
         <source>your site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/start_page.py" line="303"/>
+        <location filename="../../ui/start_page.py" line="309"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
