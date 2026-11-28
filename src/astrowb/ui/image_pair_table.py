@@ -32,6 +32,9 @@ class PairTable(QWidget):
         self.delete_button.clicked.connect(lambda: self.delete(self.table.selected_rows()))
         self.export_button = QPushButton(self.tr("Export…"), self)
         self.export_button.clicked.connect(self.table._export_dialog)
+        self.add_button.setToolTip(self.tr("Keep the latest measured pair as a row of the table"))
+        self.delete_button.setToolTip(self.tr("Take the selected pairs out of the table"))
+        self.export_button.setToolTip(self.tr("Save the table as CSV or ECSV"))
         row = QHBoxLayout()
         for b in (self.add_button, self.delete_button, self.export_button):
             row.addWidget(b)
