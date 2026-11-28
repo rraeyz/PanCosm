@@ -100,7 +100,7 @@ Kepler / TESS eclipse-timing papers.
 Order of work: OC-W, then P1: 1, 2, 3, 5, 6, 7, 8, 12; P2: 4, 9, 10, 11, 13, 14; P3: 15, 16.
 
 ### OC-W. The O−C window on the new anatomy  (P1)
-**partial** — (2026-11-28) the extra accept holds: star name → minima file → linear ephemeris fitted → third-body (LTTE) fit → results exported in six clicks (Load file, Look up, Fit, Third body, Fit, Export results; typing the name is not a click; the look-up answered in the test, not VSX); `tests/ui/walks/test_walk_oc_six_clicks.py`: `test_star_to_exported_ltte_table_in_six_clicks` (exported A within 3σ of the injected one), `test_symbols_differ_for_primary_and_secondary_and_by_method` (`ui/oc_symbols.point_series`); a click on an O−C point selects (and scrolls to) its minima-table row, and a selected row rings its point (`ui/oc_point_select.py`; the points are pickable with the minimum's time as id, so sorting or unticking rows does not matter; `point_series(times=)`; `test_a_click_on_a_point_selects_its_row_and_a_row_rings_its_point`). Leaving points out and back (2026-11-28, `ui/oc_leave_out.py`): click or lasso selects table rows by time, Delete or "Leave out the selected" unticks their Use cells as one undo step (OCPage is now Undoable; `undo_state` = Use by time), "Bring back the selected" reticks them; a fit made is repeated; left-out minima are grey pickable points (series "left out"); `tests/ui/test_oc_leave_out.py`: `test_leave_out_and_bring_back_two_selected_points`, `test_delete_key_leaves_the_selected_out`. Left: nothing of OC-W's list.
+**done** — (2026-11-28) the extra accept holds: star name → minima file → linear ephemeris fitted → third-body (LTTE) fit → results exported in six clicks (Load file, Look up, Fit, Third body, Fit, Export results; typing the name is not a click; the look-up answered in the test, not VSX); `tests/ui/walks/test_walk_oc_six_clicks.py`: `test_star_to_exported_ltte_table_in_six_clicks` (exported A within 3σ of the injected one), `test_symbols_differ_for_primary_and_secondary_and_by_method` (`ui/oc_symbols.point_series`); a click on an O−C point selects (and scrolls to) its minima-table row, and a selected row rings its point (`ui/oc_point_select.py`; the points are pickable with the minimum's time as id, so sorting or unticking rows does not matter; `point_series(times=)`; `test_a_click_on_a_point_selects_its_row_and_a_row_rings_its_point`). Leaving points out and back (2026-11-28, `ui/oc_leave_out.py`): click or lasso selects table rows by time, Delete or "Leave out the selected" unticks their Use cells as one undo step (OCPage is now Undoable; `undo_state` = Use by time), "Bring back the selected" reticks them; a fit made is repeated; left-out minima are grey pickable points (series "left out"); `tests/ui/test_oc_leave_out.py`: `test_leave_out_and_bring_back_two_selected_points`, `test_delete_key_leaves_the_selected_out`. Left: nothing of OC-W's list.
 - `plans/interface.md` UI-16.5: stages Minima, Ephemeris, Models, Uncertainty, Report; O−C diagram with residuals;
   result tabs Minima table, Parameters, Correlations.
 - **Extra accept:** star name → minima fetched (OC-4, or a file for now) → ephemeris fitted → LTTE fitted → table
@@ -302,13 +302,19 @@ fitted around the middle epoch, returned in the caller's numbering with the cova
 (conservative), `ambiguous` (|O−C| > P/4), `updated` (T0 and P at the middle or the latest epoch) and
 `observer_form` ("Min I = BJD_TDB 2459000.12346(12) + 0.365123451(31) E"). Tests: dP/dt inside 1σ in 60–76 % and
 2σ in ≥ 92 % of 200 realisations; the F-test rejects a parabola on linear data in ≤ 2 % at the 1 % level; a period
-jump located within 300 cycles in 45 of 50. Left: the W UMa published dP/dt check, the interface panel. (2026-11-27) Sending the
+jump located within 300 cycles in 45 of 50. Left: the W UMa published dP/dt check (no published set is stored). (2026-11-27) Sending the
 updated ephemeris to Planning: `ui/oc_to_planning.py` (`add_button`, `target_from_fit`; the "Send the ephemeris to
 Planning" button of the Fit and report stage, enabled by a linear or quadratic fit): `ephemeris_models.updated(…,
 at="latest")` of the fit (T0 and the instantaneous P at the latest epoch), source "O−C fit", secondary when a minimum is
 II; the name is the Star field or the file's stem, the coordinates come from `MainWindow.send_to_planning` (the
 `planning.resolve` step), then the Planning window is raised; errors in the result line;
-`tests/ui/test_oc_to_planning.py`.
+`tests/ui/test_oc_to_planning.py`. (2026-11-28) The interface panel: `ui/oc_compare.py` (`add_compare`, `run`, `fits`,
+`summary`): in the Model stage the weights (from the errors, or by method 1 / 3 / 10 scaled to the median error) and
+least squares / Huber / 3σ rejection, "Compare models"; the "Models" results tab: linear, quadratic, cubic, segmented
+(one jump), linear + sinusoid, linear + damped sinusoid with k, χ², χ²ᵣ, BIC, AIC, ΔBIC, and below the verdict, the
+F-test of the parabola, dP/dt in s/yr and d/Myr and the updated ephemeris in observer form; `OCPage.reference`;
+`tests/ui/test_oc_models_tabs.py`: `test_the_models_tab_ranks_a_parabola_first_and_gives_its_dp_dt`,
+`test_too_few_minima_for_the_comparison_are_said`.
 - **Ours now:** `ephemeris.fit` (linear / quadratic, weighted, centred epochs).
 - **Build:**
   1. Weights: from errors; or by method (a table of relative weights the user can edit; default 1 / 3 / 10 for
@@ -422,12 +428,20 @@ parameter in the interface, the corner plot, saving chains with the session.
 - **Files:** `timeseries/oc_uncertainty.py`, `core/inference/` (EXO-5), `timeseries/oc_models.py` (old `_posterior` removed after migration), `tests/errorbars/test_oc_coverage.py`
 
 ### OC-9. Magnetic cycles (Applegate) as a tested alternative  (P2)
-**partial** — done (2026-11-12): `timeseries/applegate.py` from Völschow et al. 2016: ΔP/P = 4π K / P_mod, E_sec =
+**done** — (2026-11-12): `timeseries/applegate.py` from Völschow et al. 2016: ΔP/P = 4π K / P_mod, E_sec =
 P_mod L, Tian et al. 2009's estimate and the two-zone energy (k₁ = 0.133, k₂ = 3.42) with the critical condition
 (the Applegate parameter A ≤ 1) and the verdict. Tests: HW Vir, NN Ser, QS Vir, UZ For, V471 Tau, BX Dra (Tian and
 two-zone within 5 %) and AW Her, HR 1099 (no solution) as in their tables. Their tables disagree with themselves for
 BX Dra (ΔP/P half of 4π K / P_mod), V471 Tau (E_sec not P_mod L) and RU Cnc / SZ Psc (table 4 not from table 1):
-the energies follow their printed inputs. Left: the damped / quasi-periodic sinusoid compared by BIC, the panel.
+the energies follow their printed inputs. **done** (2026-11-28): the damped sinusoid amplitude · exp(−(E − E_first)/τ)
+· sin(…) is `ephemeris_models.fit(damping=τ)` (τ one more parameter in χ²ᵣ, BIC, AIC) and `damped_cycle` (period and
+τ from find_cycle's period), weighed against the plain sinusoid by `compare` in the O−C window's Models tab
+(`ui/oc_compare.py`); the panel: "Magnetic cycle (Applegate)…" in the Model stage (`ui/oc_applegate.py`: K and P_mod of
+the third-body fit or of the comparison's sinusoid, the active star's M, R, T, L and the separation typed, Tian and
+two-zone ratios, A and the verdict). Tests: `tests/test_oc_cyclic.py`:
+`test_a_damped_cyclic_term_is_preferred_by_bic_and_its_decay_measured` (τ within 25 %),
+`test_a_steady_cyclic_term_is_not_taken_for_a_damped_one`; `tests/ui/test_oc_models_tabs.py`:
+`test_the_applegate_check_uses_the_third_body_term`.
 - **Read first:** Applegate 1992; Lanza 2006 (MNRAS 369, 1773); Völschow et al. 2016 (the two-zone energy
   criterion and its fitting formulas).
 - **Build:** for a cyclic term of period P_mod and amplitude A: ΔP/P = 2π A / P_mod; with the active star's mass,
@@ -456,11 +470,16 @@ and its check against a published compact triple.
 - **Files:** `timeseries/oc_dynamical.py`, `tests/test_oc_dynamical.py`
 
 ### OC-11. Cyclic and general terms; periodogram of residuals  (P2)
-**partial** — done (2026-11-12): `ephemeris_models.fit(cycles=…)` (sinusoids of given periods in cycles with the
+**done** — (2026-11-12): `ephemeris_models.fit(cycles=…)` (sinusoids of given periods in cycles with the
 polynomial, linear), `find_cycle` (χ² over a period grid, refined at its minimum), `cyclic_terms` (semi-amplitude,
 error, phase), `dp_dt_days_per_myr`; the residual periodogram is `ltte.residual_periodogram`. Tests: an RR Lyrae's
-0.3 d/Myr within 1σ in 60–78 % of 100 realisations; a 7000-cycle term found within 2 %. Left: "Fit the highest
-peak as LTTE", the tab, the guide's case.
+0.3 d/Myr within 1σ in 60–78 % of 100 realisations; a 7000-cycle term found within 2 %. **done** (2026-11-28): the "Periodogram" results tab (`ui/oc_periodogram.py`:
+`ltte.residual_periodogram` of every fit's residuals, the highest peak and its false-alarm probability) and "Fit the
+highest peak as LTTE" (`fit_peak`: the third-body fit with P3 searched in peak / 1.25 … peak × 1.25; `run_fit(p3_range=)`,
+the `timeseries.oc_fit` step's `p3_min` / `p3_max` for the MCMC task); the guide's case (guide 07, en and tr: the
+practice minima's peak near 2900 d, then the button). Tests (`tests/ui/test_oc_models_tabs.py`):
+`test_the_highest_residual_peak_seeds_a_third_body_fit_that_recovers_its_period` (an injected e = 0.3, 3000 d orbit),
+`test_the_guides_case_the_practice_minima_peak_near_2900_days`.
 - **Build:** sinusoid(s) + polynomial as a quick model (for first looks and for pulsators' O−C); the residual
   periodogram tab (OC-6.3) for every model; "Fit the highest peak as LTTE" one click; O−C of maxima for pulsating
   stars with the same tools (period change rates of RR Lyrae / δ Scuti / Cepheids in d/Myr; the Blazhko-like

@@ -7,8 +7,11 @@ from PySide6.QtWidgets import QLineEdit
 
 from . import oc_minima
 from .kit.table_view import DataTable
+from .oc_applegate import add_applegate
 from .oc_catalogue_check import add_catalogue_check
+from .oc_compare import add_compare
 from .oc_correlations import show_correlations
+from .oc_periodogram import add_periodogram
 from .oc_to_planning import add_button
 from .stage_boxes import stages_from_boxes
 
@@ -35,8 +38,16 @@ def oc_stages(win, page):
     win.add_result_tab("minima", translate("OcWindow", "Minima"), minima)
     win.add_result_tab("parameters", translate("OcWindow", "Parameters"), values)
 
-    def mark(stale):
-        for k in ("minima", "parameters", "correlations"):
+    models = add_compare(page)
+    add_applegate(page)
+    periodogram = add_periodogram(page)
+
+    def tab(key, title, widget):  # added at first use, as Correlations: an empty tab takes the short window's room
+        if f"result_{key}" not in win.docks:
+            win.add_result_tab(key, title, widget)
+
+    def mark(stale, keys=("minima", "parameters", "correlations", "periodogram", "models")):
+        for k in keys:
             if f"result_{k}" in win.docks:  # the last is added at the first fit
                 win.set_result_stale(k, stale)
 
@@ -44,6 +55,8 @@ def oc_stages(win, page):
                    page.period.textChanged, page.use_mcmc.toggled,
                    *(b.toggled for b in (page.linear, page.quadratic, page.ltte, page.apsidal))):  # fmt: skip
         signal.connect(lambda *_: mark(page.fit_result is not None))
+    page.compare_button.clicked.connect(lambda: tab("models", translate("OcWindow", "Models"), models))
+    page.compare_button.clicked.connect(lambda: mark(False, ("models",)))
     add_catalogue_check(page)
     add_button(page)  # wraps show_fit first, so this window's wrapper below sees it
     show = page.show_fit
@@ -58,7 +71,8 @@ def oc_stages(win, page):
         show_correlations(
             win, page, getattr(f, "correlation", None) or (getattr(f, "mcmc", None) or {}).get("correlation")
         )
-        mark(False)
+        tab("periodogram", translate("OcWindow", "Periodogram"), periodogram)
+        mark(False, ("minima", "parameters", "correlations", "periodogram"))  # Models: by Compare models
         return out
 
     page.show_fit = show_fit

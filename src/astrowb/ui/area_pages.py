@@ -254,10 +254,12 @@ def make_oc_page(main):
         )
     )
 
-    def oc_background(model, text, t0, period, steps, minima):
+    def oc_background(model, text, t0, period, steps, minima, p3_range=None):
         from .messages import translate
 
         params = {"model": model, "t0": t0, "period": period, "mcmc_steps": steps}
+        if p3_range:
+            params["p3_min"], params["p3_max"] = p3_range
         fail = QCoreApplication.translate("MainWindow", "Cannot fit: {error}")
         main.run_step_for(
             "oc",

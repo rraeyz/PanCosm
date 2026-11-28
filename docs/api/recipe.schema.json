@@ -2893,6 +2893,22 @@
            ],
            "minimum": 0,
            "maximum": 1000000
+          },
+          "p3_min": {
+           "description": "Shortest P3 (d): Third body: the shortest orbital period searched; 0: from the data",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
+          },
+          "p3_max": {
+           "description": "Longest P3 (d): Third body: the longest orbital period searched; 0: from the data",
+           "type": [
+            "number",
+            "null"
+           ],
+           "minimum": 0.0
           }
          },
          "additionalProperties": false

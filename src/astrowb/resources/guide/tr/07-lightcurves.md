@@ -49,6 +49,9 @@ Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl
 - **Üçüncü cisim (ışık-zaman etkisi):** örten çift üçüncü bir yıldızla ortak kütle merkezi etrafında döner; örtmeler bu yörünge boyunca erken ve geç gelir (Irwin 1952). Fit üçüncü cismin periyodunu P3 (yıl), yarı genliği A (dakika), dış merkezliliği e, ω açısını ve üçüncü yıldızın kütlesi için alt sınır olan kütle fonksiyonunu f(m3) verir. Birden fazla P3'e yayılmış en az 8 minimum gerekir.
 - **Apsidal hareket:** dış merkezli yörüngede apsis çizgisi döner; birincil ve ikincil minimumlar zıt yönlerde salınır. İki türü de (I ve II) girin; fit e'yi, 0. çevrimdeki ω'yı, dω/dE'yi (çevrim başına derece) ve apsidal periyodu U (yıl) verir. Model e'de birinci derecedir (e ≲ 0,1 için iyi).
 - **MCMC belirsizlikleri:** bu iki modelde kutuyu işaretlerseniz fitten sonra bir Markov zinciri (diferansiyel evrim zincirleri) çalışır: e ve ω dahil her parametrenin, f(m3) ve U'nun %68 aralığı; parametreler birbirine bağlı olduğunda dürüst hatalar (OCFit'teki gibi). Birkaç saniye sürer; daha çok adım daha kararlı hatalar verir. Doğrusal ve kuadratik efemeris doğrusal problemlerdir; en küçük kareler hataları zaten kesindir, kutu kapalıdır.
+- **Modelleri karşılaştır** (Model aşaması): doğrusal, ikinci ve üçüncü derece efemerisler, parçalı efemeris (bir periyot sıçraması) ve doğrusal efemeris üzerinde bir sinüs ile sönümlü bir sinüs, **Modeller** sekmesinde χ², χ²ᵣ, BIC, AIC ve ΔBIC ile yan yana. Tablonun altında: BIC'in hangi modeli tercih ettiği, parabolün F testi, s/yıl ve g/Myıl olarak dP/dt (zonklayan yıldızların maksimum O−C'si için birim) ve gözlemcilerin yazdığı biçimde güncellenmiş efemeris. Ağırlıklar hatalardan ya da yönteme göre gelir (görsel 1, fotoğrafik 3, elektronik 10); dayanıklı fit (Huber ya da 3σ ayıklama) aykırı noktaların efemerisleri çekmesini önler. Düz sinüsü yenen sönümlü bir sinüs, değişimin tam periyodik olmadığını söyler: üçüncü cisimden çok bir manyetik çevrim.
+- **Periyodogram** sekmesi: her fitten sonra artıklarının periyodogramı ve yanlış alarm olasılığıyla en yüksek tepesi. **En yüksek tepeyi ışık-zaman etkisi olarak fit et**, periyodu bu tepe çevresinde aranan bir üçüncü cisim fit eder.
+- **Manyetik çevrim (Applegate)…**: dalgayı etkin yıldızın manyetik çevrimi yapabilir mi (Applegate 1992)? Yıldızın kütlesini, yarıçapını, sıcaklığını, ışınım gücünü ve çiftin ayrıklığını yazın; üçüncü cismin (ya da sinüsün) yarı genliği ve periyodundan gereken enerjiyi yıldızın bir çevrimde yaydığıyla karşılaştırır (Tian vd. 2009; Völschow vd. 2016'nın iki bölgeli modeli) ve enerji bakımından mümkün olup olmadığını söyler.
 
 ## O-C diyagramını okumak {#lightcurves-reading-o-c-diagram}
 - Eğimli düz bir çizgi: periyot biraz yanlış — fit onu düzeltir.
@@ -63,7 +66,9 @@ Sonuç yeni T0 ve P'yi hatalarıyla verir; ikinci derece fit ayrıca saniye/yıl
    çalıştırın: bulunan ilk frekans **8,123 c/g** (genlik 10 mmag), ikincisi **11,470 c/g**.
 2. `minima.txt` — periyodu 0,8123456 g olan bir örten çiftin 12 yıllık birincil minimumları. O−C penceresinde
    T0 = 2455000,1234 ve bu periyotla yükleyin, Üçüncü cisim'i seçip fit edin: üçüncü cismin periyodu yaklaşık
-   **2900 gün**, ışık-yolu-zamanı genliği yaklaşık **0,005 g** (7 dakika) çıkar.
+   **2900 gün**, ışık-yolu-zamanı genliği yaklaşık **0,005 g** (7 dakika) çıkar. Ya da Doğrusal efemeris ile fit
+   edin: **Periyodogram** sekmesinin en yüksek tepesi 2900 gün dolayındadır; **En yüksek tepeyi ışık-zaman etkisi
+   olarak fit et** aynı üçüncü cismi verir.
 
 Bu sayıları buluyorsanız adımlar makinenizde olması gerektiği gibi çalışıyor.
 

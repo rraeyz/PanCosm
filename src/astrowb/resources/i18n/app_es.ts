@@ -3971,86 +3971,91 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
     </message>
     <message>
         <location filename="../../ui/empty_texts.py" line="26"/>
-        <source>The O−C of the mid-transit times appears here once the files are fitted</source>
+        <source>The periodogram of the O−C residuals appears here after a fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ui/empty_texts.py" line="27"/>
+        <source>The O−C of the mid-transit times appears here once the files are fitted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/empty_texts.py" line="28"/>
         <source>The altitude chart of the night appears here: add targets, then press Plan the night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="29"/>
+        <location filename="../../ui/empty_texts.py" line="30"/>
         <source>Cloud cover, humidity and wind appear here: press Get the forecast</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="30"/>
+        <location filename="../../ui/empty_texts.py" line="31"/>
         <source>The band values of a pixel appear here: open an image and click a pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="31"/>
+        <location filename="../../ui/empty_texts.py" line="32"/>
         <source>The histogram of the shown band appears here once an image is open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="32"/>
+        <location filename="../../ui/empty_texts.py" line="33"/>
         <source>The histogram of the clicked frame appears here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="33"/>
+        <location filename="../../ui/empty_texts.py" line="34"/>
         <source>The extracted spectrum and its arc lines appear here: choose the frames, then press 3. Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="35"/>
+        <location filename="../../ui/empty_texts.py" line="36"/>
         <source>The orders and their arc lines appear here: press 4. Extract the orders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="36"/>
+        <location filename="../../ui/empty_texts.py" line="37"/>
         <source>The telluric correction appears here: press Correct and save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="37"/>
+        <location filename="../../ui/empty_texts.py" line="38"/>
         <source>Line profiles, radial velocities and the orbit appear here: add spectra (Add…), then press Measure radial velocities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="39"/>
+        <location filename="../../ui/empty_texts.py" line="40"/>
         <source>The spectrum of a spaxel appears here: press Load cube, then click a spaxel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="40"/>
+        <location filename="../../ui/empty_texts.py" line="41"/>
         <source>The spectrum appears here: press Open spectrum…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="41"/>
+        <location filename="../../ui/empty_texts.py" line="42"/>
         <source>The light curve and the fitted model appear here: choose the light curve, then press Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="43"/>
+        <location filename="../../ui/empty_texts.py" line="44"/>
         <source>The orbit appears here: press Load measures…, then Fit the orbit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="44"/>
+        <location filename="../../ui/empty_texts.py" line="45"/>
         <source>The light curve appears here: press Measure light curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="45"/>
+        <location filename="../../ui/empty_texts.py" line="46"/>
         <source>The camera temperature and the focuser position are drawn here while the observatory runs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="47"/>
+        <location filename="../../ui/empty_texts.py" line="48"/>
         <source>The extinction or transformation fit appears here: press one of the buttons above</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7143,7 +7148,7 @@ Envíe este archivo con unas palabras sobre lo que hizo y lo que salió mal. No 
         <translation>Haga clic en el objetivo en la primera imagen en el tiempo, mostrada en la ventana Fotometría.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_pages.py" line="261"/>
+        <location filename="../../ui/area_pages.py" line="263"/>
         <source>Cannot fit: {error}</source>
         <translation>No se puede ajustar: {error}</translation>
     </message>
@@ -11639,105 +11644,105 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation>Ajuste O−C a {n} tiempos de mínimo: {model}; mínimos cuadrados ponderados, errores 1σ (escalados por √χ²ᵣ cuando χ²ᵣ &gt; 1).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="355"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Indique el período en días, o el nombre de la estrella y Buscar.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="366"/>
+        <location filename="../../ui/oc_page.py" line="375"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Ajustando; después la MCMC ({s} pasos) se ejecuta como tarea…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="385"/>
         <source>Cannot fit: {error}</source>
         <translation>No se puede ajustar: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="391"/>
+        <location filename="../../ui/oc_page.py" line="400"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="392"/>
+        <location filename="../../ui/oc_page.py" line="401"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} d</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="396"/>
+        <location filename="../../ui/oc_page.py" line="405"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/año</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="400"/>
+        <location filename="../../ui/oc_page.py" line="409"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} mínimos</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="418"/>
         <source>model</source>
         <translation>modelo</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="495"/>
+        <location filename="../../ui/oc_page.py" line="504"/>
         <location filename="../../ui/oc_symbols.py" line="25"/>
         <source>primary</source>
         <translation>primario</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="495"/>
+        <location filename="../../ui/oc_page.py" line="504"/>
         <location filename="../../ui/oc_symbols.py" line="26"/>
         <source>secondary</source>
         <translation>secundario</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="425"/>
+        <location filename="../../ui/oc_page.py" line="434"/>
         <source>O−C (min)</source>
         <translation>O−C (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="426"/>
+        <location filename="../../ui/oc_page.py" line="435"/>
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="428"/>
+        <location filename="../../ui/oc_page.py" line="437"/>
         <source>Epoch</source>
         <translation>Época</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="422"/>
-        <location filename="../../ui/oc_page.py" line="428"/>
+        <location filename="../../ui/oc_page.py" line="431"/>
+        <location filename="../../ui/oc_page.py" line="437"/>
         <source>Residual (min)</source>
         <translation>Residuo (min)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="435"/>
+        <location filename="../../ui/oc_page.py" line="444"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Tercer cuerpo: P3 = {p:.2f} ± {pe:.2f} años, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="444"/>
+        <location filename="../../ui/oc_page.py" line="453"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} mínimos</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="459"/>
+        <location filename="../../ui/oc_page.py" line="468"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="467"/>
+        <location filename="../../ui/oc_page.py" line="476"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Movimiento apsidal: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/ciclo, U = {u:.1f} años</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="469"/>
+        <location filename="../../ui/oc_page.py" line="478"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} mínimos</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="482"/>
+        <location filename="../../ui/oc_page.py" line="491"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (aceptación {a:.2f}): </translation>
     </message>
@@ -12848,6 +12853,89 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>OcApplegate</name>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="18"/>
+        <source>the third-body fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="25"/>
+        <source>the sinusoid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="35"/>
+        <source>no solution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="36"/>
+        <source>feasible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="36"/>
+        <source>not feasible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="37"/>
+        <source>From {source}: K = {k:.1f} s, P_mod = {p:.2f} yr, ΔP/P = {dpp:.2e}. Energy needed / energy radiated in one cycle: {tian:.3g} (Tian et al. 2009), {two} (two-zone, Völschow et al. 2016); Applegate parameter A = {big:.3g}: energetically {word}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="46"/>
+        <source>Magnetic cycle (Applegate)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="50"/>
+        <source>Active star&apos;s mass (M☉)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="51"/>
+        <source>Its radius (R☉)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="52"/>
+        <source>Its temperature (K)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="53"/>
+        <source>Its luminosity (L☉)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="54"/>
+        <source>Binary separation (R☉)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="69"/>
+        <source>Fit a third body or compare the models first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="76"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="81"/>
+        <source>Magnetic cycle (Applegate)…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="82"/>
+        <source>Could the active star&apos;s magnetic cycle make this O−C wave instead of a third body? Its energy against the star&apos;s (Applegate 1992; Völschow et al. 2016)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OcCatalogueCheck</name>
     <message>
         <location filename="../../ui/oc_catalogue_check.py" line="19"/>
@@ -12897,6 +12985,124 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     <message>
         <location filename="../../ui/oc_catalogue_check.py" line="69"/>
         <source>Look the star up and load minima first</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OcCompare</name>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="20"/>
+        <source>linear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="20"/>
+        <source>quadratic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="21"/>
+        <source>cubic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="21"/>
+        <source>segmented (one jump)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="22"/>
+        <source>linear + sinusoid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="23"/>
+        <source>linear + damped sinusoid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="59"/>
+        <source>{best} is preferred: ΔBIC = {d:.0f} against {second}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="62"/>
+        <source>F-test, quadratic against linear: F = {f:.2f}, p = {p:.2g}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="63"/>
+        <source>dP/dt = {r:.3g} ± {re:.2g} s/yr ({m:.3g} ± {me:.2g} d/Myr)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="66"/>
+        <source>Damped sinusoid: period {c:.0f} cycles ({y:.2f} yr), decay τ = {t:.0f} cycles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="69"/>
+        <source>Updated linear ephemeris: {line}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="82"/>
+        <source>Comparing the models needs at least {n} minima.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="95"/>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="95"/>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="118"/>
+        <source>Weights by method (visual 1, photographic 3, electronic 10)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="119"/>
+        <source>Weights from the errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="120"/>
+        <source>How the minima are weighted in the model comparison</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="122"/>
+        <source>Least squares</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="122"/>
+        <source>Robust (Huber)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="123"/>
+        <source>3σ rejection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="125"/>
+        <source>Outliers in the polynomial and segmented ephemerides</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="129"/>
+        <source>Compare models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="130"/>
+        <source>Fits every ephemeris and a plain and a damped sinusoid; the Models tab ranks them by BIC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13169,6 +13375,49 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
 </context>
 <context>
+    <name>OcPeriodogram</name>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="30"/>
+        <source>Too few minima for a periodogram.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="34"/>
+        <source>power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="35"/>
+        <source>highest peak</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="41"/>
+        <source>Period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="42"/>
+        <source>Power</source>
+        <translation type="unfinished">Potencia</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="49"/>
+        <source>Highest peak of the residuals: {p:.1f} d ({y:.2f} yr), false-alarm probability {fap:.2g}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="70"/>
+        <source>Fit the highest peak as LTTE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="71"/>
+        <source>Fits a third body (light-travel time) with its orbital period searched around the highest peak of the residuals</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OcToPlanning</name>
     <message>
         <location filename="../../ui/oc_to_planning.py" line="17"/>
@@ -13194,34 +13443,44 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
 <context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/oc_stages.py" line="19"/>
-        <location filename="../../ui/oc_stages.py" line="35"/>
+        <location filename="../../ui/oc_stages.py" line="22"/>
+        <location filename="../../ui/oc_stages.py" line="38"/>
         <source>Minima</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="19"/>
+        <location filename="../../ui/oc_stages.py" line="22"/>
         <source>Ephemeris</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="20"/>
+        <location filename="../../ui/oc_stages.py" line="23"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="20"/>
+        <location filename="../../ui/oc_stages.py" line="23"/>
         <source>Uncertainty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="21"/>
+        <location filename="../../ui/oc_stages.py" line="24"/>
         <source>Fit and report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="36"/>
+        <location filename="../../ui/oc_stages.py" line="39"/>
         <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="58"/>
+        <source>Models</source>
+        <translation type="unfinished">Modelos</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="74"/>
+        <source>Periodogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -13231,7 +13490,7 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
     </message>
     <message>
         <location filename="../../ui/oc_correlations.py" line="23"/>
-        <location filename="../../ui/oc_stages.py" line="55"/>
+        <location filename="../../ui/oc_stages.py" line="68"/>
         <source>Parameter</source>
         <translation type="unfinished">Parámetro</translation>
     </message>
@@ -13241,17 +13500,17 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="55"/>
+        <location filename="../../ui/oc_stages.py" line="68"/>
         <source>Value</source>
         <translation type="unfinished">Valor</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="56"/>
+        <location filename="../../ui/oc_stages.py" line="69"/>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="56"/>
+        <location filename="../../ui/oc_stages.py" line="69"/>
         <source>Unit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22289,12 +22548,32 @@ Se mantienen las tablas en uso; nada deja de funcionar. Inténtelo de nuevo con 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../timeseries/steps.py" line="227"/>
+        <location filename="../../timeseries/steps.py" line="208"/>
+        <source>Shortest P3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="210"/>
+        <source>Third body: the shortest orbital period searched; 0: from the data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="218"/>
+        <source>Longest P3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="220"/>
+        <source>Third body: the longest orbital period searched; 0: from the data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="249"/>
         <source>Bootstrap draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../timeseries/steps.py" line="228"/>
+        <location filename="../../timeseries/steps.py" line="250"/>
         <source>Draws for the errors of the disappearance and reappearance times</source>
         <translation type="unfinished"></translation>
     </message>

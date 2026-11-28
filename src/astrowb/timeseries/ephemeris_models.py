@@ -22,19 +22,22 @@ def weights_by_method(methods, table=None):
     return np.array([table.get(str(m).lower(), 1.0) for m in methods], float)
 
 
-def _design(e, order, breaks=(), secondary=None, cycles=(), e_abs=None):
+def _design(e, order, breaks=(), secondary=None, cycles=(), e_abs=None, damping=None):
     cols = [np.ones_like(e)] + [e**k for k in range(1, order + 1)]
     cols += [np.maximum(e - b, 0.0) for b in breaks]  # a change of period after each break, continuous O−C
     if secondary is not None:
         cols.append(secondary.astype(float))
+    env = np.exp(-(e_abs - e_abs.min()) / damping) if damping else 1.0  # OC-9: decaying from the first minimum
     for c in cycles:  # sinusoids of c cycles' period, phased on the caller's epochs (not moved with the middle)
-        cols += [np.sin(2 * np.pi * e_abs / c), np.cos(2 * np.pi * e_abs / c)]
+        cols += [env * np.sin(2 * np.pi * e_abs / c), env * np.cos(2 * np.pi * e_abs / c)]
     return np.column_stack(cols)
 
 
-def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robust=None, n_sigma=3.0, cycles=()):
+def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robust=None, n_sigma=3.0, cycles=(),
+        damping=None):  # fmt: skip
     """Weighted least squares of T(E) = Σ c_k E^k (+ Σ ΔP_j max(E − b_j, 0)) (+ δ for secondaries) (+ sinusoids
-    of the given periods in cycles: the quick cyclic model, OC-11).
+    of the given periods in cycles: the quick cyclic model, OC-11; damping τ in cycles multiplies them by
+    exp(−(E − E_first)/τ), OC-9's damped term, and counts as one more parameter in χ²ᵣ, BIC and AIC).
     robust: None, "huber" (iteratively reweighted, c = 1.345 σ) or "clip" (iterative n_sigma rejection).
     Returns a dict: coef (caller's numbering: T0, P, Q, …, then ΔP_j, then δ), cov, residuals, used (mask),
     chi2, chi2r, n, k, bic, aic, and the names of the coefficients."""
@@ -43,7 +46,7 @@ def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robus
     mid = float(np.round(np.median(e)))
     t_mid = float(np.median(t))
     sec = (np.abs(e % 1 - 0.5) < 1e-6) if secondary_offset else None
-    a = _design(e - mid, order, [b - mid for b in breaks], sec, cycles, e)
+    a = _design(e - mid, order, [b - mid for b in breaks], sec, cycles, e, damping)
     used = np.ones(len(t), bool)
     w = 1 / err
     for _ in range(50):
@@ -64,8 +67,9 @@ def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robus
         else:
             break
     n, k = int(used.sum()), a.shape[1]
+    free = k + (damping is not None)  # τ is fitted outside the linear problem (damped_cycle)
     chi2 = float(np.sum((r[used] / err[used]) ** 2))
-    chi2r = chi2 / max(n - k, 1)
+    chi2r = chi2 / max(n - free, 1)
     aw = a[used] * w[used, None]
     cov = np.linalg.inv(aw.T @ aw) * max(chi2r, 1.0)
     # back to the caller's numbering: the polynomial part E' = E − mid by the binomial expansion
@@ -80,9 +84,9 @@ def fit(times, epochs, errors, order=1, breaks=(), secondary_offset=False, robus
     names += ["delta"] if secondary_offset else []
     names += [f"{kind}{j + 1}" for j in range(len(cycles)) for kind in ("sin", "cos")]
     return {"coef": coef, "cov": cov, "err": np.sqrt(np.diag(cov)), "names": names[:k], "residuals": r,
-            "used": used, "epochs": e, "chi2": chi2, "chi2r": chi2r, "n": n, "k": k, "order": order,
-            "breaks": tuple(breaks), "cycles": tuple(cycles), "bic": chi2 + k * np.log(n),
-            "aic": chi2 + 2 * k}  # fmt: skip
+            "used": used, "epochs": e, "chi2": chi2, "chi2r": chi2r, "n": n, "k": free, "order": order,
+            "breaks": tuple(breaks), "cycles": tuple(cycles), "damping": damping, "bic": chi2 + free * np.log(n),
+            "aic": chi2 + 2 * free}  # fmt: skip
 
 
 def _binom(n, k):
@@ -238,3 +242,22 @@ def find_cycle(times, epochs, errors, order=1, n_grid=4000):
     best = minimize_scalar(lambda c: fit(times, epochs, errors, order, cycles=(c,))["chi2"], bounds=(lo, hi),
                            method="bounded", options={"xatol": 1e-6 * grid[k]})  # fmt: skip
     return fit(times, epochs, errors, order, cycles=(best.x,))
+
+
+def damped_cycle(times, epochs, errors, order=1):
+    """OC-9: the cyclic term of find_cycle damped, amplitude · exp(−(E − E_first)/τ) · sin(…): the period and τ
+    (cycles, 0.05 … 100 spans) minimised in χ² from find_cycle's period. Returns fit(..., cycles=(c,), damping=τ),
+    to be weighed against the plain sinusoid by its BIC (compare)."""
+    from scipy.optimize import minimize
+
+    plain = find_cycle(times, epochs, errors, order)
+    span = float(np.ptp(np.asarray(epochs, float)))
+    lo, hi = np.log(0.05 * span), np.log(100 * span)
+
+    def chi2(x):
+        return fit(times, epochs, errors, order, cycles=(x[0],), damping=float(np.exp(np.clip(x[1], lo, hi))))["chi2"]
+
+    starts = [(plain["cycles"][0], np.log(s * span)) for s in (0.3, 1.0, 3.0)]
+    best = min((minimize(chi2, s, method="Nelder-Mead", options={"xatol": 1e-6, "fatol": 1e-9}) for s in starts),
+               key=lambda r: r.fun)  # fmt: skip
+    return fit(times, epochs, errors, order, cycles=(best.x[0],), damping=float(np.exp(np.clip(best.x[1], lo, hi))))

@@ -344,30 +344,39 @@ class OCPage(Undoable, QWidget):
             )
         return rows, caption
 
-    def run_fit(self):
+    def reference(self):
+        """(minima, T0, P) of a fit; an empty T0 is the first primary minimum. ValueError when P is not a number."""
+        period = float(self.period.text())
+        minima = minima_for_fit(self)
+        try:
+            t0 = float(self.t0.text())
+        except ValueError:  # empty: the first primary minimum, as the tooltip says
+            t0 = min((m.time for m in minima if m.kind == "I"), default=minima[0].time if minima else float("nan"))
+        return minima, t0, period
+
+    def run_fit(self, p3_range=None):
+        """p3_range: (low, high) days searched by the third-body fit (a periodogram peak, oc_periodogram); a click's
+        `checked` arrives here as False."""
         from ..timeseries.ephemeris import fit
         from ..timeseries.oc_models import fit_apsidal, fit_ltte
         from .messages import translate
 
         try:
-            period = float(self.period.text())
+            float(self.period.text())
         except ValueError:
             self.result.setText(self.tr("Give the period in days, or the star's name and Look up."))
             return None
+        p3_range = p3_range or None
         try:
-            minima = minima_for_fit(self)
-            try:
-                t0 = float(self.t0.text())
-            except ValueError:  # empty: the first primary minimum, as the tooltip says
-                t0 = min((m.time for m in minima if m.kind == "I"), default=minima[0].time if minima else float("nan"))
+            minima, t0, period = self.reference()
             steps = self.mcmc_steps.value() if self.use_mcmc.isChecked() and self.use_mcmc.isEnabled() else 0
             model = "ltte" if self.ltte.isChecked() else "apsidal" if self.apsidal.isChecked() else None
             if steps and self.background:  # the chain runs as a task: the page stays usable, Tasks can cancel it
                 self.result.setText(self.tr("Fitting, then the MCMC ({s} steps) runs as a task…").format(s=steps))
-                self.background(model, as_text(minima), t0, period, steps, minima)
+                self.background(model, as_text(minima), t0, period, steps, minima, p3_range)
                 return None
             if model == "ltte":
-                f = fit_ltte(minima, t0, period, mcmc_steps=steps)
+                f = fit_ltte(minima, t0, period, p3_range=p3_range, mcmc_steps=steps)
             elif model == "apsidal":
                 f = fit_apsidal(minima, t0, period, mcmc_steps=steps)
             else:

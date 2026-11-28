@@ -49,6 +49,9 @@ The result gives the new T0 and P with errors; the quadratic fit also gives the 
 - **Third body (light-travel time):** the eclipsing pair orbits the centre of mass with a third star, so its eclipses come early and late along an orbit (Irwin 1952). The fit gives the third body's period P3 (years), the semi-amplitude A (minutes), eccentricity e, argument ω, and the mass function f(m3), the lower limit on the third star's mass. It needs at least 8 minima spread over more than one P3.
 - **Apsidal motion:** in an eccentric orbit the line of apsides turns, so primary and secondary minima swing in opposite directions. Give both kinds (I and II); the fit gives e, ω at epoch 0, dω/dE (degrees per cycle) and the apsidal period U (years). The model is first order in e (good for e ≲ 0.1).
 - **MCMC uncertainties:** for these two models, tick the box to run a Markov chain (differential-evolution chains) after the fit: 68 % intervals of every parameter, e and ω included, and of f(m3) and U, honest when the parameters depend on each other (as in OCFit). It takes a few seconds; more steps give steadier errors. The linear and quadratic ephemerides are linear problems, so their least-squares errors are already exact and the box is off.
+- **Compare models** (Model stage): the linear, quadratic and cubic ephemerides, the segmented one (one period jump), and a sinusoid and a damped sinusoid on the linear ephemeris, side by side in the **Models** tab with χ², χ²ᵣ, BIC, AIC and ΔBIC. Below the table: which model the BIC prefers, the F-test of the parabola, dP/dt in s/yr and in d/Myr (the unit for pulsating stars' O−C of maxima) and the updated ephemeris as observers write it. Weights come from the errors or by method (visual 1, photographic 3, electronic 10); a robust fit (Huber or 3σ rejection) keeps outliers from pulling the ephemerides. A damped sinusoid that beats the plain one says the modulation is not strictly periodic: a magnetic cycle rather than a third body.
+- **Periodogram** tab: after every fit, the periodogram of its residuals and its highest peak with the false-alarm probability. **Fit the highest peak as LTTE** fits a third body with its period searched around that peak.
+- **Magnetic cycle (Applegate)…**: could the active star's magnetic cycle make the wave instead (Applegate 1992)? Type its mass, radius, temperature and luminosity and the binary's separation; from the third body's (or the sinusoid's) semi-amplitude and period it gives the energy needed against what the star radiates in one cycle (Tian et al. 2009; the two-zone model of Völschow et al. 2016) and says whether it is energetically feasible.
 
 ## Reading an O-C diagram {#lightcurves-reading-o-c-diagram}
 - A straight sloping line: the period is slightly wrong — the fit corrects it.
@@ -63,7 +66,9 @@ The result gives the new T0 and P with errors; the quadratic fit also gives the 
    analysis and run it: the first frequency found is **8.123 c/d** (amplitude 10 mmag), the second **11.470 c/d**.
 2. `minima.txt` — 12 years of primary minima of an eclipsing binary with period 0.8123456 d. Load it in the O−C
    window with T0 = 2455000.1234 and that period, choose Third body and fit: the third body's period comes out
-   near **2900 days** and the light-travel-time amplitude near **0.005 d** (7 minutes).
+   near **2900 days** and the light-travel-time amplitude near **0.005 d** (7 minutes). Or keep Linear ephemeris and
+   fit: the **Periodogram** tab's highest peak lies near 2900 days; **Fit the highest peak as LTTE** gives the same
+   third body.
 
 If you find these numbers, the steps work as they should on your machine.
 

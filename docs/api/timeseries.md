@@ -99,6 +99,8 @@ parameters (default):
   t0 = 0.0  (time, d)  Reference T0: Epoch zero of the ephemeris
   period = 1.0  (float, d, >= 0.0)  Period: Period of the ephemeris used to count the cycles
   mcmc_steps = 0  (int, >= 0, <= 1000000)  MCMC steps: The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none
+  p3_min = 0.0  (float, d, >= 0.0)  Shortest P3: Third body: the shortest orbital period searched; 0: from the data
+  p3_max = 0.0  (float, d, >= 0.0)  Longest P3: Third body: the longest orbital period searched; 0: from the data
 ```
 
 ## timeseries.occultation

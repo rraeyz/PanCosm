@@ -199,6 +199,26 @@ def survey_lc_step(inputs, params, ctx):
                 "The most steps of the Markov chains for the errors (they stop earlier once converged); 0: none",
             ),
         ),
+        P(
+            "p3_min",
+            "float",
+            0.0,
+            unit="d",
+            min=0.0,
+            label=QT_TRANSLATE_NOOP("Steps", "Shortest P3"),
+            advanced=True,
+            help=QT_TRANSLATE_NOOP("Steps", "Third body: the shortest orbital period searched; 0: from the data"),
+        ),
+        P(
+            "p3_max",
+            "float",
+            0.0,
+            unit="d",
+            min=0.0,
+            label=QT_TRANSLATE_NOOP("Steps", "Longest P3"),
+            advanced=True,
+            help=QT_TRANSLATE_NOOP("Steps", "Third body: the longest orbital period searched; 0: from the data"),
+        ),
     ),
 )
 def oc_fit_step(inputs, params, ctx):
@@ -209,8 +229,10 @@ def oc_fit_step(inputs, params, ctx):
 
     minima = parse_minima(inputs["minima"])
     fit = {"ltte": fit_ltte, "apsidal": fit_apsidal}[params["model"]]
+    lo, hi = params.get("p3_min", 0.0), params.get("p3_max", 0.0)
+    seed = {"p3_range": (lo, hi)} if params["model"] == "ltte" and 0 < lo < hi else {}  # OC-11: a periodogram peak
     ctx.progress(0.02, "fit")
-    return {"fit": fit(minima, params["t0"], params["period"], mcmc_steps=params["mcmc_steps"], ctx=ctx)}
+    return {"fit": fit(minima, params["t0"], params["period"], mcmc_steps=params["mcmc_steps"], ctx=ctx, **seed)}
 
 
 @step(

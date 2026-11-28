@@ -3971,86 +3971,91 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
     </message>
     <message>
         <location filename="../../ui/empty_texts.py" line="26"/>
+        <source>The periodogram of the O−C residuals appears here after a fit</source>
+        <translation>O−C artıklarının periyodogramı bir fitten sonra burada görünür</translation>
+    </message>
+    <message>
+        <location filename="../../ui/empty_texts.py" line="27"/>
         <source>The O−C of the mid-transit times appears here once the files are fitted</source>
         <translation>Geçiş ortası zamanlarının O−C&apos;si dosyalar uydurulunca burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="27"/>
+        <location filename="../../ui/empty_texts.py" line="28"/>
         <source>The altitude chart of the night appears here: add targets, then press Plan the night</source>
         <translation>Gecenin yükseklik çizelgesi burada görünür: hedef ekleyin, sonra Geceyi planla&apos;ya basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="29"/>
+        <location filename="../../ui/empty_texts.py" line="30"/>
         <source>Cloud cover, humidity and wind appear here: press Get the forecast</source>
         <translation>Bulutluluk, nem ve rüzgâr burada görünür: Hava tahminini al&apos;a basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="30"/>
+        <location filename="../../ui/empty_texts.py" line="31"/>
         <source>The band values of a pixel appear here: open an image and click a pixel</source>
         <translation>Bir pikselin bant değerleri burada görünür: bir görüntü açın ve bir piksele tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="31"/>
+        <location filename="../../ui/empty_texts.py" line="32"/>
         <source>The histogram of the shown band appears here once an image is open</source>
         <translation>Gösterilen bandın histogramı bir görüntü açılınca burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="32"/>
+        <location filename="../../ui/empty_texts.py" line="33"/>
         <source>The histogram of the clicked frame appears here</source>
         <translation>Tıklanan karenin histogramı burada görünür</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="33"/>
+        <location filename="../../ui/empty_texts.py" line="34"/>
         <source>The extracted spectrum and its arc lines appear here: choose the frames, then press 3. Extract</source>
         <translation>Çıkarılan tayf ve ark çizgileri burada görünür: kareleri seçin, sonra 3. Çıkar&apos;a basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="35"/>
+        <location filename="../../ui/empty_texts.py" line="36"/>
         <source>The orders and their arc lines appear here: press 4. Extract the orders</source>
         <translation>Mertebeler ve ark çizgileri burada görünür: 4. Mertebeleri çıkar&apos;a basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="36"/>
+        <location filename="../../ui/empty_texts.py" line="37"/>
         <source>The telluric correction appears here: press Correct and save</source>
         <translation>Tellürik düzeltme burada görünür: Düzelt ve kaydet&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="37"/>
+        <location filename="../../ui/empty_texts.py" line="38"/>
         <source>Line profiles, radial velocities and the orbit appear here: add spectra (Add…), then press Measure radial velocities</source>
         <translation>Çizgi profilleri, dikine hızlar ve yörünge burada görünür: tayf ekleyin (Ekle…), sonra Dikine hızları ölç&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="39"/>
+        <location filename="../../ui/empty_texts.py" line="40"/>
         <source>The spectrum of a spaxel appears here: press Load cube, then click a spaxel</source>
         <translation>Bir spakselin tayfı burada görünür: Küpü yükle&apos;ye basın, sonra bir spaksele tıklayın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="40"/>
+        <location filename="../../ui/empty_texts.py" line="41"/>
         <source>The spectrum appears here: press Open spectrum…</source>
         <translation>Tayf burada görünür: Tayf aç…&apos;a basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="41"/>
+        <location filename="../../ui/empty_texts.py" line="42"/>
         <source>The light curve and the fitted model appear here: choose the light curve, then press Fit</source>
         <translation>Işık eğrisi ve uydurulan model burada görünür: ışık eğrisini seçin, sonra Fit et&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="43"/>
+        <location filename="../../ui/empty_texts.py" line="44"/>
         <source>The orbit appears here: press Load measures…, then Fit the orbit</source>
         <translation>Yörünge burada görünür: Ölçümleri yükle…&apos;ye, sonra Yörüngeyi uydur&apos;a basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="44"/>
+        <location filename="../../ui/empty_texts.py" line="45"/>
         <source>The light curve appears here: press Measure light curve</source>
         <translation>Işık eğrisi burada görünür: Işık eğrisini ölç&apos;e basın</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="45"/>
+        <location filename="../../ui/empty_texts.py" line="46"/>
         <source>The camera temperature and the focuser position are drawn here while the observatory runs</source>
         <translation>Gözlemevi çalışırken kamera sıcaklığı ve odaklayıcı konumu burada çizilir</translation>
     </message>
     <message>
-        <location filename="../../ui/empty_texts.py" line="47"/>
+        <location filename="../../ui/empty_texts.py" line="48"/>
         <source>The extinction or transformation fit appears here: press one of the buttons above</source>
         <translation>Sönümleme ya da dönüşüm uydurması burada görünür: yukarıdaki düğmelerden birine basın</translation>
     </message>
@@ -7143,7 +7148,7 @@ Bu dosyayı ne yaptığınızı ve neyin yanlış gittiğini anlatan birkaç sö
         <translation>Hedefi Fotometri penceresinde gösterilen, zamanca ilk görüntüde tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../ui/area_pages.py" line="261"/>
+        <location filename="../../ui/area_pages.py" line="263"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
@@ -11641,105 +11646,105 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>{n} minimum zamanına O−C uydurması: {model}; ağırlıklı en küçük kareler, 1σ hatalar (χ²ᵣ &gt; 1 ise √χ²ᵣ ile ölçeklenmiş).</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="355"/>
+        <location filename="../../ui/oc_page.py" line="367"/>
         <source>Give the period in days, or the star&apos;s name and Look up.</source>
         <translation>Periyodu gün olarak yazın ya da yıldızın adını yazıp Bul&apos;a basın.</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="366"/>
+        <location filename="../../ui/oc_page.py" line="375"/>
         <source>Fitting, then the MCMC ({s} steps) runs as a task…</source>
         <translation>Uydurma yapılıyor, ardından MCMC ({s} adım) arka planda görev olarak çalışıyor…</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="376"/>
+        <location filename="../../ui/oc_page.py" line="385"/>
         <source>Cannot fit: {error}</source>
         <translation>Fit yapılamadı: {error}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="391"/>
+        <location filename="../../ui/oc_page.py" line="400"/>
         <source>T0 = {t0:.6f} ± {e:.6f}</source>
         <translation>T0 = {t0:.6f} ± {e:.6f}</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="392"/>
+        <location filename="../../ui/oc_page.py" line="401"/>
         <source>P = {p:.8f} ± {e:.8f} d</source>
         <translation>P = {p:.8f} ± {e:.8f} gün</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="396"/>
+        <location filename="../../ui/oc_page.py" line="405"/>
         <source>Q = {q:.3e} ± {e:.1e} d, dP/dt = {dp:.3g} ± {dpe:.2g} s/yr</source>
         <translation>Q = {q:.3e} ± {e:.1e} gün, dP/dt = {dp:.3g} ± {dpe:.2g} sn/yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="400"/>
+        <location filename="../../ui/oc_page.py" line="409"/>
         <source>χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="409"/>
+        <location filename="../../ui/oc_page.py" line="418"/>
         <source>model</source>
         <translation>model</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="495"/>
+        <location filename="../../ui/oc_page.py" line="504"/>
         <location filename="../../ui/oc_symbols.py" line="25"/>
         <source>primary</source>
         <translation>birincil</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="495"/>
+        <location filename="../../ui/oc_page.py" line="504"/>
         <location filename="../../ui/oc_symbols.py" line="26"/>
         <source>secondary</source>
         <translation>ikincil</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="425"/>
+        <location filename="../../ui/oc_page.py" line="434"/>
         <source>O−C (min)</source>
         <translation>O−C (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="426"/>
+        <location filename="../../ui/oc_page.py" line="435"/>
         <source>Year</source>
         <translation>Yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="428"/>
+        <location filename="../../ui/oc_page.py" line="437"/>
         <source>Epoch</source>
         <translation>Çevrim (E)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="422"/>
-        <location filename="../../ui/oc_page.py" line="428"/>
+        <location filename="../../ui/oc_page.py" line="431"/>
+        <location filename="../../ui/oc_page.py" line="437"/>
         <source>Residual (min)</source>
         <translation>Artık (dk)</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="435"/>
+        <location filename="../../ui/oc_page.py" line="444"/>
         <source>Third body: P3 = {p:.2f} ± {pe:.2f} yr, A = {a:.2f} ± {ae:.2f} min, e = {e:.2f}, ω = {w:.0f}°</source>
         <translation>Üçüncü cisim: P3 = {p:.2f} ± {pe:.2f} yıl, A = {a:.2f} ± {ae:.2f} dk, e = {e:.2f}, ω = {w:.0f}°</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="444"/>
+        <location filename="../../ui/oc_page.py" line="453"/>
         <source>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>f(m3) = {fm:.4f} M☉, T0 = {t0:.6f}, P = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="459"/>
+        <location filename="../../ui/oc_page.py" line="468"/>
         <source>⚠ The third star is close: its dynamical delay ({dyn:.1f} min) is {r:.0%} of the light-time one ({lt:.1f} min, for M1 + M2 = 2 M☉): a light-time fit alone does not describe it</source>
         <translation>⚠ Üçüncü yıldız yakın: dinamik gecikmesi ({dyn:.1f} dk), ışık-zamanı etkisinin ({lt:.1f} dk, M1 + M2 = 2 M☉ için) {r:.0%} kadarı: yalnız ışık-zamanı modeli onu açıklamaz</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="467"/>
+        <location filename="../../ui/oc_page.py" line="476"/>
         <source>Apsidal motion: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/cycle, U = {u:.1f} yr</source>
         <translation>Apsidal hareket: e = {e:.4f}, ω0 = {w:.1f}°, dω/dE = {dw:.5f} ± {dwe:.5f} °/çevrim, U = {u:.1f} yıl</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="469"/>
+        <location filename="../../ui/oc_page.py" line="478"/>
         <source>T0 = {t0:.6f}, Ps = {p:.8f} d, χ²ᵣ = {c:.2f}, {n} minima</source>
         <translation>T0 = {t0:.6f}, Ps = {p:.8f} gün, χ²ᵣ = {c:.2f}, {n} minimum</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_page.py" line="482"/>
+        <location filename="../../ui/oc_page.py" line="491"/>
         <source>MCMC (acceptance {a:.2f}): </source>
         <translation>MCMC (kabul {a:.2f}): </translation>
     </message>
@@ -12850,6 +12855,89 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>OcApplegate</name>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="18"/>
+        <source>the third-body fit</source>
+        <translation>üçüncü cisim fiti</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="25"/>
+        <source>the sinusoid</source>
+        <translation>sinüs terimi</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="35"/>
+        <source>no solution</source>
+        <translation>çözüm yok</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="36"/>
+        <source>feasible</source>
+        <translation>mümkün</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="36"/>
+        <source>not feasible</source>
+        <translation>mümkün değil</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="37"/>
+        <source>From {source}: K = {k:.1f} s, P_mod = {p:.2f} yr, ΔP/P = {dpp:.2e}. Energy needed / energy radiated in one cycle: {tian:.3g} (Tian et al. 2009), {two} (two-zone, Völschow et al. 2016); Applegate parameter A = {big:.3g}: energetically {word}.</source>
+        <translation>{source} kaynağından: K = {k:.1f} s, P_mod = {p:.2f} yıl, ΔP/P = {dpp:.2e}. Gereken enerji / bir çevrimde yayılan enerji: {tian:.3g} (Tian vd. 2009), {two} (iki bölgeli, Völschow vd. 2016); Applegate parametresi A = {big:.3g}: enerji bakımından {word}.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="46"/>
+        <source>Magnetic cycle (Applegate)</source>
+        <translation>Manyetik çevrim (Applegate)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="50"/>
+        <source>Active star&apos;s mass (M☉)</source>
+        <translation>Etkin yıldızın kütlesi (M☉)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="51"/>
+        <source>Its radius (R☉)</source>
+        <translation>Yarıçapı (R☉)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="52"/>
+        <source>Its temperature (K)</source>
+        <translation>Sıcaklığı (K)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="53"/>
+        <source>Its luminosity (L☉)</source>
+        <translation>Işınım gücü (L☉)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="54"/>
+        <source>Binary separation (R☉)</source>
+        <translation>Çift yıldızın ayrıklığı (R☉)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="69"/>
+        <source>Fit a third body or compare the models first.</source>
+        <translation>Önce üçüncü cisim fit edin ya da modelleri karşılaştırın.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="76"/>
+        <source>Close</source>
+        <translation>Kapat</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="81"/>
+        <source>Magnetic cycle (Applegate)…</source>
+        <translation>Manyetik çevrim (Applegate)…</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_applegate.py" line="82"/>
+        <source>Could the active star&apos;s magnetic cycle make this O−C wave instead of a third body? Its energy against the star&apos;s (Applegate 1992; Völschow et al. 2016)</source>
+        <translation>Bu O−C dalgasını üçüncü cisim yerine etkin yıldızın manyetik çevrimi yapabilir mi? Gereken enerji yıldızınkiyle karşılaştırılır (Applegate 1992; Völschow vd. 2016)</translation>
+    </message>
+</context>
+<context>
     <name>OcCatalogueCheck</name>
     <message>
         <location filename="../../ui/oc_catalogue_check.py" line="19"/>
@@ -12900,6 +12988,124 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <location filename="../../ui/oc_catalogue_check.py" line="69"/>
         <source>Look the star up and load minima first</source>
         <translation>Önce yıldızı arayın ve minimumları yükleyin</translation>
+    </message>
+</context>
+<context>
+    <name>OcCompare</name>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="20"/>
+        <source>linear</source>
+        <translation>doğrusal</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="20"/>
+        <source>quadratic</source>
+        <translation>ikinci derece</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="21"/>
+        <source>cubic</source>
+        <translation>üçüncü derece</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="21"/>
+        <source>segmented (one jump)</source>
+        <translation>parçalı (bir sıçrama)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="22"/>
+        <source>linear + sinusoid</source>
+        <translation>doğrusal + sinüs</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="23"/>
+        <source>linear + damped sinusoid</source>
+        <translation>doğrusal + sönümlü sinüs</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="59"/>
+        <source>{best} is preferred: ΔBIC = {d:.0f} against {second}</source>
+        <translation>{best} tercih ediliyor: {second} modeline göre ΔBIC = {d:.0f}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="62"/>
+        <source>F-test, quadratic against linear: F = {f:.2f}, p = {p:.2g}</source>
+        <translation>F testi, ikinci derece doğrusala karşı: F = {f:.2f}, p = {p:.2g}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="63"/>
+        <source>dP/dt = {r:.3g} ± {re:.2g} s/yr ({m:.3g} ± {me:.2g} d/Myr)</source>
+        <translation>dP/dt = {r:.3g} ± {re:.2g} s/yıl ({m:.3g} ± {me:.2g} g/Myıl)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="66"/>
+        <source>Damped sinusoid: period {c:.0f} cycles ({y:.2f} yr), decay τ = {t:.0f} cycles</source>
+        <translation>Sönümlü sinüs: periyot {c:.0f} çevrim ({y:.2f} yıl), sönüm τ = {t:.0f} çevrim</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="69"/>
+        <source>Updated linear ephemeris: {line}</source>
+        <translation>Güncellenmiş doğrusal efemeris: {line}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="82"/>
+        <source>Comparing the models needs at least {n} minima.</source>
+        <translation>Modelleri karşılaştırmak için en az {n} minimum gerekir.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="95"/>
+        <source>Model</source>
+        <translation>Model</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="95"/>
+        <source>Parameters</source>
+        <translation>Parametre sayısı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="118"/>
+        <source>Weights by method (visual 1, photographic 3, electronic 10)</source>
+        <translation>Yönteme göre ağırlık (görsel 1, fotoğrafik 3, elektronik 10)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="119"/>
+        <source>Weights from the errors</source>
+        <translation>Hatalardan ağırlık</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="120"/>
+        <source>How the minima are weighted in the model comparison</source>
+        <translation>Model karşılaştırmasında minimumların nasıl ağırlıklandırılacağı</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="122"/>
+        <source>Least squares</source>
+        <translation>En küçük kareler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="122"/>
+        <source>Robust (Huber)</source>
+        <translation>Dayanıklı (Huber)</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="123"/>
+        <source>3σ rejection</source>
+        <translation>3σ ayıklama</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="125"/>
+        <source>Outliers in the polynomial and segmented ephemerides</source>
+        <translation>Polinom ve parçalı efemerislerde aykırı noktalar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="129"/>
+        <source>Compare models</source>
+        <translation>Modelleri karşılaştır</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_compare.py" line="130"/>
+        <source>Fits every ephemeris and a plain and a damped sinusoid; the Models tab ranks them by BIC</source>
+        <translation>Her efemerisi, düz ve sönümlü bir sinüsü fit eder; Modeller sekmesi onları BIC ile sıralar</translation>
     </message>
 </context>
 <context>
@@ -13171,6 +13377,49 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
 </context>
 <context>
+    <name>OcPeriodogram</name>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="30"/>
+        <source>Too few minima for a periodogram.</source>
+        <translation>Periyodogram için minimum sayısı çok az.</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="34"/>
+        <source>power</source>
+        <translation>güç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="35"/>
+        <source>highest peak</source>
+        <translation>en yüksek tepe</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="41"/>
+        <source>Period</source>
+        <translation>Periyot</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="42"/>
+        <source>Power</source>
+        <translation>Güç</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="49"/>
+        <source>Highest peak of the residuals: {p:.1f} d ({y:.2f} yr), false-alarm probability {fap:.2g}</source>
+        <translation>Artıkların en yüksek tepesi: {p:.1f} g ({y:.2f} yıl), yanlış alarm olasılığı {fap:.2g}</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="70"/>
+        <source>Fit the highest peak as LTTE</source>
+        <translation>En yüksek tepeyi ışık-zaman etkisi olarak fit et</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_periodogram.py" line="71"/>
+        <source>Fits a third body (light-travel time) with its orbital period searched around the highest peak of the residuals</source>
+        <translation>Yörünge periyodu artıkların en yüksek tepesi çevresinde aranan bir üçüncü cisim (ışık-zaman etkisi) fit eder</translation>
+    </message>
+</context>
+<context>
     <name>OcToPlanning</name>
     <message>
         <location filename="../../ui/oc_to_planning.py" line="17"/>
@@ -13196,35 +13445,45 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
 <context>
     <name>OcWindow</name>
     <message>
-        <location filename="../../ui/oc_stages.py" line="19"/>
-        <location filename="../../ui/oc_stages.py" line="35"/>
+        <location filename="../../ui/oc_stages.py" line="22"/>
+        <location filename="../../ui/oc_stages.py" line="38"/>
         <source>Minima</source>
         <translation>Minimumlar</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="19"/>
+        <location filename="../../ui/oc_stages.py" line="22"/>
         <source>Ephemeris</source>
         <translation>Efemeris</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="20"/>
+        <location filename="../../ui/oc_stages.py" line="23"/>
         <source>Model</source>
         <translation>Model</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="20"/>
+        <location filename="../../ui/oc_stages.py" line="23"/>
         <source>Uncertainty</source>
         <translation>Belirsizlik</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="21"/>
+        <location filename="../../ui/oc_stages.py" line="24"/>
         <source>Fit and report</source>
         <translation>Uyum ve rapor</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="36"/>
+        <location filename="../../ui/oc_stages.py" line="39"/>
         <source>Parameters</source>
         <translation>Parametreler</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="58"/>
+        <source>Models</source>
+        <translation>Modeller</translation>
+    </message>
+    <message>
+        <location filename="../../ui/oc_stages.py" line="74"/>
+        <source>Periodogram</source>
+        <translation>Periyodogram</translation>
     </message>
     <message>
         <location filename="../../ui/oc_correlations.py" line="21"/>
@@ -13233,7 +13492,7 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
     </message>
     <message>
         <location filename="../../ui/oc_correlations.py" line="23"/>
-        <location filename="../../ui/oc_stages.py" line="55"/>
+        <location filename="../../ui/oc_stages.py" line="68"/>
         <source>Parameter</source>
         <translation>Parametre</translation>
     </message>
@@ -13243,17 +13502,17 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>|r| &gt; 0.9: bu iki parametre birbirine bağlı; hataları bağımsız değil</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="55"/>
+        <location filename="../../ui/oc_stages.py" line="68"/>
         <source>Value</source>
         <translation>Değer</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="56"/>
+        <location filename="../../ui/oc_stages.py" line="69"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location filename="../../ui/oc_stages.py" line="56"/>
+        <location filename="../../ui/oc_stages.py" line="69"/>
         <source>Unit</source>
         <translation>Birim</translation>
     </message>
@@ -22291,12 +22550,32 @@ Kullanılan tablolar kalıyor; hiçbir şey çalışmayı bırakmaz. Çevrimiçi
         <translation>Işık eğrisinin geldiği yer</translation>
     </message>
     <message>
-        <location filename="../../timeseries/steps.py" line="227"/>
+        <location filename="../../timeseries/steps.py" line="208"/>
+        <source>Shortest P3</source>
+        <translation>En kısa P3</translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="210"/>
+        <source>Third body: the shortest orbital period searched; 0: from the data</source>
+        <translation>Üçüncü cisim: aranan en kısa yörünge periyodu; 0: veriden</translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="218"/>
+        <source>Longest P3</source>
+        <translation>En uzun P3</translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="220"/>
+        <source>Third body: the longest orbital period searched; 0: from the data</source>
+        <translation>Üçüncü cisim: aranan en uzun yörünge periyodu; 0: veriden</translation>
+    </message>
+    <message>
+        <location filename="../../timeseries/steps.py" line="249"/>
         <source>Bootstrap draws</source>
         <translation>Bootstrap çekilişleri</translation>
     </message>
     <message>
-        <location filename="../../timeseries/steps.py" line="228"/>
+        <location filename="../../timeseries/steps.py" line="250"/>
         <source>Draws for the errors of the disappearance and reappearance times</source>
         <translation>Kayboluş ve yeniden görünme zamanlarının hataları için çekilişler</translation>
     </message>

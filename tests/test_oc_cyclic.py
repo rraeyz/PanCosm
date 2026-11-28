@@ -29,3 +29,26 @@ def test_a_cyclic_term_is_found_and_measured():
     assert term["amplitude"] == pytest.approx(0.004, abs=4 * term["amplitude_err"])
     assert term["phase"] == pytest.approx(1.0 / (2 * np.pi), abs=0.02)
     assert f["chi2r"] < 1.3
+
+
+def _cyclic(tau, seed):
+    rng = np.random.default_rng(seed)
+    e = np.sort(rng.choice(np.arange(20000), 200, replace=False)).astype(float)
+    envelope = np.exp(-(e - e.min()) / tau) if tau else 0.7
+    wave = 0.006 * envelope * np.sin(2 * np.pi * e / 5000 + 0.5)
+    return 2450000.0 + 0.4 * e + wave + rng.normal(0, 0.0005, e.size), e, np.full(e.size, 0.0005)
+
+
+def test_a_damped_cyclic_term_is_preferred_by_bic_and_its_decay_measured():
+    t, e, err = _cyclic(8000.0, 5)
+    plain, damped = em.find_cycle(t, e, err), em.damped_cycle(t, e, err)
+    rows, verdict = em.compare({"sinusoid": plain, "damped sinusoid": damped})
+    assert verdict.startswith("damped sinusoid is preferred") and damped["bic"] < plain["bic"] - 10
+    assert damped["damping"] == pytest.approx(8000, rel=0.25) and damped["cycles"][0] == pytest.approx(5000, rel=0.03)
+    assert damped["k"] == plain["k"] + 1
+
+
+def test_a_steady_cyclic_term_is_not_taken_for_a_damped_one():
+    t, e, err = _cyclic(None, 6)
+    plain, damped = em.find_cycle(t, e, err), em.damped_cycle(t, e, err)
+    assert damped["bic"] > plain["bic"] - 2  # the extra τ buys nothing

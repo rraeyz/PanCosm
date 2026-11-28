@@ -23,6 +23,7 @@ def empty_text(key):
                                 "curves…, then Fit the transit"),
         "chains": translate("EmptyPlot", "The MCMC chains appear here after a fit with MCMC steps above 0"),
         "corner": translate("EmptyPlot", "The posterior corner plot appears here after a fit with MCMC steps above 0"),
+        "oc_periodogram": translate("EmptyPlot", "The periodogram of the O−C residuals appears here after a fit"),
         "midtimes": translate("EmptyPlot", "The O−C of the mid-transit times appears here once the files are fitted"),
         "plan": translate("EmptyPlot", "The altitude chart of the night appears here: add targets, then press Plan "
                           "the night"),
