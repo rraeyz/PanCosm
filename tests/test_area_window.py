@@ -198,7 +198,8 @@ def test_text_size(qtbot, tmp_path):
         win = _area(qtbot, settings)
         assert win.change_font(1) == 11 and settings.get("ui.font_pt") == 11
         assert "font-size: 11pt" in app.styleSheet()
-        for _ in range(20):
+        settings.set("ui.font_pt", theme.FONT_MAX - 1)  # two steps from the top: each step re-polishes every widget
+        for _ in range(2):
             win.change_font(1)
         assert theme.font_size(settings) == theme.FONT_MAX  # kept within the tested range
         assert win.change_font(0) == theme.FONT_PT
