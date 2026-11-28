@@ -355,7 +355,7 @@ test: `tests/ui/test_live_stalled.py`). Left: Build items 3-4 (follow-a-folder s
 - **Files:** `photometry/{live,lightcurve}.py`, `photometry/options.py` (new), UI images panel, tests.
 
 ### PHO-20. The same run without the window  (P2)
-**partial** — done (2026-11-13): File → Export → "Recipe for the command line (.json)…" writes the last measurement
+**done** — done (2026-11-13): File → Export → "Recipe for the command line (.json)…" writes the last measurement
 as an automation file (`photometry/recipe.py`: the step photometry.light_curve with the window's parameters, the
 frames, stars, position and reference frame carried as the inputs' values — automations now take an input's
 `value` as its default, `engine/automation.defaults`); `astrowb-cli recipe night.json [--set images=[…]]` runs it.
@@ -365,8 +365,9 @@ carries `stars_sky` (through the identified field or the marked frame's WCS); ru
 (ref_image not among them) the stars are placed by the sky on their solved first frame (`recipe.placed_by_sky`;
 test: frames 15 px and −9 px off give the light curve measured at the moved pixels; the night it was made on keeps
 its pixels exactly). Exports in it (2026-11-14): the recipe's second step `photometry.save_light_curve` writes the
-.lc.ecsv file beside the frames (`--set output=…` elsewhere; `--set` may now be given more than once). Left: the
-guide's example.
+.lc.ecsv file beside the frames (`--set output=…` elsewhere; `--set` may now be given more than once). The guide's example (2026-11-28): guide 06, Exporting (en, tr)
+gives the recipe command with `--set images=… output=…` (test: `test_the_guides_recipe_command_runs` runs the
+guide's line word for word on two synthetic frames).
 - **Build:** through ARC-12: File → "Save as recipe…" writes images pattern, star list (RA / Dec), radii, every
   option, exports; `astrowb-cli recipe night.toml --set images=/path/*.fits` runs it; `astrowb.api.light_curve(...)`
   documented with an example notebook-style script in the guide.

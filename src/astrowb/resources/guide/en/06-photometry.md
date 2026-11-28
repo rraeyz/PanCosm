@@ -121,6 +121,13 @@ The **Measurements** tab under the image holds every number of every frame, one 
 ## Exporting {#photometry-exporting}
 - **Export CSV…** writes the time, relative flux, Δm and their errors, the magnitudes when known, every check star and further target, the raw fluxes, airmass and FWHM, for other programs.
 - **Export AAVSO report…** writes the AAVSO extended format: star name (as in VSX), your observer code, filter, the catalogue magnitudes of the comparison stars, chart ID and notes; the first check star goes into KNAME / KMAG, as the AAVSO asks for ensemble photometry. MERR is the photon error together with the scatter of the comparison stars' zero points in that frame. Checked on real LCO frames: the transformation found from APASS on Landolt's SA 98 field (1 s exposures in B and V) gives Landolt's V to 0.03 mag (median −0.008) and B−V to 0.05 mag for 31 standard stars.
+- **Recipe for the command line (.json)…** saves the last measurement — the frames, stars, radii and options — so the same night runs without the window. `--set` replaces any of its inputs, for example another night's frames and the light-curve file to write (without `output` it is written beside the frames):
+
+```
+astrowb-cli recipe night.json --set images='["n2/f001.fits", "n2/f002.fits"]' output=n2.lc.ecsv
+```
+
+`astrowb-cli help photometry.light_curve` lists the inputs; from Python the same step is `astrowb.api.photometry.light_curve` (see *Scripting and the command line*).
 
 ## Live light curve {#photometry-live-light-curve}
 (under **Other tools**) **Live: follow a folder during the night…** watches the folder the camera writes to. Each new frame is calibrated (with the masters you choose, or none) and measured as it arrives, and the light curve grows by itself. Click the target and comparison stars on the first frame before starting. Frames that cannot be measured are skipped and counted.

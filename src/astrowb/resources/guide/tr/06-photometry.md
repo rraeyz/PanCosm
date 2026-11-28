@@ -121,6 +121,13 @@ Görüntünün altındaki **Ölçümler** sekmesi her karenin her sayısını tu
 ## Dışa aktarmak {#photometry-exporting}
 - **CSV olarak dışa aktar…** zamanı, göreli akıyı, Δm'yi ve hatalarını, biliniyorsa kadirleri, her kontrol yıldızını ve diğer hedefi, ham akıları, airmass/hava kütlesini ve FWHM'yi başka programlar için yazar.
 - **AAVSO raporu dışa aktar…** AAVSO genişletilmiş biçimini yazar: yıldız adı (VSX'teki gibi), gözlemci kodunuz, filtre, karşılaştırma yıldızlarının katalog kadirleri, harita kimliği (Chart ID) ve notlar; ilk kontrol yıldızı, AAVSO'nun topluluk fotometrisi için istediği gibi KNAME / KMAG alanlarına yazılır. MERR, foton hatasıyla o karedeki karşılaştırma yıldızlarının sıfır noktası saçılımının birleşimidir. Gerçek LCO kareleriyle denendi: Landolt'un SA 98 alanında (B ve V'de 1 sn poz) APASS'tan bulunan dönüşüm, 31 standart yıldızda Landolt'un V'sini 0,03 kadir (medyan −0,008), B−V'sini 0,05 kadir içinde verir.
+- **Komut satırı için tarif (.json)…** son ölçümü — kareleri, yıldızları, yarıçapları ve seçenekleri — kaydeder; aynı gece pencere açılmadan yeniden çalışır. `--set` girdilerinden herhangi birini değiştirir, örneğin başka bir gecenin karelerini ve yazılacak ışık eğrisi dosyasını (`output` verilmezse karelerin yanına yazılır):
+
+```
+astrowb-cli recipe night.json --set images='["n2/f001.fits", "n2/f002.fits"]' output=n2.lc.ecsv
+```
+
+`astrowb-cli help photometry.light_curve` girdileri listeler; Python'dan aynı adım `astrowb.api.photometry.light_curve` işlevidir (bkz. *Betik ve komut satırı*).
 
 ## Canlı ışık eğrisi {#photometry-live-light-curve}
 (**Diğer araçlar** altında) **Canlı: gece boyunca bir klasörü izle…** kameranın yazdığı klasörü izler. Her yeni kare geldikçe kalibre edilir (seçtiğiniz master'larla ya da master'sız) ve ölçülür; ışık eğrisi kendiliğinden büyür. Başlamadan önce ilk karede hedefe ve karşılaştırma yıldızlarına tıklayın. Ölçülemeyen kareler atlanır ve sayılır.

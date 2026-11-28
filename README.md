@@ -151,7 +151,7 @@ DirectX 12 on Windows) and falls back to the processor when there is none. Compa
 
 The first window asks for the **language**, where computations run (**Automatic** is recommended: the
 graphics card when it is faster) and the **look** (dark or light); all can be changed later in *Settings*.
-A one-minute **quick tour** shows the pages, the Tasks panel and the menus. The **Guide** page
+A one-minute **quick tour** shows the area blocks, an area window's stages and the menus. The **Guide** page
 (*Help → Training guide*, F1) is the full manual: fourteen searchable chapters, from *Getting started* to
 *Troubleshooting*, in every interface language.
 
@@ -159,27 +159,30 @@ A one-minute **quick tour** shows the pages, the Tasks panel and the menus. The 
 
 ## What it does
 
-The sidebar lists the pages in the order of an observing night. Long jobs run in the background in separate
-processes, with progress in the **Tasks** panel: the window never freezes, and a crash in one job never takes
-the application down. Right-click any page in the sidebar to show it as a **panel beside the image**; every
-border can be dragged. Each area opens in its own window with a **rail of stages** on the left (for example
-Data, Star, Planets, Model, Fit, Uncertainty, Results): one stage's controls are shown at a time, the main view
-shows the data and the result, and the "?" of a stage opens its part of the guide.
+The start window shows one block per area, in the order of an observing night; the *Window* menu opens any
+of them too. Long jobs run in the background in separate processes, with progress in the **Tasks** panel: the
+window never freezes, and a crash in one job never takes the application down. Each area opens in its own
+window with a **rail of stages** on the left (for example Photometry: Images, Field, Stars, Apertures, Measure,
+Light curve, Timing and fit, Report): one stage's controls are shown at a time, the main view shows the data
+and the result, and F1 opens the stage's part of the guide. Every area window shares a **Tools** menu (time and
+coordinate converter, camera gain and read noise, header editing over many files). Observing, Astrometry,
+Spectroscopy, Remote sensing and Automation are unfinished and stay hidden until *Settings → General → Show
+unfinished areas* is turned on.
 
-### Plan
+### Planning
 Your site, the date and the targets (SIMBAD by name, cached for offline use, or coordinates). Altitude of
 every target through the night with twilights, the Moon and its phase, airmass and your altitude limit.
 Eclipses and transits of the night from T0 and the period — or from **VSX** and the **NASA Exoplanet Archive**
 — with start, middle and end and whether they can be observed, and a **schedule** for several targets.
 
-### Observe
+### Observing
 Slew, park, abort; preview frames; cooler, gain, offset, binning and readout mode; focuser, filter wheel and
 rotator. **Sequences** with several filters and exposure rows, dithering, meridian flips, start at dusk and
 repeat until dawn. **Autofocus** (with temperature compensation), **sky flats** with automatic exposures or
 **flat-panel** flats, **plate-solve centring** and a **polar-alignment** measurement. The safety state is
 always visible.
 
-### Calibrate
+### Calibration
 Point it at a folder of raw frames: bias, dark, flat and light frames are recognised from the headers (or file
 names), sigma-clipped **master frames** are built and the right ones applied to every light frame — darks
 matched by exposure and temperature (scaled when possible), flats by filter and binning. Missing calibration
@@ -221,7 +224,7 @@ detrending against airmass, FWHM, sky or position. Catalogue magnitudes (APASS, 
 mode grows the light curve frame by frame during the night. **Variable-star search** measures every star of the
 field and marks the candidates. **Polarimetry** for dual-beam and single-beam data.
 
-### Light curves & O-C
+### Light curves and period, O−C
 - **Times of minimum** (Kwee–van Woerden, polynomial or trapezoid fit, with errors) and **O-C** diagrams with
   linear or quadratic ephemerides, the **light-travel-time effect** of a third body and **apsidal motion**.
 - **Period search:** Lomb–Scargle, BLS and PDM; **frequency analysis** with the spectral window, Fourier fits,
@@ -246,7 +249,7 @@ light curve, with detrending against airmass, FWHM, sky or position, a correctio
 errors. Mid-transit time, depth, durations, stellar density and quality of fit are listed, and the upload files
 for **ExoClock** and the **Exoplanet Transit Database** are written.
 
-### Orbits & models
+### Models
 An eclipsing-binary / transit light-curve model fitted to your data (inclination, radii, surface-brightness
 ratio, third light, eccentricity) with MCMC errors; with a double-lined orbit, **absolute dimensions**
 (masses, radii, log g). **Visual binary orbits** from position angles and separations. A transit report, and
@@ -269,11 +272,11 @@ the files and the full history of every step; the **Guide** is the built-in trai
 
 **An eclipsing-binary minimum.** Plan → the minimum is observable from 21:40 to 01:10 UTC → Observe: a V-filter
 sequence from dusk to dawn → Calibrate the folder → Photometry: click the star, *Suggest comparison stars*,
-*Measure light curve* → *Time of minimum* → paste it with your earlier minima on the O-C page. The *Eclipsing
+*Measure light curve* → *Time of minimum* → paste it with your earlier minima in the O−C window. The *Eclipsing
 binary night* automation does everything after the observation in one run.
 
 **An exoplanet transit.** The same, with the trapezoid fit (mid-transit time, depth, duration), then the exact
-transit fit in the Exoplanets window and its ExoClock / ETD files (or the model fit on Orbits & models).
+transit fit in the Exoplanets window and its ExoClock / ETD files (or the model fit in Models).
 
 **A double-lined spectroscopic binary.** Reduce each spectrum → telluric correction → radial velocities with
 TODCOR or the broadening function → *Fit orbit* → with the light curve: masses and radii.
@@ -309,7 +312,7 @@ or INDI simulators before using real hardware.
 - **Projects** (`.astroproj`, one file) record the files and every step: its settings, start time, result and
   the versions of the libraries used — months later you can see exactly how a number was obtained. Paths are
   relative, so a project folder can be moved with its data.
-- **Automations** are JSON files: build them on the Automation page or by hand, and share them by copying the file.
+- **Automations** are JSON files: build them in the Automation window or by hand, and share them by copying the file.
 - **Plugins** are Python files that add new steps with the same decorator the built-in steps use; they appear in
   the *Plugins* menu with a generated form and run in worker processes. See [`docs/PLUGINS.md`](docs/PLUGINS.md).
 

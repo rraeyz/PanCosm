@@ -74,3 +74,24 @@ def test_recipe_finds_the_stars_by_the_sky_on_another_night(tmp_path, capsys):
     same = light_curve(nights["a"], xy[0], xy[1:3], 6.0, 15.0, 20.0)
     assert cli.main(["recipe", str(path), "--json", "--quiet"]) == 0
     assert np.allclose(json.loads(capsys.readouterr().out)["light_curve"]["rel_flux"], same["rel_flux"], rtol=1e-12)
+
+
+def test_the_guides_recipe_command_runs(tmp_path, monkeypatch, capsys):
+    """PHO-20: the command of guide 06 (Exporting), word for word, runs a recipe on another night's two frames."""
+    import shlex
+    from pathlib import Path
+
+    from astrowb.photometry.lcfile import read
+
+    guide = Path(cli.__file__).parent / "resources/guide/en/06-photometry.md"
+    line = next(s for s in guide.read_text(encoding="utf-8").splitlines() if s.startswith("astrowb-cli recipe"))
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "n2").mkdir()
+    for i, name in enumerate(["n1.fits", "n2/f001.fits", "n2/f002.fits"]):
+        h = fits.Header({"DATE-OBS": f"2026-11-15T20:{i:02d}:00", "EXPTIME": 30.0})
+        fits.PrimaryHDU(field(4.0, seed=40 + i).astype(np.float32), h).writeto(name)
+    xy = [s[:2] for s in STARS]
+    save(light_curve_recipe(["n1.fits"], xy[0], xy[1:3], {"r_ap": 6.0, "r_in": 15.0, "r_out": 20.0}), "night.json")
+    assert cli.main(shlex.split(line)[1:] + ["--json", "--quiet"]) == 0
+    assert len(json.loads(capsys.readouterr().out)["light_curve"]["rel_flux"]) == 2
+    assert len(read(tmp_path / "n2.lc.ecsv")["rel_flux"]) == 2
