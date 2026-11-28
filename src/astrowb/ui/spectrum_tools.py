@@ -319,7 +319,7 @@ class SpectrumToolsTab(SpectrumFiles, Undoable, QWidget):
         split.addWidget(scroll)
 
         right = QSplitter(Qt.Vertical, self)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "spectrum")
         spectrum_keys.connect(self)  # clicks, and the splot keys w m f c d
         right.addWidget(box)
         self.names = (

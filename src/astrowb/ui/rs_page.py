@@ -164,12 +164,10 @@ class RemoteSensingPage(QWidget):
         QVBoxLayout(self).addWidget(split)
 
     def _add_plot(self, lay):
-        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
-        from .plot.view import PlotView
+        from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
-        self.plot = PlotView(parent=self)
-        lay.addWidget(PlotToolbar(self.plot, self))
-        lay.addWidget(self.plot, 1)
+        box, self.plot = plot_box(self, "pixel")
+        lay.addWidget(box, 1)
 
     # --- data ---------------------------------------------------------------
     def _open(self):

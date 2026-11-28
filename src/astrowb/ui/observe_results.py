@@ -54,7 +54,7 @@ class ObserveResults:
         self.view.setFocusPolicy(Qt.NoFocus)
         lay.addWidget(self.filter)
         lay.addWidget(self.view, 1)
-        graphs, self.plot = plot_box(win)
+        graphs, self.plot = plot_box(win, "observe")
         for w in (*box.findChildren(QWidget), *graphs.findChildren(QWidget)):
             if w is not self.filter:
                 w.setFocusPolicy(Qt.NoFocus)  # tabs behind the front one sit off-screen: Tab would jump to them

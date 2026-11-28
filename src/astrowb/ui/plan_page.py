@@ -258,7 +258,7 @@ class PlanPage(Undoable, QWidget):
         split.addWidget(scroll)
 
         right = QSplitter(Qt.Vertical, self)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "plan")
         # always in sight beside the chart, not inside a stage (owner's report 2026-11-27); on the toolbar's
         # own row, so the page needs no more height on a short window
         toolbar = box.layout().takeAt(0).widget()

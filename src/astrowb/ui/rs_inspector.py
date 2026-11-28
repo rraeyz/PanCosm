@@ -46,7 +46,7 @@ def pixel_inspector(win, page):
     lay = QVBoxLayout(box)
     lay.setContentsMargins(0, 0, 0, 0)
     panel = Inspector(translate("RemoteSensingWindow", "Pixel"))
-    plot_widget, view = plot_box(box)
+    plot_widget, view = plot_box(box, "pixel")
     lay.addWidget(panel)
     lay.addWidget(plot_widget, 1)
     for w in (plot_widget, *plot_widget.findChildren(QWidget)):

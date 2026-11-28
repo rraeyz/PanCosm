@@ -119,7 +119,7 @@ class VarFindPage(QWidget):
         self.send.setToolTip(self.tr("The chosen star's light curve goes to the Period search tab"))
         lay.addWidget(self.send)
         split.addWidget(left)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "varfind")
         self.plot.point_clicked.connect(self._clicked)
         split.addWidget(box)
         split.setSizes([420, 800])

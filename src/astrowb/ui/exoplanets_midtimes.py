@@ -50,7 +50,7 @@ def oc_figure(f):
 def midtimes_dock(win, page):
     box = QWidget(win)
     table, summary = DataTable(box), QLabel(box)
-    plot_widget, plot = plot_box(box)
+    plot_widget, plot = plot_box(box, "midtimes")
     send = QPushButton(translate("ExoplanetsMidtimes", "Send to O−C"), box)
     send.setToolTip(translate("ExoplanetsMidtimes", "The mid-times of the fitted files, as times of minimum in O−C"))
     lay = QVBoxLayout(box)

@@ -449,7 +449,14 @@ for the window concerned.
 ### UI-6. Empty, loading and error states for every view  (P1)
 **partial** — done: every PlotCanvas (21 plots) says why it is empty until something is drawn (`set_empty_hint` for a page's own words); the image viewers of Images, Photometry, Spectroscopy and Remote sensing already had their hint. Loading state: while a window's task runs, its empty plots say "Working: <step> — n %" (`AreaWindow._show_busy`). Error state: a plot whose drawing fails says "This plot could not be drawn: …" over itself (logged to app.log), the next good drawing removes it. The walk test (2026-11-13, `tests/test_empty_states.py`): every area window
 opened in a fresh profile, every visible plot and image view has data or words. Left: the table of views with their
-own texts.
+own texts. (2026-11-28) The table: `ui/empty_texts.empty_text` holds each plot's own words (what appears there and the
+one thing to do: Period search, Frequencies, Variable search, Occultation, O−C, Exoplanets with its Chains, Corner and
+Mid-times, Plan and its Weather, Remote sensing pixel and histogram, Calibration frame histogram, Spectroscopy reduce,
+echelle, telluric, velocity, cube and spectrum tools, Models, Visual orbit, Photometry, Observing graphs,
+Coefficients); `plot_box(parent, key)` sets them; `test_every_shown_plot_has_its_own_words`,
+`test_a_plot_box_with_a_key_says_its_words_then_data_then_busy`. Left: plots shown only with data keep the general
+words (Photometry checks, DIA, Astrometry light curve, Levels); the skeleton loading view and the error `InfoBanner`
+with "Try again"; the primary action as a button and the practice set per view; screenshots in four languages.
 - **Build:** a table in this step (filled by the agent) of every main view and result tab of every window with its
   `EmptyState` text, primary action and practice set; loading states (skeleton: the view's frame with a thin
   progress line and the task's phase text); error states (the `InfoBanner` with the error's what / do and "Try

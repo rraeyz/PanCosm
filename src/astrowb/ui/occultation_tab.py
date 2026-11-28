@@ -42,7 +42,7 @@ class OccultationTab(QWidget):
         self.status = QLabel(self.tr("No light curve yet: load a file."), self)
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "occultation")
         self.table = TableView(self)
         lay.addWidget(box, 3)
         lay.addWidget(self.table, 1)

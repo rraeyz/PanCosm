@@ -355,19 +355,13 @@ class PeriodPage(Undoable, QWidget):
             self.set_light_curve(t, y, self.label, True, e)
 
     def _plot_box(self):
-        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
-        from .plot.view import PlotView
+        from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
-        box = QWidget(self)
-        lay = QVBoxLayout(box)
-        lay.setContentsMargins(0, 0, 0, 0)
-        self.plot = PlotView(parent=self)
+        box, self.plot = plot_box(self, "period")
         self.plot.point_clicked.connect(self._picked)
         self.plot.points_selected.connect(self._lassoed)
         self.plot.key_pressed.connect(self._plot_key)
         self.plot.installEventFilter(self)  # ← → step to the neighbouring peaks
-        lay.addWidget(PlotToolbar(self.plot, self))
-        lay.addWidget(self.plot, 1)
         return box
 
     def _picked(self, name, i):

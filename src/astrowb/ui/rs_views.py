@@ -67,7 +67,7 @@ def add_views(win, page):
     stage lists the products as they are saved."""
     from .plot.toolbar import plot_box
 
-    hist_box, hist = plot_box(win)
+    hist_box, hist = plot_box(win, "histogram")
     table = DataTable()
     page.histogram_view, page.statistics_view = hist, table
     first = win.add_result_tab("histogram", translate("RemoteSensingWindow", "Histogram"), hist_box)

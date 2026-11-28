@@ -46,8 +46,7 @@ class OCPage(Undoable, QWidget):
     ephemeris_requested = Signal(str)  # a star's name: its T0 and period from VSX (planning.ephemeris)
 
     def __init__(self, parent=None):
-        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
-        from .plot.view import PlotView
+        from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
         super().__init__(parent)
         self.init_undo()
@@ -185,12 +184,8 @@ class OCPage(Undoable, QWidget):
         self.result.setTextInteractionFlags(Qt.TextSelectableByMouse)
         lay.addWidget(self.result)
         split.addWidget(left)
-        right = QWidget(self)
-        rl = QVBoxLayout(right)
-        rl.setContentsMargins(0, 0, 0, 0)
-        self.plot = PlotView(FigureSpec([]), parent=self)  # an empty figure: the toolbar's pop-out needs one
-        rl.addWidget(PlotToolbar(self.plot, self))
-        rl.addWidget(self.plot, 1)
+        right, self.plot = plot_box(self, "oc")
+        self.plot.set_figure(FigureSpec([]))  # an empty figure: the toolbar's pop-out needs one
         split.addWidget(right)
         from .oc_point_select import connect
 

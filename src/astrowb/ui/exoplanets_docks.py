@@ -6,6 +6,7 @@ from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication, QPlainTextEdit, QPushButton, QVBoxLayout, QWidget
 
 from . import photometry_transit as transit
+from .empty_texts import empty_text
 from .kit import tokens
 from .kit.widgets import PlotCanvas
 from .plot.toolbar import plot_box
@@ -52,8 +53,9 @@ def draw_corner(figure, m):
 
 
 def exoplanets_docks(win, page):
-    chains_box, chains_plot = plot_box(win)
+    chains_box, chains_plot = plot_box(win, "chains")
     corner = PlotCanvas(win)
+    corner.set_empty_hint(empty_text("corner"))
     report = QWidget(win)
     text, copy = QPlainTextEdit(report), QPushButton(translate("ExoplanetsWindow", "Copy"), report)
     text.setReadOnly(True)

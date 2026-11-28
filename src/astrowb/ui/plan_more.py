@@ -111,7 +111,7 @@ class MoreCharts(QDialog):
         self.weather_button.clicked.connect(self.fetch_weather)
         self.weather_note = QLabel(weather)
         self.weather_note.setWordWrap(True)
-        box, self.weather = plot_box(self)
+        box, self.weather = plot_box(self, "weather")
         wl.addWidget(self.weather_button)
         wl.addWidget(self.weather_note)
         wl.addWidget(box, 1)

@@ -99,11 +99,16 @@ class PlotToolbar(QWidget):
         return window
 
 
-def plot_box(parent):
-    """(a widget holding a PlotToolbar above a PlotView, the PlotView): what a page puts where its plot goes."""
+def plot_box(parent, empty=None):
+    """(a widget holding a PlotToolbar above a PlotView, the PlotView): what a page puts where its plot goes; `empty`
+    names the plot's words while it is empty (ui/empty_texts.py)."""
     from .view import PlotView
 
     box, view = QWidget(parent), PlotView(parent=parent)
+    if empty:
+        from ..empty_texts import empty_text
+
+        view.set_empty_hint(empty_text(empty))
     lay = QVBoxLayout(box)
     lay.setContentsMargins(0, 0, 0, 0)
     lay.addWidget(PlotToolbar(view, box))

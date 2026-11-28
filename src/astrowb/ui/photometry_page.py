@@ -545,7 +545,7 @@ class PhotometryPage(Undoable, QWidget):
 
         bottom = QWidget(self)
         b_lay = QHBoxLayout(bottom)
-        self.plot_box, self.plot = plot_box(bottom)
+        self.plot_box, self.plot = plot_box(bottom, "photometry")
         self.plot.point_clicked.connect(self._plot_clicked)  # a click in delete mode
         self.plot.key_pressed.connect(self._plot_key)  # or the Delete key
         left = QVBoxLayout()  # the plot and, under it, what was measured (scatter, warnings)

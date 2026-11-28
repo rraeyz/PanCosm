@@ -148,7 +148,7 @@ class ExoplanetsPage(QWidget):
 
     def _main_view(self):
         lay = QVBoxLayout(self)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "exoplanets")
         lay.addWidget(box, 3)
         self.values = DataTable(self)
         lay.addWidget(self.values, 2)

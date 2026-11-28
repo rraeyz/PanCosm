@@ -26,8 +26,7 @@ class CoefficientsDialog(QDialog):
     transform_requested = Signal(str, str, dict)  # image A, image B, params
 
     def __init__(self, light_curve=None, parent=None, settings=None):
-        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
-        from .plot.view import PlotView
+        from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
         super().__init__(parent)
         self.setWindowTitle(self.tr("Photometric coefficients"))
@@ -92,9 +91,8 @@ class CoefficientsDialog(QDialog):
         self.save_button.clicked.connect(self.save_to_profile)
         g.addWidget(self.save_button, 4, 0, 1, 4)
         lay.addWidget(box)
-        self.plot = PlotView(parent=self)
-        lay.addWidget(PlotToolbar(self.plot, self))
-        lay.addWidget(self.plot, 1)
+        plot, self.plot = plot_box(self, "coefficients")
+        lay.addWidget(plot, 1)
 
     def compute_extinction(self):
         from ..photometry.coefficients import extinction

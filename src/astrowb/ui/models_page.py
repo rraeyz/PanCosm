@@ -218,7 +218,7 @@ class ModelsPage(Undoable, QWidget):
         lay.addWidget(help_line(self.tr("Two spheres on a Keplerian orbit: detached binaries and transits. Contact "
                                         "binaries: PHOEBE or WD."), "orbits-models-model", self))  # fmt: skip
         split.addWidget(left)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "models")
         split.addWidget(box)
         split.setSizes([430, 770])
         from .visual_orbit_tab import VisualOrbitTab

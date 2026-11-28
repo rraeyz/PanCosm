@@ -28,8 +28,7 @@ class VisualOrbitTab(QWidget):
     def __init__(self, parent=None):
         from PySide6.QtCore import Qt
 
-        from .plot.toolbar import PlotToolbar  # pyqtgraph is imported when a plot is first needed
-        from .plot.view import PlotView
+        from .plot.toolbar import plot_box  # pyqtgraph is imported when a plot is first needed
 
         super().__init__(parent)
         self.orbit = None
@@ -86,12 +85,7 @@ class VisualOrbitTab(QWidget):
         self.status.setWordWrap(True)
         lay.addWidget(self.status)
         split.addWidget(left)
-        right = QWidget(self)
-        rl = QVBoxLayout(right)
-        rl.setContentsMargins(0, 0, 0, 0)
-        self.plot = PlotView(parent=self)
-        rl.addWidget(PlotToolbar(self.plot, self))
-        rl.addWidget(self.plot, 1)
+        right, self.plot = plot_box(self, "visual_orbit")
         split.addWidget(right)
         split.setSizes([420, 780])
         QVBoxLayout(self).addWidget(split)

@@ -134,7 +134,7 @@ class FrequencyPage(QWidget):
         self.to_oc.clicked.connect(lambda: self.guide.set_state(3, "done"))
         lay.addWidget(self.to_oc)
         split.addWidget(left)
-        box, self.plot = plot_box(self)
+        box, self.plot = plot_box(self, "frequency")
         split.addWidget(box)
         split.setSizes([420, 800])
         QVBoxLayout(self).addWidget(split)

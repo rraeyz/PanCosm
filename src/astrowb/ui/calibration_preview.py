@@ -32,7 +32,7 @@ class FramePreview(QWidget):
         if histogram:
             from .plot.toolbar import plot_box
 
-            box, self.graph = plot_box(self)
+            box, self.graph = plot_box(self, "frame_histogram")
             box.setMinimumHeight(120)
             lay.addWidget(box, 1)
 
