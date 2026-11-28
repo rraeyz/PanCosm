@@ -96,6 +96,10 @@ class TaskActions:
         }
         if key.startswith("guide:"):  # an area card's menu: the guide chapter of the area
             self._help_for(key[6:])
+        elif key.startswith("practice:"):  # one set of the start window's Practice data menu
+            from .practice_sets import choose
+
+            choose(self, key[9:])
         else:
             actions[key]() if key in actions else self.open_area(key)
 

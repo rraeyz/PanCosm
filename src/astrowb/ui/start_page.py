@@ -8,6 +8,7 @@ from pathlib import Path
 from PySide6.QtCore import QT_TRANSLATE_NOOP, QCoreApplication, QEvent, QSize, Qt, Signal
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
+    QAbstractButton,
     QGridLayout,
     QHBoxLayout,
     QLabel,
@@ -109,7 +110,12 @@ class StartPage(QWidget):
             button = QPushButton(title, self)
             button.setObjectName(f"start_{key}")
             button.setToolTip(hint)
-            button.clicked.connect(lambda _=False, k=key: self.action.emit(k))
+            if key == "practice_data":  # a menu of the sets, each opening its window (UI-5 item 2)
+                from .practice_sets import menu
+
+                button.setMenu(menu(self, settings, self.action.emit))
+            else:
+                button.clicked.connect(lambda _=False, k=key: self.action.emit(k))
             self.project_row.addWidget(button)
             self.buttons.append(button)
         self.project_row.addStretch(1)
@@ -344,6 +350,17 @@ class StartPage(QWidget):
             holder.installEventFilter(self)
             self._watching = True
         self._relayout()
+
+    def keyPressEvent(self, event):
+        """Enter on the focused card or button opens it as a click does: every area by keyboard only (UI-5)."""
+        focused = self.focusWidget()
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter) and isinstance(focused, QAbstractButton):
+            if getattr(focused, "menu", lambda: None)() is not None:
+                focused.showMenu()  # Practice data: its sets, chosen with the arrow keys and Enter
+            else:
+                focused.click()
+            return
+        super().keyPressEvent(event)
 
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Resize and obj is self.parentWidget():
