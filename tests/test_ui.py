@@ -1665,8 +1665,10 @@ def test_light_curves_and_oc_window_menus(window):
     assert len(models) == 4
     models[2].trigger()  # third body
     assert page.ltte.isChecked() and not page.linear.isChecked() and not models[0].isChecked()
+    from PySide6.QtWidgets import QWidgetAction
+
     for win in (lc, oc):
-        tools = win.area_tools()
+        tools = [a for a in win.area_tools() if not isinstance(a, QWidgetAction)]  # the jobs switch
         assert tools and all(not a.icon().isNull() for a in tools)
 
 

@@ -164,7 +164,6 @@ class AreaWindow(Anatomy, QMainWindow):
             self.tr("Type a few letters of what you want to do: every menu and toolbar action of this window is found"),
         )  # fmt: skip
         kinds[self.find_action] = "lookup"
-        self.set_icons(kinds)
         view = bar_menu(bar, self.tr("&View"))
         self.view_menu = view
         for dock in self.docks.values():
@@ -188,14 +187,15 @@ class AreaWindow(Anatomy, QMainWindow):
             (self.tr("&Smaller text"), -1, "Ctrl+Shift+-"),
             (self.tr("&Normal text size"), 0, "Ctrl+Shift+0"),
         )
-        for text, step, key in sizes:
-            self._action(view, text, lambda s=step: self.change_font(s), key,
-                         self.tr("The size of the text in every window (kept for next time)"))  # fmt: skip
+        for (text, step, key), kind in zip(sizes, ("larger_text", "smaller_text", "normal_text"), strict=True):
+            kinds[self._action(view, text, lambda s=step: self.change_font(s), key,
+                  self.tr("The size of the text in every window (kept for next time)"))] = kind  # fmt: skip
         view.addSeparator()
-        self._action(
+        kinds[self._action(
             view, self.tr("&Reset layout"), self.reset_layout,
             tip=self.tr("Put every panel back where it was when the window first opened"),
-        )  # fmt: skip
+        )] = "reset_layout"  # fmt: skip
+        self.set_icons(kinds)  # checkable toggles have none: the icon would hide their check mark
         for title, actions in menus:
             menu = bar_menu(bar, title)
             for act in actions:
@@ -212,19 +212,21 @@ class AreaWindow(Anatomy, QMainWindow):
             help_menu, self.tr("Guide for this window"), self.help_for_focus,
             QKeySequence.HelpContents, self.tr("Opens the page of the guide that explains this window"),
         )  # fmt: skip
-        self._action(
+        kinds = {}
+        kinds[self._action(
             help_menu, self.tr("What is this?"), self.whats_this, "Shift+F1",
             self.tr("Click a control afterwards to read about it in the guide (Esc: never mind)"),
-        )  # fmt: skip
-        self._action(
+        )] = "whats_this"  # fmt: skip
+        kinds[self._action(
             help_menu, self.tr("Keyboard shortcuts"), self.show_shortcuts, "Ctrl+/",
             self.tr("Every key of this window, with a search field"),
-        )  # fmt: skip
-        self._action(
+        )] = "shortcuts"  # fmt: skip
+        kinds[self._action(
             help_menu, self.tr("Report a problem…"), self.report_problem, None,
             self.tr("Makes one file with the error log, the version, the system and the last steps, to send to the "
                     "developer. Your data files are not in it."),
-        )  # fmt: skip
+        )] = "report"  # fmt: skip
+        self.set_icons(kinds)
 
     # --- long work ------------------------------------------------------------
     def _build_task_bar(self):

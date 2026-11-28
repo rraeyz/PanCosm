@@ -24,7 +24,7 @@ def add(win, menu):
     )
     win.time_tables_action.toggled.connect(lambda on: settings.set("time.auto_refresh", on))
     menu.addAction(win.time_tables_action)
-    win._action(
+    tables = win._action(
         menu, QCoreApplication.translate("MainWindow", "Update the Earth-rotation tables now"), win.update_time_tables
     )
     cache.set_offline(bool(settings.get("services.offline", False)))  # worker processes started later inherit it
@@ -41,9 +41,10 @@ def add(win, menu):
     win.start_page.show_offline(cache.offline())
     status_strip(win)
     menu.addAction(win.offline_action)
-    win._action(
+    forget = win._action(
         menu, QCoreApplication.translate("MainWindow", "Clear the saved catalogue answers…"), lambda: clear(win)
     )
+    win._glyphs += [(tables, "earth_tables"), (forget, "clear_cache")]  # UI-2.3; toggles keep the check mark only
 
 
 def status_strip(win):

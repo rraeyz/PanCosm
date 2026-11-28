@@ -416,6 +416,7 @@ class PlotView(QWidget):
             fill = {"pen": pen, "brush": None} if s.left_out else {"pen": None, "brush": brush}  # left out: hollow
             entry["item"] = FastScatter(size=s.size, symbol=_SYMBOLS.get(s.symbol, "o"), **fill)
             entry["item"].sigClicked.connect(vb.picked)
+            entry["finite"] = np.flatnonzero(ok), x[ok], y[ok]  # once, not on every pan (PER-W: 10^6 points)
             if s.yerr is not None or s.xerr is not None:
                 entry["errors"] = pg.ErrorBarItem(pen=pen)
                 plot.addItem(entry["errors"])
@@ -491,12 +492,13 @@ class PlotView(QWidget):
                     xs, ys = xs[order], ys[order]
                 e["item"].setData(*S.decimate_line(xs, ys, x0, x1, width))
                 continue
+            finite, xf, yf = e["finite"]
             if not np.isfinite([x0, x1, y0, y1]).all() or (x0 == x1):  # nothing laid out yet: everything
-                index = np.flatnonzero(ok)
+                index = finite
             else:
                 cell = max(1, int(s.size) // 2)  # a 5 px dot hides a point 1 px beside it: one per 2 px cell
                 grid = (max(width // cell, 1), max(height // cell, 1))
-                index = np.flatnonzero(ok)[S.decimate_points(x[ok], y[ok], x0, x1, y0, y1, *grid)]
+                index = finite[S.decimate_points(xf, yf, x0, x1, y0, y1, *grid)]
             e["shown"] = index
             lx, ly = (
                 np.log10(np.clip(v, 1e-300, None)) if m else v

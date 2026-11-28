@@ -337,8 +337,9 @@ class MainWindow(WindowMenu, TaskActions, FileActions, AreaActions, SettingsActi
         win._action(win.help_menu, self.tour_action.text(), lambda: (_raise_window(self), self.start_tour()))
         win._action(win.help_menu, self.tr("&Full tour"), lambda: (_raise_window(self), tour_full.start_full(self)))
         win._action(win.help_menu, self.tr("Tour of this window"), lambda: tour.start_area(win))  # UI-19
-        win.help_menu.addAction(self.update_action)
-        win.help_menu.addAction(self.about_action)
+        tours = dict(zip(win.help_menu.actions()[-3:], ("tour", "full_tour", "area_tour"), strict=True))
+        win.set_icons({act: "copy", **tours})
+        win.help_menu.addActions([self.update_action, self.about_action])
 
     @property
     def workspaces(self):

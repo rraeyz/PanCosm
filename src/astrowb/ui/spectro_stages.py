@@ -87,13 +87,13 @@ def _follow_guide(tab, win, prefix, steps):
     tab.guide.set_state = follow
 
 
-def job_switch(win, page):
-    """The toolbar's job switch: a Segmented over the same jobs as the tabs (they stay the owner of the current job)."""
-    tabs = page.tabs
+def job_switch(win, tabs, tips=()):
+    """The toolbar's job switch: a Segmented over the same jobs as the tabs (they stay the owner of the current job);
+    tips are translated tooltips, one per tab, or none."""
     names = [tabs.tabText(i) for i in range(tabs.count())]
     switch = Segmented(list(zip(map(str, range(len(names))), names, strict=True)), str(tabs.currentIndex()))
-    for button, tip in zip(switch.buttons.values(), page.JOB_TIPS, strict=True):
-        button.setToolTip(translate("SpectroscopyPage", tip))
+    for button, tip in zip(switch.buttons.values(), tips, strict=bool(tips)):
+        button.setToolTip(tip)
     switch.changed.connect(lambda key: tabs.setCurrentIndex(int(key)))
     tabs.currentChanged.connect(lambda i: switch.setValue(str(i)))
     win.job_switch = switch

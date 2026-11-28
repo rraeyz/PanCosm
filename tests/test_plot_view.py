@@ -636,3 +636,33 @@ def test_a_dense_scatter_shares_one_atlas_place_and_keeps_one_point_per_dot(qtbo
     x, y = rng.uniform(0, 1, 200_000), rng.uniform(0, 1, 200_000)
     keep = S.decimate_points(x, y, 0, 1, 0, 1, 100, 100)  # the view passes the 2 px grid of a 200 px view
     assert len(keep) == 99 * 99 and np.all(np.diff(keep) > 0)  # every cell of the grid is filled, in order
+
+
+def test_a_pan_over_a_million_points_draws_at_30_frames_a_second(qtbot):
+    """PER-W accept: the time plot (830 × 760 px) stays above 30 fps with 10^6 points; the better of seven pans."""
+    import os
+    import time
+
+    import pyqtgraph as pg
+    from PySide6.QtWidgets import QApplication
+
+    from astrowb.ui.plot.view import PlotView
+
+    rng = np.random.default_rng(0)
+    t = np.sort(rng.uniform(0, 100, 1_000_000))
+    view = PlotView(FigureSpec([PanelSpec(AxisSpec("t"), AxisSpec("m"), [SeriesSpec("data", t, np.sin(t))])]))
+    qtbot.addWidget(view)
+    view.resize(830, 760)
+    view.show()
+    QApplication.processEvents()
+    vb = next(i for i in view.graphics.scene().items() if isinstance(i, pg.ViewBox))
+    frames = []
+    for k in range(8):
+        start = time.perf_counter()
+        vb.setXRange(k * 0.5, 100 + k * 0.5, padding=0)
+        QApplication.processEvents()
+        frames.append(time.perf_counter() - start)
+    item = view.items[0]["item"]
+    assert 1000 < len(item.data) < 100_000 and item.data["pen"][0] is None  # decimated, pyqtgraph's own defaults
+    assert np.array_equal(item.data["data"].astype(int), view.items[0]["shown"])  # each dot is a real point
+    assert min(frames[1:]) < (2 if os.environ.get("CI") else 1) / 30, frames  # a shared CI runner: twice the time

@@ -56,6 +56,17 @@ def test_fold_and_report_stages_and_the_peak_table(window):
     win.close()
 
 
+def test_the_jobs_switch_follows_the_tabs_and_their_stages(window):
+    win = window.open_area("timeseries")
+    lc, switch = window.lightcurve_page, win.job_switch
+    assert list(switch.buttons) == [str(i) for i in range(lc.count())]
+    switch.setValue("1")
+    assert lc.currentWidget() is lc.frequency_page and win.rail.current == "frequencies"
+    win.show_stage("variables")
+    assert switch.value() == "2"
+    win.close()
+
+
 def test_points_left_out_leave_the_data_of_every_plot_and_the_periodogram_is_marked_stale(qtbot):
     """UI-16.4: one list of points in use feeds the time and the folded plot; the periodogram is marked until a new
     search; Undo edits restores the points."""

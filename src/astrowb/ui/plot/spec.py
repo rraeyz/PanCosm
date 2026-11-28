@@ -165,11 +165,15 @@ def decimate_line(x, y, x0, x1, columns):
 def decimate_points(x, y, x0, x1, y0, y1, width, height):
     """Indices of the points inside the view, one per occupied pixel cell when there are more than MAX_POINTS: a
     scatter plot looks the same, and the nearest-point read-out still finds real points."""
-    inside = np.flatnonzero((x >= x0) & (x <= x1) & (y >= y0) & (y <= y1))
-    if len(inside) <= MAX_POINTS:
-        return inside
-    cx = ((x[inside] - x0) / ((x1 - x0) or 1) * (width - 1)).astype(np.int64)
-    cy = ((y[inside] - y0) / ((y1 - y0) or 1) * (height - 1)).astype(np.int64)
-    cells = np.full(width * height, -1, np.int64)
-    cells[cx * height + cy] = np.arange(len(inside))  # one point per cell (the last; np.unique's sort cost 40 ms)
-    return inside[np.sort(cells[cells >= 0])]
+    keep = (x >= x0) & (x <= x1) & (y >= y0) & (y <= y1)
+    if np.count_nonzero(keep) <= MAX_POINTS:
+        return np.flatnonzero(keep)
+    # cells keyed on all points, clipped, not on copies of the points inside (PER-W: 30 fps with 10^6 points)
+    key = ((np.clip(x, x0, x1) - x0) * ((width - 1) / ((x1 - x0) or 1))).astype(np.int32)
+    key *= height
+    key += ((np.clip(y, y0, y1) - y0) * ((height - 1) / ((y1 - y0) or 1))).astype(np.int32)
+    key[~keep] = width * height  # points outside the view go to one extra cell, dropped below
+    cells = np.full(width * height + 1, -1, np.int32)
+    cells[key] = np.arange(len(x), dtype=np.int32)  # one point per cell (the last; np.unique's sort cost 40 ms)
+    cells = cells[:-1]
+    return np.sort(cells[cells >= 0])

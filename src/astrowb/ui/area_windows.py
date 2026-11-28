@@ -494,7 +494,7 @@ def spectroscopy_window(main, page):
     jobs = ("long_slit", "echelle", "telluric", "velocity", "cube", "spectrum_tools")
     win.set_icons(dict(zip(actions, jobs, strict=True)))
     profile_switch(win, page)
-    job_switch(win, page)  # UI-16.3: the toolbar's job switch is a Segmented; the Job menu keeps the actions
+    job_switch(win, page.tabs, [translate("SpectroscopyPage", t) for t in page.JOB_TIPS])  # UI-16.3, and the Job menu
     area_menus.spectroscopy(main, page, win)
     page.setParent(win)  # the page keeps the state and the logic, unseen
     page.hide()

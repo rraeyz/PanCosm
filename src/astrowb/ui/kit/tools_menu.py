@@ -59,4 +59,5 @@ def build(win, bar):
     )  # fmt: skip
     for text, which, tip in tools:
         win._action(menu, text, lambda w=which: _open(win, w()), tip=tip)
+    win.set_icons(dict(zip(menu.actions(), ("converter", "camera_measure", "edit_headers"), strict=True)))
     return menu

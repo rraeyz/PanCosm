@@ -5,6 +5,7 @@ forward, and choosing a tab shows its first stage."""
 from PySide6.QtCore import QCoreApplication
 
 from .lightcurve_fold import fold_stage, peak_inspector, report_stage
+from .spectro_stages import job_switch
 from .stage_boxes import period_stages
 
 translate = QCoreApplication.translate  # pyside6-lupdate reads translate("PeriodWindow", "…") calls
@@ -57,3 +58,4 @@ def light_curve_stages(win, lc):
     win.rail.stage_chosen.disconnect(show)
     win.rail.stage_chosen.connect(show_stage)
     lc.currentChanged.connect(follow)
+    job_switch(win, lc)  # the toolbar's jobs switch over the tabs (Period, Frequencies, Variables, Occultation)

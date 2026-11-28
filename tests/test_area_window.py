@@ -278,7 +278,9 @@ def test_settings_of_the_bundled_automations_are_shown_by_name():
 def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     """interface I6c.1: one icon per kind of action, never one icon for two kinds; area toolbars show icons, View →
     Toolbar text adds the names and is kept; the Photometry and Spectroscopy toolbars have an icon for every
-    action (the Spectroscopy toolbar holds only its job and profile switches, UI-16.3)."""
+    action (the Spectroscopy toolbar holds only its job and profile switches, UI-16.3). UI-2.3: every item of the
+    shared View, Edit, Settings, Tools and Help menus and of Images' Process and Overlays has one; checkable toggles
+    have none (an icon would take the place of their check mark)."""
     from PySide6.QtCore import Qt
     from PySide6.QtWidgets import QWidgetAction
 
@@ -299,11 +301,23 @@ def test_one_icon_set_and_icon_toolbars(qtbot, tmp_path):
     assert _area(qtbot, settings).toolbar.toolButtonStyle() == Qt.ToolButtonTextBesideIcon  # kept
     main = MainWindow(Settings(tmp_path / "main"))
     qtbot.addWidget(main)
+
+    def bare(menu):  # the items of a menu and its submenus without an icon, toggles left out
+        for a in menu.actions():
+            if a.menu():
+                yield from bare(a.menu())
+            elif not (a.isSeparator() or a.isCheckable() or isinstance(a, QWidgetAction) or not a.icon().isNull()):
+                yield a.text()
+
     try:
-        for key in ("photometry", "spectroscopy"):
+        for key in ("photometry", "spectroscopy", "image"):
             main.show_workspace(key)
-            acts = [a for a in main.area_windows[key].area_tools() if not isinstance(a, QWidgetAction)]  # job switch
-            assert (acts or key == "spectroscopy") and all(not a.icon().isNull() and a.toolTip() for a in acts), key
+            win = main.area_windows[key]
+            acts = [a for a in win.area_tools() if not isinstance(a, QWidgetAction)]  # job switch
+            assert (acts or key != "photometry") and all(not a.icon().isNull() and a.toolTip() for a in acts), key
+            menus = [win.view_menu, win.tools_menu, win.help_menu, main.settings_menu]
+            menus += [main.process_menu, main.overlay_menu] if key == "image" else [win.edit_menu]  # + header keys
+            assert [t for m in menus for t in bare(m)] == [], key
     finally:
         main.engine.shutdown()
 

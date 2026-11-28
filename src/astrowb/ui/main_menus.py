@@ -137,25 +137,26 @@ def _image(main):
     main.process_menu.setToolTipsVisible(True)
     main.process_menu.addSeparator()
     ops = (
-        (translate("MainWindow", "Pixel math…"), "pixel_math"),
-        (translate("MainWindow", "Flip left–right"), ("flip", {"axis": "x"})),
-        (translate("MainWindow", "Flip top–bottom"), ("flip", {"axis": "y"})),
-        (translate("MainWindow", "Rotate 90°"), ("rotate90", {"k": 1})),
-        (translate("MainWindow", "Rotate by any angle…"), "rotate"),
-        (translate("MainWindow", "Resample (change the pixel size)…"), "resample"),
-        (translate("MainWindow", "Bin 2×2"), ("bin", {"factor": 2})),
-        (translate("MainWindow", "Crop…"), "crop"),
-        (translate("MainWindow", "Gaussian smoothing…"), "gaussian"),
-        (translate("MainWindow", "Median filter…"), "median"),
-        (translate("MainWindow", "Unsharp mask…"), "unsharp"),
-        (translate("MainWindow", "Remove background gradient…"), "background"),
-        (translate("MainWindow", "Kernel filter…"), "kernel"),
-        (translate("MainWindow", "Deconvolution (Richardson–Lucy)…"), "deconvolve"),
-        (translate("MainWindow", "Digital development (DDP)"), ("ddp", {})),
-        (translate("MainWindow", "Match the histogram of another image…"), "histogram_match"),
+        (translate("MainWindow", "Pixel math…"), "pixel_math", "compute"),
+        (translate("MainWindow", "Flip left–right"), ("flip", {"axis": "x"}), "flip_lr"),
+        (translate("MainWindow", "Flip top–bottom"), ("flip", {"axis": "y"}), "flip_tb"),
+        (translate("MainWindow", "Rotate 90°"), ("rotate90", {"k": 1}), "rotate_90"),
+        (translate("MainWindow", "Rotate by any angle…"), "rotate", "rotate_any"),
+        (translate("MainWindow", "Resample (change the pixel size)…"), "resample", "resample"),
+        (translate("MainWindow", "Bin 2×2"), ("bin", {"factor": 2}), "bin"),
+        (translate("MainWindow", "Crop…"), "crop", "crop"),
+        (translate("MainWindow", "Gaussian smoothing…"), "gaussian", "gaussian"),
+        (translate("MainWindow", "Median filter…"), "median", "median"),
+        (translate("MainWindow", "Unsharp mask…"), "unsharp", "unsharp"),
+        (translate("MainWindow", "Remove background gradient…"), "background", "background"),
+        (translate("MainWindow", "Kernel filter…"), "kernel", "kernel"),
+        (translate("MainWindow", "Deconvolution (Richardson–Lucy)…"), "deconvolve", "deconvolve"),
+        (translate("MainWindow", "Digital development (DDP)"), ("ddp", {}), "ddp"),
+        (translate("MainWindow", "Match the histogram of another image…"), "histogram_match", "histogram_match"),
     )
-    for text, op in ops:
-        main._action(main.process_menu, text, lambda _=False, o=op: main.process_dialog(o))
+    for text, op, kind in ops:
+        act = main._action(main.process_menu, text, lambda _=False, o=op: main.process_dialog(o))
+        main._glyphs.append((act, kind))
 
 
 def _plugins_settings_window_help(main):
@@ -165,6 +166,7 @@ def _plugins_settings_window_help(main):
 
     s = main.settings_menu = bar_menu(main.menuBar(), translate("MainWindow", "&Settings"))
     every = main._action(s, translate("MainWindow", "All settings…"), main.show_settings, "Ctrl+,")
+    main._glyphs.append((every, "settings"))
     every.setShortcutContext(Qt.WidgetWithChildrenShortcut)  # the area windows show this menu too (one key, one action)
     main.addAction(every)
     s.addSeparator()
@@ -206,12 +208,13 @@ def _plugins_settings_window_help(main):
     online_actions.add(main, s)
     text_menu = s.addMenu(translate("MainWindow", "Text size"))  # View → Text size in the area windows
     sizes = (
-        (translate("MainWindow", "&Larger text"), 1, "Ctrl+Shift++"),
-        (translate("MainWindow", "&Smaller text"), -1, "Ctrl+Shift+-"),
-        (translate("MainWindow", "&Normal text size"), 0, "Ctrl+Shift+0"),
+        (translate("MainWindow", "&Larger text"), 1, "Ctrl+Shift++", "larger_text"),
+        (translate("MainWindow", "&Smaller text"), -1, "Ctrl+Shift+-", "smaller_text"),
+        (translate("MainWindow", "&Normal text size"), 0, "Ctrl+Shift+0", "normal_text"),
     )
-    for text, step, key in sizes:
+    for text, step, key, kind in sizes:
         act = main._action(text_menu, text, lambda s=step: main._change_font(s), key)
+        main._glyphs.append((act, kind))
         # the keys only in the main window: the area windows show this menu under Edit and have the same keys in
         # their View menu (one key on two actions of a window does nothing: Ctrl+Shift++ did not work there)
         act.setShortcutContext(Qt.WidgetWithChildrenShortcut)

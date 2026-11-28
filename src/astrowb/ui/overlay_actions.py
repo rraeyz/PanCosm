@@ -38,6 +38,9 @@ def add_menu(win, menu):
         QCoreApplication.translate("Overlays", "Clear overlays"),
         lambda: [win.viewer.set_overlay(n) for n in win.viewer.overlay_names()],
     )
+    kinds = ("contours", "coordinate_grid", "catalogue_stars", "variable_search", "comparisons", "minor_planets",
+             "finder_chart", "open", "save", "clear")  # fmt: skip
+    win._glyphs += zip([a for a in sub.actions() if not a.isSeparator()], kinds, strict=True)
     magnify = win._action(
         menu, QCoreApplication.translate("Overlays", "&Magnifier"), lambda: _magnifier(win.viewer, magnify.isChecked())
     )
@@ -87,6 +90,8 @@ def add_orientation_menu(win, menu):
     win._action(sub, QCoreApplication.translate("Overlays", "Turn 90° &clockwise"), lambda: turn(90))
     win._action(sub, QCoreApplication.translate("Overlays", "&Mirror left–right"), lambda: turn(mirror=True))
     win._action(sub, QCoreApplication.translate("Overlays", "&Original orientation"), lambda: v.set_orientation())
+    kinds = ("north_up", "rotate_90", "flip_lr", "original_orientation")  # the toggle below keeps its check mark
+    win._glyphs += zip(sub.actions(), kinds, strict=True)
     sub.addSeparator()
     compass = win._action(
         sub, QCoreApplication.translate("Overlays", "&Compass and scale bar"), lambda: _compass(v, compass.isChecked())

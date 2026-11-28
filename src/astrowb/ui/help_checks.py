@@ -42,6 +42,7 @@ def add_menu(win):
     win._action(h, QCoreApplication.translate("MainWindow", "Licences of the libraries…"), lambda: _licences(win))
     about = QCoreApplication.translate("MainWindow", "&About {app}").format(app=BRAND.display_name)
     win.about_action = win._action(h, about, win.about)
+    win._glyphs += [(win.update_action, "updates"), (win.about_action, "about")]  # the area windows show them too
     return h
 
 
