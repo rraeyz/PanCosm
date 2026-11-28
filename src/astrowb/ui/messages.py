@@ -213,6 +213,14 @@ TEMPLATES = (
     # timeseries/surveys.py
     QT_TRANSLATE_NOOP("Messages", "no measurements in the file"),
     QT_TRANSLATE_NOOP("Messages", "fewer than 3 measurements in band {band}"),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "times kept in {standard}: the star's coordinates are not known, so they are not converted to BJD_TDB",
+    ),
+    QT_TRANSLATE_NOOP(
+        "Messages",
+        "the times are HJD without a time scale and are taken as UTC: if they are TT, they are {s} s late",
+    ),
     # timeseries/oc_models.py
     QT_TRANSLATE_NOOP("Messages", "need at least 8 minima for a third-body orbit"),
     QT_TRANSLATE_NOOP("Messages", "apsidal motion needs at least 3 primary and 3 secondary minima"),

@@ -14,6 +14,8 @@ import numpy as np
 
 ZTF_URL = "https://irsa.ipac.caltech.edu/cgi-bin/ZTF/nph_light_curves"
 AAVSO_URL = "https://www.aavso.org/vsx/index.php"
+KEPT = "times kept in {standard}: the star's coordinates are not known, so they are not converted to BJD_TDB"
+HJD_TAKEN_AS_UTC = "the times are HJD without a time scale and are taken as UTC: if they are TT, they are {s} s late"
 
 
 def _get_text(url, params, timeout=60):
@@ -95,8 +97,13 @@ def to_light_curve(rows, coord=None, band=None, source=""):
     m = np.array([r[2] for r in sel])
     e = np.array([r[3] for r in sel])
     scale = "HJD_UTC" if kind == "hjd" else "JD_UTC"
-    if coord is not None:
-        t, scale = _bjd(t, kind, coord), "BJD_TDB"
+    extra = {"time_scale_original": scale}
+    if coord is not None:  # PER-1 item 3: BJD_TDB on load, the original standard kept
+        from ..core.units import convert_times
+
+        t, scale = convert_times(t, scale, coord)["BJD_TDB"], "BJD_TDB"
+    else:
+        extra["warnings"] = [KEPT.format(standard=scale)]
     order = np.argsort(t)
     t, m, e = t[order], m[order], e[order]
     flux = 10 ** (-0.4 * (m - np.median(m)))
@@ -109,22 +116,15 @@ def to_light_curve(rows, coord=None, band=None, source=""):
         "band": band,
         "bands": sorted(set(bands)),
         "source": f"{source} {band}".strip(),
-    }
+    } | extra
 
 
-def _bjd(t, kind, coord):
-    """JD (UTC) or HJD (UTC) to BJD_TDB at the geocentre (ground-based surveys; the topocentric part is
-    below 0.02 s)."""
-    import astropy.units as u
-    from astropy.coordinates import EarthLocation
-    from astropy.time import Time
+def hjd_notes(text, times):
+    """The note of ARC-15's rule when a file says HJD without a time scale (taken as UTC), else []."""
+    from .ephemeris import hjd_scale_unknown
 
-    geo = EarthLocation.from_geocentric(0, 0, 0, unit=u.m)
-    times = Time(t, format="jd", scale="utc", location=geo)
-    if kind == "hjd":  # remove the heliocentric light time to get back to the observation time, then barycentre
-        times = times - times.light_travel_time(coord, kind="heliocentric")
-        times = Time(times.jd, format="jd", scale="utc", location=geo)
-    return (times.tdb + times.light_travel_time(coord, kind="barycentric")).jd
+    seconds = hjd_scale_unknown(text, times)
+    return [HJD_TAKEN_AS_UTC.format(s=f"{seconds:.0f}")] if seconds else []
 
 
 def ztf(coord, fetch=None, radius_arcsec=2.0):

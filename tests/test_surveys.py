@@ -80,3 +80,24 @@ def test_survey_step_and_period_page_file(qtbot, tmp_path, monkeypatch):
     monkeypatch.setattr("PySide6.QtWidgets.QFileDialog.getOpenFileName", lambda *a, **k: (str(path), ""))
     page._load()
     assert len(page.time) == 12 and "(V)" in page.source.text()
+    assert "not converted to BJD_TDB" in page.source.text()  # no coordinates: times kept, and said
+
+
+def test_jd_utc_with_coordinates_becomes_timings_bjd_tdb():
+    from astrowb import timing
+
+    jd = 2459000.5 + np.arange(6) * 11.7
+    rows = [(t, "jd", 10 + 0.01 * i, 0.01, "V") for i, t in enumerate(jd)]
+    lc = surveys.to_light_curve(rows, STAR)
+    truth = timing.bjd_tdb(Time(jd, format="jd", scale="utc"), STAR).jd
+    assert np.allclose(lc["time"], truth, rtol=0, atol=1e-9) and lc["time_scale"] == "BJD_TDB"
+    assert lc["time_scale_original"] == "JD_UTC" and "warnings" not in lc
+
+
+def test_without_coordinates_times_are_kept_and_said():
+    jd = 2459000.5 + np.arange(6) * 11.7
+    lc = surveys.to_light_curve([(t, "jd", 10.0, 0.01, "V") for t in jd])
+    assert lc["time"] == jd.tolist() and lc["time_scale"] == "JD_UTC"
+    assert lc["warnings"] == [surveys.KEPT.format(standard="JD_UTC")]
+    assert surveys.hjd_notes("HJD,mag\n", [2459000.5]) == [surveys.HJD_TAKEN_AS_UTC.format(s="69")]
+    assert surveys.hjd_notes("HJD_UTC,mag\n", [2459000.5]) == []

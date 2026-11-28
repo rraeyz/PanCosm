@@ -353,6 +353,7 @@ def make_lightcurve_page(main):
         def done(out):
             lc = out["light_curve"]
             pp.set_light_curve(lc["time"], lc["rel_flux"], f"{target} ({lc['source']})", err=lc.get("rel_flux_err"))
+            pp.say_time_notes(lc.get("warnings", []))
 
         if mission in ("ZTF", "AAVSO"):
             inputs = {"target": target, "cache_file": str(config_dir() / "targets.json")}

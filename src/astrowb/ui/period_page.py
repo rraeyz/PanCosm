@@ -278,6 +278,12 @@ class PeriodPage(Undoable, QWidget):
         self.search_button.setEnabled(len(self.time) > 10)
         self._plot_light_curve()
 
+    def say_time_notes(self, notes):
+        """Engine notes on the times (kept in their standard, HJD taken as UTC) under the source line."""
+        for note in notes:
+            note = translate(note)
+            self.source.setText(self.source.text() + "\n⚠ " + note[:1].upper() + note[1:])
+
     def _edited(self, t, y, what, err=None):
         e = None if err is None else np.asarray(err).tolist()
         self.set_light_curve(np.asarray(t).tolist(), np.asarray(y).tolist(), f"{self.label}, {what}", True, e)
@@ -501,13 +507,17 @@ class PeriodPage(Undoable, QWidget):
 
         if lcfile.is_lcfile(path):
             try:
-                t, flux, err, _ = lcfile.series(path)
+                t, flux, err, whole = lcfile.series(path)
             except (OSError, ValueError, KeyError) as e:
                 self.source.setText(
                     self.tr("Cannot read {file}: {error}").format(file=Path(path).name, error=translate(e))
                 )
                 return
-            return self.set_light_curve(t, flux, Path(path).name, err=err)
+            self.set_light_curve(t, flux, Path(path).name, err=err)
+            standard = whole.get("time_scale")  # photometry: BJD_TDB whenever the star's place was known
+            return self.say_time_notes(
+                [surveys.KEPT.format(standard=standard)] if standard not in (None, "BJD_TDB") else []
+            )
 
         try:
             rows = surveys.parse(Path(path).read_text(encoding="utf-8", errors="replace"))
@@ -516,9 +526,11 @@ class PeriodPage(Undoable, QWidget):
         if len(rows) >= 3:  # a survey or database export: one band, magnitudes as relative flux
             try:
                 lc = surveys.to_light_curve(rows)
-                return self.set_light_curve(
+                self.set_light_curve(
                     lc["time"], lc["rel_flux"], f"{Path(path).name} ({lc['band']})", err=lc.get("rel_flux_err")
                 )
+                text = Path(path).read_text(encoding="utf-8", errors="replace")
+                return self.say_time_notes(lc.get("warnings", []) + surveys.hjd_notes(text, lc["time"]))
             except ValueError:
                 pass  # not enough points in one band: read it as a plain table
         try:

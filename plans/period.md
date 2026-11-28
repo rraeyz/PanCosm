@@ -99,7 +99,7 @@ of current practice: automatic frequency extraction with S/N stops, chunked time
 Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13, 17; P3: 14, 15, 18.
 
 ### PER-W. The window on the new anatomy  (P1)
-**partial** — (2026-11-28) `2` and `H` fold at twice and half the period (`PeriodPage.fold_times`, next to ← → between peaks); test_a_click_on_a_periodogram_peak_folds_at_once. (2026-11-28) The walk: name + Enter downloads, Search, a click on the peak's row in the Peaks inspector folds there — three actions (tests/ui/walks/test_walk_period_four_clicks.py, the archive answered in the test). (2026-11-28) The plots keep their width in a small window (the walk's 800 px: a 70 px sliver before, 428 px now): a stage dock as wide as the current stage's rows, not a fixed 440 px plus the rail's names (`StagePanel.width_changed`, `Anatomy._fit_stage_dock`), the rail with its marks only and the inspector under the stage panel below 1000 px (`Anatomy._narrow_docks`), combo boxes that drop Qt's stale minimum width in `kit/fit.fit_width`; test_name_to_folded_curve_in_four_clicks asserts the plot ≥ 45 % of the window. Left: the jobs switch, 30 fps with 10^6 points.
+**partial** — (2026-11-28) speed with 10^6 points (the time plot, 830 × 760 px, offscreen): a pan 770 → 128 ms a frame — points of one style take their atlas place at once (`ui/plot/fast_scatter.FastScatter`; pyqtgraph looked it up point by point), one point per 2 px cell for a 5 px dot, the cells filled without np.unique's sort (`spec.decimate_points`); `test_a_dense_scatter_shares_one_atlas_place_and_keeps_one_point_per_dot`. The accept's 30 fps (33 ms) is not reached: pyqtgraph's own record array per update (38 ms at 10^5 points) and the paint are the rest. (2026-11-28) `2` and `H` fold at twice and half the period (`PeriodPage.fold_times`, next to ← → between peaks); test_a_click_on_a_periodogram_peak_folds_at_once. (2026-11-28) The walk: name + Enter downloads, Search, a click on the peak's row in the Peaks inspector folds there — three actions (tests/ui/walks/test_walk_period_four_clicks.py, the archive answered in the test). (2026-11-28) The plots keep their width in a small window (the walk's 800 px: a 70 px sliver before, 428 px now): a stage dock as wide as the current stage's rows, not a fixed 440 px plus the rail's names (`StagePanel.width_changed`, `Anatomy._fit_stage_dock`), the rail with its marks only and the inspector under the stage panel below 1000 px (`Anatomy._narrow_docks`), combo boxes that drop Qt's stale minimum width in `kit/fit.fit_width`; test_name_to_folded_curve_in_four_clicks asserts the plot ≥ 45 % of the window. Left: the jobs switch, 30 fps with 10^6 points.
 - `plans/interface.md` UI-16.4: stages Data, Clean, Search, Fold, Frequencies, Report; three linked plots (light
   curve, periodogram, folded curve); Inspector with the peak table. Jobs in the toolbar switch: **Period ·
   Frequencies · Minima of the series (OC-3) · Variable search (PHO-30)**.
@@ -113,9 +113,15 @@ Order of work: PER-W, then P1: 1, 2, 3, 4, 5, 6, 7, 8, 16; P2: 9, 10, 11, 12, 13
 magnitude with errors, set, band, flag bits USER / OUTLIER / QUALITY / UPPER, metadata; select, flagged,
 to_mag / to_flux, normalised per set, phase, append with the sets renumbered, Astropy tables both ways);
 `zero_points` (per-set offsets fitted with the periodic model, as Period04): a 0.03 mag offset between two cameras
-recovered within its error (< 0.003); `weights` (none, errors, per set, Period04's deviation weights). Left: the
-readers of every source (item 2), the CSV wizard, BJD_TDB on load (item 3), the overlap join and band scaling, the
-Data stage, the 5 × 10⁶-point plot check.
+recovered within its error (< 0.003); `weights` (none, errors, per set, Period04's deviation weights). (2026-11-28)
+Item 3 in part, BJD_TDB on load: `surveys.to_light_curve` converts JD / HJD (UTC) with `core/units.convert_times`
+when the star's coordinates are known (the survey step's look-up) and keeps the original as `time_scale_original`;
+without them the times stay and the Period page says so (`surveys.KEPT`, also for a light-curve file not in
+BJD_TDB); a file saying HJD with no scale gets ARC-15's rule (`surveys.hjd_notes`, `hjd_scale_unknown`);
+test_jd_utc_with_coordinates_becomes_timings_bjd_tdb, test_without_coordinates_times_are_kept_and_said. Left: the
+readers of every source (item 2), the CSV wizard, item 3's visual estimates and upper limits as their own sets and
+the plain-table load (no standard written), the overlap join and band scaling, the Data stage, the 5 × 10⁶-point
+plot check.
 - **Reference:** Period04's time strings with four attributes per point (date, observatory, observer, other),
   weights and zero-point adjustment per subset; lightkurve's `LightCurve` (time, flux, flux_err, quality, meta) and
   `LightCurveCollection.stitch`; AAVSO, ASAS-SN Sky Patrol (v1 and v2), ZTF (IRSA), ATLAS forced photometry, Gaia

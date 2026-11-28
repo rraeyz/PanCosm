@@ -48,6 +48,8 @@ def real_messages():
     out += ["https needs the observatory's certificate fingerprint"]  # devices/client.py
     out += ["no TESS light curves for AI Dra", "no ZTF light curves for AI Dra"]  # timeseries/archive.py, steps.py
     out += ["no measurements in the file", "fewer than 3 measurements in band V"]  # timeseries/surveys.py
+    out += ["times kept in JD_UTC: the star's coordinates are not known, so they are not converted to BJD_TDB"]
+    out += ["the times are HJD without a time scale and are taken as UTC: if they are TT, they are 69 s late"]
     out += ["designation, observatory code and observer names are required"]  # photometry/moving.py
     out += ["fewer than 5 stars found on the first frame"]  # photometry/fieldstars.py
     out += ["fewer than 3 usable stars", "the airmass hardly changed during the series: no extinction from it"]
